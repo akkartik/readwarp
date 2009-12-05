@@ -1,2 +1,11 @@
 Test 7 isn't consistent.
 =-=2 - Fri Dec  4 18:17:19 PST 2009
+
+Toy examples done. url -> related docs.
+Data structures now starting to take shape.
+
+Tests are ugly, code interleaved with data.
+We can use more indexes.
+Decouple the index like in SQL, so the same code runs faster if the index
+exists.
+=-=4 - Fri Dec  4 19:14:31 PST 2009
