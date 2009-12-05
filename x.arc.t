@@ -8,9 +8,9 @@
 
 (= docinfo*
     (obj
-      "a.com_a" (obj site "a.com" feed "a.com/feed" url "a.com/a")
-      "a.com_b" (obj site "a.com" feed "a.com/feed" url "a.com/b")
-      "b.com_a" (obj site "b.com" feed "b.com/feed" url "b.com/a")))
+      "a.com_a" (obj site "a.com" feed "a.com/feed" url "a.com/a" date (seconds))
+      "a.com_b" (obj site "a.com" feed "a.com/feed" url "a.com/b" date (time-ago 1800))
+      "b.com_a" (obj site "b.com" feed "b.com/feed" url "b.com/a" date (time-ago 45))))
 
 (= userinfo*
     (obj
@@ -18,8 +18,9 @@
 
 (ok (no:current-user-read "a.com_a"))
 
-(ok (in (doc-from-site "a.com") "a.com_a" "a.com_b")
-    "doc-from-site should return a doc from same site")
+(test-iso "site-docs should return docs from same site"
+  '("a.com_a" "a.com_b")
+  (site-docs "a.com"))
 
 (= userinfo*
     (obj
@@ -27,6 +28,10 @@
 
 (ok (current-user-read "a.com_a"))
 
-(test-iso "doc-from-site should pick an unread doc"
-  "a.com_b"
-  (doc-from-site "a.com"))
+(test-iso "site-docs should return unread docs"
+  '("a.com_b")
+  (site-docs "a.com"))
+
+(let doc (random-unread)
+  (ok (no:current-user-read doc) "random-unread should return an unread doc")
+  (ok (no:iso (random-unread) doc) "random-unread should return different docs"))
