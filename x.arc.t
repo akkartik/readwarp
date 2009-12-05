@@ -33,5 +33,8 @@
   (site-docs "a.com"))
 
 (let doc (random-unread)
+  (ok (no:current-user-read doc))
   (ok (no:current-user-read doc) "random-unread should return an unread doc")
+  (current-user-mark-read doc)
+  (ok (current-user-read doc))
   (ok (no:iso (random-unread) doc) "random-unread should return different docs"))
