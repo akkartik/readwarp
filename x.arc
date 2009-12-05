@@ -1,5 +1,11 @@
+(load "utils.arc")
+(load "state.arc")
+(unless (bound 'keywords)
+  (load "keywords.arc"))
+
 (def current-user()
   0)
+(persisted userinfo* (table))
 
 (def time-ago(s)
   (- (seconds) s))
@@ -9,7 +15,30 @@
     (each k args
       (= (ans k) t))))
 
+(persisted docinfo* (table)
+  (def add-to-docinfo(doc attr val)
+    (or= docinfo*.doc (table))
+    (= docinfo*.doc.attr val))
+
+  (def new?(doc)
+    (blank? docinfo*.doc))
+
+  (def doc-url(doc)
+    docinfo*.doc!url)
+  (def doc-site(doc)
+    docinfo*.doc!site)
+  (def doc-feed(doc)
+    docinfo*.doc!feed)
+  (def doc-timestamp(doc)
+    (or doc-pubdate.doc doc-feeddate.doc))
+  (def doc-pubdate(doc)
+    docinfo*.doc!date)
+  (def doc-feeddate(doc)
+    docinfo*.doc!feeddate))
+
 (def current-user-read(doc)
+  (or= (userinfo*:current-user) (table))
+  (or= ((userinfo*:current-user) 'read) (table))
   (((userinfo* (current-user)) 'read) doc))
 
 (def current-user-mark-read(doc)
@@ -18,7 +47,7 @@
 
 (def site-docs(site)
   (keep [and (no:current-user-read _)
-                 (iso site docinfo*._!site)]
+             (iso site docinfo*._!site)]
             (keys docinfo*)))
 
 (def randpos(l)
@@ -32,28 +61,8 @@
                  (iso feed docinfo*._!feed)]
             (keys docinfo*)))
 
-(mac init args
-  `(unless (bound ',(car args))
-     (= ,@args)))
+(init doc-generators* (list site-docs feed-docs keywords-docs))
 
-(init doc-generators* ())
-(push site-docs doc-generators*)
-(push feed-docs doc-generators*)
-
-(def doc-site(doc)
-  docinfo*.doc!site)
-(def doc-feed(doc)
-  docinfo*.doc!feed)
-
-(mac sub-core(f)
-  (w/uniq (str rest)
-     `(fn(,str . ,rest)
-          (let s ,str
-            (each (pat repl) (pair ,rest)
-                  (= s ($(,f pat s repl))))
-            s))))
-(= sub (sub-core regexp-replace))
-(= gsub (sub-core regexp-replace*))
 (def url-doc(url)
   (gsub url
     (r "[^0-9a-zA-Z]") "_"))
@@ -73,3 +82,30 @@
 
 (def keywords-docs(kwds)
   (rem [current-user-read _] (dedup:flat:map index* kwds)))
+
+(def insert-metadata()
+  (each file (tokens:slurp "crawled")
+    (iflet pos (posmatch ".metadata" file)
+      (let doc (cut file 0 pos)
+        (when (new? doc)
+          (prn doc)
+          (= docinfo*.doc metadata.file)))))
+  nil)
+
+(def metadata(file)
+  (on-err (fn(ex) (table))
+          (fn()
+            (w/infile f (+ "urls/" file) (json-read f)))))
+
+(persisted index* (table))
+
+(def insert-keywords()
+  (each doc (keys docinfo*)
+    (let file (+ "urls/" doc ".clean")
+      (when (file-exists file)
+        (prn file)
+        (let kwds (errsafe:keywords file)
+          (= docinfo*.doc!keywords (rem "" kwds))
+          (each kwd kwds
+            (unless (empty kwd)
+              (push doc index*.kwd))))))))
