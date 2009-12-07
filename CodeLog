@@ -12,3 +12,7 @@ exists.
 
 Finished building the index. gen-docs works.
 =-=5 - Sat Dec  5 09:47:15 PST 2009
+Added agg3 ui to it. Messy that I've added stations to the flat-history model.
+  Form to create new station.
+  Choose between stations, each station gets its own read-list.
+=-=6 - Mon Dec  7 13:22:11 PST 2009

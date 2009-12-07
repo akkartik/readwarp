@@ -23,45 +23,57 @@
   (def new?(doc)
     (blank? docinfo*.doc))
 
-  (def doc-url(doc)
+  (def url(doc)
     docinfo*.doc!url)
-  (def doc-site(doc)
+  (def title(doc)
+    docinfo*.doc!title)
+  (def site(doc)
     docinfo*.doc!site)
-  (def doc-feed(doc)
+  (def feed(doc)
     docinfo*.doc!feed)
-  (def doc-timestamp(doc)
-    (or doc-pubdate.doc doc-feeddate.doc))
-  (def doc-pubdate(doc)
+  (def feedtitle(doc)
+    docinfo*.doc!feedtitle)
+  (def timestamp(doc)
+    (or pubdate.doc feeddate.doc))
+  (def pubdate(doc)
     docinfo*.doc!date)
-  (def doc-feeddate(doc)
+  (def feeddate(doc)
     docinfo*.doc!feeddate))
+
+(def current-user-read-list()
+  ((userinfo*:current-user) 'read-list))
+
+(def current-user-outcome(doc)
+  (aif (find doc (current-user-read-list))
+    cdr.it))
 
 (def current-user-read(doc)
   (or= (userinfo*:current-user) (table))
   (or= ((userinfo*:current-user) 'read) (table))
-  (((userinfo* (current-user)) 'read) doc))
+  (((userinfo*:current-user) 'read) doc))
 
-(def current-user-mark-read(doc)
-  (prn "setting " doc)
-  (= (((userinfo* (current-user)) 'read) doc) t))
+(def current-user-mark-read(doc outcome)
+  (unless (((userinfo*:current-user) 'read) doc)
+    (ero doc)
+    (push (list doc outcome) ((userinfo*:current-user) 'read-list))
+    (= (((userinfo*:current-user) 'read) doc) t)))
 
 (def site-docs(site)
   (keep [and (no:current-user-read _)
              (iso site docinfo*._!site)]
-            (keys docinfo*)))
+        (keys docinfo*)))
 
 (def randpos(l)
-  (l (rand:len l)))
+  (if l
+    (l (rand:len l))))
 
 (def random-unread()
   (randpos (rem [current-user-read _] (keys docinfo*))))
 
 (def feed-docs(feed)
   (keep [and (no:current-user-read _)
-                 (iso feed docinfo*._!feed)]
-            (keys docinfo*)))
-
-(init doc-generators* (list site-docs feed-docs keywords-docs))
+             (iso feed docinfo*._!feed)]
+        (keys docinfo*)))
 
 (def url-doc(url)
   (gsub url
@@ -72,16 +84,18 @@
     (each genfn doc-generators*
       (errsafe:acc genfn.doc)
       (errsafe:acc (genfn:url-doc doc))
-      (errsafe:acc (genfn:doc-feed:url-doc doc))
-      (errsafe:acc (genfn:doc-site:url-doc doc))
-      (errsafe:acc (genfn:doc-keywords:url-doc doc))
+      (errsafe:acc (genfn:feed:url-doc doc))
+      (errsafe:acc (genfn:site:url-doc doc))
+      (errsafe:acc (genfn:keywords:url-doc doc))
     )))
 
-(def doc-keywords(doc)
+(def keywords(doc)
   docinfo*.doc!keywords)
 
 (def keywords-docs(kwds)
   (rem [current-user-read _] (dedup:flat:map index* kwds)))
+
+(init doc-generators* (list site-docs feed-docs keywords-docs))
 
 (def insert-metadata()
   (each file (tokens:slurp "crawled")
@@ -109,3 +123,13 @@
           (each kwd kwds
             (unless (empty kwd)
               (push doc index*.kwd))))))))
+
+(def contents(doc)
+  (slurp (+ "urls/" doc ".clean")))
+
+(def next-doc()
+  (randpos:candidates))
+
+(def candidates()
+  (gen-docs
+    (car:find [iso "read" (cadr _)] (current-user-read-list))))

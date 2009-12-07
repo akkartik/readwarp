@@ -1,0 +1,44 @@
+@import url("http://yui.yahooapis.com/2.6.0/build/reset-fonts-grids/reset-fonts-grids.css");
+body{ margin:0 auto; font-size:62.5%; font-family:sans-serif; }
+#page{ font-size:1.4em; }
+
+#history-container{ width:20%; padding-top:1.5em; padding-left:1em; padding-right:1em; border-right:1px solid #fff200; }
+
+#content{ padding:1em; font-size:1.4em; }
+
+  #nav{ }
+
+    .next-button{ float:left; padding:0.5em; background:#bbb; width:8em; text-align:center; } 
+    .read-button{ float:left; padding:0.5em; background:#aca; width:3em; text-align:center; margin-left:2em; }
+    .skip-button{ float:left; padding:0.5em; background:#caa; width:3em; text-align:center; margin-left:1em; }
+    .allr-button{ float:left; padding:0.5em; background:#aad; width:8em; text-align:center; margin-left:2em; }
+    .icon{ float:left; padding:0.5em; margin-top:-0.5em; margin-left:2em; }
+
+  .main{ margin-top:1em; margin-bottom:1em; line-height:1.25; }
+
+    .post{ }
+    .context{ }
+
+
+
+h2 { font-family:serif; font-size:1.5em; }
+td{ vertical-align:top; }
+
+a{ text-decoration:none; }
+a:hover{ text-decoration:underline; }
+
+#history a{ font-size:1.1em; font-family:serif; }
+.item{ margin-top:1em; }
+
+h2.title a{ color:#44c; font-weight:bold; }
+
+.read{ float:right; color:#aca; margin-right:2px; }
+.skip{ float:right; color:#caa; margin-right:2px; }
+.done{ float:right; color:#aad; margin-right:2px; }
+.next{ float:right; color:#bbb; margin-right:2px; }
+
+.paginate{ color:#888; margin:1em; font-style:italic; text-align:center; font-size:0.8em; }
+
+.main p{ margin-top:1em; }
+
+#searchbox { margin-left:75%; margin-top:0.5em; }
