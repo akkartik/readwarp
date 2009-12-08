@@ -1,7 +1,7 @@
 (def init-code()
   (include "utils.arc")
   (include "state.arc")
-  (include "x.arc")
+  (include "index.arc")
   (include "helpers.arc")
   (include "ui.arc"))
 (init-code)

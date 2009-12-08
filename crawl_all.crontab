@@ -1,0 +1,1 @@
+20 */2 * * * /app/pair0/agg3/crawl_all > /tmp/crawl_all 2> /tmp/crawl_all.err

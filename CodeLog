@@ -16,3 +16,15 @@ Added agg3 ui to it. Messy that I've added stations to the flat-history model.
   Form to create new station.
   Choose between stations, each station gets its own read-list.
 =-=6 - Mon Dec  7 13:22:11 PST 2009
+
+Importing agg3 crawl pipeline. Next step: merge properly.
+
+Vision: crawl a universal set of feeds. Don't wait for entire crawl to import
+crawled feeds. Track per-user feeds and feed priorities in userinfo*. Make
+agg3 just another station for users who import feeds. Push station selection
+to a new screen; add new station form to the left panel when reading. Track
+history by station.
+
+Later: screens to manage feeds. Stations for importing email, other data
+sources, etc. Discovering new feeds during crawl.
+=-=7 - Tue Dec  8 12:06:08 PST 2009
