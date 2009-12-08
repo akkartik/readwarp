@@ -26,7 +26,7 @@ def loadFeeds():
       yield line.rstrip()
 
 def urlToFilename(url):
-  return 'urls/'+re.sub(r'[^a-zA-Z0-9]', '_', url)
+  return re.sub(r'[^a-zA-Z0-9]', '_', url)
 
 def mungeUrl(url):
   ans = re.sub(r'#.*|\?(utm[^&]*&?)*$', '', url)
@@ -58,11 +58,14 @@ def absolutify(node, attr, url):
 import magic
 def goodFileType(f):
   type = magic.file(f)
+  print 'file:', type
   return type == 'data' or type.find('text') > -1
 
 def crawlUrl(rurl, metadata):
   soup = None
+  url = None
   if canonical_url.has_key(rurl):
+    print rurl, 'present'
     url = canonical_url[rurl]
   else:
     try: url, contents = urlOpen(rurl)
@@ -75,7 +78,9 @@ def crawlUrl(rurl, metadata):
       absolutify(node, 'href', url)
       absolutify(node, 'src', url)
 
-  outfilename = urlToFilename(url)
+  print url
+  doc = urlToFilename(url)
+  outfilename = 'urls/'+doc
   if soup and not os.path.exists(outfilename+'.raw'):
     with open(outfilename+'.raw', 'w') as output:
       output.write(soup.renderContents())
@@ -94,6 +99,9 @@ def crawlUrl(rurl, metadata):
       try: os.unlink(outfilename+'.metadata')
       except os.OSError: pass
 
+  with open('fifos/crawl', 'w') as output:
+    output.write(doc+"\n")
+
 def crawl(feed):
   f = feedparser.parse(feed)
   for item in f.entries:
@@ -110,11 +118,11 @@ if __name__ == '__main__':
   loadUrlMap()
 
   try:
-    for f in loadFeeds():
+    for feed in loadFeeds():
       try:
-        feed, prio = f.split()
         print "-", feed
         crawl(feed)
+        break
       except: traceback.print_exc(file=sys.stdout)
   finally:
     saveUrlMap()

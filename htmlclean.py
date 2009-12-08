@@ -1,4 +1,4 @@
-import sys, os, re, math, string, traceback
+import sys, os, time, re, math, string, traceback
 from BeautifulSoup import BeautifulSoup
 import StringIO
 
@@ -61,15 +61,15 @@ def commaCount(node):
 
 def cleanAll():
   idx=0
-  for f in os.listdir('urls/'):
-    if f[-4:] == '.raw':
-      f2 = 'urls/'+string.replace(f, ".raw", ".clean")
-      if not os.path.exists(f2):
-        print idx, f2
-        try:
-          with open(f2, "w") as output:
-            output.write(cleanup('urls/'+f))
-        except: traceback.print_exc(file=sys.stdout)
+  print """Looking for files to clean"""
+  for line in open("fifos/crawl").readlines():
+    f = 'urls/'+line[:-1]+'.raw'
+    f2 = 'urls/'+line[:-1]+'.clean'
+    print idx, f2
+    try:
+      with open(f2, "w") as output:
+        output.write(cleanup(f))
+    except: traceback.print_exc(file=sys.stdout)
     idx=idx+1
 
 def text(s):
@@ -77,7 +77,9 @@ def text(s):
 
 if __name__ == '__main__':
   if len(sys.argv) == 1:
-    cleanAll()
+    while True:
+      cleanAll()
+      time.sleep(30)
   else:
     if os.path.exists(sys.argv[1]):
       cleanup(sys.argv[1], debug=True)

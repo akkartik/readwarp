@@ -28,3 +28,9 @@ history by station.
 Later: screens to manage feeds. Stations for importing email, other data
 sources, etc. Discovering new feeds during crawl.
 =-=7 - Tue Dec  8 12:06:08 PST 2009
+
+crawl and htmlclean now communicate by fifo.
+But it's currently blocking. So htmlclean blocks until input, then just reads
+the first input and goes back to waiting. Meanwhile if I add a delay to
+htmlclean it blocks crawl instead.
+=-=8 - Tue Dec  8 14:11:15 PST 2009

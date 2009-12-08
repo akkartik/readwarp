@@ -3,5 +3,11 @@
 export PYTHONPATH=$PYTHONPATH:/app/local/share/lib/python
 
 cd `dirname $0`
+
+mkdir -p urls fifos
+for stage in crawl clean mdata index
+do
+  if [ ! -p fifos/$stage ]; then mkfifo fifos/$stage; fi
+done
+
 python crawl.py
-python htmlclean.py
