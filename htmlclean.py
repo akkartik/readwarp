@@ -60,17 +60,17 @@ def commaCount(node):
   return len(node.renderContents().split(','))
 
 def cleanAll():
-  idx=0
-  print """Looking for files to clean"""
   for line in open("fifos/crawl").readlines():
-    f = 'urls/'+line[:-1]+'.raw'
-    f2 = 'urls/'+line[:-1]+'.clean'
-    print idx, f2
+    doc = line[:-1]
+    print doc
+    f = 'urls/'+doc+'.raw'
+    f2 = 'urls/'+doc+'.clean'
     try:
-      with open(f2, "w") as output:
+      with open(f2, 'w') as output:
         output.write(cleanup(f))
+      with open('fifos/clean', 'w') as fifo:
+        fifo.write(line)
     except: traceback.print_exc(file=sys.stdout)
-    idx=idx+1
 
 def text(s):
   return re.sub(r"\s+", " ", re.sub(r"<[^>]*>", "", s))
@@ -79,7 +79,6 @@ if __name__ == '__main__':
   if len(sys.argv) == 1:
     while True:
       cleanAll()
-      time.sleep(30)
   else:
     if os.path.exists(sys.argv[1]):
       cleanup(sys.argv[1], debug=True)

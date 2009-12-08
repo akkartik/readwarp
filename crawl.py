@@ -99,8 +99,8 @@ def crawlUrl(rurl, metadata):
       try: os.unlink(outfilename+'.metadata')
       except os.OSError: pass
 
-  with open('fifos/crawl', 'w') as output:
-    output.write(doc+"\n")
+  with open('fifos/crawl', 'w') as fifo:
+    fifo.write(doc+"\n")
 
 def crawl(feed):
   f = feedparser.parse(feed)
@@ -122,7 +122,6 @@ if __name__ == '__main__':
       try:
         print "-", feed
         crawl(feed)
-        break
       except: traceback.print_exc(file=sys.stdout)
   finally:
     saveUrlMap()
