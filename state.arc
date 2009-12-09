@@ -67,6 +67,7 @@
     `(do
        (init ,log-var ())
        (def ,fnname()
+         (prn ,stringify.fnname " watching fifos/" ,fifo)
          (forever:each doc (tokens:slurp ,(+ "fifos/" fifo))
             (rotlog ,log-var doc)
             (do1

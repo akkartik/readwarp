@@ -64,7 +64,10 @@
 
 (def gen-docs(doc)
   (do1
-    (dedup:keep (apply orf (map [_ doc] doc-filters*)) (keys docinfo*))
+    (dedup:+
+      (keep (apply orf (map [_ doc] doc-filters*)) (keys docinfo*))
+      (keywords-docs doc)
+      (keywords-docs:doc-keywords doc))
     (clear-cmemos 'downcase)))
 
 
@@ -89,6 +92,7 @@
   (rem [current-user-read _] (dedup:flat:map (docs-table) kwds)))
 
 (defscan insert-keywords "mdata"
+  (prn doc)
   (doc-keywords doc))
 
 
