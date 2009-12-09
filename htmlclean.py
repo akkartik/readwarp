@@ -92,3 +92,7 @@ if __name__ == '__main__':
 #   http://www.cringely.com/2009/10/what-goes-around-teledesic-2-0
 #   http://www.zerohedge.com/article/weekly-themes-and-charts
 #   http://smuglispweeny.blogspot.com/2009/08/to-write-or-not-to-write.html
+#   http://factor-language.blogspot.com/2009/12/reducing-image-size-by-eliminating.html
+#   http://orrenmedia.com/2009/12/05/stream-o-consciousness-for-december-5th/
+#   http://bokardo.com/archives/on-the-origins-of-avatar/
+#   http://martinfowler.com/bliki/MercurialSquashCommit.html

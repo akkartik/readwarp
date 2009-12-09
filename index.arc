@@ -48,35 +48,19 @@
   (or= (userinfo*:current-user) (table))
   (or= ((userinfo*:current-user) 'read) (table))
   (unless (((userinfo*:current-user) 'read) doc)
-    (ero doc)
     (push (cons doc outcome) ((userinfo*:current-user) 'read-list))
     (= (((userinfo*:current-user) 'read) doc) t)))
 
 
 
-(defreg site-docs(site) doc-generators*
-  (keep [and (no:current-user-read _)
-             (posmatch site docinfo*._!site)]
-        (keys docinfo*)))
+(defreg site-docs(site) doc-filters*
+  [posmatch site (downcase docinfo*._!site)])
 
-(defreg feed-docs(feed) doc-generators*
-  (keep [and (no:current-user-read _)
-             (posmatch feed docinfo*._!feed)]
-        (keys docinfo*)))
-
-(def url-doc(url)
-  (gsub url
-    (r "[^0-9a-zA-Z]") "_"))
+(defreg feed-docs(feed) doc-filters*
+  [posmatch feed (downcase docinfo*._!feed)])
 
 (def gen-docs(doc)
-  (dedup:flat:accum acc
-    (each genfn doc-generators*
-      (errsafe:acc genfn.doc)
-      (errsafe:acc (genfn:url-doc doc))
-      (errsafe:acc (genfn:feed:url-doc doc))
-      (errsafe:acc (genfn:site:url-doc doc))
-      (errsafe:acc (genfn:doc-keywords:url-doc doc))
-    )))
+  (dedup:keep (apply orf (map [_ doc] doc-filters*)) (keys docinfo*)))
 
 
 
