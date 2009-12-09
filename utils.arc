@@ -6,13 +6,20 @@
   `(if (bound ',var)
      (,var)))
 
+(mac awhile(expr . body)
+  `(whilet it ,expr
+    ,@body))
+
+(mac forever body
+  `(awhile t ,@body))
+
 (def transform(l . fl)
   (let ans l
     (each f fl
       (zap f ans))
     ans))
 
-(def kwargs(args-and-body defaults)
+(def kwargs(args-and-body (o defaults))
   (let (kws body) (split-by args-and-body ':do)
     (list (fill-table (listtab:pair defaults) kws)
           (cdr body))))
@@ -89,6 +96,10 @@
     (cons (car body)
           (apply cons* (cdr body)))
     (car body)))
+
+(def randpos(l)
+  (if l
+    (l (rand:len l))))
 
 (def sorted(t f)
   (sort (compare > f:cadr) (tablist t)))
@@ -327,31 +338,6 @@
 
 
 
-(= s* "/")
-
-(def suffix-path(s d)
-  (+ d s* s))
-(def path-suffix(p d)
-  (cut p (inc:len d))) ; Assume d never ends in '/'
-
-(def docfilename(doc (o ext))
-  (+ "urls/" doc ext))
-
-(def each-file-path(d func)
-  (unless (file-infinite-loop? d)
-    (map (fn(f)
-           (if (dir-exists f) (each-file-path f func)
-               (file-exists f) (func f)))
-      (map [suffix-path _ d] (dir d)))))
-(def each-file(d func)
-  (each-file-path d [func:path-suffix _ d]))
-
-; Assume dir traversals begin under the code dir.
-(def file-infinite-loop?(d)
-  (file-exists (+ d s* "utils.arc")))
-
-
-
 (def p(s)
   (write s)
   (prn)
@@ -366,6 +352,16 @@
 
 (def filenames(cmd)
   (tokens:slurp:pipe-from cmd))
+
+(mac each-fifo(var fifo . body)
+  (prn body)
+  `(forever:each ,var (tokens:slurp ,fifo)
+      ,@body))
+
+(def Set args
+  (w/table ans
+    (each k args
+      (= (ans k) t))))
 
 (= maintenance-tasks* ())
 (mac periodic-maintenance(maintenance-task . body)
@@ -389,6 +385,9 @@
     `(let ,fp (outstring)
       (w/stdout ,fp ,body)
       (inside ,fp))))
+
+(def time-ago(s)
+  (- (seconds) s))
 
 
 

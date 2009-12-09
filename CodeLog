@@ -42,3 +42,6 @@ If any stage dies, all other stages will block.
 Will we lose stuff in fifos if we kill arc? Periodically look at files under
 urls/
 =-=9 - Tue Dec  8 15:06:09 PST 2009
+Redefine defscan to run in separate threads, not a single thread.
+Also some reorg.
+=-=10 - Tue Dec  8 18:16:09 PST 2009

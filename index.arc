@@ -1,19 +1,6 @@
-(load "utils.arc")
-(load "state.arc")
-(unless (bound 'keywords)
-  (load "keywords.arc"))
-
 (def current-user()
   0)
 (persisted userinfo* (table))
-
-(def time-ago(s)
-  (- (seconds) s))
-
-(def Set args
-  (w/table ans
-    (each k args
-      (= (ans k) t))))
 
 (persisted docinfo* (table)
   (def add-to-docinfo(doc attr val)
@@ -58,19 +45,14 @@
     (push (list doc outcome) ((userinfo*:current-user) 'read-list))
     (= (((userinfo*:current-user) 'read) doc) t)))
 
-(def site-docs(site)
+
+
+(defreg site-docs(site) doc-generators*
   (keep [and (no:current-user-read _)
              (iso site docinfo*._!site)]
         (keys docinfo*)))
 
-(def randpos(l)
-  (if l
-    (l (rand:len l))))
-
-(def random-unread()
-  (randpos (rem [current-user-read _] (keys docinfo*))))
-
-(def feed-docs(feed)
+(defreg feed-docs(feed) doc-generators*
   (keep [and (no:current-user-read _)
              (iso feed docinfo*._!feed)]
         (keys docinfo*)))
@@ -86,43 +68,34 @@
       (errsafe:acc (genfn:url-doc doc))
       (errsafe:acc (genfn:feed:url-doc doc))
       (errsafe:acc (genfn:site:url-doc doc))
-      (errsafe:acc (genfn:keywords:url-doc doc))
+      (errsafe:acc (genfn:doc-keywords:url-doc doc))
     )))
 
-(def keywords(doc)
-  docinfo*.doc!keywords)
+
 
-(def keywords-docs(kwds)
-  (rem [current-user-read _] (dedup:flat:map index* kwds)))
+(defscan insert-metadata "clean" "mdata"
+  (= docinfo*.doc metadata.doc))
 
-(init doc-generators* (list site-docs feed-docs keywords-docs))
-
-(def insert-metadata()
-  (each file (tokens:slurp "crawled")
-    (iflet pos (posmatch ".metadata" file)
-      (let doc (cut file 0 pos)
-        (when (new? doc)
-          (prn doc)
-          (= docinfo*.doc metadata.file)))))
-  nil)
-
-(def metadata(file)
+(def metadata(doc)
   (on-err (fn(ex) (table))
           (fn()
-            (w/infile f (+ "urls/" file) (json-read f)))))
+            (w/infile f metadata-file.doc (json-read f)))))
 
-(persisted index* (table))
+(def metadata-file(doc)
+  (+ "urls/" doc ".metadata"))
 
-(def insert-keywords()
-  (each doc (keys docinfo*)
-    (let file (+ "urls/" doc ".clean")
-      (when (file-exists file)
-        (prn file)
-        (let kwds (errsafe:keywords file)
-          (= docinfo*.doc!keywords (rem "" kwds))
-          (each kwd kwds
-            (unless (empty kwd)
-              (push doc index*.kwd))))))))
+
+
+(dhash doc keyword "m-n"
+  (rem "" (errsafe:keywords (+ "urls/" doc ".clean"))))
+
+(defreg keywords-docs(kwds) doc-generators*
+  (rem [current-user-read _] (dedup:flat:map (docs-table) kwds)))
+
+(defscan insert-keywords "mdata"
+  (doc-keywords doc))
+
+
 
 (def contents(doc)
   (slurp (+ "urls/" doc ".clean")))

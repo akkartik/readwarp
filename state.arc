@@ -38,10 +38,32 @@
      (is-persisted ,var)
      ,@body))
 
-(mac defscan(fnname args . body)
+(mac defreg(fnname args registry . body)
   `(do
+     (init ,registry ())
      (def ,fnname ,args ,@body)
-     (add-to scan-registry* ,fnname)))
+     (add-to ,registry ,fnname)))
+
+(def test*(test)
+  (if (isa test 'fn)   test
+      (isa test 'sym)  [isa _ test]
+                       [is _ test]))
+
+(def extract-car(block test)
+  (if (test*.test car.block)
+    `(,(car block) ,(cdr block))
+    `(nil ,block)))
+
+(mac defscan(fnname fifo . block)
+  (let (nextfifo body) (extract-car block 'string)
+    `(do
+       (def ,fnname()
+         (forever:each doc (tokens:slurp ,(+ "fifos/" fifo))
+            (prn ,stringify.fnname ": " doc)
+            (do1
+              (do ,@body)
+              ,(aif nextfifo `(fwrite ,(+ "fifos/" it) doc)))))
+       (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname)))))
 
 
 

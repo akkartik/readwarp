@@ -107,6 +107,7 @@ def crawl(feed):
   for item in f.entries:
     try:
       print repr(item.title)
+      print f.feed
       crawlUrl(item.link, {'title': item.title, 'feedtitle': f.feed.title, 'date': date(item), 'feeddate': time.mktime(time.gmtime()), 'feed': feed, 'site': f.feed.link})
     except: traceback.print_exc(file=sys.stdout)
 
