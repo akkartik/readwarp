@@ -53,14 +53,19 @@
 
 
 
+(defcmemo cached-downcase(s) 'downcase
+  (downcase s))
+
 (defreg site-docs(site) doc-filters*
-  [posmatch site docinfo*._!site])
+  [posmatch site (cached-downcase docinfo*._!site)])
 
 (defreg feed-docs(feed) doc-filters*
-  [posmatch feed docinfo*._!feed])
+  [posmatch feed (cached-downcase docinfo*._!feed)])
 
 (def gen-docs(doc)
-  (dedup:keep (apply orf (map [_ doc] doc-filters*)) (keys docinfo*)))
+  (do1
+    (dedup:keep (apply orf (map [_ doc] doc-filters*)) (keys docinfo*))
+    (clear-cmemos 'downcase)))
 
 
 
