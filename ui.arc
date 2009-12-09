@@ -10,7 +10,7 @@
                     (pr "Recently viewed"))
                   (tag (div id "history")
                     (tag (div id "history-elems")
-                        (each (doc outcome) (firstn 10 (current-user-read-list))
+                        (each (doc outcome) (current-user-read-history)
                           (render-doc-link doc outcome)))
                     (paginate-nav "history" "/history" 10 0 10
                          (obj reverse t nextcopy "&laquo;older" prevcopy "newer&raquo;"))))
@@ -28,7 +28,7 @@
            (tag:input type "submit")))))
 
 (defop station req
-  (current-user-mark-read (arg req "seed") "read")
+  (current-user-mark-read (arg req "seed") "seed")
   (layout-basic
     (render-doc-with-context
       (next-doc))))

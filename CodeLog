@@ -58,3 +58,7 @@ Focusing on UI.
 Yesterday's problem: we want to scan read-list for both gen-docs and rendering
 history.
 =-=14 - Tue Dec  8 22:48:22 PST 2009
+
+Ok, partial matches now working. Takes too long, though. Do all the work in
+one pass. Every page load should do just one pass through docinfo*.
+=-=15 - Tue Dec  8 23:24:59 PST 2009

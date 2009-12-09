@@ -30,6 +30,11 @@
 (def current-user-read-list()
   ((userinfo*:current-user) 'read-list))
 
+(def current-user-read-history()
+  (firstn 10
+    (keep [iso "read" (cdr _)] 
+          (firstn 20 (current-user-read-list)))))
+
 (def current-user-outcome(doc)
   (aif (find doc (current-user-read-list))
     cdr.it))
@@ -44,19 +49,19 @@
   (or= ((userinfo*:current-user) 'read) (table))
   (unless (((userinfo*:current-user) 'read) doc)
     (ero doc)
-    (push (list doc outcome) ((userinfo*:current-user) 'read-list))
+    (push (cons doc outcome) ((userinfo*:current-user) 'read-list))
     (= (((userinfo*:current-user) 'read) doc) t)))
 
 
 
 (defreg site-docs(site) doc-generators*
   (keep [and (no:current-user-read _)
-             (iso site docinfo*._!site)]
+             (posmatch site docinfo*._!site)]
         (keys docinfo*)))
 
 (defreg feed-docs(feed) doc-generators*
   (keep [and (no:current-user-read _)
-             (iso feed docinfo*._!feed)]
+             (posmatch feed docinfo*._!feed)]
         (keys docinfo*)))
 
 (def url-doc(url)
@@ -107,4 +112,4 @@
 
 (def candidates()
   (gen-docs
-    (car:find [iso "read" (cadr _)] (current-user-read-list))))
+    (car:find [pos (cdr _) '("read" "seed")] (current-user-read-list))))

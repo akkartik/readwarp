@@ -110,8 +110,6 @@
 
 
 
-(= threadlife* 90)
-
 (let server-thread* (ifcall server-thread)
   (def start-server((o port 8080))
     (stop-server)
