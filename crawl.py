@@ -6,6 +6,7 @@ timeoutsocket.setDefaultSocketTimeout(20)
 
 import feedparser, json
 from BeautifulSoup import BeautifulSoup
+import feedparser_extensions
 
 canonical_url = {}
 def loadUrlMap():
@@ -106,14 +107,21 @@ def crawl(feed):
   f = feedparser.parse(feed)
   for item in f.entries:
     try:
-      print repr(item.title)
-      print f.feed
-      crawlUrl(item.link, {'title': item.title, 'feedtitle': f.feed.title, 'date': date(item), 'feeddate': time.mktime(time.gmtime()), 'feed': feed, 'site': f.feed.link})
+      print repr(title(item))
+      crawlUrl(item.link, {'title': title(item), 'feedtitle': f.feed.title, 'date': date(item), 'feeddate': time.mktime(time.gmtime()), 'feed': feed, 'site': site(f)})
     except: traceback.print_exc(file=sys.stdout)
 
 def date(item):
   if not item.has_key('date'): return None
   return time.mktime(item.date_parsed) # XXX: is date_parsed UTC?
+
+def site(f):
+  try: return f.feed.link
+  except: return None
+
+def title(item):
+  try: return item.title
+  except: return None
 
 if __name__ == '__main__':
   loadUrlMap()

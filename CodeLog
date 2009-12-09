@@ -45,3 +45,6 @@ urls/
 Redefine defscan to run in separate threads, not a single thread.
 Also some reorg.
 =-=10 - Tue Dec  8 18:16:09 PST 2009
+
+3 Crawl errors fixed.
+=-=11 - Tue Dec  8 19:34:06 PST 2009
