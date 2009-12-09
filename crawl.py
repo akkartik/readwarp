@@ -5,8 +5,8 @@ import timeoutsocket
 timeoutsocket.setDefaultSocketTimeout(20)
 
 import feedparser, json
-from BeautifulSoup import BeautifulSoup
 import feedparser_extensions
+from BeautifulSoup import BeautifulSoup
 
 canonical_url = {}
 def loadUrlMap():
