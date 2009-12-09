@@ -65,3 +65,7 @@ one pass. Every page load should do just one pass through docinfo*.
 Single pass for site-docs and feed-docs takes test runtime down from 72s to
 42s for 13650 items in docinfo. But it's still too much.
 =-=16 - Tue Dec  8 23:54:18 PST 2009
+All that time is being spent on downcase!
+Just add downcase versions of all metadata.
+Or cache downcase separately.
+=-=17 - Wed Dec  9 00:00:57 PST 2009

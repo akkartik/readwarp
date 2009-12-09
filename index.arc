@@ -54,10 +54,10 @@
 
 
 (defreg site-docs(site) doc-filters*
-  [posmatch site (downcase docinfo*._!site)])
+  [posmatch site docinfo*._!site])
 
 (defreg feed-docs(feed) doc-filters*
-  [posmatch feed (downcase docinfo*._!feed)])
+  [posmatch feed docinfo*._!feed])
 
 (def gen-docs(doc)
   (dedup:keep (apply orf (map [_ doc] doc-filters*)) (keys docinfo*)))
