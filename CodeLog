@@ -48,3 +48,8 @@ Also some reorg.
 
 3 Crawl errors fixed.
 =-=11 - Tue Dec  8 19:34:06 PST 2009
+
+Instead of printing progress for background threads, maintain a circular
+buffer of messages for each.
+Not persistent for now.
+=-=12 - Tue Dec  8 22:34:02 PST 2009

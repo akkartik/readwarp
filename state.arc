@@ -38,6 +38,8 @@
      (is-persisted ,var)
      ,@body))
 
+
+
 (mac defreg(fnname args registry . body)
   `(do
      (init ,registry ())
@@ -54,12 +56,19 @@
     `(,(car block) ,(cdr block))
     `(nil ,block)))
 
+(mac rotlog(var msg)
+  `(do
+     (push ,msg ,var)
+     (= ,var (firstn 100 ,var))))
+
 (mac defscan(fnname fifo . block)
-  (let (nextfifo body) (extract-car block 'string)
+  (with ((nextfifo body) (extract-car block 'string)
+         log-var (symize stringify.fnname "-log*"))
     `(do
+       (init ,log-var ())
        (def ,fnname()
          (forever:each doc (tokens:slurp ,(+ "fifos/" fifo))
-            (prn ,stringify.fnname ": " doc)
+            (rotlog ,log-var doc)
             (do1
               (do ,@body)
               ,(aif nextfifo `(fwrite ,(+ "fifos/" it) doc)))))

@@ -25,7 +25,7 @@
       (tag (form action "/station")
            (tag:input id "newstationform" name "seed" size "30")
            (tag br)
-           (tag:input type "submit" onclick "$('addfeedform').submit()")))))
+           (tag:input type "submit")))))
 
 (defop station req
   (current-user-mark-read (arg req "seed") "read")
