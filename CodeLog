@@ -53,3 +53,8 @@ Instead of printing progress for background threads, maintain a circular
 buffer of messages for each.
 Not persistent for now.
 =-=12 - Tue Dec  8 22:34:02 PST 2009
+
+Focusing on UI.
+Yesterday's problem: we want to scan read-list for both gen-docs and rendering
+history.
+=-=14 - Tue Dec  8 22:48:22 PST 2009

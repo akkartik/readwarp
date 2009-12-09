@@ -40,6 +40,8 @@
   (((userinfo*:current-user) 'read) doc))
 
 (def current-user-mark-read(doc outcome)
+  (or= (userinfo*:current-user) (table))
+  (or= ((userinfo*:current-user) 'read) (table))
   (unless (((userinfo*:current-user) 'read) doc)
     (ero doc)
     (push (list doc outcome) ((userinfo*:current-user) 'read-list))
