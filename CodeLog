@@ -74,3 +74,5 @@ Yep, cached downcase and got to within 3x of non-downcase version.
 Time to start indexing. It's working, but dies every now and then. I think
 it's dying when the pipe breaks.
 =-=19 - Wed Dec  9 00:35:19 PST 2009
+Ok, found the core dump in keywords.cc - negative index.
+=-=21 - Thu Dec 10 00:44:08 PST 2009

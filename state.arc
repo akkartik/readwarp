@@ -22,9 +22,7 @@
           load-function-name (symize "load-" var))
     `(do
       (def ,save-function-name()
-        (errsafe:rmfile "snapshot.tmp") ;; XXX not thread-safe
-        (fwrite "snapshot.tmp" ,var)
-        (errsafe:mvfile "snapshot.tmp" (snapshot-name ,var)))
+        (fwrite (snapshot-name ,var) ,var))
       (def ,load-function-name()
         (when (file-exists (snapshot-name ,var))
           (prn "Loading " ',var)
@@ -61,6 +59,9 @@
      (push ,msg ,var)
      (= ,var (firstn 100 ,var))))
 
+;; Create a thread to pick items up from a fifo and process them.
+;; Optionally insert into nextfifo after processing.
+;; Create variables to hold the thread and a circular log buffer
 (mac defscan(fnname fifo . block)
   (with ((nextfifo body) (extract-car block 'string)
          log-var (symize stringify.fnname "-log*"))

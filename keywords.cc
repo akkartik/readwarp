@@ -44,8 +44,12 @@ int read_file(FILE* f) {
 
 bool m(string pat) {
   if (input_count <= 0) return pat == "";
-
   int len = pat.length();
+  if (input_count < len) return false;
+//?   printf("searching for %s %d %d\n", const_cast<char*>(pat.c_str()),
+//?       input_count, input_max);
+//?   fflush(stdout);
+
   int count = 0;
   int idx = 0;
   for (idx = input_count-len; idx < input_count; ++idx, ++count) {
@@ -380,7 +384,7 @@ char* keywords(char* filename) {
   FILE* f = fopen(filename, "r");
   if (!f) {
     printf("no file");
-    return "";
+    return const_cast<char*>("");
   }
 
 //?   printf("BBB\n"); fflush(stdout);

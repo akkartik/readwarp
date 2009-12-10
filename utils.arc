@@ -190,6 +190,10 @@
   (iflet ind (posmatch pat seq start)
     (cons ind (posmatchall pat seq (+ ind (len pat))))))
 
+;; Only useful with fifos.
+(def slurpline(f)
+  (w/infile file f (readline file)))
+
 (def slurp(f (o sep "\n"))
   (if (isa f 'string)
     (w/infile file f (slurp file sep))
@@ -206,10 +210,6 @@
 (= re-html-tag* "<[^>]*>")
 (= re-html-entity* "&[#a-zA-Z0-9]{0,5};")
 (def html-strip(doc)
-;?   (r-strip doc
-;?     "<!--.*-->"
-;?     "<script.*</script>"
-;?     "<style.*</style>"))
   (transform doc
     [r-strip _
       "<!--.*-->"
