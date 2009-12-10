@@ -46,9 +46,6 @@ bool m(string pat) {
   if (input_count <= 0) return pat == "";
   int len = pat.length();
   if (input_count < len) return false;
-//?   printf("searching for %s %d %d\n", const_cast<char*>(pat.c_str()),
-//?       input_count, input_max);
-//?   fflush(stdout);
 
   int count = 0;
   int idx = 0;

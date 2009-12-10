@@ -190,10 +190,6 @@
   (iflet ind (posmatch pat seq start)
     (cons ind (posmatchall pat seq (+ ind (len pat))))))
 
-;; Only useful with fifos.
-(def slurpline(f)
-  (w/infile file f (readline file)))
-
 (def slurp(f (o sep "\n"))
   (if (isa f 'string)
     (w/infile file f (slurp file sep))

@@ -107,47 +107,3 @@
 (def candidates()
   (gen-docs
     (car:find [pos (cdr _) '("read" "seed")] (current-user-read-list))))
-
-
-
-(= doc-dir* "urls/")
-
-(= s* "/")
-
-(def suffix-path(s d)
-  (+ d s* s))
-(def path-suffix(p d)
-  (cut p (inc:len d))) ; Assume d never ends in '/'
-
-(def each-file-path(d func)
-  (unless (file-infinite-loop? d)
-    (map (fn(f)
-           (if (dir-exists f) (each-file-path f func)
-               (file-exists f) (func f)))
-      (map [suffix-path _ d] (dir d)))))
-(def each-file(d func)
-  (each-file-path d [func:path-suffix _ d]))
-
-; Assume dir traversals begin under the code dir.
-(def file-infinite-loop?(d)
-  (file-exists (+ d s* "utils.arc")))
-
-(= counter 0)
-(def read-keywords()
-  (prn "Processing keywords " doc-dir*)
-  (= counter 0)
-  (each-file doc-dir* [add-keywords _])
-  nil)
-
-(def add-keywords(doc)
-  (when (crawled-url? doc)
-    (++ counter)
-    (if (is 0 (remainder counter 100))
-      (prn counter))
-    (doc-keywords rmext.doc)))
-
-(def rmext(s)
-  (subst "" ".raw" s))
-
-(def crawled-url?(doc)
-  (posmatch ".raw" doc))
