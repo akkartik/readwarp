@@ -122,11 +122,11 @@
   (slurp (+ "urls/" doc ".clean")))
 
 (def next-doc(user station)
-  (randpos:ero:candidates user station))
+  (randpos:candidates user station))
 
 (def candidates(user station)
   (gen-docs user
-            (ero:car:seed-docs user station)))
+            (car:seed-docs user station)))
 
 (def seed-docs(user station)
   (+ (read-list user station) (list station)))
