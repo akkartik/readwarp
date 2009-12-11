@@ -1,65 +1,69 @@
-(include "arctap.arc")
+; About to mock global data; disable persistence
+(kill-thread save-thread*)
 
-(include "x.arc")
+  (= docinfo*
+      (obj
+        "a_com_a" (obj site "a.com" feed "a.com/feed" url "a.com/a")
+        "a_com_b" (obj site "a.com" feed "a.com/feed" url "a.com/b")
+        "a_com_c" (obj site "a.com" feed "a.com/feed2" url "a.com/c")
+        "b_com_0" (obj site "b.com" feed "a.com/feed2" url "b.com/0")
+        "b_com_a" (obj site "b.com" feed "b.com/feed" url "b.com/a")))
 
-(test-iso "set works"
-  (obj a t b t)
-  (Set 'a 'b))
+  (= userinfo*
+      (obj
+        0 (obj read (table))))
 
-(= docinfo*
-    (obj
-      "a_com_a" (obj site "a.com" feed "a.com/feed" url "a.com/a")
-      "a_com_b" (obj site "a.com" feed "a.com/feed" url "a.com/b")
-      "a_com_c" (obj site "a.com" feed "a.com/feed2" url "a.com/c")
-      "b_com_0" (obj site "b.com" feed "a.com/feed2" url "b.com/0")
-      "b_com_a" (obj site "b.com" feed "b.com/feed" url "b.com/a")))
+  (ok (no:current-user-read "a_com_a"))
 
-(= userinfo*
-    (obj
-      0 (obj read (table))))
+  (def site-docs2(doc)
+    (keep site-docs.doc keys.docinfo*))
+  (def feed-docs2(doc)
+    (keep feed-docs.doc keys.docinfo*))
 
-(ok (no:current-user-read "a_com_a"))
+  (test-iso "site-docs should return docs from same site"
+    '("a_com_a" "a_com_b" "a_com_c")
+    (sort < (site-docs2 "a.com")))
 
-(test-iso "site-docs should return docs from same site"
-  '("a_com_a" "a_com_b" "a_com_c")
-  (sort < (site-docs "a.com")))
+  (= userinfo*
+      (obj
+        0 (obj
+            read (Set "a_com_a")
+            stations (obj
+                      "a" (table)))))
 
-(= userinfo*
-    (obj
-      0 (obj read (Set "a_com_a"))))
+  (ok (current-user-read "a_com_a") "current-user-read should work")
 
-(ok (current-user-read "a_com_a"))
+  (test-iso "feed-docs should return docs from same feed"
+    '("a_com_c" "b_com_0")
+    (sort < (feed-docs2 "a.com/feed2")))
 
-(test-iso "site-docs should return unread docs"
-  '("a_com_b" "a_com_c")
-  (sort < (site-docs "a.com")))
+  (test-iso "gen-docs should return unread site-docs and feed-docs for feed"
+    '("a_com_b" "a_com_c" "b_com_0")
+    (sort < (gen-docs 0 "a.com/feed")))
 
-(ok (no:current-user-read (random-unread)) "random-unread should return an unread doc")
+  (test-iso "gen-docs should return unread site-docs and feed-docs for site"
+    '("a_com_b" "a_com_c" "b_com_0")
+    (sort < (gen-docs 0 "a.com")))
 
-(test-iso "feed-docs should return unread docs from same feed"
-  '("a_com_c" "b_com_0")
-  (sort < (feed-docs "a.com/feed2")))
+  (test-iso "gen-docs should return unread site-docs and feed-docs for doc"
+    '("a_com_b" "a_com_c" "b_com_0")
+    (sort < (gen-docs 0 "a.com_c")))
 
-(= doc-generators* (list site-docs feed-docs))
-(test-iso "gen-docs should return superset of site-docs and feed-docs"
-  '("a_com_b" "a_com_c" "b_com_0")
-  (sort < (gen-docs "a.com/c")))
+  (test-iso "gen-docs should return unread site-docs and feed-docs for url"
+    '("a_com_b" "a_com_c" "b_com_0")
+    (sort < (gen-docs 0 "a.com/c")))
 
-(= docinfo*
-    (obj
-      "a_com_a" (obj site "a.com" feed "a.com/feed" url "a.com/a" keywords '("a" "b" "c"))
-      "a_com_b" (obj site "a.com" feed "a.com/feed" url "a.com/b" keywords '("a"))
-      "a_com_c" (obj site "a.com" feed "a.com/feed2" url "a.com/c")
-      "b_com_0" (obj site "b.com" feed "a.com/feed2" url "b.com/0" keywords '("a"))
-      "b_com_a" (obj site "b.com" feed "b.com/feed" url "b.com/a")))
+  (let docmock (obj
+      "a_com_a" '("a" "b" "c")
+      "a_com_b" '("a")
+      "b_com_0" '("a"))
+    (dhash doc keyword "m-n"
+      docmock.doc)
+    (each doc keys.docmock doc-keywords.doc))
 
-(= index*
-  (obj
-    "a" '("a_com_a" "a_com_b" "b_com_a")
-    "b" '("a_com_a")
-    "c" '("a_com_a")))
+  (test-iso "gen-docs should include docs with keyword overlap"
+    '("a_com_b" "a_com_c" "b_com_0" "b_com_a")
+    (sort < (gen-docs 0 "b.com/0")))
 
-(= doc-generators* (list site-docs feed-docs keywords-docs))
-(test-iso "gen-docs should include docs with keyword overlap"
-  '("a_com_b" "a_com_c" "b_com_0" "b_com_a")
-  (sort < (gen-docs "b.com/0")))
+; No persistence; stop running
+(quit)

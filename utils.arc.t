@@ -141,3 +141,7 @@
 (test-is "alist? doesn't falsely detect two-character strings"
   nil
   (alist? '((1 2) "ab")))
+
+(test-iso "set works"
+  (obj a t b t)
+  (Set 'a 'b))

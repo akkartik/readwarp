@@ -2,6 +2,9 @@
   0)
 (new-user:current-user)
 
+(def current-user-read(doc)
+  (read? (current-user) doc))
+
 (def current-user-read-list()
   (read-list (current-user) (current-station:current-user)))
 

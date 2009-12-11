@@ -7,21 +7,21 @@
     (blank? docinfo*.doc))
 
   (def url(doc)
-    docinfo*.doc!url)
+    (errsafe docinfo*.doc!url))
   (def title(doc)
-    docinfo*.doc!title)
+    (errsafe docinfo*.doc!title))
   (def site(doc)
-    docinfo*.doc!site)
+    (errsafe docinfo*.doc!site))
   (def feed(doc)
-    docinfo*.doc!feed)
+    (errsafe docinfo*.doc!feed))
   (def feedtitle(doc)
-    docinfo*.doc!feedtitle)
+    (errsafe docinfo*.doc!feedtitle))
   (def timestamp(doc)
     (or pubdate.doc feeddate.doc))
   (def pubdate(doc)
-    docinfo*.doc!date)
+    (errsafe docinfo*.doc!date))
   (def feeddate(doc)
-    docinfo*.doc!feeddate))
+    (errsafe docinfo*.doc!feeddate)))
 
 
 
@@ -53,13 +53,32 @@
 (defreg feed-docs(feed) doc-filters*
   [posmatch feed (cached-downcase docinfo*._!feed)])
 
-(def gen-docs(user doc)
+(defreg doc-matches(doc) doc-filters*
+  [iso doc _])
+
+(defreg feed-matches(doc) doc-filters*
+  [iso feed.doc feed._])
+
+(defreg site-matches(doc) doc-filters*
+  [iso site.doc site._])
+
+(def url-doc(url)
+  (gsub url
+    (r "[^0-9a-zA-Z]") "_"))
+
+(def docify(s)
+  (if docinfo*.s              s
+      (docinfo* url-doc.s)    url-doc.s
+                              s))
+
+(def gen-docs(user s)
   (do1
-    (dedup:+
-      (keep (apply orf (map [_ doc] doc-filters*))
-            (keys docinfo*))
-      (keywords-docs user list.doc)
-      (keywords-docs user doc-keywords.doc))
+    (let doc docify.s
+      (rem [read? user _]
+        (dedup:+
+          (keep (apply orf (map [_ doc] doc-filters*))
+                keys.docinfo*)
+          (keywords-docs user (or doc-keywords.doc list.doc)))))
     (clear-cmemos 'downcase)))
 
 (def keywords-docs(user kwds)
@@ -103,11 +122,11 @@
   (slurp (+ "urls/" doc ".clean")))
 
 (def next-doc(user station)
-  (randpos:candidates user station))
+  (randpos:ero:candidates user station))
 
 (def candidates(user station)
   (gen-docs user
-            (car:seed-docs user station)))
+            (ero:car:seed-docs user station)))
 
 (def seed-docs(user station)
   (+ (read-list user station) (list station)))
