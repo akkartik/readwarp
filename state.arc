@@ -22,7 +22,7 @@
           load-function-name (symize "load-" var))
     `(do
       (def ,save-function-name()
-        (fwrite (snapshot-name ,var) ,var))
+        (fwritefile (snapshot-name ,var) ,var))
       (def ,load-function-name()
         (when (file-exists (snapshot-name ,var))
           (prn "Loading " ',var)
@@ -81,19 +81,23 @@
 (mac snapshot-name(var)
   `(+ "snapshot." ,(stringify var)))
 
-(mac fwrite(filename form)
-  (let f (uniq)
-    `(w/outfile ,f ,filename
-        (if (isa ,form 'table)
-          (write-nested-table ,form ,f)
-          (write ,form ,f)))))
+(def fwritefile(filename val)
+  (let tmpfile (+ filename ".tmp")
+    (fwrite tmpfile val)
+    (mvfile tmpfile filename)))
 
-(mac fread(filename form)
+(def fwrite(filename val)
+  (w/outfile f filename
+    (if (isa val 'table)
+      (write-nested-table val f)
+      (write val f))))
+
+(mac fread(filename val)
   (let f (uniq)
     `(w/infile ,f ,filename
-        (if (isa ,form 'table)
-          (= ,form (read-nested-table ,f))
-          (= ,form (read ,f))))))
+        (if (isa ,val 'table)
+          (= ,val (read-nested-table ,f))
+          (= ,val (read ,f))))))
 
 
 

@@ -4,7 +4,8 @@
   (include "keywords.arc")
   (include "index.arc")
   (include "helpers.arc")
-  (include "ui.arc"))
+  (include "ui.arc")
+)
 (init-code)
 (load-state)
 

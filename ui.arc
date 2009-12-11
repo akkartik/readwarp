@@ -1,3 +1,15 @@
+(def current-user()
+  0)
+(new-user:current-user)
+
+(def current-user-read-list()
+  (read-list (current-user) (current-station:current-user)))
+
+(def current-user-next-doc()
+  (next-doc (current-user) (current-station:current-user)))
+
+
+
 (mac layout-basic(body)
   `(tag html
     (header)
@@ -5,16 +17,17 @@
       (tag (div id "page")
         (tag (table width "100%")
              (tr
-               (tag (td id "history-container")
-                  (center
-                    (pr "Recently viewed"))
-                  (tag (div id "history")
-                    (tag (div id "history-elems")
-                        (each (doc outcome) (current-user-read-history)
-                          (render-doc-link doc outcome)))
-                    (paginate-nav "history" "/history" 10 0 10
-                         (obj reverse t nextcopy "&laquo;older" prevcopy "newer&raquo;"))))
-      
+               (if (and (current-user) (current-station:current-user))
+                 (tag (td id "history-container")
+                    (center
+                      (pr "Recently viewed"))
+                    (tag (div id "history")
+                      (tag (div id "history-elems")
+                          (each doc (firstn 10 (current-user-read-list))
+                            (render-doc-link doc)))
+                      (paginate-nav "history" "/history" 10 0 10
+                           (obj reverse t nextcopy "&laquo;older" prevcopy "newer&raquo;")))))
+
                (tag (td id "contents-wrap")
                   (tag (div id "content")
                     ,body))))))))
@@ -28,21 +41,23 @@
            (tag:input type "submit")))))
 
 (defop station req
-  (current-user-mark-read (arg req "seed") "seed")
+  (new-station (current-user) (arg req "seed"))
+  (set-current-station (current-user) (arg req "seed"))
   (layout-basic
     (render-doc-with-context
-      (next-doc))))
+      (current-user-next-doc))))
 
 (defop docupdate req
-  (current-user-mark-read (arg req "doc") (arg req "outcome"))
+  (mark-read (current-user) (arg req "doc") (arg req "outcome")
+             (current-station:current-user))
   (render-doc-with-context
-    (next-doc)))
+    (current-user-next-doc)))
 
 (defop doc req
   (let doc (arg req "doc")
     (render-doc-with-context
       (if (blank doc)
-        (next-doc)
+        (current-user-next-doc)
         doc))))
 
 (defop history req
@@ -50,8 +65,8 @@
       reverse t nextcopy "&laquo;older" prevcopy "newer&raquo;"
     :do
       (tag (div id "history-elems")
-        (each (doc outcome) (cut (current-user-read-list) start-index end-index)
-          (render-doc-link doc outcome)))))
+        (each doc (cut (current-user-read-list) start-index end-index)
+          (render-doc-link doc)))))
 
 (defop reload req
   (init-code))
@@ -70,9 +85,10 @@
     (tag p
       (pr:contents doc))))
 
-(def render-doc-link(doc outcome)
+(def render-doc-link(doc)
   (tag (div id (+ "history_" doc))
-    (tag (div id (+ "outcome_" doc) class outcome) (pr "&#9632;"))
+    (tag (div id (+ "outcome_" doc) class (read? (current-user) doc))
+      (pr "&#9632;"))
 
     (tag (p class "title item")
       (tag (a onclick (+ "showDoc('" doc "')") href "#" style "font-weight:bold")
@@ -91,7 +107,7 @@
     (buttons doc)
 
     (tag (div class "history" style "display:none")
-      (render-doc-link doc ""))
+      (render-doc-link doc))
 
     (tag (table class "main")
       (tr
