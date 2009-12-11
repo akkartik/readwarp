@@ -24,6 +24,16 @@
     (list (fill-table (listtab:pair defaults) kws)
           (cdr body))))
 
+(def extract-car(block test)
+  (if (test*.test car.block)
+    `(,(car block) ,(cdr block))
+    `(nil ,block)))
+
+(def test*(test)
+  (if (isa test 'fn)   test
+      (isa test 'sym)  [isa _ test]
+                       [is _ test]))
+
 
 
 (def id(x) x)
@@ -345,6 +355,11 @@
     (if (and (posmatch ".arc.t" file)
              (~litmatch "." file))
       (include file))))
+
+(mac rotlog(var msg)
+  `(do
+     (push ,msg ,var)
+     (= ,var (firstn 100 ,var))))
 
 (def filenames(cmd)
   (tokens:slurp:pipe-from cmd))

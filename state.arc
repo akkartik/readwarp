@@ -44,21 +44,6 @@
      (def ,fnname ,args ,@body)
      (add-to ,registry ,fnname)))
 
-(def test*(test)
-  (if (isa test 'fn)   test
-      (isa test 'sym)  [isa _ test]
-                       [is _ test]))
-
-(def extract-car(block test)
-  (if (test*.test car.block)
-    `(,(car block) ,(cdr block))
-    `(nil ,block)))
-
-(mac rotlog(var msg)
-  `(do
-     (push ,msg ,var)
-     (= ,var (firstn 100 ,var))))
-
 ;; Create a thread to pick items up from a fifo and process them.
 ;; Optionally insert into nextfifo after processing.
 ;; Create variables to hold the thread and a circular log buffer
