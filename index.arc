@@ -94,7 +94,7 @@
 
 (def gen-docs(user station)
   (new-station user station)
-  (candidates user station))
+  (list:max-by score (prune:candidates user station)))
 
 (def candidates(user station)
   (do-cmemo 'downcase
@@ -104,6 +104,12 @@
         (dedup:+
           (gen-doc-filters user station doc)
           (gen-misc-filters user station doc))))))
+
+(def score(doc)
+  0)
+
+(def prune(docs)
+  docs)
 
 
 

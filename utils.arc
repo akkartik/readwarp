@@ -323,14 +323,24 @@
 (def sort-by(f l)
   (rm-tags (sort-by-tag (add-tags f l))))
 
+(def max-by(f l)
+  (max-by-tag:add-tags f l))
+
+(def sort-by-tag(l)
+  (sort (compare > cdr) (keep cdr l)))
+
+(def max-by-tag(l)
+  (let (max maxval) (list nil nil)
+    (each (curr . v) (keep cdr l)
+      (if (or no.maxval (> v maxval))
+        (= max curr maxval v)))
+    max))
+
 (def add-tags(f l)
   (map [cons _ (f _)] l))
 
 (def rm-tags(l)
   (map car l))
-
-(def sort-by-tag(l)
-  (sort (compare > cdr) (rem [no (cdr _)] l)))
 
 (def tags-matching(v l)
   (map cdr (keep [iso (car _) v] l)))
