@@ -85,3 +85,10 @@ gen-docs doesn't like docs as arguments. I need to test-drive this..
 =-=23 - Fri Dec 11 04:55:14 PST 2009
 Done. Rebuilding the index.
 =-=24 - Fri Dec 11 08:10:24 PST 2009
+
+Lots of reorg, getting tests to pass.
+Framework for gen-docs:
+  generate candidates using doc-filters* and misc-filters*
+  constraints to filter candidates
+  score remaining candidates
+=-=27 - Fri Dec 11 22:41:22 PST 2009

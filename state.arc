@@ -110,6 +110,11 @@
 (mac defcmemo (name params cachename . body)
   `(safeset ,name (cmemo (fn ,params ,@body) ',name ,cachename)))
 
+(mac do-cmemo (cachename . body)
+  `(do1
+     (do ,@body)
+     (clear-cmemos ,cachename)))
+
 
 
 ;;; Stateful constructs with referential transparency and transparent persistence:

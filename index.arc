@@ -47,42 +47,63 @@
 (defcmemo cached-downcase(s) 'downcase
   (downcase s))
 
-(defreg site-docs(site) doc-filters*
+;; doc-filters*: list of fns: doc -> (fn: doc -> bool)
+(defreg site-docs(user station site) doc-filters*
   [posmatch site (cached-downcase docinfo*._!site)])
 
-(defreg feed-docs(feed) doc-filters*
+(defreg feed-docs(user station feed) doc-filters*
   [posmatch feed (cached-downcase docinfo*._!feed)])
 
-(defreg doc-matches(doc) doc-filters*
+(defreg doc-matches(user station doc) doc-filters*
   [iso doc _])
 
-(defreg feed-matches(doc) doc-filters*
+(defreg feed-matches(user station doc) doc-filters*
   [iso feed.doc feed._])
 
-(defreg site-matches(doc) doc-filters*
+(defreg site-matches(user station doc) doc-filters*
   [iso site.doc site._])
+
+(def gen-doc-filters(user station doc)
+  (keep (apply orf (map [_ user station doc] doc-filters*))
+        keys.docinfo*))
+
+;; misc-filters*: list of fns: doc -> docs
+(defreg keywords-docs(user station doc) misc-filters*
+  (rem [read? user _]
+       (dedup:flat:map (docs-table)
+                       (or doc-keywords.doc list.doc))))
+
+(def gen-misc-filters(user station doc)
+  (flat:accum acc
+    (each filter misc-filters*
+      (acc:filter user station doc))))
 
 (def url-doc(url)
   (gsub url
     (r "[^0-9a-zA-Z]") "_"))
 
 (def docify(s)
-  (if docinfo*.s              s
+  (if (docinfo* s)            s
       (docinfo* url-doc.s)    url-doc.s
                               s))
 
-(def gen-docs(user s)
-  (do1
-    (let doc docify.s
+; gen-docs:
+;   generate candidates using doc-filters* with misc-filters* (currently just keywords-docs)
+;   prune by applying doc-constraints*
+;   sum feature-scores* for each candidate, return max
+
+(def gen-docs(user station)
+  (new-station user station)
+  (candidates user station))
+
+(def candidates(user station)
+  (do-cmemo 'downcase
+    ;; XXX: use more than just the most recent item
+    (let doc (docify:car:+ (read-list user station) list.station)
       (rem [read? user _]
         (dedup:+
-          (keep (apply orf (map [_ doc] doc-filters*))
-                keys.docinfo*)
-          (keywords-docs user (or doc-keywords.doc list.doc)))))
-    (clear-cmemos 'downcase)))
-
-(def keywords-docs(user kwds)
-  (rem [read? user _] (dedup:flat:map (docs-table) kwds)))
+          (gen-doc-filters user station doc)
+          (gen-misc-filters user station doc))))))
 
 
 
@@ -122,11 +143,4 @@
   (slurp (+ "urls/" doc ".clean")))
 
 (def next-doc(user station)
-  (randpos:candidates user station))
-
-(def candidates(user station)
-  (gen-docs user
-            (car:seed-docs user station)))
-
-(def seed-docs(user station)
-  (+ (read-list user station) (list station)))
+  (randpos:gen-docs user station))

@@ -31,17 +31,40 @@
   (extract-car '(3 (prn a) (+ 1 1)) [errsafe:_ 0]))
 
 (test-iso "defscan adds code to function to read fifo"
-  '(def foo()
-    (each-fifo doc "fifos/foo"
-      (prn "foo" ": " doc)
-      (do1 (do 0)
-        nil)))
+  '(do
+    (init foo-log* ())
+    (def foo()
+      (prn "foo" " watching fifos/" "foo")
+      (forever:each doc (tokens:slurp "fifos/foo")
+        (rotlog foo-log* doc)
+        (do1 (do 0)
+          nil)))
+    (init foo-thread* (new-thread foo)))
   (macex1:quote:defscan foo "foo" 0))
 
 (test-iso "defscan optionally adds code to function to write next fifo"
-  '(def foo()
-    (each-fifo doc "fifos/foo"
-      (prn "foo" ": " doc)
-      (do1 (do 0)
-        (fwrite "fifos/foo2" doc))))
+  '(do
+    (init foo-log* ())
+    (def foo()
+      (prn "foo" " watching fifos/" "foo")
+      (forever:each doc (tokens:slurp "fifos/foo")
+        (rotlog foo-log* doc)
+        (do1 (do 0)
+          (fwrite "fifos/foo2" doc))))
+    (init foo-thread* (new-thread foo)))
   (macex1:quote:defscan foo "foo" "foo2" 0))
+
+(defcmemo add-foo(a b) 'test-add
+  (+ a b))
+
+(test-iso "do-cmemo returns its body"
+  2
+  (do-cmemo 'test-add
+    (add-foo 1 1)))
+
+(do
+  (do-cmemo 'test-add
+    (add-foo 1 1))
+  (test-iso "do-cmemo clears appropriate cmemo-cache when done"
+    nil
+    cmemo-cache*!test-add))

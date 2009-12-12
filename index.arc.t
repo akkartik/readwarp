@@ -16,9 +16,9 @@
   (ok (no:current-user-read "a_com_a"))
 
   (def site-docs2(doc)
-    (keep site-docs.doc keys.docinfo*))
+    (keep (site-docs 0 "" doc) keys.docinfo*))
   (def feed-docs2(doc)
-    (keep feed-docs.doc keys.docinfo*))
+    (keep (feed-docs 0 "" doc) keys.docinfo*))
 
   (test-iso "site-docs should return docs from same site"
     '("a_com_a" "a_com_b" "a_com_c")
@@ -31,11 +31,11 @@
             stations (obj
                       "a" (table)))))
 
-  (ok (current-user-read "a_com_a") "current-user-read should work")
-
   (test-iso "feed-docs should return docs from same feed"
     '("a_com_c" "b_com_0")
     (sort < (feed-docs2 "a.com/feed2")))
+
+  (ok (current-user-read "a_com_a") "current-user-read should work")
 
   (test-iso "gen-docs should return unread site-docs and feed-docs for feed"
     '("a_com_b" "a_com_c" "b_com_0")
