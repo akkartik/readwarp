@@ -44,10 +44,12 @@
 
 
 
-(defcmemo cached-downcase(s) 'downcase
-  (downcase s))
+; gen-docs:
+;   generate candidates using doc-filters* with misc-filters* (currently just keywords-docs)
+;   prune by applying doc-constraints*
+;   sum feature-scores* for each candidate, return max
 
-;; doc-filters*: list of fns: doc -> (fn: doc -> bool)
+;; doc-filters*: doc -> (fn: doc -> bool)
 (defreg site-docs(user station site) doc-filters*
   [posmatch site (cached-downcase docinfo*._!site)])
 
@@ -67,7 +69,7 @@
   (keep (apply orf (map [_ user station doc] doc-filters*))
         keys.docinfo*))
 
-;; misc-filters*: list of fns: doc -> docs
+;; misc-filters*: doc -> docs
 (defreg keywords-docs(user station doc) misc-filters*
   (rem [read? user _]
        (dedup:flat:map (docs-table)
@@ -87,14 +89,9 @@
       (docinfo* url-doc.s)    url-doc.s
                               s))
 
-; gen-docs:
-;   generate candidates using doc-filters* with misc-filters* (currently just keywords-docs)
-;   prune by applying doc-constraints*
-;   sum feature-scores* for each candidate, return max
-
 (def gen-docs(user station)
   (new-station user station)
-  (list:max-by score (prune:candidates user station)))
+  (list:max-by score (prune user station (candidates user station))))
 
 (def candidates(user station)
   (do-cmemo 'downcase
@@ -108,8 +105,10 @@
 (def score(doc)
   0)
 
-(def prune(docs)
-  docs)
+(def prune(user station docs)
+  (aif (read-list user station)
+    (rem [iso (feed:car it) feed._] docs)
+    docs))
 
 
 
@@ -144,6 +143,9 @@
     (push doc userinfo*.user!stations.station!read-list)))
 
 
+
+(defcmemo cached-downcase(s) 'downcase
+  (downcase s))
 
 (def contents(doc)
   (slurp (+ "urls/" doc ".clean")))
