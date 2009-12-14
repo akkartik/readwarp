@@ -1,42 +1,42 @@
-;;; Transparent persistence
-(= load-registry* () save-registry* () scan-registry* ())
+(mac new-snapshot-name(var)
+  `(+ ,(+ "snapshots/" (stringify var) ".") ,(seconds)))
+(mac most-recent-snapshot-name(var)
+   ;; max works because times lie between 10^9s and 2*10^9s
+   `(max:keep [iso ,(+ "snapshots/" (stringify var)) (car:split-by _ ".")]
+             (dir "snapshots")))
 
-(def load-state()
-  (prn "*** Loading state")
-  (each loadfn load-registry*
-    (loadfn)))
+(mac load-snapshot(var initval)
+  `(let file (most-recent-snapshot-name ,var)
+    (if file-exists.file
+      (fread file ,var)
+      (init ,var ,initval))))
 
-(def save-state()
-  (each savefn save-registry*
-    (savefn)))
-
-(def scan-state()
-  (prn "*** Scanning for new data")
-  (each scanfn scan-registry*
-    (scanfn)))
+(mac save-snapshot(var)
+  `(fwritefile (new-snapshot-name ,var) ,var))
 
 
 
-(mac is-persisted(var)
-  (withs (save-function-name (symize "save-" var)
-          load-function-name (symize "load-" var))
-    `(do
-      (def ,save-function-name()
-        (fwritefile (snapshot-name ,var) ,var))
-      (def ,load-function-name()
-        (when (file-exists (snapshot-name ,var))
-          (prn "Loading " ',var)
-          (fread (snapshot-name ,var) ,var)))
-      (add-to load-registry* ,load-function-name)
-      (add-to save-registry* ,save-function-name))))
+;;; Transparent persistence
+(= save-registry* (table))
+
+; when data changed, run appropriate hook from save-registry*
+(after-exec sref(com val ind)
+  (prn com)
+  (aif (save-registry* com)
+    (buffered-exec it)))
+
+;; hook from save-registry lines up save function
+(mac setup-autosave(var)
+  `(or= (save-registry* ,var) 
+       (fn() (atomic:save-snapshot ,var))))
+
+
 
 (mac persisted(var value . body)
   `(do
-     (init ,var ,value)
-     (is-persisted ,var)
+     (load-snapshot ,var ,value)
+     (setup-autosave ,var)
      ,@body))
-
-
 
 (mac defreg(fnname args registry . body)
   `(do
@@ -44,27 +44,7 @@
      (def ,fnname ,args ,@body)
      (add-to ,registry ,fnname)))
 
-;; Create a thread to pick items up from a fifo and process them.
-;; Optionally insert into nextfifo after processing.
-;; Create variables to hold the thread and a circular log buffer
-(mac defscan(fnname fifo . block)
-  (with ((nextfifo body) (extract-car block 'string)
-         log-var (symize stringify.fnname "-log*"))
-    `(do
-       (init ,log-var ())
-       (def ,fnname()
-         (prn ,stringify.fnname " watching fifos/" ,fifo)
-         (forever:each doc (tokens:slurp ,(+ "fifos/" fifo))
-            (rotlog ,log-var doc)
-            (do1
-              (do ,@body)
-              ,(aif nextfifo `(fwrite ,(+ "fifos/" it) doc)))))
-       (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname)))))
-
 
-
-(mac snapshot-name(var)
-  `(+ "snapshot." ,(stringify var)))
 
 (def fwritefile(filename val)
   (let tmpfile (+ filename ".tmp")
@@ -83,6 +63,25 @@
         (if (isa ,val 'table)
           (= ,val (read-nested-table ,f))
           (= ,val (read ,f))))))
+
+
+
+;; Create a thread to pick items up from a fifo and process them.
+;; Optionally insert into nextfifo after processing.
+;; Create variables to hold the thread and a circular log buffer
+(mac defscan(fnname fifo . block)
+  (with ((nextfifo body) (extract-car block 'string)
+         log-var (symize stringify.fnname "-log*"))
+    `(do
+       (init ,log-var ())
+       (def ,fnname()
+         (prn ,stringify.fnname " watching fifos/" ,fifo)
+         (forever:each doc (tokens:slurp ,(+ "fifos/" fifo))
+            (rotlog ,log-var doc)
+            (do1
+              (do ,@body)
+              ,(aif nextfifo `(fwrite ,(+ "fifos/" it) doc)))))
+       (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname)))))
 
 
 

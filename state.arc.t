@@ -1,3 +1,7 @@
+(test-iso "new-snapshot-name works"
+  (+ "snapshots/foo." (seconds))
+  (new-snapshot-name foo))
+
 (test-iso "test* generates test for fn"
   2
   ((test* [+ _ 2]) 0))

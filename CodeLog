@@ -92,3 +92,11 @@ Framework for gen-docs:
   constraints to filter candidates
   score remaining candidates
 =-=27 - Fri Dec 11 22:41:22 PST 2009
+
+Trying to redo transparent persistence.
+  Avoid unnecessary writes based on palsecam's idea.
+  Write to new files so we have backups, and to eliminate any chance of data loss.
+Doesn't work yet. I just realized save-registry needs to store references to
+variables, not names.
+Which means if I assign to a persistent variable I will lose persistence on it.
+=-=30 - Sun Dec 13 19:53:37 PST 2009

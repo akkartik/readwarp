@@ -19,6 +19,24 @@
       (zap f ans))
     ans))
 
+(mac before-exec(fnname args . body)
+  `(let old ,fnname
+      (def ,fnname ,args
+        ,@body
+        (old ,@args))))
+
+(mac after-exec(fnname args . body)
+  `(let old ,fnname
+      (def ,fnname ,args
+        (let result (old ,@args)
+          ,@body
+          result))))
+
+(= buffered-execs* (table))
+(def buffered-exec(f (o delay 10))
+  (or= buffered-execs*.f
+       (thread (sleep delay) (wipe buffered-execs*.f) (f))))
+
 (def kwargs(args-and-body (o defaults))
   (let (kws body) (split-by args-and-body ':do)
     (list (fill-table (listtab:pair defaults) kws)
