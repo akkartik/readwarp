@@ -6,10 +6,9 @@
              (dir "snapshots")))
 
 (mac load-snapshot(var initval)
-  `(let file (most-recent-snapshot-name ,var)
-    (if file-exists.file
-      (fread file ,var)
-      (init ,var ,initval))))
+  `(aif (most-recent-snapshot-name ,var)
+    (fread it ,var)
+    (or (init ,var ,initval) ,var)))
 
 (mac save-snapshot(var)
   `(fwritefile (new-snapshot-name ,var) ,var))
@@ -21,21 +20,21 @@
 
 ; when data changed, run appropriate hook from save-registry*
 (after-exec sref(com val ind)
-  (prn com)
-  (aif (save-registry* com)
-    (buffered-exec it)))
+;?   (prn "q " com)
+;?   (prn "a " save-registry*.com)
+  (aif save-registry*.com
+    (prn:buffered-exec it)))
 
 ;; hook from save-registry lines up save function
-(mac setup-autosave(var)
-  `(or= (save-registry* ,var) 
+(mac setup-autosave(var value)
+  `(or= (save-registry* (load-snapshot ,var ,value))
        (fn() (atomic:save-snapshot ,var))))
 
 
 
 (mac persisted(var value . body)
   `(do
-     (load-snapshot ,var ,value)
-     (setup-autosave ,var)
+     (setup-autosave ,var ,value)
      ,@body))
 
 (mac defreg(fnname args registry . body)

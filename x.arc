@@ -18,5 +18,4 @@
   (def sref (com val ind)
     (prn com)
     (do1 (_sref com val ind)
-      (prn com)
       (awhen (and (isa com 'table) (alref dbs* com)) (it)))))

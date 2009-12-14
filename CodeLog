@@ -100,3 +100,12 @@ Doesn't work yet. I just realized save-registry needs to store references to
 variables, not names.
 Which means if I assign to a persistent variable I will lose persistence on it.
 =-=30 - Sun Dec 13 19:53:37 PST 2009
+Ok, save-registry now indexes by reference. But still not working. What's
+going on?
+
+Two bugs:
+  a) (hash key) searches by value, even if what is stored in the hash is a
+  reference. What's more it's searching by value at the time of insertion.
+  Weird.
+  b) buffered-exec isn't wiping when it should.
+=-=31 - Sun Dec 13 20:43:03 PST 2009
