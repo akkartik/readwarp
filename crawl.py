@@ -11,13 +11,13 @@ from BeautifulSoup import BeautifulSoup
 canonical_url = {}
 def loadUrlMap():
   global canonical_url
-  if os.path.exists("snapshot.url_map"):
-    with open("snapshot.url_map") as input:
+  if os.path.exists("snapshots/url_map"):
+    with open("snapshots/url_map") as input:
       canonical_url = pickle.load(input)
 
 def saveUrlMap():
   if len(canonical_url) > 0:
-    with open("snapshot.url_map", 'w') as output:
+    with open("snapshots/url_map", 'w') as output:
       pickle.dump(canonical_url, output)
 
 def loadFeeds():

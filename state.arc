@@ -2,7 +2,8 @@
   `(+ ,(+ "snapshots/" (stringify var) ".") ,(seconds)))
 (mac most-recent-snapshot-name(var)
    ;; max works because times lie between 10^9s and 2*10^9s
-   `(max:keep [iso ,(+ "snapshots/" (stringify var)) (car:split-by _ ".")]
+   `(max:keep [iso ,(+ "snapshots/" (stringify var))
+                   (car:split-by _ ".")]
              (dir "snapshots")))
 
 (mac load-snapshot(var initval)
@@ -16,19 +17,19 @@
 
 
 ;;; Transparent persistence
-(= save-registry* (table))
+(= save-registry* ())
 
 ; when data changed, run appropriate hook from save-registry*
 (after-exec sref(com val ind)
-;?   (prn "q " com)
-;?   (prn "a " save-registry*.com)
-  (aif save-registry*.com
-    (prn:buffered-exec it)))
+  (aif (alref save-registry* com)
+    (buffered-exec it)))
 
-;; hook from save-registry lines up save function
+; hook from save-registry lines up save function
 (mac setup-autosave(var value)
-  `(or= (save-registry* (load-snapshot ,var ,value))
-       (fn() (atomic:save-snapshot ,var))))
+  `(let ref (load-snapshot ,var ,value)
+     (if (no:alref save-registry* ref)
+       (push (list ref (fn() (atomic:save-snapshot ,var)))
+             save-registry*))))
 
 
 
@@ -92,7 +93,8 @@
 
 (def cmemo-cache(cachename name)
   (or= cmemo-cache*.cachename (table))
-  (or= cmemo-cache*.cachename.name (list (table) (table))) ;; Beware collisions in name
+  ;; Beware collisions in name
+  (or= cmemo-cache*.cachename.name (list (table) (table)))
   cmemo-cache*.cachename.name)
 
 (def cmemo(f name cachename)
@@ -115,7 +117,8 @@
 
 
 
-;;; Stateful constructs with referential transparency and transparent persistence:
+;;; Stateful constructs with referential transparency and transparent
+;;; persistence:
 ;;; a) mhash - memoize forward lookup
 ;;; b) rhash - save reverse lookup
 ;;; c) dhash - two-way lookup
@@ -135,12 +138,10 @@
           key-str (stringify key-name)
           value-str (stringify value-name)
           check-function-name (symize value-str "?")
-          lookup-function-name (symize key-str "-" (if pluralize-value
-                                                     (plural-of value-str)
-                                                     value-str))
-          reverse-lookup-function-name (symize value-str "-" (if pluralize-key
-                                                               (plural-of key-str)
-                                                               key-str))
+          lookup-function-name
+                      (pluralized-fnname key-str value-str pluralize-value)
+          reverse-lookup-function-name
+                      (pluralized-fnname value-str key-str pluralize-key)
           key-table-name (globalize key-str "s")
           value-table-name (globalize value-str "s")
           create-function-name (symize "create-" key-str "-" value-str)
@@ -151,43 +152,48 @@
           fport (uniq)
           snapshot-file-name (+ key-str "-" value-str "s"))
 
-    `(with (,key-table-name (table)
-            ,value-table-name (table))
-        (def ,(symize key-str "s-table")() ,key-table-name) (def ,(symize value-str "s-table")() ,value-table-name)
-        (def ,create-function-name(,key-name)
-          ,body)
-        (def ,set-function-name(,key-name)
-          (let ,value-name (,create-function-name ,key-name)
-            ,(if forward
-               `(= (,value-table-name ,key-name) ,value-name))
-            ,(if backward
-               `(update ,key-table-name ,value-name ,policy ,key-name))
-            ,value-name))
-        (def ,lookup-function-name(,key-name)
-          (or (,value-table-name ,key-name)
-              (,set-function-name ,key-name)))
-        (def ,reverse-lookup-function-name(,value-name)
-          (,key-table-name ,value-name))
-        (def ,check-function-name(,key-name)
-          (,value-table-name ,key-name))
+    `(do
+      (setup-autosave ,key-table-name (table))
+      (setup-autosave ,value-table-name (table))
+      (def ,create-function-name(,key-name)
+        ,body)
+      (def ,set-function-name(,key-name)
+        (let ,value-name (,create-function-name ,key-name)
+          ,(if forward
+             `(= (,value-table-name ,key-name) ,value-name))
+          ,(if backward
+             `(update ,key-table-name ,value-name ,policy ,key-name))
+          ,value-name))
+      (def ,lookup-function-name(,key-name)
+        (or (,value-table-name ,key-name)
+            (,set-function-name ,key-name)))
+      (def ,reverse-lookup-function-name(,value-name)
+        (,key-table-name ,value-name))
+      (def ,check-function-name(,key-name)
+        (,value-table-name ,key-name))
 
-        (def ,save-function-name()
-          (w/outfile ,fport (snapshot-name ,snapshot-file-name)
-            (write-table ,key-table-name ,fport)
-            (disp #\newline ,fport)
-            (write-table ,value-table-name ,fport)))
-        (def ,load-function-name()
-          (when (file-exists (snapshot-name ,snapshot-file-name))
-            (prn "Loading " (snapshot-name ,snapshot-file-name))
-            (w/infile ,fport (snapshot-name ,snapshot-file-name)
-              (= ,key-table-name (read-table ,fport))
-              (= ,value-table-name (read-table ,fport)))))
-        (add-to load-registry* ,load-function-name)
-        (add-to save-registry* ,save-function-name))))
+      (def ,save-function-name()
+        (w/outfile ,fport (snapshot-name ,snapshot-file-name)
+          (write-table ,key-table-name ,fport)
+          (disp #\newline ,fport)
+          (write-table ,value-table-name ,fport)))
+      (def ,load-function-name()
+        (when (file-exists (snapshot-name ,snapshot-file-name))
+          (prn "Loading " (snapshot-name ,snapshot-file-name))
+          (w/infile ,fport (snapshot-name ,snapshot-file-name)
+            (= ,key-table-name (read-table ,fport))
+            (= ,value-table-name (read-table ,fport))))))))
+
+(def pluralized-fnname(a b bs)
+  (symize a "-"
+          (if bs
+            (plural-of b)
+            b)))
 
 (def pluralize-controls(s)
   (let as (stringify s)
-    (list (not (iso (as 0) #\1)) (not (iso (as 2) #\1)))))
+    (list (not (iso (as 0) #\1))
+          (not (iso (as 2) #\1)))))
 
 (def update(table key transform value)
   (if (acons key)

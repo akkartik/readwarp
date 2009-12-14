@@ -72,7 +72,7 @@
 ;; misc-filters*: doc -> docs
 (defreg keywords-docs(user station doc) misc-filters*
   (rem [read? user _]
-       (dedup:flat:map (docs-table)
+       (dedup:flat:map docs
                        (or doc-keywords.doc list.doc))))
 
 (def gen-misc-filters(user station doc)

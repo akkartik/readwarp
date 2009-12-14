@@ -109,3 +109,10 @@ Two bugs:
   Weird.
   b) buffered-exec isn't wiping when it should.
 =-=31 - Sun Dec 13 20:43:03 PST 2009
+Ah, it's a *hash* table. It's storing by reference but the hash is computed by
+value.
+  http://arclanguage.org/item?id=10984
+It just shouldn't store by reference. That makes it too confusing.
+
+Got the new transparent persistence working.
+=-=32 - Mon Dec 14 01:23:05 PST 2009
