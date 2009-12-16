@@ -1,15 +1,19 @@
-(mac new-snapshot-name(var)
-  `(+ ,(+ "snapshots/" (stringify var) ".") ,(seconds)))
 (mac most-recent-snapshot-name(var)
    ;; max works because times lie between 10^9s and 2*10^9s
-   `(max:keep [iso ,(+ "snapshots/" (stringify var))
+   `(aif (max:keep [iso ,(stringify var)
                    (car:split-by _ ".")]
-             (dir "snapshots")))
+             (dir "snapshots"))
+      (+ "snapshots/" it)))
 
 (mac load-snapshot(var initval)
   `(aif (most-recent-snapshot-name ,var)
-    (fread it ,var)
-    (or (init ,var ,initval) ,var)))
+      (unless (bound ',var)
+        (init ,var ,initval)
+        (fread it ,var))
+      (or (init ,var ,initval) ,var)))
+
+(mac new-snapshot-name(var)
+  `(+ ,(+ "snapshots/" (stringify var) ".") ,(seconds)))
 
 (mac save-snapshot(var)
   `(fwritefile (new-snapshot-name ,var) ,var))

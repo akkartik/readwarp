@@ -116,6 +116,8 @@ It just shouldn't store by reference. That makes it too confusing.
 
 Got the new transparent persistence working.
 =-=32 - Mon Dec 14 01:23:05 PST 2009
+Bugfix: snapshots were never being loaded.
+=-= - Mon Dec 14 11:30:12 PST 2009
 
 Getting readwarp up on AWS.
 After all that testing turns out I never tested the metadata scan. It was
