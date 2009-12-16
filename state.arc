@@ -80,7 +80,7 @@
             (rotlog ,log-var doc)
             (do1
               (do ,@body)
-              ,(aif nextfifo `(fwrite ,(+ "fifos/" it) doc)))))
+              ,(aif nextfifo `(w/outfile f ,(+ "fifos/" it) (disp doc f))))))
        (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname)))))
 
 
