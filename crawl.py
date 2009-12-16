@@ -22,7 +22,7 @@ def saveUrlMap():
 
 def loadFeeds():
   ans = set()
-  with open('feeds') as input:
+  with open('feeds/All') as input:
     for line in input:
       yield line.rstrip()
 
