@@ -1,9 +1,11 @@
+(= snapshots-dir* "snapshots")
+
 (mac most-recent-snapshot-name(var)
    ;; max works because times lie between 10^9s and 2*10^9s
    `(aif (apply max (keep [iso ,(stringify var)
                    (car:split-by _ ".")]
-             (dir "snapshots")))
-      (+ "snapshots/" it)))
+             (dir snapshots-dir*)))
+      (+ snapshots-dir* "/" it)))
 
 (mac load-snapshot(var initval)
   `(aif (most-recent-snapshot-name ,var)
@@ -13,7 +15,7 @@
       (or (init ,var ,initval) ,var)))
 
 (mac new-snapshot-name(var)
-  `(+ ,(+ "snapshots/" (stringify var) ".") ,(seconds)))
+  `(+ ,(+ snapshots-dir* "/" (stringify var) ".") ,(seconds)))
 
 (mac save-snapshot(var)
   `(fwritefile (new-snapshot-name ,var) ,var))
@@ -148,45 +150,33 @@
                       (pluralized-fnname value-str key-str pluralize-key)
           key-table-name (globalize key-str "s")
           value-table-name (globalize value-str "s")
+          value-table-nil-name (globalize value-str "-nils")
           create-function-name (symize "create-" key-str "-" value-str)
-          set-function-name (symize "set-" key-str "-" value-str)
-          save-function-name (symize "save-" key-str "-" value-str "-tables")
-          load-function-name (symize "load-" key-str "-" value-str "-tables")
-          arg (uniq)
-          fport (uniq)
-          snapshot-file-name (+ key-str "-" value-str "s"))
+          set-function-name (symize "set-" key-str "-" value-str))
 
     `(do
       (setup-autosave ,key-table-name (table))
       (setup-autosave ,value-table-name (table))
+      (setup-autosave ,value-table-nil-name (table))
       (def ,create-function-name(,key-name)
         ,body)
       (def ,set-function-name(,key-name)
         (let ,value-name (,create-function-name ,key-name)
           ,(if forward
-             `(= (,value-table-name ,key-name) ,value-name))
+             `(if ,value-name
+                 (= (,value-table-name ,key-name) ,value-name)
+                 (= (,value-table-nil-name ,key-table-name) t)))
           ,(if backward
              `(update ,key-table-name ,value-name ,policy ,key-name))
           ,value-name))
       (def ,lookup-function-name(,key-name)
-        (or (,value-table-name ,key-name)
-            (,set-function-name ,key-name)))
+        (and (no (,value-table-nil-name ,key-name))
+             (or (,value-table-name ,key-name)
+                 (,set-function-name ,key-name))))
       (def ,reverse-lookup-function-name(,value-name)
         (,key-table-name ,value-name))
       (def ,check-function-name(,key-name)
-        (,value-table-name ,key-name))
-
-      (def ,save-function-name()
-        (w/outfile ,fport (snapshot-name ,snapshot-file-name)
-          (write-table ,key-table-name ,fport)
-          (disp #\newline ,fport)
-          (write-table ,value-table-name ,fport)))
-      (def ,load-function-name()
-        (when (file-exists (snapshot-name ,snapshot-file-name))
-          (prn "Loading " (snapshot-name ,snapshot-file-name))
-          (w/infile ,fport (snapshot-name ,snapshot-file-name)
-            (= ,key-table-name (read-table ,fport))
-            (= ,value-table-name (read-table ,fport))))))))
+        (,value-table-name ,key-name)))))
 
 (def pluralized-fnname(a b bs)
   (symize a "-"

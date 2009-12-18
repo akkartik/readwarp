@@ -40,7 +40,7 @@
   (doc-keywords doc))
 
 (dhash doc keyword "m-n"
-  (rem "" (errsafe:keywords (+ "urls/" doc ".clean"))))
+  (rem blank? (errsafe:keywords (+ "urls/" doc ".clean"))))
 
 
 
@@ -109,6 +109,29 @@
   (aif (read-list user station)
     (rem [iso (feed:car it) feed._] docs)
     docs))
+
+(def kwd-overlap(doc1 doc2)
+  (len:intersection doc-keywords.doc1 doc-keywords.doc2))
+
+(def feed-keywords(feed docs)
+  (dedup:flat:map doc-keywords docs))
+
+(= feed-keywords*(table))
+(def update-feed-keywords()
+  (each doc keys.docinfo*
+    (update feed-keywords* feed.doc rcons doc-keywords.doc)))
+
+(def feed-overlap(f1 f2)
+  (len:intersect feed-keywords*.f1 feed-keywords.f2))
+(= feed-overlap* (table))
+(def update-feed-overlap()
+  (let feeds keys.feed-keywords*
+    (each feed feeds
+      (= feed-overlap*.feed (table)))
+    (each feed feeds
+      (each feed2 (rem feed feeds)
+        (= feed-overlap*.feed.feed2 (or feed-overlap*.feed2.feed
+                                        (feed-overlap feed feed2)))))))
 
 
 

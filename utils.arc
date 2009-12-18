@@ -138,6 +138,9 @@
 (mac append(a b)
   `(= ,a (+ ,a ,b)))
 
+(def intersect(l1 l2)
+  (keep [pos _ l2] l1))
+
 (def aboutnmost(n l (o f id))
   (withs (initans (firstn n (sort-by f l))
           top (last initans)

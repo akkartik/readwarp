@@ -125,3 +125,9 @@ emitting strings with quotes escaped. Fixed.
 =-=33 - Wed Dec 16 01:30:36 PST 2009
 More bugfixing.
 =-=36 - Thu Dec 17 17:18:00 PST 2009
+Compute affinity graph by feed rather than url.
+
+But it was taking too long; dhash wasn't working right. Ah, I never did
+implement the nilcache idea to avoid recomputation.
+Bring back old state.arc tests as well.
+=-=37 - Thu Dec 17 19:55:41 PST 2009
