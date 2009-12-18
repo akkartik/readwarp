@@ -123,3 +123,5 @@ Getting readwarp up on AWS.
 After all that testing turns out I never tested the metadata scan. It was
 emitting strings with quotes escaped. Fixed.
 =-=33 - Wed Dec 16 01:30:36 PST 2009
+More bugfixing.
+=-=36 - Thu Dec 17 17:18:00 PST 2009

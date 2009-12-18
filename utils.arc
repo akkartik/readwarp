@@ -112,7 +112,10 @@
     t2))
 
 (def split-by(seq delim)
-  (split seq (or (pos delim seq) (len seq))))
+  (case type.seq
+    cons    (split seq (or (pos delim seq) (len seq)))
+    string  (split seq (or (posmatch delim seq) (len seq)))
+            (err "bad type for split-by")))
 
 (mac add-to(l v)
   `(push ,v ,l))
