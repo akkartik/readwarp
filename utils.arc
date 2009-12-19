@@ -413,6 +413,12 @@
     (each k args
       (= (ans k) t))))
 
+(mac w/prfile(file . body)
+  (w/uniq outf
+    `(w/outfile ,outf ,file
+      (w/stdout ,outf
+        ,@body))))
+
 (= maintenance-tasks* ())
 (mac periodic-maintenance(maintenance-task . body)
   `(do
