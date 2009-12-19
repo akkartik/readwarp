@@ -63,6 +63,11 @@
   `(zap [rem ,f _] ,l))
 (mac nkeep(f l)
   `(zap [keep ,f _] ,l))
+(mac nmap(f l)
+  `(zap [map ,f _] ,l))
+(mac nmaptable(f tab)
+  `(each k (keys ,tab)
+      (zap ,f (,tab k))))
 
 (def zip l
   (if (all acons l)

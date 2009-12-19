@@ -110,25 +110,21 @@
     (rem [iso (feed:car it) feed._] docs)
     docs))
 
-(def kwd-overlap(doc1 doc2)
-  (len:intersection doc-keywords.doc1 doc-keywords.doc2))
-
-(def feed-keywords(feed docs)
-  (dedup:flat:map doc-keywords docs))
-
 (= feed-keywords*(table))
 (def update-feed-keywords()
   (each doc keys.docinfo*
-    (update feed-keywords* feed.doc rcons doc-keywords.doc)))
+    (update feed-keywords* feed.doc rcons doc-keywords.doc))
+  (nmaptable dedup:flat feed-keywords*))
 
 (def feed-overlap(f1 f2)
-  (len:intersect feed-keywords*.f1 feed-keywords.f2))
+  (len:intersect feed-keywords*.f1 feed-keywords*.f2))
 (= feed-overlap* (table))
 (def update-feed-overlap()
-  (let feeds keys.feed-keywords*
+  (let feeds (w/infile f "xfeeds" (tokens:slurp f)) ;keys.feed-keywords*
     (each feed feeds
       (= feed-overlap*.feed (table)))
-    (each feed feeds
+    (on feed feeds
+      (prn index " " feed)
       (each feed2 (rem feed feeds)
         (= feed-overlap*.feed.feed2 (or feed-overlap*.feed2.feed
                                         (feed-overlap feed feed2)))))))
