@@ -135,3 +135,16 @@ Still struggling to compute feed affinity graph.
 It's too slow. Let's switch to shell pipes. Dev speed includes performance
 when experiments are this intensive and iterations this frequent.
 =-=39 - Fri Dec 18 21:21:02 PST 2009
+
+New python script to try normalizing overlap by keyword between feeds - each
+keyword distributes 1/n to n*n feed connections.
+We're seeing some quality. Krugman's blog is kinda well-connected to financial
+blogs or blogs with kinda financial content.
+
+Next steps:
+  a signal for article-article overlap to help get at financial posts within
+  say larry cheng's feed
+  improve html cleaning to remove spurious overlap
+
+Let's see if we can get by without changing keywords algo.
+=-=41 - Sat Dec 19 15:29:31 PST 2009
