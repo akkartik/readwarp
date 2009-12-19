@@ -165,7 +165,7 @@
           ,(if forward
              `(if ,value-name
                  (= (,value-table-name ,key-name) ,value-name)
-                 (= (,value-table-nil-name ,key-table-name) t)))
+                 (= (,value-table-nil-name ,key-name) t)))
           ,(if backward
              `(update ,key-table-name ,value-name ,policy ,key-name))
           ,value-name))
