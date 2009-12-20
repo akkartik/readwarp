@@ -2,17 +2,26 @@
 
 export LD_LIBRARY_PATH=/Applications/Firefox/Contents/MacOS:$LD_LIBRARY_PATH
 
-FILELIST=`ls test/fixtures/htmlclean/unsorted |grep "\.metadata$" |shuffle`
+FILELIST=`ls test/fixtures/htmlclean/unsorted |grep "\.metadata$" |shuffle |perl -pwe 's,^,test/fixtures/htmlclean/unsorted/,' |perl -pwe 's/\.metadata$//'`
 
 for file in `echo $FILELIST`
 do
-  open -a firefox `python metadata.py test/fixtures/htmlclean/unsorted/$file url`
-  open -a firefox `echo test/fixtures/htmlclean/unsorted/$file |subst "\.metadata$" ".clean"`
+  echo $file
+  open -a firefox `python metadata.py $file.metadata url`
+  open -a firefox $file.clean
   echo "good?"
   read response
   if [[ $response == 'y'* ]]
   then
-    echo YES
+    echo Y
+    mv $file.* test/fixtures/htmlclean/correct
+  elif [[ $response == 'n'* ]]
+  then
+    echo X
+    mv $file.* test/fixtures/htmlclean/wrong
+  elif [[ $response == 'l'* ]]
+  then
+    echo Loose
+    mv $file.* test/fixtures/htmlclean/loose
   fi
-  break
 done
