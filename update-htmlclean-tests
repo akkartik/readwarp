@@ -1,0 +1,18 @@
+#!/bin/zsh
+
+export LD_LIBRARY_PATH=/Applications/Firefox/Contents/MacOS:$LD_LIBRARY_PATH
+
+FILELIST=`ls test/fixtures/htmlclean/unsorted |grep "\.metadata$" |shuffle`
+
+for file in `echo $FILELIST`
+do
+  open -a firefox `python metadata.py test/fixtures/htmlclean/unsorted/$file url`
+  open -a firefox `echo test/fixtures/htmlclean/unsorted/$file |subst "\.metadata$" ".clean"`
+  echo "good?"
+  read response
+  if [[ $response == 'y'* ]]
+  then
+    echo YES
+  fi
+  break
+done
