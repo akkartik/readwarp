@@ -72,6 +72,34 @@ def cleanAll():
         fifo.write(line)
     except: traceback.print_exc(file=sys.stdout)
 
+def testAll():
+  newline=False
+  numcorrect=numincorrect=0
+  for file in os.listdir('test/fixtures/htmlclean/correct'):
+    if file[-4:] == '.raw':
+      f = 'test/fixtures/htmlclean/correct/'+file
+      f2 = 'test/fixtures/htmlclean/correct/'+file[:-3]+'clean'
+      try:
+        expected = open(f2).read()
+        got = cleanup(f)
+        if expected != got:
+          if newLine: print
+          print "failed", doc
+          newLine=False
+          numincorrect+=1
+        else:
+          sys.stdout.write('.')
+          sys.stdout.flush()
+          newLine=True
+          numcorrect+=1
+          continue
+      except: traceback.print_exc(file=sys.stdout)
+
+  if newLine: print
+  print (numcorrect+numincorrect)
+  if numincorrect > 0:
+    print numincorrect, "failed"
+
 def text(s):
   return re.sub(r"\s+", " ", re.sub(r"<[^>]*>", "", s))
 
@@ -80,7 +108,9 @@ if __name__ == '__main__':
     while True:
       cleanAll()
   else:
-    if os.path.exists(sys.argv[1]):
+    if sys.argv[1] == 'test':
+      testAll()
+    elif os.path.exists(sys.argv[1]):
       cleanup(sys.argv[1], debug=True)
     elif os.path.exists('urls/'+sys.argv[1]+'.raw'):
       cleanup('urls/'+sys.argv[1]+'.raw', debug=True)
