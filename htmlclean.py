@@ -73,12 +73,13 @@ def cleanAll():
     except: traceback.print_exc(file=sys.stdout)
 
 def testAll():
+  dir='test/fixtures/htmlclean/correct'
   newline=False
   numcorrect=numincorrect=0
-  for file in os.listdir('test/fixtures/htmlclean/correct'):
+  for file in os.listdir(dir):
     if file[-4:] == '.raw':
-      f = 'test/fixtures/htmlclean/correct/'+file
-      f2 = 'test/fixtures/htmlclean/correct/'+file[:-3]+'clean'
+      f = dir+'/'+file
+      f2 = dir+'/'+file[:-3]+'clean'
       try:
         expected = open(f2).read()
         got = cleanup(f)
