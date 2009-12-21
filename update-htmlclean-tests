@@ -2,13 +2,14 @@
 
 export LD_LIBRARY_PATH=/Applications/Firefox/Contents/MacOS:$LD_LIBRARY_PATH
 
-FILELIST=`ls test/fixtures/htmlclean/unsorted |grep "\.metadata$" |shuffle |perl -pwe 's,^,test/fixtures/htmlclean/unsorted/,' |perl -pwe 's/\.metadata$//'`
+FILELIST=`ls test/fixtures/htmlclean/unsorted |grep "\.metadata$" |shuffle |perl -pwe 's/\.metadata$//'`
 
 idx=0
 for file in `echo $FILELIST`
 do
   echo $idx $file
   idx=$(($idx+1))
+  file=test/fixtures/htmlclean/unsorted/$file
   open -a firefox `python metadata.py $file.metadata url`
   open -a firefox $file.clean
   echo "good?"
