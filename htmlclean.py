@@ -74,7 +74,7 @@ def cleanAll():
 
 def testAll():
   dir='test/fixtures/htmlclean/correct'
-  newline=False
+  newLine=False
   numcorrect=numincorrect=0
   for file in os.listdir(dir):
     if file[-4:] == '.raw':
@@ -85,7 +85,7 @@ def testAll():
         got = cleanup(f)
         if expected != got:
           if newLine: print
-          print "failed", doc
+          print "failed", file
           newLine=False
           numincorrect+=1
         else:
