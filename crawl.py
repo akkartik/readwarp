@@ -4,9 +4,10 @@ UrlOpener = urllib2.build_opener(openanything.SmartRedirectHandler())
 import timeoutsocket
 timeoutsocket.setDefaultSocketTimeout(20)
 
-import feedparser, json
-import feedparser_extensions
+import feedparser, feedparser_extensions
 from BeautifulSoup import BeautifulSoup
+import json
+from json_extensions import to_json
 
 canonical_url = {}
 def loadUrlMap():
@@ -94,7 +95,7 @@ def crawlUrl(rurl, metadata):
     metadata['url'] = url
     try:
       with open(outfilename+'.metadata', 'w') as output:
-        json.dump(metadata, output)
+        json.dump(metadata, output, default=to_json)
     except:
       traceback.print_exc(file=sys.stdout)
       try: os.unlink(outfilename+'.metadata')
@@ -105,6 +106,10 @@ def crawlUrl(rurl, metadata):
 
 def crawl(feed):
   f = feedparser.parse(feed)
+  try:
+    with open("urls/"+urlToFilename(feed)+".feed", 'w') as output:
+      json.dump(f, output, default=to_json)
+  except: traceback.print_exc(file=sys.stdout)
   for item in f.entries:
     try:
       print repr(title(item))

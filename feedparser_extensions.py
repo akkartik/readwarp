@@ -13,7 +13,7 @@ def getFuckingPythonToParseNumericTimezones(dateString, format):
   return datetime.timetuple(datetime.strptime(t, format)
                         + timedelta(hours=int(zh), minutes=int(zm)))
 
-# http://www.aaronsw.com/weblog/index.xml
+# handle http://www.aaronsw.com/weblog/index.xml
 def sillyFormat1(dateString):
   try: return getFuckingPythonToParseNumericTimezones(dateString, "%B %d, %Y")
   except: traceback.print_exc(file=sys.stdout)

@@ -157,3 +157,7 @@ Added failing test cases by searching for commonly-occurring sets of keywords.
 Just make one test case from each such set, that gives us 53 failing tests.
 Ok, we've now got our work cut out for us.
 =-=49 - Mon Dec 21 01:01:44 PST 2009
+
+I need to add hints from feed descriptions. Step 1: crawl feeds to save
+descriptions.
+=-=50 - Tue Dec 22 12:23:03 PST 2009
