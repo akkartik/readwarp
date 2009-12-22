@@ -1,6 +1,11 @@
-import sys, os, time, re, math, string, traceback
+import sys, os, time, re, math, string, traceback, json
 from BeautifulSoup import BeautifulSoup
 import StringIO
+
+def sortedKeys(h):
+  l = h.keys()
+  l.sort(cmp=lambda x,y: -cmp(h[x], h[y]))
+  return l
 
 badParaRegex = re.compile("comment|meta|footer|footnote")
 goodParaRegex = re.compile("^(post|hentry|entry[-]?(content|text|body)?|article[-]?(content|text|body)?)$")
@@ -28,9 +33,36 @@ def score(node):
   ans += commaCount(node)
   return ans
 
+def urlToFilename(url):
+  return re.sub(r'[^a-zA-Z0-9]', '_', url)
+
+def desc(item):
+  if item.has_key('content'):
+    return item['content'][0]['value']
+  elif item.has_key('summary'):
+    return item['summary']
+  else:
+    raise "blahblah"
+
+def hint_contents(file):
+  try:
+    doc = (file.split('/')[-1])[:-4]
+    mdata = json.load(open('urls/'+doc+'.metadata'))
+    for item in json.load(open('urls/'+urlToFilename(mdata['feed'])+'.feed'))['entries']:
+      if item['link'] == mdata['url']:
+        try: return desc(item)
+        except:
+          print "ZZZZZZZZZZZ"
+          print item
+          print item.keys()
+          traceback.print_exc(file=sys.stdout)
+  except: return ''
+
 # readability plugin
 def cleanup(file, debug=False):
   contents = open(file).read()
+  deschint = hint_contents(file)
+  print deschint.__class__
   soup = BeautifulSoup(re.sub(r"<br\s*/?\s*>\s*<br\s*/?\s*>", "</p><p>", contents))
   allParagraphs = soup.findAll('p')
 
@@ -46,15 +78,14 @@ def cleanup(file, debug=False):
       contentLikelihood[pars] += math.log(len(re.sub(r"<[^>]*>", "", para.renderContents())))
     contentLikelihood[pars] += commaCount(para)
 
-  topDiv = None
-  for node in contentLikelihood.keys():
+  for node in sortedKeys(contentLikelihood):
     if debug:
       print "==", contentLikelihood[node]
       print node
-    if topDiv == None or contentLikelihood[node] > contentLikelihood[topDiv]:
-      topDiv = node
+    if not deschint or deschint in node:
+      return node
 
-  return topDiv
+  return ''
 
 def commaCount(node):
   return len(node.renderContents().split(','))

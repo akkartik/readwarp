@@ -161,3 +161,9 @@ Ok, we've now got our work cut out for us.
 I need to add hints from feed descriptions. Step 1: crawl feeds to save
 descriptions.
 =-=50 - Tue Dec 22 12:23:03 PST 2009
+Step 2: use the deschint: if it exists return the highest-scoring node that
+contains the hint as a substring.
+
+Unicode errors; I'm going over this tutorial:
+  http://docs.python.org/howto/unicode.html
+=-=51 - Tue Dec 22 13:55:41 PST 2009
