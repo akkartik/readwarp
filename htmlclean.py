@@ -2,6 +2,8 @@ import sys, os, time, re, math, string, traceback, json
 from BeautifulSoup import BeautifulSoup
 import StringIO
 
+import difflib
+
 def sortedKeys(h):
   l = h.keys()
   l.sort(cmp=lambda x,y: -cmp(h[x], h[y]))
@@ -55,14 +57,25 @@ def hint_contents(file):
           print "ZZZZZZZZZZZ"
           print item
           print item.keys()
-          traceback.print_exc(file=sys.stdout)
-  except: return ''
+          raise
+  except: pass #traceback.print_exc(file=sys.stdout)
+  return ''
 
-# readability plugin
+def fuzzymatch(a, b):
+  s=difflib.SequenceMatcher(a=a, b=b)
+  lens = [x[2] for x in s.get_matching_blocks()]
+  print s.get_matching_blocks()
+  print lens
+  print sum(lens), len(b), float(sum(lens))/len(b)
+#?   lens.sort()
+  print float(sum(lens))/len(b) > 0.8
+  return float(sum(lens))/len(b) > 0.8
+
 def cleanup(file, debug=False):
+  print file
   contents = open(file).read()
   deschint = hint_contents(file)
-  print deschint.__class__
+  print len(deschint), deschint
   soup = BeautifulSoup(re.sub(r"<br\s*/?\s*>\s*<br\s*/?\s*>", "</p><p>", contents))
   allParagraphs = soup.findAll('p')
 
@@ -70,8 +83,13 @@ def cleanup(file, debug=False):
   for para in allParagraphs:
     parent = para.parent
     pars = str(parent)
+    print "==", len(pars)
+    print pars
+#?     pars = unicode(pars, errors='ignore')
     if not contentLikelihood.has_key(pars):
       contentLikelihood[pars] = init(parent)
+    if deschint != '':
+      fuzzymatch(pars, deschint)
 
     text = re.sub(r"<[^>]*>", "", para.renderContents())
     if len(text) > 40:
@@ -82,7 +100,9 @@ def cleanup(file, debug=False):
     if debug:
       print "==", contentLikelihood[node]
       print node
-    if not deschint or deschint in node:
+      print "=="
+      print deschint
+    if deschint == '' or fuzzymatch(node, deschint):
       return node
 
   return ''
@@ -103,34 +123,24 @@ def cleanAll():
         fifo.write(line)
     except: traceback.print_exc(file=sys.stdout)
 
+def test(f):
+  f2 = f[:-3]+'clean'
+  expected = open(f2).read()
+  got = cleanup(f)
+  print got
+  return fuzzymatch(got, expected)
+
 def testAll():
   dir='test/fixtures/htmlclean/correct'
   newLine=False
   numcorrect=numincorrect=0
+  index=0
   for file in os.listdir(dir):
     if file[-4:] == '.raw':
-      f = dir+'/'+file
-      f2 = dir+'/'+file[:-3]+'clean'
-      try:
-        expected = open(f2).read()
-        got = cleanup(f)
-        if expected != got:
-          if newLine: print
-          print "failed", file
-          newLine=False
-          numincorrect+=1
-        else:
-          sys.stdout.write('.')
-          sys.stdout.flush()
-          newLine=True
-          numcorrect+=1
-          continue
-      except: traceback.print_exc(file=sys.stdout)
+      index+=1
+      if index>10: continue
 
-  if newLine: print
-  print (numcorrect+numincorrect)
-  if numincorrect > 0:
-    print numincorrect, "failed"
+      test(dir+'/'+file)
 
 def text(s):
   return re.sub(r"\s+", " ", re.sub(r"<[^>]*>", "", s))
@@ -141,10 +151,15 @@ if __name__ == '__main__':
       cleanAll()
   else:
     if sys.argv[1] == 'test':
-      testAll()
+      if len(sys.argv) == 2:
+        testAll()
+      elif os.path.exists('test/fixtures/htmlclean/correct/'+sys.argv[2]):
+        test('test/fixtures/htmlclean/correct/'+sys.argv[2])
+      elif os.path.exists('test/fixtures/htmlclean/correct/'+sys.argv[2]+'.raw'):
+        test('test/fixtures/htmlclean/correct/'+sys.argv[2]+'.raw')
     elif os.path.exists(sys.argv[1]):
       cleanup(sys.argv[1], debug=True)
     elif os.path.exists('urls/'+sys.argv[1]+'.raw'):
       cleanup('urls/'+sys.argv[1]+'.raw', debug=True)
-    elif os.path.exists('test/htmlclean/'+sys.argv[1]):
-      cleanup('test/htmlclean/'+sys.argv[1], debug=True)
+    elif os.path.exists('test/fixtures/htmlclean/correct/'+sys.argv[1]):
+      cleanup('test/fixtures/htmlclean/correct/'+sys.argv[1], debug=True)
