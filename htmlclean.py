@@ -43,13 +43,14 @@ def desc(item):
     return item['content'][0]['value']
   elif item.has_key('summary'):
     return item['summary']
+  elif item.has_key('description'):
+    return item['description']
   else:
     raise "blahblah"
 
 def hint_contents(file):
   try:
-    doc = (file.split('/')[-1])[:-4]
-    mdata = json.load(open('urls/'+doc+'.metadata'))
+    mdata = json.load(open(file[:-4]+'.metadata'))
     if mdata.has_key('description'): return mdata['description']
 
     for item in json.load(open('urls/'+urlToFilename(mdata['feed'])+'.feed'))['entries']:
@@ -71,6 +72,9 @@ def fuzzymatch(a, b):
 def cleanup(file, debug=False):
   contents = open(file).read()
   deschint = hint_contents(file)
+  if debug:
+    print "== deschint"
+    print deschint
   soup = BeautifulSoup(re.sub(r"<br\s*/?\s*>\s*<br\s*/?\s*>", "</p><p>", contents))
   allParagraphs = soup.findAll('p')
 
@@ -89,6 +93,7 @@ def cleanup(file, debug=False):
 
   matchscore = {}
   candidates = sortedKeys(contentLikelihood)
+  if debug: print "==", len(candidates), "candidates"
   for node in candidates:
     if debug:
       print "==", contentLikelihood[node]
@@ -118,14 +123,15 @@ def cleanAll():
         fifo.write(line)
     except: traceback.print_exc(file=sys.stdout)
 
-def test(f):
+def test(f, debug=False):
   f2 = f[:-3]+'clean'
   expected = open(f2).read()
-  got = cleanup(f)
+  got = cleanup(f, debug)
   passed = fuzzymatch(got, expected)
   if not passed:
     with open(f2+'.error', 'w') as output:
       output.write(got)
+  if debug: print passed
   return passed
 
 def testAll():
@@ -156,9 +162,9 @@ if __name__ == '__main__':
       if len(sys.argv) == 2:
         testAll()
       elif os.path.exists('test/fixtures/htmlclean/correct/'+sys.argv[2]):
-        test('test/fixtures/htmlclean/correct/'+sys.argv[2])
+        test('test/fixtures/htmlclean/correct/'+sys.argv[2], debug=True)
       elif os.path.exists('test/fixtures/htmlclean/correct/'+sys.argv[2]+'.raw'):
-        test('test/fixtures/htmlclean/correct/'+sys.argv[2]+'.raw')
+        test('test/fixtures/htmlclean/correct/'+sys.argv[2]+'.raw', debug=True)
     elif os.path.exists(sys.argv[1]):
       cleanup(sys.argv[1], debug=True)
     elif os.path.exists('urls/'+sys.argv[1]+'.raw'):

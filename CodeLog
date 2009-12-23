@@ -183,3 +183,5 @@ We've been under-estimating how well deschint does because these failures
 aren't in their feeds anymore. Let's manually add hints, then try it on live
 data.
 =-=57 - Wed Dec 23 12:50:21 PST 2009
+Hints manually added; 23 more tests pass, 31 still failing.
+=-=59 - Wed Dec 23 13:50:59 PST 2009
