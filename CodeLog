@@ -171,3 +171,5 @@ Unicode errors; I'm going over this tutorial:
 Turns out sorting by score then searching for a superset of deschint isn't
 working.
 =-=53 - Wed Dec 23 00:12:14 PST 2009
+Fixed. 12 more tests passing.
+=-=54 - Wed Dec 23 00:28:47 PST 2009

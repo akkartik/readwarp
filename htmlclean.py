@@ -64,18 +64,11 @@ def hint_contents(file):
 def fuzzymatch(a, b):
   s=difflib.SequenceMatcher(a=a, b=b)
   lens = [x[2] for x in s.get_matching_blocks()]
-  print s.get_matching_blocks()
-  print lens
-  print sum(lens), len(b), float(sum(lens))/len(b)
-#?   lens.sort()
-  print float(sum(lens))/len(b) > 0.8
   return float(sum(lens))/len(b) > 0.8
 
 def cleanup(file, debug=False):
-  print file
   contents = open(file).read()
   deschint = hint_contents(file)
-  print len(deschint), deschint
   soup = BeautifulSoup(re.sub(r"<br\s*/?\s*>\s*<br\s*/?\s*>", "</p><p>", contents))
   allParagraphs = soup.findAll('p')
 
@@ -83,29 +76,30 @@ def cleanup(file, debug=False):
   for para in allParagraphs:
     parent = para.parent
     pars = str(parent)
-    print "==", len(pars)
-    print pars
 #?     pars = unicode(pars, errors='ignore')
     if not contentLikelihood.has_key(pars):
       contentLikelihood[pars] = init(parent)
-    if deschint != '':
-      fuzzymatch(pars, deschint)
 
     text = re.sub(r"<[^>]*>", "", para.renderContents())
     if len(text) > 40:
       contentLikelihood[pars] += math.log(len(re.sub(r"<[^>]*>", "", para.renderContents())))
     contentLikelihood[pars] += commaCount(para)
 
-  for node in sortedKeys(contentLikelihood):
+  matchscore = {}
+  candidates = sortedKeys(contentLikelihood)
+  for node in candidates:
     if debug:
       print "==", contentLikelihood[node]
       print node
       print "=="
       print deschint
-    if deschint == '' or fuzzymatch(node, deschint):
+    if deschint == '': return node
+    matchscore[node] = fuzzymatch(node, deschint)
+    if matchscore[node]:
       return node
 
-  return ''
+  try: return candidates[0]
+  except: return ''
 
 def commaCount(node):
   return len(node.renderContents().split(','))
@@ -113,7 +107,6 @@ def commaCount(node):
 def cleanAll():
   for line in open("fifos/crawl").readlines():
     doc = line[:-1]
-    print doc
     f = 'urls/'+doc+'.raw'
     f2 = 'urls/'+doc+'.clean'
     try:
@@ -127,20 +120,23 @@ def test(f):
   f2 = f[:-3]+'clean'
   expected = open(f2).read()
   got = cleanup(f)
-  print got
   return fuzzymatch(got, expected)
 
 def testAll():
   dir='test/fixtures/htmlclean/correct'
   newLine=False
   numcorrect=numincorrect=0
-  index=0
   for file in os.listdir(dir):
     if file[-4:] == '.raw':
-      index+=1
-      if index>10: continue
-
-      test(dir+'/'+file)
+      if not test(dir+'/'+file):
+        print "failed", file[:-4]
+        numincorrect+=1
+      else:
+        print "passed", file[:-4]
+        numcorrect+=1
+      sys.stdout.flush()
+  print numcorrect+numincorrect
+  print numincorrect, "failed"
 
 def text(s):
   return re.sub(r"\s+", " ", re.sub(r"<[^>]*>", "", s))
