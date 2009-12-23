@@ -173,3 +173,13 @@ working.
 =-=53 - Wed Dec 23 00:12:14 PST 2009
 Fixed. 12 more tests passing.
 =-=54 - Wed Dec 23 00:28:47 PST 2009
+Evaluating the html cleaning process. We have 4 kinds of errors:
+  Fixating on common content, either subtitles or sidebar
+  Picking a comment instead of the post, usually when there's lots of comments
+    slashdot, etc.
+  Picking too much
+  Picking too little
+We've been under-estimating how well deschint does because these failures
+aren't in their feeds anymore. Let's manually add hints, then try it on live
+data.
+=-=57 - Wed Dec 23 12:50:21 PST 2009

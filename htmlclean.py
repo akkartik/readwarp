@@ -122,7 +122,11 @@ def test(f):
   f2 = f[:-3]+'clean'
   expected = open(f2).read()
   got = cleanup(f)
-  return fuzzymatch(got, expected)
+  passed = fuzzymatch(got, expected)
+  if not passed:
+    with open(f2+'.error', 'w') as output:
+      output.write(got)
+  return passed
 
 def testAll():
   dir='test/fixtures/htmlclean/correct'
