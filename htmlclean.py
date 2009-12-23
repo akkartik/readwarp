@@ -64,10 +64,33 @@ def hint_contents(file):
   except: pass
   return ''
 
-def fuzzymatch(a, b):
-  s=difflib.SequenceMatcher(a=a, b=b)
+def matching_size(a, b, debug):
+  s = difflib.SequenceMatcher(a=a, b=b)
   lens = [x[2] for x in s.get_matching_blocks()]
-  return float(sum(lens))/len(b) > 0.8
+  if debug:
+    print "=="
+    print b
+    print sum(lens), len(b), s.get_matching_blocks()
+  return sum(lens)
+
+def fuzzymatch(a, b, debug=False):
+  print min(len(a), len(b))
+  return (float(max(matching_size(a,b,debug), matching_size(b,a,debug))) /
+            min(len(a), len(b))) > 0.8
+
+def pickTopMatchingCandidate(candidates, scores, hint, debug):
+  if debug: print "==", len(candidates), "candidates"
+
+  for node in candidates:
+    if debug:
+      print "==", scores[node]
+      print node
+      print "=="
+      print hint
+    if hint == '' or fuzzymatch(node, hint):
+      return node
+
+  return None
 
 def cleanup(file, debug=False):
   contents = open(file).read()
@@ -78,6 +101,7 @@ def cleanup(file, debug=False):
   soup = BeautifulSoup(re.sub(r"<br\s*/?\s*>\s*<br\s*/?\s*>", "</p><p>", contents))
   allParagraphs = soup.findAll('p')
 
+  if debug: print "== Phase 1"
   contentLikelihood = {}
   for para in allParagraphs:
     parent = para.parent
@@ -91,22 +115,29 @@ def cleanup(file, debug=False):
       contentLikelihood[pars] += math.log(len(re.sub(r"<[^>]*>", "", para.renderContents())))
     contentLikelihood[pars] += commaCount(para)
 
-  matchscore = {}
   candidates = sortedKeys(contentLikelihood)
-  if debug: print "==", len(candidates), "candidates"
-  for node in candidates:
-    if debug:
-      print "==", contentLikelihood[node]
-      print node
-      print "=="
-      print deschint
-    if deschint == '': return node
-    matchscore[node] = fuzzymatch(node, deschint)
-    if matchscore[node]:
-      return node
+  pick = pickTopMatchingCandidate(candidates, contentLikelihood, deschint, debug)
+  if pick: return pick
+  try: top_candidate_without_match = candidates[0]
+  except: top_candidate_without_match = ''
 
-  try: return candidates[0]
-  except: return ''
+  if debug: print "== Phase 2"
+  contentLikelihood = {}
+  for node in soup.findAll(True):
+    s = str(node)
+    if not contentLikelihood.has_key(s):
+      contentLikelihood[s] = init(node)
+
+    text = re.sub(r"<[^>]*>", "", node.renderContents())
+    if len(text) > 40:
+      contentLikelihood[s] += math.log(len(re.sub(r"<[^>]*>", "", node.renderContents())))
+    contentLikelihood[s] += commaCount(node)
+
+  candidates = sortedKeys(contentLikelihood)
+  pick = pickTopMatchingCandidate(candidates, contentLikelihood, deschint, debug)
+  if pick: return pick
+
+  return top_candidate_without_match
 
 def commaCount(node):
   return len(node.renderContents().split(','))
@@ -127,7 +158,9 @@ def test(f, debug=False):
   f2 = f[:-3]+'clean'
   expected = open(f2).read()
   got = cleanup(f, debug)
-  passed = fuzzymatch(got, expected)
+  print "==="
+  print got
+  passed = fuzzymatch(got, expected, debug)
   if not passed:
     with open(f2+'.error', 'w') as output:
       output.write(got)
