@@ -168,3 +168,6 @@ Unicode errors; I'm going over this tutorial:
   http://docs.python.org/howto/unicode.html
 =-=51 - Tue Dec 22 13:55:41 PST 2009
 =-=52 - Tue Dec 22 20:16:06 PST 2009
+Turns out sorting by score then searching for a superset of deschint isn't
+working.
+=-=53 - Wed Dec 23 00:12:14 PST 2009
