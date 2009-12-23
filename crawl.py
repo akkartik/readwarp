@@ -91,9 +91,12 @@ def crawlUrl(rurl, metadata):
     os.unlink(outfilename+'.raw')
     return
 
-  if not os.path.exists(outfilename+'.metadata'):
+  flag=os.path.exists(outfilename+'.metadata')
+
+  if True: #not os.path.exists(outfilename+'.metadata'):
     metadata['url'] = url
     try:
+      print "writing mdata", outfilename
       with open(outfilename+'.metadata', 'w') as output:
         json.dump(metadata, output, default=to_json)
     except:
@@ -101,19 +104,16 @@ def crawlUrl(rurl, metadata):
       try: os.unlink(outfilename+'.metadata')
       except os.OSError: pass
 
-  with open('fifos/crawl', 'w') as fifo:
-    fifo.write(doc+"\n")
+  if not flag:
+    with open('fifos/crawl', 'w') as fifo:
+      fifo.write(doc+"\n")
 
 def crawl(feed):
   f = feedparser.parse(feed)
-  try:
-    with open("urls/"+urlToFilename(feed)+".feed", 'w') as output:
-      json.dump(f, output, default=to_json)
-  except: traceback.print_exc(file=sys.stdout)
   for item in f.entries:
     try:
       print repr(title(item))
-      crawlUrl(item.link, {'title': title(item), 'feedtitle': f.feed.title, 'date': date(item), 'feeddate': time.mktime(time.gmtime()), 'feed': feed, 'site': site(f)})
+      crawlUrl(item.link, {'title': title(item), 'feedtitle': f.feed.title, 'date': date(item), 'feeddate': time.mktime(time.gmtime()), 'feed': feed, 'site': site(f), 'description': desc(item)})
     except: traceback.print_exc(file=sys.stdout)
 
 def date(item):
@@ -127,6 +127,14 @@ def site(f):
 def title(item):
   try: return item.title
   except: return None
+
+def desc(item):
+  if item.has_key('content'):
+    return item['content'][0]['value']
+  elif item.has_key('summary'):
+    return item['summary']
+  else:
+    raise "blahblah"
 
 if __name__ == '__main__':
   loadUrlMap()

@@ -35,29 +35,11 @@ def score(node):
   ans += commaCount(node)
   return ans
 
-def urlToFilename(url):
-  return re.sub(r'[^a-zA-Z0-9]', '_', url)
-
-def desc(item):
-  if item.has_key('content'):
-    return item['content'][0]['value']
-  elif item.has_key('summary'):
-    return item['summary']
-  else:
-    raise "blahblah"
-
 def hint_contents(file):
   try:
     doc = (file.split('/')[-1])[:-4]
     mdata = json.load(open('urls/'+doc+'.metadata'))
-    for item in json.load(open('urls/'+urlToFilename(mdata['feed'])+'.feed'))['entries']:
-      if item['link'] == mdata['url']:
-        try: return desc(item)
-        except:
-          print "ZZZZZZZZZZZ"
-          print item
-          print item.keys()
-          raise
+    return mdata['description']
   except: pass #traceback.print_exc(file=sys.stdout)
   return ''
 
