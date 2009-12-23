@@ -2,7 +2,8 @@ import sys, os, time, re, math, string, traceback, json
 from BeautifulSoup import BeautifulSoup
 import StringIO
 
-import difflib
+#? import difflib
+from diff_match_patch import diff_match_patch
 
 def sortedKeys(h):
   l = h.keys()
@@ -64,19 +65,33 @@ def hint_contents(file):
   except: pass
   return ''
 
-def matching_size(a, b, debug):
-  s = difflib.SequenceMatcher(a=a, b=b)
-  lens = [x[2] for x in s.get_matching_blocks()]
-  if debug:
-    print "=="
-    print b
-    print sum(lens), len(b), s.get_matching_blocks()
-  return sum(lens)
+#? def matching_size(a, b, debug):
+#?   s = difflib.SequenceMatcher(a=a, b=b)
+#?   lens = [x[2] for x in s.get_matching_blocks()]
+#?   if debug:
+#?     print "=="
+#?     print b
+#?     print sum(lens), len(b), s.get_matching_blocks()
+#?     for x,y,z in s.get_matching_blocks():
+#?       print a[x:x+z]
+#?   return sum(lens)
+
+#? def fuzzymatch(a, b, debug=False):
+#?   print min(len(a), len(b))
+#?   return (float(max(matching_size(a,b,debug), matching_size(b,a,debug))) /
+#?             min(len(a), len(b))) > 0.8
+
+def isa(var, type):
+  return var.__class__.__name__ == type
 
 def fuzzymatch(a, b, debug=False):
-  print min(len(a), len(b))
-  return (float(max(matching_size(a,b,debug), matching_size(b,a,debug))) /
-            min(len(a), len(b))) > 0.8
+  if isa(a, 'str'): a = unicode(a, errors='ignore')
+  if isa(b, 'str'): b = unicode(b, errors='ignore')
+  s = diff_match_patch()
+  dr = min(len(a), len(b))
+  commons = [x[1] for x in s.diff_main(a, b) if x[0] == 0]
+  if debug: print commons
+  return float(sum([len(x) for x in commons]) - len(commons))/dr > 0.8
 
 def pickTopMatchingCandidate(candidates, scores, hint, debug):
   if debug: print "==", len(candidates), "candidates"
@@ -158,8 +173,8 @@ def test(f, debug=False):
   f2 = f[:-3]+'clean'
   expected = open(f2).read()
   got = cleanup(f, debug)
-  print "==="
-  print got
+#?   print "==="
+#?   print got
   passed = fuzzymatch(got, expected, debug)
   if not passed:
     with open(f2+'.error', 'w') as output:

@@ -187,3 +187,10 @@ Hints manually added; 23 more tests pass, 31 still failing.
 =-=59 - Wed Dec 23 13:50:59 PST 2009
 Focussing on tweets. Why is so little matching?
 =-=60 - Wed Dec 23 14:18:07 PST 2009
+difflib limitation. Switched to http://code.google.com/p/google-diff-match-patch
+Now we're down to 10 failing tests, but with two caveats:
+  a) The new code is *much* slower. 150 tests took 34 minutes, which used to
+  take ~1-2 minutes.
+  b) We're probably under-counting failures because too-loose failures no
+  longer get detected.
+=-=61 - Wed Dec 23 15:55:08 PST 2009
