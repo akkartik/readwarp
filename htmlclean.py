@@ -1,13 +1,9 @@
 import sys, os, time, re, math, string, traceback, json
 from BeautifulSoup import BeautifulSoup
 import StringIO
+from utils import *
 
 from diff_match_patch import diff_match_patch
-
-def sortedKeys(h):
-  l = h.keys()
-  l.sort(cmp=lambda x,y: -cmp(h[x], h[y]))
-  return l
 
 badParaRegex = re.compile("comment|meta|footer|footnote")
 goodParaRegex = re.compile("^(post|hentry|entry[-]?(content|text|body)?|article[-]?(content|text|body)?)$")
@@ -32,9 +28,6 @@ def score(node):
   ans += lenScore(node)
   ans += commaCount(node)
   return ans
- 
-def urlToFilename(url):
-  return re.sub(r'[^a-zA-Z0-9]', '_', url)
 
 def desc(item):
   if item.has_key('content'):
@@ -61,25 +54,6 @@ def hint_contents(file):
           raise
   except: pass
   return ''
-
-#? def matching_size(a, b, debug):
-#?   s = difflib.SequenceMatcher(a=a, b=b)
-#?   lens = [x[2] for x in s.get_matching_blocks()]
-#?   if debug:
-#?     print "=="
-#?     print b
-#?     print sum(lens), len(b), s.get_matching_blocks()
-#?     for x,y,z in s.get_matching_blocks():
-#?       print a[x:x+z]
-#?   return sum(lens)
-
-#? def fuzzymatch(a, b, debug=False):
-#?   print min(len(a), len(b))
-#?   return (float(max(matching_size(a,b,debug), matching_size(b,a,debug))) /
-#?             min(len(a), len(b))) > 0.8
-
-def isa(var, type):
-  return var.__class__.__name__ == type
 
 def fuzzymatch(a, b, debug=False):
   if isa(a, 'str'): a = unicode(a, errors='ignore')
@@ -140,7 +114,6 @@ def cleanup(file, debug=False):
       scores[str(node)] = score(node)/math.log(l)
 
   candidates = sortedKeys(scores)
-  print "pick"
   pick = pickTopMatchingCandidate(candidates, scores, deschint, debug)
   if pick: return pick
 
@@ -176,14 +149,10 @@ def fuzzycheck(expected, got, debug=False):
   if not match: return False
 
   dilution = float(len(expected))/len(got)
-#?   if txtlen(got) > 0:
-#?     dilution = float(txtlen(expected))/txtlen(got)
-#?   else: dilution = 1.0
   passed = dilution > 0.6
-#?   passed = (match and dilution > 0.6 and dilution < 2.0)
-  if True: #match and dilution > 0.5:
+  if match and dilution > 0.5:
     print match, dilution
-#?   if debug: print passed, match, dilution
+  if debug: print passed, match, dilution
   if dilution > 1.5:
     print expected
     print "==="
@@ -194,16 +163,15 @@ def fuzzycheck(expected, got, debug=False):
 def test(f, debug=False):
   f2 = f[:-3]+'clean'
   expected = open(f2).read()
-#?   got = cleanup(f, debug)
-  got = open('new/'+f2.split('/')[-1]+'.error').read()
+  got = cleanup(f, debug)
   passed = fuzzycheck(expected, got, debug)
 
-#?   if True: #not passed:
-#?     with open(f2+'.error', 'w') as output:
-#?       output.write(got)
-#?   else:
-#?     try: os.unlink(f2+'.error')
-#?     except OSError: pass
+  if not passed:
+    with open(f2+'.error', 'w') as output:
+      output.write(got)
+  else:
+    try: os.unlink(f2+'.error')
+    except OSError: pass
   return passed
 
 def testAll():

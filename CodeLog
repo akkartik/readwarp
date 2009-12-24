@@ -206,3 +206,5 @@ failing, but I'm finally certain I'm not over-counting.
 This took too long. I'd introduced a bug in fuzzymatch, then spent all day
 staring at fuzzycheck.
 =-=65 - Thu Dec 24 11:30:08 PST 2009
+Cleanup.
+=-=66 - Thu Dec 24 12:02:12 PST 2009

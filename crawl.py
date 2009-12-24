@@ -9,6 +9,8 @@ from BeautifulSoup import BeautifulSoup
 import json
 from json_extensions import to_json
 
+from utils import urlToFilename
+
 canonical_url = {}
 def loadUrlMap():
   global canonical_url
@@ -26,9 +28,6 @@ def loadFeeds():
   with open('feeds/All') as input:
     for line in input:
       yield line.rstrip()
-
-def urlToFilename(url):
-  return re.sub(r'[^a-zA-Z0-9]', '_', url)
 
 def mungeUrl(url):
   ans = re.sub(r'#.*|\?(utm[^&]*&?)*$', '', url)

@@ -1,0 +1,4 @@
+python htmlclean.py test |tee z
+diff <(grep http z) <(grep http new/log) |column 3 |sort |uniq > z2
+grep -f z2 z > z3
+for i in `cat z3 |column 2`; do vi -o new/$i.clean.error test/fixtures/htmlclean/correct/$i.clean -S ztest-passfail.vim; break; done
