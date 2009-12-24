@@ -30,9 +30,7 @@ def init(node):
 
 def score(node):
   ans = init(node)
-  text = re.sub(r"<[^>]*>", "", node.renderContents())
-  if len(text) > 10:
-    ans += math.log(len(text))
+  ans += lenScore(node)
   ans += commaCount(node)
   return ans
  
@@ -96,7 +94,8 @@ def fuzzymatch(a, b, debug=False):
 def pickTopMatchingCandidate(candidates, scores, hint, debug):
   if debug: print "==", len(candidates), "candidates"
 
-  for node in candidates:
+  for i, node in enumerate(candidates):
+    if i > 0 and i % 100 == 0: print "  ", i
     if debug:
       print "==", scores[node]
       print node
@@ -114,48 +113,50 @@ def cleanup(file, debug=False):
     print "== deschint"
     print deschint
   soup = BeautifulSoup(re.sub(r"<br\s*/?\s*>\s*<br\s*/?\s*>", "</p><p>", contents))
-  allParagraphs = soup.findAll('p')
 
   if debug: print "== Phase 1"
-  contentLikelihood = {}
-  for para in allParagraphs:
+  scores = {}
+  for para in soup.findAll('p'):
     parent = para.parent
     pars = str(parent)
-#?     pars = unicode(pars, errors='ignore')
-    if not contentLikelihood.has_key(pars):
-      contentLikelihood[pars] = init(parent)
+    if not scores.has_key(pars):
+      scores[pars] = init(parent)
 
-    text = re.sub(r"<[^>]*>", "", para.renderContents())
-    if len(text) > 40:
-      contentLikelihood[pars] += math.log(len(re.sub(r"<[^>]*>", "", para.renderContents())))
-    contentLikelihood[pars] += commaCount(para)
+    scores[pars] += lenScore(para)
+    scores[pars] += commaCount(para)
 
-  candidates = sortedKeys(contentLikelihood)
-  pick = pickTopMatchingCandidate(candidates, contentLikelihood, deschint, debug)
+  candidates = sortedKeys(scores)
+  pick = pickTopMatchingCandidate(candidates, scores, deschint, debug)
   if pick: return pick
   try: top_candidate_without_match = candidates[0]
   except: top_candidate_without_match = ''
 
   if debug: print "== Phase 2"
-  contentLikelihood = {}
-  for node in soup.findAll(True):
-    s = str(node)
-    if not contentLikelihood.has_key(s):
-      contentLikelihood[s] = init(node)
+  scores = {}
+  candidates = soup.findAll(True)
+  print "phase 2", len(candidates)
+  for i, node in enumerate(candidates):
+    if i > 0 and i % 100 == 0: print " ", i
+    l = txtlen(str(node))
+    if l > 1:
+      scores[str(node)] = score(node)/math.log(l)
 
-    text = re.sub(r"<[^>]*>", "", node.renderContents())
-    if len(text) > 40:
-      contentLikelihood[s] += math.log(len(re.sub(r"<[^>]*>", "", node.renderContents())))
-    contentLikelihood[s] += commaCount(node)
-
-  candidates = sortedKeys(contentLikelihood)
-  pick = pickTopMatchingCandidate(candidates, contentLikelihood, deschint, debug)
+  candidates = sortedKeys(scores)
+  print "pick"
+  pick = pickTopMatchingCandidate(candidates, scores, deschint, debug)
   if pick: return pick
 
   return top_candidate_without_match
 
 def commaCount(node):
   return len(node.renderContents().split(','))
+
+def lenScore(node):
+  text = re.sub
+  text = re.sub(r"<[^>]*>", "", node.renderContents())
+  if len(text) > 40:
+    return math.log(len(text))
+  return 0
 
 def cleanAll():
   for line in open("fifos/crawl").readlines():
@@ -169,6 +170,9 @@ def cleanAll():
         fifo.write(line)
     except: traceback.print_exc(file=sys.stdout)
 
+def txtlen(html):
+  return len(re.sub(r"<[^>]*>", "", html))
+
 def test(f, debug=False):
   f2 = f[:-3]+'clean'
   expected = open(f2).read()
@@ -176,11 +180,14 @@ def test(f, debug=False):
 #?   print "==="
 #?   print got
   match = fuzzymatch(got, expected, debug)
-  dilution = float(len(expected))/len(got)
+  if txtlen(got) > 0:
+    dilution = float(txtlen(expected))/txtlen(got)
+  else: dilution = 1.0
   passed = (match and dilution > 0.6)
-  if debug: print passed, match, dilution
-  if not passed:
+  if match and dilution > 0.5:
     print match, dilution
+  if debug: print passed, match, dilution
+  if True: #not passed:
     with open(f2+'.error', 'w') as output:
       output.write(got)
   else:
