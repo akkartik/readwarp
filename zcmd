@@ -1,0 +1,4 @@
+python htmlclean.py test |tee zlog.curr # HEAD
+python htmlclean.py test |tee zlog.orig # 57
+grep -h http zlog.* |sort |dups > zlog.df
+diff <(sort zlog.orig) zlog.df |grep pass > z.regressions
