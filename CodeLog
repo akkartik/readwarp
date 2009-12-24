@@ -200,3 +200,9 @@ It's only for identifying failing tests, though. Let's focus on making them
 pass more unequivocally.
 =-=62 - Wed Dec 23 16:26:47 PST 2009
 =-=63 - Wed Dec 23 17:55:01 PST 2009
+Debugged the dilution metric. 50 of yesterday's tests are now reclassified as
+failing, but I'm finally certain I'm not over-counting.
+
+This took too long. I'd introduced a bug in fuzzymatch, then spent all day
+staring at fuzzycheck.
+=-=65 - Thu Dec 24 11:30:08 PST 2009

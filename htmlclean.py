@@ -85,10 +85,9 @@ def fuzzymatch(a, b, debug=False):
   if isa(a, 'str'): a = unicode(a, errors='ignore')
   if isa(b, 'str'): b = unicode(b, errors='ignore')
   s = diff_match_patch()
-  dr = min(len(a), len(b))
   commons = [x[1] for x in s.diff_main(a, b) if x[0] == 0]
   if debug: print commons
-  return float(sum([len(x) for x in commons]) - len(commons))/dr > 0.8
+  return float(sum([len(x) for x in commons]) - len(commons))/len(b) > 0.8
 
 def pickTopMatchingCandidate(candidates, scores, hint, debug):
   if debug: print "==", len(candidates), "candidates"
@@ -174,27 +173,37 @@ def txtlen(html):
 
 def fuzzycheck(expected, got, debug=False):
   match = fuzzymatch(got, expected, debug)
-  if txtlen(got) > 0:
-    dilution = float(txtlen(expected))/txtlen(got)
-  else: dilution = 1.0
-  passed = (match and dilution > 0.6)
-  if match and dilution > 0.5:
+  if not match: return False
+
+  dilution = float(len(expected))/len(got)
+#?   if txtlen(got) > 0:
+#?     dilution = float(txtlen(expected))/txtlen(got)
+#?   else: dilution = 1.0
+  passed = dilution > 0.6
+#?   passed = (match and dilution > 0.6 and dilution < 2.0)
+  if True: #match and dilution > 0.5:
     print match, dilution
-  if debug: print passed, match, dilution
+#?   if debug: print passed, match, dilution
+  if dilution > 1.5:
+    print expected
+    print "==="
+    print got
+    os._exit(0)
   return passed
 
 def test(f, debug=False):
   f2 = f[:-3]+'clean'
   expected = open(f2).read()
-  got = cleanup(f, debug)
+#?   got = cleanup(f, debug)
+  got = open('new/'+f2.split('/')[-1]+'.error').read()
   passed = fuzzycheck(expected, got, debug)
 
-  if True: #not passed:
-    with open(f2+'.error', 'w') as output:
-      output.write(got)
-  else:
-    try: os.unlink(f2+'.error')
-    except OSError: pass
+#?   if True: #not passed:
+#?     with open(f2+'.error', 'w') as output:
+#?       output.write(got)
+#?   else:
+#?     try: os.unlink(f2+'.error')
+#?     except OSError: pass
   return passed
 
 def testAll():
