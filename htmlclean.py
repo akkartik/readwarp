@@ -2,7 +2,6 @@ import sys, os, time, re, math, string, traceback, json
 from BeautifulSoup import BeautifulSoup
 import StringIO
 
-#? import difflib
 from diff_match_patch import diff_match_patch
 
 def sortedKeys(h):
@@ -173,12 +172,7 @@ def cleanAll():
 def txtlen(html):
   return len(re.sub(r"<[^>]*>", "", html))
 
-def test(f, debug=False):
-  f2 = f[:-3]+'clean'
-  expected = open(f2).read()
-  got = cleanup(f, debug)
-#?   print "==="
-#?   print got
+def fuzzycheck(expected, got, debug=False):
   match = fuzzymatch(got, expected, debug)
   if txtlen(got) > 0:
     dilution = float(txtlen(expected))/txtlen(got)
@@ -187,6 +181,14 @@ def test(f, debug=False):
   if match and dilution > 0.5:
     print match, dilution
   if debug: print passed, match, dilution
+  return passed
+
+def test(f, debug=False):
+  f2 = f[:-3]+'clean'
+  expected = open(f2).read()
+  got = cleanup(f, debug)
+  passed = fuzzycheck(expected, got, debug)
+
   if True: #not passed:
     with open(f2+'.error', 'w') as output:
       output.write(got)
