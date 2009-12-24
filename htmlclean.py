@@ -175,11 +175,17 @@ def test(f, debug=False):
   got = cleanup(f, debug)
 #?   print "==="
 #?   print got
-  passed = fuzzymatch(got, expected, debug)
+  match = fuzzymatch(got, expected, debug)
+  dilution = float(len(expected))/len(got)
+  passed = (match and dilution > 0.6)
+  if debug: print passed, match, dilution
   if not passed:
+    print match, dilution
     with open(f2+'.error', 'w') as output:
       output.write(got)
-  if debug: print passed
+  else:
+    try: os.unlink(f2+'.error')
+    except OSError: pass
   return passed
 
 def testAll():

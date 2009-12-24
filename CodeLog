@@ -194,3 +194,8 @@ Now we're down to 10 failing tests, but with two caveats:
   b) We're probably under-counting failures because too-loose failures no
   longer get detected.
 =-=61 - Wed Dec 23 15:55:08 PST 2009
+Simple dilution metric to identify failing tests. 0.6 seems like a reasonable
+boundary, but we're gonna occasionally get it wrong.
+It's only for identifying failing tests, though. Let's focus on making them
+pass more unequivocally.
+=-=62 - Wed Dec 23 16:26:47 PST 2009
