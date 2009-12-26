@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-DIR=test/fixtures/htmlclean/unsorted
+DIR=test/fixtures/clean/unsorted
 FILELIST=`ls $DIR |grep "\.metadata$" |shuffle |perl -pwe 's/\.metadata$//'`
 
 idx=0
@@ -11,19 +11,6 @@ do
   file=$DIR/$file
   open -a firefox `python metadata.py $file.metadata url`
   open -a firefox $file.clean
-  echo "good?"
-  read response
-  if [[ $response == 'y'* ]]
-  then
-    echo Y
-    mv $file.* test/fixtures/htmlclean/correct
-  elif [[ $response == 'n'* ]]
-  then
-    echo X
-    mv $file.* test/fixtures/htmlclean/wrong
-  elif [[ $response == 'l'* ]]
-  then
-    echo Loose
-    mv $file.* test/fixtures/htmlclean/loose
-  fi
+  vi $file.raw $file.clean
+  mv $file.* test/fixtures/clean -i
 done

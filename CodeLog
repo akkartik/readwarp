@@ -210,3 +210,9 @@ Cleanup.
 =-=66 - Thu Dec 24 12:02:12 PST 2009
 4 regressions compared to rev 57.
 =-=68 - Thu Dec 24 14:38:07 PST 2009
+Lost momentum yday thinking diff-match-patch too had issues as a difflib.
+
+After adding a couple of test cases today I realize the problem isn't the diff
+algo, but beautifulSoup. When the html breaks it inserts close tags in the
+wrong place.
+=-=69 - Fri Dec 25 20:59:34 PST 2009
