@@ -219,3 +219,6 @@ wrong place.
 No, even the html parsing is fine. So how are we getting close tags in the
 wrong place?
 =-=70 - Fri Dec 25 21:09:51 PST 2009
+Ah, it's the substitution of <br> pairs for <p>'s. Then the <p> within the
+table confuses BeautifulSoup.
+=-=71 - Fri Dec 25 21:16:42 PST 2009
