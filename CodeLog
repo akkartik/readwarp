@@ -222,5 +222,7 @@ wrong place?
 Ah, it's the substitution of <br> pairs for <p>'s. Then the <p> within the
 table confuses BeautifulSoup.
 =-=71 - Fri Dec 25 21:16:42 PST 2009
-Accidentally committed htmlclean.py@60. Back to 68.
-=-=72 - Fri Dec 25 21:25:12 PST 2009
+  [Accidentally committed htmlclean.py@60. Back to 68.
+  =-=72 - Fri Dec 25 21:25:12 PST 2009]
+It's a simple fix! Replace with <p>, not </p><p>. The close tag causes grief.
+=-=73 - Fri Dec 25 21:30:24 PST 2009

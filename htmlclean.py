@@ -84,7 +84,7 @@ def cleanup(file, debug=False):
   if debug:
     print "== deschint"
     print deschint
-  soup = BeautifulSoup(re.sub(r"<br\s*/?\s*>\s*<br\s*/?\s*>", "</p><p>", contents))
+  soup = BeautifulSoup(re.sub(r"<br\s*/?\s*>\s*<br\s*/?\s*>", "<p>", contents))
 
   if debug: print "== Phase 1"
   scores = {}
@@ -122,9 +122,11 @@ def cleanup(file, debug=False):
 def commaCount(node):
   return len(node.renderContents().split(','))
 
+def htmlstrip(s):
+  return re.sub(r"<[^>]*>", "", s)
+
 def lenScore(node):
-  text = re.sub
-  text = re.sub(r"<[^>]*>", "", node.renderContents())
+  text = htmlstrip(node.renderContents())
   if len(text) > 40:
     return math.log(len(text))
   return 0
@@ -142,7 +144,7 @@ def cleanAll():
     except: traceback.print_exc(file=sys.stdout)
 
 def txtlen(html):
-  return len(re.sub(r"<[^>]*>", "", html))
+  return len(htmlstrip(html))
 
 def fuzzycheck(expected, got, debug=False):
   match = fuzzymatch(got, expected, debug)
@@ -189,9 +191,6 @@ def testAll():
       sys.stdout.flush()
   print numcorrect+numincorrect
   print numincorrect, "failed"
-
-def text(s):
-  return re.sub(r"\s+", " ", re.sub(r"<[^>]*>", "", s))
 
 if __name__ == '__main__':
   if len(sys.argv) == 1:
