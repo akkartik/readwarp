@@ -226,3 +226,6 @@ table confuses BeautifulSoup.
   =-=72 - Fri Dec 25 21:25:12 PST 2009]
 It's a simple fix! Replace with <p>, not </p><p>. The close tag causes grief.
 =-=73 - Fri Dec 25 21:30:24 PST 2009
+Ok, convinced myself I don't really have regressions, the new failures are
+because of tighter checks.
+=-=77 - Sat Dec 26 12:35:32 PST 2009
