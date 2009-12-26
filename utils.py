@@ -6,6 +6,9 @@ def sortedKeys(h):
 def isa(var, type):
   return var.__class__.__name__ == type
 
+def slurp(f):
+  return open(f).read()
+
 import re
 def urlToFilename(url):
   return re.sub(r'[^a-zA-Z0-9]', '_', url)

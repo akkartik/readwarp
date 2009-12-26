@@ -216,3 +216,6 @@ After adding a couple of test cases today I realize the problem isn't the diff
 algo, but beautifulSoup. When the html breaks it inserts close tags in the
 wrong place.
 =-=69 - Fri Dec 25 20:59:34 PST 2009
+No, even the html parsing is fine. So how are we getting close tags in the
+wrong place?
+=-=70 - Fri Dec 25 21:09:51 PST 2009

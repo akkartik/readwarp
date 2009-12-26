@@ -1,7 +1,5 @@
 from sys import argv
-
-def slurp(f):
-  return open(f).read()
+from utils import slurp
 
 if argv[1] == 'difflib':
   import difflib
