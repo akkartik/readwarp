@@ -165,8 +165,8 @@ def fuzzycheck(expected, got, debug=False):
 def test(f, debug=False):
   f2 = f[:-3]+'clean'
   expected = open(f2).read()
-  got = cleanup(f, debug)
-  passed = fuzzycheck(expected, got, debug)
+  got = cleanup(f)
+  passed = fuzzycheck(expected, got)
 
   if debug: print passed
   if not passed:
