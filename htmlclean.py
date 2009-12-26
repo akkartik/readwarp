@@ -1,13 +1,9 @@
 import sys, os, time, re, math, string, traceback, json
 from BeautifulSoup import BeautifulSoup
 import StringIO
+from utils import *
 
-import difflib
-
-def sortedKeys(h):
-  l = h.keys()
-  l.sort(cmp=lambda x,y: -cmp(h[x], h[y]))
-  return l
+from diff_match_patch import diff_match_patch
 
 badParaRegex = re.compile("comment|meta|footer|footnote")
 goodParaRegex = re.compile("^(post|hentry|entry[-]?(content|text|body)?|article[-]?(content|text|body)?)$")
@@ -29,14 +25,9 @@ def init(node):
 
 def score(node):
   ans = init(node)
-  text = re.sub(r"<[^>]*>", "", node.renderContents())
-  if len(text) > 10:
-    ans += math.log(len(text))
+  ans += lenScore(node)
   ans += commaCount(node)
   return ans
- 
-def urlToFilename(url):
-  return re.sub(r'[^a-zA-Z0-9]', '_', url)
 
 def desc(item):
   if item.has_key('content'):
@@ -64,24 +55,19 @@ def hint_contents(file):
   except: pass
   return ''
 
-def matching_size(a, b, debug):
-  s = difflib.SequenceMatcher(a=a, b=b)
-  lens = [x[2] for x in s.get_matching_blocks()]
-  if debug:
-    print "=="
-    print b
-    print sum(lens), len(b), s.get_matching_blocks()
-  return sum(lens)
-
 def fuzzymatch(a, b, debug=False):
-  print min(len(a), len(b))
-  return (float(max(matching_size(a,b,debug), matching_size(b,a,debug))) /
-            min(len(a), len(b))) > 0.8
+  if isa(a, 'str'): a = unicode(a, errors='ignore')
+  if isa(b, 'str'): b = unicode(b, errors='ignore')
+  s = diff_match_patch()
+  commons = [x[1] for x in s.diff_main(a, b) if x[0] == 0]
+  if debug: print commons
+  return float(sum([len(x) for x in commons]) - len(commons))/len(b) > 0.8
 
 def pickTopMatchingCandidate(candidates, scores, hint, debug):
   if debug: print "==", len(candidates), "candidates"
 
-  for node in candidates:
+  for i, node in enumerate(candidates):
+    if i > 0 and i % 100 == 0: print "  ", i
     if debug:
       print "==", scores[node]
       print node
@@ -99,48 +85,49 @@ def cleanup(file, debug=False):
     print "== deschint"
     print deschint
   soup = BeautifulSoup(re.sub(r"<br\s*/?\s*>\s*<br\s*/?\s*>", "</p><p>", contents))
-  allParagraphs = soup.findAll('p')
 
   if debug: print "== Phase 1"
-  contentLikelihood = {}
-  for para in allParagraphs:
+  scores = {}
+  for para in soup.findAll('p'):
     parent = para.parent
     pars = str(parent)
-#?     pars = unicode(pars, errors='ignore')
-    if not contentLikelihood.has_key(pars):
-      contentLikelihood[pars] = init(parent)
+    if not scores.has_key(pars):
+      scores[pars] = init(parent)
 
-    text = re.sub(r"<[^>]*>", "", para.renderContents())
-    if len(text) > 40:
-      contentLikelihood[pars] += math.log(len(re.sub(r"<[^>]*>", "", para.renderContents())))
-    contentLikelihood[pars] += commaCount(para)
+    scores[pars] += lenScore(para)
+    scores[pars] += commaCount(para)
 
-  candidates = sortedKeys(contentLikelihood)
-  pick = pickTopMatchingCandidate(candidates, contentLikelihood, deschint, debug)
+  candidates = sortedKeys(scores)
+  pick = pickTopMatchingCandidate(candidates, scores, deschint, debug)
   if pick: return pick
   try: top_candidate_without_match = candidates[0]
   except: top_candidate_without_match = ''
 
   if debug: print "== Phase 2"
-  contentLikelihood = {}
-  for node in soup.findAll(True):
-    s = str(node)
-    if not contentLikelihood.has_key(s):
-      contentLikelihood[s] = init(node)
+  scores = {}
+  candidates = soup.findAll(True)
+  print "phase 2", len(candidates)
+  for i, node in enumerate(candidates):
+    if i > 0 and i % 100 == 0: print " ", i
+    l = txtlen(str(node))
+    if l > 1:
+      scores[str(node)] = score(node)/math.log(l)
 
-    text = re.sub(r"<[^>]*>", "", node.renderContents())
-    if len(text) > 40:
-      contentLikelihood[s] += math.log(len(re.sub(r"<[^>]*>", "", node.renderContents())))
-    contentLikelihood[s] += commaCount(node)
-
-  candidates = sortedKeys(contentLikelihood)
-  pick = pickTopMatchingCandidate(candidates, contentLikelihood, deschint, debug)
+  candidates = sortedKeys(scores)
+  pick = pickTopMatchingCandidate(candidates, scores, deschint, debug)
   if pick: return pick
 
   return top_candidate_without_match
 
 def commaCount(node):
   return len(node.renderContents().split(','))
+
+def lenScore(node):
+  text = re.sub
+  text = re.sub(r"<[^>]*>", "", node.renderContents())
+  if len(text) > 40:
+    return math.log(len(text))
+  return 0
 
 def cleanAll():
   for line in open("fifos/crawl").readlines():
@@ -154,21 +141,41 @@ def cleanAll():
         fifo.write(line)
     except: traceback.print_exc(file=sys.stdout)
 
+def txtlen(html):
+  return len(re.sub(r"<[^>]*>", "", html))
+
+def fuzzycheck(expected, got, debug=False):
+  match = fuzzymatch(got, expected, debug)
+  if not match: return False
+
+  dilution = float(len(expected))/len(got)
+  passed = dilution > 0.6
+  if match and dilution > 0.5:
+    print match, dilution
+  if debug: print passed, match, dilution
+  if dilution > 1.5:
+    print expected
+    print "==="
+    print got
+    os._exit(0)
+  return passed
+
 def test(f, debug=False):
   f2 = f[:-3]+'clean'
   expected = open(f2).read()
   got = cleanup(f, debug)
-  print "==="
-  print got
-  passed = fuzzymatch(got, expected, debug)
+  passed = fuzzycheck(expected, got, debug)
+
   if not passed:
     with open(f2+'.error', 'w') as output:
       output.write(got)
-  if debug: print passed
+  else:
+    try: os.unlink(f2+'.error')
+    except OSError: pass
   return passed
 
 def testAll():
-  dir='test/fixtures/clean'
+  dir='test/fixtures/htmlclean/correct'
   newLine=False
   numcorrect=numincorrect=0
   for file in os.listdir(dir):
@@ -194,13 +201,13 @@ if __name__ == '__main__':
     if sys.argv[1] == 'test':
       if len(sys.argv) == 2:
         testAll()
-      elif os.path.exists('test/fixtures/clean/'+sys.argv[2]):
-        test('test/fixtures/clean/'+sys.argv[2], debug=True)
-      elif os.path.exists('test/fixtures/clean/'+sys.argv[2]+'.raw'):
-        test('test/fixtures/clean/'+sys.argv[2]+'.raw', debug=True)
+      elif os.path.exists('test/fixtures/htmlclean/correct/'+sys.argv[2]):
+        test('test/fixtures/htmlclean/correct/'+sys.argv[2], debug=True)
+      elif os.path.exists('test/fixtures/htmlclean/correct/'+sys.argv[2]+'.raw'):
+        test('test/fixtures/htmlclean/correct/'+sys.argv[2]+'.raw', debug=True)
     elif os.path.exists(sys.argv[1]):
       cleanup(sys.argv[1], debug=True)
     elif os.path.exists('urls/'+sys.argv[1]+'.raw'):
       cleanup('urls/'+sys.argv[1]+'.raw', debug=True)
-    elif os.path.exists('test/fixtures/clean/'+sys.argv[1]):
-      cleanup('test/fixtures/clean/'+sys.argv[1], debug=True)
+    elif os.path.exists('test/fixtures/htmlclean/correct/'+sys.argv[1]):
+      cleanup('test/fixtures/htmlclean/correct/'+sys.argv[1], debug=True)
