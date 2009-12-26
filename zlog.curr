@@ -9,15 +9,6 @@ True 1.0
 passed http___adamconnor_wordpress_com_2008_03_22_finding_music_at_45_
 True 1.0
 passed http___alumnit_ca__apenwarr_log__m_200911
-phase 2 502
-  100
-  200
-  300
-  400
-  500
-   100
-   200
-   300
 failed http___arvindn_livejournal_com_106911_html
 True 1.0
 passed http___asc_parc_blogspot_com_2009_07_social_attention_and_interactions_are_html
@@ -74,9 +65,7 @@ phase 2 325
   200
   300
 failed http___ch_benz_blogspot_com_2009_01_its_not_too_late_for_impeachment_html
-phase 2 74
-True 1.0
-passed http___chalain_livejournal_com_72513_html
+failed http___chalain_livejournal_com_72513_html
 True 1.0
 passed http___chargen_matasano_com_chargen_2009_9_26_ruby_for_pentesters_win32ole_html
 True 1.0
@@ -235,7 +224,7 @@ phase 2 382
   100
   200
   300
-True 0.657118786858
+True 1.00128369705
 passed http___squidlist_com_events_index_php_com_detail_eID_173684_utm_source_feedburner_utm_medium_feed_utm_campaign_Feed_3A_squidlist__28The_Squid_List_29
 True 1.02154828412
 passed http___startupboy_com_2005_11_29_do_animals_laugh_
@@ -394,7 +383,8 @@ failed http___www_creditwritedowns_com_2009_12_christmas_spirit_wall_street_edit
 failed http___www_cringely_com_2009_10_what_goes_around_teledesic_2_0_
 True 1.0
 passed http___www_dailyreckoning_com_au_gold_prediction_2009_11_16_
-failed http___www_electronista_com_articles_09_12_15_lg_samsung_sony_and_valens_found_hdbaset_
+True 1.00099304866
+passed http___www_electronista_com_articles_09_12_15_lg_samsung_sony_and_valens_found_hdbaset_
 failed http___www_fitzblog_com_bid_1963_One_way_ticket_to_Wuhan
 True 0.76368159204
 passed http___www_gigamonkeys_com_blog_2007_05_26_pcl_third_printing_html
@@ -479,3 +469,5 @@ failed http___www_startuplessonslearned_com_2009_08_building_new_startup_hub_htm
 failed http___www_zeldman_com_2009_11_04_crazy_man_at_starbucks_
 True 0.709269662921
 passed http___www_zerohedge_com_article_state_unemployment_ticks_29_states_mass_layoff_events_pick_once_again
+141
+44 failed
