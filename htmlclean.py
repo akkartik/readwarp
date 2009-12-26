@@ -177,7 +177,7 @@ def test(f, debug=False):
   return passed
 
 def testAll():
-  dir='test/fixtures/htmlclean/correct'
+  dir='test/fixtures/clean'
   newLine=False
   numcorrect=numincorrect=0
   for file in os.listdir(dir):
@@ -200,13 +200,13 @@ if __name__ == '__main__':
     if sys.argv[1] == 'test':
       if len(sys.argv) == 2:
         testAll()
-      elif os.path.exists('test/fixtures/htmlclean/correct/'+sys.argv[2]):
-        test('test/fixtures/htmlclean/correct/'+sys.argv[2], debug=True)
-      elif os.path.exists('test/fixtures/htmlclean/correct/'+sys.argv[2]+'.raw'):
-        test('test/fixtures/htmlclean/correct/'+sys.argv[2]+'.raw', debug=True)
+      elif os.path.exists('test/fixtures/clean/'+sys.argv[2]):
+        test('test/fixtures/clean/'+sys.argv[2], debug=True)
+      elif os.path.exists('test/fixtures/clean/'+sys.argv[2]+'.raw'):
+        test('test/fixtures/clean/'+sys.argv[2]+'.raw', debug=True)
     elif os.path.exists(sys.argv[1]):
       cleanup(sys.argv[1], debug=True)
     elif os.path.exists('urls/'+sys.argv[1]+'.raw'):
       cleanup('urls/'+sys.argv[1]+'.raw', debug=True)
-    elif os.path.exists('test/fixtures/htmlclean/correct/'+sys.argv[1]):
-      cleanup('test/fixtures/htmlclean/correct/'+sys.argv[1], debug=True)
+    elif os.path.exists('test/fixtures/clean/'+sys.argv[1]):
+      cleanup('test/fixtures/clean/'+sys.argv[1], debug=True)
