@@ -168,6 +168,7 @@ def test(f, debug=False):
   got = cleanup(f, debug)
   passed = fuzzycheck(expected, got, debug)
 
+  if debug: print passed
   if not passed:
     with open(f2+'.error', 'w') as output:
       output.write(got)
@@ -200,6 +201,8 @@ if __name__ == '__main__':
     if sys.argv[1] == 'test':
       if len(sys.argv) == 2:
         testAll()
+      elif os.path.exists(sys.argv[2]):
+        cleanup(sys.argv[2], debug=True)
       elif os.path.exists('test/fixtures/clean/'+sys.argv[2]):
         test('test/fixtures/clean/'+sys.argv[2], debug=True)
       elif os.path.exists('test/fixtures/clean/'+sys.argv[2]+'.raw'):
