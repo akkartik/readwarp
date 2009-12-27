@@ -79,12 +79,16 @@ def pickTopMatchingCandidate(candidates, scores, hint, debug):
   return None
 
 def cleanup(file, debug=False):
-  contents = open(file).read()
   deschint = hint_contents(file)
   if debug:
     print "== deschint"
     print deschint
-  soup = BeautifulSoup(re.sub(r"<br\s*/?\s*>\s*<br\s*/?\s*>", "<p>", contents))
+  soup = BeautifulSoup(re.sub(r"<br\s*/?\s*>\s*<br\s*/?\s*>", "<p>", slurp(file)))
+
+  for s in soup.findAll('script'): s.extract()
+  for s in soup.findAll('style'): s.extract()
+  for s in soup.findAll('link', attrs={'type': 'text/css'}): s.extract()
+  for s in soup.findAll('form'): s.extract()
 
   if debug: print "== Phase 1"
   scores = {}
@@ -164,7 +168,7 @@ def fuzzycheck(expected, got, debug=False):
 
 def test(f, debug=False):
   f2 = f[:-3]+'clean'
-  expected = open(f2).read()
+  expected = slurp(f2)
   got = cleanup(f)
   passed = fuzzycheck(expected, got)
 
@@ -177,21 +181,32 @@ def test(f, debug=False):
     except OSError: pass
   return passed
 
+def scan(f):
+  soup = BeautifulSoup(re.sub(r"<br\s*/?\s*>\s*<br\s*/?\s*>", "<p>", slurp(f)))
+  print '====', f
+  for elem in soup.findAll(text=re.compile('comments')):
+    print '=='
+    print elem
+  for elem in soup.findAll(text=re.compile('responses', re.I)):
+    print '=='
+    print elem
+
 def testAll():
   dir='test/fixtures/clean'
   newLine=False
   numcorrect=numincorrect=0
   for file in os.listdir(dir):
     if file[-4:] == '.raw':
-      if not test(dir+'/'+file):
-        print "failed", file[:-4]
-        numincorrect+=1
-      else:
-        print "passed", file[:-4]
-        numcorrect+=1
-      sys.stdout.flush()
-  print numcorrect+numincorrect
-  print numincorrect, "failed"
+      scan(dir+'/'+file)
+#?       if not test(dir+'/'+file):
+#?         print "failed", file[:-4]
+#?         numincorrect+=1
+#?       else:
+#?         print "passed", file[:-4]
+#?         numcorrect+=1
+#?       sys.stdout.flush()
+#?   print numcorrect+numincorrect
+#?   print numincorrect, "failed"
 
 if __name__ == '__main__':
   if len(sys.argv) == 1:
