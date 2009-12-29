@@ -1,0 +1,1 @@
+6 */6 * * * /home/akkartik/readwarp/crawl >> /tmp/readwarp_crawl.out 2>> /tmp/readwarp_crawl.err
