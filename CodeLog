@@ -230,3 +230,11 @@ Ok, convinced myself I don't really have regressions, the new failures are
 because of tighter checks.
 =-=77 - Sat Dec 26 12:35:32 PST 2009
 =-=79 - Sun Dec 27 10:33:47 PST 2009
+
+Back to arc. Loose html cleaning is ok for now - we'll at least get the
+content of the article. Getting the whole html is prob bad, but let's see how
+far we get with what we have.
+
+New ds: feed-list*
+Resisting the urge to create a fun defrep macro.
+=-=81 - Mon Dec 28 21:42:49 PST 2009
