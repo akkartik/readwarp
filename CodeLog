@@ -238,3 +238,6 @@ far we get with what we have.
 New ds: feed-list*
 Resisting the urge to create a fun defrep macro.
 =-=81 - Mon Dec 28 21:42:49 PST 2009
+Clean out old implementation. Let's just get keyword->seed feed working for
+starters. Typing in 'cnn' should show a story from cnn.com
+=-=82 - Mon Dec 28 21:51:38 PST 2009
