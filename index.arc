@@ -85,5 +85,8 @@
 
 
 
+(def scan-feeds(s)
+  (keep [posmatch s _] feed-list*))
+
 (def next-doc(user station)
   (randpos keys.docinfo*))

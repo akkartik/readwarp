@@ -14,14 +14,19 @@ from utils import urlToFilename
 canonical_url = {}
 def loadUrlMap():
   global canonical_url
-  if os.path.exists("snapshots/url_map"):
-    with open("snapshots/url_map") as input:
+  if os.path.exists('snapshots/url_map'):
+    with open('snapshots/url_map') as input:
       canonical_url = pickle.load(input)
 
 def saveUrlMap():
   if len(canonical_url) > 0:
-    with open("snapshots/url_map", 'w') as output:
+    with open('snapshots/url_map', 'w') as output:
       pickle.dump(canonical_url, output)
+
+feedinfo = {}
+def saveFeedInfo():
+  with open('snapshots/feedinfo', 'w') as output:
+    json.dump(feedinfo, output, default=to_json)
 
 def loadFeeds():
   ans = set()
@@ -83,6 +88,7 @@ def crawlUrl(rurl, metadata):
   doc = urlToFilename(url)
   outfilename = 'urls/'+doc
   if soup and not os.path.exists(outfilename+'.raw'):
+    print repr(url)
     with open(outfilename+'.raw', 'w') as output:
       output.write(soup.renderContents())
 
@@ -109,9 +115,9 @@ def crawlUrl(rurl, metadata):
 
 def crawl(feed):
   f = feedparser.parse(feed)
+  feedinfo[feed] = {'title': f.feed.title, 'site': site(f), 'url': feed}
   for item in f.entries:
     try:
-      print repr(title(item))
       crawlUrl(item.link, {'title': title(item), 'feedtitle': f.feed.title, 'date': date(item), 'feeddate': time.mktime(time.gmtime()), 'feed': feed, 'site': site(f), 'description': desc(item)})
     except: traceback.print_exc(file=sys.stdout)
 
@@ -145,4 +151,5 @@ if __name__ == '__main__':
         crawl(feed)
       except: traceback.print_exc(file=sys.stdout)
   finally:
+    saveFeedInfo()
     saveUrlMap()

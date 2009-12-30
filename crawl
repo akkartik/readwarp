@@ -10,4 +10,5 @@ do
   if [ ! -p fifos/$stage ]; then mkfifo fifos/$stage; fi
 done
 
+echo "=== `date`"
 python crawl.py
