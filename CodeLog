@@ -245,3 +245,5 @@ starters. Typing in 'cnn' should show a story from cnn.com
 Update crawl to record some feed metadata.
 No author, sadly.
 =-=83 - Tue Dec 29 18:15:04 PST 2009
+Ah, just save feed description.
+=-=86 - Wed Dec 30 11:52:59 PST 2009

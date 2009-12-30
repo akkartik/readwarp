@@ -112,7 +112,7 @@ def crawlUrl(rurl, metadata):
 
 def crawl(feed):
   f = feedparser.parse(feed)
-  feedinfo[feed] = {'title': f.feed.title, 'site': site(f), 'url': feed}
+  feedinfo[feed] = {'title': f.feed.title, 'description': f.feed.description, 'site': site(f), 'url': feed}
   for item in f.entries:
     try:
       crawlUrl(item.link, {'title': title(item), 'feedtitle': f.feed.title, 'date': date(item), 'feeddate': time.mktime(time.gmtime()), 'feed': feed, 'site': site(f), 'description': desc(item)})
