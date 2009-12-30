@@ -96,9 +96,7 @@ def crawlUrl(rurl, metadata):
     os.unlink(outfilename+'.raw')
     return
 
-  flag=os.path.exists(outfilename+'.metadata')
-
-  if True: #not os.path.exists(outfilename+'.metadata'):
+  if not os.path.exists(outfilename+'.metadata'):
     metadata['url'] = url
     try:
       print "writing mdata", outfilename
@@ -109,7 +107,6 @@ def crawlUrl(rurl, metadata):
       try: os.unlink(outfilename+'.metadata')
       except os.OSError: pass
 
-  if not flag:
     with open('fifos/crawl', 'w') as fifo:
       fifo.write(doc+"\n")
 
