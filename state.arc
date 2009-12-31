@@ -50,6 +50,14 @@
      (def ,fnname ,args ,@body)
      (add-to ,registry ,fnname)))
 
+(mac defrep(fnname interval . body)
+  `(do
+     (def ,fnname()
+      (forever
+        ,@body
+        (sleep ,interval)))
+     (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname))))
+
 
 
 (def fwritefile(filename val)

@@ -45,11 +45,8 @@
 (dhash doc keyword "m-n"
   (rem blank? (errsafe:keywords (+ "urls/" doc ".clean"))))
 
-(def update-feeds()
-  (forever
-    (= feed-list* (tokens:slurp "feeds/All"))
-    (sleep 60)))
-(= update-feeds-thread* (new-thread update-feeds))
+(defrep update-feeds 60
+  (= feed-list* (tokens:slurp "feeds/All")))
 
 
 

@@ -64,14 +64,12 @@ def absolutify(node, attr, url):
 import magic
 def goodFileType(f):
   type = magic.file(f)
-  print 'file:', type
   return type == 'data' or type.find('text') > -1
 
 def crawlUrl(rurl, metadata):
   soup = None
   url = None
   if canonical_url.has_key(rurl):
-    print rurl, 'present'
     url = canonical_url[rurl]
   else:
     try: url, contents = urlOpen(rurl)
@@ -84,7 +82,6 @@ def crawlUrl(rurl, metadata):
       absolutify(node, 'href', url)
       absolutify(node, 'src', url)
 
-  print url
   doc = urlToFilename(url)
   outfilename = 'urls/'+doc
   if soup and not os.path.exists(outfilename+'.raw'):
@@ -99,7 +96,6 @@ def crawlUrl(rurl, metadata):
   if not os.path.exists(outfilename+'.metadata'):
     metadata['url'] = url
     try:
-      print "writing mdata", outfilename
       with open(outfilename+'.metadata', 'w') as output:
         json.dump(metadata, output, default=to_json)
     except:

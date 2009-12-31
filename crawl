@@ -16,5 +16,7 @@ then
   echo "=== `date`"
   touch $lockfile
   python crawl.py
+
+  rsync -avz --delete ~/readwarp/ /app/readwarp
   rm $lockfile
 fi
