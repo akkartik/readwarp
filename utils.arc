@@ -214,6 +214,11 @@
       (maptable (fn(k v) (= ans.k v)) coerce-tab.tab))
     ans))
 
+(def read-json-table(filename)
+  (on-err (fn(ex) (table))
+          (fn()
+            (w/infile f filename (json-read f)))))
+
 
 
 (def index(test seq (o start 0))

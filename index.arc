@@ -32,21 +32,20 @@
   (= docinfo*.doc metadata.doc))
 
 (def metadata(doc)
-  (on-err (fn(ex) (table))
-          (fn()
-            (w/infile f metadata-file.doc (json-read f)))))
+  (read-json-table metadata-file.doc))
 
 (def metadata-file(doc)
   (+ "urls/" doc ".metadata"))
 
-(defscan insert-keywords "mdata"
-  (doc-keywords doc))
-
 (dhash doc keyword "m-n"
   (rem blank? (errsafe:keywords (+ "urls/" doc ".clean"))))
 
+(defscan insert-keywords "mdata"
+  (doc-keywords doc))
+
 (defrep update-feeds 60
-  (= feed-list* (tokens:slurp "feeds/All")))
+  (= feed-list* (tokens:slurp "feeds/All"))
+  (= feedinfo* (read-json-table "snapshots/feedinfo")))
 
 
 
@@ -84,6 +83,12 @@
 
 (def scan-feeds(s)
   (keep [posmatch s _] feed-list*))
+
+(def feed-matches(doc s)
+  (keep [posmatch s _] (vals:feedinfo* doc)))
+
+(def scan-feeds(s)
+  (keep [feed-matches _ s] keys.feedinfo*))
 
 (def next-doc(user station)
   (randpos keys.docinfo*))

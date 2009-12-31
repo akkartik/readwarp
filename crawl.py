@@ -108,11 +108,23 @@ def crawlUrl(rurl, metadata):
 
 def crawl(feed):
   f = feedparser.parse(feed)
-  feedinfo[feed] = {'title': f.feed.title, 'description': f.feed.description, 'site': site(f), 'url': feed}
+  feedinfo[feed] = {'title': feedtitle(f), 'description': feeddesc(f), 'site': site(f), 'url': feed}
   for item in f.entries:
     try:
       crawlUrl(item.link, {'title': title(item), 'feedtitle': f.feed.title, 'date': date(item), 'feeddate': time.mktime(time.gmtime()), 'feed': feed, 'site': site(f), 'description': desc(item)})
     except: traceback.print_exc(file=sys.stdout)
+
+def feedtitle(f):
+  try: return f.feed.title
+  except:
+    print '!ftit'
+    return ''
+
+def feeddesc(f):
+  try: return f.feed.description
+  except:
+    print '!fdesc'
+    return ''
 
 def date(item):
   if not item.has_key('date'): return None
@@ -132,7 +144,8 @@ def desc(item):
   elif item.has_key('summary'):
     return item['summary']
   else:
-    raise "blahblah"
+    print '!desc'
+    return ''
 
 if __name__ == '__main__':
   loadUrlMap()
