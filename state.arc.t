@@ -122,7 +122,7 @@
       (let id (create-doc-id doc)
         (if id
           (= (ids* doc) id)
-          (= (id-nils* docs*) t))
+          (= (id-nils* doc) t))
         (update docs* id rcons doc)
         id))
     (def doc-id (doc)
