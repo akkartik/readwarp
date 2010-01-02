@@ -2,8 +2,10 @@
 
 (mac most-recent-snapshot-name(var)
    ;; max works because times lie between 10^9s and 2*10^9s
-   `(aif (apply max (keep [iso ,(stringify var)
-                   (car:split-by _ ".")]
+   `(aif (apply max
+          (keep
+              [and (iso ,(stringify var) (car:split-by _ "."))
+                   (not:posmatch ".tmp" _)]
              (dir snapshots-dir*)))
       (+ snapshots-dir* "/" it)))
 

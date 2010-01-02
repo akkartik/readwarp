@@ -138,6 +138,7 @@ def lenScore(node):
 def cleanAll():
   for line in open("fifos/crawl").readlines():
     doc = line[:-1]
+    print doc
     f = 'urls/'+doc+'.raw'
     f2 = 'urls/'+doc+'.clean'
     try:

@@ -92,9 +92,6 @@
     (r "([^'\"'] *)(http://[^ \n'\"\\)\\]>]*)") "\\1<a target='_blank' href='\\2'>\\2</a>"
   ))
 
-(def canonicalize(word)
-  (stem:downcase word))
-
 (def highlight-word(doc word keyword)
   (gsub doc
     (r (+ "(" (regexp-escape word) ")")) (+ "<a href='docs?gram=" keyword "'>\\1</a>")))

@@ -43,9 +43,13 @@
 (defscan insert-keywords "mdata"
   (doc-keywords doc))
 
+(dhash feed kwd "m-n"
+  (map canonicalize (flat:map tokens:html-strip (vals:feedinfo* symize.feed))))
+
 (defrep update-feeds 60
   (= feed-list* (tokens:slurp "feeds/All"))
-  (= feedinfo* (read-json-table "snapshots/feedinfo")))
+  (= feedinfo* (read-json-table "snapshots/feedinfo"))
+  (map feed-kwds feed-list*))
 
 
 

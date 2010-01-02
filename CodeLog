@@ -249,3 +249,5 @@ Ah, just save feed description.
 =-=86 - Wed Dec 30 11:52:59 PST 2009
 First cut of kwd->feed. Too slow.
 =-=89 - Thu Dec 31 04:36:33 PST 2009
+Indexing feedinfo now. kwd-feeds can now help locate seed feeds.
+=-=90 - Fri Jan  1 18:15:12 PST 2010

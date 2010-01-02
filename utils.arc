@@ -262,6 +262,9 @@
 (def html-slurp(f)
   (html-strip:slurp f))
 
+(def canonicalize(word)
+  (downcase:stem (gsub word (r "'.*") "")))
+
 (def splitstr(s pat (o ind 0))
   (iflet start (posmatch pat s ind)
     (let end (+ start (len pat))
