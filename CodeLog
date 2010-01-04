@@ -251,3 +251,10 @@ First cut of kwd->feed. Too slow.
 =-=89 - Thu Dec 31 04:36:33 PST 2009
 Indexing feedinfo now. kwd-feeds can now help locate seed feeds.
 =-=90 - Fri Jan  1 18:15:12 PST 2010
+kwd-feeds now done.
+scan-doc-dir: Finding docs that aren't in docinfo.
+
+Also some new utils.
+Start creating data structures more willy-nilly. We're almost there. Build,
+then refactor.
+=-=91 - Sun Jan  3 20:08:08 PST 2010

@@ -6,17 +6,18 @@
   (def new?(doc)
     (blank? docinfo*.doc))
 
-  (def url(doc)
+  (def doc-url(doc)
     (errsafe docinfo*.doc!url))
-  (def title(doc)
+  (def doc-title(doc)
     (errsafe docinfo*.doc!title))
-  (def site(doc)
+  (def doc-site(doc)
     (errsafe docinfo*.doc!site))
-  (def feed(doc)
-    (errsafe docinfo*.doc!feed))
-  (def feedtitle(doc)
+  (rhash doc feed "n-1"
+    (errsafe docinfo*.doc!feed)
+    rconsuniq)
+  (def doc-feedtitle(doc)
     (errsafe docinfo*.doc!feedtitle))
-  (def timestamp(doc)
+  (def doc-timestamp(doc)
     (or pubdate.doc feeddate.doc))
   (def pubdate(doc)
     (errsafe docinfo*.doc!date))
@@ -41,15 +42,23 @@
   (rem blank? (errsafe:keywords (+ "urls/" doc ".clean"))))
 
 (defscan insert-keywords "mdata"
+  (doc-feed doc)
   (doc-keywords doc))
 
-(dhash feed kwd "m-n"
+(dhash feed keyword "m-n"
   (map canonicalize (flat:map tokens:html-strip (vals:feedinfo* symize.feed))))
 
-(defrep update-feeds 60
+(defrep update-feeds 1800
   (= feed-list* (tokens:slurp "feeds/All"))
   (= feedinfo* (read-json-table "snapshots/feedinfo"))
-  (map feed-kwds feed-list*))
+  (map feed-keywords feed-list*))
+(wait feedinfo*)
+
+(def scan-doc-dir()
+  (everyp file (dir "urls") 1000
+    (if (and (posmatch ".clean" file)
+             (no:docinfo*:subst "" ".clean" file))
+      (prn file))))
 
 
 
@@ -85,14 +94,10 @@
 
 
 
-(def scan-feeds(s)
-  (keep [posmatch s _] feed-list*))
-
-(def feed-matches(doc s)
-  (keep [posmatch s _] (vals:feedinfo* doc)))
-
-(def scan-feeds(s)
-  (keep [feed-matches _ s] keys.feedinfo*))
+(def scan-feeds(query)
+  (common:map keyword-feeds (tokens query)))
 
 (def next-doc(user station)
-  (randpos keys.docinfo*))
+  (car:sort-by doc-timestamp (keep [not:read? user _]
+                                   (flat:map [feed-docs _]
+                                             scan-feeds.station))))

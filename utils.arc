@@ -2,6 +2,9 @@
   `(unless (bound ',(car args))
      (= ,@args)))
 
+(mac ret (var val . body)
+ `(let ,var ,val ,@body ,var))
+
 (mac ifcall(var)
   `(if (bound ',var)
      (,var)))
@@ -146,6 +149,11 @@
 (def intersect(l1 l2)
   (keep [pos _ l2] l1))
 
+(def common(l)
+  (if (no:cdr l)
+    car.l
+    (reduce intersect l)))
+
 (def aboutnmost(n l (o f id))
   (withs (initans (firstn n (sort-by f l))
           top (last initans)
@@ -166,6 +174,16 @@
         (= (done f.elem) t)
         (push elem ans)))
     (rev ans)))
+
+; every with progress indicator
+(mac everyp(var l iters . body)
+  (w/uniq ls
+    `(let ,ls ,l
+       (prn:len ,ls)
+       (on ,var ,l
+         (if (is 0 (remainder index ,iters))
+           (prn index " " ,var))
+         ,@body))))
 
 
 

@@ -1,3 +1,5 @@
+(= threadlife* 90)
+
 (def current-user()
   0)
 (new-user:current-user)
@@ -13,7 +15,7 @@
 
 
 
-(mac layout-basic(body)
+(mac layout-basic body
   `(tag html
     (header)
     (tag body
@@ -33,7 +35,7 @@
 
                (tag (td id "contents-wrap")
                   (tag (div id "content")
-                    ,body))))))))
+                    ,@body))))))))
 
 (defop || req
   (layout-basic
@@ -79,12 +81,12 @@
 (def render-doc(doc)
   (tag (div id (+ "contents_" doc))
     (tag (h2 class "title")
-      (tag (a href url.doc target "_blank")
-        (pr title.doc)))
+      (tag (a href doc-url.doc target "_blank")
+        (pr doc-title.doc)))
     (tag div
-      (iflet siteurl site.doc
+      (iflet siteurl doc-site.doc
         (tag (a href siteurl target "_blank")
-          (pr (or feedtitle.doc "website")))))
+          (pr (or doc-feedtitle.doc "website")))))
     (tag p
       (pr:contents doc))))
 
@@ -95,7 +97,7 @@
 
     (tag (p class "title item")
       (tag (a onclick (+ "showDoc('" doc "')") href "#" style "font-weight:bold")
-        (pr title.doc)))))
+        (pr doc-title.doc)))))
 
 (def buttons(doc)
   (tag (div class "nav")

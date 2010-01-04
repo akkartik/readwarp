@@ -59,6 +59,8 @@
         ,@body
         (sleep ,interval)))
      (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname))))
+(mac wait(var)
+  `(until (bound ',var)))
 
 
 
@@ -144,7 +146,7 @@
 
 (mac mhash(key-name value-name association body (o merge-policy 'rcons))
   (hash-helper t nil key-name value-name association body merge-policy))
-(mac rhash(key-name value-name association body (o merge-policy 'rcons))
+(mac rhash(key-name value-name association body (o merge-policy 'replace)) ; doesn't memoize
   (hash-helper nil t key-name value-name association body merge-policy))
 (mac dhash(key-name value-name association body (o merge-policy 'rcons))
   (hash-helper t t key-name value-name association body merge-policy))
@@ -153,14 +155,14 @@
   (withs ((pluralize-key pluralize-value) (pluralize-controls association)
           key-str (stringify key-name)
           value-str (stringify value-name)
-          check-function-name (symize value-str "?")
+          check-function-name (symize key-str "-" value-str "?")
           lookup-function-name
                       (pluralized-fnname key-str value-str pluralize-value)
           reverse-lookup-function-name
                       (pluralized-fnname value-str key-str pluralize-key)
-          key-table-name (globalize key-str "s")
-          value-table-name (globalize value-str "s")
-          value-table-nil-name (globalize value-str "-nils")
+          key-table-name (globalize value-str "-" key-str "s")
+          value-table-name (globalize key-str "-" value-str "s")
+          value-table-nil-name (globalize key-str "-" value-str "-nils")
           create-function-name (symize "create-" key-str "-" value-str)
           set-function-name (symize "set-" key-str "-" value-str))
 
@@ -207,6 +209,7 @@
 
 ; Policies (storage var -> storage)
 (def rcons(l a) (cons a l))
+(def rconsuniq(l a) (if (pos a l) l (cons a l)))
 (def or=fn(l a) (or= l a)) ; first lookup wins
 (def replace(old new) new) ; last lookup wins
 ; Policy generator
