@@ -110,9 +110,7 @@ def cleanup(file, debug=False):
   if debug: print "== Phase 2"
   scores = {}
   candidates = soup.findAll(True)
-  print "phase 2", len(candidates)
   for i, node in enumerate(candidates):
-    if i > 0 and i % 100 == 0: print " ", i
     l = txtlen(str(node))
     if l > 1:
       scores[str(node)] = score(node)/math.log(l)
