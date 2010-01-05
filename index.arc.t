@@ -1,5 +1,4 @@
-; About to mock global data; disable persistence
-(kill-thread save-thread*)
+(without-updating-state
 
   (= docinfo*
       (obj
@@ -65,5 +64,4 @@
     '("a_com_b" "a_com_c" "b_com_0" "b_com_a")
     (sort < (gen-docs 0 "b.com/0")))
 
-; No persistence; stop running
-(quit)
+)

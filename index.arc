@@ -120,7 +120,6 @@
     (= feed-affinity*
       (w/table fa
         (each (kwd cluster) normalized-keyword-clusters*
-          (prn kwd)
           (let n len.cluster
             (each f cluster
               (each f2 cluster

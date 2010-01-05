@@ -50,6 +50,12 @@
   (each var autosaved-vars*
     (eval `(unshadow ,var))))
 
+(mac without-updating-state body
+  `(do
+     (shadow-autosaved)
+       ,@body
+     (unshadow-autosaved)))
+
 
 
 (mac persisted(var value . body)
