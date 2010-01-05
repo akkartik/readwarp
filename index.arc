@@ -43,7 +43,8 @@
 
 (defscan insert-keywords "mdata"
   (doc-feed doc)
-  (doc-keywords doc))
+  (doc-keywords doc)
+  (update-feed-graph doc))
 
 (dhash feed keyword "m-n"
   (map canonicalize (flat:map tokens:html-strip (vals:feedinfo* symize.feed))))
@@ -91,6 +92,29 @@
   (unless userinfo*.user!read.doc
     (= userinfo*.user!read.doc outcome)
     (push doc userinfo*.user!stations.station!read-list)))
+
+
+
+(def update-feed-graph()
+  (everyp doc keys.docinfo* 1000
+    (increment-keyword-feedcounts doc)))
+
+(persisted feed-keywordcount* (table))
+
+(persisted normalized-keyword-clusters* (table))
+
+(def update-feed-graph(doc)
+  (let feed doc-feed.doc
+    (or= feed-keywordcount*.feed (table))
+    (each kwd doc-keywords.doc
+      (pushnew doc feed-keywordcount*.feed.kwd))
+    (update-normalized-keyword-clusters feed)))
+
+(def update-normalized-keyword-clusters(feed)
+  (each k (keys feed-keywordcount*.feed)
+    (if (>= (* 2 (len feed-keywordcount*.k)) (len feed-docs.feed))
+      (pushnew feed normalized-keyword-clusters*.k)
+      (pull feed normalized-keyword-clusters*.k))))
 
 
 

@@ -262,3 +262,5 @@ scan-doc-dir ended up costing me a whole day.
 When I work without deliberation I can make boneheaded decisions like this.
 And now snapshots.docinfo takes over 15 minutes to load.
 =-=92 - Mon Jan  4 11:26:01 PST 2010
+feed-affinity graph: Translate feedgraph.py into arc.
+=-=93 - Mon Jan  4 17:29:39 PST 2010
