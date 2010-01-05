@@ -194,20 +194,22 @@
 
 
 
-(persisted a* (table))
-(= (a* 3) 4)
-(shadow-autosaved)
-(= a* (table))
-(= (a* 5) 6)
-(unshadow-autosaved)
-(= (a* 5) 6)
-(prn "waiting for autosave before next test")
-(until (empty buffered-execs*)
-  (sleep 1))
-(let dummy (table)
-  (test-iso "shadowing and unshadowing doesn't interfere with persistence of the original variable"
-    (obj 3 4 5 6)
-    (fread (most-recent-snapshot-name a*) dummy)))
+(shadowing buffered-exec-delay* 0
+  (persisted a* (table))
+  (= (a* 3) 4)
+  (shadow-autosaved)
+  (= a* (table))
+  (= (a* 5) 6)
+  (unshadow-autosaved)
+  (= (a* 5) 6)
+
+  (prn "waiting for autosave before next test")
+  (until (empty buffered-execs*)
+    (sleep 1))
+  (let dummy (table)
+    (test-iso "shadowing and unshadowing doesn't interfere with persistence of the original variable"
+      (obj 3 4 5 6)
+      (fread (most-recent-snapshot-name a*) dummy))))
 
 (unshadow snapshots-dir*)
 (unshadow autosaved-vars*)

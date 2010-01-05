@@ -23,6 +23,12 @@
          (= ,var (pop ,stack)))
       nil)))
 
+(mac shadowing(var expr . body)
+  `(do
+     (shadow ,var ,expr)
+     ,@body
+     (unshadow ,var)))
+
 
 
 (mac ret (var val . body)
@@ -54,10 +60,11 @@
           ,@body
           result))))
 
+(= buffered-exec-delay* 10)
 (= buffered-execs* (table))
-(def buffered-exec(f (o delay 10))
+(def buffered-exec(f)
   (or= buffered-execs*.f
-       (thread (sleep delay) (wipe buffered-execs*.f) (f))))
+       (thread (sleep buffered-exec-delay*) (wipe buffered-execs*.f) (f))))
 
 (def kwargs(args-and-body (o defaults))
   (let (kws body) (split-by args-and-body ':do)

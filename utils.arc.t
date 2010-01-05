@@ -219,21 +219,21 @@
   (def abc-test-fn()
     (++ global*))
 
-  (ok global* 34)
+  (test-is "" global* 34)
   (abc-test-fn)
-  (ok global* 35)
+  (test-is "" global* 35)
 
   (let global* 3
     (abc-test-fn)
-    (ok global* 3))
+    (test-is "" global* 3))
 
-  (ok global* 36)
+  (test-is "" global* 36)
   (shadow global* 3)
   (test-is "shadow creates a dynamic scope"
     3
     global*)
   (abc-test-fn)
-  (ok global* 4)
+  (test-is "" global* 4)
 
   (unshadow global*)
   (test-is "unshadow restores old binding"
