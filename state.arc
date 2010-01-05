@@ -17,7 +17,7 @@
       (or (init ,var ,initval) ,var)))
 
 (mac new-snapshot-name(var)
-  `(+ ,(+ snapshots-dir* "/" (stringify var) ".")
+  `(+ (+ snapshots-dir* "/" ,(stringify var) ".")
       ,(seconds))) ; one file per session. remove comma to stop reusing
 
 (mac save-snapshot(var)
@@ -51,9 +51,10 @@
     (eval `(unshadow ,var))))
 
 (mac without-updating-state body
-  `(do
-     (shadow-autosaved)
-       ,@body
+  `(after
+     (do
+       (shadow-autosaved)
+       ,@body)
      (unshadow-autosaved)))
 
 

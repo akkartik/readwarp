@@ -24,9 +24,10 @@
       nil)))
 
 (mac shadowing(var expr . body)
-  `(do
-     (shadow ,var ,expr)
-     ,@body
+  `(after
+     (do
+       (shadow ,var ,expr)
+       ,@body)
      (unshadow ,var)))
 
 

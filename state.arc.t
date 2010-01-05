@@ -1,5 +1,5 @@
-(shadow autosaved-vars* ())
-(shadow snapshots-dir* "test-snapshots")
+(shadowing autosaved-vars* ()
+(shadowing snapshots-dir* "test-snapshots"
 (system:+ "mkdir -p " snapshots-dir*)
 (system:+ "rm " snapshots-dir* "/?s*.*")
 
@@ -211,5 +211,4 @@
       (obj 3 4 5 6)
       (fread (most-recent-snapshot-name a*) dummy))))
 
-(unshadow snapshots-dir*)
-(unshadow autosaved-vars*)
+))
