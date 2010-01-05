@@ -270,3 +270,7 @@ Too many pieces of the pipeline are having trouble scaling. I need to figure
 out why.
   Start gc'ing documents.
 =-=95 - Mon Jan  4 23:49:30 PST 2010
+Ok, we were out of disk, that explains the slow initialization.
+feed-affinity graph is easy to incrementally update. After the initial run
+start calling update-normalized-keyword-clusters for each feed as it rolls in.
+=-=96 - Tue Jan  5 09:38:02 PST 2010

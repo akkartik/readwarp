@@ -96,7 +96,7 @@
 
 
 (def update-feed-graph()
-  (everyp doc keys.docinfo* 1000
+  (everyp doc keys.docinfo* 100
     (increment-keyword-feedcounts doc)))
 
 (persisted feed-keywordcount* (table)
@@ -116,7 +116,7 @@
         (pull feed normalized-keyword-clusters*.k)))))
 
 (persisted feed-affinity* (table)
-  (def update-feed-affinity()
+  (defrep update-feed-affinity 3600
     (= feed-affinity*
       (w/table fa
         (each (kwd cluster) normalized-keyword-clusters*
