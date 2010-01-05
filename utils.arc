@@ -2,12 +2,31 @@
   `(unless (bound ',(car args))
      (= ,@args)))
 
-(mac ret (var val . body)
- `(let ,var ,val ,@body ,var))
-
 (mac ifcall(var)
   `(if (bound ',var)
      (,var)))
+
+;; dynamic scope when writing tests
+(mac shadow(var expr)
+  (let stack (globalize stringify.var "-stack")
+    `(do
+       (init ,stack ())
+       (push ,var ,stack)
+       (= ,var ,expr))))
+
+(mac unshadow(var)
+  (let stack (globalize stringify.var "-stack")
+    `(do
+      (if (or (not:bound ',stack)
+              (empty ,stack))
+         (prn "*** couldn't unshadow " ,var)
+         (= ,var (pop ,stack)))
+      nil)))
+
+
+
+(mac ret (var val . body)
+ `(let ,var ,val ,@body ,var))
 
 (mac awhile(expr . body)
   `(whilet it ,expr
@@ -481,3 +500,21 @@
 
 (mac load-ffi(name f)
   `($ (define ,name (ffi-lib ,(curr-path f)))))
+
+
+
+;; input table: key -> cluster of values
+;; output table: value1, value2 -> affinity
+;; affinity gets distributed between clusters
+(def normalized-affinity-table(similarity-table)
+  (w/table ans
+    (each (e cluster) similarity-table
+      (let n len.cluster
+        (each v cluster
+          (each v2 cluster
+            (when (< v v2)
+              (or= ans.v (table))
+              (or= ans.v2 (table))
+              (or= ans.v.v2 0)
+              (zap [+ _ (/ 1.0 (- n 1))] ans.v.v2)
+              (= ans.v2.v ans.v.v2))))))))
