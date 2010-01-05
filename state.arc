@@ -1,7 +1,7 @@
 (= snapshots-dir* "snapshots")
 
 (mac most-recent-snapshot-name(var)
-   ;; max works because times lie between 10^9s and 2*10^9s
+   ; max works because times lie between 10^9s and 2*10^9s
    `(aif (apply max
           (keep
               [and (iso ,(stringify var) (car:split-by _ "."))
@@ -17,7 +17,8 @@
       (or (init ,var ,initval) ,var)))
 
 (mac new-snapshot-name(var)
-  `(+ ,(+ snapshots-dir* "/" (stringify var) ".") ,(seconds)))
+  `(+ ,(+ snapshots-dir* "/" (stringify var) ".")
+      ,(seconds))) ; one file per session. remove comma to stop reusing
 
 (mac save-snapshot(var)
   `(fwritefile (new-snapshot-name ,var) ,var))
@@ -33,11 +34,21 @@
     (buffered-exec it)))
 
 ; hook from save-registry lines up save function
+(init autosaved-vars* ())
 (mac setup-autosave(var value)
   `(let ref (load-snapshot ,var ,value)
+     (pushnew ',var autosaved-vars*)
      (if (no:alref save-registry* ref)
        (push (list ref (fn() (atomic:save-snapshot ,var)))
              save-registry*))))
+
+(def shadow-autosaved()
+  (each var autosaved-vars*
+    (eval `(shadow ,var nil))))
+
+(def unshadow-autosaved()
+  (each var autosaved-vars*
+    (eval `(unshadow ,var))))
 
 
 

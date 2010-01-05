@@ -1,5 +1,5 @@
-(= old-snapshots-dir* snapshots-dir* snapshots-dir* "test-snapshots")
-
+(shadow autosaved-vars* ())
+(shadow snapshots-dir* "test-snapshots")
 (system:+ "mkdir -p " snapshots-dir*)
 (system:+ "rm " snapshots-dir* "/?s*.*")
 
@@ -9,6 +9,7 @@
 
 (test-smatch "setup-autosave works"
   '(let ref (load-snapshot a (table))
+    (pushnew 'a autosaved-vars*)
     (if (no:alref save-registry* ref)
       (push (list ref (fn nil (atomic:save-snapshot a))) save-registry*)))
 
@@ -114,29 +115,29 @@
 
 (test-smatch "dhash expands into code to lookup key->value and vice versa"
   '(do
-    (setup-autosave docs* (table))
-    (setup-autosave ids* (table))
-    (setup-autosave id-nils* (table))
+    (setup-autosave id-docs* (table))
+    (setup-autosave doc-ids* (table))
+    (setup-autosave doc-id-nils* (table))
     (def create-doc-id (doc) (list 0))
     (def set-doc-id (doc)
       (let id (create-doc-id doc)
         (if id
-          (= (ids* doc) id)
-          (= (id-nils* doc) t))
-        (update docs* id rcons doc)
+          (= (doc-ids* doc) id)
+          (= (doc-id-nils* doc) t))
+        (update id-docs* id rcons doc)
         id))
     (def doc-id (doc)
-      (and (no (id-nils* doc))
-           (or (ids* doc)
+      (and (no (doc-id-nils* doc))
+           (or (doc-ids* doc)
                (set-doc-id doc))))
     (def id-doc (id)
-      (docs* id))
-    (def id? (doc)
-       (ids* doc)))
+      (id-docs* id))
+    (def doc-id? (doc)
+       (doc-ids* doc)))
 
   (macex1 '(dhash doc id "1-1" (list 0))))
 
-(= as* (table) bs* (table))
+(= b-as* (table) a-bs* (table))
 (dhash a b "1-1"
   (cadr (coerce a 'cons)))
 (a-b "cat")
@@ -146,7 +147,7 @@
   '("mat" "cat")
   (b-a #\a))
 
-(= as* (table) bs* (table))
+(= b-as* (table) a-bs* (table))
 (dhash a b "1-1"
   (cadr (coerce a 'cons))
   replace)
@@ -157,7 +158,7 @@
   "mat"
   (b-a #\a))
 
-(= as* (table) bs* (table))
+(= b-as* (table) a-bs* (table))
 (dhash a b "1-1"
   (cadr (coerce a 'cons))
   or=fn)
@@ -168,27 +169,45 @@
   "cat"
   (b-a #\a))
 
-(= as* (table))
-(update as* #\a rcons 3)
+(= b-as* (table))
+(update b-as* #\a rcons 3)
 (test-iso "update writes to table"
   (obj #\a (list 3))
-  as*)
-(update as* #\a rcons 1)
+  b-as*)
+(update b-as* #\a rcons 1)
 (test-iso "update rcons works"
   (obj #\a '(1 3))
-  as*)
-(update as* #\a replace 0)
+  b-as*)
+(update b-as* #\a replace 0)
 (test-iso "update replace works"
   (obj #\a 0)
-  as*)
-(update as* #\a or=fn 343)
+  b-as*)
+(update b-as* #\a or=fn 343)
 (test-iso "update or=fn doesn't replacing existing"
   (obj #\a 0)
-  as*)
-(update as* #\a replace nil)
-(update as* #\a or=fn 3)
+  b-as*)
+(update b-as* #\a replace nil)
+(update b-as* #\a or=fn 3)
 (test-iso "update or=fn sets if unset"
   (obj #\a 3)
-  as*)
+  b-as*)
 
-(= snapshots-dir* old-snapshots-dir*)
+
+
+(persisted a* (table))
+(= (a* 3) 4)
+(shadow-autosaved)
+(= a* (table))
+(= (a* 5) 6)
+(unshadow-autosaved)
+(= (a* 5) 6)
+(prn "waiting for autosave before next test")
+(until (empty buffered-execs*)
+  (sleep 1))
+(let dummy (table)
+  (test-iso "shadowing and unshadowing doesn't interfere with persistence of the original variable"
+    (obj 3 4 5 6)
+    (fread (most-recent-snapshot-name a*) dummy)))
+
+(unshadow snapshots-dir*)
+(unshadow autosaved-vars*)
