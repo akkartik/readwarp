@@ -44,7 +44,7 @@
 (defscan insert-keywords "mdata"
   (doc-feed doc)
   (doc-keywords doc)
-  (update-feed-graph doc))
+  (increment-keyword-feedcounts doc))
 
 (dhash feed keyword "m-n"
   (map canonicalize (flat:map tokens:html-strip (vals:feedinfo* symize.feed))))
@@ -100,20 +100,36 @@
     (increment-keyword-feedcounts doc)))
 
 (persisted feed-keywordcount* (table)
-  (def update-feed-graph(doc)
+  (def increment-keyword-feedcounts(doc)
     (let feed doc-feed.doc
       (or= feed-keywordcount*.feed (table))
       (each kwd doc-keywords.doc
-        (pushnew doc feed-keywordcount*.feed.kwd))
-      (update-normalized-keyword-clusters feed))))
+        (pushnew doc feed-keywordcount*.feed.kwd)))))
+;?       (update-normalized-keyword-clusters feed))))
 
 (persisted normalized-keyword-clusters* (table)
   (def update-normalized-keyword-clusters(feed)
     (each k (keys feed-keywordcount*.feed)
-      (if (>= (* 2 (len feed-keywordcount*.k))
+      (if (>= (* 2 (len feed-keywordcount*.feed.k))
               (len feed-docs.feed))
         (pushnew feed normalized-keyword-clusters*.k)
         (pull feed normalized-keyword-clusters*.k)))))
+
+(persisted feed-affinity* (table)
+  (def update-feed-affinity()
+    (= feed-affinity*
+      (w/table fa
+        (each (kwd cluster) normalized-keyword-clusters*
+          (prn kwd)
+          (let n len.cluster
+            (each f cluster
+              (each f2 cluster
+                (when (< f f2)
+                  (or= fa.f (table))
+                  (or= fa.f2 (table))
+                  (or= fa.f.f2 0)
+                  (zap [+ _ (/ 1.0 (- n 1))] fa.f.f2)
+                  (= fa.f2.f fa.f.f2))))))))))
 
 
 
