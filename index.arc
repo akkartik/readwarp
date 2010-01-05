@@ -99,22 +99,21 @@
   (everyp doc keys.docinfo* 1000
     (increment-keyword-feedcounts doc)))
 
-(persisted feed-keywordcount* (table))
+(persisted feed-keywordcount* (table)
+  (def update-feed-graph(doc)
+    (let feed doc-feed.doc
+      (or= feed-keywordcount*.feed (table))
+      (each kwd doc-keywords.doc
+        (pushnew doc feed-keywordcount*.feed.kwd))
+      (update-normalized-keyword-clusters feed))))
 
-(persisted normalized-keyword-clusters* (table))
-
-(def update-feed-graph(doc)
-  (let feed doc-feed.doc
-    (or= feed-keywordcount*.feed (table))
-    (each kwd doc-keywords.doc
-      (pushnew doc feed-keywordcount*.feed.kwd))
-    (update-normalized-keyword-clusters feed)))
-
-(def update-normalized-keyword-clusters(feed)
-  (each k (keys feed-keywordcount*.feed)
-    (if (>= (* 2 (len feed-keywordcount*.k)) (len feed-docs.feed))
-      (pushnew feed normalized-keyword-clusters*.k)
-      (pull feed normalized-keyword-clusters*.k))))
+(persisted normalized-keyword-clusters* (table)
+  (def update-normalized-keyword-clusters(feed)
+    (each k (keys feed-keywordcount*.feed)
+      (if (>= (* 2 (len feed-keywordcount*.k))
+              (len feed-docs.feed))
+        (pushnew feed normalized-keyword-clusters*.k)
+        (pull feed normalized-keyword-clusters*.k)))))
 
 
 
@@ -123,5 +122,5 @@
 
 (def next-doc(user station)
   (car:sort-by doc-timestamp (keep [not:read? user _]
-                                   (flat:map [feed-docs _]
+                                   (flat:map feed-docs
                                              scan-feeds.station))))
