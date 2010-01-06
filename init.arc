@@ -13,8 +13,10 @@
           (fn() (w/infile f "config.port" (read f)))))
 ;? (start-server:my-port)
 
-;? (new-station 0 "krugman")
-;? (no:time:propagate 0 "krugman")
+(= foo keys.docinfo*)
+(= docinfo* (table))
+(everyp doc foo 1000 (= docinfo*.doc metadata.doc))
+(fwrite "docinfo*" docinfo*)
 
 (each doc keys.docinfo*
   (doc-feed doc)
@@ -22,3 +24,6 @@
 (each feed keys.feedinfo*
   (update-feed-clusters-by-keyword stringify.feed))
 (= feed-affinity* normalized-affinity-table.feed-clusters-by-keyword*)
+
+(new-station 0 "krugman")
+(no:time:propagate 0 "krugman")
