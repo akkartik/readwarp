@@ -24,7 +24,7 @@ for file in os.listdir('urls'):
     mdata['feed'] = replacements[mdata['feed']]
 
   else:
-    print 'R ', file
+    print 'X ', file
     continue
 
   try:
