@@ -140,7 +140,10 @@
  
 (def add-keyword(user station keyword)
   (let workspace userinfo*.user!stations.station!workspace
-    (add workspace keyword 'keyword)))
+    (add-query workspace keyword)))
+
+(def add-query(workspace keyword)
+  (add workspace keyword 'keyword 'query))
 
 (def propagate(user station)
   (let workspace userinfo*.user!stations.station!workspace
