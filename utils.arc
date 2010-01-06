@@ -264,6 +264,15 @@
           (fn()
             (w/infile f filename (json-read f)))))
 
+(def first-key(tab)
+  (car keys.tab))
+(def first-keys(n tab)
+  (firstn n keys.tab))
+(def first-value(tab)
+  (tab first-key.tab))
+(def first-pair(tab)
+  (car tablist.tab))
+
 
 
 (def index(test seq (o start 0))
