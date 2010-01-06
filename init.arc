@@ -11,4 +11,7 @@
 (def my-port()
   (on-err (fn(ex) 8080)
           (fn() (w/infile f "config.port" (read f)))))
-(start-server:my-port)
+;? (start-server:my-port)
+
+(new-station 0 "krugman")
+(no:time:propagate 0 "krugman")

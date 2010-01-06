@@ -133,48 +133,95 @@
 (def scan-docs(keyword)
   (common:map keyword-docs (tokens keyword)))
 
-(def add(workspace entry typ (o prior))
-  (or= workspace.entry (obj type typ))
-  (if prior
-    (pushnew prior workspace.entry!priors)))
- 
 (def add-keyword(user station keyword)
+  (or= userinfo*.user!stations.station!workspace (table))
   (let workspace userinfo*.user!stations.station!workspace
-    (add-query workspace keyword)))
+    (add-query workspace keyword)
+    (propagate-keyword workspace keyword)))
 
 (def add-query(workspace keyword)
-  (add workspace keyword 'keyword 'query))
+  (propagate-one workspace keyword 'keyword 'query))
 
 (def propagate(user station)
   (let workspace userinfo*.user!stations.station!workspace
-    (each (entry data) workspace
-      (case data!type
+    (each entry keys.workspace
+      (prn entry)
+      (case workspace.entry!type
         keyword   (propagate-keyword workspace entry)
         feed      (propagate-feed workspace entry)
-        doc       (propagate-doc workspace entry)))))
+        doc       (propagate-doc workspace entry)
+))
+    nil))
 
 (def propagate-keyword(workspace keyword)
   (each feed scan-feeds.keyword
-    (add workspace feed 'feed keyword))
+    (propagate-one workspace feed 'feed keyword))
   (each doc scan-docs.keyword
-    (add workspace doc 'doc keyword)))
+    (propagate-one workspace doc 'doc keyword)))
 
 (def propagate-feed(workspace feed)
   (each kwd feed-keywords.feed
-    (add workspace kwd 'keyword feed))
+    (propagate-one workspace kwd 'keyword feed))
   (each f (keys feed-affinity*.feed)
-    (add workspace f 'feed feed))
+    (propagate-one workspace f 'feed feed))
   (each doc feed-docs.feed
-    (add workspace doc 'doc feed)))
+    (propagate-one workspace doc 'doc feed)))
 
 (def propagate-doc(workspace doc)
-  (add workspace doc-feed.doc 'feed doc)
+  (propagate-one workspace doc-feed.doc 'feed doc)
   (each kwd doc-keywords.doc
-    (add workspace kwd 'keyword doc))
+    (propagate-one workspace kwd 'keyword doc))
   (each d (keys doc-affinity*.doc)
-    (add workspace d 'doc doc)))
+    (propagate-one workspace d 'doc doc)))
+
+(def propagate-one(workspace entry typ (o prior))
+  (or= workspace.entry (obj type typ))
+  (if prior
+    (pushnew prior workspace.entry!priors)))
+
+
+
+;; XXX: copy of propagate
+(def reinforce(user station)
+  (let workspace userinfo*.user!stations.station!workspace
+    (each entry keys.workspace
+      (prn entry)
+      (case workspace.entry!type
+        keyword   (reinforce-keyword workspace entry)
+        feed      (reinforce-feed workspace entry)
+        doc       (reinforce-doc workspace entry)
+))
+    nil))
+
+(def reinforce-keyword(workspace keyword)
+  (each feed scan-feeds.keyword
+    (reinforce-one workspace feed 'feed keyword))
+  (each doc scan-docs.keyword
+    (reinforce-one workspace doc 'doc keyword)))
+
+(def reinforce-feed(workspace feed)
+  (each kwd feed-keywords.feed
+    (reinforce-one workspace kwd 'keyword feed))
+  (each f (keys feed-affinity*.feed)
+    (reinforce-one workspace f 'feed feed))
+  (each doc feed-docs.feed
+    (reinforce-one workspace doc 'doc feed)))
+
+(def reinforce-doc(workspace doc)
+  (reinforce-one workspace doc-feed.doc 'feed doc)
+  (each kwd doc-keywords.doc
+    (reinforce-one workspace kwd 'keyword doc))
+  (each d (keys doc-affinity*.doc)
+    (reinforce-one workspace d 'doc doc)))
+
+(def reinforce-one(workspace entry typ prior)
+  (iflet item workspace.entry
+    (pushnew prior item!priors)))
+
+
 
 (def next-doc(user station)
-  (car:sort-by doc-timestamp (keep [not:read? user _]
-                                   (flat:map feed-docs
-                                             scan-feeds.station))))
+  (car:sort-by doc-timestamp
+               (keep [not:read? user _]
+                     (flat:map feed-docs
+                               scan-feeds.station))))
