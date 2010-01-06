@@ -86,7 +86,8 @@
   (= userinfo*.user!current-station station))
 
 (def new-station(user station)
-  (or= userinfo*.user!stations.station (table)))
+  (or= userinfo*.user!stations.station (table))
+  (add-keyword user station station))
 
 (def mark-read(user doc outcome station)
   (unless userinfo*.user!read.doc
@@ -118,22 +119,57 @@
 (persisted feed-affinity* (table)
   (defrep update-feed-affinity 3600
     (= feed-affinity*
-      (w/table fa
-        (each (kwd cluster) normalized-keyword-clusters*
-          (let n len.cluster
-            (each f cluster
-              (each f2 cluster
-                (when (< f f2)
-                  (or= fa.f (table))
-                  (or= fa.f2 (table))
-                  (or= fa.f.f2 0)
-                  (zap [+ _ (/ 1.0 (- n 1))] fa.f.f2)
-                  (= fa.f2.f fa.f.f2))))))))))
+       (normalized-affinity-table normalized-keyword-clusters*))))
+
+(persisted doc-affinity* (table)
+  (defrep update-doc-affinity 3600
+    (= doc-affinity*
+       (normalized-affinity-table keyword-docs*))))
 
 
 
-(def scan-feeds(query)
-  (common:map keyword-feeds (tokens query)))
+(def scan-feeds(keyword)
+  (common:map keyword-feeds (tokens keyword)))
+(def scan-docs(keyword)
+  (common:map keyword-docs (tokens keyword)))
+
+(def add(workspace entry typ (o prior))
+  (or= workspace.entry (obj type typ))
+  (if prior
+    (pushnew prior workspace.entry!priors)))
+ 
+(def add-keyword(user station keyword)
+  (let workspace userinfo*.user!stations.station!workspace
+    (add workspace keyword 'keyword)))
+
+(def propagate(user station)
+  (let workspace userinfo*.user!stations.station!workspace
+    (each (entry data) workspace
+      (case data!type
+        keyword   (propagate-keyword workspace entry)
+        feed      (propagate-feed workspace entry)
+        doc       (propagate-doc workspace entry)))))
+
+(def propagate-keyword(workspace keyword)
+  (each feed scan-feeds.keyword
+    (add workspace feed 'feed keyword))
+  (each doc scan-docs.keyword
+    (add workspace doc 'doc keyword)))
+
+(def propagate-feed(workspace feed)
+  (each kwd feed-keywords.feed
+    (add workspace kwd 'keyword feed))
+  (each f (keys feed-affinity*.feed)
+    (add workspace f 'feed feed))
+  (each doc feed-docs.feed
+    (add workspace doc 'doc feed)))
+
+(def propagate-doc(workspace doc)
+  (add workspace doc-feed.doc 'feed doc)
+  (each kwd doc-keywords.doc
+    (add workspace kwd 'keyword doc))
+  (each d (keys doc-affinity*.doc)
+    (add workspace d 'doc doc)))
 
 (def next-doc(user station)
   (car:sort-by doc-timestamp (keep [not:read? user _]

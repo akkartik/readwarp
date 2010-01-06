@@ -203,7 +203,7 @@
   (unshadow-autosaved)
   (= (a* 5) 6)
 
-  (prn "waiting for autosave before next test")
+  (prn "   waiting for autosave before next test")
   (until (empty buffered-execs*)
     (sleep 1))
   (let dummy (table)

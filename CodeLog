@@ -283,3 +283,6 @@ another helper: shadow all persistent variables.
 index.arc.t will now run properly without touching real indexes.
 Its tests still fail though.
 =-=99 - Tue Jan  5 14:34:50 PST 2010
+
+Workspace. Test driving several primitives.
+=-=102 - Tue Jan  5 18:27:31 PST 2010
