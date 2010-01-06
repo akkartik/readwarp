@@ -32,6 +32,8 @@
     workspace)
 
   (= keyword-docs* (table))
+  (= doc-keywords* (table))
+  (= doc-keyword-nils* (table))
 
   (propagate-keyword workspace "blog")
   (test-iso "propagate-keyword works"
@@ -43,13 +45,13 @@
                            priors '("blog")))
     workspace)
 
-  (= doc-feeds* (table))
-  (= feed-docs* (table))
   (= doc-feeds* (obj "a_com_a" "a.com/feed"))
+  (= doc-feed-nils* (table))
   (= feed-docs* (obj "a.com/feed" '("a_com_a")))
   (= feed-keywordcount* (obj "a.com/feed" (table)))
   (= normalized-keyword-clusters* (table))
   (= feed-affinity* (normalized-affinity-table normalized-keyword-clusters*))
+  (= doc-affinity* (normalized-affinity-table keyword-docs*))
 
   (propagate-feed workspace "a.com/feed")
   (test-iso "propagate-feed works"
@@ -65,6 +67,18 @@
                            priors '("blog")))
     workspace)
 
-;?   (propagate-doc
+  (propagate-doc workspace "a_com_a")
+  (test-iso "propagate-doc works"
+    (obj "blog"       (obj type 'keyword
+                           priors '("a.com/feed" query))
+         "a"          (obj type 'keyword
+                           priors '("a.com/feed"))
+         "a_com_a"    (obj type 'doc
+                           priors '("a.com/feed"))
+         "a.com/feed" (obj type 'feed
+                           priors '("a_com_a" "blog"))
+         "b.com/feed" (obj type 'feed
+                           priors '("blog")))
+    workspace)
 
 )

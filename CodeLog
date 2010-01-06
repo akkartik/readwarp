@@ -286,3 +286,5 @@ Its tests still fail though.
 
 Workspace. Test driving several primitives.
 =-=102 - Tue Jan  5 18:27:31 PST 2010
+Done test-driving propagate primitives. This shouldn't have been so hard.
+=-=104 - Wed Jan  6 00:04:08 PST 2010
