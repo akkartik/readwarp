@@ -6,6 +6,34 @@
   `(if (bound ',var)
      (,var)))
 
+(mac proc(name args . body)
+  `(def ,name ,args ,@body nil))
+
+(mac ret (var val . body)
+ `(let ,var ,val ,@body ,var))
+
+(mac awhile(expr . body)
+  `(whilet it ,expr
+    ,@body))
+
+(mac forever body
+  `(awhile t ,@body))
+
+(mac before-exec(fnname args . body)
+  `(let old ,fnname
+      (def ,fnname ,args
+        ,@body
+        (old ,@args))))
+
+(mac after-exec(fnname args . body)
+  `(let old ,fnname
+      (def ,fnname ,args
+        (let result (old ,@args)
+          ,@body
+          result))))
+
+
+
 ;; dynamic scope when writing tests
 (mac shadow(var expr)
   (let stack (globalize stringify.var "-stack")
@@ -32,40 +60,13 @@
 
 
 
-(mac ret (var val . body)
- `(let ,var ,val ,@body ,var))
-
-(mac awhile(expr . body)
-  `(whilet it ,expr
-    ,@body))
-
-(mac forever body
-  `(awhile t ,@body))
-
-(def transform(l . fl)
-  (let ans l
-    (each f fl
-      (zap f ans))
-    ans))
-
-(mac before-exec(fnname args . body)
-  `(let old ,fnname
-      (def ,fnname ,args
-        ,@body
-        (old ,@args))))
-
-(mac after-exec(fnname args . body)
-  `(let old ,fnname
-      (def ,fnname ,args
-        (let result (old ,@args)
-          ,@body
-          result))))
-
 (= buffered-exec-delay* 10)
 (= buffered-execs* (table))
 (def buffered-exec(f)
   (or= buffered-execs*.f
        (thread (sleep buffered-exec-delay*) (wipe buffered-execs*.f) (f))))
+
+
 
 (def kwargs(args-and-body (o defaults))
   (let (kws body) (split-by args-and-body ':do)
@@ -88,6 +89,12 @@
 
 (def blank?(elem)
   (or no.elem empty.elem))
+
+(def transform(l . fl)
+  (let ans l
+    (each f fl
+      (zap f ans))
+    ans))
 
 (mac nrem(f l)
   `(zap [rem ,f _] ,l))
@@ -268,6 +275,8 @@
   (car keys.tab))
 (def first-keys(n tab)
   (firstn n keys.tab))
+(def len-keys(tab)
+  (len keys.tab))
 (def first-value(tab)
   (tab first-key.tab))
 (def first-pair(tab)
@@ -506,6 +515,9 @@
 
 (def time-ago(s)
   (- (seconds) s))
+
+(def l(f)
+  (include:+ stringify.f ".arc"))
 
 
 
