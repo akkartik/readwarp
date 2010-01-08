@@ -79,29 +79,34 @@
 (def stations(user)
   (keys userinfo*.user!stations))
 
-(def current-station(user)
+(def current-station-name(user)
   userinfo*.user!current-station)
 
-(def current-workspace(user)
-  ((userinfo*.user!stations current-station.user) 'workspace))
+(def current-station(user)
+  (userinfo*.user!stations current-station-name.user))
 
-(def set-current-station(user station)
+(def current-workspace(user)
+  current-station.user!workspace)
+
+(def set-current-station-name(user station)
   (= userinfo*.user!current-station station))
 
-(def new-station(user station)
-  (or= userinfo*.user!stations.station (table))
-  (add-keyword user station station))
+(def new-station(user sname)
+  (or= userinfo*.user!stations.sname (table))
+  (add-keyword user sname sname))
 
 (def mark-read(user doc outcome)
   (unless userinfo*.user!read.doc
     (ero "marking read " doc)
     (= userinfo*.user!read.doc outcome)
-    (withs (s current-station.user
+    (withs (s current-station-name.user
             station userinfo*.user!stations.s)
       (push doc station!read-list)
       (when (iso outcome "read")
+        (++ station!iter)
+        (prune station)
         (ero "propagating from " doc " " (len:keys station!workspace))
-        (propagate-doc station!workspace doc)
+        (propagate-doc station doc)
         (ero "after prop: " (len:keys station!workspace))))))
 
 
@@ -139,94 +144,66 @@
 (def scan-docs(keyword)
   (common:map keyword-docs (tokens keyword)))
 
-(def add-keyword(user station keyword)
-  (or= userinfo*.user!stations.station!workspace (table))
-  (let workspace userinfo*.user!stations.station!workspace
-    (add-query workspace keyword)
-    (propagate-keyword workspace keyword)))
+(def add-keyword(user sname keyword)
+  (let station userinfo*.user!stations.sname
+    (or= station!workspace (table))
+    (or= station!iter 0)
+    (add-query station keyword)
+    (propagate-keyword station keyword)))
 
-(def add-query(workspace keyword)
-  (propagate-one workspace keyword 'keyword 'query))
+(def add-query(station entry)
+  (propagate-one station entry guess-type.entry 'query))
 
-(proc propagate(user station)
-  (let workspace userinfo*.user!stations.station!workspace
-    (each entry keys.workspace
-      (prn entry)
-      (case workspace.entry!type
-        keyword   (propagate-keyword workspace entry)
-        feed      (propagate-feed workspace entry)
-        doc       (propagate-doc workspace entry)))))
+(def guess-type(entry)
+  (if (feedinfo* symize.entry)     'feed
+      (or doc-keywords*.entry
+          doc-keyword-nils*.entry) 'doc
+      (headmatch "http" entry)     'url
+      (posmatch "//" entry)        'url
+                                   'keyword))
 
-(def propagate-keyword(workspace keyword)
+(def propagate-keyword(station keyword)
   (each feed scan-feeds.keyword
-    (propagate-one workspace feed 'feed keyword))
+    (propagate-one station feed 'feed keyword))
   (each doc scan-docs.keyword
-    (propagate-one workspace doc 'doc keyword)))
+    (propagate-one station doc 'doc keyword)))
 
-(def propagate-feed(workspace feed)
+(def propagate-feed(station feed)
   (each kwd feed-keywords.feed
-    (propagate-one workspace kwd 'keyword feed))
+    (propagate-one station kwd 'keyword feed))
   (each f (keys feed-affinity*.feed)
-    (propagate-one workspace f 'feed feed))
+    (propagate-one station f 'feed feed))
   (each doc feed-docs.feed
-    (propagate-one workspace doc 'doc feed)))
+    (propagate-one station doc 'doc feed)))
 
-(def propagate-doc(workspace doc)
-  (ero:len doc-keywords.doc)
-  (propagate-one workspace doc-feed.doc 'feed doc)
+(def propagate-doc(station doc)
+  (propagate-one station doc-feed.doc 'feed doc)
   (each kwd doc-keywords.doc
-    (propagate-one workspace kwd 'keyword doc))
+    (propagate-one station kwd 'keyword doc))
   (each d (keys doc-affinity*.doc)
-    (propagate-one workspace d 'doc doc)))
+    (propagate-one station d 'doc doc)))
 
-(def propagate-1iter(workspace doc)
-  ((eval:symize "propagate-" workspace.doc!type) workspace doc))
+(def propagate-url(station url)
+  (propagate-keyword station url))
 
-(def propagate-one(workspace entry typ (o prior))
-  (or= workspace.entry (obj type typ))
+(def propagate-entry(station entry)
+  ((eval:symize "propagate-" station!workspace.entry!type) station entry))
+
+(def propagate-one(station entry typ (o prior))
+  (or= station!workspace.entry (obj type typ created station!iter))
   (if prior
-    (pushnew prior workspace.entry!priors)))
+    (pushnew prior station!workspace.entry!priors)))
 
 
 
-;; XXX: copy of propagate
-(proc reinforce(user station)
-  (let workspace userinfo*.user!stations.station!workspace
-    (each entry keys.workspace
-      (prn entry)
-      (case workspace.entry!type
-        keyword   (reinforce-keyword workspace entry)
-        feed      (reinforce-feed workspace entry)
-        doc       (reinforce-doc workspace entry)))))
+(def prune(station)
+  (let workspace station!workspace
+    (each k keys.workspace
+      (if (> (- station!iter workspace.k!created)
+             (* 3 (len workspace.k!priors)))
+        (= workspace.k nil)))))
 
-(def reinforce-keyword(workspace keyword)
-  (each feed scan-feeds.keyword
-    (reinforce-one workspace feed 'feed keyword))
-  (each doc scan-docs.keyword
-    (reinforce-one workspace doc 'doc keyword)))
-
-(def reinforce-feed(workspace feed)
-  (each kwd feed-keywords.feed
-    (reinforce-one workspace kwd 'keyword feed))
-  (each f (keys feed-affinity*.feed)
-    (reinforce-one workspace f 'feed feed))
-  (each doc feed-docs.feed
-    (reinforce-one workspace doc 'doc feed)))
-
-(def reinforce-doc(workspace doc)
-  (reinforce-one workspace doc-feed.doc 'feed doc)
-  (each kwd doc-keywords.doc
-    (reinforce-one workspace kwd 'keyword doc))
-  (each d (keys doc-affinity*.doc)
-    (reinforce-one workspace d 'doc doc)))
-
-(def reinforce-one(workspace entry typ prior)
-  (iflet item workspace.entry
-    (pushnew prior item!priors)))
-
-
-
-(def unread-doc(user doc)
+(def unread-doc(user workspace doc)
   (and (not:read? user doc)
        (is 'doc workspace.doc!type)))
 
@@ -236,9 +213,9 @@
 
 (def pick(user workspace)
   (car:sort-by [salient-recency workspace _]
-               (keep unread-doc keys.workspace)))
+               (keep [unread-doc user workspace _] keys.workspace)))
 
 
 
-(def next-doc(user station)
+(def next-doc(user)
   (pick user current-workspace.user))

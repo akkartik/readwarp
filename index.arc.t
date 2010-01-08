@@ -20,30 +20,9 @@
        "b" '("b.com/feed")
        "blog" '("a.com/feed" "b.com/feed")))
 
-  (test-ok "scan-feeds finds feeds containing a keyword"
-    (pos "a.com/feed" (scan-feeds "blog")))
-
-  (= workspace (table))
-  (add-query workspace "blog")
-
-  (test-iso "add adds to workspace"
-    (obj "blog" (obj type 'keyword
-                     priors '(query)))
-    workspace)
-
   (= keyword-docs* (table))
   (= doc-keywords* (table))
   (= doc-keyword-nils* (table))
-
-  (propagate-keyword workspace "blog")
-  (test-iso "propagate-keyword works"
-    (obj "blog" (obj type 'keyword
-                     priors '(query))
-         "a.com/feed" (obj type 'feed
-                           priors '("blog"))
-         "b.com/feed" (obj type 'feed
-                           priors '("blog")))
-    workspace)
 
   (= doc-feeds* (obj "a_com_a" "a.com/feed"))
   (= doc-feed-nils* (table))
@@ -53,7 +32,29 @@
   (= feed-affinity* (normalized-affinity-table normalized-keyword-clusters*))
   (= doc-affinity* (normalized-affinity-table keyword-docs*))
 
-  (propagate-feed workspace "a.com/feed")
+  (test-ok "scan-feeds finds feeds containing a keyword"
+    (pos "a.com/feed" (scan-feeds "blog")))
+
+  (= station (obj workspace (table)))
+  (= workspace station!workspace)
+  (add-query station "blog")
+
+  (test-iso "add adds to workspace"
+    (obj "blog" (obj type 'keyword
+                     priors '(query)))
+    workspace)
+
+  (propagate-keyword station "blog")
+  (test-iso "propagate-keyword works"
+    (obj "blog" (obj type 'keyword
+                     priors '(query))
+         "a.com/feed" (obj type 'feed
+                           priors '("blog"))
+         "b.com/feed" (obj type 'feed
+                           priors '("blog")))
+    workspace)
+
+  (propagate-feed station "a.com/feed")
   (test-iso "propagate-feed works"
     (obj "blog"       (obj type 'keyword
                            priors '("a.com/feed" query))
@@ -67,7 +68,7 @@
                            priors '("blog")))
     workspace)
 
-  (propagate-doc workspace "a_com_a")
+  (propagate-doc station "a_com_a")
   (test-iso "propagate-doc works"
     (obj "blog"       (obj type 'keyword
                            priors '("a.com/feed" query))

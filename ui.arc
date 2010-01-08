@@ -8,10 +8,7 @@
   (read? (current-user) doc))
 
 (def current-user-read-list()
-  (read-list (current-user) (current-station:current-user)))
-
-(def current-user-next-doc()
-  (next-doc (current-user) (current-station:current-user)))
+  (read-list (current-user) (current-station-name:current-user)))
 
 
 
@@ -22,7 +19,7 @@
       (tag (div id "page")
         (tag (table width "100%")
              (tr
-               (if (and (current-user) (current-station:current-user))
+               (if (and (current-user) (current-station-name:current-user))
                  (tag (td id "history-container")
                     (center
                       (pr "Recently viewed"))
@@ -47,21 +44,21 @@
 
 (defop station req
   (new-station (current-user) (arg req "seed"))
-  (set-current-station (current-user) (arg req "seed"))
+  (set-current-station-name (current-user) (arg req "seed"))
   (layout-basic
     (render-doc-with-context
-      (current-user-next-doc))))
+      (next-doc:current-user))))
 
 (defop docupdate req
   (mark-read (current-user) (arg req "doc") (arg req "outcome"))
   (render-doc-with-context
-    (current-user-next-doc)))
+    (next-doc:current-user)))
 
 (defop doc req
   (let doc (arg req "doc")
     (render-doc-with-context
       (if (blank doc)
-        (current-user-next-doc)
+        (next-doc:current-user)
         doc))))
 
 (defop history req
