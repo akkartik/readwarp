@@ -109,6 +109,9 @@
         (propagate-to-doc user station doc)
         (ero "after prop: " (len:keys station!workspace))))))
 
+(def most-recent-read(station)
+  (car station!read-list))
+
 
 
 (persisted feed-keywords-via-doc* (table)
@@ -220,15 +223,21 @@
   (and (not:read? user doc)
        (is 'doc workspace.doc!type)))
 
+(def same-feed(station doc)
+  (apply iso (map doc-feed (list doc most-recent-read.station))))
+
 (def salient-recency(workspace doc)
   (+ (* 1000 (len workspace.doc!priors))
      doc-timestamp.doc))
 
-(def pick(user workspace)
-  (car:sort-by [salient-recency workspace _]
-               (keep [unread-doc user workspace _] keys.workspace)))
+(def pick(user station)
+  (let workspace station!workspace
+    (car:sort-by [salient-recency workspace _]
+                 (keep [and (unread-doc user workspace _)
+                            (not:same-feed station _)]
+                       keys.workspace))))
 
 
 
 (def next-doc(user)
-  (pick user current-workspace.user))
+  (pick user current-station.user))
