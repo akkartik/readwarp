@@ -143,16 +143,16 @@
 
 
 (def scan-feeds(keyword)
-  (common:map keyword-feeds (tokens keyword)))
+  (common:map keyword-feeds:canonicalize (tokens keyword)))
 (def scan-docs(keyword)
-  (common:map keyword-docs (tokens keyword)))
+  (common:map keyword-docs:canonicalize (tokens keyword)))
 
 (def add-keyword(user sname keyword)
   (let station userinfo*.user!stations.sname
     (or= station!workspace (table))
     (or= station!iter 0)
     (add-query user station keyword)
-    (propagate-keyword user station keyword)))
+    (propagate-keyword-to-doc user station keyword)))
 
 (def add-query(user station entry)
   (propagate-one user station entry guess-type.entry 'query))
@@ -197,6 +197,14 @@
       (propagate-one user station d 'doc kwd)))
   (each d (keys doc-affinity*.doc)
     (propagate-one user station d 'doc doc)))
+
+(def propagate-keyword-to-doc(user station keyword)
+  (each feed scan-feeds.keyword
+    (propagate-one user station feed 'feed keyword)
+    (each d feed-docs.feed
+      (propagate-one user station d 'doc feed)))
+  (each doc scan-docs.keyword
+    (propagate-one user station doc 'doc keyword)))
 
 (def propagate-url(user station url)
   (propagate-keyword user station url))
