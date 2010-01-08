@@ -106,7 +106,7 @@
         (++ station!iter)
         (prune station)
         (ero "propagating from " doc " " (len:keys station!workspace))
-        (propagate-doc user station doc)
+        (propagate-to-doc user station doc)
         (ero "after prop: " (len:keys station!workspace))))))
 
 
@@ -180,6 +180,18 @@
   (propagate-one user station doc-feed.doc 'feed doc)
   (each kwd doc-keywords.doc
     (propagate-one user station kwd 'keyword doc))
+  (each d (keys doc-affinity*.doc)
+    (propagate-one user station d 'doc doc)))
+
+(def propagate-to-doc(user station doc)
+  (let feed doc-feed.doc
+    (propagate-one user station feed 'feed doc)
+    (each d feed-docs.feed
+      (propagate-one user station d 'doc feed)))
+  (each kwd doc-keywords.doc
+    (propagate-one user station kwd 'keyword doc)
+    (each d scan-docs.kwd
+      (propagate-one user station d 'doc kwd)))
   (each d (keys doc-affinity*.doc)
     (propagate-one user station d 'doc doc)))
 
