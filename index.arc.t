@@ -36,15 +36,16 @@
     (pos "a.com/feed" (scan-feeds "blog")))
 
   (= station (obj workspace (table)))
+  (= user (table))
   (= workspace station!workspace)
-  (add-query station "blog")
+  (add-query user station "blog")
 
   (test-iso "add adds to workspace"
     (obj "blog" (obj type 'keyword
                      priors '(query)))
     workspace)
 
-  (propagate-keyword station "blog")
+  (propagate-keyword user station "blog")
   (test-iso "propagate-keyword works"
     (obj "blog" (obj type 'keyword
                      priors '(query))
@@ -54,7 +55,7 @@
                            priors '("blog")))
     workspace)
 
-  (propagate-feed station "a.com/feed")
+  (propagate-feed user station "a.com/feed")
   (test-iso "propagate-feed works"
     (obj "blog"       (obj type 'keyword
                            priors '("a.com/feed" query))
@@ -68,7 +69,7 @@
                            priors '("blog")))
     workspace)
 
-  (propagate-doc station "a_com_a")
+  (propagate-doc user station "a_com_a")
   (test-iso "propagate-doc works"
     (obj "blog"       (obj type 'keyword
                            priors '("a.com/feed" query))

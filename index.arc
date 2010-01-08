@@ -106,7 +106,7 @@
         (++ station!iter)
         (prune station)
         (ero "propagating from " doc " " (len:keys station!workspace))
-        (propagate-doc station doc)
+        (propagate-doc user station doc)
         (ero "after prop: " (len:keys station!workspace))))))
 
 
@@ -148,11 +148,11 @@
   (let station userinfo*.user!stations.sname
     (or= station!workspace (table))
     (or= station!iter 0)
-    (add-query station keyword)
-    (propagate-keyword station keyword)))
+    (add-query user station keyword)
+    (propagate-keyword user station keyword)))
 
-(def add-query(station entry)
-  (propagate-one station entry guess-type.entry 'query))
+(def add-query(user station entry)
+  (propagate-one user station entry guess-type.entry 'query))
 
 (def guess-type(entry)
   (if (feedinfo* symize.entry)     'feed
@@ -162,37 +162,38 @@
       (posmatch "//" entry)        'url
                                    'keyword))
 
-(def propagate-keyword(station keyword)
+(def propagate-keyword(user station keyword)
   (each feed scan-feeds.keyword
-    (propagate-one station feed 'feed keyword))
+    (propagate-one user station feed 'feed keyword))
   (each doc scan-docs.keyword
-    (propagate-one station doc 'doc keyword)))
+    (propagate-one user station doc 'doc keyword)))
 
-(def propagate-feed(station feed)
+(def propagate-feed(user station feed)
   (each kwd feed-keywords.feed
-    (propagate-one station kwd 'keyword feed))
+    (propagate-one user station kwd 'keyword feed))
   (each f (keys feed-affinity*.feed)
-    (propagate-one station f 'feed feed))
+    (propagate-one user station f 'feed feed))
   (each doc feed-docs.feed
-    (propagate-one station doc 'doc feed)))
+    (propagate-one user station doc 'doc feed)))
 
-(def propagate-doc(station doc)
-  (propagate-one station doc-feed.doc 'feed doc)
+(def propagate-doc(user station doc)
+  (propagate-one user station doc-feed.doc 'feed doc)
   (each kwd doc-keywords.doc
-    (propagate-one station kwd 'keyword doc))
+    (propagate-one user station kwd 'keyword doc))
   (each d (keys doc-affinity*.doc)
-    (propagate-one station d 'doc doc)))
+    (propagate-one user station d 'doc doc)))
 
-(def propagate-url(station url)
-  (propagate-keyword station url))
+(def propagate-url(user station url)
+  (propagate-keyword user station url))
 
-(def propagate-entry(station entry)
-  ((eval:symize "propagate-" station!workspace.entry!type) station entry))
+(def propagate-entry(user station entry)
+  ((eval:symize "propagate-" station!workspace.entry!type) user station entry))
 
-(def propagate-one(station entry typ (o prior))
-  (or= station!workspace.entry (obj type typ created station!iter))
-  (if prior
-    (pushnew prior station!workspace.entry!priors)))
+(def propagate-one(user station entry typ (o prior))
+  (when (or (not:is type 'doc) (not:read? user entry))
+    (or= station!workspace.entry (obj type typ created station!iter))
+    (if prior
+      (pushnew prior station!workspace.entry!priors))))
 
 
 
