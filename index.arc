@@ -148,15 +148,14 @@
 (def add-query(workspace keyword)
   (propagate-one workspace keyword 'keyword 'query))
 
-(def propagate(user station)
+(proc propagate(user station)
   (let workspace userinfo*.user!stations.station!workspace
     (each entry keys.workspace
       (prn entry)
       (case workspace.entry!type
         keyword   (propagate-keyword workspace entry)
         feed      (propagate-feed workspace entry)
-        doc       (propagate-doc workspace entry)))
-    nil))
+        doc       (propagate-doc workspace entry)))))
 
 (def propagate-keyword(workspace keyword)
   (each feed scan-feeds.keyword
@@ -191,16 +190,14 @@
 
 
 ;; XXX: copy of propagate
-(def reinforce(user station)
+(proc reinforce(user station)
   (let workspace userinfo*.user!stations.station!workspace
     (each entry keys.workspace
       (prn entry)
       (case workspace.entry!type
         keyword   (reinforce-keyword workspace entry)
         feed      (reinforce-feed workspace entry)
-        doc       (reinforce-doc workspace entry)
-))
-    nil))
+        doc       (reinforce-doc workspace entry)))))
 
 (def reinforce-keyword(workspace keyword)
   (each feed scan-feeds.keyword
