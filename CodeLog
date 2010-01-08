@@ -298,3 +298,7 @@ hard.
 =-=107 - Wed Jan  6 14:26:37 PST 2010
 Ok, incremental updates to data structures now working.
 =-=109 - Wed Jan  6 15:24:45 PST 2010
+Putting all the pieces together. Propagate working, but we just keep
+propagating docs to keywords. We need to pick some other items each time to
+propagate to more docs.
+=-=113 - Thu Jan  7 18:54:43 PST 2010

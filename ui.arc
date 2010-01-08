@@ -53,8 +53,7 @@
       (current-user-next-doc))))
 
 (defop docupdate req
-  (mark-read (current-user) (arg req "doc") (arg req "outcome")
-             (current-station:current-user))
+  (mark-read (current-user) (arg req "doc") (arg req "outcome"))
   (render-doc-with-context
     (current-user-next-doc)))
 

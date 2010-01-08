@@ -82,6 +82,9 @@
 (def current-station(user)
   userinfo*.user!current-station)
 
+(def current-workspace(user)
+  ((userinfo*.user!stations current-station.user) 'workspace))
+
 (def set-current-station(user station)
   (= userinfo*.user!current-station station))
 
@@ -89,10 +92,17 @@
   (or= userinfo*.user!stations.station (table))
   (add-keyword user station station))
 
-(def mark-read(user doc outcome station)
+(def mark-read(user doc outcome)
   (unless userinfo*.user!read.doc
+    (ero "marking read " doc)
     (= userinfo*.user!read.doc outcome)
-    (push doc userinfo*.user!stations.station!read-list)))
+    (withs (s current-station.user
+            station userinfo*.user!stations.s)
+      (push doc station!read-list)
+      (when (iso outcome "read")
+        (ero "propagating from " doc " " (len:keys station!workspace))
+        (propagate-doc station!workspace doc)
+        (ero "after prop: " (len:keys station!workspace))))))
 
 
 
@@ -145,8 +155,7 @@
       (case workspace.entry!type
         keyword   (propagate-keyword workspace entry)
         feed      (propagate-feed workspace entry)
-        doc       (propagate-doc workspace entry)
-))
+        doc       (propagate-doc workspace entry)))
     nil))
 
 (def propagate-keyword(workspace keyword)
@@ -164,11 +173,15 @@
     (propagate-one workspace doc 'doc feed)))
 
 (def propagate-doc(workspace doc)
+  (ero:len doc-keywords.doc)
   (propagate-one workspace doc-feed.doc 'feed doc)
   (each kwd doc-keywords.doc
     (propagate-one workspace kwd 'keyword doc))
   (each d (keys doc-affinity*.doc)
     (propagate-one workspace d 'doc doc)))
+
+(def propagate-1iter(workspace doc)
+  ((eval:symize "propagate-" workspace.doc!type) workspace doc))
 
 (def propagate-one(workspace entry typ (o prior))
   (or= workspace.entry (obj type typ))
@@ -216,8 +229,19 @@
 
 
 
+(def unread-doc(user doc)
+  (and (not:read? user doc)
+       (is 'doc workspace.doc!type)))
+
+(def salient-recency(workspace doc)
+  (+ (* 1000 (len workspace.doc!priors))
+     doc-timestamp.doc))
+
+(def pick(user workspace)
+  (car:sort-by [salient-recency workspace _]
+               (keep unread-doc keys.workspace)))
+
+
+
 (def next-doc(user station)
-  (car:sort-by doc-timestamp
-               (keep [not:read? user _]
-                     (flat:map feed-docs
-                               scan-feeds.station))))
+  (pick user current-workspace.user))
