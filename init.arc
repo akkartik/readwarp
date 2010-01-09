@@ -15,6 +15,11 @@
 (unless (server-thread)
   (start-server:my-port))
 
+(new-station 0 "krugman")
+(set-current-station-name 0 "krugman")
+(mark-read 0 (next-doc 0) "read")
+(time next-doc.0)
+
 ;? (each doc keys.docinfo*
 ;?   (doc-feed doc)
 ;?   (update-feed-keywords-via-doc doc))

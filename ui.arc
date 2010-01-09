@@ -10,6 +10,9 @@
 (def current-user-read-list()
   (read-list (current-user) (current-station-name:current-user)))
 
+(def next-doc(user)
+  (pick user current-station.user))
+
 
 
 (mac layout-basic body

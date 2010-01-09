@@ -317,3 +317,7 @@ Some bugfixes as I move past my 'krugman' test case to a 'burrito justice'
 station.
 Time to get on the relatively fresh index at EC2.
 =-=119 - Fri Jan  8 11:35:32 PST 2010
+
+Super slow on EC2. Culprit: Scanning workspace for candidates. time:keep needs
+to be speeded up.
+=-=122 - Sat Jan  9 15:08:14 PST 2010

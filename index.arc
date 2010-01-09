@@ -18,7 +18,7 @@
   (def doc-feedtitle(doc)
     (errsafe docinfo*.doc!feedtitle))
   (def doc-timestamp(doc)
-    (or pubdate.doc feeddate.doc))
+    (or pubdate.doc feeddate.doc (time-ago:* 60 60 24 2))) ; hack for corrupted docinfo
   (def pubdate(doc)
     (errsafe docinfo*.doc!date))
   (def feeddate(doc)
@@ -91,10 +91,17 @@
 (def set-current-station-name(user station)
   (= userinfo*.user!current-station station))
 
+; XXX: refactor
 (def new-station(user sname)
   (or= userinfo*.user!stations.sname (table))
-  (add-keyword user sname sname))
+  (let station userinfo*.user!stations.sname
+    (or= station!workspace (table))
+    (or= station!workspace-sortedpriors (table))
+    (or= station!iter 0)
+    (or= station!name sname)
+    (add-keyword user station sname)))
 
+; XXX: refactor
 (def mark-read(user doc outcome)
   (unless userinfo*.user!read.doc
     (ero "marking read " doc)
@@ -147,12 +154,9 @@
 (def scan-docs(keyword)
   (common:map keyword-docs:canonicalize (tokens keyword)))
 
-(def add-keyword(user sname keyword)
-  (let station userinfo*.user!stations.sname
-    (or= station!workspace (table))
-    (or= station!iter 0)
-    (add-query user station keyword)
-    (propagate-keyword-to-doc user station keyword)))
+(def add-keyword(user station keyword)
+  (add-query user station keyword)
+  (propagate-keyword-to-doc user station keyword))
 
 (def add-query(user station entry)
   (propagate-one user station entry guess-type.entry 'query))
@@ -212,11 +216,22 @@
 (def propagate-entry(user station entry)
   ((eval:symize "propagate-" station!workspace.entry!type) user station entry))
 
+;; XXX: refactor sortedpriors
 (def propagate-one(user station entry typ (o prior))
   (when (or (not:is type 'doc) (not:read? user entry))
     (or= station!workspace.entry (obj type typ created station!iter))
     (if prior
+      (awhen station!workspace.entry!priors
+        (push entry (station!workspace-sortedpriors (+ 1 len.it)))
+        (if (is 0 (remainder station!iter 10))
+          (thread prune-sortedpriors.station)))
       (pushnew prior station!workspace.entry!priors))))
+
+(proc prune-sortedpriors(station)
+  (prn "pruning sorted " station!name)
+  (each k (keys station!workspace-sortedpriors)
+    (zap [keep [station!workspace _] _] station!workspace-sortedpriors.k))
+  (prun "done pruning sorted " station!name))
 
 
 
@@ -241,11 +256,6 @@
 (def pick(user station)
   (let workspace station!workspace
     (car:sort-by [salient-recency workspace _]
-                 (keep [and (unread-doc user workspace _)
+                 (time:keep [and (unread-doc user workspace _)
                             (not:same-feed station _)]
                        keys.workspace))))
-
-
-
-(def next-doc(user)
-  (pick user current-station.user))
