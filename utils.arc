@@ -9,7 +9,7 @@
 (mac proc(name args . body)
   `(def ,name ,args ,@body nil))
 
-(mac ret (var val . body)
+(mac ret(var val . body)
  `(let ,var ,val ,@body ,var))
 
 (mac awhile(expr . body)
@@ -17,7 +17,7 @@
     ,@body))
 
 (mac forever body
-  `(awhile t ,@body))
+  `(while t ,@body))
 
 (mac before-exec(fnname args . body)
   `(let old ,fnname
