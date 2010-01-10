@@ -518,7 +518,7 @@
 
 (def l(f)
   (include:+ stringify.f ".arc"))
-(def t(f)
+(def test(f)
   (include:+ stringify.f ".arc.t"))
 
 
