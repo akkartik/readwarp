@@ -19,6 +19,11 @@
 (mac forever body
   `(while t ,@body))
 
+(mac looplet(var init term inc . body)
+  `(let ,var nil
+     (loop (= ,var ,init) ,term ,inc
+        ,@body)))
+
 (mac before-exec(fnname args . body)
   `(let old ,fnname
       (def ,fnname ,args
@@ -31,6 +36,10 @@
         (let result (old ,@args)
           ,@body
           result))))
+
+(mac scoped-extend(var . body)
+  `(let ,var ,var
+     ,@body))
 
 
 

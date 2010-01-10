@@ -325,3 +325,5 @@ After considering trees and priority queues, settled on a skiplist data
 structure for fast top-n and search/insert/delete operations. Starting to
 build one in arc.
 =-=125 - Sun Jan 10 01:13:06 PST 2010
+More elegant skip list phrasing. Onward.
+=-=126 - Sun Jan 10 12:24:41 PST 2010
