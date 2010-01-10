@@ -1,5 +1,7 @@
 (load "utils.arc")
 
+(= proc def)
+
 (init skip-list-max-level* 28)
 (init skip-list-max* (expt 2 (+ 1 skip-list-max-level*)))
 (init skip-list-max-node*
@@ -18,9 +20,9 @@
     (repeat n (acc skip-list-max-node*))))
 
 (def slnode(v)
-  (prn "slnode")
+;?   (prn "slnode")
   (let h (random-level)
-    (prn " height " h)
+;?     (prn " height " h)
     (obj val v height h next nils.h)))
 
 (proc insert-sl(sl v)
@@ -31,15 +33,22 @@
       ,@body))
 
 (proc fit-into(sl node)
-  (prn "inserting " node!val " of height " node!height)
+;?   (prn "height " node!height)
+;?   (prn "inserting " node!val " of height " node!height)
   (height-loop h node
-    (fit-level sl node h)))
+    (fit-level sl node h))
+  node!height)
 
 (proc fit-level(sl node level)
-  (prn " fitting level " level)
+;?   (prn " fitting level " level)
   (let n (scan sl node!val level)
     (= node!next.level n!next.level)
     (= n!next.level node)))
+
+(def slen(sl)
+  (ret ans 0
+    (looplet n sl!next.0 (no:is n skip-list-max-node*) (= n n!next.0)
+      (++ ans))))
 
 (proc prn-skip-list(sl)
   (prn "- skiplist")

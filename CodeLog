@@ -327,6 +327,17 @@ build one in arc.
 =-=125 - Sun Jan 10 01:13:06 PST 2010
 More elegant skip list phrasing. Onward.
 =-=126 - Sun Jan 10 12:24:41 PST 2010
+
+Intermittent bug.
+current stack:
+  random-level not getting overridden
+  isolate reproducibly failing test
+  was insert working before introducing scan?
+  fix insert regression after introducing scan
+  refactor out fit-into
+
 Ack, scoped-extend will need more work. I need to save the value and yet
 shadow. Ignore it for now.
 =-=127 - Sun Jan 10 12:55:08 PST 2010
+test fails when we insert at height 0.
+=-=128 - Sun Jan 10 13:09:04 PST 2010
