@@ -29,7 +29,7 @@
   (fit-into sl slnode.v))
 
 (mac height-loop(var node . body)
-  `(loop (= ,var (- (len (,node 'next)) 1)) (> ,var 0) (>= h 0) (-- h)
+  `(loop (= ,var (- (len (,node 'next)) 1)) (>= ,var 0) (-- ,var)
       ,@body))
 
 (proc fit-into(sl node)

@@ -341,3 +341,7 @@ shadow. Ignore it for now.
 =-=127 - Sun Jan 10 12:55:08 PST 2010
 test fails when we insert at height 0.
 =-=128 - Sun Jan 10 13:09:04 PST 2010
+Ack, weird typos. Fixed with some divide and conquer from rev 125 onward.
+One drawback of loop: the three cases are hard to see and if there's a fourth
+like here you can run around chasing your tail.
+=-=130 - Sun Jan 10 13:40:26 PST 2010
