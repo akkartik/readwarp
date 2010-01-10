@@ -31,7 +31,7 @@
       ,@body))
 
 (proc fit-into(sl node)
-  (prn "inserting " node!val " of height " node!height)
+;?   (prn "inserting " node!val " of height " node!height)
   (height-loop h node
     (fit-level sl node h)))
 
