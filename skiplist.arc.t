@@ -5,19 +5,20 @@
 ;?     skip-list-max*
 ;?     sl!next.n!val))
 
-(= freq (table))
-(= freq2 (table))
+;? (= freq (table))
+;? (= freq2 (table))
 
 (repeat 500
   (= sl (slist))
   (= h (insert-sl sl 32))
-  (or= freq.h 0)
-  (zap [+ _ slen.sl] freq.h)
-  (or= freq2.h 0)
-  (++ freq2.h))
-
-prn.freq
-prn.freq2
+  (if (no:is 32 sl!next.0!val) (prn 'err)))
+;?   (or= freq.h 0)
+;?   (zap [+ _ slen.sl] freq.h)
+;?   (or= freq2.h 0)
+;?   (++ freq2.h))
+;? 
+;? prn.freq
+;? prn.freq2
 
 ;?   (prn-skip-list sl))
 

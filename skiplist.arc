@@ -29,7 +29,9 @@
   (fit-into sl slnode.v))
 
 (mac height-loop(var node . body)
-  `(loop (= ,var (- (len (,node 'next)) 1)) (>= ,var 0) (-- ,var)
+  `(loop (= ,var (- (len (,node 'next)) 1))
+         (>= ,var 0)
+         (-- ,var)
       ,@body))
 
 (proc fit-into(sl node)
@@ -47,12 +49,16 @@
 
 (def slen(sl)
   (ret ans 0
-    (looplet n sl!next.0 (no:is n skip-list-max-node*) (= n n!next.0)
+    (looplet n sl!next.0
+               (no:is n skip-list-max-node*)
+               (= n n!next.0)
       (++ ans))))
 
 (proc prn-skip-list(sl)
   (prn "- skiplist")
-  (looplet n sl!next.0 (no:is n skip-list-max-node*) (= n n!next.0)
+  (looplet n sl!next.0
+             (no:is n skip-list-max-node*)
+             (= n n!next.0)
     (pr n!val ": ")
     (each pointer n!next
       (pr "."))
