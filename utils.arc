@@ -24,24 +24,6 @@
      (loop (= ,var ,init) ,term ,inc
         ,@body)))
 
-(mac before-exec(fnname args . body)
-  `(let old ,fnname
-      (def ,fnname ,args
-        ,@body
-        (old ,@args))))
-
-(mac after-exec(fnname args . body)
-  `(let old ,fnname
-      (def ,fnname ,args
-        (let result (old ,@args)
-          ,@body
-          result))))
-
-;? ; XXX: need dynamic scope
-;? (mac scoped-extend(var . body)
-;?   `(let ,var ,var
-;?      ,@body))
-
 
 
 ;; dynamic scope when writing tests
@@ -67,6 +49,32 @@
        (shadow ,var ,expr)
        ,@body)
      (unshadow ,var)))
+
+
+
+(mac before-exec(fnname args . body)
+  `(let old ,fnname
+      (def ,fnname ,args
+        ,@body
+        (old ,@args))))
+
+(mac after-exec(fnname args . body)
+  `(let old ,fnname
+      (def ,fnname ,args
+        (let result (old ,@args)
+          ,@body
+          result))))
+
+(mac scoped-extend(var . body)
+  (let stack (globalize stringify.var "-stack")
+    `(after
+      (do
+         (init ,stack ())
+         (push ,var ,stack)
+
+         ,@body)
+
+       (= ,var (pop ,stack)))))
 
 
 

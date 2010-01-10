@@ -1,3 +1,19 @@
+(with (a nil b nil)
+  (def a() 3)
+  (def b() (a))
+
+  (scoped-extend a
+    (def a() 2)
+    (test-is "scoped-extend dynamically overrides var"
+      2
+      (b)))
+
+  (test-is "functions unchanged outside scoped-extend"
+    3
+    (b)))
+
+
+
 (test-iso "extract-car extracts car if it matches type"
   '("a" ((prn a) (+ 1 1)))
   (extract-car '("a" (prn a) (+ 1 1)) 'string))
