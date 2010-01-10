@@ -518,6 +518,8 @@
 
 (def l(f)
   (include:+ stringify.f ".arc"))
+(def t(f)
+  (include:+ stringify.f ".arc.t"))
 
 
 
