@@ -221,10 +221,10 @@
   (when (or (not:is type 'doc) (not:read? user entry))
     (or= station!workspace.entry (obj type typ created station!iter))
     (if prior
-      (awhen station!workspace.entry!priors
-        (push entry (station!workspace-sortedpriors (+ 1 len.it)))
-        (if (is 0 (remainder station!iter 10))
-          (thread prune-sortedpriors.station)))
+;?       (awhen station!workspace.entry!priors
+;?         (push entry (station!workspace-sortedpriors (+ 1 len.it)))
+;?         (if (is 0 (remainder station!iter 10))
+;?           (thread prune-sortedpriors.station)))
       (pushnew prior station!workspace.entry!priors))))
 
 (proc prune-sortedpriors(station)

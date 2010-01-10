@@ -321,3 +321,7 @@ Time to get on the relatively fresh index at EC2.
 Super slow on EC2. Culprit: Scanning workspace for candidates. time:keep needs
 to be speeded up.
 =-=122 - Sat Jan  9 15:08:14 PST 2010
+After considering trees and priority queues, settled on a skiplist data
+structure for fast top-n and search/insert/delete operations. Starting to
+build one in arc.
+=-=125 - Sun Jan 10 01:13:06 PST 2010
