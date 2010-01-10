@@ -31,7 +31,7 @@
       ,@body))
 
 (proc fit-into(sl node)
-;?   (prn "inserting " node!val " of height " node!height)
+  (prn "inserting " node!val " of height " node!height)
   (height-loop h node
     (fit-level sl node h)))
 
@@ -49,7 +49,6 @@
       (++ ans))))
 
 (proc prn-skip-list(sl)
-  (prn "- skiplist")
   (looplet n sl!next.0
              (no:is n skip-list-max-node*)
              (= n n!next.0)
