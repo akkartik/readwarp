@@ -37,9 +37,10 @@
           ,@body
           result))))
 
-(mac scoped-extend(var . body)
-  `(let ,var ,var
-     ,@body))
+;? ; XXX: need dynamic scope
+;? (mac scoped-extend(var . body)
+;?   `(let ,var ,var
+;?      ,@body))
 
 
 
