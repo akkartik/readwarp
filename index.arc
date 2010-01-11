@@ -96,7 +96,6 @@
   (or= userinfo*.user!stations.sname (table))
   (let station userinfo*.user!stations.sname
     (or= station!workspace (table))
-    (or= station!workspace-sortedpriors (table))
     (or= station!iter 0)
     (or= station!name sname)
     (add-keyword user station sname)))
@@ -216,22 +215,11 @@
 (def propagate-entry(user station entry)
   ((eval:symize "propagate-" station!workspace.entry!type) user station entry))
 
-;; XXX: refactor sortedpriors
 (def propagate-one(user station entry typ (o prior))
   (when (or (~is type 'doc) (~read? user entry))
     (or= station!workspace.entry (obj type typ created station!iter))
     (if prior
-;?       (awhen station!workspace.entry!priors
-;?         (push entry (station!workspace-sortedpriors (+ 1 len.it)))
-;?         (if (is 0 (remainder station!iter 10))
-;?           (thread prune-sortedpriors.station)))
       (pushnew prior station!workspace.entry!priors))))
-
-(proc prune-sortedpriors(station)
-  (prn "pruning sorted " station!name)
-  (each k (keys station!workspace-sortedpriors)
-    (zap [keep [station!workspace _] _] station!workspace-sortedpriors.k))
-  (prun "done pruning sorted " station!name))
 
 
 

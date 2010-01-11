@@ -427,3 +427,6 @@ It's because anytime you invoke new-snapshot-name from a function, it gets
 macro-expanded in place.
 Let's just get rid of that test, it's not worth the trouble.
 =-=160 - Mon Jan 11 13:47:31 PST 2010
+
+Ok, start using skip lists in workspace. Pre-cleanup.
+=-=161 - Mon Jan 11 14:17:41 PST 2010
