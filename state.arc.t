@@ -3,19 +3,6 @@
 (system:+ "mkdir -p " snapshots-dir*)
 (system:+ "rm " snapshots-dir* "/?s*.*")
 
-(let old-seconds nil
-  (do
-    (do
-      (= old-seconds seconds)
-      (def seconds() 12345)
-      (prn:new-snapshot-name foo)
-
-      (test-iso "new-snapshot-name works"
-        "test-snapshots/foo.12345"
-        (new-snapshot-name foo)))
-
-    (= seconds old-seconds)))
-
 (test-smatch "setup-autosave works"
   '(let ref (load-snapshot a (table))
     (pushnew 'a autosaved-vars*)

@@ -423,3 +423,7 @@ Cleanup. Zoomed back out to the whole project. All tests pass.
 Trying briefly to make the new-snapshot-name test more consistent.
 But for some reason ,(seconds) doesn't get over-ridden.
 =-=159 - Mon Jan 11 13:43:40 PST 2010
+It's because anytime you invoke new-snapshot-name from a function, it gets
+macro-expanded in place.
+Let's just get rid of that test, it's not worth the trouble.
+=-=160 - Mon Jan 11 13:47:31 PST 2010
