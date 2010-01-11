@@ -82,11 +82,16 @@
   45
   ((find-sl sl 45) 'val))
 
+(prn "0")
 (= sl (slist))
-(repeat 500
+(prn "1")
+(repeat 1000
   (insert-sl sl rand.5000))
+(prn "40")
 
 (insert-sl sl 45)
+(prn "41")
+(prn-skip-list sl)
 (test-is "find - stress test"
   45
   ((find-sl sl 45) 'val))
@@ -130,12 +135,16 @@
 
 (= sl (slist len))
 
+(prn "50")
 (insert-sl sl "abc")
+(prn "51")
 (test-iso "inserts with transformer can be found"
   "abc"
   ((find-sl sl "abc") 'val))
 
+(prn "52")
 (insert-sl sl "abd")
+(prn "53")
 (test-iso "find with transformer handles ties"
   t
   (no:no:find-sl sl "abc"))
@@ -169,8 +178,8 @@
 (insert-sl sl "a")
 (insert-sl sl "b")
 (insert-sl sl "c")
-;? (prn-skip-list sl)
+(prn-skip-list sl)
 (delete-sl sl "b")
-;? (prn-skip-list sl)
+(prn-skip-list sl)
 ;? (prn:find-sl sl "b")
 (test-ok "delete handles ties in the metric" (no:find-sl sl "b"))

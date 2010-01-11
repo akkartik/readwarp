@@ -17,8 +17,8 @@
     (repeat n (acc skip-list-max-node*))))
 
 (def slnode(v)
-  (let l (random-level)
-    (obj val v height (+ l 1) next (nils (+ l 1)))))
+  (let h (+ 1 (random-level))
+    (obj val v height h next nils.h)))
 
 (def val(sl slnode)
   (if (and sl!fn (no:is slnode skip-list-max-node*))
@@ -103,15 +103,26 @@
         (= n!next.l n!next.l!next.l))
       (-- l))))
 
+(def touch(file)
+  (w/outfile f file))
+
 ; from nd on level l, prev of smallest node larger than value of node v
 (def scan2(sl nd v l)
+  (prn "scan2 " l)
 ;?   prn-skip-list.sl
   (ret n nd
+    (prn "aaa " skip-list-max-node* l)
+    (prn-next-pointers sl n)
+;?     (prn (val sl n!next.l))
+    (prn "bbb")
     (while (> (val sl v) (val sl n!next.l))
+      (prn n!val)
       (= n n!next.l))
-;?     (prn "aaa " n!val)
-    (while (and (not:is n skip-list-max-node*)
+    (prn "ccc " n!val)
+    (while (and (no n!val)
+                (not:is n skip-list-max-node*)
                 (not:is n!next.l skip-list-max-node*)
                 (is (val sl n!next.l) (val sl n!next.l!next.0))
                 (not:iso v!val n!next.l!val))
+      (prn " " n!val)
       (= n n!next.0))))

@@ -401,3 +401,13 @@ functions. Not an issue before we added transformer functions.
 Fixed.
 Entire final page of skiplist methods is now super-ugly. find, delete, scan2.
 =-=153 - Mon Jan 11 00:36:48 PST 2010
+Mon Jan 11 00:49:38 PST 2010
+Still one issues to be ironed out in skip lists: when to wade sequentially
+through entries transforming to the same metric. I run into an infinite loop
+every so often, even though there's now 5 conditions on it.
+Mon Jan 11 11:04:43 PST 2010
+Scanning ahead on level 0 violates a pre-condition: that in scan2(sl nd v l)
+nd!next has at least l+1 elements. Scanning ahead by 1 can leave you with an
+element of shorter height.
+We shouldn't be doing this except after the final scan.
+=-=154 - Mon Jan 11 11:06:46 PST 2010
