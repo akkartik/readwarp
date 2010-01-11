@@ -61,7 +61,7 @@
 (mac unshadow(var)
   (let stack (globalize stringify.var "-stack")
     `(do
-      (if (or (not:bound ',stack)
+      (if (or (~bound ',stack)
               (empty ,stack))
          (prn "*** couldn't unshadow " ,var)
          (redef ,var (pop ,stack)))
@@ -228,7 +228,7 @@
   (keep [pos _ l2] l1))
 
 (def common(l)
-  (if (no:cdr l)
+  (if (~cdr l)
     car.l
     (reduce intersect l)))
 
@@ -268,7 +268,7 @@
 (def pair?(l)
   (and (acons l)
        (acons:cdr l)
-       (no:acons:cddr l)))
+       (~acons:cddr l)))
 
 (def alist? (l)
   (and (acons l)

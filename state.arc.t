@@ -10,7 +10,7 @@
 (test-smatch "setup-autosave works"
   '(let ref (load-snapshot a (table))
     (pushnew 'a autosaved-vars*)
-    (if (no:alref save-registry* ref)
+    (if (~alref save-registry* ref)
       (push (list ref (fn nil (atomic:save-snapshot a))) save-registry*)))
 
   (macex1 '(setup-autosave a (table))))

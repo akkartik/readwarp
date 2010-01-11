@@ -175,7 +175,7 @@
 
 (= sl (slist len))
 (insert-sl sl "abc")
-(test-ok "" (no:is sl!next.0 skip-list-max-node*))
+(test-ok "" (~is sl!next.0 skip-list-max-node*))
 (delete-sl sl "abc")
 (test-is "delete works on first element"
   skip-list-max-node*
@@ -201,7 +201,7 @@
 (prn "after deleting b:")
 (prn-skip-list sl)
 ;? (prn:find-sl sl "b")
-(test-ok "delete handles ties in the metric" (no:find-sl sl "b"))
+(test-ok "delete handles ties in the metric" (~find-sl sl "b"))
 
 (let old-len slen.sl
   (delete-sl sl "z")

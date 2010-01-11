@@ -417,3 +417,5 @@ New fixture, and a couple of tests with it. Already the code looks cleaner.
 =-=156 - Mon Jan 11 12:28:53 PST 2010
 Other tests easily pass.
 =-=157 - Mon Jan 11 12:40:51 PST 2010
+Cleanup. Zoomed back out to the whole project. All tests pass.
+=-=158 - Mon Jan 11 12:58:15 PST 2010

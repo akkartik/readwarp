@@ -58,7 +58,7 @@
 (def scan-doc-dir()
   (everyp file (dir "urls") 1000
     (if (and (posmatch ".clean" file)
-             (no:docinfo*:subst "" ".clean" file))
+             (~docinfo*:subst "" ".clean" file))
       (prn file))))
 
 
@@ -218,7 +218,7 @@
 
 ;; XXX: refactor sortedpriors
 (def propagate-one(user station entry typ (o prior))
-  (when (or (not:is type 'doc) (not:read? user entry))
+  (when (or (~is type 'doc) (~read? user entry))
     (or= station!workspace.entry (obj type typ created station!iter))
     (if prior
 ;?       (awhen station!workspace.entry!priors
@@ -243,7 +243,7 @@
         (= workspace.k nil)))))
 
 (def unread-doc(user workspace doc)
-  (and (not:read? user doc)
+  (and (~read? user doc)
        (is 'doc workspace.doc!type)))
 
 (def same-feed(station doc)
@@ -257,5 +257,5 @@
   (let workspace station!workspace
     (car:sort-by [salient-recency workspace _]
                  (time:keep [and (unread-doc user workspace _)
-                            (not:same-feed station _)]
+                            (~same-feed station _)]
                        keys.workspace))))

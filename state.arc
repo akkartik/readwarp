@@ -5,7 +5,7 @@
    `(aif (apply max
           (keep
               [and (iso ,(stringify var) (car:split-by _ "."))
-                   (not:posmatch ".tmp" _)]
+                   (~posmatch ".tmp" _)]
              (dir snapshots-dir*)))
       (+ snapshots-dir* "/" it)))
 
@@ -38,7 +38,7 @@
 (mac setup-autosave(var value)
   `(let ref (load-snapshot ,var ,value)
      (pushnew ',var autosaved-vars*)
-     (if (no:alref save-registry* ref)
+     (if (~alref save-registry* ref)
        (push (list ref (fn() (atomic:save-snapshot ,var)))
              save-registry*))))
 

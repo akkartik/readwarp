@@ -21,7 +21,7 @@
     (obj val v height h next nils.h)))
 
 (def metric(sl slnode)
-  (if (and sl!fn (no:is slnode skip-list-max-node*))
+  (if (and sl!fn (~is slnode skip-list-max-node*))
     (sl!fn slnode!val)
     slnode!val))
 
@@ -52,13 +52,13 @@
 (def slen(sl)
   (ret ans 0
     (letloop n sl!next.0
-               (no:is n skip-list-max-node*)
+               (~is n skip-list-max-node*)
                (= n n!next.0)
       (++ ans))))
 
 (proc prn-skip-list(sl)
   (letloop n sl!next.0
-             (no:is n skip-list-max-node*)
+             (~is n skip-list-max-node*)
              (= n n!next.0)
     (pr n!val " " (metric sl n) ": ")
     (each pointer n!next
@@ -77,7 +77,8 @@
 (def sl-index(sl v)
   (ret ans 0
     (letloop n sl
-               (and (no:is v (metric sl n)) (no:is n skip-list-max-node*))
+               (and (~is v n!val)
+                    (~is n skip-list-max-node*))
                (= n n!next.0)
       (++ ans))))
 
