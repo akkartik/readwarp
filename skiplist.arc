@@ -113,31 +113,7 @@
          l    (- skip-list-max-level* 1)
          nv   slnode.v)
     (while (>= l 0)
-      (= n (scan sl n nv l))
+      (= n (scan-handling-ties sl n nv l))
       (if (iso v n!next.l!val)
         (= n!next.l n!next.l!next.l))
       (-- l))))
-
-(def touch(file)
-  (w/outfile f file))
-
-; from nd on level l, prev of smallest node larger than value of node v
-(def scan2(sl nd v l)
-  (prn "scan2 " l)
-;?   prn-skip-list.sl
-  (ret n nd
-    (prn "aaa " skip-list-max-node* l)
-    (prn-next-pointers sl n)
-;?     (prn (metric sl n!next.l))
-    (prn "bbb")
-    (while (> (metric sl v) (metric sl n!next.l))
-      (prn n!val)
-      (= n n!next.l))
-    (prn "ccc " n!val)
-    (while (and (no n!val)
-                (not:is n skip-list-max-node*)
-                (not:is n!next.l skip-list-max-node*)
-                (is (metric sl n!next.l) (metric sl n!next.l!next.0))
-                (not:iso v!val n!next.l!val))
-      (prn " " n!val)
-      (= n n!next.0))))

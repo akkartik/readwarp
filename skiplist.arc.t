@@ -70,7 +70,7 @@
   ((find-sl sl 45) 'val))
 
 (= sl (slist))
-(repeat 1000
+(repeat 500
   (insert-sl sl rand.5000))
 
 (insert-sl sl 45)
@@ -117,15 +117,14 @@
 
 
 (prn "   ---- skip lists with transformer function")
-(= sl (slist len))
 
+(= sl (slist len))
 (insert-sl sl "abc")
 (test-iso "inserts with transformer can be found"
   "abc"
   ((find-sl sl "abc") 'val))
 
 (prn "   -- ties now possible: non-identical values with the same metric")
-
 ; Fixture. heights [tied elements]: 3 [1 1 3 2 1 2 1 3]
 (= sl (slist len))
 (insert-sl-at-level 2 sl "a")
@@ -147,10 +146,24 @@
   "aab"
   ((find-sl sl "aab") 'val))
 
+(test-iso "find can find later tied values at higher levels"
+  "aaa"
+  ((find-sl sl "aaa") 'val))
+
+(test-iso "find can backtrack back to lower levels when not found at higher levels"
+  "daa"
+  ((find-sl sl "daa") 'val))
+
+
+(= sl (slist len))
 (insert-sl sl "abd")
-(test-iso "find handles ties"
-  t
-  (no:no:find-sl sl "abc"))
+
+(test-ok "find doesn't return wrong values"
+  (~find-sl sl "a"))
+
+(test-ok "find doesn't return wrong but tied values"
+  (~find-sl sl "abc"))
+
 
 (disabled
   (= sl (slist [remainder _ 571]))
@@ -177,12 +190,19 @@
   "aaa"
   sl!next.0!next.0!val)
 
+(prn "   -- deletion in the presence of ties")
 (= sl (slist len))
 (insert-sl sl "a")
 (insert-sl sl "b")
 (insert-sl sl "c")
+(prn "before:")
 (prn-skip-list sl)
 (delete-sl sl "b")
+(prn "after deleting b:")
 (prn-skip-list sl)
 ;? (prn:find-sl sl "b")
 (test-ok "delete handles ties in the metric" (no:find-sl sl "b"))
+
+(let old-len slen.sl
+  (delete-sl sl "z")
+  (test-is "delete doesn't delete other values" old-len slen.sl))
