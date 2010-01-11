@@ -398,3 +398,6 @@ Delete.
 One failing test case: can't find multiple entries with identical transformer
 functions. Not an issue before we added transformer functions.
 =-=152 - Mon Jan 11 00:23:49 PST 2010
+Fixed.
+Entire final page of skiplist methods is now super-ugly. find, delete, scan2.
+=-=153 - Mon Jan 11 00:36:48 PST 2010

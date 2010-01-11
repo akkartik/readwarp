@@ -68,15 +68,11 @@
 (proc prn-next-pointers(sl nd)
   (prn:map [val sl _] nd!next))
 
-(def find-sl(sl v)
-  (with (n    sl
-         l    (- skip-list-max-level* 1)
-         nv   slnode.v)
-    (while (>= l 0)
-      (= n (scan sl n nv l))
-      (-- l))
-    (if (iso v n!next.0!val)
-      n!next.0)))
+; from nd on level l, prev of smallest node larger than value of node v
+(def scan(sl nd v l)
+  (ret n nd
+    (while (> (val sl v) (val sl n!next.l))
+      (= n n!next.l))))
 
 (def sl-index(sl v)
   (ret ans 0
@@ -85,18 +81,37 @@
                (= n n!next.0)
       (++ ans))))
 
+
+
+(def find-sl(sl v)
+  (with (n    sl
+         l    (- skip-list-max-level* 1)
+         nv   slnode.v)
+    (while (>= l 0)
+      (= n (scan2 sl n nv l))
+      (-- l))
+    (if (iso v n!next.0!val)
+      n!next.0)))
+
 (proc delete-sl(sl v)
   (with (n    sl
          l    (- skip-list-max-level* 1)
          nv   slnode.v)
     (while (>= l 0)
-      (= n (scan sl n nv l))
+      (= n (scan2 sl n nv l))
       (if (iso v n!next.l!val)
         (= n!next.l n!next.l!next.l))
       (-- l))))
 
 ; from nd on level l, prev of smallest node larger than value of node v
-(def scan(sl nd v l)
+(def scan2(sl nd v l)
+;?   prn-skip-list.sl
   (ret n nd
     (while (> (val sl v) (val sl n!next.l))
-      (= n n!next.l))))
+      (= n n!next.l))
+;?     (prn "aaa " n!val)
+    (while (and (not:is n skip-list-max-node*)
+                (not:is n!next.l skip-list-max-node*)
+                (is (val sl n!next.l) (val sl n!next.l!next.0))
+                (not:iso v!val n!next.l!val))
+      (= n n!next.0))))
