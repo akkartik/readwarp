@@ -87,7 +87,7 @@
                (= n n!next.0)
       (++ ans))))
 
-; from nd on level l, prev of smallest node larger than value v!val
+; from nd on level l, prev of smallest node larger than value of node v
 (def scan(sl nd v l)
   (ret n nd
     (while (> (val sl v) (val sl n!next.l))

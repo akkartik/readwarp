@@ -124,8 +124,7 @@
         (aif (find-sl sl val)
           (pr " found! " it!val " at " (sl-index sl it!val) ": ")
           (pr " not found! "))
-        (prn travs* " traversals"))))
-)
+        (prn travs* " traversals")))))
 
 
 
@@ -136,7 +135,8 @@
   "abc"
   ((find-sl sl "abc") 'val))
 
-(= sl (slist [remainder _ 571]))
-(repeat 500
-  (insert-sl sl rand.5000))
-(prn-skip-list sl)
+(disabled
+  (= sl (slist [remainder _ 571]))
+  (repeat 500
+    (insert-sl sl rand.5000))
+  (prn-skip-list sl))
