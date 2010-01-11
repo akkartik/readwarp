@@ -360,3 +360,8 @@ Anyway, find almost done. Final test still failing.
 =-=136 - Sun Jan 10 16:04:09 PST 2010
 Whoa, and it's again non-deterministic.
 =-=137 - Sun Jan 10 16:05:21 PST 2010
+Agh, random-level sometimes returns nil.
+This was really hard to debug until I just started staring at its output.
+Combination of non-manifestation for short runs + non-determinism at 500-iter
+run + not being able to print out nodes.
+=-=138 - Sun Jan 10 16:36:08 PST 2010
