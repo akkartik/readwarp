@@ -88,26 +88,28 @@
 (def current-workspace(user)
   current-station.user!workspace)
 
-(def set-current-station-name(user station)
+(proc set-current-station-name(user station)
   (= userinfo*.user!current-station station))
 
 ; XXX: refactor
-(def new-station(user sname)
+(proc new-station(user sname)
   (or= userinfo*.user!stations.sname (table))
   (let station userinfo*.user!stations.sname
     (or= station!workspace (table))
+    (or= station!sorted-docs (slist [salient-recency station!workspace _]))
     (or= station!iter 0)
     (or= station!name sname)
     (add-keyword user station sname)))
 
 ; XXX: refactor
-(def mark-read(user doc outcome)
+(proc mark-read(user doc outcome)
   (unless userinfo*.user!read.doc
     (ero "marking read " doc)
     (= userinfo*.user!read.doc outcome)
     (withs (s current-station-name.user
             station userinfo*.user!stations.s)
       (push doc station!read-list)
+      (delete-sl station!sorted-docs doc)
       (when (iso outcome "read")
         (++ station!iter)
         (prune station)
@@ -121,7 +123,7 @@
 
 
 (persisted feed-keywords-via-doc* (table)
-  (def update-feed-keywords-via-doc(doc)
+  (proc update-feed-keywords-via-doc(doc)
     (let feed doc-feed.doc
       (or= feed-keywords-via-doc*.feed (table))
       (each kwd doc-keywords.doc
@@ -129,7 +131,7 @@
 ;?       (update-feed-clusters-by-keyword feed))))
 
 (persisted feed-clusters-by-keyword* (table)
-  (def update-feed-clusters-by-keyword(feed)
+  (proc update-feed-clusters-by-keyword(feed)
     (each k (keys feed-keywords-via-doc*.feed)
       (if (>= (* 2 (len feed-keywords-via-doc*.feed.k))
               (len feed-docs.feed))
@@ -153,11 +155,11 @@
 (def scan-docs(keyword)
   (common:map keyword-docs:canonicalize (tokens keyword)))
 
-(def add-keyword(user station keyword)
+(proc add-keyword(user station keyword)
   (add-query user station keyword)
   (propagate-keyword-to-doc user station keyword))
 
-(def add-query(user station entry)
+(proc add-query(user station entry)
   (propagate-one user station entry guess-type.entry 'query))
 
 (def guess-type(entry)
@@ -168,13 +170,13 @@
       (posmatch "//" entry)        'url
                                    'keyword))
 
-(def propagate-keyword(user station keyword)
+(proc propagate-keyword(user station keyword)
   (each feed scan-feeds.keyword
     (propagate-one user station feed 'feed keyword))
   (each doc scan-docs.keyword
     (propagate-one user station doc 'doc keyword)))
 
-(def propagate-feed(user station feed)
+(proc propagate-feed(user station feed)
   (each kwd feed-keywords.feed
     (propagate-one user station kwd 'keyword feed))
   (each f (keys feed-affinity*.feed)
@@ -182,14 +184,14 @@
   (each doc feed-docs.feed
     (propagate-one user station doc 'doc feed)))
 
-(def propagate-doc(user station doc)
+(proc propagate-doc(user station doc)
   (propagate-one user station doc-feed.doc 'feed doc)
   (each kwd doc-keywords.doc
     (propagate-one user station kwd 'keyword doc))
   (each d (keys doc-affinity*.doc)
     (propagate-one user station d 'doc doc)))
 
-(def propagate-to-doc(user station doc)
+(proc propagate-to-doc(user station doc)
   (let feed doc-feed.doc
     (propagate-one user station feed 'feed doc)
     (each d feed-docs.feed
@@ -201,7 +203,7 @@
   (each d (keys doc-affinity*.doc)
     (propagate-one user station d 'doc doc)))
 
-(def propagate-keyword-to-doc(user station keyword)
+(proc propagate-keyword-to-doc(user station keyword)
   (each feed scan-feeds.keyword
     (propagate-one user station feed 'feed keyword)
     (each d feed-docs.feed
@@ -209,17 +211,21 @@
   (each doc scan-docs.keyword
     (propagate-one user station doc 'doc keyword)))
 
-(def propagate-url(user station url)
+(proc propagate-url(user station url)
   (propagate-keyword user station url))
 
-(def propagate-entry(user station entry)
+(proc propagate-entry(user station entry)
   ((eval:symize "propagate-" station!workspace.entry!type) user station entry))
 
-(def propagate-one(user station entry typ (o prior))
-  (when (or (~is type 'doc) (~read? user entry))
+(proc propagate-one(user station entry typ (o prior))
+  (when (or (~is typ 'doc) (~read? user entry))
+    (if (is typ 'doc)
+      (delete-sl station!sorted-docs entry))
     (or= station!workspace.entry (obj type typ created station!iter))
     (if prior
-      (pushnew prior station!workspace.entry!priors))))
+      (pushnew prior station!workspace.entry!priors))
+    (if (is typ 'doc)
+      (insert-sl station!sorted-docs entry))))
 
 
 
@@ -242,8 +248,4 @@
      doc-timestamp.doc))
 
 (def pick(user station)
-  (let workspace station!workspace
-    (car:sort-by [salient-recency workspace _]
-                 (time:keep [and (unread-doc user workspace _)
-                            (~same-feed station _)]
-                       keys.workspace))))
+  (best-sl station!sorted-docs [~same-feed station _]))
