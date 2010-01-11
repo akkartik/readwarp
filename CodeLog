@@ -419,3 +419,7 @@ Other tests easily pass.
 =-=157 - Mon Jan 11 12:40:51 PST 2010
 Cleanup. Zoomed back out to the whole project. All tests pass.
 =-=158 - Mon Jan 11 12:58:15 PST 2010
+
+Trying briefly to make the new-snapshot-name test more consistent.
+But for some reason ,(seconds) doesn't get over-ridden.
+=-=159 - Mon Jan 11 13:43:40 PST 2010
