@@ -99,28 +99,37 @@
 
 
 
-(prn "Building a skiplist for performance test")
-(= sl (slist))
-(repeat 5000
-  (insert-sl sl rand.5000))
-(prn "Ready " slen.sl " elems")
+(disabled ; for speed
+  (prn "Building a skiplist for performance test")
+  (= sl (slist))
+  (repeat 5000
+    (insert-sl sl rand.5000))
+  (prn "Ready " slen.sl " elems")
 
-;? (prn-skip-list sl)
+  ;? (prn-skip-list sl)
 
-(scoped-extend scan
-  (= travs* 0)
-  ; XXX: hook into existing def
-  (redef scan
-    (fn(nd v l)
-      (ret n nd
-        (while (> v n!next.l!val)
-          (++ travs*)
-          (= n n!next.l)))))
+  (scoped-extend scan
+    (= travs* 0)
+    ; XXX: hook into existing def
+    (redef scan
+      (fn(nd v l)
+        (ret n nd
+          (while (> v n!next.l!val)
+            (++ travs*)
+            (= n n!next.l)))))
 
-  (repeat 10
-    (redef travs* 0)
-    (let val rand.5000 ; (read) ; sl-rand.sl
-      (aif (find-sl sl val)
-        (pr " found! " it!val " at " (sl-index sl it!val) ": ")
-        (pr " not found! "))
-      (prn travs* " traversals"))))
+    (repeat 10
+      (redef travs* 0)
+      (let val rand.5000 ; (read) ; sl-rand.sl
+        (aif (find-sl sl val)
+          (pr " found! " it!val " at " (sl-index sl it!val) ": ")
+          (pr " not found! "))
+        (prn travs* " traversals"))))
+)
+
+
+
+(= sl (slist len))
+
+(insert-sl sl "abc")
+(prn-skip-list sl)
