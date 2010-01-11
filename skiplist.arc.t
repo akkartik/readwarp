@@ -97,6 +97,8 @@
       (= n (n!next (rand n!height))))
     n!val))
 
+
+
 (prn "Building a skiplist for performance test")
 (= sl (slist))
 (repeat 5000
@@ -105,7 +107,6 @@
 
 ;? (prn-skip-list sl)
 
-; Interactive test
 (scoped-extend scan
   (= travs* 0)
   ; XXX: hook into existing def
