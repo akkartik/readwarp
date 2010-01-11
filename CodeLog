@@ -365,3 +365,6 @@ This was really hard to debug until I just started staring at its output.
 Combination of non-manifestation for short runs + non-determinism at 500-iter
 run + not being able to print out nodes.
 =-=138 - Sun Jan 10 16:36:08 PST 2010
+False alarm: I'd confused myself in trying to create a track for random-level.
+The real bug was one last vestige (hopefully) of base-0/base-1 confusion.
+=-=139 - Sun Jan 10 16:54:46 PST 2010
