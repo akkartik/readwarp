@@ -1,39 +1,40 @@
 (load "utils.arc")
 
-(init skip-list-max-level* 28)
-(init skip-list-max* (expt 2 (+ 1 skip-list-max-level*)))
+(init skip-list-max-height* 28)
+(init skip-list-max-level* (- skip-list-max-height* 1))
+(init skip-list-max* (expt 2 skip-list-max-height*))
 (init skip-list-max-node*
    (obj val skip-list-max* height skip-list-max-level* next nil))
 
 (def random-level()
-  (ret n 1
+  (ret n 0
     (while (and (< 0.5 (rand)) (<= n skip-list-max-level*))
       (++ n))))
 
 (def slist()
-  (obj next nils.skip-list-max-level*))
+  (obj height skip-list-max-height* next nils.skip-list-max-level*))
 
 (def nils(n)
   (accum acc
     (repeat n (acc skip-list-max-node*))))
 
 (def slnode(v)
-  (let h (random-level)
-    (obj val v height h next nils.h)))
+  (let l (random-level)
+    (obj val v height (+ l 1) next (nils (+ l 1)))))
 
 (proc insert-sl(sl v)
   (fit-into sl slnode.v))
 
-(mac height-loop(var node . body)
-  `(loop (= ,var (- (len (,node 'next)) 1))
-         (>= ,var 0)
-         (-- ,var)
+(mac loop-levels(var node . body)
+  `(looplet ,var (- (,node 'height) 1)
+                 (>= ,var 0)
+                 (-- ,var)
       ,@body))
 
 (proc fit-into(sl node)
 ;?   (prn "inserting " node!val " of height " node!height)
-  (height-loop h node
-    (fit-level sl node h)))
+  (loop-levels l node
+    (fit-level sl node l)))
 
 (proc fit-level(sl node level)
 ;?   (prn " fitting level " level)
@@ -57,24 +58,25 @@
       (pr "."))
     (prn)))
 
-;? (def find-sl(sl v)
-;?   (with (n sl
-;?          curr-level skip-list-max-level*)
-;?     (while (> v n!next.curr-level!val)
-;?       (= n n!next.curr-level))
-;?     (if (iso v n!next.curr-level!val)
-;?       n!next.curr-level
-;?       (recurse n!next.curr-level (- curr-level 1))
+(proc prn-next-pointers(nd)
+  (prn:map [_ 'val] nd!next))
+;?   (each n nd!next (prn n!val)))
 
-;? ; scan from node on level l for value v
-;? (def find-sub(node l v)
-;?   (let n node
-;?     (while (> v node!next.l)
-;?       (= n!next.level))
-;?     n)
+(def find-sl(sl v)
+  (with (n sl
+         l (- skip-list-max-level* 1))
+    (while (> l 0)
+      (= n (scan n v l))
+      (-- l))
+    (if (iso n!next.0!val v)
+      n!next.0)))
 
-(def scan(node val level)
-  (let n node
-    (while (> val n!next.level!val)
-      (= n n!next.level))
-    n))
+; from nd on level l, prev of smallest node larger than value v
+(def scan(nd v l)
+  (ret n nd
+;?     (prn l)
+;?     (prn n!next)
+;?     (prn n!next.l!val)
+    (while (> v n!next.l!val)
+;?       (prn n!val)
+      (= n n!next.l))))

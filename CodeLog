@@ -355,3 +355,6 @@ Updated skip list test to use scoped-extend.
 =-=134 - Sun Jan 10 14:21:39 PST 2010
 Cleanup.
 =-=135 - Sun Jan 10 14:30:05 PST 2010
+Wow, how was it working? base-0 indexing, base-1 indexing, it was a mess.
+Anyway, find almost done. Final test still failing.
+=-=136 - Sun Jan 10 16:04:09 PST 2010
