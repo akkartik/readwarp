@@ -1,4 +1,3 @@
-(set disable-redef-warnings*)
 (= sl (slist))
 
 (for n 0 (- skip-list-max-level* 1)
@@ -9,7 +8,7 @@
 
 
 (mac insert-sl-at-level(n sl v)
-  `(scoped-extend random-level (def random-level() ,n)
+  `(scoped-extend random-level (redef random-level (fn() ,n))
       (insert-sl ,sl ,v)))
 
 (= sl (slist))
@@ -91,5 +90,3 @@
 (test-is "find finds if exists"
   45
   ((find-sl sl 45) 'val))
-
-(wipe disable-redef-warnings*)

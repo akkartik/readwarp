@@ -26,13 +26,21 @@
 
 
 
+(mac redef(var expr)
+  `(after
+     (do
+       (set disable-redef-warnings*)
+       (= ,var ,expr))
+
+     (wipe disable-redef-warnings*)))
+
 ;; dynamic scope when writing tests
 (mac shadow(var expr)
   (let stack (globalize stringify.var "-stack")
     `(do
        (init ,stack ())
        (push ,var ,stack)
-       (= ,var ,expr))))
+       (redef ,var ,expr))))
 
 (mac unshadow(var)
   (let stack (globalize stringify.var "-stack")
@@ -40,7 +48,7 @@
       (if (or (not:bound ',stack)
               (empty ,stack))
          (prn "*** couldn't unshadow " ,var)
-         (= ,var (pop ,stack)))
+         (redef ,var (pop ,stack)))
       nil)))
 
 (mac shadowing(var expr . body)
@@ -74,7 +82,7 @@
 
          ,@body)
 
-       (= ,var (pop ,stack)))))
+       (redef ,var (pop ,stack)))))
 
 
 
