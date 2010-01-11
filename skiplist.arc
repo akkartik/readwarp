@@ -26,7 +26,7 @@
   (fit-into sl slnode.v))
 
 (mac loop-levels(var node . body)
-  `(looplet ,var (- (,node 'height) 1)
+  `(letloop ,var (- (,node 'height) 1)
                  (>= ,var 0)
                  (-- ,var)
       ,@body))
@@ -44,13 +44,13 @@
 
 (def slen(sl)
   (ret ans 0
-    (looplet n sl!next.0
+    (letloop n sl!next.0
                (no:is n skip-list-max-node*)
                (= n n!next.0)
       (++ ans))))
 
 (proc prn-skip-list(sl)
-  (looplet n sl!next.0
+  (letloop n sl!next.0
              (no:is n skip-list-max-node*)
              (= n n!next.0)
     (pr n!val ": ")
