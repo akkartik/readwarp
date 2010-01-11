@@ -62,7 +62,7 @@
   (letloop n sl!next.0
              (no:is n skip-list-max-node*)
              (= n n!next.0)
-    (pr (val sl n) ": ")
+    (pr n!val " " (val sl n) ": ")
     (each pointer n!next
       (pr "."))
     (prn)))

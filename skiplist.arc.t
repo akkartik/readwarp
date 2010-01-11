@@ -135,3 +135,8 @@
 (test-iso "inserts with transformer can be found"
   "abc"
   ((find-sl sl "abc") 'val))
+
+(= sl (slist [remainder _ 571]))
+(repeat 500
+  (insert-sl sl rand.5000))
+(prn-skip-list sl)
