@@ -377,3 +377,8 @@ than vice versa. Also avoids association with piglet, etc.
 =-=142 - Sun Jan 10 17:21:56 PST 2010
 Use redef in before/after-exec.
 =-=143 - Sun Jan 10 17:28:29 PST 2010
+Performance test done, skip list is working fine. Disabled by default since
+it's interactive.
+I have a version to pick random numbers, but it won't be very
+well-distributed.
+=-=145 - Sun Jan 10 18:52:57 PST 2010

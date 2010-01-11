@@ -22,6 +22,9 @@
   (let l (random-level)
     (obj val v height (+ l 1) next (nils (+ l 1)))))
 
+(def sl-nilnode?(n)
+  (iso n skip-list-max-node*))
+
 (proc insert-sl(sl v)
   (fit-into sl slnode.v))
 
@@ -69,6 +72,13 @@
       (-- l))
     (if (iso n!next.0!val v)
       n!next.0)))
+
+(def sl-index(sl v)
+  (ret ans 0
+    (letloop n sl
+               (and (no:is v n!val) (no:is n skip-list-max-node*))
+               (= n n!next.0)
+      (++ ans))))
 
 ; from nd on level l, prev of smallest node larger than value v
 (def scan(nd v l)
