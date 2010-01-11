@@ -19,6 +19,12 @@
 (mac forever body
   `(while t ,@body))
 
+(mac disabled body
+  `(when nil ,@body))
+
+(mac enabled body
+  `(when t ,@body))
+
 (mac letloop(var init term inc . body)
   `(let ,var nil
      (loop (= ,var ,init) ,term ,inc

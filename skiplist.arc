@@ -23,10 +23,12 @@
     (obj val v height (+ l 1) next (nils (+ l 1)))))
 
 (def val(sl slnode)
-  (prn "val " sl!fn " " slnode!val)
   (if (and sl!fn (no:is slnode skip-list-max-node*))
     (sl!fn slnode!val)
     slnode!val))
+
+(def sl-trans(sl)
+  (or sl!fn id))
 
 (def sl-nilnode?(n)
   (iso n skip-list-max-node*))
@@ -39,14 +41,13 @@
 
 (proc insert-sl(sl v)
   (let node slnode.v
-    (prn "inserting " v " of height " node!height)
+;?     (prn "inserting " v " of height " node!height)
     (loop-levels l node
       (fit-level sl node l))))
 
 (proc fit-level(sl node level)
-  (prn " fitting level " level)
-  (let n (scan sl sl (val sl node) level)
-    (prn "n: " n)
+;?   (prn " fitting level " level)
+  (let n (scan sl sl node level)
     (= node!next.level n!next.level)
     (= n!next.level node)))
 
@@ -70,12 +71,13 @@
   (prn:map [val sl _] nd!next))
 
 (def find-sl(sl v)
-  (with (n sl
-         l (- skip-list-max-level* 1))
+  (with (n    sl
+         l    (- skip-list-max-level* 1)
+         nv   slnode.v)
     (while (>= l 0)
-      (= n (scan sl n v l))
+      (= n (scan sl n nv l))
       (-- l))
-    (if (iso v (val sl n!next.0))
+    (if (iso v n!next.0!val)
       n!next.0)))
 
 (def sl-index(sl v)
@@ -85,10 +87,8 @@
                (= n n!next.0)
       (++ ans))))
 
-; from nd on level l, prev of smallest node larger than value v
+; from nd on level l, prev of smallest node larger than value v!val
 (def scan(sl nd v l)
   (ret n nd
-    (prn "scan")
-    (while (> v (val sl n!next.l))
-      (prn "iter")
+    (while (> (val sl v) (val sl n!next.l))
       (= n n!next.l))))

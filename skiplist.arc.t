@@ -132,4 +132,6 @@
 (= sl (slist len))
 
 (insert-sl sl "abc")
-(prn-skip-list sl)
+(test-iso "inserts with transformer can be found"
+  "abc"
+  ((find-sl sl "abc") 'val))
