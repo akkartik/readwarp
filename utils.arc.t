@@ -1,3 +1,21 @@
+(test-is "blet is let when post-condition is satisfied"
+  (let n 2
+    (++ n))
+  (blet n 2 t
+    (++ n)))
+
+(test-is "blet returns init if post-condition fails"
+  2
+  (blet n 2 nil
+    (++ n)))
+
+(test-is "blet backtracks body if post-condition not satisfied"
+  2
+  (blet n 2 (even n)
+    (++ n)))
+
+
+
 (with (a nil b nil)
   (def a() 3)
   (def b() (a))

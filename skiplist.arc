@@ -83,17 +83,27 @@
 
 
 
-;? (def scan-handling-ties(sl nd v l)
-;?   (ret n (scan sl nd v l)
-;?     (if (iso (
+(def tied(sl a b)
+  (unless (or (pos skip-list-max-node* (list a b))
+              (pos sl (list a b)))
+    (is (metric sl a) (metric sl b))))
 
+(def valmatch(a b)
+  (iso a!val b!val))
+
+(def scan-handling-ties(sl nd v l)
+  (blet n (scan sl nd v l) (valmatch v n!next.l)
+    (while(and n!next.l!next
+               (~valmatch v n!next.l)
+               (tied sl n!next.l n!next.l!next.l))
+      (= n n!next.l))))
 
 (def find-sl(sl v)
   (with (n    sl
          l    (- skip-list-max-level* 1)
          nv   slnode.v)
     (while (>= l 0)
-      (= n (scan sl n nv l))
+      (= n (scan-handling-ties sl n nv l))
       (-- l))
     (if (iso v n!next.0!val)
       n!next.0)))

@@ -30,6 +30,16 @@
      (loop (= ,var ,init) ,term ,inc
         ,@body)))
 
+; backtracking let: after body return init unless postcond
+(mac blet(var init postcond . body)
+  (w/uniq orig
+    `(withs (,orig ,init
+             ,var ,orig)
+       ,@body
+       (if ,postcond
+         ,var
+         ,orig))))
+
 
 
 (mac redef(var expr)

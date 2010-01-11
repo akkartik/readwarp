@@ -116,7 +116,7 @@
 
 
 
-(prn "   -- skip lists with transformer function")
+(prn "   ---- skip lists with transformer function")
 (= sl (slist len))
 
 (insert-sl sl "abc")
@@ -125,6 +125,27 @@
   ((find-sl sl "abc") 'val))
 
 (prn "   -- ties now possible: non-identical values with the same metric")
+
+; Fixture. heights [tied elements]: 3 [1 1 3 2 1 2 1 3]
+(= sl (slist len))
+(insert-sl-at-level 2 sl "a")
+(insert-sl-at-level 2 sl "aaa")
+(insert-sl-at-level 0 sl "baa")
+(insert-sl-at-level 1 sl "aba")
+(insert-sl-at-level 0 sl "caa")
+(insert-sl-at-level 1 sl "aca")
+(insert-sl-at-level 2 sl "aab")
+(insert-sl-at-level 0 sl "daa")
+(insert-sl-at-level 0 sl "eaa")
+;? (prn-skip-list sl)
+
+(test-iso "find can find the first tied value"
+  "eaa"
+  ((find-sl sl "eaa") 'val))
+
+(test-iso "find can find the first tied value at any level"
+  "aab"
+  ((find-sl sl "aab") 'val))
 
 (insert-sl sl "abd")
 (test-iso "find handles ties"
