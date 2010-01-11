@@ -13,7 +13,7 @@
 
 (= sl (slist))
 (insert-sl-at-level 0 sl 32)
-(test-iso "insert to level 0 updates level-0 pointer"
+(test-is "insert to level 0 updates level-0 pointer"
   32
   sl!next.0!val)
 
@@ -21,8 +21,8 @@
   (repeat 50
     (= sl (slist))
     (insert-sl sl 32)
-    (++ (ans (iso 32 sl!next.0!val))))
-  (test-iso "insert always updates level-0 pointer"
+    (++ (ans (is 32 sl!next.0!val))))
+  (test-is "insert always updates level-0 pointer"
     0
     ans.nil))
 
@@ -30,8 +30,8 @@
   (repeat 50
     (= sl (slist))
     (insert-sl-at-level 0 sl 32)
-    (++ (ans (iso 32 sl!next.0!val))))
-  (test-iso "insert always updates level-0 pointer at level 0"
+    (++ (ans (is 32 sl!next.0!val))))
+  (test-is "insert always updates level-0 pointer at level 0"
     0
     ans.nil))
 
@@ -39,8 +39,8 @@
   (repeat 50
     (= sl (slist))
     (insert-sl-at-level 1 sl 32)
-    (++ (ans (iso 32 sl!next.0!val))))
-  (test-iso "insert always updates level-0 pointer at level 1"
+    (++ (ans (is 32 sl!next.0!val))))
+  (test-is "insert always updates level-0 pointer at level 1"
     0
     ans.nil))
 
@@ -48,15 +48,15 @@
   (repeat 50
     (= sl (slist))
     (insert-sl-at-level 2 sl 32)
-    (++ (ans (iso 32 sl!next.0!val))))
-  (test-iso "insert always updates level-0 pointer at level 2"
+    (++ (ans (is 32 sl!next.0!val))))
+  (test-is "insert always updates level-0 pointer at level 2"
     0
     ans.nil))
 
 (prn "       rerun: insert at a higher level")
 (= sl (slist))
 (insert-sl-at-level 4 sl 32)
-(test-iso ""
+(test-is ""
   32
   sl!next.0!val)
 
