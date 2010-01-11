@@ -358,3 +358,5 @@ Cleanup.
 Wow, how was it working? base-0 indexing, base-1 indexing, it was a mess.
 Anyway, find almost done. Final test still failing.
 =-=136 - Sun Jan 10 16:04:09 PST 2010
+Whoa, and it's again non-deterministic.
+=-=137 - Sun Jan 10 16:05:21 PST 2010
