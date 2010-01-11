@@ -11,11 +11,32 @@
   `(scoped-extend random-level (redef random-level (fn() ,n))
       (insert-sl ,sl ,v)))
 
-(= sl (slist))
-(insert-sl-at-level 0 sl 32)
-(test-is "insert to level 0 updates level-0 pointer"
-  32
-  sl!next.0!val)
+(let ans (obj t 0 nil 0)
+  (repeat 50
+    (= sl (slist))
+    (insert-sl-at-level 0 sl 32)
+    (++ (ans (is 32 sl!next.0!val))))
+  (test-is "insert at level 0 always updates level-0 pointer"
+    0
+    ans.nil))
+
+(let ans (obj t 0 nil 0)
+  (repeat 50
+    (= sl (slist))
+    (insert-sl-at-level 1 sl 32)
+    (++ (ans (is 32 sl!next.0!val))))
+  (test-is "insert at level 1 always updates level-0 pointer"
+    0
+    ans.nil))
+
+(let ans (obj t 0 nil 0)
+  (repeat 50
+    (= sl (slist))
+    (insert-sl-at-level (+ 1 (rand (- skip-list-max-height* 1))) sl 32)
+    (++ (ans (is 32 sl!next.0!val))))
+  (test-is "insert at higher levels always updates level-0 pointer"
+    0
+    ans.nil))
 
 (let ans (obj t 0 nil 0)
   (repeat 50
@@ -25,40 +46,6 @@
   (test-is "insert always updates level-0 pointer"
     0
     ans.nil))
-
-(let ans (obj t 0 nil 0)
-  (repeat 50
-    (= sl (slist))
-    (insert-sl-at-level 0 sl 32)
-    (++ (ans (is 32 sl!next.0!val))))
-  (test-is "insert always updates level-0 pointer at level 0"
-    0
-    ans.nil))
-
-(let ans (obj t 0 nil 0)
-  (repeat 50
-    (= sl (slist))
-    (insert-sl-at-level 1 sl 32)
-    (++ (ans (is 32 sl!next.0!val))))
-  (test-is "insert always updates level-0 pointer at level 1"
-    0
-    ans.nil))
-
-(let ans (obj t 0 nil 0)
-  (repeat 50
-    (= sl (slist))
-    (insert-sl-at-level 2 sl 32)
-    (++ (ans (is 32 sl!next.0!val))))
-  (test-is "insert always updates level-0 pointer at level 2"
-    0
-    ans.nil))
-
-(prn "       rerun: insert at a higher level")
-(= sl (slist))
-(insert-sl-at-level 4 sl 32)
-(test-is ""
-  32
-  sl!next.0!val)
 
 
 
@@ -82,16 +69,12 @@
   45
   ((find-sl sl 45) 'val))
 
-(prn "0")
 (= sl (slist))
-(prn "1")
 (repeat 1000
   (insert-sl sl rand.5000))
-(prn "40")
 
 (insert-sl sl 45)
-(prn "41")
-(prn-skip-list sl)
+;? (prn-skip-list sl)
 (test-is "find - stress test"
   45
   ((find-sl sl 45) 'val))
@@ -133,19 +116,18 @@
 
 
 
+(prn "   -- skip lists with transformer function")
 (= sl (slist len))
 
-(prn "50")
 (insert-sl sl "abc")
-(prn "51")
 (test-iso "inserts with transformer can be found"
   "abc"
   ((find-sl sl "abc") 'val))
 
-(prn "52")
+(prn "   -- ties now possible: non-identical values with the same metric")
+
 (insert-sl sl "abd")
-(prn "53")
-(test-iso "find with transformer handles ties"
+(test-iso "find handles ties"
   t
   (no:no:find-sl sl "abc"))
 

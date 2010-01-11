@@ -411,3 +411,5 @@ nd!next has at least l+1 elements. Scanning ahead by 1 can leave you with an
 element of shorter height.
 We shouldn't be doing this except after the final scan.
 =-=154 - Mon Jan 11 11:06:46 PST 2010
+Intermediate cleanup. New test cases coming up.
+=-=155 - Mon Jan 11 11:31:24 PST 2010
