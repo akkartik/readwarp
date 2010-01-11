@@ -1,3 +1,4 @@
+(set disable-redef-warnings*)
 (= sl (slist))
 
 (for n 0 (- skip-list-max-level* 1)
@@ -13,7 +14,6 @@
 
 (= sl (slist))
 (insert-sl-at-level 0 sl 32)
-;? (prn-next-pointers sl)
 (test-iso "insert to level 0 updates level-0 pointer"
   32
   sl!next.0!val)
@@ -23,7 +23,6 @@
     (= sl (slist))
     (insert-sl sl 32)
     (++ (ans (iso 32 sl!next.0!val))))
-  (prn ans)
   (test-iso "insert always updates level-0 pointer"
     0
     ans.nil))
@@ -33,7 +32,6 @@
     (= sl (slist))
     (insert-sl-at-level 0 sl 32)
     (++ (ans (iso 32 sl!next.0!val))))
-  (prn ans)
   (test-iso "insert always updates level-0 pointer at level 0"
     0
     ans.nil))
@@ -43,7 +41,6 @@
     (= sl (slist))
     (insert-sl-at-level 1 sl 32)
     (++ (ans (iso 32 sl!next.0!val))))
-  (prn ans)
   (test-iso "insert always updates level-0 pointer at level 1"
     0
     ans.nil))
@@ -53,7 +50,6 @@
     (= sl (slist))
     (insert-sl-at-level 2 sl 32)
     (++ (ans (iso 32 sl!next.0!val))))
-  (prn ans)
   (test-iso "insert always updates level-0 pointer at level 2"
     0
     ans.nil))
@@ -88,15 +84,12 @@
   ((find-sl sl 45) 'val))
 
 (= sl (slist))
-(repeat 1000
-  (let n rand.5000
-    (prn "inserting " n)
-    (insert-sl sl n)))
+(repeat 500
+  (insert-sl sl rand.5000))
 
 (insert-sl sl 45)
-(prn-skip-list sl)
 (test-is "find finds if exists"
   45
   ((find-sl sl 45) 'val))
 
-(pop random-level-seeds)
+(wipe disable-redef-warnings*)
