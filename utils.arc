@@ -62,16 +62,18 @@
 
 (mac before-exec(fnname args . body)
   `(let old ,fnname
-      (def ,fnname ,args
-        ,@body
-        (old ,@args))))
+      (redef ,fnname
+             (fn ,args
+                ,@body
+                (old ,@args)))))
 
 (mac after-exec(fnname args . body)
   `(let old ,fnname
-      (def ,fnname ,args
-        (let result (old ,@args)
-          ,@body
-          result))))
+      (redef ,fnname
+            (fn ,args
+              (let result (old ,@args)
+                ,@body
+                result)))))
 
 (mac scoped-extend(var . body)
   (let stack (globalize stringify.var "-stack")
