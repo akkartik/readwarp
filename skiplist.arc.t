@@ -135,8 +135,42 @@
   "abc"
   ((find-sl sl "abc") 'val))
 
+(insert-sl sl "abd")
+(test-iso "find with transformer handles ties"
+  t
+  (no:no:find-sl sl "abc"))
+
 (disabled
   (= sl (slist [remainder _ 571]))
   (repeat 500
     (insert-sl sl rand.5000))
   (prn-skip-list sl))
+
+
+
+(= sl (slist len))
+(insert-sl sl "abc")
+(test-ok "" (no:is sl!next.0 skip-list-max-node*))
+(delete-sl sl "abc")
+(test-is "delete works on first element"
+  skip-list-max-node*
+  sl!next.0)
+
+(insert-sl sl "a")
+(insert-sl sl "aaa")
+(insert-sl sl "aa")
+(insert-sl sl "aaaa")
+(delete-sl sl "aa")
+(test-iso "delete works on later element"
+  "aaa"
+  sl!next.0!next.0!val)
+
+(= sl (slist len))
+(insert-sl sl "a")
+(insert-sl sl "b")
+(insert-sl sl "c")
+(prn-skip-list sl)
+(delete-sl sl "b")
+(prn-skip-list sl)
+(prn:find-sl sl "b")
+(test-ok "delete handles ties in the metric" (no:find-sl sl "b"))

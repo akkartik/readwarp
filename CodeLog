@@ -394,3 +394,7 @@ Hmm, another set of tests seem to show all in order.
 =-=150 - Sun Jan 10 23:12:10 PST 2010
 Cleanup.
 =-=151 - Sun Jan 10 23:15:33 PST 2010
+Delete.
+One failing test case: can't find multiple entries with identical transformer
+functions. Not an issue before we added transformer functions.
+=-=152 - Mon Jan 11 00:23:49 PST 2010

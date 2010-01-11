@@ -1,5 +1,3 @@
-(load "utils.arc")
-
 (init skip-list-max-height* 28)
 (init skip-list-max-level* (- skip-list-max-height* 1))
 (init skip-list-max* (expt 2 skip-list-max-height*))
@@ -86,6 +84,16 @@
                (and (no:is v (val sl n)) (no:is n skip-list-max-node*))
                (= n n!next.0)
       (++ ans))))
+
+(proc delete-sl(sl v)
+  (with (n    sl
+         l    (- skip-list-max-level* 1)
+         nv   slnode.v)
+    (while (>= l 0)
+      (= n (scan sl n nv l))
+      (if (iso v n!next.l!val)
+        (= n!next.l n!next.l!next.l))
+      (-- l))))
 
 ; from nd on level l, prev of smallest node larger than value of node v
 (def scan(sl nd v l)
