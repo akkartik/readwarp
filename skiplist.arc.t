@@ -91,35 +91,35 @@
   45
   ((find-sl sl 45) 'val))
 
-;? (def sl-rand(sl)
-;?   (let n sl!next.0
-;?     (repeat rand.30
-;?       (= n (n!next (rand n!height))))
-;?     n!val))
-;? 
-;? (prn "Building a large skiplist for performance test")
-;? (= sl (slist))
-;? (repeat 5000
-;?   (insert-sl sl rand.50000))
-;? (prn "Ready")
-;? 
+(def sl-rand(sl)
+  (let n sl!next.0
+    (repeat rand.30
+      (= n (n!next (rand n!height))))
+    n!val))
+
+(prn "Building a skiplist for performance test")
+(= sl (slist))
+(repeat 5000
+  (insert-sl sl rand.5000))
+(prn "Ready " slen.sl " elems")
+
 ;? (prn-skip-list sl)
-;? 
+
 ; Interactive test
-;? (scoped-extend scan
-;?   (= travs* 0)
-;?   ; XXX: hook into existing def
-;?   (redef scan
-;?     (fn(nd v l)
-;?       (ret n nd
-;?         (while (> v n!next.l!val)
-;?           (++ travs*)
-;?           (= n n!next.l)))))
-;? 
-;?   (repeat 10
-;?     (redef travs* 0)
-;?     (let val (read) ; sl-rand.sl
-;?       (aif (find-sl sl val)
-;?         (pr "found! " it!val " at " (sl-index sl it!val) " ")
-;?         (pr "not found! "))
-;?       (prn travs* " traversals, " slen.sl " items"))))
+(scoped-extend scan
+  (= travs* 0)
+  ; XXX: hook into existing def
+  (redef scan
+    (fn(nd v l)
+      (ret n nd
+        (while (> v n!next.l!val)
+          (++ travs*)
+          (= n n!next.l)))))
+
+  (repeat 10
+    (redef travs* 0)
+    (let val rand.5000 ; (read) ; sl-rand.sl
+      (aif (find-sl sl val)
+        (pr " found! " it!val " at " (sl-index sl it!val) ": ")
+        (pr " not found! "))
+      (prn travs* " traversals"))))
