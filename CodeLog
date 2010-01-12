@@ -436,3 +436,6 @@ insert-sl's.
 If I hit C-c while tests are running I get a "could not shadow" message with
 a humongous, uninterruptable printout of the large data structures. Fixed.
 =-=165 - Mon Jan 11 21:27:59 PST 2010
+index tests passing. But I need to turn off defrep's to avoid interfering with
+tests. Still holding out before using aw's proper dynamic variables.
+=-=166 - Mon Jan 11 22:08:00 PST 2010

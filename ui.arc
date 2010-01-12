@@ -46,8 +46,12 @@
            (tag:input type "submit")))))
 
 (defop station req
-  (new-station (current-user) (arg req "seed"))
-  (set-current-station-name (current-user) (arg req "seed"))
+  (with (user (current-user)
+         station current-station.user
+         query (arg req "seed"))
+    (new-station user query)
+    (set-current-station-name user query)
+    (propagate-keyword-to-doc user station query))
   (layout-basic
     (render-doc-with-context
       (next-doc:current-user))))

@@ -98,8 +98,7 @@
     (or= station!sorted-docs (slist [salient-recency station!workspace _]))
     (or= station!iter 0)
     (or= station!name sname)
-    (add-keyword user station sname)
-    (prn)))
+    (add-query user station sname)))
 
 ; XXX: refactor
 (proc mark-read(user doc outcome)
@@ -156,10 +155,6 @@
   (common:map keyword-feeds:canonicalize (tokens keyword)))
 (def scan-docs(keyword)
   (common:map keyword-docs:canonicalize (tokens keyword)))
-
-(proc add-keyword(user station keyword)
-  (add-query user station keyword)
-  (propagate-keyword-to-doc user station keyword))
 
 (proc add-query(user station entry)
   (propagate-one user station entry guess-type.entry 'query))
@@ -221,7 +216,7 @@
 
 (proc propagate-one(user station entry typ (o prior))
   (when (or (~is typ 'doc) (~read? user entry))
-    (pr ".")
+;?     (pr ".")
     (if (is typ 'doc)
       (delete-sl station!sorted-docs entry))
     (or= station!workspace.entry (obj type typ created station!iter))
