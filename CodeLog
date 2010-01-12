@@ -471,3 +471,7 @@ run for longer than 10s!
 Ok, we're unable to write userinfo*. Nothing to do with skiplists or index at
 all.
 =-=177 - Tue Jan 12 12:28:26 PST 2010
+Cleanup. Of course we won't be able to write userinfo* now what we have all
+these pointers all over the place. I should have realized when I deleted all
+those userinfo*.*.tmp files a couple of hours ago.
+=-=178 - Tue Jan 12 12:39:07 PST 2010

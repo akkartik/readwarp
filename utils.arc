@@ -89,7 +89,6 @@
             (fn ,args
               (let result (old ,@args)
                 ,@body
-                (if (and foo* (is 'sym type.result)) (pr "=" result))
                 result)))))
 
 (mac scoped-extend(var . body)
@@ -109,7 +108,7 @@
 (= buffered-execs* (table))
 (def buffered-exec(f)
   (or= buffered-execs*.f
-       (thread (sleep buffered-exec-delay*) (wipe buffered-execs*.f) (if foo* (pr ".")) (f))))
+       (thread (sleep buffered-exec-delay*) (wipe buffered-execs*.f) (f))))
 
 
 

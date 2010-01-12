@@ -21,22 +21,17 @@
       ,(seconds))) ; one file per session. remove comma to stop reusing
 
 (mac save-snapshot(var)
-  `(fwritefile (new-snapshot-name ,var) ,var))
+  `(do (prn "saving " ',var) (fwritefile (new-snapshot-name ,var) ,var)))
 
 
 
 ;;; Transparent persistence
 (= save-registry* ())
 
-(= foo* nil)
-
 ; when data changed, run appropriate hook from save-registry*
 (after-exec sref(com val ind)
-  (if foo* (pr "_"))
-  (awhen (alref save-registry* com)
-    (prn "XXX")
-    (buffered-exec it))
-  (if foo* (pr "-")))
+  (aif (alref save-registry* com)
+    (buffered-exec it)))
 
 ; hook from save-registry lines up save function
 (init autosaved-vars* ())
@@ -82,7 +77,6 @@
         ,@body
         (sleep ,interval)))
      (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname))))
-;?      (init ,(symize stringify.fnname "-thread*") 0)));(new-thread ,fnname))))
 (mac wait(var)
   `(until (bound ',var)))
 
@@ -124,7 +118,6 @@
               (do ,@body)
               ,(aif nextfifo `(w/outfile f ,(+ "fifos/" it) (disp doc f))))))
        (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname)))))
-;?        (init ,(symize stringify.fnname "-thread*") 3))));(new-thread ,fnname)))))
 
 
 
