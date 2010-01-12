@@ -190,23 +190,26 @@
     (propagate-one user station d 'doc doc)))
 
 (proc propagate-to-doc(user station doc)
+  (prn "A")
   (let feed doc-feed.doc
     (propagate-one user station feed 'feed doc)
-    (each d feed-docs.feed
+    (everyp d feed-docs.feed 10
       (propagate-one user station d 'doc feed)))
-  (each kwd doc-keywords.doc
+  (prn) (prn "B")
+  (everyp kwd doc-keywords.doc 10
     (propagate-one user station kwd 'keyword doc)
-    (each d scan-docs.kwd
+    (everyp d scan-docs.kwd 10
       (propagate-one user station d 'doc kwd)))
-  (each d (keys doc-affinity*.doc)
+  (prn) (prn "C")
+  (everyp d (keys doc-affinity*.doc) 10
     (propagate-one user station d 'doc doc)))
 
 (proc propagate-keyword-to-doc(user station keyword)
-  (each feed scan-feeds.keyword
+  (everyp feed scan-feeds.keyword 10
     (propagate-one user station feed 'feed keyword)
-    (each d feed-docs.feed
+    (everyp d feed-docs.feed 10
       (propagate-one user station d 'doc feed)))
-  (each doc scan-docs.keyword
+  (everyp doc scan-docs.keyword 10
     (propagate-one user station doc 'doc keyword)))
 
 (proc propagate-url(user station url)
@@ -217,14 +220,16 @@
 
 (proc propagate-one(user station entry typ (o prior))
   (when (or (~is typ 'doc) (~read? user entry))
-;?     (pr ".")
+    (pr ".")
     (if (is typ 'doc)
       (delete-sl station!sorted-docs entry))
     (or= station!workspace.entry (obj type typ created station!iter))
     (if prior
       (pushnew prior station!workspace.entry!priors))
-    (if (is typ 'doc)
-      (insert-sl station!sorted-docs entry))))
+    (when (is typ 'doc)
+      (prn "aaaa " entry)
+      (insert-sl station!sorted-docs entry)
+      (prn "bbbb"))))
 
 
 

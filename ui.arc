@@ -51,7 +51,8 @@
          query (arg req "seed"))
     (new-station user query)
     (set-current-station-name user query)
-    (propagate-keyword-to-doc user station query))
+    (w/stdout (stderr)
+      (propagate-keyword-to-doc user station query)))
   (layout-basic
     (render-doc-with-context
       (next-doc:current-user))))
