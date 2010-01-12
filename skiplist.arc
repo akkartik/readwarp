@@ -54,12 +54,14 @@
 
 
 (= foofoo ())
+(= foocount* 0)
 
 (proc insert-sl(sl v)
   (with (node slnode.v
          n    sl)
     (letloop l (- node!height 1) (>= l 0) (-- l)
-      (prn "level " l)
+      (prn "level " l " - " foocount* " " sema-counter* " " cell-counter*)
+;?       (++ foocount*)
 ;?       (when (is 0 rand.100) (prn "GC!") (gc))
       (= n (scan sl n node l))
       (prn "done with scan")

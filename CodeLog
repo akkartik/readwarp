@@ -451,3 +451,6 @@ It's not GC. It really is where the prints say it is (the artificial stack
 trace confirms it's always stalled in f1 or f2). And once it gets there any
 assignment stalls it, not writes to node!next. An issue with atomic?
 =-=170 - Tue Jan 12 10:45:25 PST 2010
+We're definitely not running out of thread-cells or semaphores since only one
+of each is ever created (instrumented arc).
+=-=171 - Tue Jan 12 11:24:17 PST 2010
