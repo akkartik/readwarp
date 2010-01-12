@@ -503,6 +503,9 @@
   (prn)
   s)
 
+(def gc()
+  ($:collect-garbage))
+
 (include "arctap.arc")
 (def tests()
   (each file (dir ".")

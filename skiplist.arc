@@ -53,13 +53,42 @@
 
 
 
+(= foofoo ())
+
 (proc insert-sl(sl v)
   (with (node slnode.v
          n    sl)
     (letloop l (- node!height 1) (>= l 0) (-- l)
+      (prn "level " l)
+;?       (when (is 0 rand.100) (prn "GC!") (gc))
       (= n (scan sl n node l))
-      (= node!next.l n!next.l)
-      (= n!next.l node))))
+      (prn "done with scan")
+      (prn "aw " l)
+      (prn "ax " (type node!next))
+      (prn "ay " (len node!next))
+      (pr "az ") (prn-slnode sl node)
+      (f1 node n l)
+;?       (= node!next.l n!next.l)
+      (prn "bw " l)
+      (prn "bx " (type n!next))
+      (prn "by " (len n!next))
+      (pr "bz ") (prn-slnode sl n)
+;?       (= n!next.l node)
+      (f2 n node l)
+      (prn "zz"))
+    (prn "left loop")))
+
+(proc f1(lhs rhs l)
+  (prn "wa")
+  (rotlog foofoo l)
+  (prn "wz")
+  (= lhs!next.l rhs!next.l))
+
+(proc f2(lhs rhs l)
+  (prn "xa")
+  (rotlog foofoo l)
+  (prn "xz")
+  (= lhs!next.l rhs))
 
 ; On level l, prev of smallest node larger than v
 (def scan(sl nd v l)
