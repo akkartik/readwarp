@@ -1,8 +1,8 @@
 (= sl (slist))
 
-(for n 0 (- skip-list-max-level* 1)
+(for n 0 (- skiplist-max-level* 1)
   (test-iso (if (is n 0) "initialize to one node pointing to maxnode" "")
-    skip-list-max*
+    skiplist-max*
     sl!next.n!val))
 
 
@@ -32,7 +32,7 @@
 (let ans (obj t 0 nil 0)
   (repeat 50
     (= sl (slist))
-    (insert-sl-at-level (+ 1 (rand (- skip-list-max-height* 1))) sl 32)
+    (insert-sl-at-level (+ 1 (rand (- skiplist-max-height* 1))) sl 32)
     (++ (ans (is 32 sl!next.0!val))))
   (test-is "insert at higher levels always updates level-0 pointer"
     0
@@ -74,7 +74,7 @@
   (insert-sl sl rand.5000))
 
 (insert-sl sl 45)
-;? (prn-skip-list sl)
+;? (prn-sl sl)
 (test-is "find - stress test"
   45
   ((find-sl sl 45) 'val))
@@ -94,7 +94,7 @@
     (insert-sl sl rand.5000))
   (prn "Ready " slen.sl " elems")
 
-  ;? (prn-skip-list sl)
+  ;? (prn-sl sl)
 
   (scoped-extend scan
     (= travs* 0)
@@ -136,7 +136,7 @@
 (insert-sl-at-level 2 sl "aab")
 (insert-sl-at-level 0 sl "daa")
 (insert-sl-at-level 0 sl "eaa")
-;? (prn-skip-list sl)
+;? (prn-sl sl)
 
 (test-iso "find can find the first tied value"
   "eaa"
@@ -169,16 +169,16 @@
   (= sl (slist [remainder _ 571]))
   (repeat 500
     (insert-sl sl rand.5000))
-  (prn-skip-list sl))
+  (prn-sl sl))
 
 
 
 (= sl (slist len))
 (insert-sl sl "abc")
-(test-ok "" (~is sl!next.0 skip-list-max-node*))
+(test-ok "" (~is sl!next.0 skiplist-max-node*))
 (delete-sl sl "abc")
 (test-is "delete works on first element"
-  skip-list-max-node*
+  skiplist-max-node*
   sl!next.0)
 
 (insert-sl sl "a")
@@ -196,10 +196,10 @@
 (insert-sl sl "b")
 (insert-sl sl "c")
 (prn "before:")
-(prn-skip-list sl)
+(prn-sl sl)
 (delete-sl sl "b")
 (prn "after deleting b:")
-(prn-skip-list sl)
+(prn-sl sl)
 ;? (prn:find-sl sl "b")
 (test-ok "delete handles ties in the metric" (~find-sl sl "b"))
 

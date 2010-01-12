@@ -1,11 +1,11 @@
-(init skip-list-max-height* 28)
-(init skip-list-max-level* (- skip-list-max-height* 1))
-(init skip-list-max* (expt 2 skip-list-max-height*))
-(init skip-list-max-node*
-   (obj val skip-list-max* height skip-list-max-level* next nil))
+(init skiplist-max-height* 28)
+(init skiplist-max-level* (- skiplist-max-height* 1))
+(init skiplist-max* (expt 2 skiplist-max-height*))
+(init skiplist-max-node*
+   (obj val skiplist-max* height skiplist-max-level* next nil))
 
 (def slist((o transformer))
-  (obj fn transformer height skip-list-max-height* next nils.skip-list-max-height*))
+  (obj fn transformer height skiplist-max-height* next nils.skiplist-max-height*))
 
 (def slnode(v)
   (let h (+ 1 (random-level))
@@ -14,39 +14,40 @@
 (def best-sl(sl (o pred (fn(x) t)))
   (let n sl!next.0
     (until (or (pred n!val)
-               (is skip-list-max-node* n))
+               (is skiplist-max-node* n))
       (= n n!next.0))
     n!val))
 
 (def metric(sl slnode)
-  (if (and sl!fn (~is slnode skip-list-max-node*))
+  (if (and sl!fn (~is slnode skiplist-max-node*))
     (sl!fn slnode!val)
     slnode!val))
 
 (def slen(sl)
   (ret ans 0
     (letloop n sl!next.0
-               (~is n skip-list-max-node*)
+               (~is n skiplist-max-node*)
                (= n n!next.0)
       (++ ans))))
 
-(proc prn-skip-list(sl)
+(proc prn-sl(sl)
   (letloop n sl!next.0
-             (~is n skip-list-max-node*)
+             (~is n skiplist-max-node*)
              (= n n!next.0)
     (pr n!val " " (metric sl n) ": ")
     (each pointer n!next
       (pr "."))
     (prn)))
 
-(proc prn-next-pointers(sl nd)
+(proc prn-slnode(sl nd)
+  (pr nd!val ": ")
   (prn:map [metric sl _] nd!next))
 
 (def sl-index(sl v)
   (ret ans 0
     (letloop n sl
                (and (~is v n!val)
-                    (~is n skip-list-max-node*))
+                    (~is n skiplist-max-node*))
                (= n n!next.0)
       (++ ans))))
 
@@ -79,7 +80,7 @@
 
 
 (def tied(sl a b)
-  (unless (or (pos skip-list-max-node* (list a b))
+  (unless (or (pos skiplist-max-node* (list a b))
               (pos sl (list a b)))
     (is (metric sl a) (metric sl b))))
 
@@ -95,7 +96,7 @@
 
 (def find-sl(sl v)
   (with (n    sl
-         l    (- skip-list-max-level* 1)
+         l    (- skiplist-max-level* 1)
          nv   slnode.v)
     (while (>= l 0)
       (= n (scan-handling-ties sl n nv l))
@@ -105,7 +106,7 @@
 
 (proc delete-sl(sl v)
   (with (n    sl
-         l    (- skip-list-max-level* 1)
+         l    (- skiplist-max-level* 1)
          nv   slnode.v)
     (while (>= l 0)
       (= n (scan-handling-ties sl n nv l))
@@ -117,15 +118,15 @@
 
 (def random-level()
   (ret n 0
-    (while (and (< 0.5 (rand)) (<= n skip-list-max-level*))
+    (while (and (< 0.5 (rand)) (<= n skiplist-max-level*))
       (++ n))))
 
 (def nils(n)
   (accum acc
-    (repeat n (acc skip-list-max-node*))))
+    (repeat n (acc skiplist-max-node*))))
 
 (def sl-trans(sl)
   (or sl!fn id))
 
 (def sl-nilnode?(n)
-  (iso n skip-list-max-node*))
+  (iso n skiplist-max-node*))
