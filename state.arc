@@ -32,10 +32,10 @@
 
 ; when data changed, run appropriate hook from save-registry*
 (after-exec sref(com val ind)
-  (if foo* (pr "_"))
-  (awhen (alref save-registry* com)
-    (prn "---")
-    (buffered-exec it))
+;?   (if foo* (pr "_"))
+;?   (awhen (alref save-registry* com)
+;?     (prn "XXX")
+;?     (buffered-exec it))
   (if foo* (pr "-")))
 
 ; hook from save-registry lines up save function

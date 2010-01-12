@@ -461,3 +461,5 @@ trigger buffered-exec.
 It's not really happening with the modified sref, or at least not as far as I
 can see.
 =-=173 - Tue Jan 12 12:19:07 PST 2010
+And yet, if we disable buffered-exec entirely the problem goes away.
+=-=174 - Tue Jan 12 12:20:36 PST 2010
