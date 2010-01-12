@@ -63,7 +63,7 @@
     `(do
       (if (or (~bound ',stack)
               (empty ,stack))
-         (prn "*** couldn't unshadow " ,var)
+         (prn "*** couldn't unshadow " ',var)
          (redef ,var (pop ,stack)))
       nil)))
 
