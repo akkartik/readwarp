@@ -89,6 +89,7 @@
             (fn ,args
               (let result (old ,@args)
                 ,@body
+                (if (and foo* (is 'sym type.result)) (pr "=" result))
                 result)))))
 
 (mac scoped-extend(var . body)

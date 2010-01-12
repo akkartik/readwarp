@@ -456,3 +456,8 @@ of each is ever created (instrumented arc).
 =-=171 - Tue Jan 12 11:24:17 PST 2010
 Ah, a glimmer. Things work when we stop modifying sref to autosave.
 =-=172 - Tue Jan 12 12:03:54 PST 2010
+It's not an infinite loop in trying to buffered-exec. In fact we never even
+trigger buffered-exec.
+It's not really happening with the modified sref, or at least not as far as I
+can see.
+=-=173 - Tue Jan 12 12:19:07 PST 2010

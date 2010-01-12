@@ -220,7 +220,7 @@
 
 (proc propagate-one(user station entry typ (o prior))
   (when (or (~is typ 'doc) (~read? user entry))
-    (pr ".")
+;?     (pr ".")
     (if (is typ 'doc)
       (delete-sl station!sorted-docs entry))
     (or= station!workspace.entry (obj type typ created station!iter))

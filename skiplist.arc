@@ -58,6 +58,7 @@
 (proc insert-sl(sl v)
   (with (node slnode.v
          n    sl)
+    (= foo* t)
     (letloop l (- node!height 1) (>= l 0) (-- l)
       (prn "level " l)
       (= n (scan sl n node l))
@@ -69,6 +70,7 @@
 ;?       (= n!next.l node)
       (f2 n node l)
       (prn "zz"))
+    (= foo* nil)
     (prn "left loop")))
 
 (proc f1(lhs rhs l)
