@@ -53,28 +53,19 @@
 
 
 
-(= foofoo ())
-(= foocount* 0)
+(= foofoo 0)
 
 (proc insert-sl(sl v)
   (with (node slnode.v
          n    sl)
     (letloop l (- node!height 1) (>= l 0) (-- l)
-      (prn "level " l " - " foocount* " " sema-counter* " " cell-counter*)
-;?       (++ foocount*)
-;?       (when (is 0 rand.100) (prn "GC!") (gc))
+      (prn "level " l)
       (= n (scan sl n node l))
       (prn "done with scan")
-      (prn "aw " l)
-      (prn "ax " (type node!next))
-      (prn "ay " (len node!next))
-      (pr "az ") (prn-slnode sl node)
+      (prn "aw " l " " (len node!next))
       (f1 node n l)
 ;?       (= node!next.l n!next.l)
-      (prn "bw " l)
-      (prn "bx " (type n!next))
-      (prn "by " (len n!next))
-      (pr "bz ") (prn-slnode sl n)
+      (prn "bw " l " " (len n!next))
 ;?       (= n!next.l node)
       (f2 n node l)
       (prn "zz"))
@@ -82,13 +73,13 @@
 
 (proc f1(lhs rhs l)
   (prn "wa")
-  (rotlog foofoo l)
+  (++ foofoo)
   (prn "wz")
   (= lhs!next.l rhs!next.l))
 
 (proc f2(lhs rhs l)
   (prn "xa")
-  (rotlog foofoo l)
+  (++ foofoo)
   (prn "xz")
   (= lhs!next.l rhs))
 

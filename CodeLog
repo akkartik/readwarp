@@ -454,3 +454,5 @@ assignment stalls it, not writes to node!next. An issue with atomic?
 We're definitely not running out of thread-cells or semaphores since only one
 of each is ever created (instrumented arc).
 =-=171 - Tue Jan 12 11:24:17 PST 2010
+Ah, a glimmer. Things work when we stop modifying sref to autosave.
+=-=172 - Tue Jan 12 12:03:54 PST 2010

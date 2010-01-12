@@ -29,9 +29,9 @@
 (= save-registry* ())
 
 ; when data changed, run appropriate hook from save-registry*
-(after-exec sref(com val ind)
-  (aif (alref save-registry* com)
-    (buffered-exec it)))
+;? (after-exec sref(com val ind)
+;?   (aif (alref save-registry* com)
+;?     (buffered-exec it)))
 
 ; hook from save-registry lines up save function
 (init autosaved-vars* ())
@@ -77,6 +77,7 @@
         ,@body
         (sleep ,interval)))
      (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname))))
+;?      (init ,(symize stringify.fnname "-thread*") 0)));(new-thread ,fnname))))
 (mac wait(var)
   `(until (bound ',var)))
 
@@ -118,6 +119,7 @@
               (do ,@body)
               ,(aif nextfifo `(w/outfile f ,(+ "fifos/" it) (disp doc f))))))
        (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname)))))
+;?        (init ,(symize stringify.fnname "-thread*") 3))));(new-thread ,fnname)))))
 
 
 
