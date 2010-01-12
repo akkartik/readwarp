@@ -64,7 +64,7 @@
 
 
 
-(persisted userinfo* (table))
+(= userinfo* (table))
 
 (def new-user(user)
   (or= userinfo*.user (table))
