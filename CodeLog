@@ -463,3 +463,5 @@ can see.
 =-=173 - Tue Jan 12 12:19:07 PST 2010
 And yet, if we disable buffered-exec entirely the problem goes away.
 =-=174 - Tue Jan 12 12:20:36 PST 2010
+Waiting for atomic's semaphore with the other thread?
+=-=175 - Tue Jan 12 12:23:03 PST 2010
