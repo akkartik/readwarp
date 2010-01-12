@@ -49,6 +49,7 @@
 (dhash feed keyword "m-n"
   (map canonicalize (flat:map tokens:html-strip (vals:feedinfo* symize.feed))))
 
+(init feedinfo* (table))
 (defrep update-feeds 1800
   (= feed-list* (tokens:slurp "feeds/All"))
   (= feedinfo* (read-json-table "snapshots/feedinfo"))
