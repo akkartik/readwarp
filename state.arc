@@ -21,7 +21,7 @@
       ,(seconds))) ; one file per session. remove comma to stop reusing
 
 (mac save-snapshot(var)
-  `(do (prn "saving " ',var) (fwritefile (new-snapshot-name ,var) ,var)))
+  `(fwritefile (new-snapshot-name ,var) ,var))
 
 
 

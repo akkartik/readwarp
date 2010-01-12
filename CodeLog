@@ -475,3 +475,7 @@ Cleanup. Of course we won't be able to write userinfo* now what we have all
 these pointers all over the place. I should have realized when I deleted all
 those userinfo*.*.tmp files a couple of hours ago.
 =-=178 - Tue Jan 12 12:39:07 PST 2010
+Just ignore saving userinfo* for now. For the demos this week let's just show
+a stateless version. Now focus on speed, in the UI and in the crawl/clean
+pipeline.
+=-=179 - Tue Jan 12 15:05:50 PST 2010

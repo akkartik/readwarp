@@ -47,7 +47,6 @@
      (do
        (set disable-redef-warnings*)
        (= ,var ,expr))
-
      (wipe disable-redef-warnings*)))
 
 ;; dynamic scope when writing tests
