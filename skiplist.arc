@@ -53,23 +53,13 @@
 
 
 
-(mac loop-levels(var node . body)
-  `(letloop ,var (- (,node 'height) 1)
-                 (>= ,var 0)
-                 (-- ,var)
-      ,@body))
-
 (proc insert-sl(sl v)
-  (let node slnode.v
-;?     (prn "inserting " v " of height " node!height)
-    (loop-levels l node
-      (fit-level sl node l))))
-
-(proc fit-level(sl node level)
-;?   (prn " fitting level " level)
-  (let n (scan sl sl node level)
-    (= node!next.level n!next.level)
-    (= n!next.level node)))
+  (with (node slnode.v
+         n    sl)
+    (letloop l (- node!height 1) (>= l 0) (-- l)
+      (= n (scan sl n node l))
+      (= node!next.l n!next.l)
+      (= n!next.l node))))
 
 ; On level l, prev of smallest node larger than v
 (def scan(sl nd v l)

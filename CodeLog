@@ -443,3 +443,5 @@ Ah, insert-sl is inefficient! Each level starts from the start of the list, so
 the lowest level is always treating it as a plain list.
 Hopefully this is the reason propagate is slow.
 =-=168 - Mon Jan 11 22:40:12 PST 2010
+Fixed.
+=-=169 - Mon Jan 11 22:41:07 PST 2010
