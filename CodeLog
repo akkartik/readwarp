@@ -465,3 +465,6 @@ And yet, if we disable buffered-exec entirely the problem goes away.
 =-=174 - Tue Jan 12 12:20:36 PST 2010
 Waiting for atomic's semaphore with the other thread?
 =-=175 - Tue Jan 12 12:23:03 PST 2010
+Argh, it's dying when the first buffered-exec triggers, so we can't currently
+run for longer than 10s!
+=-=176 - Tue Jan 12 12:25:59 PST 2010

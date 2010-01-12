@@ -109,7 +109,7 @@
 (= buffered-execs* (table))
 (def buffered-exec(f)
   (or= buffered-execs*.f
-       (thread (sleep buffered-exec-delay*) (wipe buffered-execs*.f) (f))))
+       (thread (sleep buffered-exec-delay*) (wipe buffered-execs*.f) (if foo* (pr ".")) (f))))
 
 
 
