@@ -91,7 +91,6 @@
 (proc set-current-station-name(user station)
   (= userinfo*.user!current-station station))
 
-; XXX: refactor
 (proc new-station(user sname)
   (or= userinfo*.user!stations.sname (table))
   (let station userinfo*.user!stations.sname
@@ -99,7 +98,8 @@
     (or= station!sorted-docs (slist [salient-recency station!workspace _]))
     (or= station!iter 0)
     (or= station!name sname)
-    (add-keyword user station sname)))
+    (add-keyword user station sname)
+    (prn)))
 
 ; XXX: refactor
 (proc mark-read(user doc outcome)
@@ -113,9 +113,11 @@
       (when (iso outcome "read")
         (++ station!iter)
         (prune station)
-        (ero "propagating from " doc " " (len:keys station!workspace))
-        (propagate-to-doc user station doc)
-        (ero "after prop: " (len:keys station!workspace))))))
+        (w/stdout (stderr)
+          (prn "propagating from " doc " " (len:keys station!workspace))
+          (propagate-to-doc user station doc)
+          (prn)
+          (prn "after prop: " (len:keys station!workspace)))))))
 
 (def most-recent-read(station)
   (car station!read-list))
@@ -219,6 +221,7 @@
 
 (proc propagate-one(user station entry typ (o prior))
   (when (or (~is typ 'doc) (~read? user entry))
+    (pr ".")
     (if (is typ 'doc)
       (delete-sl station!sorted-docs entry))
     (or= station!workspace.entry (obj type typ created station!iter))
@@ -243,9 +246,14 @@
 (def same-feed(station doc)
   (apply iso (map doc-feed (list doc most-recent-read.station))))
 
+; metric: #priors, break ties with timestamp
 (def salient-recency(workspace doc)
-  (+ (* 1000 (len workspace.doc!priors))
-     doc-timestamp.doc))
+  (+ (* 100 (len:priors workspace doc))
+     (/ doc-timestamp.doc 60 60 24 365)))
+
+(def priors(workspace doc)
+  (if workspace.doc
+    workspace.doc!priors))
 
 (def pick(user station)
   (best-sl station!sorted-docs [~same-feed station _]))

@@ -11,8 +11,12 @@
   (let h (+ 1 (random-level))
     (obj val v height h next nils.h)))
 
-(def best-sl(sl (o pred))
-  ;; XXX
+(def best-sl(sl (o pred (fn(x) t)))
+  (let n sl!next.0
+    (until (or (pred n!val)
+               (is skip-list-max-node* n))
+      (= n n!next.0))
+    n!val))
 
 (def metric(sl slnode)
   (if (and sl!fn (~is slnode skip-list-max-node*))
@@ -66,7 +70,7 @@
     (= node!next.level n!next.level)
     (= n!next.level node)))
 
-; from nd on level l, prev of smallest node larger than value of node v
+; On level l, prev of smallest node larger than v
 (def scan(sl nd v l)
   (ret n nd
     (while (> (metric sl v) (metric sl n!next.l))

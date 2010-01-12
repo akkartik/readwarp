@@ -107,18 +107,20 @@
     (clear)))
 
 (def render-doc-with-context(doc)
-  (tag (div id (+ "doc_" doc))
-    (buttons doc)
+  (if doc
+    (tag (div id (+ "doc_" doc))
+      (buttons doc)
 
-    (tag (div class "history" style "display:none")
-      (render-doc-link doc))
+      (tag (div class "history" style "display:none")
+        (render-doc-link doc))
 
-    (tag (table class "main")
-      (tr
-        (tag (td class "post")
-          (render-doc doc))))
+      (tag (table class "main")
+        (tr
+          (tag (td class "post")
+            (render-doc doc))))
 
-    (buttons doc)))
+      (buttons doc))
+    (prn "XXX: error message, email form")))
 
 (def read-button(doc)
   (tag (a onclick (+ "pushHistory('" doc "', 'outcome=read')") href (+ "#" doc) style "text-decoration:none")

@@ -206,3 +206,11 @@
 (let old-len slen.sl
   (delete-sl sl "z")
   (test-is "delete doesn't delete other values" old-len slen.sl))
+
+(test-iso "best-sl returns first elem by default"
+  "c"
+  (best-sl sl))
+
+(test-iso "best-sl returns first elem satisfying pred"
+  "a"
+  (best-sl sl [iso "a" _]))
