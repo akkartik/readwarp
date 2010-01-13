@@ -47,12 +47,11 @@
 
 (defop station req
   (withs (user (current-user)
-          station current-station.user
           query (arg req "seed"))
     (new-station user query)
     (set-current-station-name user query)
     (w/stdout (stderr)
-      (time:propagate-keyword-to-doc user station query))
+      (time:propagate-keyword-to-doc user current-station.user query))
     (layout-basic
       (render-doc-with-context next-doc.user))))
 
