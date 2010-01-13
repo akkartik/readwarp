@@ -493,3 +493,6 @@ Is the problem that next pointers are in a list? Preliminary experiments
 indicate that random access in lists of size 30 is as cheap as in a table. By
 the time the list grows to 750 elements there's a factor of 5 difference.
 =-=184 - Tue Jan 12 18:05:49 PST 2010
+Confirmed that the inner loop is scan (and not scan-handling-ties). 20s out of
+25 are spent within it.
+=-=185 - Tue Jan 12 18:12:03 PST 2010

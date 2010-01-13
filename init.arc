@@ -1,20 +1,5 @@
-;? (= n (obj next '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
-;?                  24 25 26 27 28 29 30 31)))
-
-;? (= n (table))
-;? (repeat 1000
-;?   (push 3 n!next))
-
-(= n (obj next (table)))
-
-(def iter()
-  (repeat 100000
-    (= k n!next.750)))
-
-(time:iter)
-(quit)
-
 (def init-code()
+  (include "times.arc")
   (include "utils.arc")
   (include "skiplist.arc")
 
@@ -42,7 +27,7 @@
 (time:mark-read 0 next-doc.0 "read")
 (prn skiplist-travs* " travs in " propagates* " propagates")
 (prn "== B")
-(= propagates* 0 skiplist-travs* 0)
+(= propagates* 0 skiplist-travs* 0 times* (table))
 (time:mark-read 0 next-doc.0 "read")
 (prn skiplist-travs* " travs in " propagates* " propagates")
 ;? (prn "== C")
@@ -51,6 +36,7 @@
 ;? (time:mark-read 0 next-doc.0 "skip")
 ;? (prn "== E")
 ;? (time:mark-read 0 next-doc.0 "read")
+(print_times)
 (quit)
 
 ;? (each doc keys.docinfo*
