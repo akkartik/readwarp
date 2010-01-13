@@ -202,7 +202,7 @@
       (propagate-one user station d 'doc feed)))
   (each kwd doc-keywords.doc
     (propagate-one user station kwd 'keyword doc)
-    (each d (firstn 100 keyword-docs*.kwd)
+    (everyp d (firstn 10 keyword-docs*.kwd) 10
       (propagate-one user station d 'doc kwd)))
   (each d (keys doc-affinity*.doc)
     (propagate-one user station d 'doc doc)))
@@ -253,7 +253,6 @@
 ; metric: #priors, break ties with timestamp
 (def salient-recency(workspace doc)
   (+ (* 100 (len:priors workspace doc))
-;?      (/ doc-timestamp.doc 60 60 24 365)))
      (/ doc-timestamp.doc 10000000)))
 
 (def priors(workspace doc)
