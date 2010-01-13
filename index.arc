@@ -171,7 +171,7 @@
 (proc propagate-keyword(user station keyword)
   (each feed scan-feeds.keyword
     (propagate-one user station feed 'feed keyword))
-  (each doc scan-docs.keyword
+  (each doc keyword-docs*.keyword     ;; Assume already canonicalized
     (propagate-one user station doc 'doc keyword)))
 
 (proc propagate-feed(user station feed)
@@ -190,14 +190,20 @@
     (propagate-one user station d 'doc doc)))
 
 (proc propagate-to-doc(user station doc)
+  (prn "To propagate:")
+  (let feed doc-feed.doc
+    (prn (len feed-docs.feed) " docs from feed"))
+  (prn (len doc-keywords.doc) " keywords from doc")
+  (prn " " (sort (compare > [len keyword-docs*._]) doc-keywords.doc))
+  (prn (len-keys doc-affinity*.doc) " docs from doc")
   (let feed doc-feed.doc
     (propagate-one user station feed 'feed doc)
     (each d feed-docs.feed
       (propagate-one user station d 'doc feed)))
-  (each kwd doc-keywords.doc
-    (propagate-one user station kwd 'keyword doc)
-    (each d scan-docs.kwd
-      (propagate-one user station d 'doc kwd)))
+;?   (each kwd doc-keywords.doc
+;?     (propagate-one user station kwd 'keyword doc)
+;?     (each d keyword-docs*.kwd
+;?       (propagate-one user station d 'doc kwd)))
   (each d (keys doc-affinity*.doc)
     (propagate-one user station d 'doc doc)))
 
