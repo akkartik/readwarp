@@ -149,10 +149,8 @@
   `(each k (keys ,tab)
       (zap ,f (,tab k))))
 
-(def zip l
-  (if (all acons l)
-    (cons (map car l)
-      (apply zip (map cdr l)))))
+(def zip ls
+  (apply map list ls))
 
 (def zipmax l
   (if (some acons l)
@@ -415,32 +413,32 @@
         (= state (f c))))
     (rev ans)))
 
-(with (NEVER-WORD* ",;\"![]() \n\t\r"
-       MAYBE-WORD* ".'=-/:&?")
+(with (NEVER-WORD* ";\"![]() \n\t\r"
+       MAYBE-WORD* ".,'=-/:&?")
   (def charclass(c)
     (let c (coerce c 'string)
       (if
         (posmatch c NEVER-WORD*)  0
         (posmatch c MAYBE-WORD*)  1
-                                  2)))
+                                  2))))
 
-  (def partition-words(s)
-    (unless (blank s)
-      (withs (firstchar (s 0)
-              ans (list (list firstchar))
-              state (charclass firstchar))
-        (each (last curr next) (nctx 3 (coerce s 'cons))
-          (if curr
-            (let newstate (charclass curr)
-              (if (is newstate 1)
-                (if (or (whitec last) (whitec next))
-                  (= newstate 0)
-                  (= newstate 2)))
-              (if
-                (is newstate state) (conscar curr ans)
-                                    (push (list curr) ans))
-              (= state newstate))))
-        (rev:map [coerce (rev _) 'string] ans)))))
+(def partition-words(s)
+  (unless (blank s)
+    (withs (firstchar (s 0)
+            ans (list (list firstchar))
+            state (charclass firstchar))
+      (each (last curr next) (nctx 3 (coerce s 'cons))
+        (if curr
+          (let newstate (charclass curr)
+            (if (is newstate 1)
+              (if (or (whitec last) (whitec next))
+                (= newstate 0)
+                (= newstate 2)))
+            (if
+              (is newstate state) (conscar curr ans)
+                                  (push (list curr) ans))
+            (= state newstate))))
+      (rev:map [coerce (rev _) 'string] ans))))
 
 (mac sub-core(f)
   (w/uniq (str rest)
