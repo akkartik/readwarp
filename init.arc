@@ -32,11 +32,10 @@
 (prn skiplist-travs* " travs in " propagates* " propagates")
 (prn "== C")
 (time:mark-read 0 next-doc.0 "read")
-;? (prn "== D")
-;? (time:mark-read 0 next-doc.0 "read")
-;? (prn "== E")
-;? (time:mark-read 0 next-doc.0 "read")
-(print_times)
+(prn "== D")
+(time:mark-read 0 next-doc.0 "read")
+(prn "== E")
+(time:mark-read 0 next-doc.0 "read")
 (quit)
 
 ;? (each doc keys.docinfo*

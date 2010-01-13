@@ -63,7 +63,7 @@
 
 ; On level l, prev of smallest node larger than v
 (= skiplist-travs* 0)
-(deftimed scan(sl nd v l)
+(def scan(sl nd v l)
   (ret n nd
     (while (> (metric sl v) (metric sl n!next.l))
       (++ skiplist-travs*)
@@ -79,7 +79,7 @@
 (def valmatch(a b)
   (iso a!val b!val))
 
-(deftimed scan-handling-ties(sl nd v l)
+(def scan-handling-ties(sl nd v l)
   (blet n (scan sl nd v l) (valmatch v n!next.l)
     (while(and n!next.l!next
                (~valmatch v n!next.l)
