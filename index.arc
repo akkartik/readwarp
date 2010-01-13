@@ -194,16 +194,16 @@
   (let feed doc-feed.doc
     (prn (len feed-docs.feed) " docs from feed"))
   (prn (len doc-keywords.doc) " keywords from doc")
-  (prn " " (sort (compare > [len keyword-docs*._]) doc-keywords.doc))
+  (prn " " (add-tags [len keyword-docs*._] doc-keywords.doc))
   (prn (len-keys doc-affinity*.doc) " docs from doc")
   (let feed doc-feed.doc
     (propagate-one user station feed 'feed doc)
     (each d feed-docs.feed
       (propagate-one user station d 'doc feed)))
-;?   (each kwd doc-keywords.doc
-;?     (propagate-one user station kwd 'keyword doc)
-;?     (each d keyword-docs*.kwd
-;?       (propagate-one user station d 'doc kwd)))
+  (each kwd doc-keywords.doc
+    (propagate-one user station kwd 'keyword doc)
+    (each d (firstn 100 keyword-docs*.kwd)
+      (propagate-one user station d 'doc kwd)))
   (each d (keys doc-affinity*.doc)
     (propagate-one user station d 'doc doc)))
 
