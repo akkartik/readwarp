@@ -215,8 +215,10 @@
 (proc propagate-entry(user station entry)
   ((eval:symize "propagate-" station!workspace.entry!type) user station entry))
 
+(= propagates* 0)
 (proc propagate-one(user station entry typ (o prior))
   (when (or (~is typ 'doc) (~read? user entry))
+    (++ propagates*)
 ;?     (pr ".")
     (if (is typ 'doc)
       (delete-sl station!sorted-docs entry))

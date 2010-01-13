@@ -62,9 +62,11 @@
       (= n!next.l node))))
 
 ; On level l, prev of smallest node larger than v
+(= skiplist-travs* 0)
 (def scan(sl nd v l)
   (ret n nd
     (while (> (metric sl v) (metric sl n!next.l))
+      (++ skiplist-travs*)
       (= n n!next.l))))
 
 
