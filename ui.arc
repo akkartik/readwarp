@@ -11,7 +11,7 @@
   (read-list (current-user) (current-station-name:current-user)))
 
 (def next-doc(user)
-  (pick user current-station.user))
+  (time:pick user current-station.user))
 
 
 
@@ -46,19 +46,18 @@
            (tag:input type "submit")))))
 
 (defop station req
-  (with (user (current-user)
-         station current-station.user
-         query (arg req "seed"))
+  (withs (user (current-user)
+          station current-station.user
+          query (arg req "seed"))
     (new-station user query)
     (set-current-station-name user query)
     (w/stdout (stderr)
-      (propagate-keyword-to-doc user station query)))
-  (layout-basic
-    (render-doc-with-context
-      (next-doc:current-user))))
+      (time:propagate-keyword-to-doc user station query))
+    (layout-basic
+      (render-doc-with-context next-doc.user))))
 
 (defop docupdate req
-  (mark-read (current-user) (arg req "doc") (arg req "outcome"))
+  (time:mark-read (current-user) (arg req "doc") (arg req "outcome"))
   (render-doc-with-context
     (next-doc:current-user)))
 

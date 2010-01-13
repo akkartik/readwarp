@@ -479,3 +479,7 @@ Just ignore saving userinfo* for now. For the demos this week let's just show
 a stateless version. Now focus on speed, in the UI and in the crawl/clean
 pipeline.
 =-=179 - Tue Jan 12 15:05:50 PST 2010
+
+Ok, benchmarking is now up. Bottleneck now propagate, not next-doc. So far, so
+good.
+=-=180 - Tue Jan 12 16:06:42 PST 2010
