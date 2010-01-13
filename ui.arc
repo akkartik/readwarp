@@ -51,7 +51,7 @@
     (new-station user query)
     (set-current-station-name user query)
     (w/stdout (stderr)
-      (time:propagate-keyword-to-doc user current-station.user query))
+      (propagate-keyword-to-doc user current-station.user query))
     (layout-basic
       (render-doc-with-context next-doc.user))))
 

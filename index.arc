@@ -116,7 +116,7 @@
         (w/stdout (stderr)
           (prn "propagating from " doc " " (len:keys station!workspace))
           (propagate-to-doc user station doc)
-          (prn)
+;?           (prn)
           (prn "after prop: " (len:keys station!workspace)))))))
 
 (def most-recent-read(station)
