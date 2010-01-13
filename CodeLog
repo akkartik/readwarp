@@ -483,3 +483,6 @@ pipeline.
 Ok, benchmarking is now up. Bottleneck now propagate, not next-doc. So far, so
 good.
 =-=180 - Tue Jan 12 16:06:42 PST 2010
+Memoizing metric in skiplist gives us 3-3.5x speedup. First propagate now
+takes 20s rather than 70s. Still too long.
+=-=182 - Tue Jan 12 17:17:53 PST 2010

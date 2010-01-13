@@ -20,7 +20,7 @@
 
 (def metric(sl slnode)
   (if (and sl!fn (~is slnode skiplist-max-node*))
-    (sl!fn slnode!val)
+    (or= slnode!metric (sl!fn slnode!val))
     slnode!val))
 
 (def slen(sl)
