@@ -496,3 +496,40 @@ the time the list grows to 750 elements there's a factor of 5 difference.
 Confirmed that the inner loop is scan (and not scan-handling-ties). 20s out of
 25 are spent within it.
 =-=185 - Tue Jan 12 18:12:03 PST 2010
+
+First few iterations on laptop:
+  == A
+  time: 2 msec.
+  "marking read " "http___krugman_blogs_nytimes_com_2009_11_09_finance_mythbusting_third_world_edition_" 
+  propagating from http___krugman_blogs_nytimes_com_2009_11_09_finance_mythbusting_third_world_edition_ 25
+  after prop: 808
+  time: 7445 msec.
+  99632 travs in 820 propagates
+  == B
+  time: 10 msec.
+  "marking read " "http___yelnick_typepad_com_technik_2005_03_venture_overhan_html" 
+  propagating from http___yelnick_typepad_com_technik_2005_03_venture_overhan_html 808
+  after prop: 1945
+  time: 27867 msec.
+  745141 travs in 1349 propagates
+  == C
+  time: 1 msec.
+  "marking read " "http___karthik82_com__page_doom_mode_reviews_id_12" 
+  propagating from http___karthik82_com__page_doom_mode_reviews_id_12 1945
+  after prop: 2171
+  time: 34380 msec.
+  == D
+  time: 1 msec.
+  "marking read " "http___yelnick_typepad_com_technik_2003_09_microsoft_blaze_html" 
+  propagating from http___yelnick_typepad_com_technik_2003_09_microsoft_blaze_html 2148
+  after prop: 2478
+  time: 14625 msec.
+  == E
+  time: 15 msec.
+  "marking read " "http___bnoopy_typepad_com_bnoopy_2004_10_moons_over_my_h_html" 
+  propagating from http___bnoopy_typepad_com_bnoopy_2004_10_moons_over_my_h_html 1837
+  after prop: 3532
+  time: 95589 msec.
+
+On EC2, propagating from 253 nodes, iter B takes over 10 minutes.
+=-=190 - Wed Jan 13 11:49:47 PST 2010
