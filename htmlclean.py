@@ -110,7 +110,9 @@ def cleanup(file, debug=False):
   if debug: print "== Phase 2"
   scores = {}
   candidates = soup.findAll(True)
+  print "phase 2", len(candidates)
   for i, node in enumerate(candidates):
+    if i > 0 and i % 100 == 0: print " ", i
     l = txtlen(str(node))
     if l > 1:
       scores[str(node)] = score(node)/math.log(l)
@@ -197,15 +199,15 @@ def testAll():
   for file in os.listdir(dir):
     if file[-4:] == '.raw':
       scan(dir+'/'+file)
-#?       if not test(dir+'/'+file):
-#?         print "failed", file[:-4]
-#?         numincorrect+=1
-#?       else:
-#?         print "passed", file[:-4]
-#?         numcorrect+=1
-#?       sys.stdout.flush()
-#?   print numcorrect+numincorrect
-#?   print numincorrect, "failed"
+      if not test(dir+'/'+file):
+        print "failed", file[:-4]
+        numincorrect+=1
+      else:
+        print "passed", file[:-4]
+        numcorrect+=1
+      sys.stdout.flush()
+  print numcorrect+numincorrect
+  print numincorrect, "failed"
 
 if __name__ == '__main__':
   if len(sys.argv) == 1:
