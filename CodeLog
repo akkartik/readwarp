@@ -547,3 +547,7 @@ Updating utils after code review:
 In particular, it's useful that the way arc does destructuring eliminates the
 major use case for zipmax.
 =-=195 - Thu Jan 14 00:03:18 PST 2010
+
+After fixing the kill-thread bug in arc, timeout-exec is working well.
+Still kinda sluggish; we're seeing times of upto 30s, but this should suffice.
+=-=197 - Thu Jan 14 13:27:09 PST 2010

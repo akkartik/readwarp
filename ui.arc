@@ -1,5 +1,3 @@
-(= threadlife* 90)
-
 (def current-user()
   0)
 (new-user:current-user)
@@ -11,7 +9,10 @@
   (read-list (current-user) (current-station-name:current-user)))
 
 (def next-doc(user)
-  (time:pick user current-station.user))
+  (ret ans nil
+    (ero "starting next-doc")
+    (= ans (pick user current-station.user))
+    (ero "end next-doc")))
 
 
 
@@ -56,9 +57,14 @@
       (render-doc-with-context next-doc.user))))
 
 (defop docupdate req
+  (ero)
+  (ero "=== begin query")
   (time:mark-read (current-user) (arg req "doc") (arg req "outcome"))
+  (ero "=== rendering")
   (render-doc-with-context
-    (next-doc:current-user)))
+    (next-doc:current-user))
+  (ero "=== end")
+  )
 
 (defop doc req
   (let doc (arg req "doc")

@@ -115,9 +115,7 @@
         (prune station)
         (w/stdout (stderr)
           (prn "propagating from " doc " " (len:keys station!workspace))
-;?           (timeout-exec 2 (propagate-to-doc user station doc))
-          (propagate-to-doc user station doc)
-;?           (prn)
+          (timeout-exec 2 (propagate-to-doc user station doc))
           (prn "after prop: " (len:keys station!workspace)))))))
 
 (def most-recent-read(station)
@@ -204,8 +202,7 @@
   (each kwd doc-keywords.doc
 ;?   (each kwd (keep [< 50 (len keyword-docs*._)] doc-keywords.doc)
     (propagate-one user station kwd 'keyword doc)
-;?     (everyp d keyword-docs*.kwd 10
-    (everyp d (firstn 100 keyword-docs*.kwd) 10
+    (each d (firstn 10 keyword-docs*.kwd)
       (propagate-one user station d 'doc kwd)))
   (each d (keys doc-affinity*.doc)
     (propagate-one user station d 'doc doc)))
@@ -228,7 +225,6 @@
 (proc propagate-one(user station entry typ (o prior))
   (when (or (~is typ 'doc) (~read? user entry))
     (++ propagates*)
-;?     (pr ".")
     (if (is typ 'doc)
       (delete-sl station!sorted-docs entry))
     (or= station!workspace.entry (obj type typ created station!iter))
