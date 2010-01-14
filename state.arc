@@ -51,10 +51,10 @@
     (eval `(unshadow ,var))))
 
 (mac without-updating-state body
-  `(after
-     (do
-       (shadow-autosaved)
-       ,@body)
+  `(after*
+     (shadow-autosaved)
+     ,@body
+    :do
      (unshadow-autosaved)))
 
 

@@ -84,21 +84,13 @@
           '((1 2 3) (2 4 6) (3 6 9))
           (zip '(1 2 3) '(2 4 6 7) '(3 6 9)))
 
-(test-iso "zipmax should return as many elements as the longest list"
-          '((1 2) (2 4) (3 6) (nil 7))
-          (zipmax '(1 2 3) '(2 4 6 7)))
+(test-iso "sliding-window"
+          '((1 2) (2 3) (3))
+          (sliding-window 2 '(1 2 3)))
 
-(test-iso "cdrs"
-          '((1 2 3) (2 3) (3))
-          (cdrs 2 '(1 2 3)))
-
-(test-iso "nctx"
-          '((1 2) (2 3) (3 nil))
-          (nctx 2 '(1 2 3)))
-
-(test-iso "nctx trivial"
-          '((1 nil))
-          (nctx 2 '(1)))
+(test-iso "sliding-window trivial"
+          '((1))
+          (sliding-window 2 '(1)))
 
 
 

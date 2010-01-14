@@ -30,6 +30,12 @@
      (loop (= ,var ,init) ,term ,inc
         ,@body)))
 
+(mac after* block
+  (let (body finally) (split-by block ':do)
+    `(after
+       (do ,@body)
+       (do ,@finally))))
+
 ; backtracking let: after body return init unless postcond
 (mac blet(var init postcond . body)
   (w/uniq orig
@@ -43,10 +49,10 @@
 
 
 (mac redef(var expr)
-  `(after
-     (do
-       (set disable-redef-warnings*)
-       (= ,var ,expr))
+  `(after*
+     (set disable-redef-warnings*)
+     (= ,var ,expr)
+    :do
      (wipe disable-redef-warnings*)))
 
 ;; dynamic scope when writing tests
@@ -67,10 +73,10 @@
       nil)))
 
 (mac shadowing(var expr . body)
-  `(after
-     (do
-       (shadow ,var ,expr)
-       ,@body)
+  `(after*
+     (shadow ,var ,expr)
+     ,@body
+    :do
      (unshadow ,var)))
 
 
@@ -93,12 +99,10 @@
 (mac scoped-extend(var . body)
   (let stack (globalize stringify.var "-stack")
     `(after
-      (do
-         (init ,stack ())
-         (push ,var ,stack)
-
-         ,@body)
-
+       (init ,stack ())
+       (push ,var ,stack)
+       ,@body
+      :do
        (redef ,var (pop ,stack)))))
 
 
@@ -114,8 +118,9 @@
     `(withs (,done-flag nil
              ,thread-var (new-thread
                            (fn()
-                             (after
-                               (do ,@body)
+                             (after*
+                               ,@body
+                              :do
                                (= ,done-flag t)))))
        (thread
          (sleep ,timeout)
@@ -169,18 +174,11 @@
 (def zip ls
   (apply map list ls))
 
-(def zipmax l
-  (if (some acons l)
-    (cons (map car l)
-      (apply zipmax (map cdr l)))))
-
-(def cdrs(n l)
-  (if (is n 0)
-    (list l)
-    (cons l (cdrs (- n 1) (cdr l)))))
-
-(def nctx(n l)
-  (apply zipmax (cdrs (- n 1) l)))
+(def sliding-window(n xs)
+  (accum a
+    (a (firstn n xs))
+    (whilet xs (cdr xs)
+      (a (firstn n xs)))))
 
 (def deltas(l)
    (if (cdr l)
@@ -416,9 +414,6 @@
 (def has-alpha?(s)
   (not (is #f (m (r "[A-Za-z]") s))))
 
-(mac conscar(a l)
-  `(= ,l (cons (cons ,a (car ,l)) (cdr ,l))))
-
 (def partition(s (o f whitec))
   (with (state -1
          ans '())
@@ -430,32 +425,33 @@
         (= state (f c))))
     (rev ans)))
 
-(with (NEVER-WORD* ";\"![]() \n\t\r"
-       MAYBE-WORD* ".,'=-/:&?")
-  (def charclass(c)
-    (let c (coerce c 'string)
-      (if
-        (posmatch c NEVER-WORD*)  0
-        (posmatch c MAYBE-WORD*)  1
-                                  2))))
-
-(def partition-words(s)
+(def partition-words (s)
   (unless (blank s)
-    (withs (firstchar (s 0)
-            ans (list (list firstchar))
-            state (charclass firstchar))
-      (each (last curr next) (nctx 3 (coerce s 'cons))
-        (if curr
-          (let newstate (charclass curr)
-            (if (is newstate 1)
-              (if (or (whitec last) (whitec next))
-                (= newstate 0)
-                (= newstate 2)))
-            (if
-              (is newstate state) (conscar curr ans)
-                                  (push (list curr) ans))
+    (with (ans (list:list:s 0) state (charclass s.0))
+      (each (prev curr next) (sliding-window 3 (coerce s 'cons))
+        (when curr
+          (let newstate (charstate curr prev next)
+            (if (is newstate state)
+                (push curr (car ans))
+                (push (list curr) ans))
             (= state newstate))))
       (rev:map [coerce (rev _) 'string] ans))))
+
+(with (never-word* ";\"![]() \n\t\r"
+       maybe-word* ".,'=-/:&?")
+  (def charclass (c)
+    (if (find c never-word*)
+          'never
+        (find c maybe-word*)
+          'maybe
+          'always)))
+
+(def charstate (c prev next)
+  (caselet class (charclass c)
+    maybe (if (or (whitec prev) (whitec next))
+              'never
+              'always)
+          class))
 
 (mac sub-core(f)
   (w/uniq (str rest)

@@ -541,3 +541,9 @@ Evaluation before showing H&F meetup. Major issues:
   a) Downvotes don't penalize feed
   b) feed-affinity* graph only contains 99 feeds out of 1500
 =-=194 - Wed Jan 13 17:28:11 PST 2010
+
+Updating utils after code review:
+  http://arclanguage.org/item?id=11129
+In particular, it's useful that the way arc does destructuring eliminates the
+major use case for zipmax.
+=-=195 - Thu Jan 14 00:03:18 PST 2010
