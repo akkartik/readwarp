@@ -425,7 +425,7 @@
         (= state (f c))))
     (rev ans)))
 
-(def partition-words (s)
+(def partition-words(s)
   (unless (blank s)
     (with (ans (list:list:s 0) state (charclass s.0))
       (each (prev curr next) (sliding-window 3 (coerce s 'cons))
@@ -439,14 +439,14 @@
 
 (with (never-word* ";\"![]() \n\t\r"
        maybe-word* ".,'=-/:&?")
-  (def charclass (c)
+  (def charclass(c)
     (if (find c never-word*)
           'never
         (find c maybe-word*)
           'maybe
           'always)))
 
-(def charstate (c prev next)
+(def charstate(c prev next)
   (caselet class (charclass c)
     maybe (if (or (whitec prev) (whitec next))
               'never
