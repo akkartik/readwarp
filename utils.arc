@@ -109,6 +109,23 @@
   (or= buffered-execs*.f
        (thread (sleep buffered-exec-delay*) (wipe buffered-execs*.f) (f))))
 
+(mac timeout-exec (timeout . body)
+  (w/uniq (done-flag thread-var)
+    `(withs (,done-flag nil
+             ,thread-var (new-thread
+                           (fn()
+                             (after
+                               (do ,@body)
+                               (= ,done-flag t)))))
+       (thread
+         (sleep ,timeout)
+         (unless (dead ,thread-var)
+           (w/stdout (stderr)
+              (prn "Timeout"))
+           (kill-thread ,thread-var)
+           (= ,done-flag t)))
+       (until ,done-flag))))
+
 
 
 (def kwargs(args-and-body (o defaults))

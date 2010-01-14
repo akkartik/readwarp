@@ -16,7 +16,8 @@
     (until (or (pred n!val)
                (is skiplist-max-node* n))
       (= n n!next.0))
-    n!val))
+    (unless (is n skiplist-max-node*)
+      n!val)))
 
 (def metric(sl slnode)
   (if (and sl!fn (~is slnode skiplist-max-node*))

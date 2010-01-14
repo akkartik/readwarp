@@ -214,3 +214,6 @@
 (test-iso "best-sl returns first elem satisfying pred"
   "a"
   (best-sl sl [iso "a" _]))
+
+(test-ok "best-sl returns nil when not found"
+  (~best-sl sl (fn(x) nil)))

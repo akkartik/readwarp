@@ -18,7 +18,7 @@
   (def doc-feedtitle(doc)
     (errsafe docinfo*.doc!feedtitle))
   (def doc-timestamp(doc)
-    (or pubdate.doc feeddate.doc (time-ago:* 60 60 24 2))) ; hack for corrupted docinfo
+    (or pubdate.doc feeddate.doc (time-ago 432000))) ; (* 60 60 24 2) hack for corrupted docinfo
   (def pubdate(doc)
     (errsafe docinfo*.doc!date))
   (def feeddate(doc)
@@ -64,7 +64,7 @@
 
 
 
-(= userinfo* (table))
+(init userinfo* (table))
 
 (def new-user(user)
   (or= userinfo*.user (table))
@@ -115,6 +115,7 @@
         (prune station)
         (w/stdout (stderr)
           (prn "propagating from " doc " " (len:keys station!workspace))
+;?           (timeout-exec 2 (propagate-to-doc user station doc))
           (propagate-to-doc user station doc)
 ;?           (prn)
           (prn "after prop: " (len:keys station!workspace)))))))
@@ -201,8 +202,10 @@
     (each d feed-docs.feed
       (propagate-one user station d 'doc feed)))
   (each kwd doc-keywords.doc
+;?   (each kwd (keep [< 50 (len keyword-docs*._)] doc-keywords.doc)
     (propagate-one user station kwd 'keyword doc)
-    (everyp d (firstn 10 keyword-docs*.kwd) 10
+;?     (everyp d keyword-docs*.kwd 10
+    (everyp d (firstn 100 keyword-docs*.kwd) 10
       (propagate-one user station d 'doc kwd)))
   (each d (keys doc-affinity*.doc)
     (propagate-one user station d 'doc doc)))

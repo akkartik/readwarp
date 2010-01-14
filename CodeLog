@@ -535,3 +535,9 @@ On EC2, propagating from 253 nodes, iter B takes over 10 minutes.
 =-=190 - Wed Jan 13 11:49:47 PST 2010
 Without doc-keywords-docs it's blazing.
 =-=191 - Wed Jan 13 12:28:41 PST 2010
+Evaluation before showing H&F meetup. Major issues:
+1. It's still slow. timeout-exec isn't useable; fails to relinquish atomic
+2. It's often ping-ponging between two feeds
+  a) Downvotes don't penalize feed
+  b) feed-affinity* graph only contains 99 feeds out of 1500
+=-=194 - Wed Jan 13 17:28:11 PST 2010
