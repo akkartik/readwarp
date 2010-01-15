@@ -551,3 +551,8 @@ major use case for zipmax.
 After fixing the kill-thread bug in arc, timeout-exec is working well.
 Still kinda sluggish; we're seeing times of upto 30s, but this should suffice.
 =-=197 - Thu Jan 14 13:27:09 PST 2010
+
+Now focus on htmlclean. First step: revert to difflib. Suddenly it's much
+faster. 33 failed test cases, but I'm now not convinced we're detecting
+failures correctly.
+=-=199 - Thu Jan 14 21:34:24 PST 2010

@@ -1,9 +1,8 @@
 import sys, os, time, re, math, string, traceback, json
 from BeautifulSoup import BeautifulSoup
 import StringIO
+import difflib
 from utils import *
-
-from diff_match_patch import diff_match_patch
 
 badParaRegex = re.compile("comment|meta|footer|footnote")
 goodParaRegex = re.compile("^(post|hentry|entry[-]?(content|text|body)?|article[-]?(content|text|body)?)$")
@@ -55,13 +54,20 @@ def hint_contents(file):
   except: pass
   return ''
 
+def matching_size(a, b, debug):
+  s = difflib.SequenceMatcher(a=a, b=b)
+  lens = [x[2] for x in s.get_matching_blocks()]
+  if debug:
+    print "=="
+    print b
+    print sum(lens), len(b), s.get_matching_blocks()
+  return sum(lens)
+
 def fuzzymatch(a, b, debug=False):
-  if isa(a, 'str'): a = unicode(a, errors='ignore')
-  if isa(b, 'str'): b = unicode(b, errors='ignore')
-  s = diff_match_patch()
-  commons = [x[1] for x in s.diff_main(a, b) if x[0] == 0]
-  if debug: print commons
-  return float(sum([len(x) for x in commons]) - len(commons))/len(b) > 0.8
+  print min(len(a), len(b))
+  if a == '' or b == '': return False
+  return (float(max(matching_size(a,b,debug), matching_size(b,a,debug))) /
+            min(len(a), len(b))) > 0.8
 
 def pickTopMatchingCandidate(candidates, scores, hint, debug):
   if debug: print "==", len(candidates), "candidates"
@@ -164,7 +170,7 @@ def fuzzycheck(expected, got, debug=False):
     print expected
     print "==="
     print got
-    os._exit(0)
+#?     os._exit(0)
   return passed
 
 def test(f, debug=False):
