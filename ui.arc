@@ -86,11 +86,26 @@
 
 
 
+(def render-doc-with-context(doc)
+  (if doc
+    (tag (div id (+ "doc_" doc))
+      (buttons doc)
+      (tag (div class "history" style "display:none")
+        (render-doc-link doc))
+      (tag (table class "main")
+        (tr
+          (tag (td class "post")
+            (render-doc doc))))
+      (buttons doc))
+    (prn "XXX: error message, email form")))
+
 (def render-doc(doc)
   (tag (div id (+ "contents_" doc))
     (tag (h2 class "title")
       (tag (a href doc-url.doc target "_blank")
         (pr doc-title.doc)))
+    (tag (div class "date")
+      (aif pubdate.doc (pr render-date.it)))
     (tag div
       (iflet siteurl doc-site.doc
         (tag (a href siteurl target "_blank")
@@ -102,7 +117,6 @@
   (tag (div id (+ "history_" doc))
     (tag (div id (+ "outcome_" doc) class (read? (current-user) doc))
       (pr "&#9632;"))
-
     (tag (p class "title item")
       (tag (a onclick (+ "showDoc('" doc "')") href "#" style "font-weight:bold")
         (pr doc-title.doc)))))
@@ -114,22 +128,6 @@
     (skip-button doc)
     (all-read-button doc)
     (clear)))
-
-(def render-doc-with-context(doc)
-  (if doc
-    (tag (div id (+ "doc_" doc))
-      (buttons doc)
-
-      (tag (div class "history" style "display:none")
-        (render-doc-link doc))
-
-      (tag (table class "main")
-        (tr
-          (tag (td class "post")
-            (render-doc doc))))
-
-      (buttons doc))
-    (prn "XXX: error message, email form")))
 
 (def read-button(doc)
   (tag (a onclick (+ "pushHistory('" doc "', 'outcome=read')") href (+ "#" doc) style "text-decoration:none")

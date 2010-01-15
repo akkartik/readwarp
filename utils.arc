@@ -573,6 +573,10 @@
 (def time-ago(s)
   (- (seconds) s))
 
+(def render-date(s)
+  (let d (date int.s)
+    (+ "" d.0 "-" d.1 "-" d.2)))
+
 (def l(f)
   (include:+ stringify.f ".arc"))
 (def test(f)

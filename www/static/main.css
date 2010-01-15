@@ -42,3 +42,5 @@ h2.title a{ color:#44c; font-weight:bold; }
 .main p{ margin-top:1em; }
 
 #searchbox { margin-left:75%; margin-top:0.5em; }
+
+.date { font-style:italic; font-size:80%; float:right; }
