@@ -110,6 +110,7 @@ def cleanup(file, debug=False):
   pick = pickTopMatchingCandidate(candidates, scores, deschint, debug)
   if pick: return pick
 
+  if deschint == '': return candidates[0]
   return deschint
 
 def commaCount(node):
