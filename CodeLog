@@ -556,3 +556,6 @@ Now focus on htmlclean. First step: revert to difflib. Suddenly it's much
 faster. 33 failed test cases, but I'm now not convinced we're detecting
 failures correctly.
 =-=199 - Thu Jan 14 21:34:24 PST 2010
+If we don't have faith in the metric, let's at least fall back to a metric we
+do have faith in.
+=-=200 - Thu Jan 14 21:41:50 PST 2010

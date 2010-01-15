@@ -173,11 +173,17 @@ def fuzzycheck(expected, got, debug=False):
 #?     os._exit(0)
   return passed
 
+numreallypassed=0
 def test(f, debug=False):
+  global numreallypassed
   f2 = f[:-3]+'clean'
   expected = slurp(f2)
   got = cleanup(f)
-  passed = fuzzycheck(expected, got)
+  if expected == got:
+    passed = True
+    numreallypassed += 1
+  else:
+    passed = fuzzycheck(expected, got)
 
   if debug: print passed
   if not passed:
@@ -214,6 +220,7 @@ def testAll():
       sys.stdout.flush()
   print numcorrect+numincorrect
   print numincorrect, "failed"
+  print numreallypassed, "surely passed"
 
 if __name__ == '__main__':
   if len(sys.argv) == 1:
