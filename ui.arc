@@ -139,7 +139,7 @@
     (clear)))
 
 (def button(doc n cls tooltip)
-  (tag (a onclick (+ "pushHistory('" doc "', 'outcome='" n "')") href "#" title tooltip)
+  (tag (a onclick (+ "pushHistory('" doc "', 'outcome=" n "')") href "#" title tooltip)
     (tag (div class (+ cls " button")))))
 
 (def preferred-feed(doc)

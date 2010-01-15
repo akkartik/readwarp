@@ -89,6 +89,11 @@
 (def current-workspace(user)
   current-station.user!workspace)
 
+(def showlist(station)
+  (if (no station!showlist)
+    rebuild-showlist.station)
+  station!showlist)
+
 (mac preferred-feeds(station)
   `(,station 'preferred-feeds))
 
@@ -109,10 +114,12 @@
   (unless userinfo*.user!read.doc
     (ero "marking read " doc)
     (= userinfo*.user!read.doc outcome)
+    (ero outcome " " type.outcome)
     (withs (s current-station-name.user
             station userinfo*.user!stations.s)
       (push doc station!read-list)
       (delete-sl station!sorted-docs doc)
+      (pop station!showlist)
       (when (iso outcome "read")
         (++ station!iter)
         (prune station)
@@ -261,5 +268,9 @@
   (if workspace.doc
     workspace.doc!priors))
 
+(def rebuild-showlist(station)
+  (push (best-sl station!sorted-docs [~same-feed station _])
+        station!showlist))
+
 (def pick(user station)
-  (best-sl station!sorted-docs [~same-feed station _]))
+  (car showlist.station))
