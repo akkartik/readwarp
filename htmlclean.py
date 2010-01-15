@@ -96,7 +96,6 @@ def cleanup(file, debug=False):
   for s in soup.findAll('link', attrs={'type': 'text/css'}): s.extract()
   for s in soup.findAll('form'): s.extract()
 
-  if debug: print "== Phase 1"
   scores = {}
   for para in soup.findAll('p'):
     parent = para.parent
@@ -110,24 +109,8 @@ def cleanup(file, debug=False):
   candidates = sortedKeys(scores)
   pick = pickTopMatchingCandidate(candidates, scores, deschint, debug)
   if pick: return pick
-  try: top_candidate_without_match = candidates[0]
-  except: top_candidate_without_match = ''
 
-  if debug: print "== Phase 2"
-  scores = {}
-  candidates = soup.findAll(True)
-  print "phase 2", len(candidates)
-  for i, node in enumerate(candidates):
-    if i > 0 and i % 100 == 0: print " ", i
-    l = txtlen(str(node))
-    if l > 1:
-      scores[str(node)] = score(node)/math.log(l)
-
-  candidates = sortedKeys(scores)
-  pick = pickTopMatchingCandidate(candidates, scores, deschint, debug)
-  if pick: return pick
-
-  return top_candidate_without_match
+  return candidates[0]
 
 def commaCount(node):
   return len(node.renderContents().split(','))
@@ -165,12 +148,12 @@ def fuzzycheck(expected, got, debug=False):
   passed = dilution > 0.6
   if match and dilution > 0.5:
     print match, dilution
-  if debug: print passed, match, dilution
-  if dilution > 1.5:
-    print expected
-    print "==="
-    print got
-#?     os._exit(0)
+  if debug:
+    print passed, match, dilution
+    if dilution > 1.5:
+      print expected
+      print "==="
+      print got
   return passed
 
 numreallypassed=0

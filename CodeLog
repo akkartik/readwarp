@@ -559,3 +559,6 @@ failures correctly.
 If we don't have faith in the metric, let's at least fall back to a metric we
 do have faith in.
 =-=200 - Thu Jan 14 21:41:50 PST 2010
+Deleting pass 2. 4 more failures, but 4 extra certain successes, and tests
+take 25% less time to run. So much for that.
+=-=201 - Thu Jan 14 22:08:17 PST 2010
