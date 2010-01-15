@@ -75,7 +75,7 @@
   `(tag (a class ,i onclick "toggleLink(this); return jsget(this);" href ,url style ,styl) ,text))
 (def display(flag)
   (if flag
-    "display:block"
+    "display:inline"
     "display:none"))
 (mac jstogglelink(id text0 url0 text1 url1 which)
   `(do

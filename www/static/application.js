@@ -31,7 +31,7 @@ function toggleLink(elem) {
   var offelems = $$('.'+base+'_off');
   if (onelems[0].style.display == 'none') {
     for (i=0; i < onelems.length; ++i) {
-      onelems[i].style.display = 'block';
+      onelems[i].style.display = 'inline';
     }
     for (i=0; i < offelems.length; ++i) {
       offelems[i].style.display = 'none';
@@ -42,7 +42,7 @@ function toggleLink(elem) {
       onelems[i].style.display = 'none';
     }
     for (i=0; i < offelems.length; ++i) {
-      offelems[i].style.display = 'block';
+      offelems[i].style.display = 'inline';
     }
   }
 }

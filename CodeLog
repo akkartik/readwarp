@@ -576,3 +576,24 @@ Seth Cohen's suggestion yday: show story date.
 =-=205 - Thu Jan 14 23:17:46 PST 2010
 UI: new buttons with tool tips. Hooked up to nothing yet.
 =-=206 - Fri Jan 15 00:25:29 PST 2010
+Star for feed done.
+
+- from plan
+Preferred feeds ds by station. table: feed -> (manual weight (0-n), inferred weight (-1 to 1))
+Showlist ds: Construct 5 stories at a time
+  Choose 1 lit doc in worklist
+  Choose most recent story from upto 4 separate preferred feeds, avoiding the last 5
+  Fill remainder with most recent story from random feeds by affinity, avoiding last 5
+  Fill remainder with most recent story from random feeds, avoiding last 5 and unpreferred feeds
+  Fill remainder with most recent story from random unpreferred feeds, avoiding last 5
+  Fill remainder with most recent story from random feeds
+
+Outcome: 1-4
+4: preferred feed, propagate doc
+3: preferred feed after 5 3s, propagate doc
+2: do nothing
+1:
+   manually preferred feed: disable prefer after 5 1s
+   preferred feed: disable after 2 1s
+   not preferred: unprefer
+=-=207 - Fri Jan 15 14:07:21 PST 2010

@@ -8,6 +8,9 @@
 (def current-user-read-list()
   (read-list (current-user) (current-station-name:current-user)))
 
+(mac current-station-preferred-feeds()
+  `(preferred-feeds (current-station:current-user)))
+
 (def next-doc(user)
   (ret ans nil
     (ero "starting next-doc")
@@ -81,6 +84,11 @@
         (each doc (cut (current-user-read-list) start-index end-index)
           (render-doc-link doc)))))
 
+(defop prefer req
+  (if (iso "yes" (arg req "to"))
+    (pushnew (doc-feed (arg req "doc")) (current-station-preferred-feeds))
+    (pull (doc-feed (arg req "doc")) (current-station-preferred-feeds))))
+
 (defop reload req
   (init-code))
 
@@ -107,9 +115,10 @@
     (tag (div class "date")
       (aif pubdate.doc (pr render-date.it)))
     (tag div
-      (iflet siteurl doc-site.doc
+      (whenlet siteurl doc-site.doc
         (tag (a href siteurl target "_blank")
-          (pr (or doc-feedtitle.doc "website")))))
+          (pr (or doc-feedtitle.doc "website")))
+        (preferred-feed doc)))
     (tag p
       (pr:contents doc))))
 
@@ -132,3 +141,10 @@
 (def button(doc n cls tooltip)
   (tag (a onclick (+ "pushHistory('" doc "', 'outcome='" n "')") href "#" title tooltip)
     (tag (div class (+ cls " button")))))
+
+(def preferred-feed(doc)
+  (tag (span class "icon")
+    (jstogglelink (+ "save_" doc)
+      (tag:img src "/saved.gif" height "24px") (+ "/prefer?doc=" doc "&to=no")
+      (tag:img src "/save.gif" height "24px") (+ "/prefer?doc=" doc "&to=yes")
+      (pos doc-feed.doc (current-station-preferred-feeds)))))

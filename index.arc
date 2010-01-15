@@ -89,6 +89,9 @@
 (def current-workspace(user)
   current-station.user!workspace)
 
+(mac preferred-feeds(station)
+  `(,station 'preferred-feeds))
+
 (proc set-current-station-name(user station)
   (= userinfo*.user!current-station station))
 
