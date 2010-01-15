@@ -599,3 +599,6 @@ Outcome: 1-4
 =-=207 - Fri Jan 15 14:07:21 PST 2010
 Step 1: showlist data structure
 =-=208 - Fri Jan 15 14:52:48 PST 2010
+Step 2: preferred feeds, make it a table of properties rather than a simple
+list
+=-=209 - Fri Jan 15 15:55:55 PST 2010

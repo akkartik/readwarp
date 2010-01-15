@@ -94,8 +94,17 @@
     rebuild-showlist.station)
   station!showlist)
 
-(mac preferred-feeds(station)
-  `(,station 'preferred-feeds))
+(def preferred-feed-manual-set(station doc dir)
+  (or= station!preferred-feeds (table))
+  (with (val (if dir 1 0)
+         feed doc-feed.doc)
+    (= station!preferred-feeds.feed
+       (obj manual val auto val outcome3s 0 outcome1s 0))))
+
+(def preferred-feed?(station doc)
+  (aif (and station!preferred-feeds
+            (station!preferred-feeds doc-feed.doc))
+    it!auto))
 
 (proc set-current-station-name(user station)
   (= userinfo*.user!current-station station))

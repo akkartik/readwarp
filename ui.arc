@@ -8,9 +8,6 @@
 (def current-user-read-list()
   (read-list (current-user) (current-station-name:current-user)))
 
-(mac current-station-preferred-feeds()
-  `(preferred-feeds (current-station:current-user)))
-
 (def next-doc(user)
   (ret ans nil
     (ero "starting next-doc")
@@ -85,9 +82,10 @@
           (render-doc-link doc)))))
 
 (defop prefer req
-  (if (iso "yes" (arg req "to"))
-    (pushnew (doc-feed (arg req "doc")) (current-station-preferred-feeds))
-    (pull (doc-feed (arg req "doc")) (current-station-preferred-feeds))))
+  (with (doc (arg req "doc")
+         dir (arg req "to")
+         station (current-station:current-user))
+    (preferred-feed-manual-set station doc (iso "yes" dir))))
 
 (defop reload req
   (init-code))
@@ -118,7 +116,7 @@
       (whenlet siteurl doc-site.doc
         (tag (a href siteurl target "_blank")
           (pr (or doc-feedtitle.doc "website")))
-        (preferred-feed doc)))
+        (render-preferred-feed doc)))
     (tag p
       (pr:contents doc))))
 
@@ -142,9 +140,9 @@
   (tag (a onclick (+ "pushHistory('" doc "', 'outcome=" n "')") href "#" title tooltip)
     (tag (div class (+ cls " button")))))
 
-(def preferred-feed(doc)
+(def render-preferred-feed(doc)
   (tag (span class "icon")
     (jstogglelink (+ "save_" doc)
       (tag:img src "/saved.gif" height "24px") (+ "/prefer?doc=" doc "&to=no")
       (tag:img src "/save.gif" height "24px") (+ "/prefer?doc=" doc "&to=yes")
-      (pos doc-feed.doc (current-station-preferred-feeds)))))
+      (is 1 (preferred-feed? (current-station:current-user) doc)))))
