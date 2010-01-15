@@ -110,7 +110,7 @@ def cleanup(file, debug=False):
   pick = pickTopMatchingCandidate(candidates, scores, deschint, debug)
   if pick: return pick
 
-  return candidates[0]
+  return deschint
 
 def commaCount(node):
   return len(node.renderContents().split(','))
@@ -132,7 +132,7 @@ def cleanAll():
     f2 = 'urls/'+doc+'.clean'
     try:
       with open(f2, 'w') as output:
-        output.write(cleanup(f))
+        output.write(cleanup(f).encode('utf-8'))
       with open('fifos/clean', 'w') as fifo:
         fifo.write(line)
     except: traceback.print_exc(file=sys.stdout)
@@ -169,12 +169,12 @@ def test(f, debug=False):
     passed = fuzzycheck(expected, got)
 
   if debug: print passed
-  if not passed:
-    with open(f2+'.error', 'w') as output:
-      output.write(got)
-  else:
-    try: os.unlink(f2+'.error')
-    except OSError: pass
+#?   if not passed:
+#?     with open(f2+'.error', 'w') as output:
+#?       output.write(got.encode('utf-8'))
+#?   else:
+#?     try: os.unlink(f2+'.error')
+#?     except OSError: pass
   return passed
 
 def scan(f):
