@@ -10,9 +10,7 @@
 
 (def next-doc(user)
   (ret ans nil
-    (ero "starting next-doc")
-    (= ans (pick user current-station.user))
-    (ero "end next-doc")))
+    (= ans (pick user current-station.user))))
 
 
 
@@ -58,13 +56,9 @@
 
 (defop docupdate req
   (ero)
-  (ero "=== begin query")
   (time:mark-read (current-user) (arg req "doc") (arg req "outcome"))
-  (ero "=== rendering")
   (render-doc-with-context
-    (next-doc:current-user))
-  (ero "=== end")
-  )
+    (next-doc:current-user)))
 
 (defop doc req
   (let doc (arg req "doc")

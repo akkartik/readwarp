@@ -89,12 +89,7 @@
 (def current-workspace(user)
   current-station.user!workspace)
 
-(def showlist(station)
-  (if (no station!showlist)
-    rebuild-showlist.station)
-  station!showlist)
-
-(def unpreferred(feedinfo)
+(def unpreferred?(feedinfo)
   (is feedinfo!auto -1))
 
 (def preferred?(feedinfo)
@@ -104,7 +99,8 @@
 (def preferred-feed-manual-set(station doc dir)
   (or= station!preferred-feeds (table))
   (= (station!preferred-feeds doc-feed.doc)
-     (obj manual dir auto doc)))
+     (obj manual  dir
+          auto    (if dir doc))))
 
 (def preferred-feed?(station doc)
   (aif (and station!preferred-feeds
@@ -138,7 +134,7 @@
           station userinfo*.user!stations.s)
     (= outcome int.outcome)
     (unless userinfo*.user!read.doc
-      (erp "marking read " doc " " outcome " " type.outcome)
+      (erp "marking read " doc " " outcome)
       (= userinfo*.user!read.doc outcome)
         (push doc station!read-list)
         (delete-sl station!sorted-docs doc)
@@ -246,12 +242,6 @@
     (propagate-one user station d 'doc doc)))
 
 (proc propagate-to-doc(user station doc)
-  (erp "To propagate:")
-  (let feed doc-feed.doc
-    (erp (len feed-docs.feed) " docs from feed"))
-  (erp (len doc-keywords.doc) " keywords from doc")
-  (erp " " (add-tags [len keyword-docs*._] doc-keywords.doc))
-  (erp (len-keys doc-affinity*.doc) " docs from doc")
   (let feed doc-feed.doc
     (propagate-one user station feed 'feed doc)
     (each d feed-docs.feed
@@ -291,6 +281,11 @@
 
 
 
+(def showlist(user station)
+  (when (no station!showlist)
+    (rebuild-showlist user station))
+  station!showlist)
+
 ;; Preferred feeds ds by station. table: feed -> (manual weight (0-n), inferred weight (-1 to 1))
 ;; Showlist ds: Construct 5 stories at a time
 ;;   Choose 1 lit doc in worklist
@@ -301,33 +296,70 @@
 ;;   Fill remainder with most recent story from random feeds
 ;;
 ;; Recent = previous batch of 5 and this batch
-(proc rebuild-showlist(station)
+(proc rebuild-showlist(user station)
+  (erp "rebuild-showlist")
   (choose-lit-doc station)
-  (choose-from-preferred station 3)
-  (fill-by-affinity station)
-  (fill-random station)
-  (fill-random-unpreferred station)
-  (fill-random-dups station)
-  (= station!last-showlist station!showlist))
+  (erp "scanning preferred feeds: " (len station!showlist))
+  (choose-from-preferred user station 3)
+  (erp "scanning feeds by affinity: " (len station!showlist))
+  (fill-by-affinity user station)
+  (erp "scanning random feeds: " (len station!showlist))
+  (fill-random user station)
+  (erp "scanning unpreferred feeds: " (len station!showlist))
+  (fill-random-unpreferred user station)
+  (erp "done. candidates: " (len station!showlist))
+  (= station!last-showlist station!showlist)
+  (erp "done rebuild-showlist"))
 
 (proc choose-lit-doc(station)
   (push (best-sl station!sorted-docs [~recently-shown? station _])
         station!showlist))
 
-(proc choose-from-preferred(station n)
-      )
+(mac w/unread-avoiding-recent(user station l . body)
+  `(let candidates ,l
+    (nkeep [and (~recently-shown? ,station _)
+                (most-recent-unread ,user _)]
+           candidates)
+    ,@body))
 
-(proc fill-by-affinity(station)
-      )
+(proc choose-from-preferred(user station n)
+  (w/unread-avoiding-recent user station (keys station!preferred-feeds)
+    (repeat n
+      (whenlet feed randpos.candidates
+        (erp "preferred: " feed)
+        (push feed station!showlist)
+        (pull feed candidates)))))
 
-(proc fill-random(station)
-      )
+(proc fill-by-affinity(user station)
+  (w/unread-avoiding-recent user station (keep [is 'feed guess-type._]
+                                               (keys station!workspace))
+    (while (and candidates
+                (< (len station!showlist) 5))
+      (let feed randpos.candidates
+        (push feed station!showlist)
+        (pull feed candidates)))))
 
-(proc fill-random-unpreferred(station)
-      )
+(proc fill-random(user station)
+  (w/unread-avoiding-recent user station feed-list*
+    (while (and candidates
+                (< (len station!showlist) 5))
+      (let feed randpos.candidates
+        (unless (and station!preferred-feeds
+                     station!preferred-feeds.feed
+                     station!preferred-feeds.feed!auto)
+          (push feed station!showlist))
+        (pull feed candidates)))))
 
-(proc fill-random-dups(station)
-      )
+(proc fill-random-unpreferred(user station)
+  (w/unread-avoiding-recent user station feed-list*
+    (while (and candidates
+                (< (len station!showlist) 5))
+      (let feed randpos.candidates
+        (if (and station!preferred-feeds
+                 station!preferred-feeds.feed
+                 (unpreferred? station!preferred-feeds.feed))
+          (push feed station!showlist))
+        (pull feed candidates)))))
 
 (def recently-shown?(station doc)
   (let feed doc-feed.doc
@@ -335,9 +367,10 @@
         (pos feed station!showlist))))
 
 (def pick(user station)
-  (ret ans (car showlist.station)
+  (ret ans (car (showlist user station))
     (if (is 'feed guess-type.ans)
       (zap [most-recent-unread user _] ans))))
+      ; XXX: nothing unread left? (only dup feeds)
 
 (def most-recent-unread(user feed)
   (most doc-timestamp (rem [read? user _] feed-docs.feed)))
