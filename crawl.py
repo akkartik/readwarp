@@ -155,11 +155,17 @@ if __name__ == '__main__':
   loadUrlMap()
 
   try:
+    i=0
     for feed in loadFeeds():
       try:
         print "-", feed
         crawl(feed)
       except: traceback.print_exc(file=sys.stdout)
+
+      i += 1
+      if i%10 == 0:
+        print "saving feedinfo"
+        saveFeedInfo()
   finally:
     saveFeedInfo()
     saveUrlMap()
