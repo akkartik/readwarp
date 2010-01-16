@@ -51,7 +51,7 @@ function toggleLink(elem) {
 
 function pushHistory(doc, params) {
   var elem = $('outcome_'+doc);
-  elem.className = params.replace(/.*outcome=([^&]*).*/, "$1");
+  elem.className = "outcome_icon "+params.replace(/.*outcome=([^&]*).*/, "outcome_$1");
 
   src = $$('#doc_'+doc+' .history');
   new Insertion.Top('history-elems', src[0].innerHTML);

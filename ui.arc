@@ -122,7 +122,8 @@
 
 (def render-doc-link(doc)
   (tag (div id (+ "history_" doc))
-    (tag (div id (+ "outcome_" doc) class (read? (current-user) doc))
+    (tag (div id (+ "outcome_" doc)
+              class (+ "outcome_icon outcome_" (read? (current-user) doc)))
       (pr "&#9632;"))
     (tag (p class "title item")
       (tag (a onclick (+ "showDoc('" doc "')") href "#" style "font-weight:bold")
