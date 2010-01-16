@@ -581,6 +581,7 @@ Star for feed done.
 - from plan
 Preferred feeds ds by station. table: feed -> (manual weight (0-n), inferred weight (-1 to 1))
 Showlist ds: Construct 5 stories at a time
+Populating showlist
   Choose 1 lit doc in worklist
   Choose most recent story from upto 4 separate preferred feeds, avoiding the last 5
   Fill remainder with most recent story from random feeds by affinity, avoiding last 5
@@ -588,14 +589,14 @@ Showlist ds: Construct 5 stories at a time
   Fill remainder with most recent story from random unpreferred feeds, avoiding last 5
   Fill remainder with most recent story from random feeds
 
-Outcome: 1-4
-4: preferred feed, propagate doc
-3: preferred feed after 5 3s, propagate doc
-2: do nothing
-1:
-   manually preferred feed: disable prefer after 5 1s
-   preferred feed: disable after 2 1s
-   not preferred: unprefer
+mark-read: outcome 1-4
+  4: preferred feed, propagate doc
+  3: preferred feed after 5 3s, propagate doc
+  2: do nothing
+  1:
+     manually preferred feed: disable prefer after 5 1s
+     preferred feed: disable after 2 1s
+     not preferred: unprefer
 =-=207 - Fri Jan 15 14:07:21 PST 2010
 Step 1: showlist data structure
 =-=208 - Fri Jan 15 14:52:48 PST 2010
@@ -609,3 +610,7 @@ History icons fixed.
 Clicking on things in the history brings them forward in this session, but not
 in a persistent way. That seems reasonable.
 =-=212 - Fri Jan 15 18:22:39 PST 2010
+
+Populating showlist.
+No change in behavior yet, but new structure is in place.
+=-=213 - Fri Jan 15 18:47:57 PST 2010

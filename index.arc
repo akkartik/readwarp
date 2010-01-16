@@ -178,9 +178,6 @@
             (>= l 5)      (wipe feedinfo!auto)
             (>= l 3)      (wipe feedinfo!manual))))))
 
-(def most-recent-read(station)
-  (car station!read-list))
-
 
 
 (persisted feed-keywords-via-doc* (table)
@@ -294,6 +291,59 @@
 
 
 
+;; Preferred feeds ds by station. table: feed -> (manual weight (0-n), inferred weight (-1 to 1))
+;; Showlist ds: Construct 5 stories at a time
+;;   Choose 1 lit doc in worklist
+;;   Choose most recent story from upto 3 separate preferred feeds, avoiding recent
+;;   Fill remainder with most recent story from random feeds by affinity, avoiding recent
+;;   Fill remainder with most recent story from random feeds, avoiding recent and unpreferred feeds
+;;   Fill remainder with most recent story from random unpreferred feeds, avoiding recent
+;;   Fill remainder with most recent story from random feeds
+;;
+;; Recent = previous batch of 5 and this batch
+(proc rebuild-showlist(station)
+  (choose-lit-doc station)
+  (choose-from-preferred station 3)
+  (fill-by-affinity station)
+  (fill-random station)
+  (fill-random-unpreferred station)
+  (fill-random-dups station)
+  (= station!last-showlist station!showlist))
+
+(proc choose-lit-doc(station)
+  (push (best-sl station!sorted-docs [~recently-shown? station _])
+        station!showlist))
+
+(proc choose-from-preferred(station n)
+      )
+
+(proc fill-by-affinity(station)
+      )
+
+(proc fill-random(station)
+      )
+
+(proc fill-random-unpreferred(station)
+      )
+
+(proc fill-random-dups(station)
+      )
+
+(def recently-shown?(station doc)
+  (let feed doc-feed.doc
+    (or (pos feed station!last-showlist)
+        (pos feed station!showlist))))
+
+(def pick(user station)
+  (ret ans (car showlist.station)
+    (if (is 'feed guess-type.ans)
+      (zap [most-recent-unread user _] ans))))
+
+(def most-recent-unread(user feed)
+  (most doc-timestamp (rem [read? user _] feed-docs.feed)))
+
+
+
 (def prune(station)
   (let workspace station!workspace
     (each k keys.workspace
@@ -308,6 +358,9 @@
 (def same-feed(station doc)
   (apply iso (map doc-feed (list doc most-recent-read.station))))
 
+(def most-recent-read(station)
+  (car station!read-list))
+
 ; metric: #priors, break ties with timestamp
 (def salient-recency(workspace doc)
   (+ (* 100 (len:priors workspace doc))
@@ -316,20 +369,3 @@
 (def priors(workspace doc)
   (if workspace.doc
     workspace.doc!priors))
-
-;; Preferred feeds ds by station. table: feed -> (manual weight (0-n), inferred weight (-1 to 1))
-;; Showlist ds: Construct 5 stories at a time
-;;   Choose 1 lit doc in worklist
-;;   Choose most recent story from upto 3 separate preferred feeds, avoiding recent
-;;   Fill remainder with most recent story from random feeds by affinity, avoiding recent
-;;   Fill remainder with most recent story from random feeds, avoiding recent and unpreferred feeds
-;;   Fill remainder with most recent story from random unpreferred feeds, avoiding recent
-;;   Fill remainder with most recent story from random feeds
-;;
-;; Recent = previous batch of 5 and this batch
-(def rebuild-showlist(station)
-  (push (best-sl station!sorted-docs)
-        station!showlist))
-
-(def pick(user station)
-  (car showlist.station))
