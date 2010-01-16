@@ -327,16 +327,16 @@
           (fn()
             (w/infile f filename (json-read f)))))
 
-(def first-key(tab)
-  (car keys.tab))
-(def first-keys(n tab)
-  (firstn n keys.tab))
-(def len-keys(tab)
-  (len keys.tab))
-(def first-value(tab)
-  (tab first-key.tab))
-(def first-pair(tab)
-  (car tablist.tab))
+(def first-key(tb)
+  (car keys.tb))
+(def first-keys(n tb)
+  (firstn n keys.tb))
+(def len-keys(tb)
+  (len keys.tb))
+(def first-value(tb)
+  (tb first-key.tb))
+(def first-pair(tb)
+  (car tablist.tb))
 
 
 
