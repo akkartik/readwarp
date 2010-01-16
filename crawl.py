@@ -25,8 +25,9 @@ def saveUrlMap():
 
 feedinfo = {}
 def saveFeedInfo():
-  with open('snapshots/feedinfo', 'w') as output:
+  with open('snapshots/feedinfo.tmp', 'w') as output:
     json.dump(feedinfo, output, default=to_json)
+  os.rename('snapshots/feedinfo.tmp', 'snapshots/feedinfo')
 
 def loadFeeds():
   ans = set()
