@@ -49,9 +49,18 @@
 (dhash feed keyword "m-n"
   (map canonicalize (flat:map tokens:html-strip (vals:feedinfo* symize.feed))))
 
+(init feed-group* (table))
+(init group-feeds* (table))
+(proc read-group(f)
+  (each feed (tokens:slurp:+ "feeds/" f)
+    (= feed-group*.feed f)
+    (push feed group-feeds*.f)))
+
 (init feedinfo* (table))
 (defrep update-feeds 1800
   (= feed-list* (tokens:slurp "feeds/All"))
+  (map read-group '("Mainstream" "Economics" "Sports"
+                    "Programming" "Technology" "Venture"))
   (= feedinfo* (read-json-table "snapshots/feedinfo"))
   (map feed-keywords feed-list*))
 (wait feedinfo*)
@@ -211,7 +220,22 @@
   (common:map keyword-docs:canonicalize (tokens keyword)))
 
 (proc add-query(user station entry)
-  (propagate-one user station entry guess-type.entry 'query))
+  (propagate-one user station entry guess-type.entry 'query)
+  (or= station!feeds feed-group-for.entry))
+
+(def feed-group-for(query)
+  (withs (feeds scan-feeds.query
+          groups (map feed-group* feeds)
+          freq (table))
+    (each g (map feed-group* scan-feeds.query)
+      (or= freq.g 0)
+      (++ freq.g))
+    (let max first-key.freq
+      (each (k v) freq
+        (if (> v freq.max)
+          (= max k)))
+      (erp "Group: " max)
+      group-feeds*.max)))
 
 (def guess-type(entry)
   (if (feedinfo* symize.entry)     'feed
@@ -299,6 +323,8 @@
   (choose-from-preferred user station 3)
   (erp "scanning feeds by affinity: " station!showlist)
   (fill-by-affinity user station)
+  (erp "scanning feeds by group: " station!showlist)
+  (fill-by-group user station)
   (erp "scanning random feeds: " station!showlist)
   (fill-random user station)
   (erp "scanning unpreferred feeds: " station!showlist)
@@ -332,6 +358,14 @@
 (proc fill-by-affinity(user station)
   (w/unread-avoiding-recent user station (keep [is 'feed guess-type._]
                                                (keys station!workspace))
+    (while (and candidates
+                (< (len station!showlist) 5))
+      (let feed randpos.candidates
+        (pushnew feed station!showlist)
+        (pull feed candidates)))))
+
+(proc fill-by-group(user station)
+  (w/unread-avoiding-recent user station station!feeds
     (while (and candidates
                 (< (len station!showlist) 5))
       (let feed randpos.candidates
