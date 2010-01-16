@@ -286,28 +286,25 @@
     (rebuild-showlist user station))
   station!showlist)
 
-;; Preferred feeds ds by station. table: feed -> (manual weight (0-n), inferred weight (-1 to 1))
-;; Showlist ds: Construct 5 stories at a time
+;; Pick 5 stories at a time
 ;;   Choose 1 lit doc in worklist
 ;;   Choose most recent story from upto 3 separate preferred feeds, avoiding recent
 ;;   Fill remainder with most recent story from random feeds by affinity, avoiding recent
 ;;   Fill remainder with most recent story from random feeds, avoiding recent and unpreferred feeds
 ;;   Fill remainder with most recent story from random unpreferred feeds, avoiding recent
 ;;   Fill remainder with most recent story from random feeds
-;;
-;; Recent = previous batch of 5 and this batch
 (proc rebuild-showlist(user station)
-  (erp "rebuild-showlist")
+  (erp "rebuild-showlist. Previous iter: " station!last-showlist)
   (choose-lit-doc station)
-  (erp "scanning preferred feeds: " (len station!showlist))
+  (erp "scanning preferred feeds: " station!showlist)
   (choose-from-preferred user station 3)
-  (erp "scanning feeds by affinity: " (len station!showlist))
+  (erp "scanning feeds by affinity: " station!showlist)
   (fill-by-affinity user station)
-  (erp "scanning random feeds: " (len station!showlist))
+  (erp "scanning random feeds: " station!showlist)
   (fill-random user station)
-  (erp "scanning unpreferred feeds: " (len station!showlist))
+  (erp "scanning unpreferred feeds: " station!showlist)
   (fill-random-unpreferred user station)
-  (erp "done. candidates: " (len station!showlist))
+  (erp "done. candidates: " station!showlist)
   (= station!last-showlist station!showlist)
   (erp "done rebuild-showlist"))
 
@@ -323,7 +320,8 @@
     ,@body))
 
 (proc choose-from-preferred(user station n)
-  (w/unread-avoiding-recent user station (keys station!preferred-feeds)
+  (w/unread-avoiding-recent user station (keep [preferred? station!preferred-feeds._]
+                                               (keys station!preferred-feeds))
     (repeat n
       (whenlet feed randpos.candidates
         (erp "preferred: " feed)
