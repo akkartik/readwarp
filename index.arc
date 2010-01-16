@@ -295,8 +295,6 @@
 ;;   Fill remainder with most recent story from random unpreferred feeds, avoiding recent
 ;;   Fill remainder with most recent story from random feeds
 (proc rebuild-showlist(user station)
-  (erp "rebuild-showlist. Previous iter: " station!last-showlist)
-  (choose-lit-doc station)
   (erp "scanning preferred feeds: " station!showlist)
   (choose-from-preferred user station 3)
   (erp "scanning feeds by affinity: " station!showlist)
@@ -305,6 +303,8 @@
   (fill-random user station)
   (erp "scanning unpreferred feeds: " station!showlist)
   (fill-random-unpreferred user station)
+  (erp "rebuild-showlist. Previous iter: " station!last-showlist)
+  (choose-lit-doc station)
   (erp "done. candidates: " station!showlist)
   (= station!last-showlist station!showlist)
   (erp "done rebuild-showlist"))
