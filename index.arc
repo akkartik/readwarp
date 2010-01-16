@@ -149,6 +149,7 @@
   (= userinfo*.user!current-station station))
 
 (proc new-station(user sname)
+  (erp "new-station")
   (or= userinfo*.user!stations.sname (table))
   (let station userinfo*.user!stations.sname
     (or= station!workspace (table))
@@ -225,9 +226,7 @@
   (or= station!feeds feed-group-for.entry))
 
 (def feed-group-for(query)
-  (withs (feeds scan-feeds.query
-          groups (map feed-group* feeds)
-          freq (table))
+  (let freq (table)
     (each g (map feed-group* scan-feeds.query)
       (or= freq.g 0)
       (++ freq.g))
@@ -280,6 +279,7 @@
     (propagate-one user station d 'doc doc)))
 
 (proc propagate-keyword-to-doc(user station keyword)
+  (erp "propagate-keyword-to-doc")
   (each feed scan-feeds.keyword
     (propagate-one user station feed 'feed keyword)
     (each d feed-docs.feed

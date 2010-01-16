@@ -91,6 +91,7 @@
 
 
 (def render-doc-with-context(doc)
+  (erp "render-doc-with-context")
   (if doc
     (tag (div id (+ "doc_" doc))
       (buttons doc)
