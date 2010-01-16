@@ -513,6 +513,10 @@
   (prn)
   s)
 
+(proc erp args
+  (w/stdout (stderr)
+    (apply prn args)))
+
 (def gc()
   ($:collect-garbage))
 

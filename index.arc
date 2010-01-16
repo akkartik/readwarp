@@ -113,29 +113,81 @@
   (or= userinfo*.user!stations.sname (table))
   (let station userinfo*.user!stations.sname
     (or= station!workspace (table))
-    (or= station!sorted-docs (slist [salient-recency station!workspace _]))
+    (or= station!sorted-docs
+         (slist [salient-recency station!workspace _]))
     (or= station!iter 0)
     (or= station!name sname)
     (add-query user station sname)))
 
 ; XXX: refactor
+;; Outcome:
+;; 4: preferred feed, propagate doc
+;; 3: preferred feed after 5 3s, propagate doc
+;; 2: do nothing
+;; 1:
+;;    manually preferred feed: disable prefer after 5 1s
+;;    preferred feed: disable after 2 1s
+;;    not preferred: unprefer
 (proc mark-read(user doc outcome)
-  (unless userinfo*.user!read.doc
-    (ero "marking read " doc)
-    (= userinfo*.user!read.doc outcome)
-    (ero outcome " " type.outcome)
-    (withs (s current-station-name.user
-            station userinfo*.user!stations.s)
-      (push doc station!read-list)
-      (delete-sl station!sorted-docs doc)
-      (pop station!showlist)
-      (when (iso outcome "read")
-        (++ station!iter)
-        (prune station)
-        (w/stdout (stderr)
-          (prn "propagating from " doc " " (len:keys station!workspace))
-          (timeout-exec 2 (propagate-to-doc user station doc))
-          (prn "after prop: " (len:keys station!workspace)))))))
+  (withs (s current-station-name.user
+          station userinfo*.user!stations.s)
+    (= outcome int.outcome)
+    (unless userinfo*.user!read.doc
+      (erp "marking read " doc " " outcome " " type.outcome)
+      (= userinfo*.user!read.doc outcome)
+        (push doc station!read-list)
+        (delete-sl station!sorted-docs doc)
+        (pop station!showlist))
+
+    (when (> outcome 2)
+      (++ station!iter)
+      (prune station)
+      (timeout-exec 2
+        (propagate-to-doc user station doc)))
+
+    (or= station!preferred-feeds (table))
+    (case outcome
+      1     (handle-outcome1 station doc)
+      3     (handle-outcome3 station doc)
+      4     (handle-outcome4 station doc))
+
+    (erp "feedinfo " (station!preferred-feeds doc-feed.doc))))
+
+(proc handle-outcome4(station doc)
+  (let feed doc-feed.doc
+    (or= station!preferred-feeds.feed (obj manual 0
+                                           auto 0
+                                           outcome3s 0
+                                           outcome1s 0))
+    (= station!preferred-feeds.feed!auto 1)))
+
+(proc handle-outcome3(station doc)
+  (withs (feed doc-feed.doc
+          feedinfo (or= station!preferred-feeds.feed (obj manual 0
+                                                          auto 0
+                                                          outcome3s 0
+                                                          outcome1s 0)))
+    (++ feedinfo!outcome3s)
+    (if (>= feedinfo!outcome3s 5)
+      (preferred-feed-manual-set station doc t))))
+
+(proc handle-outcome1(station doc)
+  (withs (feed doc-feed.doc
+          feedinfo (or= station!preferred-feeds.feed (obj manual 0
+                                                          auto 0
+                                                          outcome3s 0
+                                                          outcome1s 0)))
+    (if (> feedinfo!outcome3s 0)
+      (-- feedinfo!outcome3s))
+
+    (when (<= feedinfo!outcome3s 0)
+      (++ feedinfo!outcome1s)
+      (if (>= feedinfo!outcome1s 5)
+        (= feedinfo!manual 0))
+      (if (>= feedinfo!outcome1s 7)
+        (= feedinfo!auto 0))
+      (if (>= feedinfo!outcome1s 8)
+        (= feedinfo!auto -1)))))
 
 (def most-recent-read(station)
   (car station!read-list))
@@ -208,18 +260,17 @@
     (propagate-one user station d 'doc doc)))
 
 (proc propagate-to-doc(user station doc)
-  (prn "To propagate:")
+  (erp "To propagate:")
   (let feed doc-feed.doc
-    (prn (len feed-docs.feed) " docs from feed"))
-  (prn (len doc-keywords.doc) " keywords from doc")
-  (prn " " (add-tags [len keyword-docs*._] doc-keywords.doc))
-  (prn (len-keys doc-affinity*.doc) " docs from doc")
+    (erp (len feed-docs.feed) " docs from feed"))
+  (erp (len doc-keywords.doc) " keywords from doc")
+  (erp " " (add-tags [len keyword-docs*._] doc-keywords.doc))
+  (erp (len-keys doc-affinity*.doc) " docs from doc")
   (let feed doc-feed.doc
     (propagate-one user station feed 'feed doc)
     (each d feed-docs.feed
       (propagate-one user station d 'doc feed)))
   (each kwd doc-keywords.doc
-;?   (each kwd (keep [< 50 (len keyword-docs*._)] doc-keywords.doc)
     (propagate-one user station kwd 'keyword doc)
     (each d (firstn 10 keyword-docs*.kwd)
       (propagate-one user station d 'doc kwd)))
@@ -277,8 +328,18 @@
   (if workspace.doc
     workspace.doc!priors))
 
+;; Preferred feeds ds by station. table: feed -> (manual weight (0-n), inferred weight (-1 to 1))
+;; Showlist ds: Construct 5 stories at a time
+;;   Choose 1 lit doc in worklist
+;;   Choose most recent story from upto 3 separate preferred feeds, avoiding recent
+;;   Fill remainder with most recent story from random feeds by affinity, avoiding recent
+;;   Fill remainder with most recent story from random feeds, avoiding recent and unpreferred feeds
+;;   Fill remainder with most recent story from random unpreferred feeds, avoiding recent
+;;   Fill remainder with most recent story from random feeds
+;;
+;; Recent = previous batch of 5 and this batch
 (def rebuild-showlist(station)
-  (push (best-sl station!sorted-docs [~same-feed station _])
+  (push (best-sl station!sorted-docs)
         station!showlist))
 
 (def pick(user station)
