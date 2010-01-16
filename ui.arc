@@ -55,8 +55,7 @@
       (render-doc-with-context next-doc.user))))
 
 (defop docupdate req
-  (ero)
-  (time:mark-read (current-user) (arg req "doc") (arg req "outcome"))
+  (mark-read (current-user) (arg req "doc") (arg req "outcome"))
   (render-doc-with-context
     (next-doc:current-user)))
 
