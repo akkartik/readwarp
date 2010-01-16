@@ -181,8 +181,8 @@
     (let feed doc-feed.doc
       (or= feed-keywords-via-doc*.feed (table))
       (each kwd doc-keywords.doc
-        (pushnew doc feed-keywords-via-doc*.feed.kwd)))))
-;?       (update-feed-clusters-by-keyword feed))))
+        (pushnew doc feed-keywords-via-doc*.feed.kwd))
+      (update-feed-clusters-by-keyword feed))))
 
 (persisted feed-clusters-by-keyword* (table)
   (proc update-feed-clusters-by-keyword(feed)
