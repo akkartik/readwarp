@@ -368,7 +368,7 @@
 
 (def pick(user station)
   (ret ans (car (showlist user station))
-    (if (is 'feed guess-type.ans)
+    (if (pos guess-type.ans '(feed url))
       (zap [most-recent-unread user _] ans))))
       ; XXX: nothing unread left? (only dup feeds)
 
