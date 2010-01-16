@@ -89,4 +89,61 @@
          "b.com/feed" (obj type 'feed created 0 priors '("blog")))
     station!workspace)
 
+
+
+  (shadowing doc-feed (fn(doc) "aaa")
+    (preferred-feed-manual-set station "abc" t)
+    (test-iso "manually setting preferred status for feed"
+      (obj manual t auto "abc")
+      (station!preferred-feeds "aaa"))
+
+    (handle-outcome3 station "aaa" "1")
+    (test-iso "outcome3 increments outcome3s"
+      (obj manual t auto "abc" outcome3s '("1"))
+      (station!preferred-feeds "aaa"))
+
+    (handle-outcome1 station "aaa" "2")
+    (test-iso "outcome1 decrements outcome3s"
+      (obj manual t auto "abc")
+      (station!preferred-feeds "aaa"))
+
+    (handle-outcome1 station "aaa" "3")
+    (test-iso "outcome1 increments outcome1s"
+      (obj manual t auto "abc" outcome1s '("3"))
+      (station!preferred-feeds "aaa"))
+
+    (handle-outcome1 station "aaa" "4")
+    (handle-outcome1 station "aaa" "5")
+    (test-iso "3 outcome1s reset manual"
+      (obj auto "abc" outcome1s '("5" "4" "3"))
+      (station!preferred-feeds "aaa"))
+
+    (handle-outcome1 station "aaa" "6")
+    (handle-outcome1 station "aaa" "7")
+    (test-iso "5 outcome1s reset auto"
+      (obj outcome1s '("7" "6" "5" "4" "3"))
+      (station!preferred-feeds "aaa"))
+
+    (handle-outcome1 station "aaa" "8")
+    (test-iso "6 outcome1s 'unprefer' auto"
+      (obj auto -1 outcome1s '("8" "7" "6" "5" "4" "3"))
+      (station!preferred-feeds "aaa"))
+
+
+
+    (= (station!preferred-feeds "aaa") ())
+    (handle-outcome3 station "aaa" "9")
+    (handle-outcome3 station "aaa" "10")
+    (handle-outcome3 station "aaa" "11")
+    (handle-outcome3 station "aaa" "12")
+    (test-iso "4 outcome3s increment"
+      (obj outcome3s '("12" "11" "10" "9"))
+      (station!preferred-feeds "aaa"))
+
+    (handle-outcome3 station "aaa" "13")
+    (test-iso "5th outcome3 sets auto"
+      (obj auto "13" outcome3s '("13" "12" "11" "10" "9"))
+      (station!preferred-feeds "aaa"))
+  )
+
 )

@@ -94,17 +94,22 @@
     rebuild-showlist.station)
   station!showlist)
 
+(def unpreferred(feedinfo)
+  (is feedinfo!auto -1))
+
+(def preferred?(feedinfo)
+  (and feedinfo!auto (~is feedinfo!auto -1)))
+
+; Invariant: manual => auto
 (def preferred-feed-manual-set(station doc dir)
   (or= station!preferred-feeds (table))
-  (with (val (if dir 1 0)
-         feed doc-feed.doc)
-    (= station!preferred-feeds.feed
-       (obj manual val auto val outcome3s 0 outcome1s 0))))
+  (= (station!preferred-feeds doc-feed.doc)
+     (obj manual dir auto doc)))
 
 (def preferred-feed?(station doc)
   (aif (and station!preferred-feeds
             (station!preferred-feeds doc-feed.doc))
-    it!auto))
+    preferred?.it))
 
 (proc set-current-station-name(user station)
   (= userinfo*.user!current-station station))
@@ -146,48 +151,32 @@
         (propagate-to-doc user station doc)))
 
     (or= station!preferred-feeds (table))
-    (case outcome
-      1     (handle-outcome1 station doc)
-      3     (handle-outcome3 station doc)
-      4     (handle-outcome4 station doc))
+    (let feed doc-feed.doc
+      (case outcome
+        1     (handle-outcome1 station feed doc)
+        3     (handle-outcome3 station feed doc)
+        4     (handle-outcome4 station feed doc))
 
-    (erp "feedinfo " (station!preferred-feeds doc-feed.doc))))
+      (erp "feedinfo " (station!preferred-feeds doc-feed.doc)))))
 
-(proc handle-outcome4(station doc)
-  (let feed doc-feed.doc
-    (or= station!preferred-feeds.feed (obj manual 0
-                                           auto 0
-                                           outcome3s 0
-                                           outcome1s 0))
-    (= station!preferred-feeds.feed!auto 1)))
+(proc handle-outcome4(station feed doc)
+  (let feedinfo (or= station!preferred-feeds.feed (table))
+    (= feedinfo!auto doc)))
 
-(proc handle-outcome3(station doc)
-  (withs (feed doc-feed.doc
-          feedinfo (or= station!preferred-feeds.feed (obj manual 0
-                                                          auto 0
-                                                          outcome3s 0
-                                                          outcome1s 0)))
-    (++ feedinfo!outcome3s)
-    (if (>= feedinfo!outcome3s 5)
-      (preferred-feed-manual-set station doc t))))
+(proc handle-outcome3(station feed doc)
+  (let feedinfo (or= station!preferred-feeds.feed (table))
+    (push doc feedinfo!outcome3s)
+    (if (>= (len feedinfo!outcome3s) 5)
+      (= feedinfo!auto doc))))
 
-(proc handle-outcome1(station doc)
-  (withs (feed doc-feed.doc
-          feedinfo (or= station!preferred-feeds.feed (obj manual 0
-                                                          auto 0
-                                                          outcome3s 0
-                                                          outcome1s 0)))
-    (if (> feedinfo!outcome3s 0)
-      (-- feedinfo!outcome3s))
-
-    (when (<= feedinfo!outcome3s 0)
-      (++ feedinfo!outcome1s)
-      (if (>= feedinfo!outcome1s 5)
-        (= feedinfo!manual 0))
-      (if (>= feedinfo!outcome1s 7)
-        (= feedinfo!auto 0))
-      (if (>= feedinfo!outcome1s 8)
-        (= feedinfo!auto -1)))))
+(proc handle-outcome1(station feed doc)
+  (let feedinfo (or= station!preferred-feeds.feed (table))
+    (if feedinfo!outcome3s
+      (pop feedinfo!outcome3s)
+      (let l (len (pushnew doc feedinfo!outcome1s))
+        (if (>= l 6)      (= feedinfo!auto -1)
+            (>= l 5)      (wipe feedinfo!auto)
+            (>= l 3)      (wipe feedinfo!manual))))))
 
 (def most-recent-read(station)
   (car station!read-list))

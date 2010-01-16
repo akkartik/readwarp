@@ -145,4 +145,4 @@
     (jstogglelink (+ "save_" doc)
       (tag:img src "/saved.gif" height "24px") (+ "/prefer?doc=" doc "&to=no")
       (tag:img src "/save.gif" height "24px") (+ "/prefer?doc=" doc "&to=yes")
-      (is 1 (preferred-feed? (current-station:current-user) doc)))))
+      (preferred-feed? (current-station:current-user) doc))))
