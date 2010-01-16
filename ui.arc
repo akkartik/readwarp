@@ -80,6 +80,11 @@
          station (current-station:current-user))
     (preferred-feed-manual-set station doc (iso "yes" dir))))
 
+(defopr reset req
+  (= userinfo* (table))
+  (new-user:current-user)
+  "/")
+
 (defop reload req
   (init-code))
 
