@@ -617,12 +617,17 @@ No change in behavior yet, but new structure is in place.
 Cranked it all out in one fell swoop. Not test-driven, not much testing. Now
 let's play with it. 3 more hours before bed and tomorrow's reverse job fair.
 =-=214 - Fri Jan 15 20:30:53 PST 2010
-3 obvious issues:
-  feed affinity graph is broken. can't fix today. hopefully the new crawl will
+Unpreferred feeds weren't going away. Fixed.
+3 other obvious issues:
+1 feed affinity graph is broken. can't fix today. hopefully the new crawl will
   make it better.
-  scanning by affinity inserts dup feeds
-  new batch doesn't dedup against previous batch of 5
+2 scanning by affinity inserts dup feeds
+3 new batch doesn't dedup against previous batch of 5
 =-=215 - Fri Jan 15 20:47:45 PST 2010
+
 Ack, shoulda enabled feed-affinity computations before restarting the crawl
 yday.
 =-=216 - Fri Jan 15 20:52:35 PST 2010
+
+Issue 2 fixed. No more dups within a batch.
+=-=217 - Fri Jan 15 20:56:13 PST 2010

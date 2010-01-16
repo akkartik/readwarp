@@ -309,7 +309,7 @@
   (erp "done rebuild-showlist"))
 
 (proc choose-lit-doc(station)
-  (push (best-sl station!sorted-docs [~recently-shown? station _])
+  (push (doc-feed:best-sl station!sorted-docs [~recently-shown? station _])
         station!showlist))
 
 (mac w/unread-avoiding-recent(user station l . body)
@@ -334,7 +334,7 @@
     (while (and candidates
                 (< (len station!showlist) 5))
       (let feed randpos.candidates
-        (push feed station!showlist)
+        (pushnew feed station!showlist)
         (pull feed candidates)))))
 
 (proc fill-random(user station)
@@ -345,7 +345,7 @@
         (unless (and station!preferred-feeds
                      station!preferred-feeds.feed
                      station!preferred-feeds.feed!auto)
-          (push feed station!showlist))
+          (pushnew feed station!showlist))
         (pull feed candidates)))))
 
 (proc fill-random-unpreferred(user station)
@@ -356,7 +356,7 @@
         (if (and station!preferred-feeds
                  station!preferred-feeds.feed
                  (unpreferred? station!preferred-feeds.feed))
-          (push feed station!showlist))
+          (pushnew feed station!showlist))
         (pull feed candidates)))))
 
 (def recently-shown?(station doc)
