@@ -27,6 +27,48 @@
   (def contents(doc)
     (slurp (+ "urls/" doc ".clean"))))
 
+(dhash doc keyword "m-n"
+  (rem blank? (errsafe:keywords (+ "urls/" doc ".clean"))))
+
+(init feedinfo* (table))
+(dhash feed keyword "m-n"
+  (map canonicalize (flat:map tokens:html-strip (vals:feedinfo* symize.feed))))
+
+(init feed-group* (table))
+(init group-feeds* (table))
+(proc read-group(f)
+  (each feed (tokens:slurp:+ "feeds/" f)
+    (= feed-group*.feed f)
+    (push feed group-feeds*.f)))
+
+
+
+(persisted feed-keywords-via-doc* (table)
+  (proc update-feed-keywords-via-doc(doc)
+    (let feed doc-feed.doc
+      (or= feed-keywords-via-doc*.feed (table))
+      (each kwd doc-keywords.doc
+        (pushnew doc feed-keywords-via-doc*.feed.kwd))
+      (update-feed-clusters-by-keyword feed))))
+
+(persisted feed-clusters-by-keyword* (table)
+  (proc update-feed-clusters-by-keyword(feed)
+    (each k (keys feed-keywords-via-doc*.feed)
+      (if (>= (* 2 (len feed-keywords-via-doc*.feed.k))
+              (len feed-docs.feed))
+        (pushnew feed feed-clusters-by-keyword*.k)
+        (pull feed feed-clusters-by-keyword*.k)))))
+
+(persisted feed-affinity* (table)
+  (defrep update-feed-affinity 3600
+    (= feed-affinity*
+       (normalized-affinity-table feed-clusters-by-keyword*))))
+
+(persisted doc-affinity* (table)
+  (defrep update-doc-affinity 3600
+    (= doc-affinity*
+       (normalized-affinity-table keyword-docs*))))
+
 
 
 (defscan insert-metadata "clean" "mdata"
@@ -38,25 +80,11 @@
 (def metadata-file(doc)
   (+ "urls/" doc ".metadata"))
 
-(dhash doc keyword "m-n"
-  (rem blank? (errsafe:keywords (+ "urls/" doc ".clean"))))
-
 (defscan insert-keywords "mdata"
   (doc-feed doc)
   (doc-keywords doc)
   (update-feed-keywords-via-doc doc))
 
-(dhash feed keyword "m-n"
-  (map canonicalize (flat:map tokens:html-strip (vals:feedinfo* symize.feed))))
-
-(init feed-group* (table))
-(init group-feeds* (table))
-(proc read-group(f)
-  (each feed (tokens:slurp:+ "feeds/" f)
-    (= feed-group*.feed f)
-    (push feed group-feeds*.f)))
-
-(init feedinfo* (table))
 (defrep update-feeds 1800
   (= feed-list* (tokens:slurp "feeds/All"))
   (map read-group '("Mainstream" "Economics" "Sports"
@@ -73,6 +101,7 @@
 
 
 
+(prn "Rest of index.arc")
 (init userinfo* (table))
 
 (def new-user(user)
@@ -183,34 +212,6 @@
         (if (>= l 6)      (= feedinfo!auto -1)
             (>= l 5)      (wipe feedinfo!auto)
             (>= l 3)      (wipe feedinfo!manual))))))
-
-
-
-(persisted feed-keywords-via-doc* (table)
-  (proc update-feed-keywords-via-doc(doc)
-    (let feed doc-feed.doc
-      (or= feed-keywords-via-doc*.feed (table))
-      (each kwd doc-keywords.doc
-        (pushnew doc feed-keywords-via-doc*.feed.kwd))
-      (update-feed-clusters-by-keyword feed))))
-
-(persisted feed-clusters-by-keyword* (table)
-  (proc update-feed-clusters-by-keyword(feed)
-    (each k (keys feed-keywords-via-doc*.feed)
-      (if (>= (* 2 (len feed-keywords-via-doc*.feed.k))
-              (len feed-docs.feed))
-        (pushnew feed feed-clusters-by-keyword*.k)
-        (pull feed feed-clusters-by-keyword*.k)))))
-
-(persisted feed-affinity* (table)
-  (defrep update-feed-affinity 3600
-    (= feed-affinity*
-       (normalized-affinity-table feed-clusters-by-keyword*))))
-
-(persisted doc-affinity* (table)
-  (defrep update-doc-affinity 3600
-    (= doc-affinity*
-       (normalized-affinity-table keyword-docs*))))
 
 
 
@@ -436,3 +437,5 @@
 (def priors(workspace doc)
   (if workspace.doc
     workspace.doc!priors))
+
+(prn "Done loading index.arc")

@@ -643,3 +643,6 @@ Boundary condition: make the first story relevant and non-random if possible.
 New pass: pick feeds from the same group. Things looking much better.
 Ok, work on speeding up EC2 now.
 =-=225 - Sat Jan 16 08:17:10 PST 2010
+
+mzscheme seems more finicky about load order on EC2. Fixed.
+=-=226 - Sat Jan 16 08:40:47 PST 2010

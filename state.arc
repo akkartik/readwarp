@@ -13,6 +13,7 @@
   `(aif (most-recent-snapshot-name ,var)
       (unless (bound ',var)
         (init ,var ,initval)
+        (prn "Loading " ',var)
         (fread it ,var))
       (or (init ,var ,initval) ,var)))
 
