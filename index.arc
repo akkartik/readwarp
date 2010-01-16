@@ -134,7 +134,7 @@
           station userinfo*.user!stations.s)
     (= outcome int.outcome)
     (unless userinfo*.user!read.doc
-      (erp "marking read " doc " " outcome)
+;?       (erp "marking read " doc " " outcome)
       (= userinfo*.user!read.doc outcome)
         (push doc station!read-list)
         (delete-sl station!sorted-docs doc)
@@ -153,7 +153,8 @@
         3     (handle-outcome3 station feed doc)
         4     (handle-outcome4 station feed doc))
 
-      (erp "feedinfo " (station!preferred-feeds doc-feed.doc)))))
+;?       (erp "feedinfo " (station!preferred-feeds doc-feed.doc))
+)))
 
 (proc handle-outcome4(station feed doc)
   (let feedinfo (or= station!preferred-feeds.feed (table))
@@ -309,7 +310,7 @@
   (erp "done rebuild-showlist"))
 
 (proc choose-lit-doc(station)
-  (push (doc-feed:best-sl station!sorted-docs [~recently-shown? station _])
+  (push (doc-feed:best-sl station!sorted-docs [~recently-shown-feed? station _])
         station!showlist))
 
 (mac w/unread-avoiding-recent(user station l . body)
@@ -359,10 +360,11 @@
           (pushnew feed station!showlist))
         (pull feed candidates)))))
 
-(def recently-shown?(station doc)
-  (let feed doc-feed.doc
-    (or (pos feed station!last-showlist)
-        (pos feed station!showlist))))
+(def recently-shown?(station feed)
+  (or (pos feed station!last-showlist)
+      (pos feed station!showlist)))
+(def recently-shown-feed?(station doc)
+  (recently-shown? station doc-feed.doc))
 
 (def pick(user station)
   (ret ans (car (showlist user station))
