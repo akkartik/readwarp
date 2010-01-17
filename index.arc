@@ -89,7 +89,10 @@
   (= feed-list* (tokens:slurp "feeds/All"))
   (map read-group '("Mainstream" "Economics" "Sports"
                     "Programming" "Technology" "Venture"))
-  (= feedinfo* (read-json-table "snapshots/feedinfo"))
+  (if (file-exists "snapshots/feedinfo")
+    (= feedinfo* (read-json-table "snapshots/feedinfo"))
+    (w/infile f "snapshots/feedinfo.orig"
+      (= feedinfo* (read-nested-table f))))
   (map feed-keywords feed-list*))
 (wait feedinfo*)
 
