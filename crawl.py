@@ -24,10 +24,16 @@ def saveUrlMap():
       pickle.dump(canonical_url, output)
 
 feedinfo = {}
-def saveFeedInfo():
-  with open('snapshots/feedinfo.tmp', 'w') as output:
+def saveFeedInfo(fname):
+  fname = 'snapshots/'+fname
+  with open(fname+'.tmp', 'w') as output:
     json.dump(feedinfo, output, default=to_json)
-  os.rename('snapshots/feedinfo.tmp', 'snapshots/feedinfo')
+  os.rename(fname+'.tmp', fname)
+
+import shutil
+def backupFeedinfo():
+  try: shutil.copyfile('snapshots/feedinfo', 'snapshots/feedinfo.'+str(time.time()))
+  except IOError: pass
 
 def loadFeeds():
   ans = set()
@@ -154,6 +160,7 @@ def desc(item):
 
 if __name__ == '__main__':
   loadUrlMap()
+  backupFeedinfo()
 
   try:
     i=0
@@ -166,7 +173,7 @@ if __name__ == '__main__':
       i += 1
       if i%10 == 0:
         print "saving feedinfo"
-        saveFeedInfo()
+        saveFeedInfo('feedinfo.intermediate')
   finally:
-    saveFeedInfo()
+    saveFeedInfo('feedinfo')
     saveUrlMap()

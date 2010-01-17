@@ -89,10 +89,14 @@
   (= feed-list* (tokens:slurp "feeds/All"))
   (map read-group '("Mainstream" "Economics" "Sports"
                     "Programming" "Technology" "Venture"))
-  (if (file-exists "snapshots/feedinfo")
-    (= feedinfo* (read-json-table "snapshots/feedinfo"))
-    (w/infile f "snapshots/feedinfo.orig"
-      (= feedinfo* (read-nested-table f))))
+  (= feedinfo*
+     (if (file-exists "snapshots/feedinfo")
+           (read-json-table "snapshots/feedinfo")
+         (file-exists "snapshots/feedinfo.intermediate")
+           (read-json-table "snapshots/feedinfo.intermediate")
+         (file-exists "snapshots/feedinfo.orig") ; temporary
+           (w/infile f "snapshots/feedinfo.orig"
+              (read-nested-table f))))
   (map feed-keywords feed-list*))
 (wait feedinfo*)
 
