@@ -47,9 +47,11 @@
       (logo fskip "RE")(logo fnext "AD")(logo flike "WA")(logo flove "RP"))
     (tag (div style "margin-top:5%; text-align:center; font-size:16px")
       (tag (form action "/station")
+           (pr "Type in the name of your favorite site or blogger.") (br)
+           (pr "Find interesting stories like it.") (br)
            (tag:input id "newstationform" name "seed" size "30")
            (pr "&nbsp;&nbsp;")
-           (tag:input type "submit" value "Submit")))))
+           (tag:input type "submit" value "Start reading")))))
 
 (defop station req
   (withs (user (current-user)
