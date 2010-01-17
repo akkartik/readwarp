@@ -9,10 +9,10 @@ body{ margin:0 auto; font-size:62.5%; font-family:sans-serif; }
   #nav{ }
 
     .button{ float:left; padding:0.5em; width:5em; height:1.5em; text-align:center; margin-left:1em; }
-    .skip{ background:#cc4444; }    .outcome_1{ color:#cc4444; }
-    .next{ background:#ccff33; }    .outcome_2{ color:#ccff33; }
-    .like{ background:#87cb43; }    .outcome_3{ color:#87cb43; }
-    .love{ background:#43cb43; }    .outcome_4{ color:#43cb43; }
+    .skip{ background:#cc4444; }    .fskip,.outcome_1{ color:#cc4444; }
+    .next{ background:#ccff33; }    .fnext,.outcome_2{ color:#ccff33; }
+    .like{ background:#87cb43; }    .flike,.outcome_3{ color:#87cb43; }
+    .love{ background:#43cb43; }    .flove,.outcome_4{ color:#43cb43; }
     .icon{ }
     .outcome_icon{ float:right; }
 
@@ -41,3 +41,5 @@ h2.title a{ color:#44c; font-weight:bold; }
 #searchbox { margin-left:75%; margin-top:0.5em; }
 
 .date { font-style:italic; font-size:80%; float:right; }
+
+.logo-button { display:inline; text-align:center; font-family:sans-serif; font-weight:bold; font-size:9em; }

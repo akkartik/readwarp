@@ -36,13 +36,20 @@
                   (tag (div id "content")
                     ,@body))))))))
 
+(mac logo(cls msg)
+  `(tag (div class (+ "logo-button " ,stringify.cls))
+      (pr ,msg)))
+
 (defop || req
-  (layout-basic
-    (tag (div style "margin-top:15%; text-align:center")
+  (header)
+  (tag body
+    (tag (div style "margin-top:5em; text-decoration:underline; color:#fff200; text-align:center")
+      (logo fskip "RE")(logo fnext "AD")(logo flike "WA")(logo flove "RP"))
+    (tag (div style "margin-top:5%; text-align:center; font-size:16px")
       (tag (form action "/station")
            (tag:input id "newstationform" name "seed" size "30")
-           (tag br)
-           (tag:input type "submit")))))
+           (pr "&nbsp;&nbsp;")
+           (tag:input type "submit" value "Submit")))))
 
 (defop station req
   (withs (user (current-user)
