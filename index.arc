@@ -105,8 +105,7 @@
   (= feed-keywords* (table) keyword-feeds* (table) feed-keyword-nils* (table))
   (prn "updating scan-feeds")
   (everyp feed feed-list* 100
-    (feed-keywords feed))
-  (prn "testing scan-feeds " (scan-feeds "hacker news")))
+    (feed-keywords feed)))
 (wait update-feeds-init*)
 
 (def scan-doc-dir()
