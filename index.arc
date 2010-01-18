@@ -86,9 +86,14 @@
   (update-feed-keywords-via-doc doc))
 
 (defrep update-feeds 1800
+  (prn "updating feed-list*")
   (= feed-list* (tokens:slurp "feeds/All"))
-  (map read-group '("Mainstream" "Economics" "Sports"
-                    "Programming" "Technology" "Venture"))
+  (prn "updating feed-group*")
+  (each group '("Mainstream" "Economics" "Sports"
+                    "Programming" "Technology" "Venture")
+    prn.group
+    (read-group group))
+  (prn "updating feedinfo*")
   (= feedinfo*
      (if (file-exists "snapshots/feedinfo")
            (read-json-table "snapshots/feedinfo")
@@ -97,8 +102,12 @@
          (file-exists "snapshots/feedinfo.orig") ; temporary
            (w/infile f "snapshots/feedinfo.orig"
               (read-nested-table f))))
-  (map feed-keywords feed-list*))
-(wait feedinfo*)
+  (= feed-keywords* (table) keyword-feeds* (table) feed-keyword-nils* (table))
+  (prn "updating scan-feeds")
+  (everyp feed feed-list* 100
+    (feed-keywords feed))
+  (prn "testing scan-feeds " (scan-feeds "hacker news")))
+(wait update-feeds-init*)
 
 (def scan-doc-dir()
   (everyp file (dir "urls") 1000
@@ -345,7 +354,7 @@
   (erp "done rebuild-showlist"))
 
 (proc choose-lit-doc(station)
-  (push (doc-feed:best-sl station!sorted-docs [~recently-shown-feed? station _])
+  (pushif (doc-feed:best-sl station!sorted-docs [~recently-shown-feed? station _])
         station!showlist))
 
 (mac w/unread-avoiding-recent(user station l . body)

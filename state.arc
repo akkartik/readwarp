@@ -68,18 +68,18 @@
 (mac defreg(fnname args registry . body)
   `(do
      (init ,registry ())
-     (def ,fnname ,args ,@body)
+     (proc ,fnname ,args ,@body)
      (add-to ,registry ,fnname)))
 
 (mac defrep(fnname interval . body)
   `(do
-     (def ,fnname()
+     (wipe ,(symize stringify.fnname "-init*"))
+     (proc ,fnname()
       (forever
         ,@body
+        (set ,(symize stringify.fnname "-init*"))
         (sleep ,interval)))
      (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname))))
-(mac wait(var)
-  `(until (bound ',var)))
 
 
 

@@ -663,3 +663,7 @@ version you can find.
 Logo: specify helvetica
 Tried italic, that's pretty decent as well.
 =-=235 - Sun Jan 17 19:51:24 PST 2010
+
+A couple of bugfixes in update-feeds. We should now never lack for a story to
+display, no matter how crappy.
+=-=239 - Mon Jan 18 14:36:43 PST 2010

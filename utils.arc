@@ -34,6 +34,10 @@
 
 (= not no)
 
+(mac pushif(elem ls)
+  `(aif ,elem
+     (push it ,ls)))
+
 (mac proc(name args . body)
   `(def ,name ,args ,@body nil))
 
@@ -141,6 +145,9 @@
   (or= buffered-execs*.f
        (thread (sleep buffered-exec-delay*) (wipe buffered-execs*.f) (f))))
 
+(mac wait(var)
+  `(until ,var))
+
 (mac timeout-exec (timeout . body)
   (w/uniq (done-flag thread-var)
     `(withs (,done-flag nil
@@ -149,15 +156,15 @@
                              (after*
                                ,@body
                               :do
-                               (= ,done-flag t)))))
+                               (set ,done-flag)))))
        (thread
          (sleep ,timeout)
          (unless (dead ,thread-var)
            (w/stdout (stderr)
               (prn "Timeout"))
            (kill-thread ,thread-var)
-           (= ,done-flag t)))
-       (until ,done-flag))))
+           (set ,done-flag)))
+       (wait ,done-flag))))
 
 
 
