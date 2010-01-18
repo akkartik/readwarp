@@ -1,5 +1,7 @@
 (without-updating-state
 
+  (test-ok "guess-type nil" (no:guess-type nil))
+
   (= docinfo*
     (obj
       "a_com_a" (obj site "a.com" feed "a.com/feed" url "a.com/a")

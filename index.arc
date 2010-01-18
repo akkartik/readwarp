@@ -245,12 +245,13 @@
       group-feeds*.max)))
 
 (def guess-type(entry)
-  (if (feedinfo* symize.entry)     'feed
-      (or doc-keywords*.entry
-          doc-keyword-nils*.entry) 'doc
-      (headmatch "http" entry)     'url
-      (posmatch "//" entry)        'url
-                                   'keyword))
+  (if entry
+    (if (feedinfo* symize.entry)     'feed
+        (or doc-keywords*.entry
+            doc-keyword-nils*.entry) 'doc
+        (headmatch "http" entry)     'url
+        (posmatch "//" entry)        'url
+                                     'keyword)))
 
 (proc propagate-keyword(user station keyword)
   (each feed scan-feeds.keyword
