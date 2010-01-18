@@ -1,3 +1,29 @@
+(def symize args
+  (if single.args
+    (sym car.args)
+    (coerce (cat args) 'sym)))
+(def stringify(sym)
+  (coerce sym 'string))
+(def globalize l
+  (symize l "*"))
+(def cat args
+  (if args
+    (apply + (flat args))))
+
+(def smatch(x y)
+  (or (is x y)
+      (is x '_)
+      (and (acons x)
+           (acons y)
+           (smatch (car x) (car y))
+           (smatch (cdr x) (cdr y)))
+      (and (isa x 'table)
+           (isa y 'table)
+           (smatch (keys x) (keys y))
+           (smatch (vals x) (vals y)))))
+
+
+
 (mac init args
   `(unless (bound ',(car args))
      (= ,@args)))
@@ -5,6 +31,8 @@
 (mac ifcall(var)
   `(if (bound ',var)
      (,var)))
+
+(= not no)
 
 (mac proc(name args . body)
   `(def ,name ,args ,@body nil))

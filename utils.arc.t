@@ -1,3 +1,13 @@
+(test-iso "stringify works on nil sym"
+  ""
+  (stringify nil))
+
+(test-is "symize works on nil sym"
+  nil
+  (symize nil))
+
+
+
 (test-is "blet is let when post-condition is satisfied"
   (let n 2
     (++ n))
