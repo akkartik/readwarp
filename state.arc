@@ -111,13 +111,12 @@
          log-var (symize stringify.fnname "-log*"))
     `(do
        (init ,log-var ())
-       (def ,fnname()
+       (proc ,fnname()
          (prn ,stringify.fnname " watching fifos/" ,fifo)
          (forever:each doc (tokens:slurp ,(+ "fifos/" fifo))
             (rotlog ,log-var doc)
-            (do1
-              (do ,@body)
-              ,(aif nextfifo `(w/outfile f ,(+ "fifos/" it) (disp doc f))))))
+            ,@body
+            ,(aif nextfifo `(w/outfile f ,(+ "fifos/" it) (disp doc f)))))
        (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname)))))
 
 
