@@ -688,3 +688,7 @@ Reloading index.arc was killing the repl.
 
 Try to ensure the first story on a station doesn't surprise the user.
 =-=246 - Tue Jan 19 23:09:17 PST 2010
+
+Trying to support partial urls, like cnn when the desc contains only cnn.com.
+Or news.ycombinator.
+=-=247 - Wed Jan 20 01:56:05 PST 2010

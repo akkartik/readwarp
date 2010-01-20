@@ -427,6 +427,9 @@
         (splitstr s pat end)))
     (list (cut s ind))))
 
+(def split-urls(s)
+  (cons s (tokens s [pos _ ":/."])))
+
 (def rmpat(doc begin end)
   (with (s (posmatch begin doc)
          e (posmatch end doc))

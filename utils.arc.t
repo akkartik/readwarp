@@ -152,6 +152,10 @@
   '(1 3 5)
   (posmatchall "b" "abcbdbe"))
 
+(test-iso "split-urls tokenizes along punctuation"
+  '("a.com/b" "a" "com" "b")
+  (split-urls "a.com/b"))
+
 
 
 (test-iso "aboutnmost should take top n"

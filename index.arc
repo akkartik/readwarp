@@ -32,7 +32,8 @@
 
 (init feedinfo* (table))
 (dhash feed keyword "m-n"
-  (map canonicalize (flat:map tokens:html-strip (vals:feedinfo* symize.feed))))
+  (map canonicalize (flat:map split-urls (flat:map tokens:html-strip (vals:feedinfo* symize.feed)))))
+;?   (flat:map split-urls:canonicalize (flat:map tokens:html-strip (vals:feedinfo* symize.feed))))
 
 (init feed-group* (table))
 (init group-feeds* (table))
@@ -233,7 +234,8 @@
 
 
 (def scan-feeds(keyword)
-  (common:map keyword-feeds:canonicalize (tokens keyword)))
+  (common:map keyword-feeds:canonicalize (flat:map split-urls tokens.keyword)))
+;?   (common:map keyword-feeds (flat:map split-urls:canonicalize tokens.keyword)))
 (def scan-docs(keyword)
   (common:map keyword-docs:canonicalize (tokens keyword)))
 
