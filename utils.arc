@@ -307,7 +307,7 @@
        (prn:len ,ls)
        (on ,var ,l
          (if (is 0 (remainder index ,iters))
-           (prn index " " ,var))
+           (prn " " index " " ,var))
          ,@body))))
 
 
