@@ -677,3 +677,8 @@ semaphore. But even with that hypothesis the problem seemed insoluble..
 Until I enclosed the function in an atomic. That's the second time (after
 commit 197) that trick has bailed me out.
 =-=241 - Tue Jan 19 20:33:31 PST 2010
+Another atomic in the UI.
+We're still seeing some timeouts, but not nearly so much. Inter-story delay is
+pretty significant (10s of seconds). I'm freezing instrumentation to help
+track why the timeout happens.
+=-=244 - Tue Jan 19 21:53:53 PST 2010

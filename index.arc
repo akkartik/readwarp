@@ -71,19 +71,19 @@
 
 
 
-(defscan insert-metadata "clean" "mdata"
-  (= docinfo*.doc metadata.doc))
+(defscan insert-metadata "clean"
+  (erp doc)
+  (= docinfo*.doc metadata.doc)
+  (doc-feed doc)
+  (doc-keywords doc)
+  (update-feed-keywords-via-doc doc)
+  (erp "."))
 
 (def metadata(doc)
   (read-json-table metadata-file.doc))
 
 (def metadata-file(doc)
   (+ "urls/" doc ".metadata"))
-
-(defscan insert-keywords "mdata"
-  (doc-feed doc)
-  (doc-keywords doc)
-  (update-feed-keywords-via-doc doc))
 
 (defrep update-feeds 1800
   (atomic
@@ -419,10 +419,11 @@
   (recently-shown? station doc-feed.doc))
 
 (def pick(user station)
-  (ret ans (car (showlist user station))
-    (if (pos guess-type.ans '(feed url))
-      (zap [most-recent-unread user _] ans))))
-      ; XXX: nothing unread left? (only dup feeds)
+  (atomic
+    (ret ans (car (showlist user station))
+      (if (pos guess-type.ans '(feed url))
+        (zap [most-recent-unread user _] ans)))))
+        ; XXX: nothing unread left? (only dup feeds)
 
 (def most-recent-unread(user feed)
   (most doc-timestamp (rem [read? user _] feed-docs.feed)))

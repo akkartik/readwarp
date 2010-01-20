@@ -9,8 +9,7 @@
   (read-list (current-user) (current-station-name:current-user)))
 
 (def next-doc(user)
-  (ret ans nil
-    (= ans (pick user current-station.user))))
+  (pick user current-station.user))
 
 
 
@@ -54,6 +53,7 @@
            (tag:input type "submit" value "Start reading")))))
 
 (defop station req
+  (erp "station")
   (withs (user (current-user)
           query (arg req "seed"))
     (new-station user query)
@@ -64,6 +64,7 @@
       (render-doc-with-context next-doc.user))))
 
 (defop docupdate req
+  (erp "docupdate")
   (mark-read (current-user) (arg req "doc") (arg req "outcome"))
   (render-doc-with-context
     (next-doc:current-user)))
