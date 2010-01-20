@@ -682,3 +682,6 @@ We're still seeing some timeouts, but not nearly so much. Inter-story delay is
 pretty significant (10s of seconds). I'm freezing instrumentation to help
 track why the timeout happens.
 =-=244 - Tue Jan 19 21:53:53 PST 2010
+
+Reloading index.arc was killing the repl.
+=-=245 - Tue Jan 19 22:45:42 PST 2010

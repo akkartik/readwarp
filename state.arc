@@ -73,7 +73,7 @@
 
 (mac defrep(fnname interval . body)
   `(do
-     (wipe ,(symize stringify.fnname "-init*"))
+     (init ,(symize stringify.fnname "-init*") nil)
      (proc ,fnname()
       (forever
         ,@body
