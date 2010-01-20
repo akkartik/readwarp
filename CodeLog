@@ -694,3 +694,7 @@ Or news.ycombinator.
 =-=247 - Wed Jan 20 01:56:05 PST 2010
 Fixed. Only include url in split-urls inside feed-keyword, not always.
 =-=248 - Wed Jan 20 02:03:52 PST 2010
+
+More tweaks to atomic: we only want the first iteration of defrep to be atomic
+when the main thread may be waiting on it.
+=-=249 - Wed Jan 20 12:38:23 PST 2010

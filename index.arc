@@ -90,27 +90,26 @@
   (+ "urls/" doc ".metadata"))
 
 (defrep update-feeds 1800
-  (atomic
-    (prn "updating feed-list*")
-    (= feed-list* (tokens:slurp "feeds/All"))
-    (prn "updating feed-group*")
-    (each group '("Mainstream" "Economics" "Sports"
-                      "Programming" "Technology" "Venture")
-      prn.group
-      (read-group group))
-    (prn "updating feedinfo*")
-    (= feedinfo*
-       (if (file-exists "snapshots/feedinfo")
-             (read-json-table "snapshots/feedinfo")
-           (file-exists "snapshots/feedinfo.intermediate")
-             (read-json-table "snapshots/feedinfo.intermediate")
-           (file-exists "snapshots/feedinfo.orig") ; temporary
-             (w/infile f "snapshots/feedinfo.orig"
-                (read-nested-table f))))
-    (= feed-keywords* (table) keyword-feeds* (table) feed-keyword-nils* (table))
-    (prn "updating scan-feeds")
-    (everyp feed feed-list* 100
-      (feed-keywords feed))))
+  (prn "updating feed-list*")
+  (= feed-list* (tokens:slurp "feeds/All"))
+  (prn "updating feed-group*")
+  (each group '("Mainstream" "Economics" "Sports"
+                    "Programming" "Technology" "Venture")
+    prn.group
+    (read-group group))
+  (prn "updating feedinfo*")
+  (= feedinfo*
+     (if (file-exists "snapshots/feedinfo")
+           (read-json-table "snapshots/feedinfo")
+         (file-exists "snapshots/feedinfo.intermediate")
+           (read-json-table "snapshots/feedinfo.intermediate")
+         (file-exists "snapshots/feedinfo.orig") ; temporary
+           (w/infile f "snapshots/feedinfo.orig"
+              (read-nested-table f))))
+  (= feed-keywords* (table) keyword-feeds* (table) feed-keyword-nils* (table))
+  (prn "updating scan-feeds")
+  (everyp feed feed-list* 100
+    (feed-keywords feed)))
 (wait update-feeds-init*)
 
 (def scan-doc-dir()
