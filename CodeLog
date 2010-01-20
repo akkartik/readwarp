@@ -667,3 +667,13 @@ Tried italic, that's pretty decent as well.
 A couple of bugfixes in update-feeds. We should now never lack for a story to
 display, no matter how crappy.
 =-=239 - Mon Jan 18 14:36:43 PST 2010
+
+Bug in wait. I wasn't waiting for feed data structures to get initialized, and
+that was messing things up.
+But initializing data structures was taking forever in the presence of other
+threads. The hypothesis was that multiple threads were thrashing on the atomic
+semaphore. But even with that hypothesis the problem seemed insoluble..
+
+Until I enclosed the function in an atomic. That's the second time (after
+commit 197) that trick has bailed me out.
+=-=241 - Tue Jan 19 20:33:31 PST 2010
