@@ -692,3 +692,5 @@ Try to ensure the first story on a station doesn't surprise the user.
 Trying to support partial urls, like cnn when the desc contains only cnn.com.
 Or news.ycombinator.
 =-=247 - Wed Jan 20 01:56:05 PST 2010
+Fixed. Only include url in split-urls inside feed-keyword, not always.
+=-=248 - Wed Jan 20 02:03:52 PST 2010
