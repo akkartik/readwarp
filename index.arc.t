@@ -31,8 +31,6 @@
   (= feed-docs* (obj "a.com/feed" '("a_com_a")))
   (= feed-keywordcount* (obj "a.com/feed" (table)))
   (= normalized-keyword-clusters* (table))
-  (= feed-affinity* (normalized-affinity-table normalized-keyword-clusters*))
-  (= doc-affinity* (normalized-affinity-table keyword-docs*))
 
 
 

@@ -76,57 +76,18 @@
       (feed-keywords feed))))
 (wait update-feeds-init*)
 
-(persisted feed-keywords-via-doc* (table)
-  (proc update-feed-keywords-via-doc(doc)
-    (let feed doc-feed.doc
-      (or= feed-keywords-via-doc*.feed (table))
-      (each kwd doc-keywords.doc
-        (pushnew doc feed-keywords-via-doc*.feed.kwd))
-      (update-feed-clusters-by-keyword feed))))
-
-(persisted feed-clusters-by-keyword* (table)
-  (proc update-feed-clusters-by-keyword(feed)
-    (each k (keys feed-keywords-via-doc*.feed)
-      (if (>= (* 2 (len feed-keywords-via-doc*.feed.k))
-              (len feed-docs.feed))
-        (pushnew feed feed-clusters-by-keyword*.k)
-        (pull feed feed-clusters-by-keyword*.k)))))
-
-(persisted feed-affinity* (table)
-  (defrep update-feed-affinity 3600
-    (prn "updating feed affinity")
-    (= feed-affinity*
-       (normalized-affinity-table feed-clusters-by-keyword*))))
-
-(persisted doc-affinity* (table)
-  (defrep update-doc-affinity 3600
-    (prn "updating doc affinity")
-    (= doc-affinity*
-       (normalized-affinity-table keyword-docs*))))
-
 
 
-(disabled
 (defscan insert-metadata "clean"
-  (erp doc)
   (= docinfo*.doc metadata.doc)
   (doc-feed doc)
-  (doc-keywords doc)
-  (update-feed-keywords-via-doc doc)
-  (erp "."))
-)
+  (doc-keywords doc))
 
 (def metadata(doc)
   (read-json-table metadata-file.doc))
 
 (def metadata-file(doc)
   (+ "urls/" doc ".metadata"))
-
-(def scan-doc-dir()
-  (everyp file (dir "urls") 1000
-    (if (and (posmatch ".clean" file)
-             (~docinfo*:subst "" ".clean" file))
-      (prn file))))
 
 
 
@@ -276,27 +237,6 @@
         (posmatch "//" entry)        'url
                                      'keyword)))
 
-(proc propagate-keyword(user station keyword)
-  (each feed scan-feeds.keyword
-    (propagate-one user station feed 'feed keyword))
-  (each doc keyword-docs*.keyword     ;; Assume already canonicalized
-    (propagate-one user station doc 'doc keyword)))
-
-(proc propagate-feed(user station feed)
-  (each kwd feed-keywords.feed
-    (propagate-one user station kwd 'keyword feed))
-  (each f (keys feed-affinity*.feed)
-    (propagate-one user station f 'feed feed))
-  (each doc feed-docs.feed
-    (propagate-one user station doc 'doc feed)))
-
-(proc propagate-doc(user station doc)
-  (propagate-one user station doc-feed.doc 'feed doc)
-  (each kwd doc-keywords.doc
-    (propagate-one user station kwd 'keyword doc))
-  (each d (keys doc-affinity*.doc)
-    (propagate-one user station d 'doc doc)))
-
 (proc propagate-to-doc(user station doc)
   (let feed doc-feed.doc
     (propagate-one user station feed 'feed doc)
@@ -305,9 +245,7 @@
   (each kwd doc-keywords.doc
     (propagate-one user station kwd 'keyword doc)
     (each d (firstn 10 keyword-docs*.kwd)
-      (propagate-one user station d 'doc kwd)))
-  (each d (keys doc-affinity*.doc)
-    (propagate-one user station d 'doc doc)))
+      (propagate-one user station d 'doc kwd))))
 
 (proc propagate-keyword-to-doc(user station keyword)
   (erp "propagate-keyword-to-doc")
@@ -317,12 +255,6 @@
       (propagate-one user station d 'doc feed)))
   (each doc scan-docs.keyword
     (propagate-one user station doc 'doc keyword)))
-
-(proc propagate-url(user station url)
-  (propagate-keyword user station url))
-
-(proc propagate-entry(user station entry)
-  ((eval:symize "propagate-" station!workspace.entry!type) user station entry))
 
 (= propagates* 0)
 (proc propagate-one(user station entry typ (o prior))
@@ -346,23 +278,20 @@
 ;; Pick 5 stories at a time
 ;;   Choose 1 lit doc in worklist
 ;;   Choose most recent story from upto 3 separate preferred feeds, avoiding recent
-;;   Fill remainder with most recent story from random feeds by affinity, avoiding recent
 ;;   Fill remainder with most recent story from random feeds, avoiding recent and unpreferred feeds
 ;;   Fill remainder with most recent story from random unpreferred feeds, avoiding recent
 ;;   Fill remainder with most recent story from random feeds
 (proc rebuild-showlist(user station)
+  (erp "rebuild-showlist. Previous iter: " station!last-showlist)
+  (choose-lit-doc station)
   (erp "scanning preferred feeds: " station!showlist)
   (choose-from-preferred user station 3)
-  (erp "scanning feeds by affinity: " station!showlist)
-  (fill-by-affinity user station)
   (erp "scanning feeds by group: " station!showlist)
   (fill-by-group user station)
   (erp "scanning random feeds: " station!showlist)
   (fill-random user station)
   (erp "scanning unpreferred feeds: " station!showlist)
   (fill-random-unpreferred user station)
-  (erp "rebuild-showlist. Previous iter: " station!last-showlist)
-  (choose-lit-doc station)
   (erp "done. candidates: " station!showlist)
   (zap rev station!showlist)
   (erp "after rev: " station!showlist)
@@ -387,15 +316,6 @@
       (whenlet feed randpos.candidates
         (erp "preferred: " feed)
         (push feed station!showlist)
-        (pull feed candidates)))))
-
-(proc fill-by-affinity(user station)
-  (w/unread-avoiding-recent user station (keep [is 'feed guess-type._]
-                                               (keys station!workspace))
-    (while (and candidates
-                (< (len station!showlist) 5))
-      (let feed randpos.candidates
-        (pushnew feed station!showlist)
         (pull feed candidates)))))
 
 (proc fill-by-group(user station)

@@ -52,8 +52,16 @@
            (pr "&nbsp;&nbsp;")
            (tag:input type "submit" value "Start reading")))))
 
+(= performance-vector ($:make-vector 10))
+
+(def prn-stats()
+  ($:vector-set-performance-stats! _performance-vector)
+  (erp performance-vector))
+
 (defop station req
   (erp "station")
+  (erp "Before:")
+  (prn-stats)
   (withs (user (current-user)
           query (arg req "seed"))
     (new-station user query)
@@ -61,7 +69,9 @@
     (w/stdout (stderr)
       (propagate-keyword-to-doc user current-station.user query))
     (layout-basic
-      (render-doc-with-context next-doc.user))))
+      (render-doc-with-context next-doc.user)))
+  (erp "After:")
+  (prn-stats))
 
 (defop docupdate req
   (erp "docupdate")

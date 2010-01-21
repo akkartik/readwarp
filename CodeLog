@@ -708,3 +708,11 @@ doc-affinity takes forever to build. Ordering update-feeds ahead of it.
 Still takes forever to get to a prompt. Disabling doc-affinity.
 mzscheme keeps segfaulting now. Giving up, undo commit 249.
 =-=251 - Thu Jan 21 11:30:55 PST 2010
+
+Ah, the number of thread switches in UI thread goes up by 8x from 200 to 1600
+when I enable the back-end. And it's all because of computations to update
+feed-affinity, which I haven't really been using anyway. And doc-affinity we
+already know isn't even every full computed.
+Get rid of all that over-engineered cruft and the server is now looking very
+promising.
+=-=254 - Thu Jan 21 15:28:20 PST 2010
