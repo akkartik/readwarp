@@ -75,11 +75,12 @@
   `(do
      (init ,(symize stringify.fnname "-init*") nil)
      (proc ,fnname()
-       (atomic ,@body)
-       (set ,(symize stringify.fnname "-init*"))
-       (sleep ,interval)
+;?        (atomic ,@body)
+;?        (set ,(symize stringify.fnname "-init*"))
+;?        (sleep ,interval)
        (forever
          ,@body
+         (set ,(symize stringify.fnname "-init*"))
          (sleep ,interval)))
      (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname))))
 
