@@ -360,6 +360,7 @@
   (choose-lit-doc station)
   (erp "done. candidates: " station!showlist)
   (zap rev station!showlist)
+  (erp "after rev: " station!showlist)
   (= station!last-showlist station!showlist)
   (erp "done rebuild-showlist"))
 
