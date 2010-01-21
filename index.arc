@@ -47,8 +47,13 @@
 
 
 
+(mac atomic-ifnot(var . body)
+  `(if (no ,var)
+     (atomic ,@body)
+     (do ,@body)))
+
 (defrep update-feeds 1800
-  (atomic
+  (atomic-ifnot update-feeds-init*
     (prn "updating feed-list*")
     (= feed-list* (tokens:slurp "feeds/All"))
     (prn "updating feed-group*")
