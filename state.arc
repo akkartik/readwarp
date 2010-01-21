@@ -40,7 +40,7 @@
   `(let ref (load-snapshot ,var ,value)
      (pushnew ',var autosaved-vars*)
      (if (~alref save-registry* ref)
-       (push (list ref (fn() (atomic:save-snapshot ,var)))
+       (push (list ref (fn() (save-snapshot ,var)))
              save-registry*))))
 
 (def shadow-autosaved()

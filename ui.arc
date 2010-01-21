@@ -9,7 +9,7 @@
   (read-list (current-user) (current-station-name:current-user)))
 
 (def next-doc(user)
-  (atomic:pick user current-station.user))
+  (pick user current-station.user))
 
 
 
@@ -41,7 +41,7 @@
 
 (defop || req
   (header)
-  (atomic:tag body
+  (tag body
     (tag (div style "margin-top:5em; text-decoration:underline; color:#fff200; text-align:center")
       (logo fskip "RE")(logo fnext "AD")(logo flike "WA")(logo flove "RP"))
     (tag (div style "margin-top:5%; text-align:center; font-size:16px")

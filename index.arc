@@ -47,48 +47,6 @@
 
 
 
-(persisted feed-keywords-via-doc* (table)
-  (proc update-feed-keywords-via-doc(doc)
-    (let feed doc-feed.doc
-      (or= feed-keywords-via-doc*.feed (table))
-      (each kwd doc-keywords.doc
-        (pushnew doc feed-keywords-via-doc*.feed.kwd))
-      (update-feed-clusters-by-keyword feed))))
-
-(persisted feed-clusters-by-keyword* (table)
-  (proc update-feed-clusters-by-keyword(feed)
-    (each k (keys feed-keywords-via-doc*.feed)
-      (if (>= (* 2 (len feed-keywords-via-doc*.feed.k))
-              (len feed-docs.feed))
-        (pushnew feed feed-clusters-by-keyword*.k)
-        (pull feed feed-clusters-by-keyword*.k)))))
-
-(persisted feed-affinity* (table)
-  (defrep update-feed-affinity 3600
-    (= feed-affinity*
-       (normalized-affinity-table feed-clusters-by-keyword*))))
-
-(persisted doc-affinity* (table)
-  (defrep update-doc-affinity 3600
-    (= doc-affinity*
-       (normalized-affinity-table keyword-docs*))))
-
-
-
-(defscan insert-metadata "clean"
-  (erp doc)
-  (= docinfo*.doc metadata.doc)
-  (doc-feed doc)
-  (doc-keywords doc)
-  (update-feed-keywords-via-doc doc)
-  (erp "."))
-
-(def metadata(doc)
-  (read-json-table metadata-file.doc))
-
-(def metadata-file(doc)
-  (+ "urls/" doc ".metadata"))
-
 (defrep update-feeds 1800
   (prn "updating feed-list*")
   (= feed-list* (tokens:slurp "feeds/All"))
@@ -111,6 +69,52 @@
   (everyp feed feed-list* 100
     (feed-keywords feed)))
 (wait update-feeds-init*)
+
+(persisted feed-keywords-via-doc* (table)
+  (proc update-feed-keywords-via-doc(doc)
+    (let feed doc-feed.doc
+      (or= feed-keywords-via-doc*.feed (table))
+      (each kwd doc-keywords.doc
+        (pushnew doc feed-keywords-via-doc*.feed.kwd))
+      (update-feed-clusters-by-keyword feed))))
+
+(persisted feed-clusters-by-keyword* (table)
+  (proc update-feed-clusters-by-keyword(feed)
+    (each k (keys feed-keywords-via-doc*.feed)
+      (if (>= (* 2 (len feed-keywords-via-doc*.feed.k))
+              (len feed-docs.feed))
+        (pushnew feed feed-clusters-by-keyword*.k)
+        (pull feed feed-clusters-by-keyword*.k)))))
+
+(persisted feed-affinity* (table)
+  (defrep update-feed-affinity 3600
+    (prn "updating feed affinity")
+    (= feed-affinity*
+       (normalized-affinity-table feed-clusters-by-keyword*))))
+
+(persisted doc-affinity* (table)
+  (defrep update-doc-affinity 3600
+    (prn "updating doc affinity")
+    (= doc-affinity*
+       (normalized-affinity-table keyword-docs*))))
+
+
+
+(disabled
+(defscan insert-metadata "clean"
+  (erp doc)
+  (= docinfo*.doc metadata.doc)
+  (doc-feed doc)
+  (doc-keywords doc)
+  (update-feed-keywords-via-doc doc)
+  (erp "."))
+)
+
+(def metadata(doc)
+  (read-json-table metadata-file.doc))
+
+(def metadata-file(doc)
+  (+ "urls/" doc ".metadata"))
 
 (def scan-doc-dir()
   (everyp file (dir "urls") 1000
@@ -424,11 +428,10 @@
   (recently-shown? station doc-feed.doc))
 
 (def pick(user station)
-  (atomic
-    (ret ans (car (showlist user station))
-      (if (pos guess-type.ans '(feed url))
-        (zap [most-recent-unread user _] ans)))))
-        ; XXX: nothing unread left? (only dup feeds)
+  (ret ans (car (showlist user station))
+    (if (pos guess-type.ans '(feed url))
+      (zap [most-recent-unread user _] ans))))
+      ; XXX: nothing unread left? (only dup feeds)
 
 (def most-recent-unread(user feed)
   (most doc-timestamp (rem [read? user _] feed-docs.feed)))
