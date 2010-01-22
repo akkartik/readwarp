@@ -722,3 +722,6 @@ Suddenly save-snapshot isn't working.
 Bugfix to fwritefile: sometimes the file isn't available on the file system
 before we try to rename it.
 =-=256 - Thu Jan 21 18:13:34 PST 2010
+
+Bringing back commit 249, defrep is now as it should be.
+=-=257 - Thu Jan 21 18:26:02 PST 2010
