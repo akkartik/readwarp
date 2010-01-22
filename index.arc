@@ -29,11 +29,13 @@
 
 (init feedinfo* (table))
 (dhash feed keyword "m-n"
-  (map canonicalize
-       (cons feed
-             (flat:map split-urls
-                       (flat:map tokens:html-strip
-                                 (vals:feedinfo* symize.feed))))))
+  (do
+    (prn feed)
+    (map canonicalize
+         (cons feed
+               (flat:map split-urls
+                         (flat:map tokens:html-strip
+                                   (vals:feedinfo* symize.feed)))))))
 
 (init feed-group* (table))
 (init group-feeds* (table))
