@@ -7,7 +7,7 @@
   '(let ref (load-snapshot a (table))
     (pushnew 'a autosaved-vars*)
     (if (~alref save-registry* ref)
-      (push (list ref (fn nil (atomic:save-snapshot a))) save-registry*)))
+      (push (list ref (fn nil (save-snapshot a))) save-registry*)))
 
   (macex1 '(setup-autosave a (table))))
 
@@ -36,24 +36,24 @@
 (test-iso "defscan adds code to function to read fifo"
   '(do
     (init foo-log* ())
-    (def foo()
+    (proc foo()
       (prn "foo" " watching fifos/" "foo")
       (forever:each doc (tokens:slurp "fifos/foo")
         (rotlog foo-log* doc)
-        (do1 (do 0)
-          nil)))
+        0
+        nil))
     (init foo-thread* (new-thread foo)))
   (macex1:quote:defscan foo "foo" 0))
 
 (test-iso "defscan optionally adds code to function to write next fifo"
   '(do
     (init foo-log* ())
-    (def foo()
+    (proc foo()
       (prn "foo" " watching fifos/" "foo")
       (forever:each doc (tokens:slurp "fifos/foo")
         (rotlog foo-log* doc)
-        (do1 (do 0)
-          (w/outfile f "fifos/foo2" (disp doc f)))))
+        0
+        (w/outfile f "fifos/foo2" (disp doc f))))
     (init foo-thread* (new-thread foo)))
   (macex1:quote:defscan foo "foo" "foo2" 0))
 

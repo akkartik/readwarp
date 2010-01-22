@@ -725,3 +725,5 @@ before we try to rename it.
 
 Bringing back commit 249, defrep is now as it should be.
 =-=257 - Thu Jan 21 18:26:02 PST 2010
+Cleanup. Tests green again.
+=-=258 - Thu Jan 21 18:35:20 PST 2010

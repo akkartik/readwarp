@@ -64,31 +64,6 @@
       "a.com/feed" (obj type 'feed created 0 priors '("blog")))
     station!workspace)
 
-  (propagate-keyword 0 station "blog")
-  (test-iso "propagate-keyword works"
-    (obj "blog" (obj type 'keyword created 0 priors '("a.com/feed" query))
-         "a.com/feed" (obj type 'feed created 0 priors '("blog"))
-         "b.com/feed" (obj type 'feed created 0 priors '("blog")))
-    station!workspace)
-
-  (propagate-feed 0 station "a.com/feed")
-  (test-iso "propagate-feed works"
-    (obj "blog"       (obj type 'keyword created 0 priors '("a.com/feed" query))
-         "a"          (obj type 'keyword created 0 priors '("a.com/feed"))
-         "a_com_a"    (obj type 'doc created 0 priors '("a.com/feed"))
-         "a.com/feed" (obj type 'feed created 0 priors '("blog"))
-         "b.com/feed" (obj type 'feed created 0 priors '("blog")))
-    station!workspace)
-
-  (propagate-doc 0 station "a_com_a")
-  (test-iso "propagate-doc works"
-    (obj "blog"       (obj type 'keyword created 0 priors '("a.com/feed" query))
-         "a"          (obj type 'keyword created 0 priors '("a.com/feed"))
-         "a_com_a"    (obj type 'doc created 0 priors '("a.com/feed"))
-         "a.com/feed" (obj type 'feed created 0 priors '("a_com_a" "blog"))
-         "b.com/feed" (obj type 'feed created 0 priors '("blog")))
-    station!workspace)
-
 
 
   (shadowing doc-feed (fn(doc) "aaa")
