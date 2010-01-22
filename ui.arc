@@ -59,19 +59,12 @@
   (erp performance-vector))
 
 (defop station req
-  (erp "station")
-  (erp "Before:")
-  (prn-stats)
   (withs (user (current-user)
           query (arg req "seed"))
     (new-station user query)
     (set-current-station-name user query)
-    (w/stdout (stderr)
-      (propagate-keyword-to-doc user current-station.user query))
     (layout-basic
-      (render-doc-with-context next-doc.user)))
-  (erp "After:")
-  (prn-stats))
+      (render-doc-with-context next-doc.user))))
 
 (defop docupdate req
   (erp "docupdate")

@@ -27,9 +27,6 @@
   (def contents(doc)
     (slurp (+ "urls/" doc ".clean"))))
 
-(dhash doc keyword "m-n"
-  (rem blank? (errsafe:keywords (+ "urls/" doc ".clean"))))
-
 (init feedinfo* (table))
 (dhash feed keyword "m-n"
   (map canonicalize
@@ -74,8 +71,7 @@
 
 (defscan index-doc "clean"
   (= docinfo*.doc metadata.doc)
-  (doc-feed doc)
-  (doc-keywords doc))
+  (doc-feed doc))
 
 (def metadata(doc)
   (read-json-table metadata-file.doc))
@@ -137,13 +133,10 @@
   (or= userinfo*.user!stations.sname (table))
   (let station userinfo*.user!stations.sname
     (or= station!workspace (table))
-    (or= station!sorted-docs
-         (slist [salient-recency station!workspace _]))
     (or= station!iter 0)
     (or= station!name sname)
     (add-query user station sname)))
 
-; XXX: refactor
 ;; Outcome:
 ;; 4: preferred feed, propagate doc
 ;; 3: preferred feed after 5 3s, propagate doc
@@ -157,17 +150,9 @@
           station userinfo*.user!stations.s)
     (= outcome int.outcome)
     (unless userinfo*.user!read.doc
-;?       (erp "marking read " doc " " outcome)
       (= userinfo*.user!read.doc outcome)
         (push doc station!read-list)
-        (delete-sl station!sorted-docs doc)
         (pop station!showlist))
-
-    (when (> outcome 2)
-      (++ station!iter)
-      (prune station)
-      (timeout-exec 2
-        (propagate-to-doc user station doc)))
 
     (or= station!preferred-feeds (table))
     (let feed doc-feed.doc
@@ -175,8 +160,6 @@
         1     (handle-outcome1 station feed doc)
         3     (handle-outcome3 station feed doc)
         4     (handle-outcome4 station feed doc))
-
-;?       (erp "feedinfo " (station!preferred-feeds doc-feed.doc))
 )))
 
 (proc handle-outcome4(station feed doc)
@@ -203,11 +186,8 @@
 (def scan-feeds(keyword)
   (common:map keyword-feeds:canonicalize
               (flat:map split-urls tokens.keyword)))
-(def scan-docs(keyword)
-  (common:map keyword-docs:canonicalize tokens.keyword))
 
 (proc add-query(user station entry)
-  (propagate-one user station entry guess-type.entry 'query)
   (or= station!feeds feed-group-for.entry))
 
 (def feed-group-for(query)
@@ -225,42 +205,10 @@
 (def guess-type(entry)
   (if entry
     (if (feedinfo* symize.entry)     'feed
-        (or doc-keywords*.entry
-            doc-keyword-nils*.entry) 'doc
+        docinfo*.entry               'doc
         (headmatch "http" entry)     'url
         (posmatch "//" entry)        'url
                                      'keyword)))
-
-(proc propagate-to-doc(user station doc)
-  (let feed doc-feed.doc
-    (propagate-one user station feed 'feed doc)
-    (each d feed-docs.feed
-      (propagate-one user station d 'doc feed)))
-  (each kwd doc-keywords.doc
-    (propagate-one user station kwd 'keyword doc)
-    (each d (firstn 10 keyword-docs*.kwd)
-      (propagate-one user station d 'doc kwd))))
-
-(proc propagate-keyword-to-doc(user station keyword)
-  (erp "propagate-keyword-to-doc")
-  (each feed scan-feeds.keyword
-    (propagate-one user station feed 'feed keyword)
-    (each d feed-docs.feed
-      (propagate-one user station d 'doc feed)))
-  (each doc scan-docs.keyword
-    (propagate-one user station doc 'doc keyword)))
-
-(= propagates* 0)
-(proc propagate-one(user station entry typ (o prior))
-  (when (or (~is typ 'doc) (~read? user entry))
-    (++ propagates*)
-    (if (is typ 'doc)
-      (delete-sl station!sorted-docs entry))
-    (or= station!workspace.entry (obj type typ created station!iter))
-    (if prior
-      (pushnew prior station!workspace.entry!priors))
-    (if (is typ 'doc)
-      (insert-sl station!sorted-docs entry))))
 
 
 
@@ -277,7 +225,6 @@
 ;;   Fill remainder with most recent story from random feeds
 (proc rebuild-showlist(user station)
   (erp "rebuild-showlist. Previous iter: " station!last-showlist)
-  (choose-lit-doc station)
   (erp "scanning preferred feeds: " station!showlist)
   (choose-from-preferred user station 3)
   (erp "scanning feeds by group: " station!showlist)
@@ -291,10 +238,6 @@
   (erp "after rev: " station!showlist)
   (= station!last-showlist station!showlist)
   (erp "done rebuild-showlist"))
-
-(proc choose-lit-doc(station)
-  (pushif (doc-feed:best-sl station!sorted-docs [~recently-shown-feed? station _])
-        station!showlist))
 
 (mac w/unread-avoiding-recent(user station l . body)
   `(let candidates ,l
