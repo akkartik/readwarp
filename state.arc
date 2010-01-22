@@ -89,6 +89,7 @@
 (def fwritefile(filename val)
   (let tmpfile (+ filename ".tmp")
     (fwrite tmpfile val)
+    (until file-exists.tmpfile)
     (mvfile tmpfile filename)))
 
 (def fwrite(filename val)
