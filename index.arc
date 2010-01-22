@@ -44,7 +44,8 @@
 
 
 
-(defrep update-feeds 1800
+(defrep update-feeds 3600
+  (system "date")
   (prn "updating feed-list*")
   (= feed-list* (tokens:slurp "feeds/All"))
   (prn "updating feed-group*")
