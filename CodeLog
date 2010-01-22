@@ -729,3 +729,7 @@ Cleanup. Tests green again.
 =-=258 - Thu Jan 21 18:35:20 PST 2010
 Still more cleanup. All calls to keywords now gone.
 =-=259 - Thu Jan 21 18:57:39 PST 2010
+
+htmlclean: if the outermost node is a td, make it a div. Interferes with our
+rendering.
+=-=261 - Fri Jan 22 00:54:36 PST 2010

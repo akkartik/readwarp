@@ -84,6 +84,10 @@ def pickTopMatchingCandidate(candidates, scores, hint, debug):
 
   return None
 
+def postproc(node):
+  if node is None: return
+  return re.sub(r"^<td ", "<div ", node)
+
 def cleanup(file, debug=False):
   deschint = hint_contents(file)
   if debug:
@@ -108,9 +112,9 @@ def cleanup(file, debug=False):
 
   candidates = sortedKeys(scores)
   pick = pickTopMatchingCandidate(candidates, scores, deschint, debug)
-  if pick: return pick
+  if pick: return postproc(pick)
 
-  if deschint == '': return candidates[0]
+  if deschint == '': return postproc(candidates[0])
   return deschint
 
 def commaCount(node):
