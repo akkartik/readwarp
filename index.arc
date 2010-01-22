@@ -78,7 +78,7 @@
 
 
 
-(defscan insert-metadata "clean"
+(defscan index-doc "clean"
   (= docinfo*.doc metadata.doc)
   (doc-feed doc)
   (doc-keywords doc))

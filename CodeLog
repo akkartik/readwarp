@@ -716,3 +716,6 @@ already know isn't even every full computed.
 Get rid of all that over-engineered cruft and the server is now looking very
 promising.
 =-=254 - Thu Jan 21 15:28:20 PST 2010
+
+Suddenly save-snapshot isn't working.
+=-=255 - Thu Jan 21 16:25:12 PST 2010
