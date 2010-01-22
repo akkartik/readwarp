@@ -49,8 +49,8 @@
   (prn "updating feed-list*")
   (= feed-list* (tokens:slurp "feeds/All"))
   (prn "updating feed-group*")
-  (each group '("Mainstream" "Economics" "Sports"
-                    "Programming" "Technology" "Venture")
+  (each group '("Mainstream" "Economics" "Sports" "Cricket"
+                "Programming" "Technology" "Venture")
     prn.group
     (read-group group))
   (prn "updating feedinfo*")
