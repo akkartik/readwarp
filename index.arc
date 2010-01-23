@@ -46,16 +46,13 @@
 
 
 
-(defrep update-feeds 3600
-  (system "date")
-  (prn "updating feed-list*")
-  (= feed-list* (tokens:slurp "feeds/All"))
-  (prn "updating feed-group*")
+(proc update-feed-groups()
   (each group '("Mainstream" "Economics" "Sports" "Cricket"
                 "Programming" "Technology" "Venture")
     prn.group
-    (read-group group))
-  (prn "updating feedinfo*")
+    (read-group group)))
+
+(proc update-feedinfo()
   (= feedinfo*
      (if (file-exists "snapshots/feedinfo")
            (read-json-table "snapshots/feedinfo")
@@ -63,11 +60,23 @@
            (read-json-table "snapshots/feedinfo.intermediate")
          (file-exists "snapshots/feedinfo.orig") ; temporary
            (w/infile f "snapshots/feedinfo.orig"
-              (read-nested-table f))))
+              (read-nested-table f)))))
+
+(proc update-feed-keywords()
   (= feed-keywords* (table) keyword-feeds* (table) feed-keyword-nils* (table))
-  (prn "updating scan-feeds")
   (everyp feed feed-list* 100
     (feed-keywords feed)))
+
+(defrep update-feeds 3600
+  (system "date")
+  (prn "updating feed-list*")
+  (= feed-list* (tokens:slurp "feeds/All"))
+  (prn "updating feed-group*")
+  (update-feed-groups)
+  (prn "updating feedinfo*")
+  (update-feedinfo)
+  (prn "updating scan-feeds")
+  (update-feed-keywords))
 (wait update-feeds-init*)
 
 
@@ -107,9 +116,6 @@
 (def current-station(user)
   (userinfo*.user!stations current-station-name.user))
 
-(def current-workspace(user)
-  current-station.user!workspace)
-
 (def unpreferred?(feedinfo)
   (is feedinfo!auto -1))
 
@@ -135,7 +141,6 @@
   (erp "new-station")
   (or= userinfo*.user!stations.sname (table))
   (let station userinfo*.user!stations.sname
-    (or= station!workspace (table))
     (or= station!iter 0)
     (or= station!name sname)
     (add-query user station sname)))
@@ -249,9 +254,11 @@
            candidates)
     ,@body))
 
+(def preferred-feeds(station)
+  (keep [preferred? _] (vals station!preferred-feeds)))
+
 (proc choose-from-preferred(user station n)
-  (w/unread-avoiding-recent user station (keep [preferred? station!preferred-feeds._]
-                                               (keys station!preferred-feeds))
+  (w/unread-avoiding-recent user station preferred-feeds.station
     (repeat n
       (whenlet feed randpos.candidates
         (erp "preferred: " feed)
@@ -294,41 +301,13 @@
 (def recently-shown-feed?(station doc)
   (recently-shown? station doc-feed.doc))
 
+(def most-recent-unread(user feed)
+  (most doc-timestamp (rem [read? user _] feed-docs.feed)))
+
 (def pick(user station)
   (ret ans (car (showlist user station))
     (if (pos guess-type.ans '(feed url))
       (zap [most-recent-unread user _] ans))))
       ; XXX: nothing unread left? (only dup feeds)
-
-(def most-recent-unread(user feed)
-  (most doc-timestamp (rem [read? user _] feed-docs.feed)))
-
-
-
-(def prune(station)
-  (let workspace station!workspace
-    (each k keys.workspace
-      (if (> (- station!iter workspace.k!created)
-             (* 3 (len workspace.k!priors)))
-        (= workspace.k nil)))))
-
-(def unread-doc(user workspace doc)
-  (and (~read? user doc)
-       (is 'doc workspace.doc!type)))
-
-(def same-feed(station doc)
-  (apply iso (map doc-feed (list doc most-recent-read.station))))
-
-(def most-recent-read(station)
-  (car station!read-list))
-
-; metric: #priors, break ties with timestamp
-(def salient-recency(workspace doc)
-  (+ (* 100 (len:priors workspace doc))
-     (/ doc-timestamp.doc 10000000)))
-
-(def priors(workspace doc)
-  (if workspace.doc
-    workspace.doc!priors))
 
 (prn "Done loading index.arc")

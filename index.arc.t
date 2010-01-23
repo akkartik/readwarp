@@ -37,33 +37,6 @@
   (test-ok "scan-feeds finds feeds containing a keyword"
     (pos "a.com/feed" (scan-feeds "blog")))
 
-  (= userinfo* (table))
-  (new-user 0)
-  (new-station 0 "blog")
-  (set-current-station-name 0 "blog")
-  (= station current-station.0)
-
-  (test-iso "new-station adds query to workspace"
-    (obj
-      "blog" (obj type 'keyword created 0 priors '(query)))
-    station!workspace)
-
-
-
-  (propagate-one 0 station "a.com/feed" 'feed "blog")
-  (test-iso "propagate-one inserts one element into workspace"
-    (obj
-      "blog" (obj type 'keyword created 0 priors '(query))
-      "a.com/feed" (obj type 'feed created 0 priors '("blog")))
-    station!workspace)
-
-  (propagate-one 0 station "blog" 'keyword "a.com/feed")
-  (test-iso "propagate-one adds to prior of existing element"
-    (obj
-      "blog" (obj type 'keyword created 0 priors '("a.com/feed" query))
-      "a.com/feed" (obj type 'feed created 0 priors '("blog")))
-    station!workspace)
-
 
 
   (shadowing doc-feed (fn(doc) "aaa")
