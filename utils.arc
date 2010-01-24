@@ -396,9 +396,11 @@
 (mac inittab(place . l)
   `(do
     (or= ,place (table))
-    (each (k v) (pair ',l)
-      (or= (,place k) eval.v))
-    ,place))
+    (init-table ,place ,@l)))
+
+(def init-table (table . data)
+  (each (k v) (pair data) (or= (table k) v))
+  table)
 
 
 

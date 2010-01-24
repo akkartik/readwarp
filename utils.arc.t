@@ -129,6 +129,11 @@
             (obj 1 2 3 4)
             (inittab a 1 5 3 4)))
 
+(with (a nil x 3)
+  (test-iso "inittab evaluates keys and values"
+            (obj 3 4)
+            (inittab a x (+ x 1))))
+
 (with (inittab-test nil x 0)
   (def inittab-test()
     (w/table ans
@@ -137,10 +142,10 @@
       (or= ans.x!foo (table))
       (or= ans.x!bar (table))))
 
-  (let a (table)
-    (test-iso "inittab quotes keys but not values"
+  (with (a (table) x 3 y 'bar)
+    (test-iso "inittab handles quoted and unquoted keys"
               ((inittab-test) 0)
-              (inittab a.0 3 (+ 3 1) foo (table) bar (table)))))
+              (inittab a.0 x (+ 3 1) 'foo (table) y (table)))))
 
 
 

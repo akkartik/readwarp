@@ -748,3 +748,20 @@ area until they're activated by somebody explicitly asking for them.
 New refactoring: inittab.
 But I need it to evaluate keys as well.
 =-=272 - Sun Jan 24 11:02:32 PST 2010
+The obvious way doesn't work - just make it (table eval.k):
+  Error: "reference to undefined identifier: _k"
+  arc> (with (a nil x 3) (macex1 '(inittab a x (+ 3 1))))
+  (do (or= a (table)) (each (k v) (pair (quote (x (+ 3 1)))) (or= (a eval.k) eval.v)) a)
+  arc> (let x 3 (eval 'x))
+  Error: "reference to undefined identifier: _x"
+Should eval recognize let bindings? It doesn't work in mzscheme either.
+
+In any case, there is a solution: draw a fresh boundary between function and
+macro to enable evaluation.
+Inspired by fill-table after reading http://arclanguage.org/item?id=456
+via* arcforum searchyc: obj
+But it's not perfect. If I want init-table to take an explicit second list arg
+like fill-table I don't know how to keep inittab working.
+I see what Alan Kay meant now; it feels kinda hackish to influence evaluation
+by function boundary, use of @, etc.
+=-=273 - Sun Jan 24 11:43:41 PST 2010
