@@ -1,0 +1,9 @@
+#!/usr/bin/zsh
+
+export PATH=.:/app/local/0bin:/app/local/share/scripts:/app/local/share/scripts/Startup:$PATH:/usr/sbin
+
+cd ~/readwarp/www/logs
+{
+  grep station * |grep 174.129.11.4 |perl -pwe 's/.*seed |\).*//g' |sort |freq |grep -vf OldQueries
+  grep station * |grep 174.129.11.4 |perl -pwe 's/.*seed |\).*//g' |sort |uniq > OldQueries
+} |sendmail akkartik@gmail.com

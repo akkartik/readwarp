@@ -2,7 +2,7 @@
 
 export PYTHONPATH=$PYTHONPATH:/app/local/share/lib/python
 
-cd `dirname $0`
+cd ~/readwarp
 
 mkdir -p urls fifos
 for stage in crawl clean mdata index

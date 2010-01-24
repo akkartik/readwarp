@@ -2,10 +2,8 @@
   (def add-to-docinfo(doc attr val)
     (or= docinfo*.doc (table))
     (= docinfo*.doc.attr val))
-
   (def new?(doc)
     (blank? docinfo*.doc))
-
   (def doc-url(doc)
     (errsafe docinfo*.doc!url))
   (def doc-title(doc)
@@ -23,35 +21,10 @@
     (errsafe docinfo*.doc!date))
   (def feeddate(doc)
     (errsafe docinfo*.doc!feeddate))
-
   (def contents(doc)
     (slurp (+ "urls/" doc ".clean"))))
 
 (init feedinfo* (table))
-(dhash feed keyword "m-n"
-  (do
-    (prn feed)
-    (map canonicalize
-         (cons feed
-               (flat:map split-urls
-                         (flat:map tokens:html-strip
-                                   (vals:feedinfo* symize.feed)))))))
-
-(init feed-group* (table))
-(init group-feeds* (table))
-(proc read-group(f)
-  (each feed (tokens:slurp:+ "feeds/" f)
-    (= feed-group*.feed f)
-    (push feed group-feeds*.f)))
-
-
-
-(proc update-feed-groups()
-  (each group '("Mainstream" "Economics" "Sports" "Cricket"
-                "Programming" "Technology" "Venture")
-    prn.group
-    (read-group group)))
-
 (proc update-feedinfo()
   (= feedinfo*
      (if (file-exists "snapshots/feedinfo")
@@ -62,10 +35,57 @@
            (w/infile f "snapshots/feedinfo.orig"
               (read-nested-table f)))))
 
+(dhash feed keyword "m-n"
+  (do
+    (prn feed)
+    (map canonicalize
+         (cons feed
+               (flat:map split-urls
+                         (flat:map tokens:html-strip
+                                   (vals:feedinfo* symize.feed)))))))
+
 (proc update-feed-keywords()
   (= feed-keywords* (table) keyword-feeds* (table) feed-keyword-nils* (table))
   (everyp feed feed-list* 100
     (feed-keywords feed)))
+
+(init feed-group* (table))
+(init group-feeds* (table))
+(proc read-group(f)
+  (each feed (tokens:slurp:+ "feeds/" f)
+    (= feed-group*.feed f)
+    (push feed group-feeds*.f)))
+
+(proc update-feed-groups()
+  (each group '(
+        "Art"
+        "BayArea"
+        "Books"
+        "Comics"
+        "Cricket"
+        "Design"
+        "Economics"
+        "Food"
+        "Germany"
+        "India"
+        "Japan"
+        "Law"
+        "Magazine"
+        "Movies"
+        "Music"
+        "News"
+        "NYC"
+        "Politics"
+        "Programming"
+        "Science"
+        "Sports"
+        "Technology"
+        "Travel"
+        "Updates"
+        "Venture"
+      )
+    prn.group
+    (read-group group)))
 
 (defrep update-feeds 3600
   (system "date")
@@ -138,7 +158,7 @@
   (= userinfo*.user!current-station station))
 
 (proc new-station(user sname)
-  (erp "new-station")
+  (erp "new-station: " sname)
   (or= userinfo*.user!stations.sname (table))
   (let station userinfo*.user!stations.sname
     (or= station!iter 0)
