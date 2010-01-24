@@ -765,3 +765,5 @@ like fill-table I don't know how to keep inittab working.
 I see what Alan Kay meant now; it feels kinda hackish to influence evaluation
 by function boundary, use of @, etc.
 =-=273 - Sun Jan 24 11:43:41 PST 2010
+http://arclanguage.org/item?id=11187
+=-=277 - Sun Jan 24 13:59:57 PST 2010

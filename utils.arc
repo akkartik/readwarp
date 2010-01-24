@@ -365,12 +365,11 @@
 (def max-freq(l)
   (max-key freq.l))
 
-(mac inittab(place . l)
-  `(do
-    (or= ,place (table))
-    (init-table ,place ,@l)))
+(mac inittab (place . args)
+  `(do (or= ,place (table))
+       (init-table ,place (list ,@args))))
 
-(def init-table (table . data)
+(def init-table (table data)
   (each (k v) (pair data) (or= (table k) v))
   table)
 
