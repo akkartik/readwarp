@@ -430,7 +430,9 @@
   (html-strip:slurp f))
 
 (def canonicalize(word)
-  (downcase:stem (gsub word (r "'.*") "")))
+  (erp ".")
+  (ret ans (downcase:stem (gsub word (r "'.*") ""))
+    (erp "+")))
 
 (def splitstr(s pat (o ind 0))
   (iflet start (posmatch pat s ind)
