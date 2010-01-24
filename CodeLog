@@ -739,3 +739,8 @@ More cleanup, some refactoring.
 
 Monitoring logs, step 1: queries people type in.
 =-=265 - Sat Jan 23 18:59:20 PST 2010
+
+Done importing sites. blogs some other day.
+When I build feed discovery I'm going to put requested feeds in a cordoned off
+area until they're activated by somebody explicitly asking for them.
+=-=266 - Sat Jan 23 19:59:05 PST 2010
