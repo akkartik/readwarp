@@ -380,8 +380,7 @@
 (def freq(l)
   (ret ans (table)
     (each o l
-      (or= ans.o 0)
-      (++ ans.o))))
+      (++ (ans o 0)))))
 
 (def max-freq(l)
   (max-key freq.l))
