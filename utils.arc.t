@@ -120,9 +120,10 @@
             (inittab a 1 2 3 4)))
 
 (let a (obj 1 2)
+  (inittab a 3 4)
   (test-iso "inittab retains preexisting values"
             (obj 1 2 3 4)
-            (inittab a 3 4)))
+            a))
 
 (let a (obj 1 2)
   (test-iso "inittab doesn't overwrite existing values"
@@ -130,9 +131,10 @@
             (inittab a 1 5 3 4)))
 
 (with (a nil x 3)
+  (inittab a x (+ x 1))
   (test-iso "inittab evaluates keys and values"
             (obj 3 4)
-            (inittab a x (+ x 1))))
+            a))
 
 (with (inittab-test nil x 0)
   (def inittab-test()
