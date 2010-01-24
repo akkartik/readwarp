@@ -744,3 +744,7 @@ Done importing sites. blogs some other day.
 When I build feed discovery I'm going to put requested feeds in a cordoned off
 area until they're activated by somebody explicitly asking for them.
 =-=266 - Sat Jan 23 19:59:05 PST 2010
+
+New refactoring: inittab.
+But I need it to evaluate keys as well.
+=-=272 - Sun Jan 24 11:02:32 PST 2010

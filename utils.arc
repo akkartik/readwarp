@@ -24,6 +24,14 @@
 
 
 
+(mac once-only (names . body)
+  (withs (names (check names alist (list names))
+          gensyms (map1 [uniq] names))
+    `(w/uniq ,gensyms
+      `(with ,(list ,@(mappend list gensyms names))
+        ,(with ,(mappend list names gensyms)
+          ,@body)))))
+
 (mac init args
   `(unless (bound ',(car args))
      (= ,@args)))
@@ -384,6 +392,13 @@
 
 (def max-freq(l)
   (max-key freq.l))
+
+(mac inittab(place . l)
+  `(do
+    (or= ,place (table))
+    (each (k v) (pair ',l)
+      (or= (,place k) eval.v))
+    ,place))
 
 
 

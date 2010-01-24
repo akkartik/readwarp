@@ -114,6 +114,34 @@
           1
           (max-freq '(1 2 3 1 3 1)))
 
+(let a nil
+  (test-iso "inittab returns table with values"
+            (obj 1 2 3 4)
+            (inittab a 1 2 3 4)))
+
+(let a (obj 1 2)
+  (test-iso "inittab retains preexisting values"
+            (obj 1 2 3 4)
+            (inittab a 3 4)))
+
+(let a (obj 1 2)
+  (test-iso "inittab doesn't overwrite existing values"
+            (obj 1 2 3 4)
+            (inittab a 1 5 3 4)))
+
+(with (inittab-test nil x 0)
+  (def inittab-test()
+    (w/table ans
+      (or= ans.x (table))
+      (or= ans.x.3 4)
+      (or= ans.x!foo (table))
+      (or= ans.x!bar (table))))
+
+  (let a (table)
+    (test-iso "inittab quotes keys but not values"
+              ((inittab-test) 0)
+              (inittab a.0 3 (+ 3 1) foo (table) bar (table)))))
+
 
 
 (test-iso "partition-words should partition along whitespace"
