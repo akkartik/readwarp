@@ -36,13 +36,11 @@
               (read-nested-table f)))))
 
 (dhash feed keyword "m-n"
-  (do
-    (prn feed)
-    (map canonicalize
-         (cons feed
-               (flat:map split-urls
-                         (flat:map tokens:html-strip
-                                   (vals:feedinfo* symize.feed)))))))
+  (map canonicalize
+       (cons feed
+             (flat:map split-urls
+                       (flat:map tokens:html-strip
+                                 (vals:feedinfo* symize.feed))))))
 
 (proc update-feed-keywords()
   (= feed-keywords* (table) keyword-feeds* (table) feed-keyword-nils* (table))
