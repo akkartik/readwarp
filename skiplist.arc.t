@@ -74,7 +74,6 @@
   (insert-sl sl rand.5000))
 
 (insert-sl sl 45)
-;? (prn-sl sl)
 (test-is "find - stress test"
   45
   ((find-sl sl 45) 'val))
@@ -93,8 +92,6 @@
   (repeat 5000
     (insert-sl sl rand.5000))
   (prn "Ready " slen.sl " elems")
-
-  ;? (prn-sl sl)
 
   (scoped-extend scan
     (= travs* 0)
@@ -136,7 +133,6 @@
 (insert-sl-at-level 2 sl "aab")
 (insert-sl-at-level 0 sl "daa")
 (insert-sl-at-level 0 sl "eaa")
-;? (prn-sl sl)
 
 (test-iso "find can find the first tied value"
   "eaa"
@@ -200,7 +196,6 @@
 (delete-sl sl "b")
 (prn "after deleting b:")
 (prn-sl sl)
-;? (prn:find-sl sl "b")
 (test-ok "delete handles ties in the metric" (~find-sl sl "b"))
 
 (let old-len slen.sl
