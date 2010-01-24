@@ -219,16 +219,9 @@
   (or= station!feeds feed-group-for.entry))
 
 (def feed-group-for(query)
-  (let freq (table)
-    (each g (map feed-group* scan-feeds.query)
-      (or= freq.g 0)
-      (++ freq.g))
-    (let max first-key.freq
-      (each (k v) freq
-        (if (> v freq.max)
-          (= max k)))
-      (erp "Group: " max)
-      group-feeds*.max)))
+  (let m (max-freq:map feed-group* scan-feeds.query)
+    (erp "Group: " m)
+    group-feeds*.m))
 
 (def guess-type(entry)
   (if entry

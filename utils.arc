@@ -372,6 +372,19 @@
   (tb first-key.tb))
 (def first-pair(tb)
   (car tablist.tb))
+(def max-key(tb)
+  (max-by tb keys.tb))
+(def max-val(tb)
+  (max:add-tags tb keys.tb))
+
+(def freq(l)
+  (ret ans (table)
+    (each o l
+      (or= ans.o 0)
+      (++ ans.o))))
+
+(def max-freq(l)
+  (max-key freq.l))
 
 
 

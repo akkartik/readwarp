@@ -102,6 +102,18 @@
           '((1))
           (sliding-window 2 '(1)))
 
+(test-iso "freq initializes empty table"
+          (table)
+          (freq '()))
+
+(test-iso "freq computes frequency table"
+          (obj 1 3 2 1 3 2)
+          (freq '(1 2 3 1 3 1)))
+
+(test-is "max-freq works"
+          1
+          (max-freq '(1 2 3 1 3 1)))
+
 
 
 (test-iso "partition-words should partition along whitespace"
