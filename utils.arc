@@ -416,10 +416,14 @@
 (def html-slurp(f)
   (html-strip:slurp f))
 
+(let foocounter* 0
+  (def ifcoun()
+    (++ foocounter*)
+    (is 0 (remainder foocounter* 10))))
+
 (def canonicalize(word)
-  (w/stdout (stderr) (pr "."))
-  (ret ans (downcase:stem (gsub word (r "'.*") ""))
-    (w/stdout (stderr) (pr "-"))))
+  (if (ifcoun) (w/stdout (stderr) (pr ".")))
+  (downcase:stem (gsub word (r "'.*") "")))
 
 (def splitstr(s pat (o ind 0))
   (iflet start (posmatch pat s ind)
