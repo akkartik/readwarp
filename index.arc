@@ -226,6 +226,9 @@
 (def feed-group-for(query)
   (let m (max-freq:map feed-group* scan-feeds.query)
     (erp "Group: " m)
+    (if (no m)
+      (flash "Couldn't find what you mean. I've told Kartik.
+             Now showing random stories; this may suck. Sorry!"))
     group-feeds*.m))
 
 (def guess-type(entry)
