@@ -108,7 +108,7 @@
   (each feed keys.feed-docs*
     (each d feed-docs*.feed
 ;?       (unless docinfo*.d prn.d)
-      (or= docinfo*.d metadata.d)))
+      (or= docinfo*.d metadata.d))))
 
 (def metadata(doc)
   (read-json-table metadata-file.doc))
