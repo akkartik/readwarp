@@ -45,11 +45,11 @@
     (tag (div class "logo" style "margin-top:5em")
       (logo fskip "RE")(logo fnext "AD")(logo flike "WA")(logo flove "RP"))
     (tag (div class "subtitle")
-      (pr "Surprising stories from all over the internet"))
+      (pr "Discover what you've been missing"))
 
     (tag (div style "margin-top:5%; font-size:16px")
       (tag (form action "/station" style "width:50%;margin:auto;padding:auto")
-           (pr "Type in the name of your favorite site or blogger.") (br)
+           (pr "Tell us your favorite site or blogger.") (br)
            (tag:input id "newstationform" name "seed" size "30") (br)
            (tag:input type "submit" value "Start reading")))))
 
