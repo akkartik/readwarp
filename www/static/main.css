@@ -42,6 +42,8 @@ h2.title a{ color:#44c; font-weight:bold; }
 
 .date { font-style:italic; font-size:80%; float:right; }
 
+.logo { text-decoration:underline; color:#fff200; text-align:center; }
 .logo-button { display:inline; text-align:center; font-family:helvetica,sans-serif; font-weight:bold; font-size:9em; }
+.subtitle { font-size: 1.6em; font-style:italic; }
 
 .flash { font-size:1.4em; color:#cc4444; }

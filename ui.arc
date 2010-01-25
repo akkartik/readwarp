@@ -42,13 +42,14 @@
 (defop || req
   (header)
   (tag body
-    (tag (div style "margin-top:5em; text-decoration:underline; color:#fff200; text-align:center")
+    (tag (div class "logo" style "margin-top:5em")
       (logo fskip "RE")(logo fnext "AD")(logo flike "WA")(logo flove "RP"))
+    (tag (div class "subtitle")
+      (pr "Surprising stories from all over the internet"))
+
     (tag (div style "margin-top:5%; font-size:16px")
       (tag (form action "/station" style "width:50%;margin:auto;padding:auto")
            (pr "Type in the name of your favorite site or blogger.") (br)
-           (pr "Discover interesting stories.") (br)
-           (pr "Prepare to be surprised!") (br)
            (tag:input id "newstationform" name "seed" size "30") (br)
            (tag:input type "submit" value "Start reading")))))
 
