@@ -44,12 +44,12 @@
   (tag body
     (tag (div style "margin-top:5em; text-decoration:underline; color:#fff200; text-align:center")
       (logo fskip "RE")(logo fnext "AD")(logo flike "WA")(logo flove "RP"))
-    (tag (div style "margin-top:5%; text-align:center; font-size:16px")
-      (tag (form action "/station")
+    (tag (div style "margin-top:5%; font-size:16px")
+      (tag (form action "/station" style "width:50%;margin:auto;padding:auto")
            (pr "Type in the name of your favorite site or blogger.") (br)
-           (pr "Find interesting stories.") (br)
-           (tag:input id "newstationform" name "seed" size "30")
-           (pr "&nbsp;&nbsp;")
+           (pr "Discover interesting stories.") (br)
+           (pr "Prepare to be surprised!") (br)
+           (tag:input id "newstationform" name "seed" size "30") (br)
            (tag:input type "submit" value "Start reading")))))
 
 (= performance-vector ($:make-vector 10))
