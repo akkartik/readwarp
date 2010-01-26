@@ -91,12 +91,12 @@ function updateTickerContents() {
       {
         onSuccess: function(response) {
           $('TICKER2').innerHTML = response.responseText;
-        }
+        },
 
         onComplete: function(response) {
           window.setTimeout("updateTickerContents()", 10000);
         }
-      }
+      });
   return false;
 }
 updateTickerContents();

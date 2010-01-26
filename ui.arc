@@ -101,13 +101,14 @@
           (push (random-new group-feeds*.group ans
                             [feedinfo* symize._])
                 ans))))))
-(defop tickupdate req
-  (render-random-feeds))
 (def render-random-feeds()
   (pr " &middot; ")
   (each title (map [(feedinfo* symize._) 'title] (random-feeds))
-    (link title (+ "/station?seed=" title))
+    (tag (a class "tickeritem" href (+ "/station?seed=" title))
+      (pr title))
     (pr " &middot; ")))
+(defop tickupdate req
+  (render-random-feeds))
 
 (defop prefer req
   (with (doc (arg req "doc")
