@@ -195,7 +195,7 @@
   (if (>= (len feedinfo!outcome3s) 5)
     (= feedinfo!auto doc)))
 
-(proc handle-outcome1(station feed doc)
+(proc handle-outcome1(feedinfo doc)
   (if feedinfo!outcome3s
     (pop feedinfo!outcome3s)
     (let l (len (pushnew doc feedinfo!outcome1s))
