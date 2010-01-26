@@ -11,7 +11,9 @@
   (def doc-site(doc)
     (errsafe docinfo*.doc!site))
   (rhash doc feed "n-1"
-    (errsafe docinfo*.doc!feed)
+    (errsafe:do
+      (or= docinfo*.doc metadata.doc)
+      docinfo*.doc!feed)
     rconsuniq)
   (def doc-feedtitle(doc)
     (errsafe docinfo*.doc!feedtitle))
@@ -107,7 +109,6 @@
   (+ "urls/" doc ".metadata"))
 
 (defscan index-doc "clean"
-  (= docinfo*.doc metadata.doc)
   (doc-feed doc))
 
 
