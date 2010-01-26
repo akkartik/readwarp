@@ -78,7 +78,6 @@
         "Sports"
         "Technology"
         "Travel"
-        "Updates"
         "Venture"
       ))
 
