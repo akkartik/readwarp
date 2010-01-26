@@ -123,9 +123,8 @@
 (init userinfo* (table))
 
 (def new-user(user)
-  (or= userinfo*.user (table))
-  (or= userinfo*.user!read (table))
-  (or= userinfo*.user!stations (table)))
+  (inittab userinfo*.user
+           'read (table) 'stations (table)))
 
 (def read-list(user station)
   userinfo*.user!stations.station!read-list)
@@ -144,10 +143,10 @@
 
 ; Invariant: manual => auto
 (def preferred-feed-manual-set(station doc dir)
-  (or= station!preferred-feeds (table))
-  (= (station!preferred-feeds doc-feed.doc)
-     (obj manual  dir
-          auto    (if dir doc))))
+  (inittab station!preferred-feeds
+           doc-feed.doc
+            (obj manual dir
+                 auto   (if dir doc))))
 
 (def preferred-feed?(station doc)
   (aif (and station!preferred-feeds
@@ -179,32 +178,30 @@
         (push doc station!read-list)
         (pop station!showlist))
 
-    (or= station!preferred-feeds (table))
     (let feed doc-feed.doc
+      (inittab station!preferred-feeds
+               feed (table))
       (case outcome
-        1     (handle-outcome1 station feed doc)
-        3     (handle-outcome3 station feed doc)
-        4     (handle-outcome4 station feed doc))
+        1     (handle-outcome1 station!preferred-feeds.feed doc)
+        3     (handle-outcome3 station!preferred-feeds.feed doc)
+        4     (handle-outcome4 station!preferred-feeds.feed doc))
 )))
 
-(proc handle-outcome4(station feed doc)
-  (let feedinfo (or= station!preferred-feeds.feed (table))
+(proc handle-outcome4(feedinfo doc)
+  (= feedinfo!auto doc))
+
+(proc handle-outcome3(feedinfo doc)
+  (push doc feedinfo!outcome3s)
+  (if (>= (len feedinfo!outcome3s) 5)
     (= feedinfo!auto doc)))
 
-(proc handle-outcome3(station feed doc)
-  (let feedinfo (or= station!preferred-feeds.feed (table))
-    (push doc feedinfo!outcome3s)
-    (if (>= (len feedinfo!outcome3s) 5)
-      (= feedinfo!auto doc))))
-
 (proc handle-outcome1(station feed doc)
-  (let feedinfo (or= station!preferred-feeds.feed (table))
-    (if feedinfo!outcome3s
-      (pop feedinfo!outcome3s)
-      (let l (len (pushnew doc feedinfo!outcome1s))
-        (if (>= l 6)      (= feedinfo!auto -1)
-            (>= l 5)      (wipe feedinfo!auto)
-            (>= l 3)      (wipe feedinfo!manual))))))
+  (if feedinfo!outcome3s
+    (pop feedinfo!outcome3s)
+    (let l (len (pushnew doc feedinfo!outcome1s))
+      (if (>= l 6)      (= feedinfo!auto -1)
+          (>= l 5)      (wipe feedinfo!auto)
+          (>= l 3)      (wipe feedinfo!manual)))))
 
 
 

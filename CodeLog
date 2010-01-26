@@ -821,3 +821,6 @@ current-station out of index.arc. It's ok to refer to userinfo* in ui.arc. All
 tests passing. Navigation working, feedback links working, reloading a station
 doesn't change the doc on the user.
 =-=302 - Tue Jan 26 11:18:40 PST 2010
+
+Long overdue: replace weird or='s with inittab.
+=-=303 - Tue Jan 26 11:52:51 PST 2010

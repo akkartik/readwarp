@@ -134,9 +134,9 @@
   (= cmemo-cache*.cachename nil))
 
 (def cmemo-cache(cachename name)
-  (or= cmemo-cache*.cachename (table))
-  ;; Beware collisions in name
-  (or= cmemo-cache*.cachename.name (list (table) (table)))
+  ; Beware collisions in name
+  (inittab cmemo-cache*.cachename
+           name (list (table) (table)))
   cmemo-cache*.cachename.name)
 
 (def cmemo(f name cachename)
