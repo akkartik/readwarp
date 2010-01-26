@@ -49,7 +49,7 @@ function toggleLink(elem) {
 
 
 
-function pushHistory(doc, params) {
+function pushHistory(station, doc, params) {
   var elem = $('outcome_'+doc);
   elem.className = "outcome_icon "+params.replace(/.*outcome=([^&]*).*/, "outcome_$1");
 
@@ -63,8 +63,8 @@ function pushHistory(doc, params) {
   $('content').innerHTML = "<img src=\"waiting.gif\"/>";
   new Ajax.Request("/docupdate",
       {
-        method: 'get',
-        parameters: 'doc='+doc+'&'+params,
+        method: 'post',
+        parameters: 'doc='+doc+'&'+'station='+station+'&'+params,
         onSuccess: function(response) {
           $('content').innerHTML = response.responseText;
         }

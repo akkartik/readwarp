@@ -90,6 +90,9 @@
 (def flash(msg)
   (tag (div class "flash") prn.msg))
 
+(def jsesc(s)
+  (subst "\\'" "'" s))
+
 (def linkify(s)
   (gsub s
     (r "([^'\"'] *)(http://[^ \n'\"\\)\\]>]*)") "\\1<a target='_blank' href='\\2'>\\2</a>"

@@ -8,8 +8,10 @@
 (def current-user-read-list()
   (read-list (current-user) (current-station-name:current-user)))
 
-(def next-doc(user)
-  (pick user current-station.user))
+(def next-doc(user sname)
+  (pick user (if sname
+               (station user sname)
+               current-station.user)))
 
 
 
@@ -61,22 +63,21 @@
     (new-station user query)
     (set-current-station-name user query)
     (layout-basic
-      (let doc next-doc.user
-        (tag (div style "float:right")
-          (feedback-form query doc))
-        (render-doc-with-context doc)))))
+      (render-doc-with-context query (next-doc user query)))))
 
 (defop docupdate req
   (erp "docupdate")
   (mark-read (current-user) (arg req "doc") (arg req "outcome"))
   (render-doc-with-context
-    (next-doc:current-user)))
+    (arg req "station")
+    (next-doc (current-user) (arg req station))))
 
 (defop doc req
   (let doc (arg req "doc")
     (render-doc-with-context
+      "no station"
       (if (blank doc)
-        (next-doc:current-user)
+        (next-doc (current-user) nil)
         doc))))
 
 (defop history req
@@ -103,12 +104,7 @@
     (tag:input type "hidden" name "location" value (+ "/station?seed=" station))
     (tag:input type "hidden" name "station" value station)
     (tag:input type "hidden" name "doc" value doc)
-    (tag:input type "button" value "send"
-          onclick "$('feedback').submit(); return false;")))
-;?           onclick (+ "$('feedback').request({
-;?                       onSuccess: function(){ $('feedback').toggle(); },
-;?                       parameters: {doc: '" doc "', station: '"
-;?                       (subst "\\'" "'" station) "'}); return false"))))
+    (tag:input type "submit" value "send")))
 
 (defopr feedback req
   (w/prfile (+ "feedback/" (seconds))
@@ -157,17 +153,19 @@
 
 
 
-(def render-doc-with-context(doc)
+(def render-doc-with-context(station doc)
+  (tag (div style "float:right")
+    (feedback-form station doc))
   (if doc
     (tag (div id (+ "doc_" doc))
-      (buttons doc)
+      (buttons station doc)
       (tag (div class "history" style "display:none")
         (render-doc-link doc))
       (tag (table class "main")
         (tr
           (tag (td class "post")
             (render-doc doc))))
-      (buttons doc))
+      (buttons station doc))
     (prn "XXX: error message, email form")))
 
 (def render-doc(doc)
@@ -194,16 +192,16 @@
       (tag (a onclick (+ "showDoc('" doc "')") href "#" style "font-weight:bold")
         (pr doc-title.doc)))))
 
-(def buttons(doc)
+(def buttons(station doc)
   (tag (div class "nav")
-    (button doc 1 "skip" "not interesting")
-    (button doc 2 "next" "kinda like")
-    (button doc 3 "like" "like")
-    (button doc 4 "love" "love!")
+    (button station doc 1 "skip" "not interesting")
+    (button station doc 2 "next" "kinda like")
+    (button station doc 3 "like" "like")
+    (button station doc 4 "love" "love!")
     (clear)))
 
-(def button(doc n cls tooltip)
-  (tag (a onclick (+ "pushHistory('" doc "', 'outcome=" n "')") href "#" title tooltip)
+(def button(station doc n cls tooltip)
+  (tag (a onclick (+ "pushHistory('" jsesc.station "', '" jsesc.doc "', 'outcome=" n "')") href "#" title tooltip)
     (tag (div class (+ cls " button")))))
 
 (def render-preferred-feed(doc)

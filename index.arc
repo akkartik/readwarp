@@ -139,6 +139,9 @@
 (def current-station-name(user)
   userinfo*.user!current-station)
 
+(def station(user sname)
+  (userinfo*.user!stations sname))
+
 (def current-station(user)
   (userinfo*.user!stations current-station-name.user))
 
