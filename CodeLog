@@ -790,3 +790,8 @@ sense of a menu.
 =-=291 - Mon Jan 25 21:32:24 PST 2010
 Ticker js/css bugs fixed.
 =-=292 - Mon Jan 25 21:44:28 PST 2010
+Smaller font-size helps. And it's now starting with a populated ticker.
+There's too few options, and that's partly because many feeds are too long. I
+could try trimming and whatnot.. but what if I make each option stand
+vertically, and trim past some height?
+=-=293 - Mon Jan 25 21:50:18 PST 2010

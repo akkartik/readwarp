@@ -4,7 +4,7 @@
 TICKER_CONTENT = $("TICKER").innerHTML;
  
 TICKER_SPEED = 2;
-TICKER_STYLE = "font-family:serif; font-size:3em; color:#444444;";
+TICKER_STYLE = "font-family:serif; font-size:1.5em; color:#444444;";
 TICKER_PAUSED = false;
 
 ticker_start();
@@ -25,7 +25,7 @@ function ticker_start() {
 		tickerSupported = true;
 	}
 	if(!tickerSupported) $("TICKER").outerHTML = ""; else {
-		$("TICKER").scrollLeft = 0;
+		$("TICKER").scrollLeft = 1000;
 		$("TICKER_BODY").innerHTML = TICKER_CONTENT;
 		$("TICKER").style.display="block";
 		TICKER_tick();
