@@ -222,7 +222,7 @@
               (flat:map split-urls tokens.keyword)))
 
 (proc add-query(user station entry)
-  (= station!showlist scan-feeds.entry)
+  (= station!showlist (keep [most-recent-unread user _] scan-feeds.entry))
   (or= station!feeds feed-group-for.entry))
 
 (def feed-group-for(query)
