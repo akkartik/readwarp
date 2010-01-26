@@ -100,6 +100,12 @@
 
 
 
+(def metadata(doc)
+  (read-json-table metadata-file.doc))
+
+(def metadata-file(doc)
+  (+ "urls/" doc ".metadata"))
+
 (defscan index-doc "clean"
   (= docinfo*.doc metadata.doc)
   (doc-feed doc))
@@ -110,12 +116,6 @@
     (each d feed-docs*.feed
 ;?       (unless docinfo*.d prn.d)
       (or= docinfo*.d metadata.d))))
-
-(def metadata(doc)
-  (read-json-table metadata-file.doc))
-
-(def metadata-file(doc)
-  (+ "urls/" doc ".metadata"))
 
 
 

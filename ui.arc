@@ -47,15 +47,17 @@
     (tag (div class "subtitle")
       (pr "Discover what you've been missing"))
 
-    (tag (div style "margin-top:5%; font-size:16px")
+    (tag (div style "margin-top:4em; font-size:16px")
       (tag (form action "/station" style "width:50%;margin:auto;padding:auto")
            (pr "Tell us your favorite site or blogger.") (br)
            (tag:input id "newstationform" name "seed" size "30") (br)
-           (tag:input type "submit" value "Start reading")))
+           (tag:input type "submit" value "Start reading"))
 
-    (news-ticker)))
+      (news-ticker))))
 
 (def news-ticker()
+  (tag (div style "margin-top:4em")
+    (pr "Or pick a site you like"))
   (tag (div id "TICKER"
             class "ticker"
             style "width:520px" ; must be here not in class

@@ -3,8 +3,9 @@
 
 TICKER_CONTENT = $("TICKER").innerHTML;
  
-TICKER_SPEED = 2;
-TICKER_STYLE = "font-family:serif; font-size:1.5em; color:#444444;";
+TICKER_STEP = 2;
+TICKER_INTERVAL = 50;
+TICKER_STYLE = "font-family:serif; color:#444444;";
 TICKER_PAUSED = false;
 
 ticker_start();
@@ -34,7 +35,7 @@ function ticker_start() {
 
 function TICKER_tick() {
 	if(!TICKER_PAUSED)
-    $("TICKER").scrollLeft += TICKER_SPEED;
+    $("TICKER").scrollLeft += TICKER_STEP;
 
 	if($("TICKER").scrollLeft >= $("TICKER").scrollWidth - $("TICKER").offsetWidth) {
     $("TICKER").scrollLeft = 0;
@@ -44,5 +45,5 @@ function TICKER_tick() {
     }
   }
 
-	window.setTimeout("TICKER_tick()", 30);
+	window.setTimeout("TICKER_tick()", TICKER_INTERVAL);
 }
