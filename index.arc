@@ -98,6 +98,17 @@
   (update-feed-keywords))
 (wait update-feeds-init*)
 
+;? (prn "updating feed-list*")
+;? (= feed-list* (tokens:slurp "feeds/All"))
+;? (prn "updating feed-group*")
+;? (update-feed-groups)
+;? (prn "updating feedinfo*")
+;? (update-feedinfo)
+;? (prn)
+;? (prn-stats)
+;? (forever
+;?   (update-feed-keywords))
+
 
 
 (def metadata(doc)

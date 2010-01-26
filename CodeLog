@@ -842,3 +842,7 @@ or let's or they won't be accessible from outside.
 
 The segfault is back.
 =-=308 - Tue Jan 26 14:31:54 PST 2010
+I've confirmed that it's happening inside stem. Now down the rabbit hole to
+debug it with a C++ program. I have a trace of all the inputs fed to stem.
+That should suffice to recreate.
+=-=309 - Tue Jan 26 15:45:38 PST 2010

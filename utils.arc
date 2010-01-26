@@ -426,13 +426,7 @@
 (def html-slurp(f)
   (html-strip:slurp f))
 
-(let foocounter* 0
-  (def ifcoun()
-    (++ foocounter*)
-    (is 0 (remainder foocounter* 10))))
-
 (def canonicalize(word)
-  (if (ifcoun) (w/stdout (stderr) (pr "."))) ; seems to avoid segfaults
   (downcase:stem (gsub word (r "'.*") "")))
 
 (def splitstr(s pat (o ind 0))
