@@ -186,6 +186,16 @@
   `(each k (keys ,tab)
       (zap ,f (,tab k))))
 
+; random elem in from that isn't already in to (and satisfies f)
+(def random-new(from to (o f))
+  (ret ans nil
+    (until ans
+      (let curr randpos.from
+        (if (and (~pos curr to)
+                 (or no.f
+                     (f curr)))
+          (= ans curr))))))
+
 (def zip ls
   (apply map list ls))
 
@@ -422,7 +432,7 @@
     (is 0 (remainder foocounter* 10))))
 
 (def canonicalize(word)
-  (if (ifcoun) (w/stdout (stderr) (pr ".")))
+  (if (ifcoun) (w/stdout (stderr) (pr "."))) ; seems to avoid segfaults
   (downcase:stem (gsub word (r "'.*") "")))
 
 (def splitstr(s pat (o ind 0))
@@ -563,6 +573,11 @@
 
 (def gc()
   ($:collect-garbage))
+
+(= performance-vector ($:make-vector 10))
+(def prn-stats()
+  ($:vector-set-performance-stats! _performance-vector)
+  (erp performance-vector))
 
 (include "arctap.arc")
 (def tests()

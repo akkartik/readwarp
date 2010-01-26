@@ -54,8 +54,7 @@
     (= feed-group*.feed f)
     (push feed group-feeds*.f)))
 
-(proc update-feed-groups()
-  (each group '(
+(= feed-groups* '(
         "Art"
         "BayArea"
         "Books"
@@ -81,7 +80,10 @@
         "Travel"
         "Updates"
         "Venture"
-      )
+      ))
+
+(proc update-feed-groups()
+  (each group feed-groups*
     prn.group
     (read-group group)))
 

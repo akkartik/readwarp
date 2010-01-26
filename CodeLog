@@ -783,3 +783,8 @@ Basic ticker now working inside arc.
 Cleanup. The ticker js requires width to be in the style tag, but the rest can
 be in the css file.
 =-=290 - Mon Jan 25 20:35:39 PST 2010
+Ticker js now showing live feeds.
+Periodically updating the ticker isn't working yet.
+Also, we're seeing too little at once, it's moving too sluggishly. There's no
+sense of a menu.
+=-=291 - Mon Jan 25 21:32:24 PST 2010

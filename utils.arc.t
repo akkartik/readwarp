@@ -78,6 +78,16 @@
 
 
 
+(test-ok "random-new returns random element"
+         (pos (random-new '(1 2 3) nil) '(1 2 3)))
+
+(test-ok "random-new returns random new element"
+         (pos (random-new '(1 2 3) '(2)) '(1 3)))
+
+(test-is "random-new returns random new element satisfying pred"
+         1
+         (random-new '(1 2 3) '(3) odd))
+
 (test-iso "tags-matching should return cdrs of dotted pairs whose cars satisfy"
           '(3 6)
           (tags-matching 2 '((1 . 2) (2 . 3) (4 . 5) (2 . 6))))

@@ -60,15 +60,9 @@
             class "ticker"
             style "width:520px" ; must be here not in class
             onmouseover "TICKER_PAUSED=true" onmouseout "TICKER_PAUSED=false")
-    (pr "abc"))
+    (render-random-feeds))
   (tag (div id "TICKER2" style "display:none"))
   (jstag "webticker_lib.js"))
-
-(= performance-vector ($:make-vector 10))
-
-(def prn-stats()
-  ($:vector-set-performance-stats! _performance-vector)
-  (erp performance-vector))
 
 (defop station req
   (withs (user (current-user)
@@ -98,6 +92,22 @@
       (tag (div id "history-elems")
         (each doc (cut (current-user-read-list) start-index end-index)
           (render-doc-link doc)))))
+
+(def random-feeds()
+  (ret ans nil
+    (each group feed-groups*
+      (if (> (len group-feeds*.group) 10)
+        (repeat 2
+          (push (random-new group-feeds*.group ans
+                            [feedinfo* symize._])
+                ans))))))
+(defop tickupdate req
+  (render-random-feeds))
+(def render-random-feeds()
+  (pr " &middot; ")
+  (each title (map [(feedinfo* symize._) 'title] (random-feeds))
+    (link title (+ "/station?seed=" title))
+    (pr " &middot; ")))
 
 (defop prefer req
   (with (doc (arg req "doc")
