@@ -35,7 +35,7 @@
                     (tag (div id "history")
                       (tag (div id "history-elems")
                           (each doc (firstn 10 (current-user-read-list))
-                            (render-doc-link doc)))
+                            (render-doc-link (current-station-name:current-user) doc)))
                       (paginate-nav "history" "/history" 10 0 10
                            (obj reverse t nextcopy "&laquo;older" prevcopy "newer&raquo;")))))
 
@@ -81,9 +81,9 @@
 (defop doc req
   (let doc (arg req "doc")
     (render-doc-with-context
-      "no station"
+      (arg req "station")
       (if (blank doc)
-        (next-doc (current-user) nil)
+        (next-doc (current-user) (arg req "station"))
         doc))))
 
 (defop history req
@@ -92,7 +92,7 @@
     :do
       (tag (div id "history-elems")
         (each doc (cut (current-user-read-list) start-index end-index)
-          (render-doc-link doc)))))
+          (render-doc-link (current-station-name:current-user) doc)))))
 
 (defop prefer req
   (with (doc (arg req "doc")
@@ -166,7 +166,7 @@
     (tag (div id (+ "doc_" doc))
       (buttons station doc)
       (tag (div class "history" style "display:none")
-        (render-doc-link doc))
+        (render-doc-link station doc))
       (tag (table class "main")
         (tr
           (tag (td class "post")
@@ -189,13 +189,13 @@
     (tag p
       (pr:contents doc))))
 
-(def render-doc-link(doc)
+(def render-doc-link(station doc)
   (tag (div id (+ "history_" doc))
     (tag (div id (+ "outcome_" doc)
               class (+ "outcome_icon outcome_" (read? (current-user) doc)))
       (pr "&#9632;"))
     (tag (p class "title item")
-      (tag (a onclick (+ "showDoc('" doc "')") href "#" style "font-weight:bold")
+      (tag (a onclick (+ "showDoc('" jsesc.station "', '" jsesc.doc "')") href "#" style "font-weight:bold")
         (pr doc-title.doc)))))
 
 (def buttons(station doc)

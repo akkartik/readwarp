@@ -72,12 +72,12 @@ function pushHistory(station, doc, params) {
   return false;
 }
 
-function showDoc(doc) {
+function showDoc(station, doc) {
   $('content').innerHTML = "<img src=\"waiting.gif\"/>";
   new Ajax.Request("/doc",
       {
         method: 'get',
-        parameters: 'doc='+doc,
+        parameters: 'doc='+doc+'&station='+station,
         onSuccess: function(response) {
           del($('history_'+doc));
           $('content').innerHTML = response.responseText;
