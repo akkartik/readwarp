@@ -1,28 +1,26 @@
+(mac check-doc(doc . body)
+  `(do
+    (or= (docinfo* ,doc) (metadata ,doc))
+    ,@body))
+
 (persisted docinfo* (table)
-  (def add-to-docinfo(doc attr val)
-    (or= docinfo*.doc (table))
-    (= docinfo*.doc.attr val))
-  (def new?(doc)
-    (blank? docinfo*.doc))
   (def doc-url(doc)
-    (errsafe docinfo*.doc!url))
+    (check-doc doc docinfo*.doc!url))
   (def doc-title(doc)
-    (errsafe docinfo*.doc!title))
+    (check-doc doc docinfo*.doc!title))
   (def doc-site(doc)
-    (errsafe docinfo*.doc!site))
+    (check-doc doc docinfo*.doc!site))
   (rhash doc feed "n-1"
-    (errsafe:do
-      (or= docinfo*.doc metadata.doc)
-      docinfo*.doc!feed)
+    (check-doc doc docinfo*.doc!feed)
     rconsuniq)
   (def doc-feedtitle(doc)
-    (errsafe docinfo*.doc!feedtitle))
+    (check-doc doc docinfo*.doc!feedtitle))
   (def doc-timestamp(doc)
-    (or pubdate.doc feeddate.doc (time-ago 432000))) ; (* 60 60 24 2) hack for corrupted docinfo
+    (or pubdate.doc feeddate.doc))
   (def pubdate(doc)
-    (errsafe docinfo*.doc!date))
+    (check-doc doc docinfo*.doc!date))
   (def feeddate(doc)
-    (errsafe docinfo*.doc!feeddate))
+    (check-doc doc docinfo*.doc!feeddate))
   (def contents(doc)
     (slurp (+ "urls/" doc ".clean"))))
 
@@ -103,10 +101,7 @@
 
 
 (def metadata(doc)
-  (read-json-table metadata-file.doc))
-
-(def metadata-file(doc)
-  (+ "urls/" doc ".metadata"))
+  (read-json-table (+ "urls/" doc ".metadata")))
 
 (defscan index-doc "clean"
   (doc-feed doc))
