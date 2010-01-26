@@ -1,4 +1,5 @@
 (without-updating-state
+(shadowing userinfo*
 
   (test-ok "guess-type nil" (no:guess-type nil))
 
@@ -38,6 +39,10 @@
     (pos "a.com/feed" (scan-feeds "blog")))
 
 
+  (= userinfo* (table))
+  (new-user 0)
+  (new-station 0 "blog")
+  (= station (userinfo*.0!stations "blog"))
 
   (shadowing doc-feed (fn(doc) "aaa")
     (preferred-feed-manual-set station "abc" t)
@@ -94,4 +99,4 @@
       (station!preferred-feeds "aaa"))
   )
 
-)
+))

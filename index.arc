@@ -136,18 +136,6 @@
 (def stations(user)
   (keys userinfo*.user!stations))
 
-(def station(user sname)
-  userinfo*.user!stations.sname)
-
-(def current-station-name(user)
-  userinfo*.user!current-station)
-
-(def current-station(user)
-  (station current-station-name.user))
-
-(proc set-current-station-name(user station)
-  (= userinfo*.user!current-station station))
-
 (def unpreferred?(feedinfo)
   (is feedinfo!auto -1))
 

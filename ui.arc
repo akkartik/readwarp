@@ -2,6 +2,12 @@
   0)
 (new-user:current-user)
 
+(def current-station-name(user)
+  userinfo*.user!current-station)
+
+(def current-station(user)
+  (userinfo*.user!stations current-station-name.user))
+
 (def current-user-read(doc)
   (read? (current-user) doc))
 
@@ -10,7 +16,7 @@
 
 (def next-doc(user sname)
   (pick user (if sname
-               (station user sname)
+               userinfo*.user!stations.sname
                current-station.user)))
 
 
@@ -61,7 +67,7 @@
   (withs (user (current-user)
           query (arg req "seed"))
     (new-station user query)
-    (set-current-station-name user query)
+    (= userinfo*.user!current-station query)
     (layout-basic
       (render-doc-with-context query (next-doc user query)))))
 
@@ -70,7 +76,7 @@
   (mark-read (current-user) (arg req "station") (arg req "doc") (arg req "outcome"))
   (render-doc-with-context
     (arg req "station")
-    (next-doc (current-user) (arg req station))))
+    (next-doc (current-user) (arg req "station"))))
 
 (defop doc req
   (let doc (arg req "doc")
@@ -164,11 +170,11 @@
       (tag (table class "main")
         (tr
           (tag (td class "post")
-            (render-doc doc))))
+            (render-doc station doc))))
       (buttons station doc))
     (prn "XXX: error message, email form")))
 
-(def render-doc(doc)
+(def render-doc(station doc)
   (tag (div id (+ "contents_" doc))
     (tag (h2 class "title")
       (tag (a href doc-url.doc target "_blank")
@@ -179,7 +185,7 @@
       (whenlet siteurl doc-site.doc
         (tag (a href siteurl target "_blank")
           (pr (or doc-feedtitle.doc "website")))
-        (render-preferred-feed doc)))
+        (render-preferred-feed station doc)))
     (tag p
       (pr:contents doc))))
 
@@ -204,9 +210,10 @@
   (tag (a onclick (+ "pushHistory('" jsesc.station "', '" jsesc.doc "', 'outcome=" n "')") href "#" title tooltip)
     (tag (div class (+ cls " button")))))
 
-(def render-preferred-feed(doc)
+(def render-preferred-feed(sname doc)
   (tag (span class "icon")
     (jstogglelink (+ "save_" doc)
       (tag:img src "/saved.gif" height "24px") (+ "/prefer?doc=" doc "&to=no")
       (tag:img src "/save.gif" height "24px") (+ "/prefer?doc=" doc "&to=yes")
-      (preferred-feed? (current-station:current-user) doc))))
+      (let user (current-user)
+        (preferred-feed? userinfo*.user!stations.sname doc)))))
