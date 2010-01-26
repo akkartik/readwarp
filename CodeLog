@@ -828,3 +828,7 @@ Long overdue: replace weird or='s with inittab.
 Bugfix: now we use the station variable for more than the feedback link, so
 /doc can't just set it to nil.
 =-=304 - Tue Jan 26 11:54:06 PST 2010
+
+Fucking refill-metadata is killing us. New threads are not cheap in mzscheme.
+Debug why we're updating feed-docs before metadata.
+=-=306 - Tue Jan 26 12:04:12 PST 2010

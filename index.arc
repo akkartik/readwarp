@@ -110,13 +110,6 @@
   (= docinfo*.doc metadata.doc)
   (doc-feed doc))
 
-; Safety net
-(defrep refill-metadata 300
-  (each feed keys.feed-docs*
-    (each d feed-docs*.feed
-;?       (unless docinfo*.d prn.d)
-      (or= docinfo*.d metadata.d))))
-
 
 
 (prn "Rest of index.arc")
