@@ -136,14 +136,17 @@
 (def stations(user)
   (keys userinfo*.user!stations))
 
+(def station(user sname)
+  userinfo*.user!stations.sname)
+
 (def current-station-name(user)
   userinfo*.user!current-station)
 
-(def station(user sname)
-  (userinfo*.user!stations sname))
-
 (def current-station(user)
-  (userinfo*.user!stations current-station-name.user))
+  (station current-station-name.user))
+
+(proc set-current-station-name(user station)
+  (= userinfo*.user!current-station station))
 
 (def unpreferred?(feedinfo)
   (is feedinfo!auto -1))
@@ -163,16 +166,14 @@
             (station!preferred-feeds doc-feed.doc))
     preferred?.it))
 
-(proc set-current-station-name(user station)
-  (= userinfo*.user!current-station station))
-
 (proc new-station(user sname)
   (erp "new-station: " sname)
-  (or= userinfo*.user!stations.sname (table))
-  (let station userinfo*.user!stations.sname
-    (or= station!iter 0)
-    (or= station!name sname)
-    (add-query user station sname)))
+  (when (no userinfo*.user!stations.sname)
+    (= userinfo*.user!stations.sname (table))
+    (let station userinfo*.user!stations.sname
+      (= station!name sname)
+      (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))
+      (= station!feeds feed-group-for.sname))))
 
 ;; Outcome:
 ;; 4: preferred feed, propagate doc
@@ -182,9 +183,8 @@
 ;;    manually preferred feed: disable prefer after 5 1s
 ;;    preferred feed: disable after 2 1s
 ;;    not preferred: unprefer
-(proc mark-read(user doc outcome)
-  (withs (s current-station-name.user
-          station userinfo*.user!stations.s)
+(proc mark-read(user sname doc outcome)
+  (let station userinfo*.user!stations.sname
     (= outcome int.outcome)
     (unless userinfo*.user!read.doc
       (= userinfo*.user!read.doc outcome)
@@ -223,10 +223,6 @@
 (def scan-feeds(keyword)
   (common:map keyword-feeds:canonicalize
               (flat:map split-urls tokens.keyword)))
-
-(proc add-query(user station entry)
-  (= station!showlist (keep [most-recent-unread user _] scan-feeds.entry))
-  (or= station!feeds feed-group-for.entry))
 
 (def feed-group-for(query)
   (let m (max-freq:map feed-group* scan-feeds.query)

@@ -67,7 +67,7 @@
 
 (defop docupdate req
   (erp "docupdate")
-  (mark-read (current-user) (arg req "doc") (arg req "outcome"))
+  (mark-read (current-user) (arg req "station") (arg req "doc") (arg req "outcome"))
   (render-doc-with-context
     (arg req "station")
     (next-doc (current-user) (arg req station))))

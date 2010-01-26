@@ -812,3 +812,7 @@ Feedback form.
 Make feedback form work on not just the first load of a station. Requires
 threading station everywhere, yuck.
 =-=300 - Tue Jan 26 10:46:21 PST 2010
+Eliminate redundant work when user reloads a page.
+In the process I've also fully separated index.arc from the current-station
+hack. Now only ui.arc is infected.
+=-=301 - Tue Jan 26 10:57:08 PST 2010
