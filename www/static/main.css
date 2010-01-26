@@ -50,4 +50,5 @@ h2.title a{ color:#44c; font-weight:bold; }
 
 .ticker { overflow:hidden; margin:auto; margin-top:5em; padding:auto;
   border-top:1px solid #fff200; border-bottom:1px solid #fff200; }
+.tickeritem { writing-mode:tb-rl; filter:flipv fliph; }
 a.tickeritem:hover { color:#43aa43; }

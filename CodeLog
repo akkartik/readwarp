@@ -795,3 +795,7 @@ There's too few options, and that's partly because many feeds are too long. I
 could try trimming and whatnot.. but what if I make each option stand
 vertically, and trim past some height?
 =-=293 - Mon Jan 25 21:50:18 PST 2010
+To make it cross-browser I'd need to get into SVG:
+  http://bytes.com/topic/javascript/answers/721811-solution-display-text-rotated-90-vertically-firefox-css
+Ok, give up.
+=-=294 - Mon Jan 25 21:55:12 PST 2010
