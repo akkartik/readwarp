@@ -780,3 +780,6 @@ Hack it to update ticker contents from a second div if they exist.
 =-=288 - Mon Jan 25 17:33:49 PST 2010
 Basic ticker now working inside arc.
 =-=289 - Mon Jan 25 20:24:00 PST 2010
+Cleanup. The ticker js requires width to be in the style tag, but the rest can
+be in the css file.
+=-=290 - Mon Jan 25 20:35:39 PST 2010

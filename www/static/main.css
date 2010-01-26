@@ -48,6 +48,6 @@ h2.title a{ color:#44c; font-weight:bold; }
 
 .flash { font-size:1.4em; color:#cc4444; }
 
-.ticker { overflow:hidden; width:520px; margin:auto; padding:auto;
-  border-top:1px solid #fff200; border-bottom:1px solid fff200; }
+.ticker { overflow:hidden; margin:auto; margin-top:5em; padding:auto;
+  border-top:1px solid #fff200; border-bottom:1px solid #fff200; }
 .tickeritem :hover { color:#43aa43; }

@@ -57,10 +57,8 @@
 
 (def news-ticker()
   (tag (div id "TICKER"
-            ;class "ticker"
-            style "overflow:hidden; width:520px;
-              margin-top:5em;margin-left:auto;margin-right:auto; padding:auto;
-              border-top:1px solid #fff200; border-bottom:1px solid fff200;"
+            class "ticker"
+            style "width:520px" ; must be here not in class
             onmouseover "TICKER_PAUSED=true" onmouseout "TICKER_PAUSED=false")
     (pr "abc"))
   (tag (div id "TICKER2" style "display:none"))
