@@ -55,24 +55,16 @@
 
       (news-ticker))))
 
-(def news-ticker()
-  (tag (div style "margin-top:4em")
-    (pr "Or pick a site you like"))
-  (tag (div id "TICKER"
-            class "ticker"
-            style "width:520px" ; must be here not in class
-            onmouseover "TICKER_PAUSED=true" onmouseout "TICKER_PAUSED=false")
-    (render-random-feeds))
-  (tag (div id "TICKER2" style "display:none"))
-  (jstag "webticker_lib.js"))
-
 (defop station req
   (withs (user (current-user)
           query (arg req "seed"))
     (new-station user query)
     (set-current-station-name user query)
     (layout-basic
-      (render-doc-with-context next-doc.user))))
+      (let doc next-doc.user
+        (tag (div style "float:right")
+          (feedback-form query doc))
+        (render-doc-with-context doc)))))
 
 (defop docupdate req
   (erp "docupdate")
@@ -95,6 +87,49 @@
         (each doc (cut (current-user-read-list) start-index end-index)
           (render-doc-link doc)))))
 
+(defop prefer req
+  (with (doc (arg req "doc")
+         dir (arg req "to")
+         station (current-station:current-user))
+    (preferred-feed-manual-set station doc (iso "yes" dir))))
+
+
+
+(def feedback-form(station doc)
+  (tag (a onclick "$('feedback').toggle(); return false" href "#" style "margin-right:1em")
+    (pr "feedback"))
+  (tag (form action "/feedback" method "post" id "feedback" style "display:none; background:#888; padding:0.5em; position:absolute; left:85%; top:5%; z-index:1; text-align:right")
+    (tag:textarea name "msg" style "width:100%")(br)
+    (tag:input type "hidden" name "location" value (+ "/station?seed=" station))
+    (tag:input type "hidden" name "station" value station)
+    (tag:input type "hidden" name "doc" value doc)
+    (tag:input type "button" value "send"
+          onclick "$('feedback').submit(); return false;")))
+;?           onclick (+ "$('feedback').request({
+;?                       onSuccess: function(){ $('feedback').toggle(); },
+;?                       parameters: {doc: '" doc "', station: '"
+;?                       (subst "\\'" "'" station) "'}); return false"))))
+
+(defopr feedback req
+  (w/prfile (+ "feedback/" (seconds))
+    (prn "Station: " (arg req "station"))
+    (prn "Doc: " (arg req "doc"))
+    (prn)
+    (prn "Feedback:")
+    (prn (arg req "msg")))
+  (arg req "location"))
+
+(def news-ticker()
+  (tag (div style "margin-top:4em")
+    (pr "Or pick a site you like"))
+  (tag (div id "TICKER"
+            class "ticker"
+            style "width:520px" ; must be here not in class
+            onmouseover "TICKER_PAUSED=true" onmouseout "TICKER_PAUSED=false")
+    (render-random-feeds))
+  (tag (div id "TICKER2" style "display:none"))
+  (jstag "webticker_lib.js"))
+
 (def random-feeds()
   (ret ans nil
     (each group feed-groups*
@@ -111,12 +146,6 @@
     (pr " &middot; ")))
 (defop tickupdate req
   (render-random-feeds))
-
-(defop prefer req
-  (with (doc (arg req "doc")
-         dir (arg req "to")
-         station (current-station:current-user))
-    (preferred-feed-manual-set station doc (iso "yes" dir))))
 
 (defopr reset req
   (= userinfo* (table))
