@@ -47,3 +47,5 @@ h2.title a{ color:#44c; font-weight:bold; }
 .subtitle { font-size: 1.6em; font-style:italic; }
 
 .flash { font-size:1.4em; color:#cc4444; }
+
+.tickeritem :hover { color:#43aa43; }

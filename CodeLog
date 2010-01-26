@@ -776,3 +776,5 @@ Daniel Markham's idea: a news ticker.
 js from http://www.mioplanet.com/rsc/newsticker_javascript.htm
 "free for personal and commercial use"
 =-=287 - Mon Jan 25 17:32:22 PST 2010
+Hack it to update ticker contents from a second div if they exist.
+=-=288 - Mon Jan 25 17:33:49 PST 2010
