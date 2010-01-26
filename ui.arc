@@ -51,7 +51,20 @@
       (tag (form action "/station" style "width:50%;margin:auto;padding:auto")
            (pr "Tell us your favorite site or blogger.") (br)
            (tag:input id "newstationform" name "seed" size "30") (br)
-           (tag:input type "submit" value "Start reading")))))
+           (tag:input type "submit" value "Start reading")))
+
+    (news-ticker)))
+
+(def news-ticker()
+  (tag (div id "TICKER"
+            ;class "ticker"
+            style "overflow:hidden; width:520px;
+              margin-top:5em;margin-left:auto;margin-right:auto; padding:auto;
+              border-top:1px solid #fff200; border-bottom:1px solid fff200;"
+            onmouseover "TICKER_PAUSED=true" onmouseout "TICKER_PAUSED=false")
+    (pr "abc"))
+  (tag (div id "TICKER2" style "display:none"))
+  (jstag "webticker_lib.js"))
 
 (= performance-vector ($:make-vector 10))
 

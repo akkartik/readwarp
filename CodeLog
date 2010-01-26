@@ -778,3 +778,5 @@ js from http://www.mioplanet.com/rsc/newsticker_javascript.htm
 =-=287 - Mon Jan 25 17:32:22 PST 2010
 Hack it to update ticker contents from a second div if they exist.
 =-=288 - Mon Jan 25 17:33:49 PST 2010
+Basic ticker now working inside arc.
+=-=289 - Mon Jan 25 20:24:00 PST 2010
