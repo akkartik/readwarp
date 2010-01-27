@@ -150,7 +150,7 @@
     (let station userinfo*.user!stations.sname
       (= station!name sname)
       (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))
-      (= station!feeds feed-group-for.sname))))
+      (thread (= station!feeds feed-group-for.sname)))))
 
 ;; Outcome:
 ;; 4: preferred feed, propagate doc
