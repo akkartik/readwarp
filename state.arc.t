@@ -56,7 +56,7 @@
         (rotlog foo-log* doc)
         0
         nil))
-    (init foo-thread* (new-thread foo)))
+    (init foo-thread* (new-thread "foo" foo)))
   (macex1:quote:defscan foo "foo" 0))
 
 (test-iso "defscan optionally adds code to function to write next fifo"
@@ -68,7 +68,7 @@
         (rotlog foo-log* doc)
         0
         (w/outfile f "fifos/foo2" (disp doc f))))
-    (init foo-thread* (new-thread foo)))
+    (init foo-thread* (new-thread "foo" foo)))
   (macex1:quote:defscan foo "foo" "foo2" 0))
 
 
