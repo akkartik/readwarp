@@ -853,3 +853,9 @@ No, it can't be a multi-threading issue since I've seen it segfault before the
 webserver ever comes online. At that point it's only the defrep calling
 canonicalize.
 =-=312 - Tue Jan 26 16:28:04 PST 2010
+
+Bugfix: you never want a feed in the showlist that doesn't have an unread
+item.
+I was violating the constraint by having dup feeds without enough unread
+items.
+=-=315 - Tue Jan 26 17:28:42 PST 2010

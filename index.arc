@@ -196,8 +196,8 @@
 
 
 (def scan-feeds(keyword)
-  (common:map keyword-feeds:canonicalize
-              (flat:map split-urls tokens.keyword)))
+  (dedup:common:map keyword-feeds:canonicalize
+                    (flat:map split-urls tokens.keyword)))
 
 (def feed-group-for(query)
   (let m (max-freq:map feed-group* scan-feeds.query)
@@ -259,7 +259,7 @@
     (repeat n
       (whenlet feed randpos.candidates
         (erp "preferred: " feed)
-        (push feed station!showlist)
+        (pushnew feed station!showlist)
         (pull feed candidates)))))
 
 (proc fill-by-group(user station)
