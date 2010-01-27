@@ -849,3 +849,7 @@ That should suffice to recreate.
 No, C++ program crunches through the trace just fine.
 I'm calling it from multiple threads. That's the problem.
 =-=311 - Tue Jan 26 16:14:45 PST 2010
+No, it can't be a multi-threading issue since I've seen it segfault before the
+webserver ever comes online. At that point it's only the defrep calling
+canonicalize.
+=-=312 - Tue Jan 26 16:28:04 PST 2010
