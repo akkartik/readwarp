@@ -23,8 +23,13 @@
   (erp msg (w/table ans
     (each (name thread) threads*
       (unless dead.thread
-        (or= ans.name 0)
-        (++ ans.name))))))
+        (++ (ans name 0)))))))
+
+(def kill-handlers()
+  (each (name thread) threads*
+    (if (and (pos name '("handler" "timeout"))
+             (~dead thread))
+      (kill-thread thread))))
 
 
 
