@@ -846,3 +846,6 @@ I've confirmed that it's happening inside stem. Now down the rabbit hole to
 debug it with a C++ program. I have a trace of all the inputs fed to stem.
 That should suffice to recreate.
 =-=309 - Tue Jan 26 15:45:38 PST 2010
+No, C++ program crunches through the trace just fine.
+I'm calling it from multiple threads. That's the problem.
+=-=311 - Tue Jan 26 16:14:45 PST 2010
