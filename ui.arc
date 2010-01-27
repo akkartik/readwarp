@@ -19,6 +19,13 @@
                userinfo*.user!stations.sname
                current-station.user)))
 
+(def prn-stats(msg)
+  (erp msg (w/table ans
+    (each (name thread) threads*
+      (unless dead.thread
+        (or= ans.name 0)
+        (++ ans.name))))))
+
 
 
 (mac layout-basic body

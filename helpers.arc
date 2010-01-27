@@ -116,7 +116,7 @@
 (let server-thread* (ifcall server-thread)
   (def start-server((o port 8080))
     (stop-server)
-    (= server-thread* (new-thread (fn() (asv port)))))
+    (= server-thread* (new-thread "server" (fn() (asv port)))))
   (def stop-server()
     (if server-thread* (kill-thread server-thread*)))
   (def server-thread()

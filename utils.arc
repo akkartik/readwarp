@@ -123,7 +123,7 @@
 (= buffered-execs* (table))
 (def buffered-exec(f)
   (or= buffered-execs*.f
-       (thread (sleep buffered-exec-delay*) (wipe buffered-execs*.f) (f))))
+       (thread "buffered" (sleep buffered-exec-delay*) (wipe buffered-execs*.f) (f))))
 
 (mac wait(var)
   `(until ,var))
@@ -131,13 +131,13 @@
 (mac timeout-exec (timeout . body)
   (w/uniq (done-flag thread-var)
     `(withs (,done-flag nil
-             ,thread-var (new-thread
+             ,thread-var (new-thread "bound"
                            (fn()
                              (after*
                                ,@body
                               :do
                                (set ,done-flag)))))
-       (thread
+       (thread "timeout2"
          (sleep ,timeout)
          (unless (dead ,thread-var)
            (w/stdout (stderr)
@@ -569,9 +569,9 @@
   ($:collect-garbage))
 
 (= performance-vector ($:make-vector 10))
-(def prn-stats()
+(def prn-stats((o msg))
   ($:vector-set-performance-stats! _performance-vector)
-  (erp performance-vector))
+  (erp msg performance-vector))
 
 (include "arctap.arc")
 (def tests()

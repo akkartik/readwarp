@@ -32,9 +32,9 @@
 ; when data changed, run appropriate hook from save-registry*
 (after-exec sref(com val ind)
   (awhen (alref save-registry* com)
-    (pr "A: ") (prn-stats)
+    (prn-stats "A: ")
     (buffered-exec it)
-    (pr "Z: ") (prn-stats)))
+    (prn-stats "B: ")))
 
 ; hook from save-registry lines up save function
 (init autosaved-vars* ())
@@ -86,7 +86,7 @@
          ,@body
          (set ,(symize stringify.fnname "-init*"))
          (sleep ,interval)))
-     (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname))))
+     (init ,(symize stringify.fnname "-thread*") (new-thread ,stringify.fnname ,fnname))))
 
 
 
@@ -125,7 +125,7 @@
             (rotlog ,log-var doc)
             ,@body
             ,(aif nextfifo `(w/outfile f ,(+ "fifos/" it) (disp doc f)))))
-       (init ,(symize stringify.fnname "-thread*") (new-thread ,fnname)))))
+       (init ,(symize stringify.fnname "-thread*") (new-thread ,stringify.fnname ,fnname)))))
 
 
 

@@ -864,3 +864,5 @@ I think the server performance issues and the multiple timeout messages are
 related. The number of threads keeps shooting up.
 Let's begin by simply watching the numbers go up.
 =-=316 - Tue Jan 26 18:00:14 PST 2010
+Start looking at the thread distribution. Required modifications to arc.
+=-=317 - Tue Jan 26 20:53:00 PST 2010
