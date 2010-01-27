@@ -5,17 +5,18 @@
 
 (let quit-called nil
   (shadowing quit (fn() set.quit-called)
-    (let load-test-snapshot-var1 nil (save-snapshot load-test-snapshot-var1))
-    ; polluting namespace; wish I could unbind vars
-    (load-snapshot load-test-snapshot-var1 (table))
-    (test-iso "nil file loads into empty table"
-      (table)
-      load-test-snapshot-var1)
+    (let var nil (save-snapshot var))
+    (let var nil
+      (load-snapshot var (table))
+      (test-iso "nil file loads into empty table"
+        (table)
+        var))
 
-    (let load-test-snapshot-var2 "abc" (save-snapshot load-test-snapshot-var2))
-    (load-snapshot load-test-snapshot-var2 (table))
-    (test-ok "load-snapshot bails on corrupted snapshot file"
-             quit-called)))
+    (let var "abc" (save-snapshot var))
+    (let var nil
+      (load-snapshot var (table))
+      (test-ok "load-snapshot bails on corrupted snapshot file"
+               quit-called))))
 
 (test-smatch "setup-autosave works"
   '(let ref (load-snapshot a (table))

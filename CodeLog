@@ -881,3 +881,6 @@ Next up: the error that popped up yday:
 Corrupted docinfo. I really should be checking integrity when I load
 snapshots. Done.
 =-=320 - Wed Jan 27 14:02:48 PST 2010
+The new tests were passing the first time, but failing after.
+To make testing easier initialize on load-snapshot if var is bound *or nil*.
+=-=322 - Wed Jan 27 14:12:11 PST 2010

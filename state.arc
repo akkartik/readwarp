@@ -11,7 +11,7 @@
 
 (mac load-snapshot(var initval)
   `(aif (most-recent-snapshot-name ,var)
-      (unless (bound ',var)
+      (when (or (~bound ',var) (no ,var))
         (init ,var ,initval)
         (prn "Loading " ',var)
         (fread it ,var)
