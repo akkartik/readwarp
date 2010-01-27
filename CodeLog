@@ -859,3 +859,8 @@ item.
 I was violating the constraint by having dup feeds without enough unread
 items.
 =-=315 - Tue Jan 26 17:28:42 PST 2010
+
+I think the server performance issues and the multiple timeout messages are
+related. The number of threads keeps shooting up.
+Let's begin by simply watching the numbers go up.
+=-=316 - Tue Jan 26 18:00:14 PST 2010

@@ -31,8 +31,10 @@
 
 ; when data changed, run appropriate hook from save-registry*
 (after-exec sref(com val ind)
-  (aif (alref save-registry* com)
-    (buffered-exec it)))
+  (awhen (alref save-registry* com)
+    (pr "A: ") (prn-stats)
+    (buffered-exec it)
+    (pr "Z: ") (prn-stats)))
 
 ; hook from save-registry lines up save function
 (init autosaved-vars* ())
