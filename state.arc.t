@@ -3,6 +3,20 @@
 (system:+ "mkdir -p " snapshots-dir*)
 (system:+ "rm " snapshots-dir* "/?s*.*")
 
+(let quit-called nil
+  (shadowing quit (fn() set.quit-called)
+    (let load-test-snapshot-var1 nil (save-snapshot load-test-snapshot-var1))
+    ; polluting namespace; wish I could unbind vars
+    (load-snapshot load-test-snapshot-var1 (table))
+    (test-iso "nil file loads into empty table"
+      (table)
+      load-test-snapshot-var1)
+
+    (let load-test-snapshot-var2 "abc" (save-snapshot load-test-snapshot-var2))
+    (load-snapshot load-test-snapshot-var2 (table))
+    (test-ok "load-snapshot bails on corrupted snapshot file"
+             quit-called)))
+
 (test-smatch "setup-autosave works"
   '(let ref (load-snapshot a (table))
     (pushnew 'a autosaved-vars*)

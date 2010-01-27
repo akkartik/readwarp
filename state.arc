@@ -14,7 +14,10 @@
       (unless (bound ',var)
         (init ,var ,initval)
         (prn "Loading " ',var)
-        (fread it ,var))
+        (fread it ,var)
+        (unless (is (type ,var) (type ,initval))
+          (prn "Error: corrupted snapshot " it)
+          (quit)))
       (or (init ,var ,initval) ,var)))
 
 (mac new-snapshot-name(var)

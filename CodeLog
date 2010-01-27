@@ -878,3 +878,6 @@ Next up: the error that popped up yday:
   === context ===
   create-doc-feed
 =-=319 - Wed Jan 27 12:26:36 PST 2010
+Corrupted docinfo. I really should be checking integrity when I load
+snapshots. Done.
+=-=320 - Wed Jan 27 14:02:48 PST 2010
