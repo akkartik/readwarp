@@ -72,7 +72,6 @@
       (render-doc-with-context query (next-doc user query)))))
 
 (defop docupdate req
-  (erp "docupdate")
   (mark-read (current-user) (arg req "station") (arg req "doc") (arg req "outcome"))
   (render-doc-with-context
     (arg req "station")

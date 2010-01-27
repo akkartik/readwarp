@@ -1,9 +1,10 @@
+(include "keywords.arc")
+
 (def init-code()
   (include "utils.arc")
   (include "helpers.arc")
 
   (include "state.arc")
-  (include "keywords.arc")
   (include "index.arc")
 
   (include "ui.arc")
