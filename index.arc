@@ -64,6 +64,7 @@
         "Economics"
         "Food"
         "Germany"
+        "Glamor"
         "India"
         "Japan"
         "Law"

@@ -1,12 +1,18 @@
 - bad queries
-andy zaltzman
+cognitive daily - doesn't work past first feed
+
 economy
 in the pipeline
-glen greenwald
-"bored cricket crazy indians"
 hn.org
 google news
 john cale
+
+tokenization
+  "bored cricket crazy indians"
+
+missing feeds
+  glen greenwald
+  gossaholic
 
 bad wordbreaks:
   37 signals, ny times
@@ -14,6 +20,7 @@ bad wordbreaks:
 author keywords, etc:
   jon stewart, daily show
   daniel markham, danielbmarkham
+  andy zaltzman
 
 - rendering/htmlcleaning bugs
 http___blogs_cricinfo_com_andyzaltzman_archives_2010_01_what_test_cricket_needs_is_mor_php
