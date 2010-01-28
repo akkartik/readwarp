@@ -195,7 +195,7 @@
           (if (and (~pos curr to)
                    (or no.f
                        (f curr)))
-            (= ans curr))))))
+            (= ans curr)))))))
 
 (def zip ls
   (apply map list ls))
