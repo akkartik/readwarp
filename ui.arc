@@ -148,9 +148,9 @@
     (each group feed-groups*
       (if (> (len group-feeds*.group) 10)
         (repeat 2
-          (push (random-new group-feeds*.group ans
+          (aif (random-new group-feeds*.group ans
                             [feedinfo* symize._])
-                ans))))))
+            (push it ans)))))))
 (def render-random-feeds()
   (pr " &middot; ")
   (each title (map [(feedinfo* symize._) 'title] (random-feeds))

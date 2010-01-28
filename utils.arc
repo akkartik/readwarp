@@ -189,12 +189,13 @@
 ; random elem in from that isn't already in to (and satisfies f)
 (def random-new(from to (o f))
   (ret ans nil
-    (until ans
-      (let curr randpos.from
-        (if (and (~pos curr to)
-                 (or no.f
-                     (f curr)))
-          (= ans curr))))))
+    (let counter 0
+      (until (or ans (> (++ counter) 10))
+        (let curr randpos.from
+          (if (and (~pos curr to)
+                   (or no.f
+                       (f curr)))
+            (= ans curr))))))
 
 (def zip ls
   (apply map list ls))
