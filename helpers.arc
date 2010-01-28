@@ -1,3 +1,4 @@
+(= threadlife* 45)
 (= ignore-ips* (memtable '("69.162.77.202" "69.162.127.2")))
 
 (mac paginate(id url n . block)

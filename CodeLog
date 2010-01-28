@@ -887,3 +887,7 @@ To make testing easier initialize on load-snapshot if var is bound *or nil*.
 Just saw random-new get into an infinite loop. I'm not able to recreate, but
 let's eliminate the possibility.
 =-=324 - Wed Jan 27 19:03:05 PST 2010
+
+Still seeing the occasional timeout. Let's see if slightly growing threadlife
+helps.
+=-=325 - Wed Jan 27 20:12:19 PST 2010
