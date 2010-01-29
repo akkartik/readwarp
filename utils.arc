@@ -60,13 +60,6 @@
 
 
 
-(mac redef(var expr)
-  `(after*
-     (set disable-redef-warnings*)
-     (= ,var ,expr)
-    :do
-     (wipe disable-redef-warnings*)))
-
 ;; dynamic scope when writing tests
 (mac shadow(var expr)
   (let stack (globalize stringify.var "-stack")
