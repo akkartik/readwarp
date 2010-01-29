@@ -169,6 +169,22 @@
   '(1 3 5)
   (posmatchall "b" "abcbdbe"))
 
+(test-iso "canonicalize stems"
+  "pig"
+  (canonicalize "pigs"))
+
+(test-iso "canonicalize downcases"
+  "pig"
+  (canonicalize "PiGS"))
+
+(test-iso "canonicalize strips apostrophes"
+  "pig"
+  (canonicalize "Pigs's"))
+
+(test-iso "canonicalize removes quotes"
+  "pig"
+  (canonicalize "\"Pig's"))
+
 (test-iso "split-urls tokenizes along punctuation"
   '("a" "com" "b")
   (split-urls "a.com/b"))

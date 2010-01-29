@@ -898,3 +898,6 @@ Another set of timeouts optimized away.
 Cleanup utils. The string-processing stuff is cool, but it's so slow I haven't
 used it in forever. Discovering striptags is the last straw.
 =-=329 - Fri Jan 29 02:20:53 PST 2010
+
+Form-input bugs: urlencode, get rid of quotes.
+=-=330 - Fri Jan 29 02:30:32 PST 2010
