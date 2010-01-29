@@ -891,3 +891,6 @@ let's eliminate the possibility.
 Still seeing the occasional timeout. Let's see if slightly growing threadlife
 helps.
 =-=325 - Wed Jan 27 20:12:19 PST 2010
+
+Another set of timeouts optimized away.
+=-=328 - Fri Jan 29 01:57:14 PST 2010

@@ -271,26 +271,28 @@
         (pull feed candidates)))))
 
 (proc fill-random(user station)
-  (w/unread-avoiding-recent user station feed-list*
-    (while (and candidates
-                (< (len station!showlist) 5))
-      (let feed randpos.candidates
-        (unless (and station!preferred-feeds
-                     station!preferred-feeds.feed
-                     station!preferred-feeds.feed!auto)
-          (pushnew feed station!showlist))
-        (pull feed candidates)))))
+  (if (< (len station!showlist) 5)
+    (w/unread-avoiding-recent user station feed-list*
+      (while (and candidates
+                  (< (len station!showlist) 5))
+        (let feed randpos.candidates
+          (unless (and station!preferred-feeds
+                       station!preferred-feeds.feed
+                       station!preferred-feeds.feed!auto)
+            (pushnew feed station!showlist))
+          (pull feed candidates))))))
 
 (proc fill-random-unpreferred(user station)
-  (w/unread-avoiding-recent user station feed-list*
-    (while (and candidates
-                (< (len station!showlist) 5))
-      (let feed randpos.candidates
-        (if (and station!preferred-feeds
-                 station!preferred-feeds.feed
-                 (unpreferred? station!preferred-feeds.feed))
-          (pushnew feed station!showlist))
-        (pull feed candidates)))))
+  (if (< (len station!showlist) 5)
+    (w/unread-avoiding-recent user station feed-list*
+      (while (and candidates
+                  (< (len station!showlist) 5))
+        (let feed randpos.candidates
+          (if (and station!preferred-feeds
+                   station!preferred-feeds.feed
+                   (unpreferred? station!preferred-feeds.feed))
+            (pushnew feed station!showlist))
+          (pull feed candidates))))))
 
 (def recently-shown?(station feed)
   (or (pos feed station!last-showlist)
