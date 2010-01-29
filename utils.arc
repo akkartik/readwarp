@@ -404,96 +404,11 @@
         (subst sep "\n" ans)
         ans))))
 
-(= re-timestamp* "[A-Z][a-z]{2} +[A-Z][a-z]{2} +[0-9]+ +[0-9]{2}:[0-9]{2}:[0-9]{2} +[A-Z]{3} +[0-9]{4}")
-(= re-html-tag* "<[^>]*>")
-(= re-html-entity* "&[#a-zA-Z0-9]{0,5};")
-(def html-strip(doc)
-  (transform doc
-    [r-strip _
-      "<!--.*-->"
-      "<script.*</script>"
-      "<style.*</style>"]
-    [gsub _
-      (r "\\s+") " "
-      (r re-html-tag*) ""
-      (r re-html-entity*) ""]))
-(def html-slurp(f)
-  (html-strip:slurp f))
-
 (def canonicalize(word)
   (downcase:stem (gsub word (r "'.*") "")))
 
-(def splitstr(s pat (o ind 0))
-  (iflet start (posmatch pat s ind)
-    (let end (+ start (len pat))
-      (if (> start ind)
-        (cons (cut s ind start) (splitstr s pat end))
-        (splitstr s pat end)))
-    (list (cut s ind))))
-
 (def split-urls(s)
   (tokens s [pos _ ":/."]))
-
-(def rmpat(doc begin end)
-  (with (s (posmatch begin doc)
-         e (posmatch end doc))
-    (if (and s e)
-      (let sk (cut doc s (+ e (len end)))
-        (subst "" sk doc)))))
-
-(def r-strip(doc . patlist)
-  (let ans doc
-    (each pat patlist
-      (= ans (r-strip-sub ans pat)))
-    ans))
-
-(def r-strip-sub(doc pat)
-  (with ((begin end) (splitstr pat ".*"))
-    (iflet newdoc (rmpat doc begin end)
-      (r-strip newdoc pat)
-      doc)))
-
-(def has-alpha?(s)
-  (not (is #f (m (r "[A-Za-z]") s))))
-
-(def partition(s (o f whitec))
-  (with (state -1
-         ans '())
-    (each c s
-      (let newstate (f c)
-        (if (is newstate state)
-          (= ans (cons (+ (car ans) c) (cdr ans)))
-          (push (+ "" c) ans))
-        (= state (f c))))
-    (rev ans)))
-
-(def partition-words(s)
-  (unless (blank s)
-    (with (ans (list:list:s 0) state (charclass s.0))
-      (each (prev curr next) (sliding-window 3 (coerce s 'cons))
-        (when curr
-          (let newstate (charstate curr prev next)
-            (if (is newstate state)
-                (push curr (car ans))
-                (push (list curr) ans))
-            (= state newstate))))
-      (rev:map [coerce (rev _) 'string] ans))))
-
-(with (never-word* ";\"![]() \n\t\r"
-       maybe-word* ".,'=-/:&?")
-  (def charclass(c)
-    (if (find c never-word*)
-          'never
-        (find c maybe-word*)
-          'maybe
-          'always)))
-
-(def charstate(c prev next)
-  (caselet class (charclass c)
-    maybe (if (or (whitec prev) (whitec next))
-              'never
-              'always)
-          class))
 
 (mac sub-core(f)
   (w/uniq (str rest)

@@ -39,7 +39,7 @@
   (map canonicalize
        (cons feed
              (flat:map split-urls
-                       (flat:map tokens:html-strip
+                       (flat:map tokens:striptags
                                  (vals:feedinfo* symize.feed))))))
 
 (proc update-feed-keywords()

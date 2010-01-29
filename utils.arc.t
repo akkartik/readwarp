@@ -161,49 +161,9 @@
 
 
 
-(test-iso "partition-words should partition along whitespace"
-          '("abc" " " "def")
-          (partition-words "abc def"))
-
-(test-iso "partition-words should partition along punctuation"
-          '("abc" ", " "def")
-          (partition-words "abc, def"))
-
-(test-iso "partition-words should intelligently partition along punctuation 1"
-          '("abc" " - " "def")
-          (partition-words "abc - def"))
-
-(test-iso "partition-words should intelligently partition along punctuation 2"
-          '("abc-def")
-          (partition-words "abc-def"))
-
-(test-iso "partition-words should intelligently partition along punctuation 3"
-          '("abc" " \"" "def" "\"")
-          (partition-words "abc \"def\""))
-
-(test-iso "partition should partition strings by whitespace by default"
-  '("0a" " " "bcdef" " " "g")
-  (partition "0a bcdef g"))
-
 (test-iso "regexp-escape"
   "a\\+b"
   (regexp-escape "a+b"))
-
-(test-iso "r-strip works like gsub on pairs"
-  "abc"
-  (r-strip "abc<def>" "<.*>"))
-
-(test-iso "r-strip finds shortest matches"
-  "abc"
-  (r-strip "<boo abc</boo>abc<boo def</boo>" "<boo .*</boo>"))
-
-(test-iso "splitstr splits at occurrences of pat"
-  '("abc" "def")
-  (splitstr "abc foo def" " foo "))
-
-(test-iso "splitstr splits at occurrences of pat"
-  '("a" "c" "d" "e")
-  (splitstr "abcbdbe" "b"))
 
 (test-iso "posmatchall"
   '(1 3 5)
