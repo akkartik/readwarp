@@ -15,9 +15,10 @@
   (read-list (current-user) (current-station-name:current-user)))
 
 (def next-doc(user sname)
-  (pick user (if sname
-               userinfo*.user!stations.sname
-               current-station.user)))
+  (w/stdout (stderr) (pr sname " => "))
+  (erp:pick user (if sname
+                   userinfo*.user!stations.sname
+                   current-station.user)))
 
 (def prn-stats(msg)
   (erp msg (w/table ans

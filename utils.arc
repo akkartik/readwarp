@@ -470,7 +470,7 @@
   (prn)
   s)
 
-(proc erp args
+(def erp args
   (w/stdout (stderr)
     (apply prn args)))
 
