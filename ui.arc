@@ -137,7 +137,7 @@
     (pr "Or pick a site you like"))
   (tag (div id "TICKER"
             class "ticker"
-            style "width:520px" ; must be here not in class
+            style "width:720px" ; must be here not in class
             onmouseover "TICKER_PAUSED=true" onmouseout "TICKER_PAUSED=false")
     (render-random-feeds))
   (tag (div id "TICKER2" style "display:none"))
@@ -152,11 +152,11 @@
                             [feedinfo* symize._])
             (push it ans)))))))
 (def render-random-feeds()
-  (pr " &middot; ")
+  (pr " &nbsp; &middot; &nbsp; ")
   (each title (map [(feedinfo* symize._) 'title] (random-feeds))
     (tag (a class "tickeritem" href (+ "/station?seed=" urlencode.title))
       (pr title))
-    (pr " &middot; ")))
+    (pr " &nbsp; &middot; &nbsp; ")))
 (defop tickupdate req
   (render-random-feeds))
 
