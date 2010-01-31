@@ -100,3 +100,5 @@ function updateTickerContents() {
   return false;
 }
 updateTickerContents();
+
+window.onload = function() { $('newstationform').focus(); };
