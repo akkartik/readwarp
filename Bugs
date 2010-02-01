@@ -5,6 +5,11 @@ hn.org
 google news
 john cale
 don draper
+joel spolsky
+youtube
+
+manual keywords
+  arc language - programming
 
 tokenization
   "bored cricket crazy indians"
@@ -12,7 +17,6 @@ tokenization
 
 missing feeds
   glen greenwald
-  gossaholic
 
 bad wordbreaks:
   37 signals, ny times

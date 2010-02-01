@@ -119,11 +119,17 @@ def crawl(feed):
     print 'bozo'
     return
 
-  feedinfo[feed] = {'title': feedtitle(f), 'description': feeddesc(f), 'site': site(f), 'url': feed}
+  feedinfo[feed] = {'title': feedtitle(f), 'description': feeddesc(f), 'site': site(f), 'url': feed, 'author': author(f)}
   for item in f.entries:
     try:
       crawlUrl(item.link, {'title': title(item), 'feedtitle': f.feed.title, 'date': date(item), 'feeddate': time.mktime(time.gmtime()), 'feed': feed, 'site': site(f), 'description': desc(item)})
     except: traceback.print_exc(file=sys.stdout)
+
+def author(f):
+  try: f.feed.author
+  except:
+    print '!auth'
+    return ''
 
 def feedtitle(f):
   try: return f.feed.title
