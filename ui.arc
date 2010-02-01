@@ -114,9 +114,11 @@
 
 
 (def feedback-form(station doc)
-  (tag (a onclick "$('feedback').toggle(); return false" href "#" style "margin-right:1em")
-    (pr "feedback"))
-  (tag (form action "/feedback" method "post" id "feedback" style "display:none; background:#888; padding:0.5em; position:absolute; left:85%; top:5%; z-index:1; text-align:right")
+  (tag (div style "margin-top:1em; margin-right:1em")
+    (tag (a onclick "$('feedback').toggle(); return false" href "#")
+      (pr "feedback")))
+  (tag (form action "/feedback" method "post" id "feedback"
+             style "display:none; background:#888; padding:0.5em; position:absolute; left:85%; top:10%; z-index:1; text-align:right")
     (tag:textarea name "msg" style "width:100%")(br)
     (tag:input type "hidden" name "location" value (+ "/station?seed=" station))
     (tag:input type "hidden" name "station" value station)
@@ -217,7 +219,7 @@
 
 (def buttons(station doc)
   (tag (div class "nav")
-    (tag (div style "float:left") (pr "Vote: "))
+    (tag (div style "float:left;margin-top:1em") (pr "Vote: "))
     (button station doc 1 "skip" "not interesting")
     (button station doc 2 "next" "more like this")
     (button station doc 4 "love" "more from this site")
