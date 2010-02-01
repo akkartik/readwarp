@@ -119,13 +119,18 @@
     (tag:input type "hidden" name "doc" value doc)
     (tag:input type "submit" value "send")))
 
-(defopr feedback req
+(def write-feedback(station doc msg)
   (w/prfile (+ "feedback/" (seconds))
-    (prn "Station: " (arg req "station"))
-    (prn "Doc: " (arg req "doc"))
+    (prn "Station: " station)
+    (prn "Doc: " doc)
     (prn)
     (prn "Feedback:")
-    (prn (arg req "msg")))
+    (prn msg)))
+
+(defopr feedback req
+  (write-feedback (arg req "station")
+                  (arg req "doc")
+                  (arg req "msg"))
   (arg req "location"))
 
 (def news-ticker()
@@ -179,7 +184,9 @@
           (tag (td class "post")
             (render-doc station doc))))
       (buttons station doc))
-    (prn "XXX: error message, email form")))
+    (do
+      (prn "Oops, there was an error. I've told Kartik. Please feel free to use the feedback form &rarr;")
+      (write-feedback station "" "No result found"))))
 
 (def render-doc(station doc)
   (tag (div id (+ "contents_" doc))
@@ -189,10 +196,9 @@
     (tag (div class "date")
       (aif pubdate.doc (pr render-date.it)))
     (tag div
-      (whenlet siteurl doc-site.doc
+      (iflet siteurl doc-site.doc
         (tag (a href siteurl target "_blank")
-          (pr (or doc-feedtitle.doc "website")))
-        (render-preferred-feed station doc)))
+          (pr (or doc-feedtitle.doc "website")))))
     (tag p
       (pr:contents doc))))
 

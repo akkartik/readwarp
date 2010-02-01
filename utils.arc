@@ -518,7 +518,7 @@
 
 (mac w/prfile(file . body)
   (w/uniq outf
-    `(w/outfile ,outf ,file
+    `(w/appendfile ,outf ,file
       (w/stdout ,outf
         ,@body))))
 
