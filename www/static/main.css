@@ -8,7 +8,7 @@ body{ margin:0 auto; font-size:62.5%; font-family:sans-serif; }
 
   #nav{ }
 
-    .button{ float:left; padding:0.5em; width:7em; height:2.5em; text-align:center; margin-left:1em; }
+    .button{ float:left; padding:0.5em; width:9em; height:2.5em; text-align:center; margin-left:1em; }
     .skip{ background:#cc4444; }    .fskip,.outcome_1{ color:#cc4444; }
     .next{ background:#ccff33; }    .fnext,.outcome_2{ color:#ccff33; }
     .like{ background:#87cb43; }    .flike,.outcome_3{ color:#87cb43; }

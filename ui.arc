@@ -78,7 +78,17 @@
       (render-doc-with-context query (next-doc user query)))))
 
 (defop docupdate req
-  (mark-read (current-user) (arg req "station") (arg req "doc") (arg req "outcome"))
+  (with (sname (arg req "station")
+         doc (arg req "doc")
+         outcome (arg req "outcome"))
+    (mark-read (current-user) sname doc outcome)
+    (erp type.outcome)
+    (if (iso "5" outcome)
+      (withs (feed doc-feed.doc
+              station (((userinfo*:current-user) 'stations) sname))
+        (aif (most-recent-unread (current-user) feed)
+          (push feed station!showlist)
+          (flash "No more unread items in that feed")))))
   (render-doc-with-context
     (arg req "station")
     (next-doc (current-user) (arg req "station"))))
@@ -213,10 +223,10 @@
 
 (def buttons(station doc)
   (tag (div class "nav")
+    (tag (div style "float:left") (pr "Vote: "))
     (button station doc 1 "skip" "not interesting")
-    (button station doc 2 "next" "kinda like")
-    (button station doc 3 "like" "like")
-    (button station doc 4 "love" "love!")
+    (button station doc 4 "like" "more like this")
+    (button station doc 5 "love" "more from this site")
     (clear)))
 
 (def button(station doc n cls tooltip)

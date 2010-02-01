@@ -172,26 +172,10 @@
       (inittab station!preferred-feeds
                feed (table))
       (case outcome
-        1     (handle-outcome1 station!preferred-feeds.feed doc)
-        3     (handle-outcome3 station!preferred-feeds.feed doc)
-        4     (handle-outcome4 station!preferred-feeds.feed doc))
+        1     (wipe station!preferred-feeds.feed)
+        4     (set station!preferred-feeds.feed)
+        5     (set station!preferred-feeds.feed))
 )))
-
-(proc handle-outcome4(feedinfo doc)
-  (= feedinfo!auto doc))
-
-(proc handle-outcome3(feedinfo doc)
-  (push doc feedinfo!outcome3s)
-  (if (>= (len feedinfo!outcome3s) 5)
-    (= feedinfo!auto doc)))
-
-(proc handle-outcome1(feedinfo doc)
-  (if feedinfo!outcome3s
-    (pop feedinfo!outcome3s)
-    (let l (len (pushnew doc feedinfo!outcome1s))
-      (if (>= l 6)      (= feedinfo!auto -1)
-          (>= l 5)      (wipe feedinfo!auto)
-          (>= l 3)      (wipe feedinfo!manual)))))
 
 
 
