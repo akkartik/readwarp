@@ -214,8 +214,8 @@
     (clear)))
 
 (def button(station doc n cls tooltip)
-  (tag (a onclick (+ "pushHistory('" jsesc.station "', '" jsesc.doc "', 'outcome=" n "')") href "#" title tooltip)
-    (tag (div class (+ cls " button")))))
+  (tag (input type "button" class (+ cls " button") value tooltip
+              onclick (+ "pushHistory('" jsesc.station "', '" jsesc.doc "', 'outcome=" n "')"))))
 
 (def render-preferred-feed(sname doc)
   (tag (span class "icon")
