@@ -125,24 +125,6 @@
 (def stations(user)
   (keys userinfo*.user!stations))
 
-(def unpreferred?(feedinfo)
-  (is feedinfo!auto -1))
-
-(def preferred?(feedinfo)
-  (and feedinfo!auto (~is feedinfo!auto -1)))
-
-; Invariant: manual => auto
-(def preferred-feed-manual-set(station doc dir)
-  (inittab station!preferred-feeds
-           doc-feed.doc
-            (obj manual dir
-                 auto   (if dir doc))))
-
-(def preferred-feed?(station doc)
-  (aif (and station!preferred-feeds
-            (station!preferred-feeds doc-feed.doc))
-    preferred?.it))
-
 (proc new-station(user sname)
   (erp "new-station: " sname)
   (when (no userinfo*.user!stations.sname)
@@ -152,14 +134,6 @@
       (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))
       (thread (= station!feeds feed-group-for.sname)))))
 
-;; Outcome:
-;; 4: preferred feed, propagate doc
-;; 3: preferred feed after 5 3s, propagate doc
-;; 2: do nothing
-;; 1:
-;;    manually preferred feed: disable prefer after 5 1s
-;;    preferred feed: disable after 2 1s
-;;    not preferred: unprefer
 (proc mark-read(user sname doc outcome)
   (let station userinfo*.user!stations.sname
     (= outcome int.outcome)
@@ -173,8 +147,8 @@
                feed (table))
       (case outcome
         1     (wipe station!preferred-feeds.feed)
-        4     (set station!preferred-feeds.feed)
-        5     (set station!preferred-feeds.feed))
+        2     (set station!preferred-feeds.feed)
+        4     (set station!preferred-feeds.feed))
 )))
 
 
@@ -220,8 +194,6 @@
   (fill-by-group user station)
   (erp "scanning random feeds: " station!showlist)
   (fill-random user station)
-  (erp "scanning unpreferred feeds: " station!showlist)
-  (fill-random-unpreferred user station)
   (erp "done. candidates: " station!showlist)
   (zap rev station!showlist)
   (erp "after rev: " station!showlist)
@@ -235,11 +207,8 @@
            candidates)
     ,@body))
 
-(def preferred-feeds(station)
-  (keep [preferred? _] (vals station!preferred-feeds)))
-
 (proc choose-from-preferred(user station n)
-  (w/unread-avoiding-recent user station preferred-feeds.station
+  (w/unread-avoiding-recent user station (keys station!preferred-feeds)
     (repeat n
       (whenlet feed randpos.candidates
         (erp "preferred: " feed)
@@ -261,20 +230,7 @@
                   (< (len station!showlist) 5))
         (let feed randpos.candidates
           (unless (and station!preferred-feeds
-                       station!preferred-feeds.feed
-                       station!preferred-feeds.feed!auto)
-            (pushnew feed station!showlist))
-          (pull feed candidates))))))
-
-(proc fill-random-unpreferred(user station)
-  (if (< (len station!showlist) 5)
-    (w/unread-avoiding-recent user station feed-list*
-      (while (and candidates
-                  (< (len station!showlist) 5))
-        (let feed randpos.candidates
-          (if (and station!preferred-feeds
-                   station!preferred-feeds.feed
-                   (unpreferred? station!preferred-feeds.feed))
+                       station!preferred-feeds.feed)
             (pushnew feed station!showlist))
           (pull feed candidates))))))
 

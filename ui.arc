@@ -83,7 +83,7 @@
          outcome (arg req "outcome"))
     (mark-read (current-user) sname doc outcome)
     (erp type.outcome)
-    (if (iso "5" outcome)
+    (if (iso "4" outcome)
       (withs (feed doc-feed.doc
               station (((userinfo*:current-user) 'stations) sname))
         (aif (most-recent-unread (current-user) feed)
@@ -110,12 +110,6 @@
         (tag (div id "history-elems")
           (each doc (cut items start-index end-index)
             (render-doc-link (arg req "station") doc))))))
-
-(defop prefer req
-  (with (doc (arg req "doc")
-         dir (arg req "to")
-         station (current-station:current-user))
-    (preferred-feed-manual-set station doc (iso "yes" dir))))
 
 
 
@@ -225,18 +219,10 @@
   (tag (div class "nav")
     (tag (div style "float:left") (pr "Vote: "))
     (button station doc 1 "skip" "not interesting")
-    (button station doc 4 "like" "more like this")
-    (button station doc 5 "love" "more from this site")
+    (button station doc 2 "next" "more like this")
+    (button station doc 4 "love" "more from this site")
     (clear)))
 
 (def button(station doc n cls tooltip)
   (tag (input type "button" class (+ cls " button") value tooltip
               onclick (+ "pushHistory('" jsesc.station "', '" jsesc.doc "', 'outcome=" n "')"))))
-
-(def render-preferred-feed(sname doc)
-  (tag (span class "icon")
-    (jstogglelink (+ "save_" doc)
-      (tag:img src "/saved.gif" height "24px") (+ "/prefer?doc=" doc "&to=no")
-      (tag:img src "/save.gif" height "24px") (+ "/prefer?doc=" doc "&to=yes")
-      (let user (current-user)
-        (preferred-feed? userinfo*.user!stations.sname doc)))))
