@@ -1,33 +1,33 @@
 (= threadlife* 45)
 (= ignore-ips* (memtable '("69.162.77.202" "69.162.127.2")))
 
-(mac paginate(id url n . block)
+(mac paginate(id url n max-index . block)
   (let (params body) (kwargs block '(nextcopy "next" prevcopy "prev"))
     `(withs (start-index (int2:arg req "from")
              end-index (+ start-index ,n))
-        (paginate-nav ,id ,url ,n start-index end-index ',params)
+        (paginate-nav ,id ,url ,n start-index end-index ,max-index ',params)
         ,@body
-        (paginate-nav ,id ,url ,n start-index end-index ',params))))
+        (paginate-nav ,id ,url ,n start-index end-index ,max-index ',params))))
 
-(mac paginate-bottom(id url n . block)
+(mac paginate-bottom(id url n max-index . block)
   (let (params body) (kwargs block '(nextcopy "next" prevcopy "prev"))
     `(withs (start-index (int2:arg req "from")
              end-index (+ start-index ,n))
         ,@body
-        (paginate-nav ,id ,url ,n start-index end-index ',params))))
+        (paginate-nav ,id ,url ,n start-index end-index ,max-index ',params))))
 
-(def paginate-nav(id url n start-index end-index (o params (table)))
+(def paginate-nav(id url n start-index end-index max-index (o params (table)))
   (let n (- end-index start-index)
     (tag (div class "paginate")
       (if (params 'reverse)
         (do
-          (paginate-next id url n start-index end-index params)
+          (paginate-next id url n start-index end-index max-index params)
           (pr "&nbsp;")
           (paginate-prev id url n start-index end-index params))
         (do
           (paginate-prev id url n start-index end-index params)
           (pr "&nbsp;")
-          (paginate-next id url n start-index end-index params))))))
+          (paginate-next id url n start-index end-index max-index params))))))
 
 (def paginate-prev(id url n start-index end-index params)
   (if (> start-index 0)
@@ -35,10 +35,11 @@
       (pr (or (params 'prevcopy) "&larr; prev")))
     (pr (or (params 'prevcopy) "&larr; prev"))))
 
-(def paginate-next(id url n start-index end-index params)
-  (tag (a href "#" onclick (+ "inline('" id "', '" url "?from=" end-index "')"))
+(def paginate-next(id url n start-index end-index max-index params)
+  (if (< end-index max-index)
+    (tag (a href "#" onclick (+ "inline('" id "', '" url "?from=" end-index "')"))
+      (pr (or (params 'nextcopy) "next &rarr;")))
     (pr (or (params 'nextcopy) "next &rarr;"))))
-
 
 
 

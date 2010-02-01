@@ -56,8 +56,15 @@ function pushHistory(station, doc, params) {
   src = $$('#doc_'+doc+' .history');
   new Insertion.Top('history-elems', src[0].innerHTML);
 
-  for(len = $('history-elems').childNodes.length; len > 10; --len) {
-    $('history-elems').removeChild($('history-elems').childNodes[len-1]);
+  if($('history-elems').childNodes.length > 10) {
+    for(len = $('history-elems').childNodes.length; len > 10; --len) {
+      $('history-elems').removeChild($('history-elems').childNodes[len-1]);
+    }
+
+    if($('history').childNodes[1].childNodes.length <= 1) {
+      $('history').childNodes[1].innerHTML =
+        "<a href=\"#\" onclick=\"inline('history', '/history?from=10')\">&laquo;older</a>&nbsp;newer&raquo;";
+    }
   }
 
   $('content').innerHTML = "<img src=\"waiting.gif\"/>";

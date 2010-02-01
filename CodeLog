@@ -904,3 +904,10 @@ Form-input bugs: urlencode, get rid of quotes.
 
 newsticker tweaks.
 =-=332 - Sat Jan 30 19:03:43 PST 2010
+
+History navigation: don't show links when there's nothing to point at, and
+update the nav links when the user grows history past 10 elements.
+Am I missing any boundary conditions? If the user is on a different history
+page, he has more than 10 items in history, so no change is necessary. The
+nav has links so more than 1 child, so no change will happen.
+=-=334 - Sun Jan 31 16:49:05 PST 2010
