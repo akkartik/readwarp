@@ -477,10 +477,19 @@
 (def gc()
   ($:collect-garbage))
 
+(def maybe(msg)
+  (or msg ""))
+
 (= performance-vector ($:make-vector 10))
-(def prn-stats((o msg))
+(proc prn-stats((o msg))
   ($:vector-set-performance-stats! _performance-vector)
-  (erp msg performance-vector))
+  (erp maybe.msg performance-vector))
+
+(proc prn-stats2((o msg))
+  (erp maybe.msg (w/table ans
+    (each (name thread) threads*
+      (unless dead.thread
+        (++ (ans name 0)))))))
 
 (include "arctap.arc")
 (def tests()

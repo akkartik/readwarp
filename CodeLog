@@ -914,3 +914,11 @@ nav has links so more than 1 child, so no change will happen.
 
 Include station name in history requests so multiple users don't conflict.
 =-=335 - Sun Jan 31 17:24:07 PST 2010
+
+Start of user accounts. This should be really straightforward, setting a few
+people up with user accounts. Why did I agonize so much?
+Validate your hypotheses, yes. But don't bother agonizing over something
+that'll take just a couple of hours.
+
+Next: req -> user? Use get-user.
+=-=336 - Mon Feb  1 00:33:45 PST 2010

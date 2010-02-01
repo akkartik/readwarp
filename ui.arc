@@ -20,18 +20,6 @@
                    userinfo*.user!stations.sname
                    current-station.user)))
 
-(def prn-stats(msg)
-  (erp msg (w/table ans
-    (each (name thread) threads*
-      (unless dead.thread
-        (++ (ans name 0)))))))
-
-(def kill-handlers()
-  (each (name thread) threads*
-    (if (and (pos name '("handler" "timeout"))
-             (~dead thread))
-      (kill-thread thread))))
-
 
 
 (mac layout-basic body
@@ -61,6 +49,7 @@
   `(tag (div class (+ "logo-button " ,stringify.cls))
       (pr ,msg)))
 
+(= frontpage-width* "width:720px;")
 (defop || req
   (header)
   (tag body
@@ -69,13 +58,16 @@
     (tag (div class "subtitle")
       (pr "Discover what you've been missing"))
 
-    (tag (div style "margin-top:4em; font-size:16px")
+    (tag (div class "frontpage" style frontpage-width*)
       (tag (form action "/station" style "width:50%;margin:auto;padding:auto")
-           (pr "Tell us your favorite site or blogger.") (br)
+           (pr "Tell us your favorite site or blogger") (br)
            (tag:input id "newstationform" name "seed" size "30") (br)
            (tag:input type "submit" value "Start reading"))
 
-      (news-ticker))))
+      (news-ticker)
+
+      (tag (div style "margin-top:4em; float:right")
+        (w/link (login-page 'both) (pr "login"))))))
 
 (defop station req
   (withs (user (current-user)
@@ -141,7 +133,7 @@
     (pr "Or pick a site you like"))
   (tag (div id "TICKER"
             class "ticker"
-            style "width:720px" ; must be here not in class
+            style frontpage-width* ; must be here not in class
             onmouseover "TICKER_PAUSED=true" onmouseout "TICKER_PAUSED=false")
     (render-random-feeds))
   (tag (div id "TICKER2" style "display:none"))

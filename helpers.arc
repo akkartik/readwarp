@@ -128,3 +128,9 @@
     (if server-thread* (kill-thread server-thread*)))
   (def server-thread()
     server-thread*))
+
+(def kill-handlers()
+  (each (name thread) threads*
+    (if (and (pos name '("handler" "timeout"))
+             (~dead thread))
+      (kill-thread thread))))

@@ -44,7 +44,8 @@ h2.title a{ color:#44c; font-weight:bold; }
 
 .logo { text-decoration:underline; color:#fff200; text-align:center; }
 .logo-button { display:inline; text-align:center; font-family:helvetica,sans-serif; font-weight:bold; font-size:9em; }
-.subtitle { font-size: 1.6em; font-style:italic; }
+.subtitle { font-size:1.6em; font-style:italic; }
+.frontpage { margin-top:4em; font-size:1.6em; margin-left:auto;margin-right:auto; }
 
 .flash { font-size:1.4em; color:#cc4444; }
 
