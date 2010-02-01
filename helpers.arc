@@ -31,15 +31,18 @@
 
 (def paginate-prev(id url n start-index end-index params)
   (if (> start-index 0)
-    (tag (a href "#" onclick (+ "inline('" id "', '" url "?from=" (max 0 (- start-index n)) "')"))
+    (tag (a href "#" onclick (+ "inline('" id "', '" url udelim.url "from=" (max 0 (- start-index n)) "')"))
       (pr (or (params 'prevcopy) "&larr; prev")))
     (pr (or (params 'prevcopy) "&larr; prev"))))
 
 (def paginate-next(id url n start-index end-index max-index params)
   (if (< end-index max-index)
-    (tag (a href "#" onclick (+ "inline('" id "', '" url "?from=" end-index "')"))
+    (tag (a href "#" onclick (+ "inline('" id "', '" url udelim.url "from=" end-index "')"))
       (pr (or (params 'nextcopy) "next &rarr;")))
     (pr (or (params 'nextcopy) "next &rarr;"))))
+
+(def udelim(s)
+  (if (posmatch "?" s) "&" "?"))
 
 
 

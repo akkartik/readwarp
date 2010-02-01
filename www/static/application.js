@@ -63,7 +63,7 @@ function pushHistory(station, doc, params) {
 
     if($('history').childNodes[1].childNodes.length <= 1) {
       $('history').childNodes[1].innerHTML =
-        "<a href=\"#\" onclick=\"inline('history', '/history?from=10')\">&laquo;older</a>&nbsp;newer&raquo;";
+        "<a href=\"#\" onclick=\"inline('history', '/history?from=10&station="+escape(station)+"')\">&laquo;older</a>&nbsp;newer&raquo;";
     }
   }
 

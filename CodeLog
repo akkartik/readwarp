@@ -911,3 +911,6 @@ Am I missing any boundary conditions? If the user is on a different history
 page, he has more than 10 items in history, so no change is necessary. The
 nav has links so more than 1 child, so no change will happen.
 =-=334 - Sun Jan 31 16:49:05 PST 2010
+
+Include station name in history requests so multiple users don't conflict.
+=-=335 - Sun Jan 31 17:24:07 PST 2010
