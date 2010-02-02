@@ -99,7 +99,8 @@
 (def history-panel(req station)
   (let items (read-list (current-user) station)
     (paginate "history" (+ "/history?station=" urlencode.station)
-                     10 len.items
+                     25 ; sync with application.js
+                     len.items
         reverse t nextcopy "&laquo;older" prevcopy "newer&raquo;"
       :do
         (tag (div id "history-elems")

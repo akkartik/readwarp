@@ -56,7 +56,7 @@ function pushHistory(station, doc, params) {
   src = $$('#doc_'+doc+' .history');
   new Insertion.Top('history-elems', src[0].innerHTML);
 
-  if($('history-elems').childNodes.length > 10) {
+  if($('history-elems').childNodes.length > 25) {
     for(len = $('history-elems').childNodes.length; len > 10; --len) {
       $('history-elems').removeChild($('history-elems').childNodes[len-1]);
     }
