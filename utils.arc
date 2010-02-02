@@ -396,10 +396,10 @@
   (if (isa f 'string)
     (w/infile file f (slurp file sep))
     (let ans ""
-      (whiler line (readline f) nil
-              (if (blank ans)
-                (= ans line)
-                (zap [string _ sep line] ans)))
+      (whilet line (readline f)
+        (if (blank ans)
+          (= ans line)
+          (zap [string _ sep line] ans)))
       (if (~iso sep "\n")
         (subst sep "\n" ans)
         ans))))

@@ -113,7 +113,7 @@
 (init userinfo* (table))
 
 (def new-user(user)
-  (inittab userinfo*.user
+  (inittab userinfo*.user 'preferred-feeds load-feeds.user
            'read (table) 'stations (table)))
 
 (def read-list(user station)
@@ -143,8 +143,7 @@
         (pop station!showlist))
 
     (let feed doc-feed.doc
-      (inittab station!preferred-feeds
-               feed (table))
+      (or= station!preferred-feeds (table))
       (case outcome
         1     (wipe station!preferred-feeds.feed)
         2     (set station!preferred-feeds.feed)
@@ -248,5 +247,16 @@
     (if (pos guess-type.ans '(feed url))
       (zap [most-recent-unread user _] ans))))
       ; XXX: nothing unread left? (only dup feeds)
+
+(def load-feeds(user)
+  (if (file-exists (+ "feeds/" user))
+    (w/infile f (+ "feeds/" user)
+      (w/table ans
+        (whilet line (readline f)
+          (zap trim line)
+          (if (~empty line)
+            (let url (car:tokens line)
+              (if (headmatch "http" url)
+                (set ans.url)))))))))
 
 (prn "Done loading index.arc")
