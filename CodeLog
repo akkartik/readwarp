@@ -947,3 +947,6 @@ I'm running tickupdate constantly while a user is on this page. That seems
 wasteful.
 Leave it for now; helps measure session length.
 =-=349 - Mon Feb  1 22:52:33 PST 2010
+
+I should now have stamped out all bugs in URL escaping.
+=-=350 - Mon Feb  1 23:12:37 PST 2010

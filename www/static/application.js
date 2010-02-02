@@ -75,7 +75,7 @@ function pushHistory(station, doc, params) {
   new Ajax.Request("/docupdate",
       {
         method: 'post',
-        parameters: 'doc='+doc+'&'+'station='+station+'&'+params,
+        parameters: 'doc='+escape(doc)+'&'+'station='+escape(station)+'&'+params,
         onSuccess: function(response) {
           $('content').innerHTML = response.responseText;
         }
@@ -88,7 +88,7 @@ function showDoc(station, doc) {
   new Ajax.Request("/doc",
       {
         method: 'get',
-        parameters: 'doc='+doc+'&station='+station,
+        parameters: 'doc='+escape(doc)+'&station='+escape(station),
         onSuccess: function(response) {
           del($('history_'+doc));
           $('content').innerHTML = response.responseText;
