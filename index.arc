@@ -113,6 +113,7 @@
 (init userinfo* (table))
 
 (def new-user(user)
+  (erp "new user: " user)
   (inittab userinfo*.user 'preferred-feeds load-feeds.user
            'read (table) 'stations (table)))
 
@@ -258,5 +259,7 @@
             (let url (car:tokens line)
               (if (headmatch "http" url)
                 (set ans.url)))))))))
+(after-exec load-feeds(user)
+  (erp "found " len-keys.result " preferred feeds"))
 
 (prn "Done loading index.arc")
