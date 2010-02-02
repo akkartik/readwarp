@@ -61,8 +61,12 @@ function pushHistory(station, doc, params) {
       $('history-elems').removeChild($('history-elems').childNodes[len-1]);
     }
 
-    if($('history').childNodes[1].childNodes.length <= 1) {
-      $('history').childNodes[1].innerHTML =
+    if($('history').childNodes[0].childNodes.length <= 1) {
+      $('history').childNodes[0].innerHTML =
+        "<a href=\"#\" onclick=\"inline('history', '/history?from=10&station="+escape(station)+"')\">&laquo;older</a>&nbsp;newer&raquo;";
+    }
+    if($('history').childNodes[2].childNodes.length <= 1) {
+      $('history').childNodes[2].innerHTML =
         "<a href=\"#\" onclick=\"inline('history', '/history?from=10&station="+escape(station)+"')\">&laquo;older</a>&nbsp;newer&raquo;";
     }
   }

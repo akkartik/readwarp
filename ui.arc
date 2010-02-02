@@ -34,12 +34,7 @@
                     (center
                       (pr "Recently viewed"))
                     (tag (div id "history")
-                      (tag (div id "history-elems")
-                          (each doc (firstn 10 (current-user-read-list))
-                            (render-doc-link (current-station-name:current-user) doc)))
-                      (paginate-nav "history" (+ "/history?station=" (urlencode:erp:current-station-name:current-user))
-                                    10 0 10 (len:current-user-read-list)
-                           (obj reverse t nextcopy "&laquo;older" prevcopy "newer&raquo;")))))
+                      (history-panel req (current-station-name:current-user)))))
 
                (tag (td id "contents-wrap")
                   (tag (div id "content")
@@ -101,15 +96,18 @@
         (next-doc (current-user) (arg req "station"))
         doc))))
 
-(defop history req
-  (let items (read-list (current-user) (arg req "station"))
-    (paginate-bottom "history" (+ "/history?station=" (urlencode:arg req "station"))
+(def history-panel(req station)
+  (let items (read-list (current-user) station)
+    (paginate "history" (+ "/history?station=" urlencode.station)
                      10 len.items
         reverse t nextcopy "&laquo;older" prevcopy "newer&raquo;"
       :do
         (tag (div id "history-elems")
           (each doc (cut items start-index end-index)
-            (render-doc-link (arg req "station") doc))))))
+            (render-doc-link station doc))))))
+
+(defop history req
+  (history-panel req (arg req "station")))
 
 
 
