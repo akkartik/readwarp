@@ -69,19 +69,19 @@
 (defop docupdate req
   (with (sname (arg req "station")
          doc (arg req "doc")
-         outcome (arg req "outcome"))
-    (mark-read (current-user req) sname doc outcome)
-    (erp type.outcome)
-    (if (iso "4" outcome)
-      (withs (feed doc-feed.doc
-              station (((userinfo*:current-user req) 'stations) sname))
-        (aif (most-recent-unread (current-user req) feed)
-          (push feed station!showlist)
-          (flash "No more unread items in that feed")))))
-  (render-doc-with-context
-    req
-    (arg req "station")
-    (next-doc (current-user req) (arg req "station"))))
+         outcome (arg req "outcome")
+         user (current-user req))
+    (mark-read user sname doc outcome)
+    (handle-same-feed user sname doc outcome)
+    (render-doc-with-context req sname (next-doc user sname))))
+
+(proc handle-same-feed(user sname doc outcome)
+  (if (iso "4" outcome)
+    (withs (feed doc-feed.doc
+            station userinfo*.user!stations.sname)
+      (if (most-recent-unread user feed)
+        (push feed station!showlist)
+        (flash "No more unread items in that feed")))))
 
 (defop doc req
   (let doc (arg req "doc")
