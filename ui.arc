@@ -1,18 +1,12 @@
-(def current-user()
+(def current-user(req)
   0)
-(new-user:current-user)
+(new-user 0)
 
 (def current-station-name(user)
   userinfo*.user!current-station)
 
 (def current-station(user)
   (userinfo*.user!stations current-station-name.user))
-
-(def current-user-read(doc)
-  (read? (current-user) doc))
-
-(def current-user-read-list()
-  (read-list (current-user) (current-station-name:current-user)))
 
 (def next-doc(user sname)
   (w/stdout (stderr) (pr sname " => "))
@@ -29,12 +23,12 @@
       (tag (div id "page")
         (tag (table width "100%")
              (tr
-               (if (and (current-user) (current-station-name:current-user))
+               (if (and user (current-station-name:current-user req))
                  (tag (td id "history-container")
                     (center
                       (pr "Recently viewed"))
                     (tag (div id "history")
-                      (history-panel req (current-station-name:current-user)))))
+                      (history-panel req (current-station-name:current-user req)))))
 
                (tag (td id "contents-wrap")
                   (tag (div id "content")
@@ -65,39 +59,41 @@
         (w/link (login-page 'both) (pr "login"))))))
 
 (defop station req
-  (withs (user (current-user)
+  (withs (user (current-user req)
           query (arg req "seed"))
     (new-station user query)
     (= userinfo*.user!current-station query)
-    (layout-basic
-      (render-doc-with-context query (next-doc user query)))))
+    (layout-basic current-user.req
+      (render-doc-with-context req query (next-doc user query)))))
 
 (defop docupdate req
   (with (sname (arg req "station")
          doc (arg req "doc")
          outcome (arg req "outcome"))
-    (mark-read (current-user) sname doc outcome)
+    (mark-read (current-user req) sname doc outcome)
     (erp type.outcome)
     (if (iso "4" outcome)
       (withs (feed doc-feed.doc
-              station (((userinfo*:current-user) 'stations) sname))
-        (aif (most-recent-unread (current-user) feed)
+              station (((userinfo*:current-user req) 'stations) sname))
+        (aif (most-recent-unread (current-user req) feed)
           (push feed station!showlist)
           (flash "No more unread items in that feed")))))
   (render-doc-with-context
+    req
     (arg req "station")
-    (next-doc (current-user) (arg req "station"))))
+    (next-doc (current-user req) (arg req "station"))))
 
 (defop doc req
   (let doc (arg req "doc")
     (render-doc-with-context
+      req
       (arg req "station")
       (if (blank doc)
-        (next-doc (current-user) (arg req "station"))
+        (next-doc (current-user req) (arg req "station"))
         doc))))
 
 (def history-panel(req station)
-  (let items (read-list (current-user) station)
+  (let items (read-list (current-user req) station)
     (paginate "history" (+ "/history?station=" urlencode.station)
                      25 ; sync with application.js
                      len.items
@@ -105,7 +101,7 @@
       :do
         (tag (div id "history-elems")
           (each doc (cut items start-index end-index)
-            (render-doc-link station doc))))))
+            (render-doc-link req station doc))))))
 
 (defop history req
   (history-panel req (arg req "station")))
@@ -168,7 +164,7 @@
 
 (defopr reset req
   (= userinfo* (table))
-  (new-user:current-user)
+  (new-user 0)
   "/")
 
 (defop reload req
@@ -176,14 +172,14 @@
 
 
 
-(def render-doc-with-context(station doc)
+(def render-doc-with-context(req station doc)
   (tag (div style "float:right")
     (feedback-form station doc))
   (if doc
     (tag (div id (+ "doc_" doc))
       (buttons station doc)
       (tag (div class "history" style "display:none")
-        (render-doc-link station doc))
+        (render-doc-link req station doc))
       (tag (table class "main")
         (tr
           (tag (td class "post")
@@ -207,10 +203,10 @@
     (tag p
       (pr:contents doc))))
 
-(def render-doc-link(station doc)
+(def render-doc-link(req station doc)
   (tag (div id (+ "history_" doc))
     (tag (div id (+ "outcome_" doc)
-              class (+ "outcome_icon outcome_" (read? (current-user) doc)))
+              class (+ "outcome_icon outcome_" (read? (current-user req) doc)))
       (pr "&#9632;"))
     (tag (p class "title item")
       (tag (a onclick (+ "showDoc('" jsesc.station "', '" jsesc.doc "')") href "#" style "font-weight:bold")

@@ -933,3 +933,6 @@ Bugfixes, cleanup.
 =-=342 - Mon Feb  1 14:37:03 PST 2010
 History panel now takes 25 elems per page, and is more cleanly refactored.
 =-=345 - Mon Feb  1 20:03:35 PST 2010
+
+User accounts, step 1: make current-user take req as an arg.
+=-=346 - Mon Feb  1 20:14:10 PST 2010
