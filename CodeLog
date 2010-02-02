@@ -936,3 +936,8 @@ History panel now takes 25 elems per page, and is more cleanly refactored.
 
 User accounts, step 1: make current-user take req as an arg.
 =-=346 - Mon Feb  1 20:14:10 PST 2010
+User accounts done.
+Non-logged in user is now nil, not 0.
+All non-logged-in users still share history. Next up: generate unique users
+per session.
+=-=347 - Mon Feb  1 20:43:06 PST 2010

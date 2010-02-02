@@ -1,6 +1,6 @@
 (def current-user(req)
-  0)
-(new-user 0)
+  (ret u get-user.req
+    (unless userinfo*.u new-user.u)))
 
 (def current-station-name(user)
   userinfo*.user!current-station)
@@ -23,7 +23,7 @@
       (tag (div id "page")
         (tag (table width "100%")
              (tr
-               (if (and user (current-station-name:current-user req))
+               (if (current-station-name:current-user req)
                  (tag (td id "history-container")
                     (center
                       (pr "Recently viewed"))
@@ -56,7 +56,7 @@
       (news-ticker)
 
       (tag (div style "margin-top:4em; float:right")
-        (w/link (login-page 'both) (pr "login"))))))
+        (w/link (login-page 'both "/") (pr "login"))))))
 
 (defop station req
   (withs (user (current-user req)
@@ -164,7 +164,6 @@
 
 (defopr reset req
   (= userinfo* (table))
-  (new-user 0)
   "/")
 
 (defop reload req
