@@ -56,7 +56,7 @@
       (news-ticker)
 
       (tag (div style "margin-top:4em; float:right")
-        (w/link (login-page 'both "/") (pr "login"))))))
+        (w/link (login-page 'both "Please login to Readwarp" (list null2 "/")) (pr "login"))))))
 
 (defop station req
   (withs (user (current-user req)

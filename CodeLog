@@ -952,3 +952,6 @@ I should now have stamped out all bugs in URL escaping.
 =-=350 - Mon Feb  1 23:12:37 PST 2010
 Load preferred feeds for users.
 =-=351 - Mon Feb  1 23:54:03 PST 2010
+
+Fixed login flow.
+=-=353 - Wed Feb  3 14:53:11 PST 2010

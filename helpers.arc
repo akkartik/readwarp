@@ -1,6 +1,8 @@
 (= threadlife* 45)
 (= ignore-ips* (memtable '("69.162.77.202" "69.162.127.2")))
 
+(def null2(x y))
+
 (mac paginate(id url n max-index . block)
   (let (params body) (kwargs block '(nextcopy "next" prevcopy "prev"))
     `(withs (start-index (int2:arg req "from")
