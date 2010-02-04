@@ -138,7 +138,7 @@
     (let station userinfo*.user!stations.sname
       (= station!name sname)
       (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))
-      (thread (= station!feeds feed-group-for.sname)))))
+      (= station!feeds (feed-group-for user sname)))))
 
 (proc mark-read(user sname doc outcome)
   (let station userinfo*.user!stations.sname
@@ -162,13 +162,13 @@
   (dedup:common:map keyword-feeds:canonicalize
                     (flat:map split-urls words.keyword)))
 
-(def feed-group-for(query)
+(def feed-group-for(user query)
   (let m (max-freq:map feed-group* scan-feeds.query)
     (erp "Group: " m)
     (unless m
       (flash "Hmm, this may suck. I don't know that site, so I'm showing
              random stories. Sorry! (now notifying Kartik)")
-      (write-feedback query "" "random results for query"))
+      (write-feedback user query "" "random results for query"))
     group-feeds*.m))
 
 (def guess-type(entry)

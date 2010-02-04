@@ -49,6 +49,8 @@ function toggleLink(elem) {
 
 
 
+var history_size = 25;
+
 function pushHistory(station, doc, params) {
   var elem = $('outcome_'+doc);
   elem.className = "outcome_icon "+params.replace(/.*outcome=([^&]*).*/, "outcome_$1");
@@ -56,8 +58,8 @@ function pushHistory(station, doc, params) {
   src = $$('#doc_'+doc+' .history');
   new Insertion.Top('history-elems', src[0].innerHTML);
 
-  if($('history-elems').childNodes.length > 25) {
-    for(len = $('history-elems').childNodes.length; len > 10; --len) {
+  if($('history-elems').childNodes.length > history_size) {
+    for(len = $('history-elems').childNodes.length; len > history_size; --len) {
       $('history-elems').removeChild($('history-elems').childNodes[len-1]);
     }
 

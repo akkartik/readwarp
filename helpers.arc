@@ -3,7 +3,7 @@
 
 (def null2(x y))
 
-(mac paginate(id url n max-index . block)
+(mac paginate(req id url n max-index . block)
   (let (params body) (kwargs block '(nextcopy "next" prevcopy "prev"))
     `(withs (start-index (int2:arg req "from")
              end-index (+ start-index ,n))
@@ -11,7 +11,7 @@
         ,@body
         (paginate-nav ,id ,url ,n start-index end-index ,max-index ',params))))
 
-(mac paginate-bottom(id url n max-index . block)
+(mac paginate-bottom(req id url n max-index . block)
   (let (params body) (kwargs block '(nextcopy "next" prevcopy "prev"))
     `(withs (start-index (int2:arg req "from")
              end-index (+ start-index ,n))

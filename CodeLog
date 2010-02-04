@@ -966,3 +966,8 @@ Finally a fix to the "NYT > Travel" issue. Turns out it didn't have anything
 to do with urlencode after all.
 43 folders seems to work without them, but let's include 0-9 anyway.
 =-=362 - Wed Feb  3 21:25:22 PST 2010
+
+Refactor. Tests now pass.
+Reorg. req isn't implicitly passed, and I minimize passing it around.
+Bugfixes: history_size, write-feedback.
+=-=365 - Wed Feb  3 22:55:50 PST 2010
