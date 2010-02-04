@@ -31,8 +31,8 @@
   `(tag html
     (header)
     (tag body
-      (nav req)
       (tag (div id "page")
+        (nav req)
         (tag (table width "100%")
              (tr
                (if (current-station-name:current-user req)
@@ -65,7 +65,7 @@
         (tag (form action "/station" style "width:50%;margin:auto;padding:auto")
              (pr "Tell us your favorite site or blogger") (br)
              (tag:input id "newstationform" name "seed" size "30") (br)
-             (tag:input type "submit" value "Start reading"))
+             (tag:input type "submit" value "Start reading" style "margin-top:5px"))
 
         (news-ticker)))))
 
