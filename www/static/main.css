@@ -6,7 +6,7 @@ body{ margin:0 auto; font-size:62.5%; font-family:sans-serif; }
 
 #content{ padding:1em; font-size:1.4em; }
 
-  #nav{ }
+  #buttons{ }
 
     .button{ float:left; padding:0.5em; width:9em; height:2.5em; text-align:center; margin-left:1em; }
     .skip{ background:#cc4444; }    .fskip,.outcome_1{ color:#cc4444; }

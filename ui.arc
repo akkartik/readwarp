@@ -212,7 +212,7 @@
         (pr doc-title.doc)))))
 
 (def buttons(station doc)
-  (tag (div class "nav")
+  (tag (div class "buttons")
     (tag (div style "float:left;margin-top:1em") (pr "Vote: "))
     (button station doc 1 "skip" "not interesting")
     (button station doc 2 "next" "more like this")
