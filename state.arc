@@ -71,11 +71,25 @@
          (sleep ,interval)))
      (init ,(symize stringify.fnname "-thread*") (new-thread ,stringify.fnname ,fnname))))
 
-(= disable-autosave* nil)
+(= really-quit quit)
+
+(init disable-autosave* t)
+(init prn-autosave* nil)
+(init quit-after-autosave* nil)
 (defrep save-state 300
   (unless disable-autosave*
+    (if prn-autosave* (prn "Saving"))
     (each var autosaved-vars*
-      (eval `(save-snapshot ,var)))))
+      (if prn-autosave* (prn " " var))
+      (eval `(save-snapshot ,var)))
+    (if quit-after-autosave* (really-quit))))
+
+(def quit()
+  (prn "Killing scans")
+  (each thd scan-registry*
+    (kill-thread thd))
+  (prn "Waiting for autosave to complete")
+  (set prn-autosave* quit-after-autosave*))
 
 
 
@@ -103,9 +117,11 @@
 ;; Create a thread to pick items up from a fifo and process them.
 ;; Optionally insert into nextfifo after processing.
 ;; Create variables to hold the thread and a circular log buffer
+(init scan-registry* nil)
 (mac defscan(fnname fifo . block)
   (with ((nextfifo body) (extract-car block 'string)
-         log-var (symize stringify.fnname "-log*"))
+         log-var (symize stringify.fnname "-log*")
+         thread-var (symize stringify.fnname "-thread*"))
     `(do
        (init ,log-var ())
        (proc ,fnname()
@@ -114,7 +130,8 @@
             (rotlog ,log-var doc)
             ,@body
             ,(aif nextfifo `(w/outfile f ,(+ "fifos/" it) (disp doc f)))))
-       (init ,(symize stringify.fnname "-thread*") (new-thread ,stringify.fnname ,fnname)))))
+       (init ,thread-var (new-thread ,stringify.fnname ,fnname))
+       (pushnew ,thread-var scan-registry*))))
 
 
 

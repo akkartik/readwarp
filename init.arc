@@ -9,6 +9,7 @@
   (include "ui.arc")
 )
 (init-code)
+(wipe disable-autosave*) ; after persistent data is loaded
 
 (def my-port()
   (on-err (fn(ex) 8080)
