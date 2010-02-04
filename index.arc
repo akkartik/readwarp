@@ -109,8 +109,10 @@
 
 (def scan-doc-dir()
   (everyp file (dir "urls") 1000
-    (aif (posmatch ".clean" file)
-      (doc-feed (subst "" ".clean" file)))))
+    (if (posmatch ".clean" file)
+      (let doc (subst "" ".clean" file)
+        (unless docinfo*.doc prn.doc)
+        doc-feed.doc))))
 
 
 
