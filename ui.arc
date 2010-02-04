@@ -9,7 +9,7 @@
   (userinfo*.user!stations current-station-name.user))
 
 (def next-doc(user sname)
-  (w/stdout (stderr) (pr sname " => "))
+  (w/stdout (stderr) (pr user " " sname " => "))
   (erp:pick user (if sname
                    userinfo*.user!stations.sname
                    current-station.user)))
