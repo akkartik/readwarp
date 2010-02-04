@@ -30,43 +30,25 @@
 
 
 ;;; Transparent persistence
-(= save-registry* ())
-
-; when data changed, run appropriate hook from save-registry*
-(after-exec sref(com val ind)
-  (awhen (alref save-registry* com)
-    (buffered-exec it)))
-
-; hook from save-registry lines up save function
 (init autosaved-vars* ())
 (mac setup-autosave(var value)
-  `(let ref (load-snapshot ,var ,value)
-     (pushnew ',var autosaved-vars*)
-     (if (~alref save-registry* ref)
-       (push (list ref (fn() (save-snapshot ,var)))
-             save-registry*))))
-
-(def shadow-autosaved()
-  (each var autosaved-vars*
-    (eval `(shadow ,var nil))))
-
-(def unshadow-autosaved()
-  (each var autosaved-vars*
-    (eval `(unshadow ,var))))
-
-(mac without-updating-state body
-  `(after*
-     (shadow-autosaved)
-     ,@body
-    :do
-     (unshadow-autosaved)))
-
-
+  `(do
+     (load-snapshot ,var ,value)
+     (pushnew ',var autosaved-vars*)))
 
 (mac persisted(var value . body)
   `(do
      (setup-autosave ,var ,value)
      ,@body))
+
+(mac without-updating-state body
+  `(after*
+     (set disable-autosave*)
+     ,@body
+    :do
+     (wipe disable-autosave*)))
+
+
 
 (mac defreg(fnname args registry . body)
   `(do
@@ -88,6 +70,12 @@
          (set ,(symize stringify.fnname "-init*"))
          (sleep ,interval)))
      (init ,(symize stringify.fnname "-thread*") (new-thread ,stringify.fnname ,fnname))))
+
+(= disable-autosave* nil)
+(defrep save-state 300
+  (unless disable-autosave*
+    (each var autosaved-vars*
+      (eval `(save-snapshot ,var)))))
 
 
 

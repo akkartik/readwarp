@@ -971,3 +971,6 @@ Refactor. Tests now pass.
 Reorg. req isn't implicitly passed, and I minimize passing it around.
 Bugfixes: history_size, write-feedback.
 =-=365 - Wed Feb  3 22:55:50 PST 2010
+
+Simpler autosave. Just save state every 5 mins. Now we can have nested tables.
+=-=366 - Wed Feb  3 23:20:58 PST 2010

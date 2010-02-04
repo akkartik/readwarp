@@ -18,14 +18,6 @@
       (test-ok "load-snapshot bails on corrupted snapshot file"
                quit-called))))
 
-(test-smatch "setup-autosave works"
-  '(let ref (load-snapshot a (table))
-    (pushnew 'a autosaved-vars*)
-    (if (~alref save-registry* ref)
-      (push (list ref (fn nil (save-snapshot a))) save-registry*)))
-
-  (macex1 '(setup-autosave a (table))))
-
 
 
 (let f 2
@@ -202,24 +194,5 @@
 (test-iso "update or=fn sets if unset"
   (obj #\a 3)
   b-as*)
-
-
-
-(shadowing buffered-exec-delay* 0
-  (persisted a* (table))
-  (= (a* 3) 4)
-  (shadow-autosaved)
-  (= a* (table))
-  (= (a* 5) 6)
-  (unshadow-autosaved)
-  (= (a* 5) 6)
-
-  (prn "   waiting for autosave before next test")
-  (until (empty buffered-execs*)
-    (sleep 1))
-  (let dummy (table)
-    (test-iso "shadowing and unshadowing doesn't interfere with persistence of the original variable"
-      (obj 3 4 5 6)
-      (fread (most-recent-snapshot-name a*) dummy))))
 
 ))
