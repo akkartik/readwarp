@@ -107,6 +107,11 @@
 (defscan index-doc "clean"
   (doc-feed doc))
 
+(def scan-doc-dir()
+  (everyp file (dir "urls") 1000
+    (aif (posmatch ".clean" file)
+      (doc-feed (subst "" ".clean" file)))))
+
 
 
 (prn "Rest of index.arc")

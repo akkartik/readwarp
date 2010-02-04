@@ -4,6 +4,6 @@ export PATH=.:/app/local/0bin:/app/local/share/scripts:/app/local/share/scripts/
 
 cd ~/readwarp/www/logs
 {
-  grep station * |perl -pwe 's/.*seed |\).*//g' |sort |freq |grep -vf OldQueries
-  grep station * |perl -pwe 's/.*seed |\).*//g' |sort |uniq > OldQueries
+  grep "get station\s*.seed " srv* |perl -pwe 's/.*seed +| *\).*//g' |sort |freq |grep -vf OldQueries
+  grep "get station\s*.seed " srv* |perl -pwe 's/.*seed +| *\).*//g' |sort |uniq |grep -v "^\s*$" > OldQueries
 } |sendmail akkartik@gmail.com
