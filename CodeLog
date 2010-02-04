@@ -986,3 +986,12 @@ data.
 I'm persistently losing data from feed-docs. Is that snapshot not getting
 saved?
 =-=370 - Thu Feb  4 00:03:59 PST 2010
+It seems saving docinfo was just never working, lately. So even saving the
+75MB docinfo takes 4 minutes.
+It's just too inefficient to save the entire table because of one change.
+Time to get ourselves a database?
+
+docinfo is a special kind of table. You could write it as multiple segments,
+load them all up on startup, and write just one segment every now and then.
+Even GC is easy - just don't load some segments.
+=-=371 - Thu Feb  4 11:15:07 PST 2010

@@ -7,7 +7,7 @@
               [and (iso ,(stringify var) (car:split-by _ "."))
                    (~posmatch ".tmp" _)]
              (dir snapshots-dir*)))
-      (+ snapshots-dir* "/" it)))
+      (erp:+ snapshots-dir* "/" it)))
 
 (mac load-snapshot(var initval)
   `(aif (most-recent-snapshot-name ,var)
@@ -74,14 +74,15 @@
 (= really-quit quit)
 
 (init disable-autosave* t)
-(init prn-autosave* nil)
+(init prn-autosave* t)
 (init quit-after-autosave* nil)
 (defrep save-state 300
   (unless disable-autosave*
     (if prn-autosave* (prn "Saving"))
     (each var autosaved-vars*
       (if prn-autosave* (prn " " var))
-      (eval `(save-snapshot ,var)))
+      (time:eval `(save-snapshot ,var))
+      (sleep 10))
     (if quit-after-autosave* (really-quit))))
 
 (def quit()
