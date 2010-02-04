@@ -2,8 +2,8 @@
 
 export PATH=.:/app/local/0bin:/app/local/share/scripts:/app/local/share/scripts/Startup:$PATH:/usr/sbin
 
-cd ~/readwarp/www/logs
-{
-  grep "get station\s*.seed " srv* |perl -pwe 's/.*seed +| *\).*//g' |sort |freq |grep -vf OldQueries
-  grep "get station\s*.seed " srv* |perl -pwe 's/.*seed +| *\).*//g' |sort |uniq |grep -v "^\s*$" > OldQueries
-} |sendmail akkartik@gmail.com
+for i in feedback/*
+do
+  echo "== $i"
+  cat $i
+done |sendmail akkartik@gmail.com

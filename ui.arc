@@ -135,8 +135,9 @@
     (tag:input type "hidden" name "doc" value doc)
     (tag:input type "submit" value "send")))
 
-(def write-feedback(station doc msg)
+(def write-feedback(user station doc msg)
   (w/prfile (+ "feedback/" (seconds))
+    (prn "User: " user)
     (prn "Station: " station)
     (prn "Doc: " doc)
     (prn)
@@ -144,7 +145,8 @@
     (prn msg)))
 
 (defopr feedback req
-  (write-feedback (arg req "station")
+  (write-feedback (get-user req)
+                  (arg req "station")
                   (arg req "doc")
                   (arg req "msg"))
   (arg req "location"))
@@ -201,7 +203,7 @@
       (buttons station doc))
     (do
       (prn "Oops, there was an error. I've told Kartik. Please feel free to use the feedback form &rarr;")
-      (write-feedback station "" "No result found"))))
+      (write-feedback get-user.req station "" "No result found"))))
 
 (def render-doc(station doc)
   (tag (div id (+ "contents_" doc))
