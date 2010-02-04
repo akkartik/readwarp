@@ -123,10 +123,11 @@
 
 
 (let server-thread* (ifcall server-thread)
-  (def start-server((o port 8080))
+  (proc start-server((o port 8080))
     (stop-server)
-    (= server-thread* (new-thread "server" (fn() (asv port)))))
-  (def stop-server()
+    (= server-thread* (new-thread "server" (fn() (asv port))))
+    (push server-thread* scan-registry*))
+  (proc stop-server()
     (if server-thread* (kill-thread server-thread*)))
   (def server-thread()
     server-thread*))

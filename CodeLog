@@ -979,3 +979,6 @@ Userinfo now persistent.
 Eliminate the odds of losing docinfo data when quitting. Now we only lose data
 when we segfault, and we can lose some userinfo data right at the end.
 =-=368 - Wed Feb  3 23:49:52 PST 2010
+Ok, now we can't lose userinfo either. Short of dying we shouldn't ever lose
+data.
+=-=369 - Wed Feb  3 23:52:46 PST 2010
