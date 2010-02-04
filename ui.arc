@@ -172,7 +172,7 @@
   (pr " &nbsp; &middot; &nbsp; ")
   (each title (map [(feedinfo* symize._) 'title] (random-feeds))
     (tag (a class "tickeritem" href (+ "/station?seed=" urlencode.title))
-      (pr title))
+      (pr:ellipsize title 30))
     (pr " &nbsp; &middot; &nbsp; ")))
 (defop tickupdate req
   (render-random-feeds))
