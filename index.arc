@@ -220,8 +220,11 @@
     (while (and candidates
                 (< (len station!showlist) 5))
       (let feed randpos.candidates
+        (erp "group: " feed)
         (pushnew feed station!showlist)
-        (pull feed candidates)))))
+        (pull feed candidates)))
+    (if (< (len station!showlist) 5)
+      (erp "RAN OUT OF GROUP"))))
 
 (proc fill-random(user station)
   (if (< (len station!showlist) 5)
