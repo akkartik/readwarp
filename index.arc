@@ -114,8 +114,7 @@
 
 
 
-(prn "Rest of index.arc")
-(init userinfo* (table))
+(persisted userinfo* (table))
 
 (def new-user(user)
   (erp "new user: " user)
