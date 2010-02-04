@@ -1,12 +1,12 @@
 @import url("http://yui.yahooapis.com/2.6.0/build/reset-fonts-grids/reset-fonts-grids.css");
 body{ margin:0 auto; font-size:62.5%; font-family:sans-serif; }
-#page{ font-size:1.4em; margin:auto; padding:auto; width:780px; }
+#page{ font-size:1.4em; margin:auto; padding:auto; }
 
 #history-container{ width:20%; padding-top:1.5em; padding-left:1em; padding-right:1em; border-right:1px solid #fff200; }
 
 #content{ padding:1em; font-size:1.4em; }
 
-  .nav{}
+  .nav{ margin-top:10px; margin-right:5em; }
 
   .buttons{ }
 

@@ -56,7 +56,7 @@
   (tag body
     (tag (div id "page")
       (nav req)
-      (tag (div class "logo" style "margin-top:5em")
+      (tag (div class "logo")
         (logo fskip "RE")(logo fnext "AD")(logo flike "WA")(logo flove "RP"))
       (tag (div class "subtitle")
         (pr "Discover what you've been missing"))
