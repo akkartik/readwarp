@@ -410,6 +410,12 @@
 (def split-urls(s)
   (tokens s [pos _ ":/."]))
 
+(def has-alpha?(s)
+  (not (is #f (m (r "[0-9A-Za-z]") s))))
+
+(def words(s)
+  (keep has-alpha? tokens.s))
+
 (mac sub-core(f)
   (w/uniq (str rest)
      `(fn(,str . ,rest)

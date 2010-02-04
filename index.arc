@@ -160,7 +160,7 @@
 
 (def scan-feeds(keyword)
   (dedup:common:map keyword-feeds:canonicalize
-                    (flat:map split-urls tokens.keyword)))
+                    (flat:map split-urls words.keyword)))
 
 (def feed-group-for(query)
   (let m (max-freq:map feed-group* scan-feeds.query)
