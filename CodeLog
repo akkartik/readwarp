@@ -955,3 +955,6 @@ Load preferred feeds for users.
 
 Fixed login flow.
 =-=353 - Wed Feb  3 14:53:11 PST 2010
+New nav bar. Functionally good on /, but renders poorly on firefox. Too much
+margin above nav.
+=-=355 - Wed Feb  3 16:43:25 PST 2010

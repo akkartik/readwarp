@@ -1,12 +1,14 @@
 @import url("http://yui.yahooapis.com/2.6.0/build/reset-fonts-grids/reset-fonts-grids.css");
 body{ margin:0 auto; font-size:62.5%; font-family:sans-serif; }
-#page{ font-size:1.4em; }
+#page{ font-size:1.4em; margin:auto; padding:auto; width:780px; }
 
 #history-container{ width:20%; padding-top:1.5em; padding-left:1em; padding-right:1em; border-right:1px solid #fff200; }
 
 #content{ padding:1em; font-size:1.4em; }
 
-  #buttons{ }
+  .nav{}
+
+  .buttons{ }
 
     .button{ float:left; padding:0.5em; width:9em; height:2.5em; text-align:center; margin-left:1em; }
     .skip{ background:#cc4444; }    .fskip,.outcome_1{ color:#cc4444; }
@@ -52,3 +54,5 @@ h2.title a{ color:#44c; font-weight:bold; }
 .ticker { overflow:hidden; margin:auto; padding:auto;
   border-top:1px solid #fff200; border-bottom:1px solid #fff200; }
 a.tickeritem:hover { color:#43aa43; }
+
+.clear { clear:both; }

@@ -16,10 +16,22 @@
 
 
 
+(proc nav(req)
+  (tag (div class "nav")
+    (tag (div style "float:right")
+      (iflet user get-user.req
+        (do
+          (pr user "&nbsp;|&nbsp;")
+          (link "logout" "/logout"))
+        (w/link (login-page 'both "Please login to Readwarp" (list null2 "/"))
+                (pr "login"))))
+    (tag (div class "clear"))))
+
 (mac layout-basic body
   `(tag html
     (header)
     (tag body
+      (nav req)
       (tag (div id "page")
         (tag (table width "100%")
              (tr
@@ -38,25 +50,24 @@
   `(tag (div class (+ "logo-button " ,stringify.cls))
       (pr ,msg)))
 
-(= frontpage-width* "width:720px;")
+(= frontpage-width* "width:720px;") ; sync with main.css
 (defop || req
   (header)
   (tag body
-    (tag (div class "logo" style "margin-top:5em")
-      (logo fskip "RE")(logo fnext "AD")(logo flike "WA")(logo flove "RP"))
-    (tag (div class "subtitle")
-      (pr "Discover what you've been missing"))
+    (tag (div id "page")
+      (nav req)
+      (tag (div class "logo" style "margin-top:5em")
+        (logo fskip "RE")(logo fnext "AD")(logo flike "WA")(logo flove "RP"))
+      (tag (div class "subtitle")
+        (pr "Discover what you've been missing"))
 
-    (tag (div class "frontpage" style frontpage-width*)
-      (tag (form action "/station" style "width:50%;margin:auto;padding:auto")
-           (pr "Tell us your favorite site or blogger") (br)
-           (tag:input id "newstationform" name "seed" size "30") (br)
-           (tag:input type "submit" value "Start reading"))
+      (tag (div class "frontpage" style frontpage-width*)
+        (tag (form action "/station" style "width:50%;margin:auto;padding:auto")
+             (pr "Tell us your favorite site or blogger") (br)
+             (tag:input id "newstationform" name "seed" size "30") (br)
+             (tag:input type "submit" value "Start reading"))
 
-      (news-ticker)
-
-      (tag (div style "margin-top:4em; float:right")
-        (w/link (login-page 'both "Please login to Readwarp" (list null2 "/")) (pr "login"))))))
+        (news-ticker)))))
 
 (defop station req
   (withs (user (current-user req)
@@ -105,6 +116,10 @@
 
 (defop history req
   (history-panel req (arg req "station")))
+
+(defopr logout req
+  (logout-user get-user.req)
+  "/")
 
 
 
