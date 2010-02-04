@@ -958,3 +958,6 @@ Fixed login flow.
 New nav bar. Functionally good on /, but renders poorly on firefox. Too much
 margin above nav.
 =-=355 - Wed Feb  3 16:43:25 PST 2010
+
+Start sending bad queries into feedback.
+=-=361 - Wed Feb  3 19:18:43 PST 2010
