@@ -89,23 +89,37 @@
 
 (def find-sl(sl v)
   (with (n    sl
-         l    (- skiplist-max-level* 1)
          nv   slnode.v)
-    (while (>= l 0)
-      (= n (scan-handling-ties sl n nv l))
-      (-- l))
+    (letloop l skiplist-max-level* (>= l 0) (-- l)
+      (= n (scan-handling-ties sl n nv l)))
     (if (iso v n!next.0!val)
       n!next.0)))
 
 (proc delete-sl(sl v)
   (with (n    sl
-         l    (- skiplist-max-level* 1)
          nv   slnode.v)
-    (while (>= l 0)
+    (letloop l skiplist-max-level* (>= l 0) (-- l)
       (= n (scan-handling-ties sl n nv l))
       (if (iso v n!next.l!val)
-        (= n!next.l n!next.l!next.l))
-      (-- l))))
+        (= n!next.l n!next.l!next.l)))))
+
+(proc delete-worst-sl(sl)
+  (let n sl
+    (letloop l skiplist-max-level* (>= l 0) (-- l)
+      (unless (is n!next.l skiplist-max-node*)
+        (while (~is n!next.l!next.l skiplist-max-node*)
+          (= n n!next.l))))
+    (unless (is n!next.0 skiplist-max-node*)
+      (delete-sl sl n!next.0!val))))
+
+(proc clamp-sl(sl n)
+  (repeat (- slen.sl n)
+    (delete-worst-sl sl)))
+
+(def sl-list(sl)
+  (accum acc
+    (letloop l sl (is skiplist-max-node* l) (= l l!next.0)
+      (acc l!val))))
 
 
 
