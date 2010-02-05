@@ -228,15 +228,6 @@
       (prn "writing to disk")
       (fwritefile "x" ,var))))
 
-;? (mac chunk-bounded-snapshot(filename var n)
-;?   (w/uniq x
-;?     `(let ,var (slist alist-timestamp)
-;?       (explode-persisted-list ,x ,filename
-;?         (insert-sl ,var ,x))
-;?       (clamp-sl ,var ,n)
-;?       (zap sl-list ,var)
-;?       (fwritefile "x" ,var))))
-
 
 
 ;; memoization with programmable clear
