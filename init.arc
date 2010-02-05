@@ -1,6 +1,7 @@
 (include "keywords.arc")
 (def init-code()
   (include "utils.arc")
+  (include "skiplist.arc")
   (include "helpers.arc")
 
   (include "state.arc")

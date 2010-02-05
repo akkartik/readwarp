@@ -995,3 +995,6 @@ docinfo is a special kind of table. You could write it as multiple segments,
 load them all up on startup, and write just one segment every now and then.
 Even GC is easy - just don't load some segments.
 =-=371 - Thu Feb  4 11:15:07 PST 2010
+Tables persisted in multiple chunks, with helpers to convert existing snapshot
+files into chunked format.
+=-=374 - Fri Feb  5 14:33:39 PST 2010

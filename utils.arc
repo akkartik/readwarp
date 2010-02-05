@@ -6,6 +6,16 @@
         ,(with ,(mappend list names gensyms)
           ,@body)))))
 
+(mac extend (name arglist test . body)
+  (w/uniq args
+    `(let orig ,name
+       (= ,name
+          (fn ,args
+            (if (apply (fn ,arglist ,test) ,args)
+              (apply (fn ,arglist ,@body) ,args)
+              (apply orig ,args)))))))
+
+
 (mac init args
   `(unless (bound ',(car args))
      (= ,@args)))

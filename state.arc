@@ -136,6 +136,109 @@
 
 
 
+(def chunk-files(var)
+  (tokens:tostring:system (+ "ls -t snapshots/" stringify.var "-chunk*")))
+
+(mac load-chunks(var)
+  (let ans (uniq)
+  `(do
+     (prn "loading " ',var)
+     (= ,var
+        (w/table ,ans
+          (each file (firstn 5 (chunk-files ',var))
+            (prn "  " file)
+            (w/infile f file
+              (each (k v) (read f)
+                (= (,ans k) v)))))))))
+
+(mac save-to-chunk(var val ind)
+  `(do
+    (prn "adding to chunk " ',var)
+    (push (list ,ind ,val) ,(globalize stringify.var "-chunk"))
+    (test-save ,(globalize stringify.var "-chunk"))))
+
+(init chunk-counter* 0)
+(init chunk-size* 10000)
+(mac test-save(var)
+  `(when (>= (len ,var) chunk-size*)
+     (prn "saving to disk")
+     (atomic
+       (zap rev ,var)
+       (save-chunked-snapshot ,var chunk-counter*)
+       (++ chunk-counter*)
+       (wipe ,var))))
+
+(mac save-chunked-snapshot(var i)
+  `(fwritefile (+ (new-snapshot-name ,var) "." ,i) ,var))
+
+(init chunked-persisted-vars* nil)
+(mac chunked-persisted(var)
+  `(do
+     (init ,(globalize stringify.var "-chunk") nil)
+     (let ref (load-chunks ,var)
+       (push (list ref ',var) chunked-persisted-vars*))))
+
+(extend sref(com val ind) (alref chunked-persisted-vars* com)
+  (eval `(save-to-chunk ,(alref chunked-persisted-vars* com) ,val ,ind))
+  (orig com val ind))
+
+(mac explode-persisted-list(var filename . body)
+  (w/uniq f
+    `(w/infile ,f ,filename
+      (while (aand (readc ,f)
+                   (~is it #\()))
+      (on-err (fn(ex)
+                (let msg details.ex
+                  (unless (posmatch "read: unexpected `)'" msg)
+                    (prn msg))))
+        (fn()
+          (let i 0
+            (whilet ,var (read ,f)
+              (++ i)
+              (if (is 0 (remainder i chunk-size*))
+                (prn i))
+              ,@body)))))))
+
+(mac chunk-snapshot(filename var)
+  (w/uniq x
+    `(let ,var nil
+      (explode-persisted-list ,x ,filename
+        (push ,x ,var)
+        (test-save ,var)))))
+
+(def skiplistify(n)
+  (/ n 10))
+
+(def alist-timestamp(x)
+  (let n x.1
+    (skiplistify:or
+      (alref n 'date)
+      (alref n 'feeddate)
+      0)))
+
+(mac chunk-bounded-snapshot(filename var n)
+  (w/uniq x
+    `(let ,var nil
+      (explode-persisted-list ,x ,filename
+        (push ,x ,var))
+      (prn "sorting")
+      (sort-by alist-timestamp ,var)
+      (prn "clamping")
+      (= ,var (firstn ,n ,var))
+      (prn "writing to disk")
+      (fwritefile "x" ,var))))
+
+;? (mac chunk-bounded-snapshot(filename var n)
+;?   (w/uniq x
+;?     `(let ,var (slist alist-timestamp)
+;?       (explode-persisted-list ,x ,filename
+;?         (insert-sl ,var ,x))
+;?       (clamp-sl ,var ,n)
+;?       (zap sl-list ,var)
+;?       (fwritefile "x" ,var))))
+
+
+
 ;; memoization with programmable clear
 (init cmemo-cache* (table))
 
