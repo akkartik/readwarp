@@ -998,3 +998,5 @@ Even GC is easy - just don't load some segments.
 Tables persisted in multiple chunks, with helpers to convert existing snapshot
 files into chunked format.
 =-=374 - Fri Feb  5 14:33:39 PST 2010
+Done migrating docinfo to new chunked format.
+=-=376 - Sat Feb  6 15:54:24 PST 2010

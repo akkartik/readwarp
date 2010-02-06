@@ -148,7 +148,7 @@
           (each file (firstn 5 (chunk-files ',var))
             (prn "  " file)
             (w/infile f file
-              (each (k v) (read f)
+              (each (k v) (read-nested-table f)
                 (= (,ans k) v)))))))))
 
 (mac save-to-chunk(var val ind)
@@ -179,7 +179,7 @@
        (push (list ref ',var) chunked-persisted-vars*))))
 
 (extend sref(com val ind) (alref chunked-persisted-vars* com)
-  (eval `(save-to-chunk ,(alref chunked-persisted-vars* com) ,val ,ind))
+  (eval `(save-to-chunk ,(alref chunked-persisted-vars* com) ',(tablist2 val) ,ind))
   (orig com val ind))
 
 (mac explode-persisted-list(var filename . body)
