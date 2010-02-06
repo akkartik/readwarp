@@ -115,9 +115,6 @@ def crawlUrl(rurl, metadata):
 
 def crawl(feed):
   f = feedparser.parse(feed)
-  with open('urls/'+urlToFilename(feed)+'.feed', 'w') as output:
-    json.dump([[g.link, title(g)] for g in f.entries], output, default=to_json)
-  return
   if len(f.entries) == 0 and f.has_key('bozo_exception'):
     print 'bozo'
     return

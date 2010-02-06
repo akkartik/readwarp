@@ -104,52 +104,6 @@
 (def metadata(doc)
   (read-json-table (+ "urls/" doc ".metadata")))
 
-(disabled
-(init docs* nil)
-(init week-ago (time-ago:* 60 60 24 7))
-(def timestamp(tb)
-  (or tb!date tb!feeddate 0))
-
-(disabled ;; pass 1
-(prn "loading feeds")
-(= curr-titles (table))
-(everyp file (tokens:tostring:system "ls -t urls/*.feed") 100
-  (each title (map cadr (errsafe:w/infile f file (json-read f)))
-    (prn title)
-    (set curr-titles.title)))
-
-(def scan-doc-dir()
-  (everyp file (dir "urls") 1000
-    (if (posmatch ".clean" file)
-      (let doc (subst "" ".clean" file)
-        (let tb metadata.doc
-          (prn tb!title)
-          (when (or (> timestamp.tb week-ago)
-                  (curr-titles tb!title))
-            (prn "found")
-            (push doc docs*)))))))
-
-(prn "scanning urls")
-(scan-doc-dir)
-(fwrite "docsdocs" docs*)
-)
-
-(disabled ;; pass 2
-(fread "docsdocs" docs*)
-(prn "read " len.docs* " docs")
-(chunked-persisted docinfo*)
-(prn "sorting")
-(= docs* (time:sort-by [timestamp:metadata _] docs*))
-(fwrite "docsdocs.sorted" docs*)
-)
-
-;; pass 3
-(fread "docsdocs.sorted" docs*)
-(chunked-persisted docinfo*)
-(everyp doc docs* 1000
-  (= docinfo*.doc metadata.doc))
-)
-
 (defscan index-doc "clean"
   (doc-feed doc))
 
