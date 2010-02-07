@@ -1006,3 +1006,8 @@ Ah, wasn't actually using the preferred feeds in stations.
 =-=379 - Sat Feb  6 16:14:31 PST 2010
 Make chunked-persisted vars robust to file reloads.
 =-=380 - Sat Feb  6 16:18:18 PST 2010
+
+FUCK, I had my data at /app/readwarp after deleting the amazon backup volume,
+and forgot that I was rsyncing to that directory.
+We're starting with a fresh fucking index.
+=-=381 - Sat Feb  6 22:40:49 PST 2010
