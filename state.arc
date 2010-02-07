@@ -153,7 +153,6 @@
 
 (mac save-to-chunk(var val ind)
   `(do
-    (prn "adding to chunk " ',var)
     (push (list ,ind ,val) ,(globalize stringify.var "-chunk"))
     (test-save ,(globalize stringify.var "-chunk"))))
 
