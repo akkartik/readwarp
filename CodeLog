@@ -1011,3 +1011,6 @@ FUCK, I had my data at /app/readwarp after deleting the amazon backup volume,
 and forgot that I was rsyncing to that directory.
 We're starting with a fresh fucking index.
 =-=381 - Sat Feb  6 22:40:49 PST 2010
+
+Bugfix: don't just throw all my preferred feeds on there.
+=-=384 - Sun Feb  7 11:59:52 PST 2010

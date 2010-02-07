@@ -139,8 +139,9 @@
     (let station userinfo*.user!stations.sname
       (= station!name sname)
       (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))
-      (= station!preferred-feeds userinfo*.user!preferred-feeds)
-      (= station!feeds (feed-group-for user sname)))))
+      (= station!feeds (feed-group-for user sname))
+      (= station!preferred-feeds (memtable:keep [userinfo*.user!preferred-feeds _]
+                                                station!feeds)))))
 
 (proc mark-read(user sname doc outcome)
   (let station userinfo*.user!stations.sname

@@ -7,7 +7,7 @@
               [and (iso ,(stringify var) (car:split-by _ "."))
                    (~posmatch ".tmp" _)]
              (dir snapshots-dir*)))
-      (erp:+ snapshots-dir* "/" it)))
+      (+ snapshots-dir* "/" it)))
 
 (mac load-snapshot(var initval)
   `(aif (most-recent-snapshot-name ,var)
