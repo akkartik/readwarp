@@ -213,9 +213,9 @@
     (prn "User: " user)
     (prn "Station: " station)
     (prn "Doc: " doc)
-    (prn)
     (prn "Feedback:")
-    (prn msg)))
+    (prn msg)
+    (prn)))
 
 (defopr feedback req
   (write-feedback (current-user req)
