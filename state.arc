@@ -141,15 +141,14 @@
 
 (mac load-chunks(var)
   (let ans (uniq)
-  `(do
-     (prn "loading " ',var)
-     (= ,var
-        (w/table ,ans
-          (each file (firstn 5 (chunk-files ',var))
-            (prn "  " file)
-            (w/infile f file
-              (each (k v) (read-nested-table f)
-                (= (,ans k) v)))))))))
+  `(init ,var
+          (w/table ,ans
+            (prn "loading " ',var)
+            (each file (firstn 5 (chunk-files ',var))
+              (prn "  " file)
+              (w/infile f file
+                (each (k v) (read-nested-table f)
+                  (= (,ans k) v))))))))
 
 (mac save-to-chunk(var val ind)
   `(do

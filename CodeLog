@@ -1004,3 +1004,5 @@ Cleanup.
 =-=377 - Sat Feb  6 15:56:18 PST 2010
 Ah, wasn't actually using the preferred feeds in stations.
 =-=379 - Sat Feb  6 16:14:31 PST 2010
+Make chunked-persisted vars robust to file reloads.
+=-=380 - Sat Feb  6 16:18:18 PST 2010
