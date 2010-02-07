@@ -74,14 +74,14 @@
 (= really-quit quit)
 
 (init disable-autosave* t)
-(init prn-autosave* t)
+(init prn-autosave* nil)
 (init quit-after-autosave* nil)
 (defrep save-state 300
   (unless disable-autosave*
     (if prn-autosave* (prn "Saving"))
     (each var autosaved-vars*
       (if prn-autosave* (prn " " var))
-      (time:eval `(save-snapshot ,var))
+      (eval `(save-snapshot ,var))
       (sleep 10))
     (if quit-after-autosave* (really-quit))))
 
