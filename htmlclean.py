@@ -140,6 +140,8 @@ def cleanAll():
         output.write(cleanup(f).encode('utf-8'))
       with open('fifos/clean', 'w') as fifo:
         fifo.write(line)
+      with open('docs', 'a+') as fifo:
+        fifo.write(line)
     except: traceback.print_exc(file=sys.stdout)
 
 def txtlen(html):
