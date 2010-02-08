@@ -1017,3 +1017,7 @@ Bugfix: don't just throw all my preferred feeds on there.
 
 Save cleaned docs so you can go over them after a segfault.
 =-=385 - Sun Feb  7 14:02:25 PST 2010
+
+First bug from testing logged-in flow but not logged-out.
+I'm gonna start needing controller tests.
+=-=386 - Mon Feb  8 09:56:04 PST 2010

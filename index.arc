@@ -120,7 +120,7 @@
 
 (def new-user(user)
   (erp "new user: " user)
-  (inittab userinfo*.user 'preferred-feeds load-feeds.user
+  (inittab userinfo*.user 'preferred-feeds (or load-feeds.user (table))
            'read (table) 'stations (table)))
 
 (def read-list(user station)
