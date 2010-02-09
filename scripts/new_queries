@@ -2,6 +2,7 @@
 
 export PATH=.:/app/local/0bin:/app/local/share/scripts:/app/local/share/scripts/Startup:$PATH:/usr/sbin
 
+cd ~/readwarp
 for i in feedback/*
 do
   echo "== $i"
