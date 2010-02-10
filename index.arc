@@ -119,12 +119,13 @@
 (persisted userinfo* (table))
 
 (def new-user(user)
-  (erp "new user: " user)
+  (unless userinfo*.user
+    (erp "new user: " user))
   (inittab userinfo*.user 'preferred-feeds (or load-feeds.user (table))
            'read (table) 'stations (table)))
 
 (def read-list(user station)
-  (prn "read-list!!!")
+  (erp "read-list!!!")
   (ret ans nil
     (on-err
       (fn(ex) (erp user " " station " " details.ex))
@@ -137,6 +138,7 @@
   (keys userinfo*.user!stations))
 
 (proc new-station(user sname)
+  (new-user user)
   (erp "new-station: " sname)
   (when (no userinfo*.user!stations.sname)
     (= userinfo*.user!stations.sname (table))
@@ -261,6 +263,9 @@
   (recently-shown? station doc-feed.doc))
 
 (def most-recent-unread(user feed)
+;?   (erp "ee: " user " " type.user " " feed-docs.feed)
+;?   (erp "ff: " (rem [read? user _] feed-docs.feed))
+;?   (erp "gg: " (map [type:docinfo* _] (rem [read? user _] feed-docs.feed)))
   (most doc-timestamp (rem [read? user _] feed-docs.feed)))
 
 (def pick(user station)
