@@ -124,10 +124,10 @@
            'read (table) 'stations (table)))
 
 (def read-list(user station)
+  (prn "read-list!!!")
   (ret ans nil
     (on-err
-      (fn(ex)
-        (erp user " " station " " details))
+      (fn(ex) (erp user " " station " " details.ex))
       (= ans userinfo*.user!stations.station!read-list))))
 
 (def read?(user doc)
@@ -143,8 +143,11 @@
     (let station userinfo*.user!stations.sname
       (= station!name sname)
       (erp "aa: " user " - " scan-feeds.sname)
+      (erp "ab: " (keep [most-recent-unread user _] scan-feeds.sname))
       (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))
+      (erp "bb")
       (= station!feeds (feed-group-for user sname))
+      (erp "cc " userinfo*.user!preferred-feeds)
       (= station!preferred-feeds (memtable:keep [userinfo*.user!preferred-feeds _]
                                                 station!feeds)))))
 
