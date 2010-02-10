@@ -125,7 +125,6 @@
            'read (table) 'stations (table)))
 
 (def read-list(user station)
-  (erp "read-list!!!")
   (ret ans nil
     (on-err
       (fn(ex) (erp user " " station " " details.ex))
@@ -144,12 +143,8 @@
     (= userinfo*.user!stations.sname (table))
     (let station userinfo*.user!stations.sname
       (= station!name sname)
-      (erp "aa: " user " - " scan-feeds.sname)
-      (erp "ab: " (keep [most-recent-unread user _] scan-feeds.sname))
       (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))
-      (erp "bb")
       (= station!feeds (feed-group-for user sname))
-      (erp "cc " userinfo*.user!preferred-feeds)
       (= station!preferred-feeds (memtable:keep [userinfo*.user!preferred-feeds _]
                                                 station!feeds)))))
 
@@ -263,9 +258,6 @@
   (recently-shown? station doc-feed.doc))
 
 (def most-recent-unread(user feed)
-;?   (erp "ee: " user " " type.user " " feed-docs.feed)
-;?   (erp "ff: " (rem [read? user _] feed-docs.feed))
-;?   (erp "gg: " (map [type:docinfo* _] (rem [read? user _] feed-docs.feed)))
   (most doc-timestamp (rem [read? user _] feed-docs.feed)))
 
 (def pick(user station)
