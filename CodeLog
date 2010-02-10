@@ -1021,3 +1021,7 @@ Save cleaned docs so you can go over them after a segfault.
 First bug from testing logged-in flow but not logged-out.
 I'm gonna start needing controller tests.
 =-=386 - Mon Feb  8 09:56:04 PST 2010
+
+Logging for a couple of insidious errors that keep cropping up in a
+non-reproducible way.
+=-=388 - Tue Feb  9 16:43:12 PST 2010
