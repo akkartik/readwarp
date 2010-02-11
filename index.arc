@@ -125,10 +125,7 @@
            'read (table) 'stations (table)))
 
 (def read-list(user station)
-  (ret ans nil
-    (on-err
-      (fn(ex) (erp user " " station " " details.ex))
-      (= ans userinfo*.user!stations.station!read-list))))
+  userinfo*.user!stations.station!read-list)
 
 (def read?(user doc)
   userinfo*.user!read.doc)
@@ -138,8 +135,8 @@
 
 (proc new-station(user sname)
   (new-user user)
-  (erp "new-station: " sname)
   (when (no userinfo*.user!stations.sname)
+    (erp "new-station: " sname)
     (= userinfo*.user!stations.sname (table))
     (let station userinfo*.user!stations.sname
       (= station!name sname)

@@ -68,6 +68,7 @@
               doc))))
 
 (def history-panel(user station req)
+  (new-station user station)
   (let items (read-list user station)
     (paginate req "history" (+ "/history?station=" urlencode.station)
               25 ; sync with application.js
