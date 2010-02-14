@@ -156,7 +156,7 @@
     (test-save ,(globalize stringify.var "-chunk"))))
 
 (init chunk-counter* 0)
-(init chunk-size* 10000)
+(init chunk-size* 1000)
 (mac test-save(var)
   `(when (>= (len ,var) chunk-size*)
      (prn "saving to disk")
