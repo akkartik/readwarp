@@ -8,3 +8,5 @@ do
   echo "== $i"
   cat $i
 done |sendmail akkartik@gmail.com
+
+rm feedback/*
