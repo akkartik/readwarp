@@ -27,6 +27,10 @@
 (= frontpage-width* "width:720px;") ; sync with main.css
 (defop || req
   (page current-user.req
+    (tag script
+      (pr "window.onload = function() {
+            updateTickerContents();
+            $('newstationform').focus(); };"))
     (tag (div class "logo")
       (logo fskip "RE")(logo fnext "AD")(logo flike "WA")(logo flove "RP"))
     (tag (div class "subtitle")
