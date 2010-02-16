@@ -8,8 +8,12 @@
 ))
 ($ (require 'keywords-ffi))
 
-($ (xdef stem stem))
+($ (xdef stem-sub stem))
 ($ (xdef kwds keywords))
 
 (def keywords(fname)
   (splitstr (kwds fname) ","))
+
+(let stem-exceptions (obj "economy" "econom")
+  (def stem(s)
+    (or stem-exceptions.s stem-sub.s)))
