@@ -140,7 +140,7 @@
     (let station userinfo*.user!stations.sname
       (= station!name sname)
       (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))
-      (= station!feeds (feed-group-for user sname))
+      (= station!feeds (feed-groups-for user sname))
       (= station!preferred-feeds (memtable:keep [userinfo*.user!preferred-feeds _]
                                                 station!feeds)))))
 
@@ -166,7 +166,7 @@
   (dedup:common:map keyword-feeds:canonicalize
                     (flat:map split-urls words.keyword)))
 
-(def feed-group-for(user query)
+(def feed-groups-for(user query)
   (let m (max-freq:map feed-group* scan-feeds.query)
     (erp "Group: " m)
     (unless m

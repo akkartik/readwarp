@@ -1041,3 +1041,6 @@ I'm sick of economics working as a station, but not economy. Fix that stemmer.
 =-=398 - Tue Feb 16 00:52:33 PST 2010
 Stop google crawling stations.
 =-=399 - Tue Feb 16 00:53:29 PST 2010
+
+Let's allow queries to narrow down to more than just one group.
+=-=401 - Tue Feb 16 10:03:50 PST 2010
