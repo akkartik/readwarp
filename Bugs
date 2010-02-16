@@ -1,17 +1,7 @@
-Burrito Justice
-Cognitive Daily
-Cosmic Variance
-Eliezer Yudkowsky
-FXcuisine.com
-FunCheapSF.com� FunCheapSF | Free & Cheap Things to Do in the San Francisco Bay Area
-Haskell hacking
-Hungry Scientist
-Joel Spolsky
-KUKUBURI by Ram�n P�rez
+- bad queries
 Law Dork
 MicroISV on a Shoestring
 Mission Street Food
-P1Nu Blog
 Remittance Girl
 StarMagazine.com
 Steve Yegge
@@ -26,11 +16,8 @@ chiragshah1
 codak
 diana hsieh
 dreamact.info
-gamasutra
-gamefaqs
 gene expression
 globaleconomicanalysis.blogspot.com
-hackernews
 high-fat-nutrition.blogspot.com/
 http://chiarg.com
 http://twitter.com/chirags
@@ -42,36 +29,32 @@ ipad
 ixbt.com
 kylewritescode.com
 languagehat.com
-louis gray
 malcolm gladwell
 nanotechnology
 net censorship
 newmexicostate.scout.com
 nytimes.com
-paulgraham
 peter norvig
-random
 raymond chen
 ryanestrada.com
 sinaseifee.com
-steve yegge
-steve yeggee
 theage
-theboids
 webjazz.blogspot.com
 www.mengu.net
 xach beane
-yakshaving
 
-- bad queries
+gamefaqs
 economy
 in the pipeline
 hn.org
 google news
 john cale
-don draper
-joel spolsky
 youtube
+
+character encoding
+  FunCheapSF.com� FunCheapSF | Free & Cheap Things to Do in the San Francisco Bay Area
+  KUKUBURI by Ram�n P�rez
+  P1Nu Blog
 
 comics
   xkcd - multi-folder keys
@@ -90,12 +73,17 @@ missing feeds
   glen greenwald
 
 bad wordbreaks:
-  37 signals, ny times
+  37 signals
+  ny times
+  hackernews
+  paulgraham
+  louis gray
 
 author keywords, etc:
-  jon stewart, daily show
+  jon stewart
   daniel markham, danielbmarkham
-  andy zaltzman
+  Joel Spolsky
+  steve yegge
 
 - rendering/htmlcleaning bugs
 http___blogs_cricinfo_com_andyzaltzman_archives_2010_01_what_test_cricket_needs_is_mor_php
