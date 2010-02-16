@@ -1049,3 +1049,7 @@ A few weeks ago I tore out the state machine in mark read. Now I'm starting to
 see some long sessions, it's time to put it back. Along with the ability to
 ask before deleting if it's not cut-and-dried.
 =-=402 - Tue Feb 16 11:38:38 PST 2010
+
+save-snapshot now has an eval so it's generating a new timestamp/file for
+every single save. Wasteful. Go back to once per session.
+=-=404 - Tue Feb 16 12:27:01 PST 2010

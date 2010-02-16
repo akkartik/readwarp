@@ -20,12 +20,13 @@
           (quit)))
       (or (init ,var ,initval) ,var)))
 
-(mac new-snapshot-name(var)
+(mac new-snapshot-name(var (o timestamp))
   `(+ (+ snapshots-dir* "/" ,(stringify var) ".")
-      ,(seconds))) ; one file per session. remove comma to stop reusing
+      (or ,timestamp
+          ,(seconds)))) ; one file per session. remove comma to stop reusing
 
-(mac save-snapshot(var)
-  `(fwritefile (new-snapshot-name ,var) ,var))
+(mac save-snapshot(var (o timestamp))
+  `(fwritefile (new-snapshot-name ,var ,timestamp) ,var))
 
 
 
@@ -77,13 +78,14 @@
 (init prn-autosave* nil)
 (init quit-after-autosave* nil)
 (defrep save-state 300
-  (unless disable-autosave*
-    (if prn-autosave* (prn "Saving"))
-    (each var autosaved-vars*
-      (if prn-autosave* (prn " " var))
-      (eval `(save-snapshot ,var))
-      (sleep 10))
-    (if quit-after-autosave* (really-quit))))
+  (let session-timestamp (seconds)
+    (unless disable-autosave*
+      (if prn-autosave* (prn "Saving"))
+      (each var autosaved-vars*
+        (if prn-autosave* (prn " " var))
+        (eval `(save-snapshot ,var ,session-timestamp))
+        (sleep 10))
+      (if quit-after-autosave* (really-quit)))))
 
 (def quit()
   (prn "Killing scans")
