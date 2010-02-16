@@ -169,7 +169,7 @@
     (or= station!groups (keep id (map feed-group* scan-feeds.sname)))
     (unless station!groups
       (flash "Showing a few random stories")
-      (= station!groups (keys group-feeds*)))))
+      (= station!groups feed-groups*))))
 
 (def feeds(groups)
   (flat:map group-feeds* groups))
