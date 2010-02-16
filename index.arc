@@ -138,11 +138,9 @@
     (erp "new-station: " sname)
     (= userinfo*.user!stations.sname (table))
     (let station userinfo*.user!stations.sname
-      (= station!name sname)
-      (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))
-      (= station!feeds (feed-groups-for user sname))
-      (= station!preferred-feeds (memtable:keep [userinfo*.user!preferred-feeds _]
-                                                station!feeds)))))
+      (= station!name sname station!preferred (table) station!unpreferred (table))
+      (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))))
+  (gen-groups user sname))
 
 (proc mark-read(user sname doc outcome)
   (let station userinfo*.user!stations.sname
@@ -166,14 +164,24 @@
   (dedup:common:map keyword-feeds:canonicalize
                     (flat:map split-urls words.keyword)))
 
-(def feed-groups-for(user query)
-  (let m (max-freq:map feed-group* scan-feeds.query)
-    (erp "Group: " m)
-    (unless m
-      (flash "Hmm, this may suck. I don't know that site, so I'm showing
-             random stories. Sorry! (now notifying Kartik)")
-      (write-feedback user query "" "random results for query"))
-    group-feeds*.m))
+(proc gen-groups(user sname)
+  (let station userinfo*.user!stations.sname
+    (or= station!groups (keep id (map feed-group* scan-feeds.sname)))
+    (unless station!groups
+      (flash "Showing a few random stories")
+      (= station!groups (keys group-feeds*)))))
+
+(def feeds(groups)
+  (flat:map group-feeds* groups))
+
+(def preferred-feeds(user station)
+  (+ (keys station!preferred)
+     (keep [userinfo*.user!preferred-feeds _]
+           (feeds station!groups))))
+
+(def feeds-from-groups(user station)
+  (rem [station!unpreferred _]
+       (feeds station!groups)))
 
 (def guess-type(entry)
   (if entry
@@ -197,18 +205,11 @@
 ;;   Fill remainder with most recent story from random unpreferred feeds, avoiding recent
 ;;   Fill remainder with most recent story from random feeds
 (proc rebuild-showlist(user station)
-  (erp "rebuild-showlist. Previous iter: " station!last-showlist)
-  (erp "scanning preferred feeds: " station!showlist)
   (choose-from-preferred user station 3)
-  (erp "scanning feeds by group: " station!showlist)
   (fill-by-group user station)
-  (erp "scanning random feeds: " station!showlist)
   (fill-random user station)
-  (erp "done. candidates: " station!showlist)
   (zap rev station!showlist)
-  (erp "after rev: " station!showlist)
-  (= station!last-showlist station!showlist)
-  (erp "done rebuild-showlist"))
+  (= station!last-showlist station!showlist))
 
 (mac w/unread-avoiding-recent(user station l . body)
   `(let candidates ,l
@@ -218,7 +219,7 @@
     ,@body))
 
 (proc choose-from-preferred(user station n)
-  (w/unread-avoiding-recent user station (keys station!preferred-feeds)
+  (w/unread-avoiding-recent user station (preferred-feeds user station)
     (repeat n
       (whenlet feed randpos.candidates
         (erp "preferred: " feed)
@@ -226,15 +227,13 @@
         (pull feed candidates)))))
 
 (proc fill-by-group(user station)
-  (w/unread-avoiding-recent user station station!feeds
+  (w/unread-avoiding-recent user station (feeds-from-groups user station)
     (while (and candidates
                 (< (len station!showlist) 5))
       (let feed randpos.candidates
         (erp "group: " feed)
         (pushnew feed station!showlist)
-        (pull feed candidates)))
-    (if (< (len station!showlist) 5)
-      (erp "RAN OUT OF GROUP"))))
+        (pull feed candidates)))))
 
 (proc fill-random(user station)
   (if (< (len station!showlist) 5)
@@ -244,6 +243,7 @@
         (let feed randpos.candidates
           (unless (and station!preferred-feeds
                        station!preferred-feeds.feed)
+            (erp "random: " feed)
             (pushnew feed station!showlist))
           (pull feed candidates))))))
 

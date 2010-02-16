@@ -1044,3 +1044,8 @@ Stop google crawling stations.
 
 Let's allow queries to narrow down to more than just one group.
 =-=401 - Tue Feb 16 10:03:50 PST 2010
+Done. Still todo: update mark-read to gradually delete groups.
+A few weeks ago I tore out the state machine in mark read. Now I'm starting to
+see some long sessions, it's time to put it back. Along with the ability to
+ask before deleting if it's not cut-and-dried.
+=-=402 - Tue Feb 16 11:38:38 PST 2010
