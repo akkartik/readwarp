@@ -73,6 +73,7 @@
   (prn "<link rel=\"stylesheet\" href=\"" src "\"></link>"))
 
 (def header()
+  (prn "<meta name=\"robots\" content=\"nofollow\"/>")
   (csstag "main.css")
   (jstag "prototype.js")
   (jstag "effects.js")
