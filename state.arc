@@ -159,7 +159,6 @@
 (init chunk-size* 1000)
 (mac test-save(var)
   `(when (>= (len ,var) chunk-size*)
-     (prn "saving to disk")
      (atomic
        (zap rev ,var)
        (save-chunked-snapshot ,var chunk-counter*)

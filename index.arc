@@ -84,7 +84,6 @@
 
 (proc update-feed-groups()
   (each group feed-groups*
-    prn.group
     (read-group group)))
 
 (defrep update-feeds 3600
