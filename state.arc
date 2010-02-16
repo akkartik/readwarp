@@ -271,13 +271,15 @@
 ;;; e.g. indexing is reverse lookup of keyword extraction with policy rcons.
 
 (mac mhash(key-name value-name association body (o merge-policy 'rcons))
-  (hash-helper t nil key-name value-name association body merge-policy))
+  (hash-helper t nil t key-name value-name association body merge-policy))
 (mac rhash(key-name value-name association body (o merge-policy 'replace)) ; doesn't memoize
-  (hash-helper nil t key-name value-name association body merge-policy))
+  (hash-helper nil t t key-name value-name association body merge-policy))
 (mac dhash(key-name value-name association body (o merge-policy 'rcons))
-  (hash-helper t t key-name value-name association body merge-policy))
+  (hash-helper t t t key-name value-name association body merge-policy))
+(mac dhash-nosave(key-name value-name association body (o merge-policy 'rcons))
+  (hash-helper t t nil key-name value-name association body merge-policy))
 
-(def hash-helper(forward backward key-name value-name association body policy)
+(def hash-helper(forward backward save key-name value-name association body policy)
   (withs ((pluralize-key pluralize-value) (pluralize-controls association)
           key-str (stringify key-name)
           value-str (stringify value-name)
@@ -293,9 +295,12 @@
           set-function-name (symize "set-" key-str "-" value-str))
 
     `(do
-      (setup-autosave ,key-table-name (table))
-      (setup-autosave ,value-table-name (table))
-      (setup-autosave ,value-table-nil-name (table))
+      ,(if (and save backward)
+        `(setup-autosave ,key-table-name (table)))
+      ,(if (and save forward)
+        `(setup-autosave ,value-table-name (table)))
+      ,(if (and save forward)
+        `(setup-autosave ,value-table-nil-name (table)))
       (def ,create-function-name(,key-name)
         ,body)
       (def ,set-function-name(,key-name)

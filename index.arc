@@ -35,7 +35,7 @@
            (w/infile f "snapshots/feedinfo.orig"
               (read-nested-table f)))))
 
-(dhash feed keyword "m-n"
+(dhash-nosave feed keyword "m-n"
   (map canonicalize
        (cons feed
              (flat:map split-urls
