@@ -296,11 +296,14 @@
 
     `(do
       ,(if (and save backward)
-        `(setup-autosave ,key-table-name (table)))
+        `(setup-autosave ,key-table-name (table))
+        `(init ,key-table-name (table)))
       ,(if (and save forward)
-        `(setup-autosave ,value-table-name (table)))
+        `(setup-autosave ,value-table-name (table))
+        `(init ,value-table-name (table)))
       ,(if (and save forward)
-        `(setup-autosave ,value-table-nil-name (table)))
+        `(setup-autosave ,value-table-nil-name (table))
+        `(init ,value-table-nil-name (table)))
       (def ,create-function-name(,key-name)
         ,body)
       (def ,set-function-name(,key-name)
