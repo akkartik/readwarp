@@ -9,9 +9,12 @@
   `(tag (a href "#" onclick ,url)
     ,@body))
 
+(def jsquotes(s)
+  (+ "'" s "'"))
+
 (def maybe-flink(f)
   (if (isa f 'fn)
-    (+ "'" (flink f) "'")
+    (jsquotes (flink f))
     f))
 
 (def inline(id f)
@@ -39,7 +42,11 @@
     (list
       'href "#"
       'style (params ':style)
-      'onclick (params ':onclick))))
+      'onclick (update-onclick params))))
+
+(def update-onclick(params)
+  (or (params ':onclick)
+      (inline (params ':into) (params ':with))))
 
 
 

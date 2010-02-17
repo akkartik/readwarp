@@ -1070,3 +1070,6 @@ Ok, I've settled on a good syntax:
     (pr "click here"))
 Step 1 complete: simple onclick rather than with.
 =-=413 - Wed Feb 17 11:45:00 PST 2010
+New test still failing. I'm not sure where I should be adding the single
+quotes for js.
+=-=414 - Wed Feb 17 11:59:12 PST 2010
