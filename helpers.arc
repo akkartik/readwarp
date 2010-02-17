@@ -30,6 +30,23 @@
        "'" udelim.u param "='" " + "
          "confirm('" msg "')")))
 
+(mac w/jslink(attrs . body)
+  `(tag (a ,@attrs)
+    ,@body))
+
+(def update args
+  (let params (listtab:pair args)
+    (prn params)
+    (list
+      'href "#"
+      'style (params ':style)
+      'onclick (params ':onclick))))
+
+;? (mac domupdate-into(id url check pred msg param)
+;?   `(a-onclick (inline ,id
+;?                       ,(if check
+;?                          url
+
 
 
 (mac paginate(req id url n max-index . block)

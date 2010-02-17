@@ -140,17 +140,6 @@
     (button station doc 4 "love" "more from this site")
     (clear)))
 
-(defop foo req
-  (let iii (rand)
-    (w/link (pr "aaa" iii) (++ iii) (pr "abc" iii))))
-
-(defop foo2 req
-  (let iii (rand)
-    (tag (a href (+ (flink (fn(req)
-                            (pr "aaa" (arg req "arg1"))
-                            (++ iii))) "&arg1=" iii))
-      (pr "abc" iii))))
-
 (defop foo3 req
   (header)
   (tag (div id "page")
