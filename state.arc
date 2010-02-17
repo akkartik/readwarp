@@ -146,7 +146,7 @@
   `(init ,var
           (w/table ,ans
             (prn "loading " ',var)
-            (each file (firstn 5 (chunk-files ',var))
+            (each file (firstn 50 (chunk-files ',var))
               (prn "  " file)
               (w/infile f file
                 (each (k v) (read-nested-table f)
