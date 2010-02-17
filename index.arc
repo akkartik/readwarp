@@ -145,6 +145,7 @@
 (proc mark-read(user sname doc outcome)
   (let station userinfo*.user!stations.sname
     (= outcome int.outcome)
+    (erp outcome " " doc)
     (unless userinfo*.user!read.doc
       (= userinfo*.user!read.doc outcome)
         (push doc station!read-list)
