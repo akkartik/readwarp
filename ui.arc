@@ -170,7 +170,7 @@
         (do
           (pr user "&nbsp;|&nbsp;")
           (link "logout" "/logout"))
-        (w/link (login-page 'both "Please login to Readwarp" (list null2 "/"))
+        (w/link (login-page 'both "Please login to Readwarp" (list nullop2 "/"))
                 (pr "login"))))
     (tag (div class "clear"))))
 

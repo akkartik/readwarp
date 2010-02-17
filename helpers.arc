@@ -1,7 +1,7 @@
 (= threadlife* 45)
 (= ignore-ips* (memtable '("69.162.77.202" "69.162.127.2")))
 
-(def null2(x y))
+(def nullop2(x y))
 
 
 
