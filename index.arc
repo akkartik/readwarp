@@ -152,11 +152,11 @@
         (pop station!showlist))
 
     (let feed doc-feed.doc
-      (or= station!preferred-feeds (table))
+      (or= station!preferred (table))
       (case outcome
-        1     (wipe station!preferred-feeds.feed)
-        2     (set station!preferred-feeds.feed)
-        4     (set station!preferred-feeds.feed))
+        1     (wipe station!preferred.feed)
+        2     (set station!preferred.feed)
+        4     (set station!preferred.feed))
 )))
 
 
@@ -242,8 +242,8 @@
       (while (and candidates
                   (< (len station!showlist) 5))
         (let feed randpos.candidates
-          (unless (and station!preferred-feeds
-                       station!preferred-feeds.feed)
+          (unless (and station!preferred
+                       station!preferred.feed)
             (erp "random: " feed)
             (pushnew feed station!showlist))
           (pull feed candidates))))))

@@ -1073,3 +1073,10 @@ Step 1 complete: simple onclick rather than with.
 New test still failing. I'm not sure where I should be adding the single
 quotes for js.
 =-=414 - Wed Feb 17 11:59:12 PST 2010
+
+Server had been failing since noon yday. Fixed production at 1pm today. I need
+to be logging and sending email on errors.
+Still fixing the issue. Should work now, but it can take a long time to
+iterate over the entire list of feeds if I start out without narrowing down to
+any groups.
+=-=420 - Wed Feb 17 15:27:47 PST 2010
