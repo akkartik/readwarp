@@ -200,8 +200,8 @@
   station!showlist)
 
 ;; Pick 5 stories at a time
-;;   Choose 1 lit doc in worklist
 ;;   Choose most recent story from upto 3 separate preferred feeds, avoiding recent
+;;   Fill remainder with most recent story from this group, avoiding recent
 ;;   Fill remainder with most recent story from random feeds, avoiding recent and unpreferred feeds
 ;;   Fill remainder with most recent story from random unpreferred feeds, avoiding recent
 ;;   Fill remainder with most recent story from random feeds
