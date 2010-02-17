@@ -81,8 +81,8 @@
   (jstag "dragdrop.js")
   (jstag "application.js"))
 
-(mac jslink(i text url (o styl))
-  `(tag (a class ,i onclick "toggleLink(this); return jsget(this);" href ,url style ,styl) ,text))
+(mac jslink(c text url (o styl))
+  `(tag (a class ,c onclick "toggleLink(this); return jsget(this);" href ,url style ,styl) ,text))
 (def display(flag)
   (if flag
     "display:inline"
