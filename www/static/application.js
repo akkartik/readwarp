@@ -1,12 +1,20 @@
+function stringOrHref(s) {
+  if (typeof(s) == 'string')
+    return s;
+  else {
+    return s.href;
+  }
+}
+
 function jsget(elem) {
   var jsget = new Image();
-  jsget.src = elem.href;
+  jsget.src = stringOrHref(elem);
   return false;
 }
 
 function inline(id, url, params) {
   $(id).innerHTML = "<img src=\"waiting.gif\"/>";
-  new Ajax.Request(url,
+  new Ajax.Request(stringOrHref(url),
       {
         method: 'get',
         parameters: params,
