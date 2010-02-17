@@ -140,6 +140,34 @@
     (button station doc 4 "love" "more from this site")
     (clear)))
 
+(defop foo req
+  (let iii (rand)
+    (w/link (pr "aaa" iii) (++ iii) (pr "abc" iii))))
+
+(defop foo2 req
+  (let iii (rand)
+    (tag (a href (+ (flink (fn(req)
+                            (pr "aaa" (arg req "arg1"))
+                            (++ iii))) "&arg1=" iii))
+      (pr "abc" iii))))
+
+(defop foo3 req
+  (header)
+  (tag (div id "page")
+    (tag (div id "id") (pr "a"))
+;?     (tag (a href "#" onclick (confirm "foo"
+;?                                       (inline "id"
+;?                                               (fn(req) (pr:arg req "fnid")))))
+;?     (a-onclick (confirm "foo"
+;?                         (inline "id"
+;?                                 (fn(req) (pr:arg req "fnid"))))
+    (a-onclick (inline "id"
+                       (check-with-user
+                          (fn(req) (pr:arg req "fnid") (pr:arg req "arg3"))
+                          "Add arg3?"
+                          "arg3"))
+      (pr "click"))))
+
 (def button(station doc n cls tooltip)
   (tag (input type "button" class (+ cls " button") value tooltip
               onclick (+ "pushHistory('" jsesc.station "', '" jsesc.doc "', 'outcome=" n "')"))))

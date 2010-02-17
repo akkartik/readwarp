@@ -3,6 +3,35 @@
 
 (def null2(x y))
 
+
+
+(mac a-onclick(url . body)
+  `(tag (a href "#" onclick ,url)
+    ,@body))
+
+(def maybe-flink(f)
+  (if (isa f 'fn)
+    (+ "'" (flink f) "'")
+    f))
+
+(def inline(id f)
+  (+ "inline('" id "', "
+     maybe-flink.f
+     ")"))
+
+(def confirm(msg s)
+  (+ "if(confirm('" msg "')){"
+       s
+     "}"))
+
+(def check-with-user(url msg param)
+  (let u maybe-flink.url
+    (+ u " + "
+       "'" udelim.u param "='" " + "
+         "confirm('" msg "')")))
+
+
+
 (mac paginate(req id url n max-index . block)
   (let (params body) (kwargs block '(nextcopy "next" prevcopy "prev"))
     `(withs (start-index (int2:arg req "from")
