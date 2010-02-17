@@ -127,7 +127,7 @@
   (jstag "dragdrop.js")
   (jstag "application.js"))
 
-(mac jslink(c text url (o styl))
+(mac jstogglelink(c text url (o styl))
   `(tag (a class ,c onclick "toggleLink(this); return jsget(this);" href ,url style ,styl) ,text))
 (def display(flag)
   (if flag
@@ -135,8 +135,8 @@
     "display:none"))
 (mac jstogglelink(id text0 url0 text1 url1 which)
   `(do
-    (jslink (+ ,id "_off") ,text0 ,url0 (display ,which))
-    (jslink (+ ,id "_on") ,text1 ,url1 (display (not ,which)))))
+    (jstogglelink (+ ,id "_off") ,text0 ,url0 (display ,which))
+    (jstogglelink (+ ,id "_on") ,text1 ,url1 (display (not ,which)))))
 
 
 
