@@ -307,12 +307,14 @@
       (def ,create-function-name(,key-name)
         ,body)
       (def ,set-function-name(,key-name)
+        (prn "aaa")
         (let ,value-name (,create-function-name ,key-name)
           ,(if forward
              `(if ,value-name
                  (= (,value-table-name ,key-name) ,value-name)
                  (= (,value-table-nil-name ,key-name) t)))
-          ,(if backward
+          ,(when backward
+             (prn "update")
              `(update ,key-table-name ,value-name ,policy ,key-name))
           ,value-name))
       (def ,lookup-function-name(,key-name)
