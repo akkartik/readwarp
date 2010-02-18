@@ -143,6 +143,12 @@
       (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))))
   (gen-groups user sname))
 
+(proc update-stations()
+  (each user (keys userinfo*)
+    (each station (keys userinfo*.user)
+      (or= station!preferred (table))
+      (or= station!unpreferred (table)))))
+
 (proc mark-read(user sname doc outcome)
   (let station userinfo*.user!stations.sname
     (= outcome int.outcome)
