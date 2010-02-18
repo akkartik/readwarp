@@ -26,7 +26,7 @@
           ,(seconds)))) ; one file per session. remove comma to stop reusing
 
 (mac save-snapshot(var (o timestamp))
-  `(fwritefile (new-snapshot-name ,var ,timestamp) ,var))
+  `(fwritefile (erp:new-snapshot-name ,var (erp ,timestamp)) ,var))
 
 
 
@@ -77,8 +77,8 @@
 (init disable-autosave* t)
 (init prn-autosave* nil)
 (init quit-after-autosave* nil)
-(defrep save-state 300
-  (let session-timestamp (seconds)
+(let session-timestamp (seconds)
+  (defrep save-state 300
     (unless disable-autosave*
       (if prn-autosave* (prn "Saving"))
       (each var autosaved-vars*
