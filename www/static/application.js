@@ -59,6 +59,13 @@ function toggleLink(elem) {
 
 var history_size = 25;
 
+function gen_jslink(text, onclick) {
+  return "<a href=\"#\" onclick=\""+onclick+"\">"+text+"</a>";
+}
+function gen_inline(id, url) {
+  return "inline('"+id+"', '"+url+"')";
+}
+
 function pushHistory(station, doc, params) {
   var elem = $('outcome_'+doc);
   elem.className = "outcome_icon "+params.replace(/.*outcome=([^&]*).*/, "outcome_$1");
@@ -73,11 +80,11 @@ function pushHistory(station, doc, params) {
 
     if($('history').childNodes[0].childNodes.length <= 1) {
       $('history').childNodes[0].innerHTML =
-        "<a href=\"#\" onclick=\"inline('history', '/history?from=10&station="+escape(station)+"')\">&laquo;older</a>&nbsp;newer&raquo;";
-    }
-    if($('history').childNodes[2].childNodes.length <= 1) {
       $('history').childNodes[2].innerHTML =
-        "<a href=\"#\" onclick=\"inline('history', '/history?from=10&station="+escape(station)+"')\">&laquo;older</a>&nbsp;newer&raquo;";
+        gen_jslink("&laquo;older",
+          gen_inline('history',
+                '/history?from='+history_size+'&station='+escape(station))) +
+        "&nbsp;newer&raquo;";
     }
   }
 
