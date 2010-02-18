@@ -145,9 +145,9 @@
 
 (proc update-stations()
   (each user (keys userinfo*)
-    (each station (keys userinfo*.user)
-      (or= station!preferred (table))
-      (or= station!unpreferred (table)))))
+    (each station (keys userinfo*.user!stations)
+      (or= userinfo*.user!stations.station!preferred (table))
+      (or= userinfo*.user!stations.station!unpreferred (table)))))
 
 (proc mark-read(user sname doc outcome)
   (let station userinfo*.user!stations.sname
@@ -226,7 +226,7 @@
   `(withs (candidates   ,expr
            feed         (findg randpos.candidates
                                [neglected-unread user station _]))
-      ,@body))
+      (when feed ,@body)))
 
 (proc choose-from-preferred(user station n)
   (repeat n
