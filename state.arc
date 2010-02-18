@@ -139,7 +139,7 @@
 
 
 (def chunk-files(var)
-  (tokens:tostring:system (+ "ls -t snapshots/" stringify.var "-chunk*")))
+  (tokens:tostring:system (+ "ls -t snapshots/" stringify.var "-chunk* |grep -v 'tmp$'")))
 
 (mac load-chunks(var)
   (let ans (uniq)
