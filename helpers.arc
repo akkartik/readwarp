@@ -37,16 +37,16 @@
   `(tag (a ,@(eval attr-generator))
     ,@body))
 
-;? (mac update args
-;?   `(let params (listtab:pair ',args)
-;?     (list
-;?       'href "#"
-;?       'style (params ':style)
-;?       'onclick (update-onclick params))))
-;? 
-;? (def update-onclick(params)
-;?   (or (params ':onclick)
-;?       (inline (params ':into) (params ':with))))
+(mac update-dom args
+  `(let params (listtab:pair ',args)
+    (list
+      'href "#"
+      'style (params ':style)
+      'onclick (update-onclick params))))
+
+(def update-onclick(params)
+  (or (params ':onclick)
+      (inline (params ':into) (params ':with))))
 
 
 
