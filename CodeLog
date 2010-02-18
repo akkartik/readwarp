@@ -1091,3 +1091,7 @@ Tests all pass.
 =-=423 - Thu Feb 18 03:10:10 PST 2010
 Ack, name conflict.
 =-=424 - Thu Feb 18 03:29:48 PST 2010
+
+The remaining error is one of data integrity. When I add fields to station,
+how should I go about updating existing stations?
+=-=425 - Thu Feb 18 03:38:37 PST 2010
