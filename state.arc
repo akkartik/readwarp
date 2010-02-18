@@ -26,7 +26,7 @@
           ,(seconds)))) ; one file per session. remove comma to stop reusing
 
 (mac save-snapshot(var (o timestamp))
-  `(fwritefile (erp:new-snapshot-name ,var (erp ,timestamp)) ,var))
+  `(fwritefile (new-snapshot-name ,var ,timestamp) ,var))
 
 
 
