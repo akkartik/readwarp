@@ -44,6 +44,7 @@
 
 (proc update-feed-keywords()
   (= feed-keywords* (table) keyword-feeds* (table) feed-keyword-nils* (table))
+  ; XXX: queries here may fail
   (everyp feed feed-list* 100
     (feed-keywords feed)))
 
@@ -203,8 +204,6 @@
 ;;   Choose most recent story from upto 3 separate preferred feeds, avoiding recent
 ;;   Fill remainder with most recent story from this group, avoiding recent
 ;;   Fill remainder with most recent story from random feeds, avoiding recent and unpreferred feeds
-;;   Fill remainder with most recent story from random unpreferred feeds, avoiding recent
-;;   Fill remainder with most recent story from random feeds
 (proc rebuild-showlist(user station)
   (choose-from-preferred user station 3)
   (fill-by-group user station)
@@ -212,41 +211,37 @@
   (zap rev station!showlist)
   (= station!last-showlist station!showlist))
 
-(mac w/unread-avoiding-recent(user station l . body)
-  `(let candidates ,l
-    (nkeep [and (~recently-shown? ,station _)
-                (most-recent-unread ,user _)]
-           candidates)
-    ,@body))
+(def neglected-unread(user station feed)
+  ((andf [~recently-shown? station _]
+        [most-recent-unread user _])
+    feed))
+
+(mac choosing-random-neglected-unread(expr . body)
+  `(withs (candidates   ,expr
+           feed         (findg randpos.candidates
+                               [neglected-unread user station _]))
+      ,@body))
 
 (proc choose-from-preferred(user station n)
-  (w/unread-avoiding-recent user station (preferred-feeds user station)
-    (repeat n
-      (whenlet feed randpos.candidates
-        (erp "preferred: " feed)
-        (pushnew feed station!showlist)
-        (pull feed candidates)))))
+  (repeat n
+    (choosing-random-neglected-unread (preferred-feeds user station)
+      (erp "preferred: " feed)
+      (pushnew feed station!showlist)
+      (pull feed candidates))))
 
 (proc fill-by-group(user station)
-  (w/unread-avoiding-recent user station (feeds-from-groups user station)
-    (while (and candidates
-                (< (len station!showlist) 5))
-      (let feed randpos.candidates
-        (erp "group: " feed)
-        (pushnew feed station!showlist)
-        (pull feed candidates)))))
+  (while (< (len station!showlist) 5)
+    (choosing-random-neglected-unread (feeds-from-groups user station)
+      (erp "group: " feed)
+      (pushnew feed station!showlist)
+      (pull feed candidates))))
 
 (proc fill-random(user station)
-  (if (< (len station!showlist) 5)
-    (w/unread-avoiding-recent user station feed-list*
-      (while (and candidates
-                  (< (len station!showlist) 5))
-        (let feed randpos.candidates
-          (unless (and station!preferred
-                       station!preferred.feed)
-            (erp "random: " feed)
-            (pushnew feed station!showlist))
-          (pull feed candidates))))))
+  (while (< (len station!showlist) 5)
+    (choosing-random-neglected-unread feed-list*
+      (erp "random: " feed)
+      (pushnew feed station!showlist))
+      (pull feed candidates)))
 
 (def recently-shown?(station feed)
   (or (pos feed station!last-showlist)

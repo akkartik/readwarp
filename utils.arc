@@ -34,6 +34,16 @@
 (mac ret(var val . body)
  `(let ,var ,val ,@body ,var))
 
+(mac findg(generator test)
+  (w/uniq (ans count)
+    `(ret ,ans ,generator
+       (let ,count 0
+         (until (or (,test ,ans) (> (++ ,count) 100))
+            (= ,ans ,generator))
+         (when (> ,count 100)
+           (erp "findg: infinite loop?")
+           (= ,ans nil))))))
+
 (mac awhile(expr . body)
   `(whilet it ,expr
     ,@body))

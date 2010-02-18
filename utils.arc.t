@@ -8,6 +8,24 @@
 
 
 
+(let a 0
+  (test-is "findg loops retrying generator until output satisfies predicate"
+    2
+    (findg (++ a) even))
+
+  (test-is "findg - 2"
+    3
+    (findg (++ a) [is _ 3]))
+
+  (test-is "findg - 3"
+    9
+    (findg (++ a) [is 18 (* _ 2)])))
+
+(test-nil "findg returns nil on infinite loop"
+  (findg 3 even))
+
+
+
 (test-is "blet is let when post-condition is satisfied"
   (let n 2
     (++ n))

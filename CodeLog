@@ -1080,3 +1080,7 @@ Still fixing the issue. Should work now, but it can take a long time to
 iterate over the entire list of feeds if I start out without narrowing down to
 any groups.
 =-=420 - Wed Feb 17 15:27:47 PST 2010
+Much faster after I stopped running that keep on the entire feed list. Now we
+simply keep picking a random feed and check it against our conditions until we
+have enough.
+=-=422 - Thu Feb 18 02:17:16 PST 2010
