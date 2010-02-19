@@ -1110,3 +1110,8 @@ Minor refactoring. I'm getting back into js generation from commit 414.
 Ok, almost exactly 24 hours later I'm back at commit 414. That test is still
 failing.
 =-=431 - Thu Feb 18 12:06:56 PST 2010
+Single quotes for js now should work properly. My heuristic is as follows: if
+the url has a single quote at the start or end, don't quote.
+I may end up with situations like abc + confirm('a') but that's unlikely.
+More importantly, I may end up quoting a js expression like foo('a')+bar('b').
+=-=433 - Fri Feb 19 11:33:13 PST 2010

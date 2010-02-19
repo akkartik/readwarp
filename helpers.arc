@@ -10,17 +10,21 @@
     ,@body))
 
 (def jsquotes(s)
-  (+ "'" s "'"))
+  (if (or (headmatch "'" s)
+          (endmatch "'" s))
+    s
+    (+ "'" s "'")))
 
 (def maybe-flink(f)
-  (if (isa f 'fn)
-    (jsquotes (flink f))
-    f))
+  (jsquotes
+    (if (isa f 'fn)
+      (flink f)
+      f)))
 
 (def inline(id f)
   (+ "inline('" id "', "
      maybe-flink.f
-     ")"))
+     ");"))
 
 (def confirm(msg s)
   (+ "if(confirm('" msg "')){"
