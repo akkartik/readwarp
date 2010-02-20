@@ -3,16 +3,6 @@
     (header)
     (tag body
       (tag (div id "page")
-        (tag (div class "nav")
-          (tag (div style "float:right")
-            (if ,user
-              (do
-                (pr ,user "&nbsp;|&nbsp;")
-                (link "logout" "/logout"))
-              (w/link (login-page 'both "Please login to Readwarp" (list nullop2 "/"))
-                      (pr "login")))
-            )
-          (clear))
         ,@body))))
 
 (mac with-history(req user station . body)
@@ -71,23 +61,35 @@
     (front-page req)))
 
 (def front-page(req)
-  (page current-user.req
-    (tag script
-      (pr "window.onload = function() {
-            updateTickerContents();
-            $('newstationform').focus(); };"))
-    (tag (div class "logo")
-      (logo fskip "RE")(logo fnext "AD")(logo flike "WA")(logo flove "RP"))
-    (tag (div class "subtitle")
-      (pr "Discover what you've been missing"))
+  (let user current-user.req
+    (page user
+      (tag (div class "nav")
+        (tag (div style "float:right")
+          (if user
+            (do
+              (pr user "&nbsp;|&nbsp;")
+              (link "logout" "/logout"))
+            (w/link (login-page 'both "Please login to Readwarp" (list nullop2 "/"))
+                    (pr "login")))
+          )
+        (clear))
 
-    (tag (div class "frontpage" style frontpage-width*)
-      (tag (form action "/station" style "width:50%;margin:auto;padding:auto")
-           (pr "Tell us your favorite site or blogger") (br)
-           (tag:input id "newstationform" name "seed" size "30") (br)
-           (tag:input type "submit" value "Start reading" style "margin-top:5px"))
+      (tag script
+        (pr "window.onload = function() {
+              updateTickerContents();
+              $('newstationform').focus(); };"))
+      (tag (div class "logo")
+        (logo fskip "RE")(logo fnext "AD")(logo flike "WA")(logo flove "RP"))
+      (tag (div class "subtitle")
+        (pr "Discover what you've been missing"))
 
-      (news-ticker))))
+      (tag (div class "frontpage" style frontpage-width*)
+        (tag (form action "/station" style "width:50%;margin:auto;padding:auto")
+             (pr "Tell us your favorite site or blogger") (br)
+             (tag:input id "newstationform" name "seed" size "30") (br)
+             (tag:input type "submit" value "Start reading" style "margin-top:5px"))
+
+        (news-ticker)))))
 
 (defop station req
   (withs (user (current-user req)
