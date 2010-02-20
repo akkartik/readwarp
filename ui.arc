@@ -3,11 +3,21 @@
     (header)
     (tag body
       (tag (div id "page")
-        (nav ,user)
+        (tag (div class "nav")
+          (tag (div style "float:right")
+            (if ,user
+              (do
+                (pr ,user "&nbsp;|&nbsp;")
+                (link "logout" "/logout"))
+              (w/link (login-page 'both "Please login to Readwarp" (list nullop2 "/"))
+                      (pr "login")))
+            )
+          (clear))
         ,@body))))
 
 (mac with-history(req user station . body)
   `(page ,user
+    (nav ,user)
     (tag (table width "100%")
       (tr
         (tag (td id "left-panel")
