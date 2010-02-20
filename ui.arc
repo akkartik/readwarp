@@ -21,7 +21,9 @@
                       (tag b (pr "current channel"))
                       (tag div (pr ,station))))
 
-                  (if (> (len-keys userinfo*.user!stations) 2)
+                  (if (or (> (len-keys userinfo*.user!stations) 2)
+                          (and (is 2 (len-keys userinfo*.user!stations))
+                               (is ,station userinfo*.user!all)))
                     (tag (div class "stations" style "margin-bottom:1em")
                       (tag b
                         (if (is ,station userinfo*.user!all)
@@ -31,8 +33,10 @@
                         (if (and (~is sname userinfo*.user!all)
                                  (~is sname ,station))
                           (tag div
-                            (tag (div style "float:right")
-                              (link "x" (+ "/delstation?station=" urlencode.sname)))
+                            (tag (div style "float:right; margin-right:0.5em")
+                              (tag (a href (+ "/delstation?station=" urlencode.sname)
+                                      onclick "jsget(this); del(this.parentNode.parentNode); return false;")
+                                (pr "x")))
                             (link sname (+ "/station?seed=" urlencode.sname)))))))
 
                   (tag (div style "margin-bottom:1.5em; padding-bottom:0.5em; border-bottom:1px solid #fff200")
