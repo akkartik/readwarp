@@ -16,26 +16,30 @@
 
                 (when (and ,station
                          (~is ,station userinfo*.user!all))
-                  (tag b (pr "station"))
-                  (tag div (pr ,station)))
+                  (tag (div style "margin-bottom:1em")
+                    (tag b (pr "current channel"))
+                    (tag div (pr ,station))))
 
                 (if (> (len-keys userinfo*.user!stations) 2)
-                  (tag (div class "stations" style "margin-top:1em")
-                    (tag b (pr "other stations"))
+                  (tag (div class "stations" style "margin-bottom:1em")
+                    (tag b
+                      (if (is ,station userinfo*.user!all)
+                        (pr "your channels")
+                        (pr "other channels")))
                     (each sname (keys userinfo*.user!stations)
                       (if (and (~is sname userinfo*.user!all)
                                (~is sname ,station))
                         (tag div
                           (link sname (+ "/station?seed=" urlencode.sname)))))))
 
-                (tag (div style "margin-top:1em")
-                  (tag b (pr "new station"))
+                (tag (div style "margin-bottom:1.5em")
+                  (tag b (pr "new channel"))
                   (tag (form action "/station")
                        (tag:input name "seed" size "15")
                        (tag:input type "submit" value "Switch" style "margin-top:5px")))
 
                 ))
-          (tag (div style "margin-top:1em")
+          (tag (div style "margin-bottom:1em")
             (tag b
               (pr "recently viewed"))
             (tag (div id "history")
