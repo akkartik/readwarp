@@ -31,6 +31,8 @@
                         (if (and (~is sname userinfo*.user!all)
                                  (~is sname ,station))
                           (tag div
+                            (tag (div style "float:right")
+                              (link "x" (+ "/delstation?station=" urlencode.sname)))
                             (link sname (+ "/station?seed=" urlencode.sname)))))))
 
                   (tag (div style "margin-bottom:1.5em; padding-bottom:0.5em; border-bottom:1px solid #fff200")
@@ -98,6 +100,11 @@
     (new-station user query)
     (with-history req user query
       (render-doc-with-context user query (next-doc user query)))))
+
+(defop delstation req
+  (withs (user (current-user req)
+          sname (arg req "station"))
+    (wipe userinfo*.user!stations.sname)))
 
 (def reader(req)
   (withs (user current-user.req
