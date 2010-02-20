@@ -201,6 +201,18 @@
 
 
 
+(proc rebuild-showlist2(user station)
+  (choose-from-preferred user station)
+  (= station!last-showlist station!showlist))
+(def showlist2(user station)
+  (if (no station!showlist)
+    (rebuild-showlist2 user station))
+  station!showlist)
+(def pick2(user station)
+  (ret ans (car (showlist2 user station))
+    (if (pos guess-type.ans '(feed url))
+      (zap [most-recent-unread user _] ans))))
+
 (def showlist(user station)
   (when (no station!showlist)
     (rebuild-showlist user station))

@@ -1122,3 +1122,9 @@ There's lots of reasons findg gives up. It's not always exceptional.
 Some cleanup in how I choose the next 5 feeds. I need to bring back the state
 machine in some form.
 =-=435 - Fri Feb 19 21:07:31 PST 2010
+
+This is taking too fucking long. Deep breath. We now have a front page that'll
+show you all your preferred feeds. Only works for logged-in users.
+
+I need to do shit like this more often. Thank you, Julie and Julia.
+=-=436 - Sat Feb 20 00:08:43 PST 2010

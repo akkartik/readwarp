@@ -51,6 +51,14 @@
     (with-history req user query
       (render-doc-with-context user query (next-doc user query)))))
 
+(defop reader req
+  (withs (user current-user.req
+          query (or= userinfo*.user!all (stringify:unique-id)))
+    (new-station user query)
+    (with-history req user query
+      (render-doc-with-context user query
+                               (pick2 user userinfo*.user!stations.query)))))
+
 (defop docupdate req
   (with (user (current-user req)
          sname (arg req "station")
