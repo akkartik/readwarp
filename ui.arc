@@ -31,7 +31,8 @@
                           (pr "other channels")))
                       (each sname (keys userinfo*.user!stations)
                         (if (and (~is sname userinfo*.user!all)
-                                 (~is sname ,station))
+                                 (~is sname ,station)
+                                 (~blank sname))
                           (tag div
                             (tag (div style "float:right; margin-right:0.5em")
                               (tag (a href (+ "/delstation?station=" urlencode.sname)
