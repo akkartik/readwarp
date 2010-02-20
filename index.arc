@@ -174,7 +174,7 @@
 
 (proc gen-groups(user sname)
   (let station userinfo*.user!stations.sname
-    (or= station!groups (keep id (map feed-group* scan-feeds.sname)))
+    (or= station!groups (dedup:keep id (map feed-group* scan-feeds.sname)))
     (unless station!groups
       (flash "Showing a few random stories")
       (= station!groups feed-groups*))))
@@ -207,11 +207,12 @@
   station!showlist)
 
 ;; Pick 5 stories at a time
+(= batch-size* 5)
 ;;   Choose most recent story from upto 3 separate preferred feeds, avoiding recent
 ;;   Fill remainder with most recent story from this group, avoiding recent
 ;;   Fill remainder with most recent story from random feeds, avoiding recent and unpreferred feeds
 (proc rebuild-showlist(user station)
-  (choose-from-preferred user station 3)
+  (choose-from-preferred user station)
   (fill-by-group user station)
   (fill-random user station)
   (zap rev station!showlist)
@@ -228,22 +229,29 @@
                                [neglected-unread user station _]))
       (when feed ,@body)))
 
-(proc choose-from-preferred(user station n)
-  (repeat n
-    (choosing-random-neglected-unread (preferred-feeds user station)
-      (erp "preferred: " feed)
-      (pushnew feed station!showlist)
-      (pull feed candidates))))
+;; XXX Currently constant; should depend on:
+;;  a) how many preferred feeds the user has
+;;  b) recent downvotes
+;;  c) user input?
+(= preferred-probability* 0.6)
+
+(proc choose-from-preferred(user station)
+  (repeat batch-size*
+    (if (< (rand) preferred-probability*)
+      (choosing-random-neglected-unread (preferred-feeds user station)
+        (erp "preferred: " feed)
+        (pushnew feed station!showlist)
+        (pull feed candidates)))))
 
 (proc fill-by-group(user station)
-  (while (< (len station!showlist) 5)
+  (while (< (len station!showlist) batch-size*)
     (choosing-random-neglected-unread (feeds-from-groups user station)
       (erp "group: " feed)
       (pushnew feed station!showlist)
       (pull feed candidates))))
 
 (proc fill-random(user station)
-  (while (< (len station!showlist) 5)
+  (while (< (len station!showlist) batch-size*)
     (choosing-random-neglected-unread feed-list*
       (erp "random: " feed)
       (pushnew feed station!showlist))

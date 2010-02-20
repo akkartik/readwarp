@@ -1118,3 +1118,7 @@ More importantly, I may end up quoting a js expression like foo('a')+bar('b').
 
 There's lots of reasons findg gives up. It's not always exceptional.
 =-=434 - Fri Feb 19 20:36:02 PST 2010
+
+Some cleanup in how I choose the next 5 feeds. I need to bring back the state
+machine in some form.
+=-=435 - Fri Feb 19 21:07:31 PST 2010
