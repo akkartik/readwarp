@@ -146,7 +146,7 @@
 
 
 (def clear()
-  (tag (div style "clear:both")))
+  (tag (div class "clear")))
 
 (def flash(msg)
   (tag (div class "flash") prn.msg))

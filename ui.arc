@@ -9,16 +9,41 @@
 (mac with-history(req user station . body)
   `(page ,user
     (tag (table width "100%")
-         (tr
-           (tag (td id "history-container")
-              (center
-                (pr "Recently viewed"))
-              (tag (div id "history")
-                (history-panel ,user ,station ,req)))
+      (tr
+        (tag (td id "left-panel")
+          ,(if user
+             `(tag div
 
-           (tag (td id "contents-wrap")
-              (tag (div id "content")
-                ,@body))))))
+                (when (and ,station
+                         (~is ,station userinfo*.user!all))
+                  (tag b (pr "station"))
+                  (tag div (pr ,station)))
+
+                (if (> (len-keys userinfo*.user!stations) 2)
+                  (tag (div class "stations" style "margin-top:1em")
+                    (tag b (pr "other stations"))
+                    (each sname (keys userinfo*.user!stations)
+                      (if (and (~is sname userinfo*.user!all)
+                               (~is sname ,station))
+                        (tag div
+                          (link sname (+ "/station?seed=" urlencode.sname)))))))
+
+                (tag (div style "margin-top:1em")
+                  (tag b (pr "new station"))
+                  (tag (form action "/station")
+                       (tag:input name "seed" size "15")
+                       (tag:input type "submit" value "Switch" style "margin-top:5px")))
+
+                ))
+          (tag (div style "margin-top:1em")
+            (tag b
+              (pr "recently viewed"))
+            (tag (div id "history")
+              (history-panel ,user ,station ,req))))
+
+        (tag (td id "contents-wrap")
+           (tag (div id "content")
+             ,@body))))))
 
 (mac logo(cls msg)
   `(tag (div class (+ "logo-button " ,stringify.cls))
@@ -26,6 +51,11 @@
 
 (= frontpage-width* "width:720px;") ; sync with main.css
 (defop || req
+  (if current-user.req
+    (reader req)
+    (front-page req)))
+
+(def front-page(req)
   (page current-user.req
     (tag script
       (pr "window.onload = function() {
@@ -51,7 +81,7 @@
     (with-history req user query
       (render-doc-with-context user query (next-doc user query)))))
 
-(defop reader req
+(def reader(req)
   (withs (user current-user.req
           query (or= userinfo*.user!all (stringify:unique-id)))
     (new-station user query)
@@ -142,28 +172,10 @@
 
 (def buttons(station doc)
   (tag (div class "buttons")
-    (tag (div style "float:left;margin-top:1em") (pr "Vote: "))
     (button station doc 1 "skip" "not interesting")
     (button station doc 2 "next" "more like this")
     (button station doc 4 "love" "more from this site")
     (clear)))
-
-(defop foo3 req
-  (header)
-  (tag (div id "page")
-    (tag (div id "id") (pr "a"))
-;?     (tag (a href "#" onclick (confirm "foo"
-;?                                       (inline "id"
-;?                                               (fn(req) (pr:arg req "fnid")))))
-;?     (a-onclick (confirm "foo"
-;?                         (inline "id"
-;?                                 (fn(req) (pr:arg req "fnid"))))
-    (a-onclick (inline "id"
-                       (check-with-user
-                          (fn(req) (pr:arg req "fnid") (pr:arg req "arg3"))
-                          "Add arg3?"
-                          "arg3"))
-      (pr "click"))))
 
 (def button(station doc n cls tooltip)
   (tag (input type "button" class (+ cls " button") value tooltip
@@ -179,8 +191,11 @@
           (pr user "&nbsp;|&nbsp;")
           (link "logout" "/logout"))
         (w/link (login-page 'both "Please login to Readwarp" (list nullop2 "/"))
-                (pr "login"))))
-    (tag (div class "clear"))))
+                (pr "login")))
+      )
+    (tag (div style "text-align:left")
+      (link "ReadWarp" "/"))
+    (clear)))
 
 
 
@@ -227,16 +242,22 @@
   "/")
 
 (def feedback-form(station doc)
-  (tag (div style "margin-top:1em; margin-right:1em")
+  (tag (div style "margin-top:1em; text-align:right")
     (tag (a onclick "$('feedback').toggle(); return false" href "#")
       (pr "feedback")))
   (tag (form action "/feedback" method "post" id "feedback"
-             style "display:none; background:#888; padding:0.5em; position:absolute; left:85%; top:10%; z-index:1; text-align:right")
-    (tag:textarea name "msg" style "width:100%")(br)
+             style "display:none; float:right; z-index:1000; margin-top:1em; margin-left:-4000px")
+    (tag:textarea name "msg" cols "25" rows "6")(br)
+    (tag (div style "font-size: 75%; margin-top:0.5em")
+      (pr "Your email?"))
+    (tag:input name "email") (tag (i style "font-size:75%") (pr "(optional)")) (br)
     (tag:input type "hidden" name "location" value (+ "/station?seed=" station))
     (tag:input type "hidden" name "station" value station)
     (tag:input type "hidden" name "doc" value doc)
-    (tag:input type "submit" value "send")))
+    (tag (div style "margin-top:0.5em")
+      (tag:input type "submit" value "send" style "margin-right:1em")
+      (tag:input type "button" value "cancel" onclick "$('feedback').toggle()")))
+  (clear))
 
 (def write-feedback(user station doc msg)
   (w/prfile (+ "feedback/" (seconds))
