@@ -2,11 +2,11 @@
 body{ margin:0 auto; font-size:62.5%; font-family:sans-serif; }
 #page{ font-size:1.4em; margin:auto; padding:auto; width:960px; }
 
-#left-panel{ width:15%; padding-top:1.5em; padding-right:1em; border-right:1px solid #fff200; }
+#left-panel{ width:18%; padding-top:1.5em; border-right:1px solid #fff200; }
 
 #content{ padding-top:1em; padding-left:1em; font-size:1.4em; }
 
-  .nav{ margin-top:10px; }
+  .nav{ margin-top:10px; border-bottom:1px solid #fff200; }
 
   .buttons{ }
 
@@ -16,7 +16,7 @@ body{ margin:0 auto; font-size:62.5%; font-family:sans-serif; }
     .like{ background:#87cb43; }    .flike,.outcome_3{ color:#87cb43; }
     .love{ background:#43cb43; }    .flove,.outcome_4{ color:#43cb43; }
     .icon{ }
-    .outcome_icon{ float:right; }
+    .outcome_icon{ float:right; margin-right:0.5em; }
 
   .main{ margin-top:1em; margin-bottom:1em; line-height:1.25; }
 

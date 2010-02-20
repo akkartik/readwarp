@@ -39,7 +39,8 @@
                        (tag:input type "submit" value "Switch" style "margin-top:5px")))
 
                 ))
-          (tag (div style "margin-bottom:1em")
+
+          (tag (div style "margin-bottom:1em; border-top:1px solid #fff200; padding-top:0.5em")
             (tag b
               (pr "recently viewed"))
             (tag (div id "history")
