@@ -6,49 +6,50 @@
         ,@body))))
 
 (mac with-history(req user station . body)
-  `(page ,user
-    (nav ,user)
-    (tag (table width "100%")
-      (tr
-        (tag (td id "left-panel")
-          ,(if user
-             `(tag div
+  `(let user ,user
+    (page user
+      (nav user)
+      (tag (table width "100%")
+        (tr
+          (tag (td id "left-panel")
+            (if user
+               (tag div
 
-                (when (and ,station
-                         (~is ,station userinfo*.user!all))
-                  (tag (div style "margin-bottom:1em")
-                    (tag b (pr "current channel"))
-                    (tag div (pr ,station))))
+                  (when (and ,station
+                           (~is ,station userinfo*.user!all))
+                    (tag (div style "margin-bottom:1em")
+                      (tag b (pr "current channel"))
+                      (tag div (pr ,station))))
 
-                (if (> (len-keys userinfo*.user!stations) 2)
-                  (tag (div class "stations" style "margin-bottom:1em")
-                    (tag b
-                      (if (is ,station userinfo*.user!all)
-                        (pr "your channels")
-                        (pr "other channels")))
-                    (each sname (keys userinfo*.user!stations)
-                      (if (and (~is sname userinfo*.user!all)
-                               (~is sname ,station))
-                        (tag div
-                          (link sname (+ "/station?seed=" urlencode.sname)))))))
+                  (if (> (len-keys userinfo*.user!stations) 2)
+                    (tag (div class "stations" style "margin-bottom:1em")
+                      (tag b
+                        (if (is ,station userinfo*.user!all)
+                          (pr "your channels")
+                          (pr "other channels")))
+                      (each sname (keys userinfo*.user!stations)
+                        (if (and (~is sname userinfo*.user!all)
+                                 (~is sname ,station))
+                          (tag div
+                            (link sname (+ "/station?seed=" urlencode.sname)))))))
 
-                (tag (div style "margin-bottom:1.5em")
-                  (tag b (pr "new channel"))
-                  (tag (form action "/station")
-                       (tag:input name "seed" size "15")
-                       (tag:input type "submit" value "Switch" style "margin-top:5px")))
+                  (tag (div style "margin-bottom:1.5em; padding-bottom:0.5em; border-bottom:1px solid #fff200")
+                    (tag b (pr "new channel"))
+                    (tag (form action "/station")
+                         (tag:input name "seed" size "15")
+                         (tag:input type "submit" value "Switch" style "margin-top:5px")))
 
-                ))
+                  ))
 
-          (tag (div style "margin-bottom:1em; border-top:1px solid #fff200; padding-top:0.5em")
-            (tag b
-              (pr "recently viewed"))
-            (tag (div id "history")
-              (history-panel ,user ,station ,req))))
+            (tag (div style "margin-bottom:1em")
+              (tag b
+                (pr "recently viewed"))
+              (tag (div id "history")
+                (history-panel user ,station ,req))))
 
-        (tag (td id "contents-wrap")
-           (tag (div id "content")
-             ,@body))))))
+          (tag (td id "contents-wrap")
+             (tag (div id "content")
+               ,@body)))))))
 
 (mac logo(cls msg)
   `(tag (div class (+ "logo-button " ,stringify.cls))
