@@ -39,10 +39,9 @@
   (w/uniq (ans count)
     `(ret ,ans ,generator
        (let ,count 0
-         (until (or (,test ,ans) (> (++ ,count) 100))
+         (until (or (,test ,ans) (> (++ ,count) 10))
             (= ,ans ,generator))
-         (when (> ,count 100)
-           (erp "findg: infinite loop?")
+         (unless (,test ,ans)
            (= ,ans nil))))))
 
 (mac awhile(expr . body)
