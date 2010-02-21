@@ -93,6 +93,9 @@
   (= feed-list* (tokens:slurp "feeds/All"))
   (prn "updating feed-group*")
   (update-feed-groups)
+  (= nonnerdy-feed-list* (rem [pos (feed-group* _)
+                                   '("Programming" "Technology")]
+                              feed-list*))
   (prn "updating feedinfo*")
   (update-feedinfo)
   (prn "updating scan-feeds")
@@ -175,6 +178,11 @@
 (proc gen-groups(user sname)
   (let station userinfo*.user!stations.sname
     (or= station!groups (dedup:keep id (map feed-group* scan-feeds.sname)))
+    ;; HACK while my feeds are dominated by nerdy stuff.
+    (if (len> station!groups 2)
+      (nrem "Programming" station!groups))
+    (if (len> station!groups 2)
+      (nrem "Technology" station!groups))
     (unless station!groups
       (flash "Showing a few random stories")
       (= station!groups feed-groups*))))
@@ -264,7 +272,7 @@
 
 (proc fill-random(user station)
   (while (< (len station!showlist) batch-size*)
-    (choosing-random-neglected-unread feed-list*
+    (choosing-random-neglected-unread nonnerdy-feed-list*
       (erp "random: " feed)
       (pushnew feed station!showlist))
       (pull feed candidates)))
