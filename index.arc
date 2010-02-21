@@ -55,36 +55,10 @@
     (= feed-group*.feed f)
     (push feed group-feeds*.f)))
 
-(= feed-groups* '(
-        "Art"
-        "BayArea"
-        "Books"
-        "Comics"
-        "Cricket"
-        "Design"
-        "Economics"
-        "Food"
-        "Germany"
-        "Glamor"
-        "India"
-        "Japan"
-        "Law"
-        "Magazine"
-        "Movies"
-        "Music"
-        "News"
-        "NYC"
-        "Politics"
-        "Programming"
-        "Science"
-        "Sports"
-        "Technology"
-        "Travel"
-        "Venture"
-      ))
+(= feedgroups* (tokens:tostring:system "cd readwarp/feeds; ls [A-Z]* |grep -v \"^All$\\|^Discard$\\|^Risque$\""))
 
 (proc update-feed-groups()
-  (each group feed-groups*
+  (each group feedgroups*
     (read-group group)))
 
 (defrep update-feeds 3600
@@ -185,7 +159,7 @@
       (nrem "Technology" station!groups))
     (unless station!groups
       (flash "Showing a few random stories")
-      (= station!groups feed-groups*))))
+      (= station!groups feedgroups*))))
 
 (def feeds(groups)
   (flat:map group-feeds* groups))

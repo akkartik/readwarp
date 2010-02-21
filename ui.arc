@@ -242,7 +242,7 @@
 
 (def random-feeds()
   (ret ans nil
-    (each group feed-groups*
+    (each group feedgroups*
       (if (> (len group-feeds*.group) 10)
         (repeat 2
           (aif (random-new group-feeds*.group ans
