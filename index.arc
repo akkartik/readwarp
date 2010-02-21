@@ -55,7 +55,7 @@
     (= feed-group*.feed f)
     (push feed group-feeds*.f)))
 
-(= feedgroups* (tokens:tostring:system "cd readwarp/feeds; ls [A-Z]* |grep -v \"^All$\\|^Discard$\\|^Risque$\""))
+(= feedgroups* (tokens:tostring:system "cd feeds; ls [A-Z]* |grep -v \"^All$\\|^Discard$\\|^Risque$\""))
 
 (proc update-feed-groups()
   (each group feedgroups*
