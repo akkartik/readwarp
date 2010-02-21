@@ -16,4 +16,4 @@
 
 (let stem-exceptions (obj "economy" "econom")
   (def stem(s)
-    (or stem-exceptions.s stem-sub.s)))
+    (or stem-exceptions.s (copy stem-sub.s))))

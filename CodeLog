@@ -1154,3 +1154,7 @@ over-aggressive in pruning nerdy blogs.
 
 Bugfix: list of feeds had grown stale. Dynamically generate.
 =-=450 - Sat Feb 20 20:58:13 PST 2010
+
+The segfaults continue, and they're eroding confidence in the FFI. Let's see
+if creating a copy of the output fixes it.
+=-=452 - Sun Feb 21 09:36:48 PST 2010
