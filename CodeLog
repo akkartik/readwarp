@@ -1175,3 +1175,5 @@ Otherwise they wouldn't be there.
 Ok, here's a better fix. In the process I added more test cases and found a
 bug when fread reads non-tables (say lists).
 =-=457 - Sun Feb 21 11:19:22 PST 2010
+In the process I saw a test fail once non-reproducibly. Let's monitor that.
+=-=458 - Sun Feb 21 11:19:58 PST 2010

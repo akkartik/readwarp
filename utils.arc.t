@@ -102,9 +102,14 @@
 (test-ok "random-new returns random new element"
          (pos (random-new '(1 2 3) '(2)) '(1 3)))
 
-(test-is "random-new returns random new element satisfying pred"
-         1
-         (random-new '(1 2 3) '(3) odd))
+(scoped-extend random-new
+  (after-exec random-new(from to f)
+    (prn result))
+
+  (test-is "random-new returns random new element satisfying pred"
+           1
+           (random-new '(1 2 3) '(3) odd))
+)
 
 (test-iso "tags-matching should return cdrs of dotted pairs whose cars satisfy"
           '(3 6)
