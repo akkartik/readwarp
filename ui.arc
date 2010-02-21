@@ -313,8 +313,8 @@
   (= userinfo* (table))
   "/")
 
-(defop reload req
-  (init-code))
+;? (defop reload req
+;?   (init-code))
 
 (def current-user(req)
   (ret user get-user.req

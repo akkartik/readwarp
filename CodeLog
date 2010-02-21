@@ -1162,3 +1162,8 @@ if creating a copy of the output fixes it.
 Bugfix: logged-in users who didn't give me their feeds would see nothing on
 their front page.
 =-=453 - Sun Feb 21 10:09:45 PST 2010
+
+I showed the reload op to Idoh. It's a security hole and I'm not really using
+it. Disable.
+At some point I'll make it an admin op.
+=-=454 - Sun Feb 21 10:39:28 PST 2010
