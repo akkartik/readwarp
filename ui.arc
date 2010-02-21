@@ -102,7 +102,7 @@
 (defop station req
   (withs (user (current-user req)
           query (arg req "seed"))
-    (new-station user query)
+    (ensure-station user query)
     (with-history req user query
       (render-doc-with-context user query (next-doc user query)))))
 
@@ -114,7 +114,7 @@
 (def reader(req)
   (withs (user current-user.req
           query (or= userinfo*.user!all (stringify:unique-id)))
-    (new-station user query)
+    (ensure-station user query)
     (with-history req user query
       (render-doc-with-context user query
                                ;; XXX user's preferred feeds only manually set
@@ -128,7 +128,7 @@
          sname (arg req "station")
          doc (arg req "doc")
          outcome (arg req "outcome"))
-    (new-station user sname)
+    (ensure-station user sname)
     (mark-read user sname doc outcome)
     (handle-same-feed user sname doc outcome)
     (render-doc-with-context user sname (next-doc user sname))))
@@ -145,7 +145,7 @@
               doc))))
 
 (def history-panel(user sname req)
-  (new-station user sname)
+  (ensure-station user sname)
   (let items (read-list user sname)
     (paginate req "history" (+ "/history?station=" urlencode.sname)
               25 ; sync with application.js
@@ -319,4 +319,4 @@
 
 (def current-user(req)
   (ret user get-user.req
-    (unless userinfo*.user new-user.user)))
+    (unless userinfo*.user ensure-user.user)))

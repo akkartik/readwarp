@@ -94,7 +94,7 @@
 
 (persisted userinfo* (table))
 
-(def new-user(user)
+(def ensure-user(user)
   (unless userinfo*.user
     (erp "new user: " user))
   (inittab userinfo*.user 'preferred-feeds (or load-feeds.user (table))
@@ -109,10 +109,10 @@
 (def stations(user)
   (keys userinfo*.user!stations))
 
-(proc new-station(user sname)
-  (new-user user)
+(proc ensure-station(user sname)
+  (ensure-user user)
   (when (no userinfo*.user!stations.sname)
-    (erp "new-station: " sname)
+    (erp "new station: " sname)
     (= userinfo*.user!stations.sname (table))
     (let station userinfo*.user!stations.sname
       (= station!name sname station!preferred (table) station!unpreferred (table))
