@@ -3,10 +3,15 @@
 export PATH=.:/app/local/0bin:/app/local/share/scripts:/app/local/share/scripts/Startup:$PATH:/usr/sbin
 
 cd ~/readwarp
-for i in feedback/*
-do
-  echo "== $i"
-  cat $i
-done |sendmail akkartik@gmail.com
+{
+  for i in feedback/*
+  do
+    echo "== $i"
+    cat $i
+  done
+
+  echo "== Log"
+  cat www/logs/srv-`ruby scripts/days_ago.rb 1`
+} |sendmail akkartik@gmail.com
 
 rm feedback/*
