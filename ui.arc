@@ -117,7 +117,11 @@
     (new-station user query)
     (with-history req user query
       (render-doc-with-context user query
-                               (pick2 user userinfo*.user!stations.query)))))
+                               ;; XXX user's preferred feeds only manually set
+                               ((if (>= (len userinfo*.user!preferred-feeds) 10)
+                                  pick2
+                                  pick)
+                                user userinfo*.user!stations.query)))))
 
 (defop docupdate req
   (with (user (current-user req)

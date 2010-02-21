@@ -1158,3 +1158,7 @@ Bugfix: list of feeds had grown stale. Dynamically generate.
 The segfaults continue, and they're eroding confidence in the FFI. Let's see
 if creating a copy of the output fixes it.
 =-=452 - Sun Feb 21 09:36:48 PST 2010
+
+Bugfix: logged-in users who didn't give me their feeds would see nothing on
+their front page.
+=-=453 - Sun Feb 21 10:09:45 PST 2010

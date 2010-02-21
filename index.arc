@@ -183,6 +183,7 @@
 
 
 
+;; For the main page show only preferred feeds.
 (proc rebuild-showlist2(user station)
   (choose-from-preferred user station)
   (= station!last-showlist station!showlist))
