@@ -135,26 +135,26 @@
 
 (defop doc req
   (with (user (current-user req)
-         station (arg req "station")
+         sname (arg req "station")
          doc (arg req "doc"))
     (render-doc-with-context
             user
-            station
+            sname
             (if blank.doc
-              (next-doc user station)
+              (next-doc user sname)
               doc))))
 
-(def history-panel(user station req)
-  (new-station user station)
-  (let items (read-list user station)
-    (paginate req "history" (+ "/history?station=" urlencode.station)
+(def history-panel(user sname req)
+  (new-station user sname)
+  (let items (read-list user sname)
+    (paginate req "history" (+ "/history?station=" urlencode.sname)
               25 ; sync with application.js
               len.items
         reverse t nextcopy "&laquo;older" prevcopy "newer&raquo;"
       :do
         (tag (div id "history-elems")
           (each doc (cut items start-index end-index)
-            (render-doc-link user station doc))))))
+            (render-doc-link user sname doc))))))
 
 (defop history req
   (history-panel current-user.req (arg req "station") req))
@@ -165,24 +165,24 @@
   (w/stdout (stderr) (pr user " " sname " => "))
   (erp:pick user userinfo*.user!stations.sname))
 
-(def render-doc-with-context(user station doc)
+(def render-doc-with-context(user sname doc)
   (tag (div style "float:right")
-    (feedback-form station doc))
+    (feedback-form sname doc))
   (if doc
     (tag (div id (+ "doc_" doc))
-      (buttons station doc)
+      (buttons sname doc)
       (tag (div class "history" style "display:none")
-        (render-doc-link user station doc))
+        (render-doc-link user sname doc))
       (tag (table class "main")
         (tr
           (tag (td class "post")
-            (render-doc station doc))))
-      (buttons station doc))
+            (render-doc sname doc))))
+      (buttons sname doc))
     (do
       (prn "Oops, there was an error. I've told Kartik. Please feel free to use the feedback form &rarr;")
-      (write-feedback user station "" "No result found"))))
+      (write-feedback user sname "" "No result found"))))
 
-(def render-doc(station doc)
+(def render-doc(sname doc)
   (tag (div id (+ "contents_" doc))
     (tag (h2 class "title")
       (tag (a href doc-url.doc target "_blank")
@@ -196,25 +196,25 @@
     (tag p
       (pr:contents doc))))
 
-(def render-doc-link(user station doc)
+(def render-doc-link(user sname doc)
   (tag (div id (+ "history_" doc))
     (tag (div id (+ "outcome_" doc)
               class (+ "outcome_icon outcome_" (read? user doc)))
       (pr "&#9632;"))
     (tag (p class "title item")
-      (tag (a onclick (+ "showDoc('" jsesc.station "', '" jsesc.doc "')") href "#" style "font-weight:bold")
+      (tag (a onclick (+ "showDoc('" jsesc.sname "', '" jsesc.doc "')") href "#" style "font-weight:bold")
         (pr doc-title.doc)))))
 
-(def buttons(station doc)
+(def buttons(sname doc)
   (tag (div class "buttons")
-    (button station doc 1 "skip" "not interesting")
-    (button station doc 2 "next" "more like this")
-    (button station doc 4 "love" "more from this site")
+    (button sname doc 1 "skip" "not interesting")
+    (button sname doc 2 "next" "more like this")
+    (button sname doc 4 "love" "more from this site")
     (clear)))
 
-(def button(station doc n cls tooltip)
+(def button(sname doc n cls tooltip)
   (tag (input type "button" class (+ cls " button") value tooltip
-              onclick (+ "pushHistory('" jsesc.station "', '" jsesc.doc "', 'outcome=" n "')"))))
+              onclick (+ "pushHistory('" jsesc.sname "', '" jsesc.doc "', 'outcome=" n "')"))))
 
 
 
@@ -276,7 +276,7 @@
   (logout-user current-user.req)
   "/")
 
-(def feedback-form(station doc)
+(def feedback-form(sname doc)
   (tag (div style "margin-top:1em; text-align:right")
     (tag (a onclick "$('feedback').toggle(); return false" href "#")
       (pr "feedback")))
@@ -286,18 +286,18 @@
     (tag (div style "font-size: 75%; margin-top:0.5em")
       (pr "Your email?"))
     (tag:input name "email") (tag (i style "font-size:75%") (pr "(optional)")) (br)
-    (tag:input type "hidden" name "location" value (+ "/station?seed=" station))
-    (tag:input type "hidden" name "station" value station)
+    (tag:input type "hidden" name "location" value (+ "/station?seed=" sname))
+    (tag:input type "hidden" name "station" value sname)
     (tag:input type "hidden" name "doc" value doc)
     (tag (div style "margin-top:0.5em")
       (tag:input type "submit" value "send" style "margin-right:1em")
       (tag:input type "button" value "cancel" onclick "$('feedback').toggle()")))
   (clear))
 
-(def write-feedback(user station doc msg)
+(def write-feedback(user sname doc msg)
   (w/prfile (+ "feedback/" (seconds))
     (prn "User: " user)
-    (prn "Station: " station)
+    (prn "Station: " sname)
     (prn "Doc: " doc)
     (prn "Feedback:")
     (prn msg)
