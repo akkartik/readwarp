@@ -434,7 +434,9 @@
   (not (is #f (m (r "[0-9A-Za-z]") s))))
 
 (def words(s)
-  (keep has-alpha? tokens.s))
+  (on-err
+    (fn(ex) (erp "B: " s " " describe.ex))
+    (fn() (keep has-alpha? tokens.s))))
 
 (mac sub-core(f)
   (w/uniq (str rest)

@@ -1185,3 +1185,7 @@ refactor names: station vs sname
 =-=461 - Sun Feb 21 15:36:23 PST 2010
 refactor names: new-staton -> ensure-station; new-user -> ensure-user
 =-=462 - Sun Feb 21 15:40:21 PST 2010
+
+Still exterminating intermittent errors on production. This time we just log
+to figure out what may be going on.
+=-=463 - Sun Feb 21 15:47:23 PST 2010

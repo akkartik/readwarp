@@ -145,8 +145,11 @@
 
 
 (def scan-feeds(keyword)
-  (dedup:common:map keyword-feeds:canonicalize
-                    (flat:map split-urls words.keyword)))
+  (on-err
+    (fn(ex) (erp "A: " keyword " " describe.ex))
+    (fn(ex)
+      (dedup:common:map keyword-feeds:canonicalize
+                        (flat:map split-urls words.keyword)))))
 
 (proc gen-groups(user sname)
   (let station userinfo*.user!stations.sname
