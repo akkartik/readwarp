@@ -9,9 +9,6 @@ cd ~/readwarp
     echo "== $i"
     cat $i
   done
-
-  echo "== Log"
-  cat www/logs/srv-`ruby scripts/days_ago.rb 1`
 } |sendmail akkartik@gmail.com
 
 rm feedback/*
