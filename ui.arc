@@ -128,6 +128,7 @@
          sname (arg req "station")
          doc (arg req "doc")
          outcome (arg req "outcome"))
+    (new-station user sname)
     (mark-read user sname doc outcome)
     (handle-same-feed user sname doc outcome)
     (render-doc-with-context user sname (next-doc user sname))))

@@ -150,15 +150,16 @@
 
 (proc gen-groups(user sname)
   (let station userinfo*.user!stations.sname
-    (or= station!groups (dedup:keep id (map feed-group* scan-feeds.sname)))
-    ;; HACK while my feeds are dominated by nerdy stuff.
-    (if (len> station!groups 2)
-      (nrem "Programming" station!groups))
-    (if (len> station!groups 2)
-      (nrem "Technology" station!groups))
-    (unless station!groups
-      (flash "Showing a few random stories")
-      (= station!groups feedgroups*))))
+    (when (no station!groups)
+      (or= station!groups (dedup:keep id (map feed-group* scan-feeds.sname)))
+      ;; HACK while my feeds are dominated by nerdy stuff.
+      (if (len> station!groups 2)
+        (nrem "Programming" station!groups))
+      (if (len> station!groups 2)
+        (nrem "Technology" station!groups))
+      (unless station!groups
+        (flash "Showing a few random stories")
+        (= station!groups feedgroups*)))))
 
 (def feeds(groups)
   (flat:map group-feeds* groups))
