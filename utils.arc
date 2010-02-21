@@ -333,9 +333,9 @@
                       (table)))
 
 (def converting-tablists(l)
-  (if (alist? l)
-    (listtab2 l)
-    l))
+  (if no.l      (table)
+      alist?.l  (listtab2 l)
+                l))
 
 (def listtab2(al)
   (let h (table)
@@ -345,7 +345,7 @@
 
 (def read-nested-table((o i (stdin)) (o eof))
   (let e (read i eof)
-    (if (alist e) (listtab2 e) e)))
+    (if (alist? e) (listtab2 e) e)))
 
 (def tablist2(h)
   (if (isa h 'table)

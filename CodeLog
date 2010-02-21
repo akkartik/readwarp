@@ -1172,3 +1172,6 @@ Stations would lose the unpreferred table after restart because empty tables
 turn into nils. Hmm, perhaps I should automatically assume nils are tables.
 Otherwise they wouldn't be there.
 =-=456 - Sun Feb 21 10:55:55 PST 2010
+Ok, here's a better fix. In the process I added more test cases and found a
+bug when fread reads non-tables (say lists).
+=-=457 - Sun Feb 21 11:19:22 PST 2010

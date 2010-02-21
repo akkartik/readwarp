@@ -115,9 +115,7 @@
     (erp "new-station: " sname)
     (= userinfo*.user!stations.sname (table))
     (let station userinfo*.user!stations.sname
-      (= station!name sname
-         station!preferred (obj 'table t)
-         station!unpreferred (obj 'table t))
+      (= station!name sname station!preferred (table) station!unpreferred (table))
       (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))))
   (gen-groups user sname))
 

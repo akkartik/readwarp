@@ -249,6 +249,34 @@
   (table)
   (coerce-tab ()))
 
+(test-iso "read-nested-table handles tables"
+  (obj 1 2)
+  (w/instring f "((1 2))" (read-nested-table f)))
+
+(test-iso "read-nested-table handles nil"
+  nil
+  (w/instring f "nil" (read-nested-table f)))
+
+(test-iso "read-nested-table handles non-tables"
+  '(1 2)
+  (w/instring f "(1 2)" (read-nested-table f)))
+
+(test-iso "read-nested-table handles strings"
+  "abc"
+  (w/instring f "\"abc\"" (read-nested-table f)))
+
+(test-iso "read-nested-table handles compound non-tables"
+  '(1 "abc")
+  (w/instring f "(1 \"abc\")" (read-nested-table f)))
+
+(test-iso "read-nested-table handles nested tables"
+  (obj 1 "abc" 2 (obj 3 4))
+  (w/instring f "((1 \"abc\") (2 ((3 4))))" (read-nested-table f)))
+
+(test-iso "read-nested-table handles nested empty tables"
+  (obj 1 2 3 (table))
+  (w/instring f "((1 2) (3 nil))" (read-nested-table f)))
+
 (test-iso "merge-tables works on tables"
   (obj a 1 b 2)
   (merge-tables (obj a 1) (obj b 2)))
