@@ -435,7 +435,7 @@
 
 (def words(s)
   (on-err
-    (fn(ex) (erp "B: " s " " describe.ex))
+    (fn(ex) (erp "B: " s " " details.ex))
     (fn() (keep has-alpha? tokens.s))))
 
 (mac sub-core(f)
