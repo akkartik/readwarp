@@ -1197,3 +1197,7 @@ If showlist is nil it should not exist in the table.
 Just one snapshot has that. Let's see if we can get rid of it and see if it
 comes back.
 =-=464 - Sun Feb 21 21:34:39 PST 2010
+
+Argh, syntax error from patch 463. System died when I showed naval; one of the
+few times I've missed a static type checker.
+=-=467 - Mon Feb 22 12:53:19 PST 2010

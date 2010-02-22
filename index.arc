@@ -147,7 +147,7 @@
 (def scan-feeds(keyword)
   (on-err
     (fn(ex) (erp "A: " keyword " " details.ex))
-    (fn(ex)
+    (fn()
       (dedup:common:map keyword-feeds:canonicalize
                         (flat:map split-urls words.keyword)))))
 
