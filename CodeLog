@@ -1201,3 +1201,8 @@ comes back.
 Argh, syntax error from patch 463. System died when I showed naval; one of the
 few times I've missed a static type checker.
 =-=467 - Mon Feb 22 12:53:19 PST 2010
+
+I'm seeing more data integrity issues. How does showlist ever become nil? How
+does it become ""?
+Data is now clean. Let's see if this happens again.
+=-=468 - Mon Feb 22 13:54:27 PST 2010

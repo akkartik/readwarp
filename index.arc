@@ -116,14 +116,17 @@
     (= userinfo*.user!stations.sname (table))
     (let station userinfo*.user!stations.sname
       (= station!name sname station!preferred (table) station!unpreferred (table))
+      (= station!created (seconds))
       (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))))
   (gen-groups user sname))
 
-(proc update-stations()
+(proc migrate-stations()
   (each user (keys userinfo*)
-    (each station (keys userinfo*.user!stations)
-      (or= userinfo*.user!stations.station!preferred (table))
-      (or= userinfo*.user!stations.station!unpreferred (table)))))
+    (each (sname station) userinfo*.user!stations
+      (when (no station!showlist)
+;?       (unless (acons station!showlist)
+        (prn user " " sname " " station!showlist)
+        (= userinfo*.user!stations (table))))))
 
 (proc mark-read(user sname doc outcome)
   (let station userinfo*.user!stations.sname
@@ -160,6 +163,7 @@
         (nrem "Programming" station!groups))
       (if (len> station!groups 2)
         (nrem "Technology" station!groups))
+      (erp "Groups: " station!groups)
       (unless station!groups
         (flash "Showing a few random stories")
         (= station!groups feedgroups*)))))
