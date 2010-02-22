@@ -206,7 +206,7 @@
 
 ;; Pick 5 stories at a time
 (= batch-size* 5)
-;;   Choose most recent story from upto 3 separate preferred feeds, avoiding recent
+;;   Fill each slot with most recent story from preferred feeds, avoiding recent, with some probability
 ;;   Fill remainder with most recent story from this group, avoiding recent
 ;;   Fill remainder with most recent story from random feeds, avoiding recent and unpreferred feeds
 (proc rebuild-showlist(user station)
