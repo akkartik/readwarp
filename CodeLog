@@ -1213,3 +1213,11 @@ Exponential back-off: if I ask you to delete a feed after 2 attempts and you
 say no, wait 4 attempts before asking again.
 The confirmation part is still not there.
 =-=470 - Mon Feb 22 20:16:41 PST 2010
+Still not feeling in control of this feature. Writing a few test cases to
+enumerate how far I've gotten.
+
+Things I'm still struggling with:
+  passing group with a feed? perhaps I should address downvotes to all groups.
+    that implies I should try to pick stories without ambiguous groups.
+  deleting groups for a station.
+=-=471 - Mon Feb 22 20:38:10 PST 2010
