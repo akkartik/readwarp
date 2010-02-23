@@ -1229,3 +1229,5 @@ reports of more than 2.
 
 Finally, integration tests.
 =-=474 - Tue Feb 23 09:42:29 PST 2010
+More test case tweaking. read-nested-table tries to return a table.
+=-=475 - Tue Feb 23 09:47:50 PST 2010

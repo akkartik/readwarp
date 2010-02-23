@@ -259,7 +259,7 @@
   (w/instring f "((1 2))" (read-nested-table f)))
 
 (test-iso "read-nested-table handles nil"
-  nil
+  (table)
   (w/instring f "nil" (read-nested-table f)))
 
 (test-iso "read-nested-table handles non-tables"

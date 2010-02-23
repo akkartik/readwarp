@@ -348,7 +348,9 @@
 
 (def read-nested-table((o i (stdin)) (o eof))
   (let e (read i eof)
-    (if (alist? e) (listtab2 e) e)))
+    (if no.e        (table)
+        (alist? e)  (listtab2 e)
+                    e)))
 
 (def tablist2(h)
   (if (isa h 'table)
