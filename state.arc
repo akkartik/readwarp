@@ -229,6 +229,24 @@
 
 
 
+; State machine for exponential backoff.
+; Each elem contains a 3-tuple: an item, a backoff limit, and a list of attempts.
+(def backoff(item n)
+  (list item n nil))
+
+(def backoff-add(b attempt)
+  (push attempt b.2))
+
+(mac backoff-check(b)
+  `(when (>= (len (,b 2)) (,b 1))
+    (erp "clearing " (,b 0))
+    (wipe ,b)))
+
+(mac backoff-again(b)
+  (zap [* 2 _] b.1))
+
+
+
 ;; memoization with programmable clear
 (init cmemo-cache* (table))
 

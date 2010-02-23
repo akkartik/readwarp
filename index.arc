@@ -123,13 +123,8 @@
 (proc migrate-stations()
   (each user (keys userinfo*)
     (each (sname station) userinfo*.user!stations
-      (unless (acons station!showlist)
-        (prn user " " sname " " station!showlist)
-        (= userinfo*.user!stations (table))))))
-
-(= feed-state-machine*
-   '((0 1 1)
-     (1 0 2 confirm)))
+      (wipe station!showlist)
+      (zap [map [cons _ nil] _] station!groups))))
 
 (proc mark-read(user sname doc outcome)
   (if (is 4 outcome) (= outcome 2))
@@ -144,14 +139,23 @@
     (let feed doc-feed.doc
       (or= station!preferred (table))
       (case outcome
-        1     (handle-downvote user station feed)
-        2     (handle-upvote user station feed)))))
+        1     (handle-downvote user station doc feed)
+        2     (handle-upvote user station doc feed)))))
 
-(proc handle-upvote(user station feed)
-  (set station!preferred.feed))
+(proc handle-upvote(user station doc feed)
+  (= station!preferred.feed (backoff doc 2))
+  (erp "upvote: " station!preferred.feed))
 
-(proc handle-upvote(user station feed)
-  (wipe station!preferred.feed))
+(proc handle-downvote(user station doc feed)
+  (erp "downvote: " station!preferred.feed)
+  (if station!preferred.feed
+    (do
+      (erp "currently preferred")
+      (backoff-add station!preferred.feed doc)
+      (backoff-check station!preferred.feed))
+    (do
+      (erp "currently not in preferred; unpreferring " feed)
+      (set station!unpreferred.feed))))
 
 
 

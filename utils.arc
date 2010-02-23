@@ -438,6 +438,11 @@
     (fn(ex) (erp "B: " s " " details.ex))
     (fn() (keep has-alpha? tokens.s))))
 
+(def maybe-enclose(before payload after test)
+  (if (test payload)
+    (+ before payload after)
+    payload))
+
 (mac sub-core(f)
   (w/uniq (str rest)
      `(fn(,str . ,rest)

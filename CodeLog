@@ -1209,3 +1209,7 @@ Data is now clean. Let's see if this happens again.
 
 Starting to force myself to work on the state machine. Why is this so hard?
 =-=469 - Mon Feb 22 19:19:53 PST 2010
+Exponential back-off: if I ask you to delete a feed after 2 attempts and you
+say no, wait 4 attempts before asking again.
+The confirmation part is still not there.
+=-=470 - Mon Feb 22 20:16:41 PST 2010
