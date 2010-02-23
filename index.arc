@@ -46,6 +46,7 @@
   (= feed-keywords* (table) keyword-feeds* (table) feed-keyword-nils* (table))
   ; XXX: queries here may fail
   (everyp feed feed-list* 100
+    (if (is 0 (remainder index 50)) (sleep 1)) ; does this help with segfault?
     (feed-keywords feed)))
 
 (init feed-groups* (table))
