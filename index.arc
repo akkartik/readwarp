@@ -259,14 +259,14 @@
         (pull feed candidates)))))
 
 (proc fill-by-group(user station)
-  (while (< (len station!showlist) batch-size*)
+  (repeat (- batch-size* (len station!showlist))
     (choosing-random-neglected-unread (feeds-from-groups user station)
       (erp "group: " feed)
       (pushnew feed station!showlist)
       (pull feed candidates))))
 
 (proc fill-random(user station)
-  (while (< (len station!showlist) batch-size*)
+  (repeat (- batch-size* (len station!showlist))
     (choosing-random-neglected-unread nonnerdy-feed-list*
       (erp "random: " feed)
       (pushnew feed station!showlist))

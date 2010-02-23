@@ -3,6 +3,9 @@
 
 (def nullop2(x y))
 
+(mac run-op(op (o args (table)) (o cooks (table)))
+  `(w/outstring o ((srvops* ',op) o (obj args ,args cooks ,cooks))))
+
 
 
 (mac a-onclick(url . body)
