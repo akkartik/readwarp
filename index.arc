@@ -48,12 +48,12 @@
   (everyp feed feed-list* 100
     (feed-keywords feed)))
 
-(init feed-group* (table))
+(init feed-groups* (table))
 (init group-feeds* (table))
-(proc read-group(f)
-  (each feed (tokens:slurp:+ "feeds/" f)
-    (= feed-group*.feed f)
-    (push feed group-feeds*.f)))
+(proc read-group(g)
+  (each feed (tokens:slurp:+ "feeds/" g)
+    (push g feed-groups*.feed)
+    (push feed group-feeds*.g)))
 
 (proc update-feed-groups()
   (= feedgroups* (tokens:tostring:system "cd feeds; ls [A-Z]* |grep -v \"^All$\\|^Discard$\\|^Risque$\""))
@@ -64,11 +64,11 @@
   (system "date")
   (prn "updating feed-list*")
   (= feed-list* (tokens:slurp "feeds/All"))
-  (prn "updating feed-group*")
+  (prn "updating feed-groups*")
   (update-feed-groups)
-  (= nonnerdy-feed-list* (rem [pos (feed-group* _)
-                                   '("Programming" "Technology")]
-                              feed-list*))
+  (= nonnerdy-feed-list* (keep [set-subtract (feed-groups* _)
+                                             '("Programming" "Technology")]
+                            feed-list*))
   (prn "updating feedinfo*")
   (update-feedinfo)
   (prn "updating scan-feeds")
@@ -169,7 +169,7 @@
 (proc gen-groups(user sname)
   (let station userinfo*.user!stations.sname
     (when (no station!groups)
-      (or= station!groups (dedup:keep id (map feed-group* scan-feeds.sname)))
+      (or= station!groups (dedup:keep id (flat:map feed-groups* scan-feeds.sname)))
       ;; HACK while my feeds are dominated by nerdy stuff.
       (if (len> station!groups 2)
         (nrem "Programming" station!groups))

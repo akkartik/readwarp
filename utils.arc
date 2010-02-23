@@ -278,6 +278,9 @@
 (def intersect(l1 l2)
   (keep [pos _ l2] l1))
 
+(def set-subtract(l1 l2)
+  (rem [pos _ l2] l1))
+
 (def common(l)
   (if (~cdr l)
     car.l
