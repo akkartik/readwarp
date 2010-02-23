@@ -14,13 +14,19 @@
       "b" '("b.com/feed")
       "blog" '("a.com/feed" "b.com/feed"))
 
-(shadowing feed-groups* (obj "feed1" "group1")
+(shadowing feed-groups* (obj "feed1" "group1"
+                             "a.com/feed" "group2")
 
   (test-ok "scan-feeds finds feeds containing a keyword"
     (pos "a.com/feed" (scan-feeds "blog")))
 
   (= userinfo* (table))
   (ensure-user nil)
+  (ensure-station nil "a")
+  (test-iso "gen-groups works"
+    '("group2")
+    ((userinfo*.nil!stations "a") 'groups))
+
   (ensure-station nil "blog")
   (let station (userinfo*.nil!stations "blog")
     (test-iso "starting with a random station"

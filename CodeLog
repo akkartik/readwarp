@@ -1234,3 +1234,7 @@ More test case tweaking. read-nested-table tries to return a table.
 
 Eliminate nil stations once and for all.
 =-=477 - Tue Feb 23 10:23:44 PST 2010
+
+About to enhance station!groups. First a test case to set a stake down on what
+currently works.
+=-=478 - Tue Feb 23 13:02:57 PST 2010
