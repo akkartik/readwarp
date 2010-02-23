@@ -101,7 +101,7 @@
 
 (defop station req
   (withs (user (current-user req)
-          query (arg req "seed"))
+          query (or (arg req "seed") ""))
     (ensure-station user query)
     (with-history req user query
       (render-doc-with-context user query (next-doc user query)))))
