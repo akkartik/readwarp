@@ -117,7 +117,8 @@
     (let station userinfo*.user!stations.sname
       (= station!name sname station!preferred (table) station!unpreferred (table))
       (= station!created (seconds))
-      (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))))
+      (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))
+      (= station!last-showlist station!showlist)))
   (gen-groups user sname))
 
 (proc migrate-stations()

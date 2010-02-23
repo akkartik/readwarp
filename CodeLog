@@ -1223,3 +1223,6 @@ Things I'm still struggling with:
 =-=471 - Mon Feb 22 20:38:10 PST 2010
 Feeds can belong to multiple groups.
 =-=472 - Mon Feb 22 21:11:47 PST 2010
+Bugfix: sometimes we'd show 2 stories from the seed station. I even heard
+reports of more than 2.
+=-=473 - Mon Feb 22 21:12:48 PST 2010
