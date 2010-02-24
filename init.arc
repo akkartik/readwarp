@@ -11,6 +11,7 @@
 )
 (init-code)
 (wipe disable-autosave*) ; after persistent data is loaded
+(do-migration)
 
 (def my-port()
   (on-err (fn(ex) 8080)

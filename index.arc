@@ -122,7 +122,8 @@
       (= station!last-showlist station!showlist)))
   (gen-groups user sname))
 
-(proc migrate-stations()
+(defreg migrate-stations() migrations*
+  (prn "migrate-stations")
   (each user (keys userinfo*)
     (each (sname station) userinfo*.user!stations
       (wipe station!showlist)

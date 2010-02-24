@@ -1245,3 +1245,6 @@ it was near impossible to keep in my head.
 One major insight: the best place to store backoff structures is in tables, so
 that we can backoff-check them conveniently.
 =-=480 - Tue Feb 23 17:54:49 PST 2010
+
+Let's start formalizing the process of migrating data.
+=-=481 - Tue Feb 23 19:13:20 PST 2010

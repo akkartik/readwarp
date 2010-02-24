@@ -72,7 +72,7 @@
          (sleep ,interval)))
      (init ,(symize stringify.fnname "-thread*") (new-thread ,stringify.fnname ,fnname))))
 
-(= really-quit quit)
+(init really-quit quit)
 
 (init disable-autosave* t)
 (init prn-autosave* nil)
@@ -250,6 +250,23 @@
   (w/table ans
     (each elem l
       (= ans.elem (backoff elem n)))))
+
+
+
+(proc migrate-state()
+  (system "touch migrate")
+  (quit))
+(proc do-migration()
+  (when (file-exists "migrate")
+    (run-migrations)
+    (system "rm migrate")))
+
+(init migrations* nil)
+(def run-migrations()
+  (prn "running migrations")
+  (each f migrations*
+    (prn "  " f)
+    (f)))
 
 
 
