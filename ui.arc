@@ -125,7 +125,7 @@
 
 (defop docupdate req
   (with (user (current-user req)
-         sname (arg req "station")
+         sname (or (arg req "station") "")
          doc (arg req "doc")
          outcome (arg req "outcome"))
     (ensure-station user sname)
