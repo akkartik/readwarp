@@ -39,7 +39,7 @@
 
 (def check-with-user(msg param)
   (+ "'" param "='" " + "
-     "confirm('" msg "')"))
+     "confirm('" jsesc.msg "')"))
 
 (mac w/jslink(attr-generator . body)
   `(tag (a ,@(eval attr-generator))

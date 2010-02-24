@@ -239,7 +239,7 @@
 
 (def backoff-borderline(b)
   (if b
-    (>= (len b.2) b.1)))
+    (>= (len b.2) (- b.1 1))))
 
 (mac backoff-check(b)
   `(when (>= (len (,b 2)) (,b 1))
