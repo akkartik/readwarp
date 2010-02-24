@@ -247,7 +247,7 @@
     (wipe ,b)))
 
 (mac backoff-again(b)
-  (zap [* 2 _] b.1))
+  `(zap [* 2 _] (,b 1)))
 
 ; backoff structures are often organized in tables
 (def backoffify(l n)

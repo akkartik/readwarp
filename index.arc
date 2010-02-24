@@ -129,7 +129,7 @@
       (wipe station!showlist)
       (zap [backoffify _ 2] station!groups))))
 
-(proc mark-read(user sname doc outcome)
+(proc mark-read(user sname doc outcome prune-feed prune-group)
   (if (is 4 outcome) (= outcome 2))
   (let station userinfo*.user!stations.sname
     (= outcome int.outcome)
@@ -142,22 +142,30 @@
     (let feed doc-feed.doc
       (or= station!preferred (table))
       (case outcome
-        1     (handle-downvote user station doc feed)
+        1     (handle-downvote user station doc feed prune-feed prune-group)
         2     (handle-upvote user station doc feed)))))
 
 (proc handle-upvote(user station doc feed)
   (= station!preferred.feed (backoff doc 2))
   (erp "upvote: " station!preferred.feed))
 
-(proc handle-downvote(user station doc feed)
+(proc handle-downvote(user station doc feed prune-feed prune-group)
   (erp "downvote: " station!preferred.feed)
   (if (pos feed (preferred-feeds user station))
     (do
       (erp "currently preferred")
       (or= station!preferred.feed (backoff doc 2))
       (backoff-add station!preferred.feed doc)
-      (backoff-check station!preferred.feed))
+      (if (or prune-feed prune-group)
+        (do
+          (erp "pruning feed")
+          (backoff-check station!preferred.feed))
+        (do
+          (erp "backing off")
+          (backoff-again station!preferred.feed)
+          (erp station!preferred.feed)))
     (do
+      ; sync preconditions to get here with borderline-unpreferred-group
       (erp "currently not in preferred; unpreferring " feed)
       (set station!unpreferred.feed)
       (with (prefd-groups (groups:preferred-feeds user station)
@@ -168,8 +176,15 @@
             (erp "trying to delete " g)
             (backoff-add station!groups.g feed)
             (erp "now: " station!groups.g)
-            (backoff-check station!groups.g)
-            (erp "groups remaining: " (len-keys station!groups))))
+            (if prune-group
+              (do
+                (erp "pruning group")
+                (backoff-check station!groups.g))
+              (do
+                (erp "backing off")
+                (backoff-again station!groups.g)
+                (erp station!groups.g)))
+            (erp "groups remaining: " (len-keys station!groups)))))
         (if (empty station!groups)
           (= station!groups
              (backoffify (rem [pos _ this-groups]
@@ -177,13 +192,14 @@
                          2)))))))
 
 (def borderline-preferred-feed(user sname doc)
-  (iflet feed (erp doc-feed.doc)
+  (iflet feed doc-feed.doc
     (backoff-borderline userinfo*.user!stations.sname!preferred.feed)))
 
 (def borderline-unpreferred-group(user sname doc)
   (iflet feed doc-feed.doc
-    (find [backoff-borderline userinfo*.user!stations.sname!groups._]
-          (groups:list feed))))
+    (and (pos feed (preferred-feeds user userinfo*.user!stations.sname))
+         (find [backoff-borderline userinfo*.user!stations.sname!groups._]
+               (groups:list feed)))))
 
 
 

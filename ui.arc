@@ -127,9 +127,11 @@
   (with (user (current-user req)
          sname (or (arg req "station") "")
          doc (arg req "doc")
-         outcome (arg req "outcome"))
+         outcome (arg req "outcome")
+         prune-feed (is "true" (arg req "prune"))
+         prune-group (is "true" (arg req "prune-group")))
     (ensure-station user sname)
-    (mark-read user sname doc outcome)
+    (mark-read user sname doc outcome prune-feed prune-group)
     (handle-same-feed user sname doc outcome)
     (render-doc-with-context user sname (next-doc user sname))))
 
@@ -220,23 +222,25 @@
 (def mark-read-url(user sname doc n)
   (if (is n 1)
     (if
-      (and (erp:borderline-preferred-feed user sname doc)
+      (and (borderline-preferred-feed user sname doc)
            (~empty doc-feedtitle.doc))
         (pushHistory sname doc
                      (+ "'outcome=" n "&' + "
-                        (erp:check-with-user
+                        (check-with-user
                           (+ "Should I stop showing articles from\\n"
                             "  " doc-feedtitle.doc "\\n"
                             "in this channel?")
                          "prune")))
       (aif (borderline-unpreferred-group user sname doc)
+  (do (erp "aaaaaaazzt: " it)
         (pushHistory sname doc
                      (+ "'outcome=" n "&' + "
-                        (erp:check-with-user
+                        (check-with-user
                           (+ "Should I stop showing any articles about\\n"
                             "  " it "\\n"
                             "in this channel?")
                          "prune-group")))))))
+  )
 
 
 

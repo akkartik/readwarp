@@ -1267,3 +1267,8 @@ Ok seems to be working now.
 reset is a time-bomb like reload. Also useless to me since userinfo then stops
 getting persisted.
 =-=490 - Wed Feb 24 13:10:05 PST 2010
+
+Hooked up handle-downvote with mark-read-url. Still breaking. It's a hassle
+keeping the two sync'd to avoid both redundant dialogs and dialog-less
+backoffs.
+=-=492 - Wed Feb 24 14:02:29 PST 2010
