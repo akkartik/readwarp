@@ -163,9 +163,10 @@
       (set station!unpreferred.feed)
       (with (prefd-groups (groups:preferred-feeds user station)
              this-groups  (groups list.feed))
+        (erp "this-groups: " this-groups)
         (each g this-groups
-          (when (and station!groups.g
-                   (no:pos g prefd-groups))
+          (erp g)
+          (when station!groups.g
             (erp "trying to delete " g)
             (backoff-add station!groups.g feed)
             (erp "now: " station!groups.g)

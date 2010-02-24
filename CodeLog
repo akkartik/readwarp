@@ -1275,3 +1275,5 @@ backoffs.
 Seems to be working now. Only issue: dialog never shows up for groups until
 the first feed is preferred in that group.
 =-=494 - Wed Feb 24 14:52:55 PST 2010
+It wasn't quite that. Anyway, fixed.
+=-=495 - Wed Feb 24 14:57:42 PST 2010
