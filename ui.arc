@@ -100,6 +100,7 @@
         (news-ticker)))))
 
 (defop station req
+  (erp "station" req)
   (withs (user (current-user req)
           query (or (arg req "seed") ""))
     (ensure-station user query)
@@ -112,6 +113,7 @@
     (wipe userinfo*.user!stations.sname)))
 
 (def reader(req)
+  (erp "reader" req)
   (withs (user current-user.req
           query (or= userinfo*.user!all (stringify:unique-id)))
     (ensure-station user query)
@@ -124,6 +126,7 @@
                                 user userinfo*.user!stations.query)))))
 
 (defop docupdate req
+  (erp "docupdate" req)
   (with (user (current-user req)
          sname (or (arg req "station") "")
          doc (arg req "doc")
@@ -147,6 +150,7 @@
               doc))))
 
 (def history-panel(user sname req)
+  (erp "history-panel")
   (ensure-station user sname)
   (let items (read-list user sname)
     (paginate req "history" (+ "/history?station=" urlencode.sname)
