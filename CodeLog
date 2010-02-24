@@ -1272,3 +1272,6 @@ Hooked up handle-downvote with mark-read-url. Still breaking. It's a hassle
 keeping the two sync'd to avoid both redundant dialogs and dialog-less
 backoffs.
 =-=492 - Wed Feb 24 14:02:29 PST 2010
+Seems to be working now. Only issue: dialog never shows up for groups until
+the first feed is preferred in that group.
+=-=494 - Wed Feb 24 14:52:55 PST 2010

@@ -241,10 +241,14 @@
   (if b
     (>= (len b.2) (- b.1 1))))
 
-(mac backoff-check(b)
+(mac backoff-check(b pred)
   `(when (>= (len (,b 2)) (,b 1))
     (erp "clearing " (,b 0))
-    (wipe ,b)))
+    (if ,pred
+      (wipe ,b)
+      (do
+        (erp "backing off")
+        (backoff-again ,b)))))
 
 (mac backoff-again(b)
   `(zap [* 2 _] (,b 1)))

@@ -156,14 +156,7 @@
       (erp "currently preferred")
       (or= station!preferred.feed (backoff doc 2))
       (backoff-add station!preferred.feed doc)
-      (if (or prune-feed prune-group)
-        (do
-          (erp "pruning feed")
-          (backoff-check station!preferred.feed))
-        (do
-          (erp "backing off")
-          (backoff-again station!preferred.feed)
-          (erp station!preferred.feed)))
+      (backoff-check station!preferred.feed (or prune-feed prune-group)))
     (do
       ; sync preconditions to get here with borderline-unpreferred-group
       (erp "currently not in preferred; unpreferring " feed)
@@ -176,15 +169,8 @@
             (erp "trying to delete " g)
             (backoff-add station!groups.g feed)
             (erp "now: " station!groups.g)
-            (if prune-group
-              (do
-                (erp "pruning group")
-                (backoff-check station!groups.g))
-              (do
-                (erp "backing off")
-                (backoff-again station!groups.g)
-                (erp station!groups.g)))
-            (erp "groups remaining: " (len-keys station!groups)))))
+            (backoff-check station!groups.g prune-group)
+            (erp "groups remaining: " (len-keys station!groups))))
         (when (empty station!groups)
           (= station!groups
              (backoffify (rem [pos _ this-groups]
@@ -193,11 +179,12 @@
 
 (def borderline-preferred-feed(user sname doc)
   (iflet feed doc-feed.doc
-    (backoff-borderline userinfo*.user!stations.sname!preferred.feed)))
+    (and (pos feed (preferred-feeds user userinfo*.user!stations.sname))
+         (backoff-borderline userinfo*.user!stations.sname!preferred.feed))))
 
 (def borderline-unpreferred-group(user sname doc)
   (iflet feed doc-feed.doc
-    (and (pos feed (preferred-feeds user userinfo*.user!stations.sname))
+    (and (~pos feed (preferred-feeds user userinfo*.user!stations.sname))
          (find [backoff-borderline userinfo*.user!stations.sname!groups._]
                (groups:list feed)))))
 
