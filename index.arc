@@ -162,9 +162,13 @@
       (with (prefd-groups (groups:keys station!preferred)
              this-groups  (groups list.feed))
         (each g this-groups
-          (unless (pos g prefd-groups)
+          (when (and station!groups.g
+                   (no:pos g prefd-groups))
+            (erp "trying to delete " g)
             (backoff-add station!groups.g feed)
-            (backoff-check station!groups.g)))
+            (erp "now: " station!groups.g)
+            (backoff-check station!groups.g)
+            (erp "groups remaining: " (len-keys station!groups))))
         (if (empty station!groups)
           (= station!groups
              (backoffify (rem [pos _ this-groups]

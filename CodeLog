@@ -1248,3 +1248,7 @@ that we can backoff-check them conveniently.
 
 Let's start formalizing the process of migrating data.
 =-=481 - Tue Feb 23 19:13:20 PST 2010
+Bugfix: Handle groups for demoted feed that already aren't in preferred groups.
+
+The code is getting messy..
+=-=483 - Tue Feb 23 20:22:51 PST 2010

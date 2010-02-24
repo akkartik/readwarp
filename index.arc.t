@@ -15,7 +15,7 @@
       "blog" '("a.com/feed" "b.com/feed"))
 
 (shadowing feed-groups* (obj "feed1" "group1"
-                             "a.com/feed" "group2")
+                             "a.com/feed" '("group2" "group3"))
 
 (shadowing group-feeds* (obj "group2" "a.com/feed")
 
@@ -28,7 +28,8 @@
   (ensure-user nil)
   (ensure-station nil "a")
   (test-iso "gen-groups works"
-    (obj "group2" '("group2" 2 nil))
+    (obj "group2" '("group2" 2 nil)
+         "group3" '("group3" 2 nil))
     ((userinfo*.nil!stations "a") 'groups))
 
   (test-iso "feeds works"
