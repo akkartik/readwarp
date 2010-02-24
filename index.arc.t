@@ -17,6 +17,10 @@
 (shadowing feed-groups* (obj "feed1" "group1"
                              "a.com/feed" "group2")
 
+(shadowing group-feeds* (obj "group2" "a.com/feed")
+
+(shadowing feedgroups* '("group1" "group2")
+
   (test-ok "scan-feeds finds feeds containing a keyword"
     (pos "a.com/feed" (scan-feeds "blog")))
 
@@ -24,15 +28,15 @@
   (ensure-user nil)
   (ensure-station nil "a")
   (test-iso "gen-groups works"
-    '("group2")
+    '(("group2" 2 nil))
     ((userinfo*.nil!stations "a") 'groups))
 
-  (ensure-station nil "blog")
-  (let station (userinfo*.nil!stations "blog")
-    (test-iso "starting with a random station"
-      feedgroups*
-      station!groups)
+  (test-iso "feeds works"
+    '("a.com/feed")
+    (feeds ((userinfo*.nil!stations "a") 'groups)))
 
+  (ensure-station nil "")
+  (let station (userinfo*.nil!stations "")
     (shadowing doc-feed (fn(doc) "feed0")
       (handle-downvote nil station "doc0" "feed0")
       (test-ok "downvoting a non-preferred feed puts it immediately in the unpreferred list"
@@ -64,6 +68,10 @@
 
     )
 
+    (test-iso "starting randomly across all groups"
+      feedgroups*
+      (map car station!groups))
+
   )
 
-)))))
+)))))))

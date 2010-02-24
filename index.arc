@@ -126,7 +126,7 @@
   (each user (keys userinfo*)
     (each (sname station) userinfo*.user!stations
       (wipe station!showlist)
-      (zap [map [cons _ nil] _] station!groups))))
+      (zap [map [backoff _ 2] _] station!groups))))
 
 (proc mark-read(user sname doc outcome)
   (if (is 4 outcome) (= outcome 2))
@@ -180,10 +180,11 @@
       (erp "Groups: " station!groups)
       (unless station!groups
         (flash "Showing a few random stories")
-        (= station!groups feedgroups*)))))
+        (= station!groups feedgroups*))
+      (zap [map [backoff _ 2] _] station!groups))))
 
 (def feeds(groups)
-  (flat:map group-feeds* groups))
+  (flat:map group-feeds*:car groups))
 
 (def preferred-feeds(user station)
   (+ (keys station!preferred)

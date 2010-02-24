@@ -1238,3 +1238,5 @@ Eliminate nil stations once and for all.
 About to enhance station!groups. First a test case to set a stake down on what
 currently works.
 =-=478 - Tue Feb 23 13:02:57 PST 2010
+Data format changed for station!groups.
+=-=479 - Tue Feb 23 16:45:10 PST 2010
