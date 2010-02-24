@@ -231,8 +231,7 @@
                             "  " doc-feedtitle.doc "\\n"
                             "in this channel?")
                          "prune")))
-      (aif (borderline-unpreferred-group user sname doc)
-  (do (erp "aaaaaaazzt: " it)
+      (awhen (borderline-unpreferred-group user sname doc)
         (pushHistory sname doc
                      (+ "'outcome=" n "&' + "
                         (check-with-user
@@ -240,7 +239,6 @@
                             "  " it "\\n"
                             "in this channel?")
                          "prune-group")))))))
-  )
 
 
 

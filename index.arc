@@ -185,7 +185,7 @@
                 (backoff-again station!groups.g)
                 (erp station!groups.g)))
             (erp "groups remaining: " (len-keys station!groups)))))
-        (if (empty station!groups)
+        (when (empty station!groups)
           (= station!groups
              (backoffify (rem [pos _ this-groups]
                              feedgroups*)
