@@ -183,7 +183,7 @@
 (def borderline-unpreferred-group(user sname doc)
   (iflet feed doc-feed.doc
     (find [backoff-borderline userinfo*.user!stations.sname!groups._]
-          (erp:groups:list feed))))
+          (groups:list feed))))
 
 
 
@@ -195,7 +195,7 @@
                         (flat:map split-urls words.keyword)))))
 
 (def groups(feeds)
-  (flat:map feed-groups* feeds))
+  (dedup:flat:map feed-groups* feeds))
 
 (def initial-preferred-groups-for(sname)
   (ret ans (dedup:keep id (groups scan-feeds.sname))

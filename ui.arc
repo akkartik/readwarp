@@ -215,26 +215,28 @@
 (def button(user sname doc n cls tooltip)
   (tag:input type "button" class (+ cls " button") value tooltip
              onclick (or (mark-read-url user sname doc n)
-                         (pushHistory sname doc n))))
+                         (pushHistory sname doc (+ "'outcome=" n "'")))))
 
 (def mark-read-url(user sname doc n)
   (if (is n 1)
     (if
       (and (erp:borderline-preferred-feed user sname doc)
            (~empty doc-feedtitle.doc))
-        (erp:check-with-user (+ "Should I stop showing articles from\\n"
+        (pushHistory sname doc
+                     (+ "'outcome=" n "&' + "
+                        (erp:check-with-user
+                          (+ "Should I stop showing articles from\\n"
                             "  " doc-feedtitle.doc "\\n"
                             "in this channel?")
-                         "prune"
-                         (pushHistory sname doc n))
+                         "prune")))
       (aif (borderline-unpreferred-group user sname doc)
-        (erp "bbbb"))))
-;?         (erp:check-with-user (+ "Should I stop showing any articles about\n"
-;?                             "  " it "\n"
-;?                             "in this channel?")
-;?                          "prune-group"
-;?                          (pushHistory sname doc n)))))
-  )
+        (pushHistory sname doc
+                     (+ "'outcome=" n "&' + "
+                        (erp:check-with-user
+                          (+ "Should I stop showing any articles about\\n"
+                            "  " it "\\n"
+                            "in this channel?")
+                         "prune-group")))))))
 
 
 
