@@ -1263,3 +1263,7 @@ check-with-user.
 =-=488 - Wed Feb 24 12:41:45 PST 2010
 Ok seems to be working now.
 =-=489 - Wed Feb 24 13:02:15 PST 2010
+
+reset is a time-bomb like reload. Also useless to me since userinfo then stops
+getting persisted.
+=-=490 - Wed Feb 24 13:10:05 PST 2010

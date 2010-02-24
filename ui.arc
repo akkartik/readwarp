@@ -332,13 +332,6 @@
                   (arg req "msg"))
   (arg req "location"))
 
-(defopr reset req
-  (= userinfo* (table))
-  "/")
-
-;? (defop reload req
-;?   (init-code))
-
 (def current-user(req)
   (ret user get-user.req
     (unless userinfo*.user ensure-user.user)))
