@@ -186,7 +186,7 @@
   (tag (div id (+ "contents_" doc))
     (tag (h2 class "title")
       (tag (a href doc-url.doc target "_blank")
-        (pr doc-title.doc)))
+        (pr (or doc-title.doc "no title"))))
     (tag (div class "date")
       (aif pubdate.doc (pr render-date.it)))
     (tag div
