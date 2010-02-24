@@ -245,6 +245,12 @@
 (mac backoff-again(b)
   (zap [* 2 _] b.1))
 
+; backoff structures are often organized in tables
+(def backoffify(l n)
+  (w/table ans
+    (each elem l
+      (= ans.elem (backoff elem n)))))
+
 
 
 ;; memoization with programmable clear

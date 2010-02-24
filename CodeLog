@@ -1240,3 +1240,8 @@ currently works.
 =-=478 - Tue Feb 23 13:02:57 PST 2010
 Data format changed for station!groups.
 =-=479 - Tue Feb 23 16:45:10 PST 2010
+Done enhancing station!groups. Surprisingly simple in number of tests, and yet
+it was near impossible to keep in my head.
+One major insight: the best place to store backoff structures is in tables, so
+that we can backoff-check them conveniently.
+=-=480 - Tue Feb 23 17:54:49 PST 2010

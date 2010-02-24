@@ -28,12 +28,12 @@
   (ensure-user nil)
   (ensure-station nil "a")
   (test-iso "gen-groups works"
-    '(("group2" 2 nil))
+    (obj "group2" '("group2" 2 nil))
     ((userinfo*.nil!stations "a") 'groups))
 
   (test-iso "feeds works"
     '("a.com/feed")
-    (feeds ((userinfo*.nil!stations "a") 'groups)))
+    (feeds:keys ((userinfo*.nil!stations "a") 'groups)))
 
   (ensure-station nil "")
   (let station (userinfo*.nil!stations "")
@@ -43,6 +43,10 @@
         (station!unpreferred "feed0")))
 
     (shadowing doc-feed (fn(doc) "feed1")
+      (test-iso "starting randomly across all groups"
+        (sort < feedgroups*)
+        (sort < (keys station!groups)))
+
       (handle-upvote nil station "doc1" "feed1")
       (test-ok "upvoting a non-preferred feed puts it immediately in the preferred list"
         (station!preferred "feed1"))
@@ -66,11 +70,22 @@
       (test-nil "consecutive downvotes demotes preferred feeds"
         (station!preferred "feed1"))
 
+      (handle-downvote nil station "doc6" "feed1")
+      (handle-downvote nil station "doc7" "feed1")
+      (test-iso "consecutive downvotes demote group"
+        '("group2")
+        (keys station!groups))
     )
 
-    (test-iso "starting randomly across all groups"
-      feedgroups*
-      (map car station!groups))
+    (shadowing doc-feed (fn(doc) "a.com/feed")
+
+      (handle-downvote nil station "doc8" "a.com/feed")
+      (handle-downvote nil station "doc9" "a.com/feed")
+      (test-iso "demoting the last group resets groups to all but that groups"
+        '("group1")
+        (keys station!groups))
+
+    )
 
   )
 

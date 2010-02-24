@@ -126,7 +126,7 @@
   (each user (keys userinfo*)
     (each (sname station) userinfo*.user!stations
       (wipe station!showlist)
-      (zap [map [backoff _ 2] _] station!groups))))
+      (zap [backoffify _ 2] station!groups))))
 
 (proc mark-read(user sname doc outcome)
   (if (is 4 outcome) (= outcome 2))
@@ -157,7 +157,18 @@
       (backoff-check station!preferred.feed))
     (do
       (erp "currently not in preferred; unpreferring " feed)
-      (set station!unpreferred.feed))))
+      (set station!unpreferred.feed)
+      (with (prefd-groups (groups:keys station!preferred)
+             this-groups  (groups list.feed))
+        (each g this-groups
+          (unless (pos g prefd-groups)
+            (backoff-add station!groups.g feed)
+            (backoff-check station!groups.g)))
+        (if (empty station!groups)
+          (= station!groups
+             (backoffify (rem [pos _ this-groups]
+                             feedgroups*)
+                         2)))))))
 
 
 
@@ -168,32 +179,37 @@
       (dedup:common:map keyword-feeds:canonicalize
                         (flat:map split-urls words.keyword)))))
 
+(def groups(feeds)
+  (flat:map feed-groups* feeds))
+
+(def initial-preferred-groups-for(sname)
+  (ret ans (dedup:keep id (groups scan-feeds.sname))
+    ;; HACK while my feeds are dominated by nerdy stuff.
+    (if (len> ans 2)
+      (nrem "Programming" ans))
+    (if (len> ans 2)
+      (nrem "Technology" ans))
+
+    (erp "Groups: " ans)
+    (unless ans
+      (flash "Showing a few random stories")
+      (= ans feedgroups*))))
+
 (proc gen-groups(user sname)
-  (let station userinfo*.user!stations.sname
-    (when (no station!groups)
-      (or= station!groups (dedup:keep id (flat:map feed-groups* scan-feeds.sname)))
-      ;; HACK while my feeds are dominated by nerdy stuff.
-      (if (len> station!groups 2)
-        (nrem "Programming" station!groups))
-      (if (len> station!groups 2)
-        (nrem "Technology" station!groups))
-      (erp "Groups: " station!groups)
-      (unless station!groups
-        (flash "Showing a few random stories")
-        (= station!groups feedgroups*))
-      (zap [map [backoff _ 2] _] station!groups))))
+  (or= userinfo*.user!stations.sname!groups
+       (backoffify initial-preferred-groups-for.sname 2)))
 
 (def feeds(groups)
-  (flat:map group-feeds*:car groups))
+  (flat:map group-feeds* groups))
 
 (def preferred-feeds(user station)
   (+ (keys station!preferred)
      (keep [userinfo*.user!preferred-feeds _]
-           (feeds station!groups))))
+           (feeds:keys station!groups))))
 
 (def feeds-from-groups(user station)
   (rem [station!unpreferred _]
-       (feeds station!groups)))
+       (feeds:keys station!groups)))
 
 (def guess-type(entry)
   (if entry
