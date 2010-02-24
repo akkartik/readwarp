@@ -14,15 +14,21 @@
   "if.confirm.'abc'...inline.'id', '/x\\?fnid=.*'.;."
   (confirm "abc" (inline "id" (fn(req) 3))))
 
+(test-iso "check-with-user works"
+  "'arg=' + confirm('foo?')"
+  (check-with-user "foo?" "arg"))
+
 (test-iso "check-with-user works with url"
-  "inline('id', '/foo' + '?arg=' + confirm('arg'));"
+  "inline('id', '/foo?' + 'arg=' + confirm('arg?'));"
   (inline "id"
-          (check-with-user "/foo" "arg" "arg")))
+          (+ "'/foo?' + "
+             (check-with-user "arg?" "arg"))))
 
 (test-smatch "check-with-user works with fn"
-  "inline.'id', '/x\\?fnid=.*' . '&arg=' . confirm.'arg'..;"
+  "inline.'id', '/x\\?fnid=.*' . '&' . 'arg=' . confirm.'arg'..;"
   (inline "id"
-          (check-with-user (fn(req) 3) "arg" "arg")))
+          (+ (jsquotes:flink (fn(req) 3)) " + '&' + "
+             (check-with-user "arg" "arg"))))
 
 
 

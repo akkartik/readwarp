@@ -160,7 +160,7 @@
     (do
       (erp "currently not in preferred; unpreferring " feed)
       (set station!unpreferred.feed)
-      (with (prefd-groups (groups:keys station!preferred)
+      (with (prefd-groups (groups:preferred-feeds user station)
              this-groups  (groups list.feed))
         (each g this-groups
           (when (and station!groups.g
@@ -175,6 +175,15 @@
              (backoffify (rem [pos _ this-groups]
                              feedgroups*)
                          2)))))))
+
+(def borderline-preferred-feed(user sname doc)
+  (iflet feed (erp doc-feed.doc)
+    (backoff-borderline userinfo*.user!stations.sname!preferred.feed)))
+
+(def borderline-unpreferred-group(user sname doc)
+  (iflet feed doc-feed.doc
+    (find [backoff-borderline userinfo*.user!stations.sname!groups._]
+          (erp:groups:list feed))))
 
 
 

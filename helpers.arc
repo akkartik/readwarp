@@ -29,16 +29,17 @@
      maybe-flink.f
      ");"))
 
+(def pushHistory(sname doc n)
+  (+ "pushHistory('" jsesc.sname "', '" jsesc.doc "', 'outcome=" n "')"))
+
 (def confirm(msg s)
   (+ "if(confirm('" msg "')){"
        s
      "}"))
 
-(def check-with-user(url msg param)
-  (let u maybe-flink.url
-    (+ u " + "
-       "'" udelim.u param "='" " + "
-         "confirm('" msg "')")))
+(def check-with-user(msg param)
+  (+ "'" param "='" " + "
+     "confirm('" msg "')"))
 
 (mac w/jslink(attr-generator . body)
   `(tag (a ,@(eval attr-generator))

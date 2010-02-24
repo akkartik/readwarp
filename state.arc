@@ -237,6 +237,10 @@
 (def backoff-add(b attempt)
   (push attempt b.2))
 
+(def backoff-borderline(b)
+  (if b
+    (>= (len b.2) b.1)))
+
 (mac backoff-check(b)
   `(when (>= (len (,b 2)) (,b 1))
     (erp "clearing " (,b 0))

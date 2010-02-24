@@ -170,14 +170,14 @@
     (feedback-form sname doc))
   (if doc
     (tag (div id (+ "doc_" doc))
-      (buttons sname doc)
+      (buttons user sname doc)
       (tag (div class "history" style "display:none")
         (render-doc-link user sname doc))
       (tag (table class "main")
         (tr
           (tag (td class "post")
             (render-doc sname doc))))
-      (buttons sname doc))
+      (buttons user sname doc))
     (do
       (prn "Oops, there was an error. I've told Kartik. Please feel free to use the feedback form &rarr;")
       (write-feedback user sname "" "No result found"))))
@@ -205,16 +205,36 @@
       (tag (a onclick (+ "showDoc('" jsesc.sname "', '" jsesc.doc "')") href "#" style "font-weight:bold")
         (pr doc-title.doc)))))
 
-(def buttons(sname doc)
+(def buttons(user sname doc)
   (tag (div class "buttons")
-    (button sname doc 1 "skip" "not interesting")
-    (button sname doc 2 "next" "more like this")
-    (button sname doc 4 "love" "more from this site")
+    (button user sname doc 1 "skip" "not interesting")
+    (button user sname doc 2 "next" "more like this")
+    (button user sname doc 4 "love" "more from this site")
     (clear)))
 
-(def button(sname doc n cls tooltip)
-  (tag (input type "button" class (+ cls " button") value tooltip
-              onclick (+ "pushHistory('" jsesc.sname "', '" jsesc.doc "', 'outcome=" n "')"))))
+(def button(user sname doc n cls tooltip)
+  (tag:input type "button" class (+ cls " button") value tooltip
+             onclick (or (mark-read-url user sname doc n)
+                         (pushHistory sname doc n))))
+
+(def mark-read-url(user sname doc n)
+  (if (is n 1)
+    (if
+      (and (erp:borderline-preferred-feed user sname doc)
+           (~empty doc-feedtitle.doc))
+        (erp:check-with-user (+ "Should I stop showing articles from\\n"
+                            "  " doc-feedtitle.doc "\\n"
+                            "in this channel?")
+                         "prune"
+                         (pushHistory sname doc n))
+      (aif (borderline-unpreferred-group user sname doc)
+        (erp "bbbb"))))
+;?         (erp:check-with-user (+ "Should I stop showing any articles about\n"
+;?                             "  " it "\n"
+;?                             "in this channel?")
+;?                          "prune-group"
+;?                          (pushHistory sname doc n)))))
+  )
 
 
 
