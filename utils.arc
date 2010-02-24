@@ -398,6 +398,7 @@
   `(do (or= ,place (table))
        (init-table ,place (list ,@args))))
 
+; XXX redundantly computed vals
 (def init-table (table data)
   (each (k v) (pair data) (or= (table k) v))
   table)
