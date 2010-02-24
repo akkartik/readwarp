@@ -151,9 +151,10 @@
 
 (proc handle-downvote(user station doc feed)
   (erp "downvote: " station!preferred.feed)
-  (if station!preferred.feed
+  (if (pos feed (preferred-feeds user station))
     (do
       (erp "currently preferred")
+      (or= station!preferred.feed (backoff doc 2))
       (backoff-add station!preferred.feed doc)
       (backoff-check station!preferred.feed))
     (do
