@@ -186,13 +186,13 @@
   (tag (div id (+ "contents_" doc))
     (tag (h2 class "title")
       (tag (a href doc-url.doc target "_blank")
-        (pr (or doc-title.doc "no title"))))
+        (pr (check doc-title.doc ~empty "no title"))))
     (tag (div class "date")
       (aif pubdate.doc (pr render-date.it)))
     (tag div
       (iflet siteurl doc-site.doc
         (tag (a href siteurl target "_blank")
-          (pr (or doc-feedtitle.doc "website")))))
+          (pr (check doc-feedtitle.doc ~empty "website")))))
     (tag p
       (pr:contents doc))))
 
