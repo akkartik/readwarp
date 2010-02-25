@@ -129,6 +129,7 @@
   (prn "migrate-stations")
   (each user (keys userinfo*)
     (each (sname station) userinfo*.user!stations
+      (= station!last-showlist (queue))
       (= station!showlist (queue)))))
 
 (init history-size* 5)

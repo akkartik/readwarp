@@ -1314,3 +1314,5 @@ It's super fast now!
 =-=509 - Thu Feb 25 11:57:19 PST 2010
 Tests pass.
 =-=510 - Thu Feb 25 12:00:38 PST 2010
+Bugfix: migration needed to update last-showlist in addition to showlist.
+=-=511 - Thu Feb 25 15:03:28 PST 2010
