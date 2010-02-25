@@ -210,21 +210,12 @@
                        (f curr)))
             (= ans curr)))))))
 
-(mac foo()
-  `(let a 3 ,@(accum acc (acc `(prn 3)) (acc `(prn 4)) (acc `(prn 5)))))
-(mac foo2 args
-  `(let a 3 ,@(accum acc (each (a b) (pair args) (acc a)))))
-
 (mac randpick args
   (w/uniq (x ans)
     `(with (,x (rand)
             ,ans nil)
-      (erp "rand: " ,x)
-;?       (erp "aa: " ,@args)
-;?       (erp "zz"))))
-      ,(accum acc
+      ,@(accum acc
          (each (thresh expr) (pair args)
-           (erp "  iter: " thresh " " ans)
            (acc `(when (and (no ,ans)
                             (< ,x ,thresh))
                    (= ,ans ,expr))))

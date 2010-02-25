@@ -289,26 +289,10 @@
     (enq doc station!showlist)))
 
 (def new-doc(user station)
-  (with (x (rand)
-         ans nil)
-    (when (and (no ans)
-               (< x preferred-probability*))
-      (= ans (choose-from-preferred user station)))
-    (erp "aa: " ans)
-    (when (and (no ans)
-               (< x group-probability*))
-      (= ans (choose-from-group user station)))
-    (erp "bb: " ans)
-    (when (and (no ans)
-               (< x 1.01))
-      (= ans (choose-from-random user station)))
-    ans))
-;?   (randpick
-;?         preferred-probability*      (choose-from-preferred user station)
-;?         group-probability*          (choose-from-group user station)
-;?         1.01                        (choose-from-random user random)))
-(after-exec new-doc(user station)
-  (erp "randpick: " result))
+  (randpick
+        preferred-probability*      (choose-from-preferred user station)
+        group-probability*          (choose-from-group user station)
+        1.01                        (choose-from-random user random)))
 
 (def neglected-unread(user station feed)
   ((andf [~recently-shown? station _]
