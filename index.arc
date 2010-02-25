@@ -118,16 +118,19 @@
     (let station userinfo*.user!stations.sname
       (= station!name sname station!preferred (table) station!unpreferred (table))
       (= station!created (seconds))
-      (= station!showlist (keep [most-recent-unread user _] scan-feeds.sname))
-      (= station!last-showlist station!showlist)))
+      (= station!showlist (queue))
+      (each feed (keep [most-recent-unread user _] scan-feeds.sname)
+        (enq feed station!showlist))
+      (= station!last-showlist (queue))))
   (gen-groups user sname))
 
 (defreg migrate-stations() migrations*
   (prn "migrate-stations")
   (each user (keys userinfo*)
     (each (sname station) userinfo*.user!stations
-      (wipe station!showlist)
-      (zap [backoffify _ 2] station!groups))))
+      (= station!showlist (queue)))))
+
+(init history-size* 5)
 
 (proc mark-read(user sname doc outcome prune-feed prune-group)
   (if (is 4 outcome) (= outcome 2))
@@ -136,8 +139,10 @@
     (erp outcome " " doc)
     (unless userinfo*.user!read.doc
       (= userinfo*.user!read.doc outcome)
-        (push doc station!read-list)
-        (pop station!showlist))
+      (push doc station!read-list)
+      (enqn (deq station!showlist)
+            station!last-showlist
+            history-size*))
 
     (let feed doc-feed.doc
       (or= station!preferred (table))
@@ -253,67 +258,59 @@
     (if (pos guess-type.ans '(feed url))
       (zap [most-recent-unread user _] ans))))
 
+(init batch-size* 5)
+(init rebuild-threshold* 2)
+;; XXX Currently constant; should depend on:
+;;  a) how many preferred feeds the user has
+;;  b) recent downvotes
+;;  c) user input?
+(init preferred-probability* 0.6)
+(init group-probability* 1.0)
+
 (def showlist(user station)
+  (when (< (qlen station!showlist) rebuild-threshold*)
+    (new-thread "showlist" (fn() (rebuild-showlist user station))))
   (when (no station!showlist)
-    (rebuild-showlist user station))
+    (add-to-showlist user station))
   station!showlist)
 
-;; Pick 5 stories at a time
-(= batch-size* 5)
-;;   Fill each slot with most recent story from preferred feeds, avoiding recent, with some probability
-;;   Fill remainder with most recent story from this group, avoiding recent
-;;   Fill remainder with most recent story from random feeds, avoiding recent and unpreferred feeds
 (proc rebuild-showlist(user station)
-  (choose-from-preferred user station)
-  (fill-by-group user station)
-  (fill-random user station)
-  (zap rev station!showlist)
-  (= station!last-showlist station!showlist))
+  (repeat batch-size*
+    (add-to-showlist user station)))
+
+(proc add-to-showlist(user station)
+  (enq (new-doc user station) station!showlist))
+
+(def new-doc(user station)
+  (enq
+    (erp:randpick
+      preferred-probability*        (choose-from-preferred user station)
+      group-probability*            (choose-from-group user station)
+      1.01                          (choose-from-random user station)))
+    station!showlist)
 
 (def neglected-unread(user station feed)
   ((andf [~recently-shown? station _]
         [most-recent-unread user _])
     feed))
 
-(mac choosing-random-neglected-unread(expr . body)
-  `(withs (candidates   ,expr
-           feed         (findg randpos.candidates
-                               [neglected-unread user station _]))
-      (when feed ,@body)))
+(def choose-from-preferred(user station)
+  (let candidates (preferred-feeds user station)
+    (findg randpos.candidates
+           [neglected-unread user station _])))
 
-;; XXX Currently constant; should depend on:
-;;  a) how many preferred feeds the user has
-;;  b) recent downvotes
-;;  c) user input?
-(= preferred-probability* 0.6)
+(def choose-from-group(user station)
+  (let candidates (feeds-from-groups user station)
+    (findg randpos.candidates
+           [neglected-unread user station _])))
 
-(proc choose-from-preferred(user station)
-  (repeat batch-size*
-    (if (< (rand) preferred-probability*)
-      (choosing-random-neglected-unread (preferred-feeds user station)
-        (erp "preferred: " feed)
-        (pushnew feed station!showlist)
-        (pull feed candidates)))))
-
-(proc fill-by-group(user station)
-  (repeat (- batch-size* (len station!showlist))
-    (choosing-random-neglected-unread (feeds-from-groups user station)
-      (erp "group: " feed)
-      (pushnew feed station!showlist)
-      (pull feed candidates))))
-
-(proc fill-random(user station)
-  (repeat (- batch-size* (len station!showlist))
-    (choosing-random-neglected-unread nonnerdy-feed-list*
-      (erp "random: " feed)
-      (pushnew feed station!showlist))
-      (pull feed candidates)))
+(def choose-from-random(user station)
+  (findg randpos.nonnerdy-feed-list*
+         [neglected-unread user station _]))
 
 (def recently-shown?(station feed)
-  (or (pos feed station!last-showlist)
-      (pos feed station!showlist)))
-(def recently-shown-feed?(station doc)
-  (recently-shown? station doc-feed.doc))
+  (or (pos feed (qlist station!last-showlist))
+      (pos feed (qlist station!showlist))))
 
 (def most-recent-unread(user feed)
   (most doc-timestamp (rem [read? user _] feed-docs.feed)))

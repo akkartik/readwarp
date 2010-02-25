@@ -210,6 +210,21 @@
                        (f curr)))
             (= ans curr)))))))
 
+(mac randpick args
+  (w/uniq (x ans)
+    `(with (,x (rand)
+            ,ans nil)
+       (each (thresh expr) (pair ',args)
+          (when (and (no ,ans)
+                   (< ,x eval.thresh))
+            (= ,ans eval.expr)))
+       ,ans)))
+
+(def enqn(obj q n)
+  (enq obj q)
+  (while (> qlen.q n)
+    (deq q)))
+
 (def zip ls
   (apply map list ls))
 
