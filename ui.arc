@@ -135,7 +135,6 @@
          prune-group (is "true" (arg req "prune-group")))
     (ensure-station user sname)
     (mark-read user sname doc outcome prune-feed prune-group)
-    (handle-same-feed user sname doc outcome)
     (render-doc-with-context user sname (next-doc user sname))))
 
 (defop doc req
@@ -292,14 +291,6 @@
   (render-random-feeds))
 
 
-
-(proc handle-same-feed(user sname doc outcome)
-  (if (iso "4" outcome)
-    (withs (feed doc-feed.doc
-            station userinfo*.user!stations.sname)
-      (if (most-recent-unread user feed)
-        (push feed station!showlist) ;XXX
-        (flash "No more unread items in that feed")))))
 
 (defopr logout req
   (logout-user current-user.req)

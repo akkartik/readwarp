@@ -49,7 +49,7 @@ h2.title a{ color:#44c; font-weight:bold; }
 .subtitle { font-size:1.6em; font-style:italic; }
 .frontpage { margin-top:4em; font-size:1.6em; margin-left:auto;margin-right:auto; }
 
-.flash { font-size:1.4em; color:#cc4444; }
+.flash { color:#cc4444; }
 
 .ticker { overflow:hidden; margin:auto; padding:auto;
   border-top:1px solid #fff200; border-bottom:1px solid #fff200; }

@@ -134,22 +134,33 @@
 (init history-size* 5)
 
 (proc mark-read(user sname doc outcome prune-feed prune-group)
-  (if (is 4 outcome) (= outcome 2))
-  (let station userinfo*.user!stations.sname
-    (= outcome int.outcome)
+  (with (station  userinfo*.user!stations.sname
+         feed     doc-feed.doc)
     (erp outcome " " doc)
-    (unless userinfo*.user!read.doc
-      (= userinfo*.user!read.doc outcome)
-      (push doc station!read-list)
+
+    (= userinfo*.user!read.doc outcome)
+    (push doc station!read-list)
+
+    (let top (car:qlist station!showlist)
+      (unless (is top doc-feed.doc)
+        (erp "error: wrong feed")))
+
+    (unless (show-same-station outcome user feed)
       (enqn (deq station!showlist)
             station!last-showlist
             history-size*))
 
-    (let feed doc-feed.doc
-      (or= station!preferred (table))
-      (case outcome
-        1     (handle-downvote user station doc feed prune-feed prune-group)
-        2     (handle-upvote user station doc feed)))))
+    (or= station!preferred (table))
+    (case outcome
+      "1" (handle-downvote user station doc feed prune-feed prune-group)
+      "2" (handle-upvote user station doc feed)
+      "4" (handle-upvote user station doc feed))))
+
+(def show-same-station(outcome user feed)
+  (when (is outcome "4")
+    (ret ans (most-recent-unread user feed)
+      (unless ans
+        (flash "No stories left in that site")))))
 
 (proc handle-upvote(user station doc feed)
   (= station!preferred.feed (backoff doc 2))
