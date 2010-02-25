@@ -298,7 +298,7 @@
     (withs (feed doc-feed.doc
             station userinfo*.user!stations.sname)
       (if (most-recent-unread user feed)
-        (push feed station!showlist)
+        (push feed station!showlist) ;XXX
         (flash "No more unread items in that feed")))))
 
 (defopr logout req

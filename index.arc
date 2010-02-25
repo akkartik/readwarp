@@ -119,6 +119,7 @@
       (= station!name sname station!preferred (table) station!unpreferred (table))
       (= station!created (seconds))
       (= station!showlist (queue))
+      (erp station!showlist)
       (each feed (keep [most-recent-unread user _] scan-feeds.sname)
         (enq feed station!showlist))
       (= station!last-showlist (queue))))
@@ -269,10 +270,10 @@
 
 (def showlist(user station)
   (when (< (qlen station!showlist) rebuild-threshold*)
+    (erp "new thread")
     (new-thread "showlist" (fn() (rebuild-showlist user station))))
-  (when (no station!showlist)
-    (add-to-showlist user station))
-  station!showlist)
+  (until (> (qlen station!showlist) 0))
+  (qlist:erp station!showlist))
 
 (proc rebuild-showlist(user station)
   (repeat batch-size*
@@ -283,11 +284,12 @@
 
 (def new-doc(user station)
   (enq
-    (erp:randpick
-      preferred-probability*        (choose-from-preferred user station)
-      group-probability*            (choose-from-group user station)
-      1.01                          (choose-from-random user station)))
-    station!showlist)
+    ((erp:randpick
+            preferred-probability*        choose-from-preferred
+            group-probability*            choose-from-group
+            1.01                          choose-from-random)
+      user station)
+    station!showlist))
 
 (def neglected-unread(user station feed)
   ((andf [~recently-shown? station _]

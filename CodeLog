@@ -1287,3 +1287,5 @@ queues to avoid having to reverse the list.
 Almost there, but I'm again running into the fact that eval doesn't understand
 the lexical environment.
 =-=499 - Thu Feb 25 00:53:28 PST 2010
+That's fixed now, but the first call to rebuild-showlist blows through my RAM.
+=-=500 - Thu Feb 25 01:45:08 PST 2010
