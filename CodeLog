@@ -1307,3 +1307,5 @@ Cleanup.
 Seed a thread right at the start. You don't want a pause on the very first
 vote from a user.
 =-=507 - Thu Feb 25 11:19:43 PST 2010
+Loose end: a user's global channel.
+=-=508 - Thu Feb 25 11:25:46 PST 2010

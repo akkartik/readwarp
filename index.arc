@@ -247,13 +247,22 @@
 
 
 ;; For the main page show only preferred feeds.
+;; XXX duplication
+(def new-doc2(user station)
+  (choose-from-preferred user station))
+(proc add-to-showlist2(user station)
+  (iflet doc (new-doc2 user station)
+    (enq doc station!showlist)))
 (proc rebuild-showlist2(user station)
-  (choose-from-preferred user station)
-  (= station!last-showlist station!showlist))
+  (repeat batch-size*
+    (add-to-showlist2 user station)))
 (def showlist2(user station)
-  (if (no station!showlist)
-    (rebuild-showlist2 user station))
-  station!showlist)
+  (when (< (qlen station!showlist) rebuild-threshold*)
+    (erp "new thread2")
+    (new-thread "showlist2" (fn() rebuild-showlist2 user station)))
+  (until (> (qlen station!showlist) 0))
+  (erp station!showlist)
+  (qlist station!showlist))
 (def pick2(user station)
   (ret ans (car (showlist2 user station))
     (if (pos guess-type.ans '(feed url))
