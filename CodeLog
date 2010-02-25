@@ -1316,3 +1316,5 @@ Tests pass.
 =-=510 - Thu Feb 25 12:00:38 PST 2010
 Bugfix: migration needed to update last-showlist in addition to showlist.
 =-=511 - Thu Feb 25 15:03:28 PST 2010
+Argh, typo. Still getting over glitches on production.
+=-=512 - Thu Feb 25 15:32:01 PST 2010
