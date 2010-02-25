@@ -121,6 +121,7 @@
       (= station!showlist (queue))
       (each feed (keep [most-recent-unread user _] scan-feeds.sname)
         (enq feed station!showlist))
+      (new-thread "showlist" (fn() (rebuild-showlist user station)))
       (= station!last-showlist (queue))))
   (gen-groups user sname))
 
