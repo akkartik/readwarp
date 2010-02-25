@@ -39,7 +39,7 @@
   (ensure-station nil "")
   (let station (userinfo*.nil!stations "")
     (shadowing doc-feed (fn(doc) "feed0")
-      (handle-downvote nil station "doc0" "feed0")
+      (handle-downvote nil station "doc0" "feed0" t t)
       (test-ok "downvoting a non-preferred feed puts it immediately in the unpreferred list"
         (station!unpreferred "feed0")))
 
@@ -52,7 +52,7 @@
       (test-ok "upvoting a non-preferred feed puts it immediately in the preferred list"
         (station!preferred "feed1"))
 
-      (handle-downvote nil station "doc2" "feed1")
+      (handle-downvote nil station "doc2" "feed1" t t)
       (test-iso "downvoting a preferred feed doesn't demote it the first time"
         '("doc1" 2 ("doc2"))
         (station!preferred "feed1"))
@@ -62,17 +62,17 @@
         '("doc3" 2 nil)
         (station!preferred "feed1"))
 
-      (handle-downvote nil station "doc4" "feed1")
+      (handle-downvote nil station "doc4" "feed1" t t)
       (test-iso "non-consecutive downvotes don't demote preferred feeds"
         '("doc3" 2 ("doc4"))
         (station!preferred "feed1"))
 
-      (handle-downvote nil station "doc5" "feed1")
+      (handle-downvote nil station "doc5" "feed1" t t)
       (test-nil "consecutive downvotes demotes preferred feeds"
         (station!preferred "feed1"))
 
-      (handle-downvote nil station "doc6" "feed1")
-      (handle-downvote nil station "doc7" "feed1")
+      (handle-downvote nil station "doc6" "feed1" t t)
+      (handle-downvote nil station "doc7" "feed1" t t)
       (test-iso "consecutive downvotes demote group"
         '("group2")
         (keys station!groups))
@@ -80,8 +80,8 @@
 
     (shadowing doc-feed (fn(doc) "a.com/feed")
 
-      (handle-downvote nil station "doc8" "a.com/feed")
-      (handle-downvote nil station "doc9" "a.com/feed")
+      (handle-downvote nil station "doc8" "a.com/feed" t t)
+      (handle-downvote nil station "doc9" "a.com/feed" t t)
       (test-iso "demoting the last group resets groups to all but that groups"
         '("group1")
         (keys station!groups))

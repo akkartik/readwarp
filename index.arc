@@ -308,7 +308,7 @@
   (randpick
         preferred-probability*      (choose-from-preferred user station)
         group-probability*          (choose-from-group user station)
-        1.01                        (choose-from-random user random)))
+        1.01                        (choose-from-random user station)))
 
 (def neglected-unread(user station feed)
   ((andf [~recently-shown? station _]
