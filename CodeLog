@@ -1296,3 +1296,5 @@ The problem with this approach is that randpick never has a chance to fall
 through when preferred returns nil. We have to return docs inside the
 randpick.
 =-=501 - Thu Feb 25 10:00:16 PST 2010
+Just get rid of that macro. This works beauifully!
+=-=502 - Thu Feb 25 10:03:43 PST 2010
