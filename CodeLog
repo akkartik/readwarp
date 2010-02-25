@@ -1289,3 +1289,10 @@ the lexical environment.
 =-=499 - Thu Feb 25 00:53:28 PST 2010
 That's fixed now, but the first call to rebuild-showlist blows through my RAM.
 =-=500 - Thu Feb 25 01:45:08 PST 2010
+Redundant enq in new-doc. Not clear why that was so bad, but it explains qlen
+shooting up.
+
+The problem with this approach is that randpick never has a chance to fall
+through when preferred returns nil. We have to return docs inside the
+randpick.
+=-=501 - Thu Feb 25 10:00:16 PST 2010

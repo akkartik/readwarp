@@ -214,9 +214,12 @@
   (w/uniq (x ans)
     `(with (,x (rand)
             ,ans nil)
+      (erp "rand: " ,x)
        (each (thresh expr) (pair ',args)
+          (erp "  iter: " thresh " " ,ans " " eval.thresh)
           (when (and (no ,ans)
                    (< ,x eval.thresh))
+            (erp "inner")
             (= ,ans eval.expr)))
        ,ans)))
 

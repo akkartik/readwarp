@@ -119,9 +119,10 @@
       (= station!name sname station!preferred (table) station!unpreferred (table))
       (= station!created (seconds))
       (= station!showlist (queue))
-      (erp station!showlist)
+      (erp "a: " station!showlist)
       (each feed (keep [most-recent-unread user _] scan-feeds.sname)
         (enq feed station!showlist))
+      (erp "b: " station!showlist)
       (= station!last-showlist (queue))))
   (gen-groups user sname))
 
@@ -129,7 +130,8 @@
   (prn "migrate-stations")
   (each user (keys userinfo*)
     (each (sname station) userinfo*.user!stations
-      (= station!showlist (queue)))))
+      (= station!showlist (queue)))
+    (erp "c: " station!showlist)))
 
 (init history-size* 5)
 
@@ -143,7 +145,8 @@
       (push doc station!read-list)
       (enqn (deq station!showlist)
             station!last-showlist
-            history-size*))
+            history-size*)
+      (erp "e: " station!showlist))
 
     (let feed doc-feed.doc
       (or= station!preferred (table))
@@ -273,6 +276,7 @@
     (erp "new thread")
     (new-thread "showlist" (fn() (rebuild-showlist user station))))
   (until (> (qlen station!showlist) 0))
+  (erp "d: " station!showlist)
   (qlist:erp station!showlist))
 
 (proc rebuild-showlist(user station)
@@ -280,16 +284,18 @@
     (add-to-showlist user station)))
 
 (proc add-to-showlist(user station)
-  (enq (new-doc user station) station!showlist))
+  (erp "e: " station!showlist)
+  (iflet doc (new-doc user station)
+    (enq doc station!showlist)))
 
 (def new-doc(user station)
-  (enq
-    ((erp:randpick
-            preferred-probability*        choose-from-preferred
-            group-probability*            choose-from-group
-            1.01                          choose-from-random)
-      user station)
-    station!showlist))
+  ((randpick
+          preferred-probability*        choose-from-preferred
+          group-probability*            choose-from-group
+          1.01                          choose-from-random)
+    user station))
+(after-exec new-doc(user station)
+  (erp "randpick: " result))
 
 (def neglected-unread(user station feed)
   ((andf [~recently-shown? station _]
