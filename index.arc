@@ -97,9 +97,9 @@
 
 (def ensure-user(user)
   (unless userinfo*.user
-    (erp "new user: " user))
-  (inittab userinfo*.user 'preferred-feeds (or load-feeds.user (table))
-           'read (table) 'stations (table)))
+    (erp "new user: " user)
+    (inittab userinfo*.user 'preferred-feeds (or load-feeds.user (table))
+             'read (table) 'stations (table))))
 
 (def read-list(user station)
   userinfo*.user!stations.station!read-list)
