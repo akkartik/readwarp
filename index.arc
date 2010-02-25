@@ -119,10 +119,8 @@
       (= station!name sname station!preferred (table) station!unpreferred (table))
       (= station!created (seconds))
       (= station!showlist (queue))
-      (erp "a: " station!showlist)
       (each feed (keep [most-recent-unread user _] scan-feeds.sname)
         (enq feed station!showlist))
-      (erp "b: " station!showlist)
       (= station!last-showlist (queue))))
   (gen-groups user sname))
 
@@ -130,8 +128,7 @@
   (prn "migrate-stations")
   (each user (keys userinfo*)
     (each (sname station) userinfo*.user!stations
-      (= station!showlist (queue)))
-    (erp "c: " station!showlist)))
+      (= station!showlist (queue)))))
 
 (init history-size* 5)
 
@@ -145,8 +142,7 @@
       (push doc station!read-list)
       (enqn (deq station!showlist)
             station!last-showlist
-            history-size*)
-      (erp "e: " station!showlist))
+            history-size*))
 
     (let feed doc-feed.doc
       (or= station!preferred (table))
@@ -276,15 +272,14 @@
     (erp "new thread")
     (new-thread "showlist" (fn() (rebuild-showlist user station))))
   (until (> (qlen station!showlist) 0))
-  (erp "d: " station!showlist)
-  (qlist:erp station!showlist))
+  (erp station!showlist)
+  (qlist station!showlist))
 
 (proc rebuild-showlist(user station)
   (repeat batch-size*
     (add-to-showlist user station)))
 
 (proc add-to-showlist(user station)
-  (erp "e: " station!showlist)
   (iflet doc (new-doc user station)
     (enq doc station!showlist)))
 
