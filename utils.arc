@@ -210,6 +210,11 @@
                        (f curr)))
             (= ans curr)))))))
 
+(mac foo()
+  `(let a 3 ,@(accum acc (acc `(prn 3)) (acc `(prn 4)) (acc `(prn 5)))))
+(mac foo2 args
+  `(let a 3 ,@(accum acc (each (a b) (pair args) (acc a)))))
+
 (mac randpick args
   (w/uniq (x ans)
     `(with (,x (rand)
@@ -217,13 +222,13 @@
       (erp "rand: " ,x)
 ;?       (erp "aa: " ,@args)
 ;?       (erp "zz"))))
-      (accum acc
-        (each (thresh expr) (pair ',args)
-          (erp "  iter: " thresh " " ,ans)
-          (acc `(when (and (no ,,ans)
-                           (< ,,x ,thresh))
-                  (= ,,ans ,expr)))))
-      ,ans)))
+      ,(accum acc
+         (each (thresh expr) (pair args)
+           (erp "  iter: " thresh " " ans)
+           (acc `(when (and (no ,ans)
+                            (< ,x ,thresh))
+                   (= ,ans ,expr))))
+         (acc ans)))))
 
 (def enqn(obj q n)
   (enq obj q)
