@@ -128,13 +128,15 @@
   (prn "<link rel=\"stylesheet\" href=\"" src "\"></link>"))
 
 (def header()
-  (prn "<meta name=\"robots\" content=\"nofollow\"/>")
-  (csstag "main.css")
-  (jstag "prototype.js")
-  (jstag "effects.js")
-  (jstag "controls.js")
-  (jstag "dragdrop.js")
-  (jstag "application.js"))
+  (tag title (pr "ReadWarp"))
+  (tag head
+    (prn "<meta name=\"robots\" content=\"nofollow\"/>")
+    (csstag "main.css")
+    (jstag "prototype.js")
+    (jstag "effects.js")
+    (jstag "controls.js")
+    (jstag "dragdrop.js")
+    (jstag "application.js")))
 
 (mac jstogglelink-sub(c text url (o styl))
   `(tag (a class ,c onclick "toggleLink(this); return jsget(this);" href ,url style ,styl) ,text))
