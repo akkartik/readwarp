@@ -89,6 +89,7 @@ function pushHistory(station, doc, params) {
   }
 
   $('content').innerHTML = "<img src=\"waiting.gif\"/>";
+  scroll(0, 0);
   new Ajax.Request("/docupdate",
       {
         method: 'post',
