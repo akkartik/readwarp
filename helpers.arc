@@ -131,6 +131,7 @@
   (tag title (pr "ReadWarp"))
   (tag head
     (prn "<meta name=\"robots\" content=\"nofollow\"/>")
+    (prn "<link rel=\"icon\" href=\"/favicon.ico\"/>")
     (csstag "main.css")
     (jstag "prototype.js")
     (jstag "effects.js")
