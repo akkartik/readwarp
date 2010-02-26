@@ -183,10 +183,18 @@
         (tr
           (tag (td class "post")
             (render-doc sname doc))))
-      (buttons user sname doc))
+      (buttons user sname doc)
+      (update-title doc-title.doc))
     (do
       (prn "Oops, there was an error. I've told Kartik. Please feel free to use the feedback form &rarr;")
       (write-feedback user sname "" "No result found"))))
+
+(def update-title(s)
+  (if (empty s)
+    (= s "Readwarp")
+    (= s (+ s " - Readwarp")))
+  (tag script
+    (pr (+ "document.title = \"" s "\";"))))
 
 (def render-doc(sname doc)
   (tag (div id (+ "contents_" doc))

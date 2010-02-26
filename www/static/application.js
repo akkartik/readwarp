@@ -6,6 +6,19 @@ function stringOrHref(s) {
   }
 }
 
+function runScripts(e) {
+  if (e.nodeType != 1) return;
+
+  if (e.tagName.toLowerCase() == 'script') {
+    eval(e.text);
+  }
+  else {
+    for(var i = 0; i < e.children.length; ++i) {
+      runScripts(e.children[i]);
+    }
+  }
+}
+
 function jsget(elem) {
   var jsget = new Image();
   jsget.src = stringOrHref(elem);
@@ -96,6 +109,7 @@ function pushHistory(station, doc, params) {
         parameters: 'doc='+escape(doc)+'&'+'station='+escape(station)+'&'+params,
         onSuccess: function(response) {
           $('content').innerHTML = response.responseText;
+          runScripts($('content'));
         }
       });
   return false;
@@ -110,6 +124,7 @@ function showDoc(station, doc) {
         onSuccess: function(response) {
           del($('history_'+doc));
           $('content').innerHTML = response.responseText;
+          runScripts($('content'));
         }
       });
   return false;
