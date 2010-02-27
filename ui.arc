@@ -117,7 +117,7 @@
     (ensure-station user query)
     (erp "readerreaderreader")
     (with-history req user query
-      (render-doc-with-context user query (next-doc user sname)))))
+      (render-doc-with-context user query (next-doc user query)))))
 
 (defop docupdate req
   (with (user (current-user req)
