@@ -138,6 +138,7 @@
   (with (station  userinfo*.user!stations.sname
          feed     doc-feed.doc)
     (erp outcome " " doc)
+    (erp station!showlist)
 
     (= userinfo*.user!read.doc outcome)
     (push doc station!read-list)
@@ -183,7 +184,6 @@
              this-groups  (groups list.feed))
         (erp "this-groups: " this-groups)
         (each g this-groups
-          (erp g)
           (when station!groups.g
             (erp "trying to delete " g)
             (backoff-add station!groups.g feed)
@@ -258,27 +258,6 @@
 
 
 
-;; For the main page show only preferred feeds.
-;; XXX duplication
-(def new-doc2(user station)
-  (choose-from-preferred user station))
-(proc add-to-showlist2(user station)
-  (iflet doc (new-doc2 user station)
-    (enq doc station!showlist)))
-(proc rebuild-showlist2(user station)
-  (repeat batch-size*
-    (add-to-showlist2 user station)))
-(def showlist2(user station)
-  (when (< (qlen station!showlist) rebuild-threshold*)
-    (erp "new thread2")
-    (new-thread "showlist2" (fn() (rebuild-showlist2 user station))))
-  (until (> (qlen station!showlist) 0))
-  (qlist station!showlist))
-(def pick2(user station)
-  (ret ans (car (showlist2 user station))
-    (if (pos guess-type.ans '(feed url))
-      (zap [most-recent-unread user _] ans))))
-
 (init batch-size* 5)
 (init rebuild-threshold* 2)
 ;; XXX Currently constant; should depend on:
@@ -290,21 +269,23 @@
 
 (def showlist(user station)
   (when (< (qlen station!showlist) rebuild-threshold*)
-    (erp "new thread")
+    (erp "new thread: showlist for " user " " station!name)
     (new-thread "showlist" (fn() (rebuild-showlist user station))))
   (until (> (qlen station!showlist) 0))
-  (erp station!showlist)
   (qlist station!showlist))
 
 (proc rebuild-showlist(user station)
   (repeat batch-size*
+    (erp "a: " station!showlist)
     (add-to-showlist user station)))
 
 (proc add-to-showlist(user station)
-  (iflet doc (new-doc user station)
+  (whenlet doc (new-doc user station)
+    (erp "b: " station!showlist)
     (enq doc station!showlist)))
 
 (def new-doc(user station)
+  (erp "n: " station!showlist)
   (randpick
         preferred-probability*      (choose-from-preferred user station)
         group-probability*          (choose-from-group user station)
@@ -337,6 +318,7 @@
   (most doc-timestamp (rem [read? user _] feed-docs.feed)))
 
 (def pick(user station)
+  (erp "pick")
   (ret ans (car (showlist user station))
     (if (pos guess-type.ans '(feed url))
       (zap [most-recent-unread user _] ans))))

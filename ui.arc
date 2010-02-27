@@ -100,7 +100,6 @@
         (news-ticker)))))
 
 (defop station req
-  (erp "station" req)
   (withs (user (current-user req)
           query (or (arg req "seed") ""))
     (ensure-station user query)
@@ -113,20 +112,14 @@
     (wipe userinfo*.user!stations.sname)))
 
 (def reader(req)
-  (erp "reader" req)
   (withs (user current-user.req
           query (or= userinfo*.user!all (stringify:unique-id)))
     (ensure-station user query)
+    (erp "readerreaderreader")
     (with-history req user query
-      (render-doc-with-context user query
-                               ;; XXX user's preferred feeds only manually set
-                               ((if (>= (len userinfo*.user!preferred-feeds) 10)
-                                  pick2
-                                  pick)
-                                user userinfo*.user!stations.query)))))
+      (render-doc-with-context user query (next-doc user sname)))))
 
 (defop docupdate req
-  (erp "docupdate" req)
   (with (user (current-user req)
          sname (or (arg req "station") "")
          doc (arg req "doc")
