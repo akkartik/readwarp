@@ -1341,3 +1341,6 @@ I considered resetting the whole backoff structure so it goes from needing 16
 downvotes back to just 4. But rebecca's gotten nagged too frequently in one
 case, but never too infrequently.
 =-=520 - Fri Feb 26 18:43:40 PST 2010
+
+More logging for Srikanth's error. I can't seem to run into it again.
+=-=522 - Fri Feb 26 19:08:53 PST 2010
