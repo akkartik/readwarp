@@ -166,6 +166,8 @@
 
 (proc handle-upvote(user station doc feed)
   (= station!preferred.feed (backoff doc 2))
+  (each g (groups list.feed)
+    (backoff-clear station!groups.g))
   (erp "upvote: " station!preferred.feed))
 
 (proc handle-downvote(user station doc feed prune-feed prune-group)
@@ -180,10 +182,9 @@
       ; sync preconditions to get here with borderline-unpreferred-group
       (erp "currently not in preferred; unpreferring " feed)
       (set station!unpreferred.feed)
-      (with (prefd-groups (groups:preferred-feeds user station)
-             this-groups  (groups list.feed))
-        (erp "this-groups: " this-groups)
-        (each g this-groups
+      (let curr-groups  (groups list.feed)
+        (erp "curr-groups: " curr-groups)
+        (each g curr-groups
           (when station!groups.g
             (erp "trying to delete " g)
             (backoff-add station!groups.g feed)
@@ -192,7 +193,7 @@
             (erp "groups remaining: " (len-keys station!groups))))
         (when (empty station!groups)
           (= station!groups
-             (backoffify (rem [pos _ this-groups]
+             (backoffify (rem [pos _ curr-groups]
                              feedgroups*)
                          2)))))))
 

@@ -1334,3 +1334,10 @@ Srikanth reported showlist getting corrupted several times today. I spotted it
 once as well. More logging to catch that next time.
 In the process I've refactored out some recent duplication.
 =-=519 - Fri Feb 26 18:09:49 PST 2010
+
+Bugfix: Only n consecutive downvotes should delete groups, not just n
+downvotes.
+I considered resetting the whole backoff structure so it goes from needing 16
+downvotes back to just 4. But rebecca's gotten nagged too frequently in one
+case, but never too infrequently.
+=-=520 - Fri Feb 26 18:43:40 PST 2010
