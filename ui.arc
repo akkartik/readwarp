@@ -115,7 +115,6 @@
   (withs (user current-user.req
           query (or= userinfo*.user!all (stringify:unique-id)))
     (ensure-station user query)
-    (erp "readerreaderreader")
     (with-history req user query
       (render-doc-with-context user query (next-doc user query)))))
 

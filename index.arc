@@ -321,7 +321,6 @@
   (most doc-timestamp (rem [read? user _] feed-docs.feed)))
 
 (def pick(user station)
-  (erp "pick")
   (ret ans (car (showlist user station))
     (if (pos guess-type.ans '(feed url))
       (zap [most-recent-unread user _] ans))))
