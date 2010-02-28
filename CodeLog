@@ -1344,3 +1344,6 @@ case, but never too infrequently.
 
 More logging for Srikanth's error. I can't seem to run into it again.
 =-=522 - Fri Feb 26 19:08:53 PST 2010
+
+Bugfix: handling re-likes from the history panel.
+=-=524 - Sun Feb 28 09:14:00 PST 2010

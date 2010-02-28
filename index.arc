@@ -140,8 +140,9 @@
     (erp outcome " " doc)
     (erp station!showlist)
 
+    (unless userinfo*.user!read.doc
+      (push doc station!read-list))
     (= userinfo*.user!read.doc outcome)
-    (push doc station!read-list)
 
     (let top (car:qlist station!showlist)
       (unless (is top doc-feed.doc)
