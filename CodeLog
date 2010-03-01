@@ -1347,3 +1347,6 @@ More logging for Srikanth's error. I can't seem to run into it again.
 
 Bugfix: handling re-likes from the history panel.
 =-=524 - Sun Feb 28 09:14:00 PST 2010
+
+Bugfix in patch 520. I really need more tests. First step: fixtures.
+=-=525 - Sun Feb 28 19:29:36 PST 2010

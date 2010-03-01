@@ -168,6 +168,7 @@
 (proc handle-upvote(user station doc feed)
   (= station!preferred.feed (backoff doc 2))
   (each g (groups list.feed)
+    (or= station!preferred.feed (backoff doc 2))
     (backoff-clear station!groups.g))
   (erp "upvote: " station!preferred.feed))
 
