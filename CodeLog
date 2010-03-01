@@ -1350,3 +1350,9 @@ Bugfix: handling re-likes from the history panel.
 
 Bugfix in patch 520. I really need more tests. First step: fixtures.
 =-=525 - Sun Feb 28 19:29:36 PST 2010
+
+htmlcleaning bugfix. It turns out RSS feed descriptions can contain junk the
+main page does not. I was discarding perfectly good cleanings because of this.
+Example: the share icons in descs for www.boston.com feeds.
+Fixed by stripping tags when doing the fuzzymatch. Will this slow things down?
+=-=526 - Mon Mar  1 10:03:28 PST 2010

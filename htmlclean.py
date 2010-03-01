@@ -79,7 +79,7 @@ def pickTopMatchingCandidate(candidates, scores, hint, debug):
       print node
       print "=="
       print hint
-    if hint == '' or fuzzymatch(node, hint):
+    if hint == '' or fuzzymatch(htmlstrip(node), htmlstrip(hint)):
       return node
 
   return None
@@ -114,6 +114,7 @@ def cleanup(file, debug=False):
   pick = pickTopMatchingCandidate(candidates, scores, deschint, debug)
   if pick: return postproc(pick)
 
+  if debug: print "pick failed"
   if deschint == '': return postproc(candidates[0])
   return deschint
 
