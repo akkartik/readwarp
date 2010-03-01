@@ -69,7 +69,7 @@ def fuzzymatch(a, b, debug=False):
   return (float(max(matching_size(a,b,debug), matching_size(b,a,debug))) /
             min(len(a), len(b))) > 0.8
 
-def pickTopMatchingCandidate(candidates, scores, hint, debug):
+def pickTopMatchingCandidate(candidates, scores, hint_stripped, debug):
   if debug: print "==", len(candidates), "candidates"
 
   for i, node in enumerate(candidates):
@@ -78,8 +78,8 @@ def pickTopMatchingCandidate(candidates, scores, hint, debug):
       print "==", scores[node]
       print node
       print "=="
-      print hint
-    if hint == '' or fuzzymatch(htmlstrip(node), htmlstrip(hint)):
+      print hint_stripped
+    if hint_stripped == '' or fuzzymatch(htmlstrip(node), hint_stripped):
       return node
 
   return None
@@ -111,7 +111,7 @@ def cleanup(file, debug=False):
     scores[pars] += commaCount(para)
 
   candidates = sortedKeys(scores)
-  pick = pickTopMatchingCandidate(candidates, scores, deschint, debug)
+  pick = pickTopMatchingCandidate(candidates, scores, htmlstrip(deschint), debug)
   if pick: return postproc(pick)
 
   if debug: print "pick failed"
