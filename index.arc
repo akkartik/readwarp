@@ -272,12 +272,12 @@
 (init group-probability* 1.0)
 
 (def showlist(user station)
+  (when (~is (qlen station!showlist) (len:qlist station!showlist))
+    (erp "ERRORERRORERROR CORRUPTION IN showlist")
+    (= station!showlist (queue)))
   (when (< (qlen station!showlist) rebuild-threshold*)
     (erp "new thread: showlist for " user " " station!name)
     (new-thread "showlist" (fn() (rebuild-showlist user station))))
-  (when (~is (qlen station!showlist) (len:qlist station!showlist))
-    (erp "ERRORERRORERROR CORRUPTION IN showlist")
-    (= station!showlist.2 (len:qlist station!showlist)))
   (until (> (qlen station!showlist) 0))
   (qlist station!showlist))
 
