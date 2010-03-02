@@ -311,15 +311,21 @@
   (let candidates (preferred-feeds user station)
     (findg randpos.candidates
            [neglected-unread user station _])))
+(after-exec choose-from-preferred(user station)
+  (if result (erp "random: " result)))
 
 (def choose-from-group(user station)
   (let candidates (feeds-from-groups user station)
     (findg randpos.candidates
            [neglected-unread user station _])))
+(after-exec choose-from-group(user station)
+  (if result (erp "group: " result)))
 
 (def choose-from-random(user station)
   (findg randpos.nonnerdy-feed-list*
          [neglected-unread user station _]))
+(after-exec choose-from-random(user station)
+  (if result (erp "random: " result)))
 
 (def recently-shown?(station feed)
   (or (pos feed (qlist station!last-showlist))
