@@ -289,7 +289,13 @@
     (erp "b: " station!showlist)
     (enq doc station!showlist)))
 
+(proc verify-integrity(q)
+  (when (is 1 qlen.q)
+    (unless (is q.0 q.1)
+      (erp "tail pointer is off"))))
+
 (def new-doc(user station)
+  (verify-integrity station!showlist)
   (erp "n: " station!showlist)
   (randpick
         preferred-probability*      (choose-from-preferred user station)
