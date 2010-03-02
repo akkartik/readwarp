@@ -128,6 +128,7 @@
 (defreg migrate-stations() migrations*
   (prn "migrate-stations")
   (each user (keys userinfo*)
+    (or= userinfo*.user!preferred-feeds (table))
     (each (sname station) userinfo*.user!stations
       (= station!last-showlist (queue))
       (= station!showlist (queue)))))
