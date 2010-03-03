@@ -150,6 +150,7 @@
         (erp "error: wrong feed")))
 
     (unless (show-same-station outcome user feed)
+      (or= station!last-showlist (queue))
       (enqn (deq station!showlist)
             station!last-showlist
             history-size*))
@@ -313,7 +314,7 @@
     (findg randpos.candidates
            [neglected-unread user station _])))
 (after-exec choose-from-preferred(user station)
-  (if result (erp "random: " result)))
+  (if result (erp "preferred: " result)))
 
 (def choose-from-group(user station)
   (let candidates (feeds-from-groups user station)
