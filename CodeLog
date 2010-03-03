@@ -1359,5 +1359,13 @@ Fixed by stripping tags when doing the fuzzymatch. Will this slow things down?
 No unnecessary slowdown at least.
 =-=527 - Mon Mar  1 10:07:17 PST 2010
 
-Typo.
+Typo. After dealing with three confidence-sapping stability issues - segfault
+because of scheme's regex library, queue corruption, button text corruption -
+I'm back to looking at the group state machine.
 =-=532 - Tue Mar  2 15:00:24 PST 2010
+Yet another correction to the group state machine. I'd forgotten that by
+setting station!groups.g I'm marking a group as preferred.
+
+Let's write some tests next. Then we'll move on to
+front-page/copy/signup-funnel redesign.
+=-=534 - Tue Mar  2 19:12:01 PST 2010
