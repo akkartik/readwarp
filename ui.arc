@@ -33,7 +33,7 @@
                         (if (and (~is sname userinfo*.user!all)
                                  (~is sname ,station)
                                  (~blank sname))
-                          (tag div
+                          (tag (div class "station")
                             (tag (div style "float:right; margin-right:0.5em")
                               (tag (a href (+ "/delstation?station=" urlencode.sname)
                                       onclick "jsget(this); del(this.parentNode.parentNode); return false;")
