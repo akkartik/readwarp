@@ -213,9 +213,10 @@
 
 (def buttons(user sname doc)
   (tag (div class "buttons")
-    (button user sname doc 1 "skip" "not interesting")
-    (button user sname doc 2 "next" "more like this")
-    (button user sname doc 4 "love" "more from this site")
+    (do
+      (button user sname doc 1 "skip" "not interesting")
+      (button user sname doc 2 "next" "more like this")
+      (button user sname doc 4 "love" "more from this site"))
     (clear)))
 
 (def button(user sname doc n cls tooltip)
@@ -310,8 +311,9 @@
     (tag:input type "hidden" name "station" value sname)
     (tag:input type "hidden" name "doc" value doc)
     (tag (div style "margin-top:0.5em")
-      (tag:input type "submit" value "send" style "margin-right:1em")
-      (tag:input type "button" value "cancel" onclick "$('feedback').toggle()")))
+      (do
+        (tag:input type "submit" value "send" style "margin-right:1em")
+        (tag:input type "button" value "cancel" onclick "$('feedback').toggle()"))))
   (clear))
 
 (def write-feedback(user sname doc msg)
