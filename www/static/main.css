@@ -31,9 +31,6 @@ td{ vertical-align:top; }
 a{ text-decoration:none; }
 a:hover{ text-decoration:underline; }
 
-div.station{}
-div.station:hover { border:1px solid #aaa; }
-
 #history a{ font-size:1.1em; font-family:serif; }
 .item{ margin-top:1em; }
 
