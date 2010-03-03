@@ -139,7 +139,6 @@
   (with (station  userinfo*.user!stations.sname
          feed     doc-feed.doc)
     (erp outcome " " doc)
-    (erp station!showlist)
 
     (unless userinfo*.user!read.doc
       (push doc station!read-list))
@@ -170,11 +169,9 @@
 (proc handle-upvote(user station doc feed)
   (= station!preferred.feed (backoff doc 2))
   (each g (groups list.feed)
-    (backoff-clear station!groups.g))
-  (erp "upvote: " station!preferred.feed))
+    (backoff-clear station!groups.g)))
 
 (proc handle-downvote(user station doc feed prune-feed prune-group)
-  (erp "downvote: " station!preferred.feed)
   (if (pos feed (preferred-feeds user station))
     (do
       (erp "currently preferred")
@@ -186,7 +183,6 @@
       (erp "currently not in preferred; unpreferring " feed)
       (set station!unpreferred.feed)
       (let curr-groups  (groups list.feed)
-        (erp "curr-groups: " curr-groups)
         (each g curr-groups
           (when station!groups.g
             (erp "trying to delete " g)
@@ -214,11 +210,8 @@
 
 
 (def scan-feeds(keyword)
-  (on-err
-    (fn(ex) (erp "A: " keyword " " details.ex))
-    (fn()
-      (dedup:common:map keyword-feeds:canonicalize
-                        (flat:map split-urls words.keyword)))))
+  (dedup:common:map keyword-feeds:canonicalize
+                    (flat:map split-urls words.keyword)))
 
 (def groups(feeds)
   (dedup:flat:map feed-groups* feeds))
@@ -287,17 +280,9 @@
 
 (proc add-to-showlist(user station)
   (whenlet doc (new-doc user station)
-    (erp "b: " station!showlist)
     (enq doc station!showlist)))
 
-(proc verify-integrity(q)
-  (when (is 1 qlen.q)
-    (unless (is q.0 q.1)
-      (erp "tail pointer is off"))))
-
 (def new-doc(user station)
-  (verify-integrity station!showlist)
-  (erp "n: " station!showlist)
   (randpick
         preferred-probability*      (choose-from-preferred user station)
         group-probability*          (choose-from-group user station)
