@@ -178,7 +178,8 @@
       (buttons user sname doc)
       (update-title doc-title.doc))
     (do
-      (prn "Oops, there was an error. I've told Kartik. Please feel free to use the feedback form &rarr;")
+      (deq-showlist user sname)
+      (prn "Oops, there was an error. I've told Kartik. Please try reloading the page. And please feel free to use the feedback form &rarr;")
       (write-feedback user sname "" "No result found"))))
 
 (def update-title(s)

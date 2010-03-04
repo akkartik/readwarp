@@ -121,7 +121,7 @@
       (= station!showlist (queue))
       (each feed (keep [most-recent-unread user _] scan-feeds.sname)
         (enq feed station!showlist))
-      (new-thread "showlist" (fn() (rebuild-showlist user station)))
+      (start-rebuilding-showlist user station)
       (= station!last-showlist (queue))))
   (gen-groups user sname))
 
@@ -269,14 +269,15 @@
     (erp "ERRORERRORERROR CORRUPTION IN showlist")
     (= station!showlist (queue)))
   (when (< (qlen station!showlist) rebuild-threshold*)
-    (erp "new thread: showlist for " user " " station!name)
-    (new-thread "showlist" (fn() (rebuild-showlist user station))))
+    (start-rebuilding-showlist user station))
   (until (> (qlen station!showlist) 0))
   (qlist station!showlist))
 
-(proc rebuild-showlist(user station)
-  (repeat batch-size*
-    (add-to-showlist user station)))
+(proc start-rebuilding-showlist(user station)
+  (erp "new thread: showlist for " user " " station!name)
+  (thread "showlist"
+    (repeat batch-size*
+      (add-to-showlist user station))))
 
 (proc add-to-showlist(user station)
   (whenlet doc (new-doc user station)
@@ -325,6 +326,10 @@
     (if (pos guess-type.ans '(feed url))
       (zap [most-recent-unread user _] ans))))
       ; XXX: nothing unread left? (only dup feeds)
+
+(def deq-showlist(user sname)
+  (deq userinfo*.user!stations.sname!showlist)
+  (start-rebuilding-showlist user userinfo*.user!stations.sname))
 
 (def load-feeds(user)
   (if (file-exists (+ "feeds/" user))
