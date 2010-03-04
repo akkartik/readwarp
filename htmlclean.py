@@ -112,11 +112,23 @@ def cleanup(file, debug=False):
 
   candidates = sortedKeys(scores)
   pick = pickTopMatchingCandidate(candidates, scores, htmlstrip(deschint), debug)
-  if pick: return postproc(pick)
 
-  if debug: print "pick failed"
-  if deschint == '': return postproc(candidates[0])
-  return deschint
+  ans = None
+  if pick:
+    print "a"
+    ans = postproc(pick)
+  else:
+    if debug: print "pick failed"
+    if deschint == '':
+      print "b"
+      ans = postproc(candidates[0])
+    else:
+      print "c"
+      ans = deschint
+
+  if len(ans) == 0:
+    print "EMPTY"
+  return ans
 
 def commaCount(node):
   return len(node.renderContents().split(','))
