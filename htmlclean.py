@@ -4,7 +4,7 @@ import StringIO
 import difflib
 from utils import *
 
-import encoding
+from encoding import to_byte_string
 
 badParaRegex = re.compile("comment|meta|footer|footnote")
 goodParaRegex = re.compile("^(post|hentry|entry[-]?(content|text|body)?|article[-]?(content|text|body)?)$")
@@ -120,18 +120,6 @@ def cleanup(file, debug=False):
   if deschint == '': return postproc(candidates[0])
   return deschint
 
-#? import io
-#? import codecs
-import encoding
-def cleanup2(file, debug=False):
-  with open('z', 'w') as output:
-    output.write(encoding.to_byte_string(cleanup(file, debug)))
-#?   output = codecs.open('z', 'w', 'utf-8')
-#?   try:
-#?     output.write(cleanup(file, debug).encode('utf-8'))
-#?   finally:
-#?     output.close()
-
 def commaCount(node):
   return len(node.renderContents().split(','))
 
@@ -152,7 +140,7 @@ def cleanAll():
     f2 = 'urls/'+doc+'.clean'
     try:
       with open(f2, 'w') as output:
-        output.write(cleanup(f).encode('utf-8'))
+        output.write(to_byte_string(cleanup(f)))
       with open('fifos/clean', 'w') as fifo:
         fifo.write(line)
       with open('docs', 'a+') as fifo:
@@ -244,6 +232,8 @@ if __name__ == '__main__':
     elif os.path.exists(sys.argv[1]):
       cleanup(sys.argv[1], debug=True)
     elif os.path.exists('urls/'+sys.argv[1]+'.raw'):
-      cleanup2('urls/'+sys.argv[1]+'.raw', debug=False)
+      ans = cleanup('urls/'+sys.argv[1]+'.raw', debug=False)
+      with open('z', 'w') as output:
+        output.write(to_byte_string(ans))
     elif os.path.exists('test/fixtures/clean/'+sys.argv[1]):
       cleanup('test/fixtures/clean/'+sys.argv[1], debug=True)
