@@ -209,7 +209,7 @@
       (pr "&#9632;"))
     (tag (p class "title item")
       (tag (a onclick (+ "showDoc('" jsesc.sname "', '" jsesc.doc "')") href "#" style "font-weight:bold")
-        (pr doc-title.doc)))))
+        (pr (check doc-title.doc ~empty "no title"))))))
 
 (def buttons(user sname doc)
   (tag (div class "buttons")
