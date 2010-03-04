@@ -4,6 +4,8 @@ import StringIO
 import difflib
 from utils import *
 
+import encoding
+
 badParaRegex = re.compile("comment|meta|footer|footnote")
 goodParaRegex = re.compile("^(post|hentry|entry[-]?(content|text|body)?|article[-]?(content|text|body)?)$")
 def init(node):
@@ -112,23 +114,23 @@ def cleanup(file, debug=False):
 
   candidates = sortedKeys(scores)
   pick = pickTopMatchingCandidate(candidates, scores, htmlstrip(deschint), debug)
+  if pick: return postproc(pick)
 
-  ans = None
-  if pick:
-    print "a"
-    ans = postproc(pick)
-  else:
-    if debug: print "pick failed"
-    if deschint == '':
-      print "b"
-      ans = postproc(candidates[0])
-    else:
-      print "c"
-      ans = deschint
+  if debug: print "pick failed"
+  if deschint == '': return postproc(candidates[0])
+  return deschint
 
-  if len(ans) == 0:
-    print "EMPTY"
-  return ans
+#? import io
+#? import codecs
+import encoding
+def cleanup2(file, debug=False):
+  with open('z', 'w') as output:
+    output.write(encoding.to_byte_string(cleanup(file, debug)))
+#?   output = codecs.open('z', 'w', 'utf-8')
+#?   try:
+#?     output.write(cleanup(file, debug).encode('utf-8'))
+#?   finally:
+#?     output.close()
 
 def commaCount(node):
   return len(node.renderContents().split(','))
@@ -242,6 +244,6 @@ if __name__ == '__main__':
     elif os.path.exists(sys.argv[1]):
       cleanup(sys.argv[1], debug=True)
     elif os.path.exists('urls/'+sys.argv[1]+'.raw'):
-      print cleanup('urls/'+sys.argv[1]+'.raw', debug=False)
+      cleanup2('urls/'+sys.argv[1]+'.raw', debug=False)
     elif os.path.exists('test/fixtures/clean/'+sys.argv[1]):
       cleanup('test/fixtures/clean/'+sys.argv[1], debug=True)

@@ -1390,3 +1390,6 @@ unwedged.
 
 htmlclean often seems to return empty text. Debugging.
 =-=544 - Thu Mar  4 01:13:21 PST 2010
+The problem is character encodings again. Here's an approach that seems to
+work.
+=-=545 - Thu Mar  4 01:47:07 PST 2010
