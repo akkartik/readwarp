@@ -180,7 +180,7 @@
     (do
       (deq-showlist user sname)
       (prn "Oops, there was an error. I've told Kartik. Please try reloading the page. And please feel free to use the feedback form &rarr;")
-      (write-feedback user sname "" "No result found"))))
+      (write-feedback user "" sname "" "No result found"))))
 
 (def update-title(s)
   (if (empty s)
@@ -317,9 +317,10 @@
         (tag:input type "button" value "cancel" onclick "$('feedback').toggle()"))))
   (clear))
 
-(def write-feedback(user sname doc msg)
+(def write-feedback(user email sname doc msg)
   (w/prfile (+ "feedback/" (seconds))
     (prn "User: " user)
+    (prn "Email: " email)
     (prn "Station: " sname)
     (prn "Doc: " doc)
     (prn "Feedback:")
@@ -328,6 +329,7 @@
 
 (defopr feedback req
   (write-feedback (current-user req)
+                  (arg req "email")
                   (arg req "station")
                   (arg req "doc")
                   (arg req "msg"))
