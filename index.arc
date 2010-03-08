@@ -177,7 +177,7 @@
 
 (proc handle-upvote(user station doc feed)
   (= station!preferred.feed (backoff doc 2))
-  (whenlet alls userinfo*.user!stations.all
+  (whenlet alls userinfo*.user!all
     (or= userinfo*.user!stations.alls!preferred (table))
     (= userinfo*.user!stations.alls!preferred.feed (backoff doc 2)))
   (each g (groups list.feed)

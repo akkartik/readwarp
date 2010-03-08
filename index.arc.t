@@ -32,6 +32,7 @@
 (shadowing feedgroups* '("group1" "group2" "group3")
 (shadowing group-feeds*
     (obj
+      "group1" (list "feed2")
       "group2" (list "a.com/feed" "b.com/feed")
       "group3" (list "a.com/feed"))
 (shadowing feed-groups*
@@ -58,6 +59,9 @@
     '("a.com/feed" "b.com/feed")
     (feeds:keys ((userinfo*.nil!stations "a") 'groups)))
 
+(or= userinfo*.nil!all (stringify:unique-id))
+(ensure-station nil userinfo*.nil!all)
+
 (ensure-station nil "randomstring")
 (let station (userinfo*.nil!stations "randomstring")
   (test-iso "unknown keywords start out selecting feeds randomly across all groups"
@@ -77,6 +81,9 @@
   (handle-upvote nil station "doc1" "feed1")
   (test-ok "upvoting a non-preferred feed puts it immediately in the preferred list"
     (station!preferred "feed1"))
+
+  (test-ok "upvoting a feed in a channel also puts it in the global channel's preferred list"
+    (((userinfo*.nil!stations userinfo*.nil!all) 'preferred) "feed1"))
 
   (handle-downvote nil station "doc2" "feed1" t t)
   (test-iso "downvoting a preferred feed doesn't demote it the first time"
@@ -102,5 +109,15 @@
   (test-iso "demoting the last group resets groups to all but that groups"
     '("group1")
     (keys station!groups))
+
+  (handle-downvote nil station "doc10" "feed2" t t)
+  (test-iso "downvoting a non-preferred feed doesn't demote its group"
+    '("group1" 2 ("feed2"))
+    (station!groups "group1"))
+
+  (handle-upvote nil station "doc11" "feed2")
+  (test-iso "upvoting a non-preferred feed resets its group's situation"
+    '("group1" 2 nil)
+    (station!groups "group1"))
 
 ))))))))))))))))

@@ -1406,3 +1406,8 @@ Refactoring index fixtures for better tests.
 I find myself commenting and uncommenting the same code fragments. Hacky:
   $ TEST=true arc
 =-=552 - Sun Mar  7 22:30:01 PST 2010
+
+Group state machine now reasonably test driven.
+Found a bug in the process; upvoting feeds wasn't actually adding them to the
+global station yet.
+=-=553 - Mon Mar  8 02:27:50 PST 2010
