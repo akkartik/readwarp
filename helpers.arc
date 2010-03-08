@@ -37,6 +37,10 @@
        s
      "}"))
 
+(def addjsarg(l arg)
+  (+ "'" l "&' + "
+     arg))
+
 (def check-with-user(msg param)
   (+ "'" param "='" " + "
      "confirm('" jsesc.msg "')"))

@@ -231,17 +231,19 @@
       (and (borderline-preferred-feed user sname doc)
            (~empty doc-feedtitle.doc))
         (pushHistory sname doc
-                     (+ "'outcome=" n "&' + "
-                        (check-with-user
-                          (+ "Should I stop showing articles from\\n"
+                     (addjsarg
+                       (+ "outcome=" n)
+                       (check-with-user
+                         (+ "Should I stop showing articles from\\n"
                             "  " doc-feedtitle.doc "\\n"
                             "in this channel?")
                          "prune")))
       (awhen (borderline-unpreferred-group user sname doc)
         (pushHistory sname doc
-                     (+ "'outcome=" n "&' + "
-                        (check-with-user
-                          (+ "Should I stop showing any articles about\\n"
+                     (addjsarg
+                       (+ "outcome=" n)
+                       (check-with-user
+                         (+ "Should I stop showing any articles about\\n"
                             "  " it "\\n"
                             "in this channel?")
                          "prune-group")))))))
