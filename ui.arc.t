@@ -17,9 +17,15 @@
       "b" '("b.com/feed")
       "blog" '("a.com/feed" "b.com/feed"))
 
+(shadowing feedinfo*
+    (obj a.com/feed (table)
+         b.com/feed (table))
+
 (shadowing feed-groups* (obj "feed1" "group1")
+
+(shadowing contents (fn(doc) doc)
 
   (test-ok "station queries work"
     (run-op station '(("seed" "blog"))))
 
-)))))
+)))))))

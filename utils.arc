@@ -547,11 +547,15 @@
         (++ (ans name 0)))))))
 
 (include "arctap.arc")
-(def tests()
-  (each file (dir ".")
-    (if (and (posmatch ".arc.t" file)
-             (~litmatch "." file))
-      (include file))))
+(proc tests()
+  (after*
+    (= test-failures* 0)
+    (each file (dir ".")
+      (if (and (posmatch ".arc.t" file)
+               (~litmatch "." file))
+        (include file)))
+  :do
+    (prn:plural test-failures* "failure")))
 
 (mac rotlog(var msg)
   `(do

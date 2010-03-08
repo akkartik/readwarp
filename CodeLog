@@ -1399,3 +1399,6 @@ Cleanup.
 A simple refactoring to get back into product improvements after a week of
 debugging stability issues.
 =-=550 - Sun Mar  7 16:18:38 PST 2010
+
+Refactoring index fixtures for better tests.
+=-=551 - Sun Mar  7 19:55:05 PST 2010

@@ -141,7 +141,6 @@
               doc))))
 
 (def history-panel(user sname req)
-  (erp "history-panel")
   (or= sname "")
   (ensure-station user sname)
   (let items (read-list user sname)

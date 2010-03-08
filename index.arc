@@ -237,7 +237,7 @@
        (backoffify initial-preferred-groups-for.sname 2)))
 
 (def feeds(groups)
-  (flat:map group-feeds* groups))
+  (dedup:flat:map group-feeds* groups))
 
 (def preferred-feeds(user station)
   (+ (keys station!preferred)
