@@ -557,6 +557,9 @@
   :do
     (prn:plural test-failures* "failure")))
 
+(def test-mode()
+  (~empty (getenv "TEST")))
+
 (mac rotlog(var msg)
   `(do
      (push ,msg ,var)
@@ -626,6 +629,8 @@
 
 (mac load-ffi(name f)
   `($ (define ,name (ffi-lib ,(curr-path f)))))
+
+($:xdef getenv getenv)
 
 
 

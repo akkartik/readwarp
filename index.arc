@@ -61,6 +61,7 @@
   (each group feedgroups*
     (read-group group)))
 
+(when (no:test-mode)
 (defrep update-feeds 3600
   (system "date")
   (prn "updating feed-list*")
@@ -75,6 +76,14 @@
   (prn "updating scan-feeds")
   (update-feed-keywords))
 (wait update-feeds-init*)
+)
+(when (test-mode) ; {{{
+  (= feed-list* (tokens:slurp "feeds/All"))
+  (update-feed-groups)
+  (= nonnerdy-feed-list* (keep [set-subtract (feed-groups* _)
+                                             '("Programming" "Technology")]
+                            feed-list*))
+) ; }}}
 
 
 

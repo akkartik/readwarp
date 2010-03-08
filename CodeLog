@@ -1402,3 +1402,7 @@ debugging stability issues.
 
 Refactoring index fixtures for better tests.
 =-=551 - Sun Mar  7 19:55:05 PST 2010
+
+I find myself commenting and uncommenting the same code fragments. Hacky:
+  $ TEST=true arc
+=-=552 - Sun Mar  7 22:30:01 PST 2010
