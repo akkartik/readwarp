@@ -1411,3 +1411,6 @@ Group state machine now reasonably test driven.
 Found a bug in the process; upvoting feeds wasn't actually adding them to the
 global station yet.
 =-=553 - Mon Mar  8 02:27:50 PST 2010
+
+Perhaps we don't need enqn?
+=-=554 - Tue Mar  9 02:00:54 PST 2010

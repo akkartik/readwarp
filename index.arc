@@ -159,7 +159,7 @@
 
     (unless (show-same-station outcome user feed)
       (or= station!last-showlist (queue))
-      (enqn (deq station!showlist)
+      (enq-limit (deq station!showlist)
             station!last-showlist
             history-size*))
 

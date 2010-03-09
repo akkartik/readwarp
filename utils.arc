@@ -221,11 +221,6 @@
                    (= ,ans ,expr))))
          (acc ans)))))
 
-(def enqn(obj q n)
-  (enq obj q)
-  (while (> qlen.q n)
-    (deq q)))
-
 (def zip ls
   (apply map list ls))
 
