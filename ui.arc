@@ -150,7 +150,7 @@
     (= s "Readwarp")
     (= s (+ s " - Readwarp")))
   (tag script
-    (pr (+ "document.title = \"" s "\";"))))
+    (pr (+ "document.title = \"" jsesc.s "\";"))))
 
 (def render-doc(sname doc)
   (tag (div id (+ "contents_" doc))
@@ -178,9 +178,8 @@
 (def buttons(user sname doc)
   (tag (div class "buttons")
     (do
-      (button user sname doc 1 "skip" "not interesting")
-      (button user sname doc 2 "next" "more like this")
-      (button user sname doc 4 "love" "more from this site"))
+      (button user sname doc 1 "skip" "thumbs down")
+      (button user sname doc 2 "next" "thumbs up"))
     (clear)))
 
 (def button(user sname doc n cls tooltip)
@@ -258,10 +257,24 @@
           (tag:input type "button" value "Start reading" style "margin-top:5px"
                      onclick "location.href='/begin'")
 
+          (signup-funnel 1 req)
+
         )))))
 
+(def is-prod(req)
+  (~is "127.0.0.1" req!ip))
+
 (defop begin req
-  (pr "funnel1"))
+  (let user current-user.req
+    (or= userinfo*.user!signup-stage 2)
+    (page user
+      (tag (div style "width:600px;margin:auto")
+        (signup-funnel userinfo*.user!signup-stage req)
+        (++ userinfo*.user!signup-stage)
+        (flash:+ "Stage " userinfo*.user!signup-stage)
+        (let query (or= userinfo*.user!all (stringify:unique-id))
+          (ensure-station user query)
+          (render-doc-with-context user query (next-doc user query)))))))
 
 
 

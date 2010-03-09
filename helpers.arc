@@ -137,12 +137,27 @@
     (prn "<meta name=\"robots\" content=\"nofollow\"/>")
     (prn "<link rel=\"icon\" href=\"/favicon.ico\"/>")
     (csstag "main.css")
+
     (jstag "cookieLibrary.js")
+    (jstag "http://api.mixpanel.com/site_media/js/api/mixpanel.js")
+    (tag script
+      (pr "try {
+            var mpmetrics = new MixpanelLib(\"65cfd23d70294fdadc5c7211e3814d8c\");
+          } catch(err) {}"))
+
     (jstag "prototype.js")
     (jstag "effects.js")
     (jstag "controls.js")
     (jstag "dragdrop.js")
     (jstag "application.js")))
+
+(def signup-funnel(n req)
+  (let properties (if is-prod.req
+                    "{\"config\": \"production\"}"
+                    "{\"config\": \"development\"}")
+    (tag script
+      (pr "mpmetrics.track_funnel(\"Signup1\", " n ", \"" n "\", "
+          properties ");"))))
 
 (defop-raw new-user req
   (create-user-login)
@@ -153,6 +168,8 @@
   (let u (stringify:unique-id)
     (cook-user u)
     (prcookie:user->cookie* u)))
+
+
 
 (mac jstogglelink-sub(c text url (o styl))
   `(tag (a class ,c onclick "toggleLink(this); return jsget(this);" href ,url style ,styl) ,text))
@@ -174,7 +191,7 @@
   (tag (div class "flash") prn.msg))
 
 (def jsesc(s)
-  (subst "\\'" "'" s))
+  (subst "\\'" "'" (subst "\\\"" "\"" s)))
 
 (def linkify(s)
   (gsub s

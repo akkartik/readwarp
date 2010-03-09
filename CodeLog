@@ -1436,3 +1436,8 @@ their channels, etc.
 
 New front-page for non-loggedin users. Beginnings of a signup funnel.
 =-=557 - Tue Mar  9 03:48:23 PST 2010
+Funnel analytics code.
+
+Button still doesn't work. Let's just profligately duplicate code for
+starters.
+=-=558 - Tue Mar  9 05:01:53 PST 2010
