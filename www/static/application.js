@@ -130,20 +130,6 @@ function showDoc(station, doc) {
   return false;
 }
 
-function updateTickerContents() {
-  new Ajax.Request("/tickupdate",
-      {
-        onSuccess: function(response) {
-          $('TICKER2').innerHTML = response.responseText;
-        },
-
-        onComplete: function(response) {
-          window.setTimeout("updateTickerContents()", 10000);
-        }
-      });
-  return false;
-}
-
 function createUserCookie() {
   if (!GetCookie('user')) {
     new Ajax.Request("/new-user");

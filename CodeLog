@@ -1433,3 +1433,6 @@ you move to web.arc
 Bonus: non-logged-in users now get a sense of the logged-in view. They can see
 their channels, etc.
 =-=556 - Tue Mar  9 03:22:36 PST 2010
+
+New front-page for non-loggedin users. Beginnings of a signup funnel.
+=-=557 - Tue Mar  9 03:48:23 PST 2010

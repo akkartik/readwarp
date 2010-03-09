@@ -58,46 +58,10 @@
              (tag (div id "content")
                ,@body)))))))
 
-(mac logo(cls msg)
-  `(tag (div class (+ "logo-button " ,stringify.cls))
-      (pr ,msg)))
-
-(= frontpage-width* "width:720px;") ; sync with main.css
 (defop || req
   (if (signedup? current-user.req)
     (reader req)
-    (front-page req)))
-
-(def front-page(req)
-  (let user current-user.req
-    (page user
-      (tag (div class "nav")
-        (tag (div style "float:right")
-          (if signedup?.user
-            (do
-              (pr user "&nbsp;|&nbsp;")
-              (link "logout" "/logout"))
-            (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
-                    (pr "login")))
-          )
-        (clear))
-
-      (tag script
-        (pr "window.onload = function() {
-              updateTickerContents();
-              $('newstationform').focus(); };"))
-      (tag (div class "logo")
-        (logo fskip "RE")(logo fnext "AD")(logo flike "WA")(logo flove "RP"))
-      (tag (div class "subtitle")
-        (pr "Discover what you've been missing"))
-
-      (tag (div class "frontpage" style frontpage-width*)
-        (tag (form action "/station" style "width:50%;margin:auto;padding:auto")
-             (pr "Tell us your favorite site or blogger") (br)
-             (tag:input id "newstationform" name "seed" size "30") (br)
-             (tag:input type "submit" value "Start reading" style "margin-top:5px"))
-
-        (news-ticker)))))
+    (start-funnel req)))
 
 (defop station req
   (withs (user (current-user req)
@@ -260,38 +224,44 @@
                 (pr "login")))
       )
     (tag (div style "text-align:left")
-      (link "ReadWarp" "/"))
+      (tag (a href "/" class "logo-button fskip")
+        (pr "ReadWarp")))
     (clear)))
 
 
 
-(def news-ticker()
-  (tag (div style "margin-top:4em")
-    (pr "Or pick a site you like"))
-  (tag (div id "TICKER"
-            class "ticker"
-            style frontpage-width* ; must be here not in class
-            onmouseover "TICKER_PAUSED=true" onmouseout "TICKER_PAUSED=false")
-    (render-random-feeds))
-  (tag (div id "TICKER2" style "display:none"))
-  (jstag "webticker_lib.js"))
+(mac logo(cls msg)
+  `(tag (div class (+ "logo-button " ,stringify.cls))
+      (pr ,msg)))
 
-(def random-feeds()
-  (ret ans nil
-    (each group feedgroups*
-      (if (> (len group-feeds*.group) 10)
-        (repeat 2
-          (aif (random-new group-feeds*.group ans
-                            [feedinfo* symize._])
-            (push it ans)))))))
-(def render-random-feeds()
-  (pr " &nbsp; &middot; &nbsp; ")
-  (each title (map [(feedinfo* symize._) 'title] (random-feeds))
-    (tag (a class "tickeritem" href (+ "/station?seed=" urlencode.title) rel "nofollow")
-      (pr:ellipsize title 30))
-    (pr " &nbsp; &middot; &nbsp; ")))
-(defop tickupdate req
-  (render-random-feeds))
+(def start-funnel(req)
+  (let user current-user.req
+    (page user
+      (tag (div class "nav")
+        (tag (div style "float:right")
+          (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
+                  (pr "login")))
+        (clear))
+
+      (tag (div class "frontpage")
+
+        (tag (div class "logo")
+          (logo fskip "READWARP"))
+        (tag (div class "subtitle")
+          (pr "&ldquo;What should I read next?&rdquo;"))
+
+        (tag (div style "margin-top:4em")
+          (tag div
+            (pr "Readwarp learns your tastes &mdash; <i>fast</i>."))
+          (tag div
+            (pr "Just vote on 6 stories to get started."))
+          (tag:input type "button" value "Start reading" style "margin-top:5px"
+                     onclick "location.href='/begin'")
+
+        )))))
+
+(defop begin req
+  (pr "funnel1"))
 
 
 
