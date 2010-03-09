@@ -1418,3 +1418,18 @@ Perhaps we don't need enqn?
 New user per session. But it's still kludgy. I need to distinguish temporary
 users so I can use the old non-logged-in UI, GC temporary users, etc.
 =-=555 - Tue Mar  9 03:01:08 PST 2010
+Done.
+
+When a new user comes to the site, a little piece of javascript creates a
+cookie for him. Now the user has a sandbox, a temporary user.
+When the temporary user goes through signup we tag the user signedup in
+userinfo.
+
+todo:
+1. Signup is convoluted. Why does creating a cookie require AJAX? Cleanup when
+you move to web.arc
+2. Test-drive signup flows.
+
+Bonus: non-logged-in users now get a sense of the logged-in view. They can see
+their channels, etc.
+=-=556 - Tue Mar  9 03:22:36 PST 2010

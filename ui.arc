@@ -64,7 +64,7 @@
 
 (= frontpage-width* "width:720px;") ; sync with main.css
 (defop || req
-  (if current-user.req
+  (if (signedup? current-user.req)
     (reader req)
     (front-page req)))
 
@@ -73,11 +73,11 @@
     (page user
       (tag (div class "nav")
         (tag (div style "float:right")
-          (if user
+          (if signedup?.user
             (do
               (pr user "&nbsp;|&nbsp;")
               (link "logout" "/logout"))
-            (w/link (login-page 'both "Please login to Readwarp" (list nullop2 "/"))
+            (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
                     (pr "login")))
           )
         (clear))
@@ -252,11 +252,11 @@
 (proc nav(user)
   (tag (div class "nav")
     (tag (div style "float:right")
-      (if user
+      (if signedup?.user
         (do
           (pr user "&nbsp;|&nbsp;")
           (link "logout" "/logout"))
-        (w/link (login-page 'both "Please login to Readwarp" (list nullop2 "/"))
+        (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
                 (pr "login")))
       )
     (tag (div style "text-align:left")
@@ -335,6 +335,15 @@
                   (arg req "doc")
                   (arg req "msg"))
   (arg req "location"))
+
+(def signup(user ip)
+  (ensure-user user)
+  (unless userinfo*.user!signedup
+    (set userinfo*.user!signedup)
+    (= userinfo*.user!created (seconds))))
+
+(def signedup?(user)
+  (and userinfo*.user userinfo*.user!signedup))
 
 (def current-user(req)
   (ret user get-user.req
