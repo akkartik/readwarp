@@ -1414,3 +1414,7 @@ global station yet.
 
 Perhaps we don't need enqn?
 =-=554 - Tue Mar  9 02:00:54 PST 2010
+
+New user per session. But it's still kludgy. I need to distinguish temporary
+users so I can use the old non-logged-in UI, GC temporary users, etc.
+=-=555 - Tue Mar  9 03:01:08 PST 2010

@@ -137,11 +137,22 @@
     (prn "<meta name=\"robots\" content=\"nofollow\"/>")
     (prn "<link rel=\"icon\" href=\"/favicon.ico\"/>")
     (csstag "main.css")
+    (jstag "cookieLibrary.js")
     (jstag "prototype.js")
     (jstag "effects.js")
     (jstag "controls.js")
     (jstag "dragdrop.js")
     (jstag "application.js")))
+
+(defop-raw new-user req
+  (create-user-login)
+  (prn)
+  (pr "new-user"))
+
+(def create-user-login()
+  (let u (stringify:unique-id)
+    (cook-user u)
+    (prcookie:user->cookie* u)))
 
 (mac jstogglelink-sub(c text url (o styl))
   `(tag (a class ,c onclick "toggleLink(this); return jsget(this);" href ,url style ,styl) ,text))

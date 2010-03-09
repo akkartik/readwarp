@@ -143,3 +143,10 @@ function updateTickerContents() {
       });
   return false;
 }
+
+function createUserCookie() {
+  if (!GetCookie('user')) {
+    new Ajax.Request("/new-user");
+  }
+}
+createUserCookie();
