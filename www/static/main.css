@@ -44,11 +44,11 @@ h2.title a{ color:#44c; font-weight:bold; }
 
 .date { font-style:italic; font-size:80%; float:right; }
 
+.frontpage { margin-top:2em; font-size:1.6em; line-height:1.4; margin-left:auto;margin-right:auto; }
 .logo { text-decoration:underline; color:#fff200; text-align:center; }
 .logo-button, a.logo-button, a.logo-button:visited { display:inline; text-align:center; font-family:helvetica,sans-serif; font-weight:bold; }
 .logo .logo-button { font-size:4em; }
 .subtitle { font-style:italic; }
-.frontpage { margin-top:2em; font-size:1.6em; margin-left:auto;margin-right:auto; }
 
 .flash { color:#cc4444; }
 

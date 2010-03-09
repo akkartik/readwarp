@@ -247,7 +247,7 @@
         (tag (div class "logo")
           (logo fskip "READWARP"))
         (tag (div class "subtitle")
-          (pr "&ldquo;What should I read next?&rdquo;"))
+          (pr "&ldquo;What do I read next?&rdquo;"))
 
         (tag (div style "margin-top:4em")
           (tag div
