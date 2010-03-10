@@ -212,6 +212,11 @@
 
 
 
+(proc logo-small()
+  (tag (div style "text-align:left")
+    (tag (a href "/" class "logo-button fskip")
+      (pr "Readwarp"))))
+
 (proc nav(user)
   (tag (div class "nav")
     (tag (div style "float:right")
@@ -220,11 +225,8 @@
           (pr user "&nbsp;|&nbsp;")
           (link "logout" "/logout"))
         (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
-                (pr "login")))
-      )
-    (tag (div style "text-align:left")
-      (tag (a href "/" class "logo-button fskip")
-        (pr "ReadWarp")))
+                (pr "login"))))
+    (logo-small)
     (clear)))
 
 
@@ -260,7 +262,7 @@
           (tag:input type "button" value "Start reading" style "margin-top:1.5em"
                      onclick "location.href='/begin'")
 
-          (signup-funnel 1 req)
+          (signup-funnel-analytics 1 req)
 
         )))))
 
@@ -273,9 +275,7 @@
     (page user
       (tag (div style "width:600px; margin:auto")
         (tag (div class "nav")
-          (tag (div style "text-align:left")
-            (tag (a class "logo-button fskip")
-              (pr "ReadWarp"))))
+          (logo-small))
 
         (let query (or= userinfo*.user!all (stringify:unique-id))
           (nopr:ensure-station user query)
@@ -283,11 +283,12 @@
             (next-stage user query req)))))))
 
 (proc next-stage(user query req)
-  (signup-funnel userinfo*.user!signup-stage req)
-  (flash:+ "Stage " userinfo*.user!signup-stage)
-  (if (is userinfo*.user!signup-stage funnel-signup-stage*)
-    (signup-form user query)
-    (render-doc-with-context2 user query (next-doc user query))))
+  (let stage userinfo*.user!signup-stage
+    (signup-funnel-analytics stage req)
+    (flash:+ "Stage " stage)
+    (if (>= stage funnel-signup-stage*)
+      (signup-form user query)
+      (render-doc-with-context2 user query (next-doc user query)))))
 
 (mac modal(show . body)
   `(do
@@ -299,7 +300,7 @@
           (tag:div class "dialog-decorator")
           (tag (div class "dialog-wrap")
             (tag (div id "dialog" class "dialog")
-              ,@body))))))
+              ,@body)))))))
 
 (def signup-form(user query)
   (pr "current-username: " user)
@@ -348,12 +349,10 @@
   (with (user (current-user req)
          sname (or (arg req "station") "")
          doc (arg req "doc")
-         outcome (arg req "outcome")
-         prune-feed (is "true" (arg req "prune"))
-         prune-group (is "true" (arg req "prune-group")))
+         outcome (arg req "outcome"))
     (nopr
       (ensure-station user sname)
-      (mark-read user sname doc outcome prune-feed prune-group)
+      (mark-read user sname doc outcome t t)
       (++ userinfo*.user!signup-stage))
     (next-stage user sname req)))
 

@@ -132,7 +132,7 @@
   (prn "<link rel=\"stylesheet\" href=\"" src "\"></link>"))
 
 (def header()
-  (tag title (pr "ReadWarp"))
+  (tag title (pr "Readwarp"))
   (tag head
     (prn "<meta name=\"robots\" content=\"nofollow\"/>")
     (prn "<link rel=\"icon\" href=\"/favicon.ico\"/>")
@@ -151,7 +151,7 @@
     (jstag "dragdrop.js")
     (jstag "application.js")))
 
-(def signup-funnel(n req)
+(def signup-funnel-analytics(n req)
   (let funnel-name (if is-prod.req
                      "\"Signup1 Production\""
                      "\"Signup1\"")
