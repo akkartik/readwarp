@@ -271,7 +271,6 @@
   (let user current-user.req
     (or= userinfo*.user!signup-stage 2)
     (page user
-      (csstag "modal.css")
       (tag (div style "width:600px; margin:auto")
         (tag (div class "nav")
           (tag (div style "text-align:left")
@@ -281,8 +280,7 @@
         (let query (or= userinfo*.user!all (stringify:unique-id))
           (nopr:ensure-station user query)
           (tag (div id "content")
-            (next-stage user query req))))))
-  (jstag "modal.js"))
+            (next-stage user query req)))))))
 
 (proc next-stage(user query req)
   (signup-funnel userinfo*.user!signup-stage req)
@@ -291,29 +289,32 @@
     (signup-form user query)
     (render-doc-with-context2 user query (next-doc user query))))
 
-(mac modal body
-  `(tag (div id "modal")
-    (tag:div class "overlay-decorator")
-    (tag (div class "overlay-wrap")
-      (tag (div class "overlay")
-        (tag:div class "dialog-decorator")
-        (tag (div class "dialog-wrap")
-          (tag (div id "dialog" class "dialog")
-            ,@body))))))
+(mac modal(show . body)
+  `(do
+    (csstag "modal.css")
+    (tag (div id "modal" style ,show)
+      (tag:div class "overlay-decorator" style ,show)
+      (tag (div class "overlay-wrap")
+        (tag (div class "overlay")
+          (tag:div class "dialog-decorator")
+          (tag (div class "dialog-wrap")
+            (tag (div id "dialog" class "dialog")
+              ,@body))))))
 
 (def signup-form(user query)
   (pr "current-username: " user)
-  (modal
-    (prbold "Save your responses")
-    (br2)
-    (fnform (fn(req) (create-handler req 'register
-                              (list (fn(new-username ip)
-                                      (swap userinfo*.user
-                                            userinfo*.new-username)
-                                      (signup new-username ip))
-                                    "/")))
-            (fn() (pwfields "signup"))
-            t)))
+  (modal "display:block"
+    (tag (div style "background:#fff; padding:1em; margin-bottom:100%")
+      (prbold "Save your responses")
+      (br2)
+      (fnform (fn(req) (create-handler req 'register
+                                (list (fn(new-username ip)
+                                        (swap userinfo*.user
+                                              userinfo*.new-username)
+                                        (signup new-username ip))
+                                      "/")))
+              (fn() (pwfields "signup"))
+              t))))
 
 (def render-doc-with-context2(user sname doc)
   (tag (div style "float:right")

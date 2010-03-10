@@ -149,8 +149,7 @@
     (jstag "effects.js")
     (jstag "controls.js")
     (jstag "dragdrop.js")
-    (jstag "application.js")
-    ))
+    (jstag "application.js")))
 
 (def signup-funnel(n req)
   (let funnel-name (if is-prod.req
