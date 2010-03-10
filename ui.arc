@@ -279,11 +279,22 @@
   (signup-funnel userinfo*.user!signup-stage req)
   (flash:+ "Stage " userinfo*.user!signup-stage)
   (if (is userinfo*.user!signup-stage funnel-signup-stage*)
-    (render-list user query)
+    (signup-form user query)
     (render-doc-with-context2 user query (next-doc user query))))
 
-(def render-list(user query)
-  (pr "List!!"))
+(def signup-form(user query)
+  (pr "current-username: " user)
+  (tag (div class "signup-overlay")
+    (prbold "Save your responses")
+    (br2)
+    (fnform (fn(req) (create-handler req 'register
+                              (list (fn(new-username ip)
+                                      (swap userinfo*.user
+                                            userinfo*.new-username)
+                                      (signup new-username ip))
+                                    "/")))
+            (fn() (pwfields "signup"))
+            t)))
 
 (def render-doc-with-context2(user sname doc)
   (tag (div style "float:right")
@@ -371,6 +382,8 @@
 
 (def signup(user ip)
   (ensure-user user)
+  (or= userinfo*.user!all (stringify:unique-id))
+  (ensure-station user userinfo*.user!all)
   (unless userinfo*.user!signedup
     (set userinfo*.user!signedup)
     (= userinfo*.user!created (seconds))))
