@@ -18,10 +18,7 @@ body{ margin:0 auto; font-size:62.5%; font-family:sans-serif; }
     .icon{ }
     .outcome_icon{ float:right; margin-right:0.5em; margin-left:0.5em; }
 
-  .main{ margin-top:1em; margin-bottom:1em; line-height:1.25; }
-
-    .post{ }
-    .context{ }
+  .post{ margin-top:1em; margin-bottom:1em; line-height:1.25; text-align:left; }
 
 
 

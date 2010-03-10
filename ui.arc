@@ -134,10 +134,8 @@
       (buttons user sname doc)
       (tag (div class "history" style "display:none")
         (render-doc-link user sname doc))
-      (tag (table class "main")
-        (tr
-          (tag (td class "post")
-            (render-doc sname doc))))
+      (tag (div class "post")
+        (render-doc sname doc))
       (buttons user sname doc)
       (update-title doc-title.doc))
     (do
@@ -233,6 +231,9 @@
   `(tag (div class (+ "logo-button " ,stringify.cls))
       (pr ,msg)))
 
+(init quiz-length* 6)
+(init funnel-signup-stage* (+ 2 quiz-length*))
+(init funnel-length* (+ 1 funnel-signup-stage*))
 (def start-funnel(req)
   (let user current-user.req
     (page user
@@ -269,12 +270,61 @@
     (or= userinfo*.user!signup-stage 2)
     (page user
       (tag (div style "width:600px;margin:auto")
-        (signup-funnel userinfo*.user!signup-stage req)
-        (++ userinfo*.user!signup-stage)
-        (flash:+ "Stage " userinfo*.user!signup-stage)
         (let query (or= userinfo*.user!all (stringify:unique-id))
-          (ensure-station user query)
-          (render-doc-with-context user query (next-doc user query)))))))
+          (nopr:ensure-station user query)
+          (tag (div id "content")
+            (next-stage user query req)))))))
+
+(proc next-stage(user query req)
+  (signup-funnel userinfo*.user!signup-stage req)
+  (flash:+ "Stage " userinfo*.user!signup-stage)
+  (if (is userinfo*.user!signup-stage funnel-signup-stage*)
+    (render-list user query)
+    (render-doc-with-context2 user query (next-doc user query))))
+
+(def render-list(user query)
+  (pr "List!!"))
+
+(def render-doc-with-context2(user sname doc)
+  (tag (div style "float:right")
+    (feedback-form sname doc))
+  (if doc
+    (tag (div id (+ "doc_" doc))
+      (buttons2 user sname doc)
+      (tag (div class "post")
+        (render-doc sname doc))
+      (buttons2 user sname doc)
+      (update-title doc-title.doc))
+    (do
+      (deq-showlist user sname)
+      (prn "Oops, there was an error. I've told Kartik. Please try reloading the page. And please feel free to use the feedback form &rarr;")
+      (write-feedback user "" sname "" "No result found"))))
+
+(def buttons2(user sname doc)
+  (tag (div class "buttons")
+    (do
+      (button2 user sname doc 1 "skip" "thumbs down")
+      (button2 user sname doc 2 "next" "thumbs up"))
+    (clear)))
+
+(def button2(user sname doc n cls tooltip)
+  (tag:input type "button" class (+ cls " button") value tooltip
+             onclick (inline "content"
+                             (+ "/docupdate2?doc=" urlencode.doc
+                                "&station=" urlencode.sname "&outcome=" n))))
+
+(defop docupdate2 req
+  (with (user (current-user req)
+         sname (or (arg req "station") "")
+         doc (arg req "doc")
+         outcome (arg req "outcome")
+         prune-feed (is "true" (arg req "prune"))
+         prune-group (is "true" (arg req "prune-group")))
+    (nopr
+      (ensure-station user sname)
+      (mark-read user sname doc outcome prune-feed prune-group)
+      (++ userinfo*.user!signup-stage))
+    (next-stage user sname req)))
 
 
 

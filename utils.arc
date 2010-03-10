@@ -579,6 +579,10 @@
       (w/stdout ,outf
         ,@body))))
 
+(mac nopr body
+  `(w/prfile "/dev/null"
+      ,@body))
+
 (= maintenance-tasks* ())
 (mac periodic-maintenance(maintenance-task . body)
   `(do

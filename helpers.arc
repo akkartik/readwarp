@@ -152,12 +152,11 @@
     (jstag "application.js")))
 
 (def signup-funnel(n req)
-  (let properties (if is-prod.req
-                    "{\"config\": \"production\"}"
-                    "{\"config\": \"development\"}")
+  (let funnel-name (if is-prod.req
+                     "\"Signup1 Production\""
+                     "\"Signup1\"")
     (tag script
-      (pr "mpmetrics.track_funnel(\"Signup1\", " n ", \"" n "\", "
-          properties ");"))))
+      (pr "mpmetrics.track_funnel(" funnel-name ", " n ", \"" n "\");"))))
 
 (defop-raw new-user req
   (create-user-login)
