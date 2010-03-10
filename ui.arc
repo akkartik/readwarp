@@ -280,12 +280,19 @@
         (let query (or= userinfo*.user!all (stringify:unique-id))
           (nopr:ensure-station user query)
           (tag (div id "content")
+            (if
+              (is 2 userinfo*.user!signup-stage)
+                (flash:+ "Ok! We'll now gauge your tastes using " quiz-length*
+                         " stories.<br>
+                         Vote for the stories or sites that you like."))
             (next-stage user query req)))))))
 
 (proc next-stage(user query req)
   (let stage userinfo*.user!signup-stage
     (signup-funnel-analytics stage req)
-    (flash:+ "Stage " stage)
+    (unless is-prod.req
+      (tag (div class "debug") (pr:+ "Stage " stage)))
+    (erp user ": stage " stage)
     (if (>= stage funnel-signup-stage*)
       (signup-form user query)
       (render-doc-with-context2 user query (next-doc user query)))))
