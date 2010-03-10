@@ -246,15 +246,15 @@
 
         (tag (div class "logo")
           (logo fskip "READWARP"))
-        (tag (div class "subtitle")
+        (tag (div style "font-style:italic; margin-top:1em")
           (pr "&ldquo;What do I read next?&rdquo;"))
 
-        (tag (div style "margin-top:4em")
+        (tag (div style "margin-top:1.5em")
           (tag div
             (pr "Readwarp learns your tastes &mdash; <i>fast</i>."))
-          (tag div
+          (tag (div style "margin-top: 0.2em")
             (pr "Just vote on 6 stories to get started."))
-          (tag:input type "button" value "Start reading" style "margin-top:5px"
+          (tag:input type "button" value "Start reading" style "margin-top:1.5em"
                      onclick "location.href='/begin'")
 
           (signup-funnel 1 req)
