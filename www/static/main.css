@@ -50,7 +50,7 @@ h2.title a{ color:#44c; font-weight:bold; }
 .logo-button, a.logo-button, a.logo-button:visited { display:inline; text-align:center; font-family:helvetica,sans-serif; font-weight:bold; }
 .logo .logo-button { font-size:4em; }
 
-.flash { color:#cc4444; font-size:12px; background:#fff200; padding-top:2px; padding-bottom:2px; }
+.flash { font-size:14px; background:#fff200; padding-top:2px; padding-bottom:2px; }
 .debug { text-align:right; font-size:9px; color:#cccccc; }
 
 .ticker { overflow:hidden; margin:auto; padding:auto;

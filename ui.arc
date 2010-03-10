@@ -128,6 +128,13 @@
   (erp:pick user userinfo*.user!stations.sname))
 
 (def render-doc-with-context(user sname doc)
+  (unless userinfo*.user!noob
+    (flash "Welcome to your channel. Keep voting on stories as you read, and
+           Readwarp will continually fine-tune its recommendations.
+
+           <br><br>
+           Readwarp is under construction. If it seems confused, try creating
+           a new channel. And send us feedback!"))
   (tag (div style "float:right")
     (feedback-form sname doc))
   (if doc
