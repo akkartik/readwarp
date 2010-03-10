@@ -1,0 +1,365 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html lang="en">
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>overlay vertical centering</title>
+        <style type="text/css">
+        /* http://foohack.com/2007/11/css-modal-dialog-that-works-right */
+        html, body {
+                height:100%;
+                width:100%;
+                margin:0;
+                padding:0;
+                overflow:hidden;
+        }
+        .overlay-decorator {
+                background:#024;
+                height:100%;
+                width:100%;
+                position:absolute;
+                top:0;
+                left:0;
+                opacity:0.8;
+                z-index:2000;
+                *display:none;
+        }
+        .overlay-wrap {
+                height:100%;
+                width:100%;
+                display:block;
+                position:absolute;
+                top:0;
+                left:0;
+                z-index:2001;
+                
+                overflow:auto;
+                *overflow-x:hidden;
+                *zoom:1;
+                /* (0.8 * 255).toString(16) = cc */
+                *filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#cc002244,endColorstr=#cc002244);
+                *background:transparent url(pixel.gif);
+        }
+        .overlay {
+                z-index:2001;
+                position:relative;
+                margin:0 auto;
+                display:table;
+                height:100%;
+                vertical-align:middle;
+                width:300px;
+                z-index:9999;
+                
+                *width:100%;
+                *text-align:center;
+                *position:static;
+                *display:block;
+        }
+        .dialog-wrap {
+                display:table-cell;
+                vertical-align:middle;
+                
+                *width:300px;
+                *text-align:left;
+                *zoom:1;
+                *display:inline;
+        }
+        
+        .dialog-decorator {
+                display:none;
+                
+                *vertical-align:middle;
+                *zoom:1;
+                *display:inline;
+                *height:100%;
+                *width:0;
+                *background:red;
+        }
+        
+        #body {
+                overflow:auto;
+                height:100%;
+                width:100%;
+                padding:0;
+                margin:0;
+        }
+        #doc {
+                margin:0 0 0 30%;
+                padding:0;
+        }
+        #modal {
+                display:none;
+        }
+        .modal #modal {
+                display:block;
+        }
+        
+        
+        /* irrelevant */
+        html {
+                font:13px/1.4 trebuchet ms, verdana, tahoma;
+        }
+        .dialog .content {
+                padding:0 1em;
+        }
+        .dialog {
+                background:white;
+                border:2px solid #080;
+        }
+        .content {
+                border:2px solid #ecc;
+        }
+        :focus {
+                border:4px solid #900;
+        }
+        </style>
+</head>
+<body>
+<div id="modal">
+        <div class="overlay-decorator"></div>
+        <div class="overlay-wrap">
+                <div class="overlay">
+                        <div class="dialog-decorator"></div>
+                        <div class="dialog-wrap">
+                                <div class="dialog" id="dialog">
+                                        <div class="content">
+                                                <h2>Modal Dialog</h2>
+                                                <p>Works in IE, Safari, Firefox, and Opera properly.</p>
+                                                <p>When the viewport is too small, a scrollbar appears to let you see the entire modal.</p>
+                                                <p>Text doesn't shift left and right when the modal shows or hides.</p>
+                                                <p>You should not be able to tab off of the modal, or scroll the body content.</p>
+                                                <p>Type "M" to toggle the modal.  Focus should return to wherever it was before the modal showed.</p>
+                                                <p>Thanks to <a href="http://www.hedgerwow.com">Hedger</a> and <a href="http://www.hedgerwow.com/temp/css-vertical-align-center-overlay.html">his vertical-centering in IE approach</a>.</p>
+                                                <p><a href="http://foohack.com/2007/11/css-modal-dialog-that-works-right/?preview=true">Blog post on foohack about this thing</a></p>
+                                                <p>This is the end of the modal dialog</p>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>
+
+<div id="body">
+        <div id="doc">
+                <h2>This is the body content</h2>
+                
+                <p>Type the letter "M" on your keyboard to toggle the modal.  Doing so should move the focus to the dialog box.  I'm hoping that the reading should pick up at "Modal Dialog, works in IE, etc." when this occurs, due to the focus shift.</p>
+                
+                <p>The following is just dummy text to make the page long enough to force a scrollbar.</p>
+                <p><a href="#">These links are here</a> <a href="#">to put focusable things</a> <a href="#">in the body content.</a></p>
+                <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse in leo vel est ultrices dapibus. Fusce consequat pede nec nibh. Ut est. Integer a risus quis nunc rhoncus pretium. Etiam cursus magna nec velit. Donec nisl risus, tempus at, pharetra sed, consectetuer non, orci. Aenean consectetuer tempus quam. Donec at lectus. Curabitur hendrerit, massa vel volutpat adipiscing, felis erat dictum neque, nonummy auctor augue libero ornare felis. Ut dapibus. Curabitur facilisis est sollicitudin odio. Mauris eros. Quisque eros ante, pharetra vitae, feugiat et, facilisis ac, lectus. Aenean fermentum, odio eu porta accumsan, pede lectus laoreet metus, in egestas mauris sem ac dolor.
+                </p>
+                <p>
+                Aliquam sit amet mi. Vestibulum vestibulum. Morbi nec leo sit amet turpis vulputate tempor. Nullam sit amet urna. Phasellus varius, diam id vulputate fringilla, urna sem ornare libero, consequat faucibus ligula sem non lacus. In quis lectus. Duis ut eros id odio ultrices porta. Fusce pellentesque quam molestie augue. Vestibulum cursus nonummy risus. Curabitur enim sem, ultricies a, egestas sed, ultrices vitae, ante. Vestibulum ac purus. Aliquam erat volutpat. Praesent quis justo ac erat dictum posuere. Maecenas et lorem sit amet quam egestas rutrum. Cras volutpat. Nulla viverra, sapien ut porta imperdiet, lectus ipsum posuere pede, sed fringilla arcu mauris a libero.
+                </p>
+                <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas augue. Sed sollicitudin tortor non felis. Aliquam eget arcu ut turpis lacinia lobortis. Integer pharetra. Aliquam mattis imperdiet massa. Fusce urna dui, pretium elementum, porttitor sed, porttitor id, nisl. Praesent libero nibh, ornare sit amet, fringilla ac, convallis quis, purus. Integer eu neque id magna egestas condimentum. Maecenas vitae arcu a purus auctor accumsan. Duis sem. Cras scelerisque, quam ac luctus hendrerit, dolor nibh tincidunt nulla, sit amet molestie turpis libero nec dui. Aliquam tincidunt est nec felis. Mauris porttitor. Fusce cursus porttitor lorem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin sagittis neque quis leo vulputate ultricies.
+                </p>
+                <p>
+                Quisque at dolor vitae orci mollis ullamcorper. Fusce tempus. Nunc fermentum nunc in turpis. Mauris pellentesque neque. Aliquam erat volutpat. Sed suscipit leo eget quam. Sed suscipit mi at est. Sed nibh. Maecenas ultrices justo eget justo. Mauris eros. Suspendisse lacinia volutpat turpis. Donec luctus ornare erat. Vestibulum a odio. Integer at metus sit amet nisi tincidunt consectetuer. Donec scelerisque mi non tortor. Curabitur sed nunc non metus egestas mattis. Mauris aliquam rutrum diam. Ut blandit erat nec mauris.
+                </p>
+                <p>
+                Nam et eros ut lacus dapibus fermentum. Sed velit libero, fermentum nec, feugiat vitae, laoreet eu, magna. Ut rhoncus malesuada lacus. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec massa. Nulla eget leo. Nulla facilisi. Vestibulum pede nibh, congue id, fringilla ac, posuere et, eros. Maecenas imperdiet quam. Curabitur felis enim, dignissim non, consequat ut, pulvinar in, neque. Aliquam mattis. Suspendisse sem felis, pharetra in, aliquet a, condimentum at, velit.
+                </p>
+
+                <p>
+                Quisque fringilla, libero molestie sollicitudin iaculis, nulla enim volutpat purus, accumsan congue sem felis tristique nulla. Donec dignissim eleifend nisi. Vestibulum sollicitudin odio quis purus. Morbi rhoncus rhoncus lectus. Donec vel diam. Cras et ipsum sit amet mauris hendrerit suscipit. Nunc aliquet. Nam purus. Mauris placerat, ipsum et aliquet dictum, odio metus sagittis purus, in cursus nisi nisi non elit. Donec nisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc ac lorem. Curabitur hendrerit sollicitudin risus.
+                </p>
+                <p>
+                Sed convallis imperdiet nulla. Quisque dapibus tempor lacus. Nulla pulvinar nisl. Phasellus ut ante at mi condimentum eleifend. Cras pellentesque nibh ac eros. Sed ultricies orci sed magna. In vitae lectus id tellus tempor tincidunt. Integer blandit, nibh fermentum pretium lobortis, augue ante bibendum augue, non luctus nulla quam eu neque. In hac habitasse platea dictumst. Nunc placerat nibh eu est. Donec fermentum placerat ligula. Donec ullamcorper elit sed turpis. Vestibulum accumsan risus id pede. Pellentesque vehicula ornare ligula. Aenean id augue. Vivamus ipsum. Vestibulum cursus tristique libero. Nunc in neque sit amet nulla rhoncus interdum. Sed at sem ultricies tortor viverra imperdiet.
+                </p>
+                <p>
+                In hac habitasse platea dictumst. Pellentesque dictum leo a tortor. Fusce consectetuer scelerisque lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In bibendum, erat vitae rutrum mattis, ante nisl cursus est, quis pulvinar dui nisi condimentum est. Sed scelerisque fringilla nulla. Vivamus commodo suscipit nisl. Suspendisse eros. Nam turpis leo, dapibus ac, sodales nec, convallis dictum, mi. Sed vehicula metus et lacus. Duis libero augue, sodales vel, ultricies quis, pharetra et, sem. In hac habitasse platea dictumst. Ut a lectus ac nulla elementum interdum. Proin nibh. Morbi tincidunt.
+                </p>
+                <p>
+                Integer ultricies risus eget elit. Maecenas bibendum, orci vel porta interdum, quam ipsum egestas tortor, tempor bibendum justo eros vitae mauris. Suspendisse ut metus. Vivamus posuere. Nam non purus ut neque pretium aliquet. Suspendisse ullamcorper magna sed tellus. Cras libero. Aenean tortor mauris, luctus quis, viverra eu, cursus a, augue. Vestibulum pretium fringilla libero. Vestibulum tempor facilisis nulla. Donec rutrum, arcu et pretium sollicitudin, eros sem varius arcu, eu pretium diam nibh suscipit lacus. Nulla semper. Sed massa quam, euismod at, venenatis nec, sagittis eu, enim. Donec posuere turpis ac magna. Nunc sapien lacus, semper ac, gravida eu, adipiscing eget, nisl. Donec interdum neque interdum tortor.
+                </p>
+                <p>
+                Phasellus est nunc, pretium ut, nonummy at, sodales sed, diam. Integer urna erat, dignissim nec, egestas ac, cursus non, dui. Maecenas nec enim vel risus consequat mattis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis id lacus nec elit commodo tincidunt. Vestibulum aliquet sem vel nisl accumsan ultricies. Sed facilisis. Cras convallis turpis vitae felis. Curabitur at ante vel diam ullamcorper viverra. Quisque sed eros eu ipsum commodo venenatis. Maecenas sed nunc a turpis scelerisque blandit. Fusce in dui a ligula aliquet accumsan. Etiam blandit sapien vel purus. Cras tempor quam. In mollis libero lobortis purus. Fusce lacinia mi a nunc.
+                </p>
+                <p>
+                Cras turpis. Curabitur ac mauris. Aliquam ac ante nec neque sollicitudin gravida. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Donec orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla ultricies. Nulla non nunc nec odio sollicitudin dapibus. Duis eget justo. Suspendisse imperdiet, lectus eget cursus placerat, tortor ligula consequat est, ac sollicitudin ipsum quam ut odio. Suspendisse neque libero, fringilla sit amet, aliquam in, sodales hendrerit, sem. Fusce id leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc in sem ut velit scelerisque malesuada. Sed venenatis dolor pellentesque elit. Donec condimentum, nisl in interdum vehicula, elit dolor molestie eros, nec porta velit sem vitae eros. Nulla fermentum ante vel sem. Phasellus pellentesque. Curabitur varius auctor felis. Nullam eu mauris id augue venenatis pretium.
+
+                </p>
+                <p>
+                Integer sodales mollis lectus. Fusce elementum, tortor ac elementum vulputate, dui augue consequat nunc, nec malesuada nulla felis accumsan neque. Integer venenatis. Ut libero diam, facilisis et, condimentum vel, auctor eu, urna. Praesent quis orci. Phasellus nonummy. Donec consequat justo. Nulla tristique dui et nibh nonummy scelerisque. Mauris luctus, erat vitae imperdiet dignissim, lorem leo tempus mi, sit amet venenatis purus mi at erat. Phasellus ornare, lectus sit amet porta volutpat, orci quam aliquet sem, at molestie tellus nisl vel felis. Duis scelerisque, nunc id semper pharetra, urna magna tincidunt diam, in sodales elit nunc vitae lectus. Sed ornare lorem vitae arcu. Fusce lobortis. Phasellus tincidunt, tortor in sollicitudin aliquet, velit lorem lacinia nunc, dignissim bibendum eros risus non sem. In in ante rutrum ligula gravida interdum. Integer ultricies auctor ante. Sed ullamcorper nisl quis magna. Praesent ac ipsum vitae libero facilisis pulvinar.
+                </p>
+                <p>
+                Ut pharetra mattis metus. Sed fermentum pharetra orci. Morbi fringilla mattis mi. Mauris viverra nisl quis ante. Integer a libero ut dolor pulvinar hendrerit. Vivamus mattis commodo quam. Maecenas vehicula varius odio. Suspendisse nec augue sed ligula vehicula pellentesque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. In et libero. Morbi venenatis. Vivamus a magna. Proin vitae est. Sed fringilla, nisi ut ullamcorper bibendum, neque mauris feugiat nisi, vitae ornare neque nunc accumsan elit.
+                </p>
+                <p>
+                Phasellus eros. Curabitur tortor. Vestibulum dolor. Nam ultricies, mi id condimentum semper, nisi est aliquam nunc, in consectetuer sapien turpis ac mi. In eget massa sit amet nibh molestie pellentesque. Etiam vitae felis. Duis et urna. Nunc dui. Pellentesque vel massa in arcu dictum volutpat. Pellentesque eget urna feugiat justo lacinia fringilla. Phasellus mi mauris, cursus eu, tincidunt sit amet, dapibus eu, magna.
+                </p>
+                <p>
+                Etiam in odio sed mi nonummy rhoncus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nam tortor. Vivamus eget pede. Morbi nec metus eget ligula scelerisque porta. Quisque metus. Pellentesque quis odio. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis vel eros feugiat risus porta pretium. Integer feugiat convallis augue. Nam vitae neque at justo tristique venenatis. Donec tortor elit, sollicitudin ac, pretium non, mollis vitae, diam. Donec mollis lacus id nisi. Duis ut nulla at odio aliquam porta. Donec dictum nibh eu arcu.
+                </p>
+                <p>
+                Vivamus ipsum felis, imperdiet non, varius at, malesuada et, libero. Cras convallis. Cras neque leo, commodo vel, molestie et, aliquet et, odio. Fusce id nisl. Nulla at mi eget sapien consectetuer sollicitudin. Nullam mattis. In hac habitasse platea dictumst. Vivamus massa arcu, venenatis a, pharetra nec, pretium quis, orci. Integer odio lacus, consectetuer in, commodo sit amet, faucibus a, mi. Nam tincidunt. Aenean sollicitudin metus quis tellus. Curabitur vel sem non nulla luctus accumsan. Maecenas nec justo vitae erat facilisis auctor. Cras fermentum magna varius enim.
+                </p>
+                <p>
+
+                Nullam ut nisi nec felis aliquet cursus. Vivamus ut metus at sapien venenatis volutpat. Aliquam vel lectus. Ut metus. Aliquam quis neque id nunc auctor suscipit. Vivamus at elit pulvinar ligula dignissim gravida. Maecenas eu purus. Donec vitae nunc in tortor volutpat feugiat. Vivamus id sapien. Vestibulum vestibulum porta augue. In hac habitasse platea dictumst. Quisque euismod pretium arcu. Suspendisse sagittis vulputate nulla. Vivamus lobortis, magna ut rutrum pharetra, tortor eros fermentum augue, vitae rhoncus elit velit non nunc. Maecenas adipiscing. Vivamus suscipit cursus elit. Vestibulum ut leo.
+                </p>
+                <p>
+                In sit amet lacus vel metus rutrum bibendum. Sed sagittis fringilla ante. Morbi sit amet odio. Pellentesque eget elit. Sed tincidunt. Nunc sollicitudin. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nunc aliquam. Quisque dictum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                </p>
+                <p>
+                Integer sodales mi vel dolor dictum accumsan. Donec urna eros, consequat vel, tempus vel, cursus sed, velit. Cras lectus mauris, nonummy ut, iaculis id, mattis quis, nisl. Praesent a nisi. Fusce sit amet nisl ultrices pede porttitor consequat. Mauris augue leo, venenatis vel, condimentum in, congue ac, tellus. Fusce vehicula sem sed diam semper tincidunt. Morbi ut libero vel lacus cursus imperdiet. Donec nonummy malesuada mi. Sed nec lorem. Pellentesque euismod, velit convallis pellentesque suscipit, ante quam ullamcorper pede, eu sagittis metus purus a nisi. Nullam ultrices velit et quam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla risus. Morbi lobortis orci non dolor. Vivamus sollicitudin sem at eros. Aliquam tincidunt. Aliquam sed metus at libero dictum pretium. Nam erat dolor, venenatis sed, commodo quis, malesuada eget, nisi.
+                </p>
+                <p>
+                Mauris auctor dictum mi. Nulla et lectus et dolor congue elementum. Donec dapibus. Pellentesque cursus accumsan metus. Aliquam sit amet mi. Vestibulum sit amet pede. Duis nunc lectus, facilisis sit amet, ultrices in, ultricies id, leo. Mauris vestibulum lorem vitae ante. Nam pede. Morbi euismod, lacus sit amet sagittis faucibus, leo justo rutrum augue, nec vestibulum urna sapien eget neque. Aliquam nibh lectus, molestie a, aliquet in, congue euismod, turpis. Praesent euismod nulla at diam. Vivamus eget tellus a velit commodo vulputate. Donec est. Phasellus nisl. In placerat metus a purus. Suspendisse eros lorem, convallis quis, mattis a, dignissim nec, purus. Nunc est arcu, posuere vitae, placerat et, laoreet a, dolor. Proin quis sem id urna tristique bibendum. Nunc diam.
+                </p>
+                <p>
+                Praesent vitae pede in augue auctor gravida. Pellentesque varius. Sed posuere pulvinar leo. Donec ac magna ut nibh venenatis elementum. Nullam viverra tellus sed enim. Nunc mi. Curabitur lobortis. Phasellus nonummy. Fusce nibh. Proin lacus diam, sollicitudin eu, nonummy non, consectetuer at, massa. Fusce pulvinar vulputate diam. Nam nec mi. Maecenas imperdiet sagittis felis. Fusce ac ligula ac enim sodales molestie. Cras tincidunt tortor. Ut sed augue a tellus mattis feugiat. Sed orci elit, vehicula sit amet, placerat a, consequat non, lectus. Nulla porttitor mattis tortor. Cras auctor tincidunt tellus. Donec sed nunc eu urna volutpat nonummy.
+                </p>
+                <p>
+                Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nunc orci lacus, feugiat ut, porttitor a, venenatis in, metus. Cras eleifend. Maecenas vitae nisl. Vivamus ut est. Vestibulum pellentesque placerat libero. Quisque quis eros sed erat placerat rhoncus. Vestibulum vulputate magna. Aliquam faucibus tincidunt mi. Etiam imperdiet, risus et interdum dignissim, tortor ante pharetra massa, et nonummy mauris sem et eros. Nulla facilisi. Phasellus facilisis dui nec nulla. Phasellus rutrum varius felis.
+                </p>
+
+                <p>
+                Mauris enim. Phasellus vel massa. Suspendisse ac nisi. Sed sit amet tortor. In hac habitasse platea dictumst. Integer lobortis velit non mi. Duis at nunc. Etiam ullamcorper auctor neque. Etiam iaculis. Sed et erat. Fusce fringilla imperdiet augue. Sed condimentum urna in dui. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent et tortor.
+                </p>
+                <p>
+                Morbi ut mauris. Aliquam non sapien. Nulla consequat. Aenean accumsan, neque eget porttitor egestas, nulla erat porttitor augue, ac consequat quam urna id mi. Nam quam lacus, interdum nec, accumsan sed, lobortis eget, sapien. Phasellus eu metus non purus aliquet gravida. Nam nisl velit, tincidunt eget, rhoncus id, feugiat vitae, tellus. Duis egestas neque a arcu. Curabitur lacinia rutrum enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin imperdiet pulvinar turpis. Curabitur quis sem.
+                </p>
+                <p>
+                Vestibulum tincidunt. In eget massa a neque blandit tempor. Sed pharetra. Maecenas convallis risus ac mauris. Proin lobortis. Proin nec lectus. Donec congue justo porttitor ligula. Vestibulum gravida. Maecenas congue bibendum pede. Mauris convallis libero ullamcorper sem. Mauris fringilla, augue a cursus scelerisque, tortor erat auctor nibh, ac elementum ligula eros sit amet dolor. Praesent at urna. Curabitur felis arcu, sagittis non, congue in, molestie non, orci. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+        </div>
+</div>
+<script>
+
+(function () {
+
+// add the onType "M" to toggle the modal.
+// also catch and toggle focus events.
+var focusedElement = null;
+
+var modal = document.getElementById('modal');
+var dialog = document.getElementById('dialog');
+var body = document.getElementById('body');
+var html = document.documentElement;
+
+var modalShowing = (html.className === 'modal');
+
+html.tabIndex = -1;
+dialog.tabIndex = -1;
+body.tabIndex = -1;
+
+// Have to hack for Safari, due to poor support for the focus() function.
+try {
+        var isSafari = window.navigator.vendor.match(/Apple/);
+} catch (ex) {
+        isSafari = false;
+}
+if ( isSafari ) {
+        var dialogFocuser = document.createElement('a');
+        dialogFocuser.href="#";
+        dialogFocuser.style.display='block';
+        dialogFocuser.style.height='0';
+        dialogFocuser.style.width='0';
+        dialogFocuser.style.position = 'absolute';
+        dialog.insertBefore(dialogFocuser, dialog.firstChild);
+} else {
+        dialogFocuser = dialog;
+}
+
+var rand = function (min,max) {
+        var n = Math.random();
+        return parseInt(min + (n * (max-min)));
+};
+var randColor = function () {
+        return 'rgb('+rand(0,255)+','+rand(0,255)+','+rand(0,255)+')';
+};
+
+window.onunload = function () {
+        dialogFocuser = focusedElement = modal = dialog = body = html = null;
+};
+
+var onfocus = function (e) {
+        e = e || window.event;
+        var el = e.target || e.srcElement;
+/*
+        if ( modalShowing ) {
+                body.style.backgroundColor = randColor();
+                body.style.color = randColor();
+        } else {
+                body.style.backgroundColor = '#fff';
+                body.style.color = '#000';
+        }
+*/      
+        // save the last focused element when the modal is hidden.
+        if ( !modalShowing ) {
+                focusedElement = el;
+                return;
+        }
+        
+        // if we're focusing the dialog, then just clear the blurring flag.
+        // else, focus the dialog and prevent the other event.
+        var p = el.parentNode;
+        while ( p && p.parentNode && p !== dialog ) {
+                p=p.parentNode;
+        }
+        if ( p !== dialog ) {
+                dialogFocuser.focus();
+        }
+};
+
+
+
+var onblur = function () {
+        if ( !modalShowing ) {
+                focusedElement = body;
+        }
+};
+
+html.onfocus = html.onfocusin = onfocus;
+html.onblur = html.onfocusout = onblur;
+if ( isSafari ) {
+        html.addEventListener('DOMFocusIn',onfocus);
+        html.addEventListener('DOMFocusOut',onblur);
+}
+// focus and blur events are tricky to bubble.
+// need to do some special stuff to handle MSIE.
+
+
+
+
+// toggle the modal.
+// when it hides, focus the prior focused element.
+html.onkeypress = function(e){
+        e=e||window.event;
+        
+        var code = e.which || e.keyCode;
+        
+        // m or M
+        if ( code !== 109 && code !== 77 ) {
+                return true;
+        }
+        
+        e.preventDefault && e.preventDefault();
+        e.returnValue = false;
+        
+        toggleModal();
+        
+        return false;
+};
+
+var toggleModal = function () {
+        
+        html.className=modalShowing?'':'modal';
+        modalShowing = !modalShowing;
+        if (modalShowing) {
+                dialog.focus();
+        } else if (focusedElement) {
+                try {
+                        focusedElement.focus();
+                } catch(ex) {}
+        }
+        
+};
+
+})();
+</script>
+</body>
+</html>

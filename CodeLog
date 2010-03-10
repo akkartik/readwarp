@@ -1452,3 +1452,14 @@ page.
 Signup page swaps in the history so far.
 What's left? Visual design, and intelligently choosing the pre-signup stories.
 =-=562 - Wed Mar 10 08:02:06 PST 2010
+A modal dialog implementation from Isaac Schlueter.
+  http://foohack.com/2007/11/css-modal-dialog-that-works-right
+Still doesn't come on by default, and won't work when you get to the signup
+page through ajax.
+
+What am I doing relying on something this complex for the final, money stage
+of my signup flow?
+There's going to be no overflow; that's in my control. Just hack something
+simpler and less reliant on javascript to at least turn on.
+Maybe just throw an image together?!
+=-=563 - Wed Mar 10 08:46:45 PST 2010

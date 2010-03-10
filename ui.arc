@@ -2,8 +2,9 @@
   `(tag html
     (header)
     (tag body
+      (tag (div id "body")
       (tag (div id "page")
-        ,@body))))
+        ,@body)))))
 
 (mac with-history(req user station . body)
   `(let user ,user
@@ -16,7 +17,7 @@
                (tag div
 
                   (when (and ,station
-                           (~is ,station userinfo*.user!all))
+                             (~is ,station userinfo*.user!all))
                     (tag (div style "margin-bottom:1em")
                       (tag b (pr "current channel"))
                       (tag div (pr ,station))))
@@ -162,7 +163,8 @@
         (tag (a href siteurl target "_blank")
           (pr (check doc-feedtitle.doc ~empty "website")))))
     (tag p
-      (pr:contents doc))))
+      (pr:contents doc))
+    (clear)))
 
 (def render-doc-link(user sname doc)
   (tag (div id (+ "history_" doc))
@@ -269,11 +271,18 @@
   (let user current-user.req
     (or= userinfo*.user!signup-stage 2)
     (page user
-      (tag (div style "width:600px;margin:auto")
+      (csstag "modal.css")
+      (tag (div style "width:600px; margin:auto")
+        (tag (div class "nav")
+          (tag (div style "text-align:left")
+            (tag (a class "logo-button fskip")
+              (pr "ReadWarp"))))
+
         (let query (or= userinfo*.user!all (stringify:unique-id))
           (nopr:ensure-station user query)
           (tag (div id "content")
-            (next-stage user query req)))))))
+            (next-stage user query req))))))
+  (jstag "modal.js"))
 
 (proc next-stage(user query req)
   (signup-funnel userinfo*.user!signup-stage req)
@@ -282,9 +291,19 @@
     (signup-form user query)
     (render-doc-with-context2 user query (next-doc user query))))
 
+(mac modal body
+  `(tag (div id "modal")
+    (tag:div class "overlay-decorator")
+    (tag (div class "overlay-wrap")
+      (tag (div class "overlay")
+        (tag:div class "dialog-decorator")
+        (tag (div class "dialog-wrap")
+          (tag (div id "dialog" class "dialog")
+            ,@body))))))
+
 (def signup-form(user query)
   (pr "current-username: " user)
-  (tag (div class "signup-overlay")
+  (modal
     (prbold "Save your responses")
     (br2)
     (fnform (fn(req) (create-handler req 'register
