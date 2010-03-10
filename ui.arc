@@ -313,7 +313,10 @@
   (pr "current-username: " user)
   (modal "display:block"
     (tag (div style "background:#fff; padding:1em; margin-bottom:100%")
-      (prbold "Save your responses")
+      (prbold "Thank you!")
+      (br)
+      (tag (span style "font-size:14px; color:#888888")
+        (pr "Please claim your personal reading channel."))
       (br2)
       (fnform (fn(req) (create-handler req 'register
                                 (list (fn(new-username ip)
