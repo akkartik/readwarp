@@ -221,6 +221,12 @@
                    (= ,ans ,expr))))
          (acc ans)))))
 
+(def shuffle(ls)
+  (let n len.ls
+    (ret ans copy.ls
+      (repeat (/ n 2)
+        (swap (ans rand.n) (ans rand.n))))))
+
 (def zip ls
   (apply map list ls))
 

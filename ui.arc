@@ -284,6 +284,12 @@
 (def is-prod(req)
   (~is "127.0.0.1" req!ip))
 
+(init signup-groups* '(News Technology Magazine Economics
+                       Sports Fashion Travel Comics))
+(when (len< signup-groups* quiz-length*)
+  (erp "Too few signup groups")
+  (really-quit))
+
 (defop begin req
   (let user current-user.req
     (or= userinfo*.user!signup-stage 2)
@@ -292,14 +298,21 @@
         (tag (div class "nav")
           (logo-small))
 
-        (let query (or= userinfo*.user!all (stringify:unique-id))
-          (nopr:ensure-station user query)
+        (unless userinfo*.user!all
+          (= userinfo*.user!all (stringify:unique-id)))
+
+        (let query userinfo*.user!all
+          (unless userinfo*.user!stations.query
+            (nopr:ensure-station user query)
+            (= userinfo*.user!initial-stations
+               (erp:shuffle:map stringify signup-groups*))
+            (wipe userinfo*.user!stations.query!groups))
+
           (tag (div id "content" style "padding-left:0")
-            (if
-              (is 2 userinfo*.user!signup-stage)
-                (flash:+ "Ok! We'll now gauge your tastes using " quiz-length*
-                         " stories.<br>
-                         Vote for the stories or sites that you like."))
+            (if (is 2 userinfo*.user!signup-stage)
+              (flash:+ "Ok! We'll now gauge your tastes using " quiz-length*
+                       " stories.<br>
+                       Vote for the stories or sites that you like."))
             (next-stage user query req)))))))
 
 (proc next-stage(user query req)
@@ -310,7 +323,15 @@
     (erp user ": stage " stage)
     (if (>= stage funnel-signup-stage*)
       (signup-form user query req)
-      (render-doc-with-context2 user query (next-doc user query)))))
+      (render-doc-with-context2 user query next-doc2.user))))
+
+(def next-doc2(user)
+  (withs (group (car userinfo*.user!initial-stations)
+          feeds (group-feeds* group)
+          feed  (findg randpos.feeds
+                       [most-recent-unread user _]))
+    (w/stdout (stderr) (pr user " " group " => "))
+    (erp:most-recent-unread user feed)))
 
 (mac modal(show . body)
   `(do
