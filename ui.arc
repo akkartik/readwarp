@@ -38,10 +38,10 @@
                             (tag (div style "float:right; margin-right:0.5em")
                               (tag (a href (+ "/delstation?station=" urlencode.sname)
                                       onclick "jsget(this); del(this.parentNode.parentNode); return false;")
-                                (pr "x")))
+                                (tag:img src "close_x.gif")))
                             (link sname (+ "/station?seed=" urlencode.sname)))))))
 
-                  (tag (div style "margin-bottom:1.5em; padding-bottom:0.5em; border-bottom:1px solid #fff200")
+                  (tag (div style "margin-bottom:1.5em; padding-bottom:0.5em; border-bottom:1px solid #cccccc")
                     (tag b (pr "new channel"))
                     (tag (form action "/station")
                          (tag:input name "seed" size "15")
@@ -176,8 +176,7 @@
 (def render-doc-link(user sname doc)
   (tag (div id (+ "history_" doc))
     (tag (div id (+ "outcome_" doc)
-              class (+ "outcome_icon outcome_" (read? user doc)))
-      (pr "&#9632;"))
+              class (+ "outcome_icon outcome_" (read? user doc))))
     (tag (p class "title item")
       (tag (a onclick (+ "showDoc('" jsesc.sname "', '" jsesc.doc "')") href "#" style "font-weight:bold")
         (pr (check doc-title.doc ~empty "no title"))))))
@@ -185,12 +184,13 @@
 (def buttons(user sname doc)
   (tag (div class "buttons")
     (do
-      (button user sname doc 1 "skip" "thumbs down")
-      (button user sname doc 2 "next" "thumbs up"))
+      (button user sname doc 1 "" "thumbs down" "down.jpg")
+      (button user sname doc 2 "" "thumbs up" "up.jpg"))
     (clear)))
 
-(def button(user sname doc n cls tooltip)
-  (tag:input type "button" class (+ cls " button") value tooltip
+(def button(user sname doc n cls tooltip image)
+  (tag:input type "image" class (+ cls " button")
+             value tooltip src image
              onclick (or (mark-read-url user sname doc n)
                          (pushHistory sname doc (+ "'outcome=" n "'")))))
 
@@ -221,7 +221,7 @@
 
 (proc logo-small()
   (tag (div style "text-align:left")
-    (tag (a href "/" class "logo-button fskip")
+    (tag (a href "/" class "logo-button")
       (pr "Readwarp"))))
 
 (proc nav(user)
@@ -238,8 +238,8 @@
 
 
 
-(mac logo(cls msg)
-  `(tag (div class (+ "logo-button " ,stringify.cls))
+(mac logo(msg)
+  `(tag (div class "logo-button")
       (pr ,msg)))
 
 (init quiz-length* 6)
@@ -257,7 +257,7 @@
       (tag (div class "frontpage")
 
         (tag (div class "logo")
-          (logo fskip "READWARP"))
+          (logo "READWARP"))
         (tag (div style "font-style:italic; margin-top:1em")
           (pr "&ldquo;What do I read next?&rdquo;"))
 

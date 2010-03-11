@@ -6,21 +6,27 @@ html,body{ margin:0 auto; padding:0 auto; height:100%; width:100%; overflow:hidd
 body{ font-size:62.5%; font-family:sans-serif; }
 #page{ font-size:1.4em; margin:auto; padding:auto; width:960px; }
 
-#left-panel{ width:18%; padding-top:1.5em; border-right:1px solid #fff200; }
+#left-panel{ width:18%; padding-top:1.5em; border-right:1px solid #cccccc; }
 
 #content{ padding-top:1em; padding-left:1em; font-size:1.4em; }
 
-  .nav{ margin-top:10px; border-bottom:1px solid #fff200; }
+  .nav{ margin-top:10px; border-bottom:1px solid #cccccc; }
 
   .buttons{ }
 
-    .button{ float:left; padding:0.5em; width:10em; height:2.5em; text-align:center; margin-left:1em; }
-    .skip{ background:#cc4444; }    .fskip,.outcome_1{ color:#cc4444; }
-    .next{ background:#ccff33; }    .fnext,.outcome_2{ color:#ccff33; }
-    .like{ background:#87cb43; }    .flike,.outcome_3{ color:#87cb43; }
-    .love{ background:#43cb43; }    .flove,.outcome_4{ color:#43cb43; }
+    .button{ float:left; padding:0.5em; width:2.5em; height:2.5em; margin-left:3em;
+             /*border:1px solid #ccc;*/
+             border-top: 3px #888888 solid;
+             border-left: 3px #888888 solid;
+             border-bottom: 3px #dddddd solid;
+             border-right: 3px #dddddd solid;
+             text-align:center; padding-left:3em; padding-right:3em; }
+    .skip{ background:#cccccc; }    .fskip,.outcome_1{ background-image: url(downsm.jpg); }
+    .like{ background:#cccccc; }    .flike,.outcome_2{ background-image: url(upsm.jpg); }
+    .love{ background:#cccccc; }    .flove,.outcome_4{ background-image: url(upsm.jpg); }
     .icon{ }
-    .outcome_icon{ float:right; margin-right:0.5em; margin-left:0.5em; }
+    .outcome_icon{ float:right; margin-right:0.5em; margin-left:0.5em;
+      width:16px; height:24px; }
 
   .post{ margin-top:1em; margin-bottom:1em; line-height:1.25; text-align:left; }
 
@@ -46,15 +52,15 @@ h2.title a{ color:#44c; font-weight:bold; }
 .date { font-style:italic; font-size:80%; float:right; }
 
 .frontpage { margin-top:2em; font-size:1.6em; margin-left:auto;margin-right:auto; }
-.logo { text-decoration:underline; color:#fff200; text-align:center; }
-.logo-button, a.logo-button, a.logo-button:visited { display:inline; text-align:center; font-family:helvetica,sans-serif; font-weight:bold; }
-.logo .logo-button { font-size:4em; }
+.logo { text-decoration:underline; color:#cccccc; text-align:center; }
+.logo-button, a.logo-button, a.logo-button:visited { display:inline; text-align:center; font-family:helvetica,sans-serif; font-weight:bold; color:#999999; }
+.logo .logo-button { font-size:4em; color:#aaaaaa; }
 
-.flash { font-size:14px; background:#fff200; padding-top:2px; padding-bottom:2px; }
+.flash { font-size:14px; background:#cccccc; padding-top:2px; padding-bottom:2px; }
 .debug { text-align:right; font-size:9px; color:#cccccc; }
 
 .ticker { overflow:hidden; margin:auto; padding:auto;
-  border-top:1px solid #fff200; border-bottom:1px solid #fff200; }
+  border-top:1px solid #cccccc; border-bottom:1px solid #cccccc; }
 a.tickeritem:hover { color:#43aa43; }
 
 .clear { clear:both; }
