@@ -10,56 +10,61 @@
   `(let user ,user
     (page user
       (nav user)
-      (tag (table width "100%")
-        (tr
-          (tag (td id "left-panel")
-            (if user
-               (tag div
+      (with-history-sub ,req user ,station
+        ,@body))))
 
-                  (when (and ,station
-                             (~is ,station userinfo*.user!all))
-                    (tag (div style "margin-bottom:1em")
-                      (tag b (pr "current channel"))
-                      (tag div (pr ,station))))
+(mac with-history-sub(req user station . body)
+  `(let user ,user
+    (tag (table width "100%")
+      (tr
+        (tag (td id "left-panel")
+          (if user
+             (tag div
 
-                  (if (or (> (len-keys userinfo*.user!stations) 2)
-                          (and (is 2 (len-keys userinfo*.user!stations))
-                               (is ,station userinfo*.user!all)))
-                    (tag (div class "stations" style "margin-bottom:1em")
-                      (tag b
-                        (if (is ,station userinfo*.user!all)
-                          (pr "your channels")
-                          (pr "other channels")))
-                      (each sname (keys userinfo*.user!stations)
-                        (if (and (~is sname userinfo*.user!all)
-                                 (~is sname ,station)
-                                 (~blank sname))
-                          (tag (div class "station")
-                            (tag (div style "float:right; margin-right:0.5em")
-                              (tag (a href (+ "/delstation?station=" urlencode.sname)
-                                      onclick "jsget(this); del(this.parentNode.parentNode); return false;")
-                                (tag:img src "close_x.gif")))
-                            (link sname (+ "/station?seed=" urlencode.sname)))))))
+                (when (and ,station
+                           (~is ,station userinfo*.user!all))
+                  (tag (div style "margin-bottom:1em")
+                    (tag b (pr "current channel"))
+                    (tag div (pr ,station))))
 
-                  (tag (div style "margin-bottom:1.5em; padding-bottom:0.5em; border-bottom:1px solid #cccccc")
-                    (tag b (pr "new channel"))
-                    (tag (form action "/station")
-                         (tag:input name "seed" size "15")
-                         (tag (div style "color:#aaa; font-size:90%;
-                                   margin-top:2px") (pr "type in a website or author"))
-                         (tag:input type "submit" value "switch" style "margin-top:5px")))
+                (if (or (> (len-keys userinfo*.user!stations) 2)
+                        (and (is 2 (len-keys userinfo*.user!stations))
+                             (is ,station userinfo*.user!all)))
+                  (tag (div class "stations" style "margin-bottom:1em")
+                    (tag b
+                      (if (is ,station userinfo*.user!all)
+                        (pr "your channels")
+                        (pr "other channels")))
+                    (each sname (keys userinfo*.user!stations)
+                      (if (and (~is sname userinfo*.user!all)
+                               (~is sname ,station)
+                               (~blank sname))
+                        (tag (div class "station")
+                          (tag (div style "float:right; margin-right:0.5em")
+                            (tag (a href (+ "/delstation?station=" urlencode.sname)
+                                    onclick "jsget(this); del(this.parentNode.parentNode); return false;")
+                              (tag:img src "close_x.gif")))
+                          (link sname (+ "/station?seed=" urlencode.sname)))))))
 
-                  ))
+                (tag (div style "margin-bottom:1.5em; padding-bottom:0.5em; border-bottom:1px solid #cccccc")
+                  (tag b (pr "new channel"))
+                  (tag (form action "/station")
+                       (tag:input name "seed" size "15")
+                       (tag (div style "color:#aaa; font-size:90%;
+                                 margin-top:2px") (pr "type in a website or author"))
+                       (tag:input type "submit" value "switch" style "margin-top:5px")))
 
-            (tag (div style "margin-bottom:1em")
-              (tag b
-                (pr "recently viewed"))
-              (tag (div id "history")
-                (history-panel user ,station ,req))))
+                ))
 
-          (tag (td id "contents-wrap")
-             (tag (div id "content")
-               ,@body)))))))
+          (tag (div style "margin-bottom:1em")
+            (tag b
+              (pr "recently viewed"))
+            (tag (div id "history")
+              (history-panel user ,station ,req))))
+
+        (tag (td id "contents-wrap")
+           (tag (div id "content")
+             ,@body))))))
 
 (defop || req
   (if (signedup? current-user.req)
@@ -136,7 +141,8 @@
 
            <br><br>
            Readwarp is under construction. If it seems confused, try creating
-           a new channel. And send us feedback!"))
+           a new channel. And send us feedback!")
+    (set userinfo*.user!noob))
   (tag (div style "float:right")
     (feedback-form sname doc))
   (if doc
@@ -303,7 +309,7 @@
       (tag (div class "debug") (pr:+ "Stage " stage)))
     (erp user ": stage " stage)
     (if (>= stage funnel-signup-stage*)
-      (signup-form user query)
+      (signup-form user query req)
       (render-doc-with-context2 user query (next-doc user query)))))
 
 (mac modal(show . body)
@@ -318,8 +324,62 @@
             (tag (div id "dialog" class "dialog")
               ,@body)))))))
 
-(def signup-form(user query)
-  (pr "current-username: " user)
+(mac with-history-sub2(req user station . body)
+  `(let user ,user
+    (tag (table style "width:960px; overflow:hidden; font-size:80%")
+      (tr
+        (tag (td id "left-panel")
+          (if user
+             (tag div
+
+                (when (and ,station
+                           (~is ,station userinfo*.user!all))
+                  (tag (div style "margin-bottom:1em")
+                    (tag b (pr "current channel"))
+                    (tag div (pr ,station))))
+
+                (if (or (> (len-keys userinfo*.user!stations) 2)
+                        (and (is 2 (len-keys userinfo*.user!stations))
+                             (is ,station userinfo*.user!all)))
+                  (tag (div class "stations" style "margin-bottom:1em")
+                    (tag b
+                      (if (is ,station userinfo*.user!all)
+                        (pr "your channels")
+                        (pr "other channels")))
+                    (each sname (keys userinfo*.user!stations)
+                      (if (and (~is sname userinfo*.user!all)
+                               (~is sname ,station)
+                               (~blank sname))
+                        (tag (div class "station")
+                          (tag (div style "float:right; margin-right:0.5em")
+                            (tag (a href (+ "/delstation?station=" urlencode.sname)
+                                    onclick "jsget(this); del(this.parentNode.parentNode); return false;")
+                              (tag:img src "close_x.gif")))
+                          (link sname (+ "/station?seed=" urlencode.sname)))))))
+
+                (tag (div style "margin-bottom:1.5em; padding-bottom:0.5em; border-bottom:1px solid #cccccc")
+                  (tag b (pr "new channel"))
+                  (tag (form action "/station")
+                       (tag:input name "seed" size "15")
+                       (tag (div style "color:#aaa; font-size:90%;
+                                 margin-top:2px") (pr "type in a website or author"))
+                       (tag:input type "submit" value "switch" style "margin-top:5px")))
+
+                ))
+
+          (tag (div style "margin-bottom:1em")
+            (tag b
+              (pr "recently viewed"))
+            (tag (div id "history")
+              (history-panel user ,station ,req))))
+
+        (tag (td id "contents-wrap")
+           (tag (div id "content")
+             ,@body))))))
+
+(def signup-form(user query req)
+  (with-history-sub2 req user query
+    (render-doc-with-context user query (next-doc user query)))
   (modal "display:block"
     (tag (div style "background:#fff; padding:1em; margin-bottom:100%")
       (prbold "Thank you!")

@@ -1489,3 +1489,6 @@ Bugfix: a stale cookie shouldn't take users to the end of the signup funnel.
 
 Update signup flow for new style.
 =-=572 - Thu Mar 11 02:04:48 PST 2010
+Signup form overlays something useful.
+Lots of redundant duplication, though.
+=-=573 - Thu Mar 11 02:31:22 PST 2010
