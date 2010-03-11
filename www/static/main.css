@@ -15,11 +15,8 @@ body{ font-size:62.5%; font-family:sans-serif; }
   .buttons{ }
 
     .button{ float:left; padding:0.5em; width:2.5em; height:2.5em; margin-left:3em;
-             /*border:1px solid #ccc;*/
-             border-top: 3px #888888 solid;
-             border-left: 3px #888888 solid;
-             border-bottom: 3px #dddddd solid;
-             border-right: 3px #dddddd solid;
+             border-top: 3px #cccccc outset; border-left: 3px #cccccc outset;
+             border-bottom: 3px #888888 outset; border-right: 3px #888888 outset;
              text-align:center; padding-left:3em; padding-right:3em; }
     .outcome_1{ background-image: url(downsm.jpg); }
     .outcome_2{ background-image: url(upsm.jpg); }
