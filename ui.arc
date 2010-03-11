@@ -271,7 +271,7 @@
       (tag (div class "frontpage")
 
         (tag (div class "logo")
-          (logo "READWARP"))
+          (logo "Readwarp"))
         (tag (div style "font-style:italic; margin-top:1em")
           (pr "&ldquo;What do I read next?&rdquo;"))
 
@@ -306,7 +306,7 @@
 
         (let query userinfo*.user!all
           (unless userinfo*.user!stations.query
-            (nopr:ensure-station user query)
+            (ensure-station2 user query)
             (= userinfo*.user!initial-stations
                (erp:shuffle:map stringify signup-groups*))
             (= userinfo*.user!stations.query!groups (table)))
@@ -317,6 +317,16 @@
                        " stories.<br>
                        Vote for the stories or sites that you like."))
             (next-stage user query req)))))))
+
+(proc ensure-station2(user sname)
+  (ensure-user user)
+  (when (no userinfo*.user!stations.sname)
+    (= userinfo*.user!stations.sname (table))
+    (let station userinfo*.user!stations.sname
+      (= station!name sname station!preferred (table) station!unpreferred (table))
+      (= station!created (seconds))
+      (= station!showlist (queue))
+      (= station!last-showlist (queue)))))
 
 (proc next-stage(user query req)
   (let stage userinfo*.user!signup-stage

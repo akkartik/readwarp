@@ -49,10 +49,10 @@ h2.title a{ color:#44c; font-weight:bold; }
 .date { font-style:italic; font-size:80%; float:right; }
 
 .frontpage { margin-top:2em; font-size:1.6em; margin-left:auto;margin-right:auto; }
-.logo { text-decoration:underline; color:#cccccc; text-align:center; }
+.logo { /*text-decoration:underline; OMG I rrly like this*/ color:#cccccc; text-align:center; }
 .logo-button, a.logo-button, a.logo-button:visited {
-  display:inline; text-align:center; font-family:helvetica,sans-serif; font-weight:bold; color:#777777; }
-.logo .logo-button { font-size:4em; color:#888888; }
+  display:inline; text-align:center; font-family:Georgia,serif; font-weight:bold; color:#666666; }
+.logo .logo-button { font-size:4em; color:#777777; }
 
 .flash { font-size:14px; background:#cccccc; padding-top:2px; padding-bottom:2px; }
 .debug { text-align:right; font-size:9px; color:#cccccc; }
