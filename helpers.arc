@@ -137,7 +137,6 @@
     (prn "<link rel=\"icon\" href=\"/favicon.ico\"/>")
     (csstag "main.css")
 
-    (jstag "cookieLibrary.js")
     (jstag "http://api.mixpanel.com/site_media/js/api/mixpanel.js")
     (tag script
       (pr "try {
@@ -159,16 +158,6 @@
 
 (def is-prod(req)
   (~is "127.0.0.1" req!ip))
-
-(defop-raw new-user req
-  (create-user-login)
-  (prn)
-  (pr "new-user"))
-
-(def create-user-login()
-  (let u (stringify:unique-id)
-    (cook-user u)
-    (prcookie:user->cookie* u)))
 
 
 

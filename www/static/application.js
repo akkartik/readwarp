@@ -148,10 +148,3 @@ function checkContent() {
     $('content').innerHTML = "Didn't get back the next story. Sorry about that; please try reloading this page.";
   }
 }
-
-function createUserCookie() {
-  if (!GetCookie('user')) {
-    new Ajax.Request("/new-user");
-  }
-}
-createUserCookie();
