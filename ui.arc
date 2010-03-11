@@ -305,7 +305,7 @@
             (nopr:ensure-station user query)
             (= userinfo*.user!initial-stations
                (erp:shuffle:map stringify signup-groups*))
-            (wipe userinfo*.user!stations.query!groups))
+            (= userinfo*.user!stations.query!groups (table)))
 
           (tag (div id "content" style "padding-left:0")
             (if (is 2 userinfo*.user!signup-stage)
@@ -398,8 +398,12 @@
              ,@body))))))
 
 (def signup-form(user query req)
+  ; example rendering
   (with-history-sub2 req user query
     (render-doc-with-context user query (next-doc user query)))
+  (= userinfo*.user!stations.query!showlist (queue))
+  (start-rebuilding-showlist user userinfo*.user!stations.query)
+
   (modal "display:block"
     (tag (div style "background:#fff; padding:1em; margin-bottom:100%")
       (prbold "Thank you!")
@@ -452,9 +456,39 @@
          outcome (arg req "outcome"))
     (nopr
       (ensure-station user sname)
-      (mark-read user sname doc outcome t t)
+      (mark-read2 user sname doc outcome)
       (++ userinfo*.user!signup-stage))
     (next-stage user sname req)))
+
+(proc mark-read2(user sname doc outcome)
+  (with (station  userinfo*.user!stations.sname
+         feed     doc-feed.doc)
+
+    (unless userinfo*.user!read.doc
+      (push doc station!read-list))
+    (= userinfo*.user!read.doc outcome)
+
+    (or= station!last-showlist (queue))
+    (enq-limit feed
+          station!last-showlist
+          history-size*)
+
+    (or= station!preferred (table))
+    (when (is outcome "2")
+      (each g (erp:signup-group-mapping*:car userinfo*.user!initial-stations)
+        (or= userinfo*.user!stations.sname!groups.g (backoff doc 2))))
+    (pop userinfo*.user!initial-stations)))
+
+(init signup-group-mapping*
+  (obj
+    "News" '("News" "Politics" "Economics" "Technology")
+    "Technology" '("Technology" "Programming" "Venture" "Games" "Science" "Biology")
+    "Magazine" '("Magazine" "Comics" "Design" "Movies" "Books" "Music" "Auto" "Art" "Travel")
+    "Economics" '("News" "Politics" "Economics" "Technology")
+    "Sports" '("Sports" "Cricket")
+    "Fashion" '("Fashion" "Glamor" "Food" "Health")
+    "Travel" '("Magazine" "Comics" "Design" "Movies" "Books" "Music" "Auto" "Art" "Travel")
+    "Comics" '("Magazine" "Games" "Comics")))
 
 
 
