@@ -136,6 +136,7 @@
 
 (defreg migrate-stations() migrations*
   (prn "migrate-stations")
+  (wipe userinfo*.nil)
   (each user (keys userinfo*)
     (set userinfo*.user!signedup)
     (= userinfo*.user!created (seconds))))

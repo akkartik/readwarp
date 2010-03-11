@@ -1483,3 +1483,6 @@ A monochrome design.
 =-=569 - Thu Mar 11 01:08:01 PST 2010
 Copy around the 'new channel' action.
 =-=570 - Thu Mar 11 01:43:20 PST 2010
+
+Bugfix: a stale cookie shouldn't take users to the end of the signup funnel.
+=-=571 - Thu Mar 11 01:56:55 PST 2010
