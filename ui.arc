@@ -45,7 +45,9 @@
                     (tag b (pr "new channel"))
                     (tag (form action "/station")
                          (tag:input name "seed" size "15")
-                         (tag:input type "submit" value "Switch" style "margin-top:5px")))
+                         (tag (div style "color:#aaa; font-size:90%;
+                                   margin-top:2px") (pr "type in a website or author"))
+                         (tag:input type "submit" value "switch" style "margin-top:5px")))
 
                   ))
 
