@@ -101,14 +101,14 @@ function pushHistory(station, doc, params) {
     }
   }
 
-  $('content').innerHTML = "<img src=\"waiting.gif\"/>";
-  scroll(0, 0);
+  prepareAjax();
   new Ajax.Request("/docupdate",
       {
         method: 'post',
         parameters: 'doc='+escape(doc)+'&'+'station='+escape(station)+'&'+params,
         onSuccess: function(response) {
           $('content').innerHTML = response.responseText;
+          checkContent();
           runScripts($('content'));
         }
       });
@@ -116,7 +116,7 @@ function pushHistory(station, doc, params) {
 }
 
 function showDoc(station, doc) {
-  $('content').innerHTML = "<img src=\"waiting.gif\"/>";
+  prepareAjax();
   new Ajax.Request("/doc",
       {
         method: 'get',
@@ -124,10 +124,29 @@ function showDoc(station, doc) {
         onSuccess: function(response) {
           del($('history_'+doc));
           $('content').innerHTML = response.responseText;
+          checkContent();
           runScripts($('content'));
         }
       });
   return false;
+}
+
+function prepareAjax() {
+  $('content').innerHTML = "<img src=\"waiting.gif\"/>";
+  scroll(0, 0);
+  setTimeout(errorMessage, 5000);
+}
+
+function errorMessage() {
+  if ($('content').innerHTML.indexOf("<img src=\"waiting.gif\"") == 0) {
+    $('content').innerHTML += " Hmm, still waiting. You may want to try reloading this page.";
+  }
+}
+
+function checkContent() {
+  if ($('content').innerHTML.length == 0) {
+    $('content').innerHTML = "Didn't get back the next story. Sorry about that; please try reloading this page.";
+  }
 }
 
 function createUserCookie() {

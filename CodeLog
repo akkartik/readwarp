@@ -1492,3 +1492,5 @@ Update signup flow for new style.
 Signup form overlays something useful.
 Lots of redundant duplication, though.
 =-=573 - Thu Mar 11 02:31:22 PST 2010
+Better error message when an ajax request dies.
+=-=574 - Thu Mar 11 03:06:51 PST 2010
