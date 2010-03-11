@@ -18,7 +18,7 @@
         top:0;
         left:0;
         z-index:2001;
-        
+
         overflow:auto;
         *overflow-x:hidden;
         *zoom:1;
@@ -35,7 +35,7 @@
         vertical-align:middle;
         width:300px;
         z-index:9999;
-        
+
         *width:100%;
         *text-align:center;
         *position:static;
@@ -44,7 +44,7 @@
 .dialog-wrap {
         display:table-cell;
         vertical-align:middle;
-        
+
         *width:300px;
         *text-align:left;
         *zoom:1;
@@ -53,7 +53,7 @@
 
 .dialog-decorator {
         display:none;
-        
+
         *vertical-align:middle;
         *zoom:1;
         *display:inline;
