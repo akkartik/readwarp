@@ -288,7 +288,7 @@
 
         (let query (or= userinfo*.user!all (stringify:unique-id))
           (nopr:ensure-station user query)
-          (tag (div id "content")
+          (tag (div id "content" style "padding-left:0")
             (if
               (is 2 userinfo*.user!signup-stage)
                 (flash:+ "Ok! We'll now gauge your tastes using " quiz-length*
@@ -354,12 +354,13 @@
 (def buttons2(user sname doc)
   (tag (div class "buttons")
     (do
-      (button2 user sname doc 1 "skip" "thumbs down")
-      (button2 user sname doc 2 "next" "thumbs up"))
+      (button2 user sname doc 1 "" "thumbs down" "down.jpg")
+      (button2 user sname doc 2 "" "thumbs up" "up.jpg"))
     (clear)))
 
-(def button2(user sname doc n cls tooltip)
-  (tag:input type "button" class (+ cls " button") value tooltip
+(def button2(user sname doc n cls tooltip image)
+  (tag:input type "image" class (+ cls " button")
+             value tooltip src image
              onclick (inline "content"
                              (+ "/docupdate2?doc=" urlencode.doc
                                 "&station=" urlencode.sname "&outcome=" n))))

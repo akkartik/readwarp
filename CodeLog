@@ -1486,3 +1486,6 @@ Copy around the 'new channel' action.
 
 Bugfix: a stale cookie shouldn't take users to the end of the signup funnel.
 =-=571 - Thu Mar 11 01:56:55 PST 2010
+
+Update signup flow for new style.
+=-=572 - Thu Mar 11 02:04:48 PST 2010

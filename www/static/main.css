@@ -21,9 +21,8 @@ body{ font-size:62.5%; font-family:sans-serif; }
              border-bottom: 3px #dddddd solid;
              border-right: 3px #dddddd solid;
              text-align:center; padding-left:3em; padding-right:3em; }
-    .skip{ background:#cccccc; }    .fskip,.outcome_1{ background-image: url(downsm.jpg); }
-    .like{ background:#cccccc; }    .flike,.outcome_2{ background-image: url(upsm.jpg); }
-    .love{ background:#cccccc; }    .flove,.outcome_4{ background-image: url(upsm.jpg); }
+    .outcome_1{ background-image: url(downsm.jpg); }
+    .outcome_2{ background-image: url(upsm.jpg); }
     .icon{ }
     .outcome_icon{ float:right; margin-right:0.5em; margin-left:0.5em;
       width:16px; height:24px; }
