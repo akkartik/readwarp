@@ -157,6 +157,9 @@
     (tag script
       (pr "mpmetrics.track_funnel(" funnel-name ", " n ", \"" n "\");"))))
 
+(def is-prod(req)
+  (~is "127.0.0.1" req!ip))
+
 (defop-raw new-user req
   (create-user-login)
   (prn)

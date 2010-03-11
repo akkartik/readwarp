@@ -66,6 +66,8 @@
            (tag (div id "content")
              ,@body))))))
 
+
+
 (defop || req
   (if (signedup? current-user.req)
     (reader req)
@@ -280,9 +282,6 @@
           (signup-funnel-analytics 1 req)
 
         )))))
-
-(def is-prod(req)
-  (~is "127.0.0.1" req!ip))
 
 (init signup-groups* '(News Technology Magazine Economics
                        Sports Fashion Travel Comics))

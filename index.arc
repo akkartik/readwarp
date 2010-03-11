@@ -165,8 +165,7 @@
     (or= station!preferred (table))
     (case outcome
       "1" (handle-downvote user station doc feed prune-feed prune-group)
-      "2" (handle-upvote user station doc feed)
-      "4" (handle-upvote user station doc feed))))
+      "2" (handle-upvote user station doc feed))))
 
 (def show-same-station(outcome user feed)
   (when (is outcome "4")
