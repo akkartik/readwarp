@@ -15,11 +15,12 @@ body{ font-size:62.5%; font-family:sans-serif; }
   .buttons{ }
 
     .button{ float:left; padding:0.5em; width:2.5em; height:2.5em; margin-left:3em;
+             font-family:serif;
              border-top: 3px #cccccc outset; border-left: 3px #cccccc outset;
              border-bottom: 3px #888888 outset; border-right: 3px #888888 outset;
              text-align:center; padding-left:3em; padding-right:3em; }
-    .outcome_1{ background-image: url(downsm.jpg); }
-    .outcome_2{ background-image: url(upsm.jpg); }
+    .like{ background:#dddddd; color:#888888; } .outcome_2{ color:#dddddd; }
+    .skip{ background:#888888; color:#dddddd; } .outcome_1{ color:#888888; }
     .icon{ }
     .outcome_icon{ float:right; margin-right:0.5em; margin-left:0.5em;
       width:16px; height:24px; }

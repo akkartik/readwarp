@@ -186,7 +186,8 @@
 (def render-doc-link(user sname doc)
   (tag (div id (+ "history_" doc))
     (tag (div id (+ "outcome_" doc)
-              class (+ "outcome_icon outcome_" (read? user doc))))
+              class (+ "outcome_icon outcome_" (read? user doc)))
+      (pr "&#9632;"))
     (tag (p class "title item")
       (tag (a onclick (+ "showDoc('" jsesc.sname "', '" jsesc.doc "')") href "#" style "font-weight:bold")
         (pr (check doc-title.doc ~empty "no title"))))))
@@ -194,15 +195,18 @@
 (def buttons(user sname doc)
   (tag (div class "buttons")
     (do
-      (button user sname doc 1 "" "thumbs down" "down.jpg")
-      (button user sname doc 2 "" "thumbs up" "up.jpg"))
+      (button user sname doc 2 "like" "&#x21e7;")
+      (button user sname doc 1 "skip" "&#x21e9;"))
     (clear)))
 
-(def button(user sname doc n cls tooltip image)
-  (tag:input type "image" class (+ cls " button")
-             value tooltip src image
-             onclick (or (mark-read-url user sname doc n)
-                         (pushHistory sname doc (+ "'outcome=" n "'")))))
+(def button(user sname doc n cls label)
+  (votebutton cls label
+            (or (mark-read-url user sname doc n)
+                (pushHistory sname doc (+ "'outcome=" n "'")))))
+
+(def votebutton(cls label onclick)
+  (pr "<input type=\"button\" class=\"button " cls "\" value=\"" label "\" "
+      "onclick=\"" onclick "\"/>"))
 
 (def mark-read-url(user sname doc n)
   (if (is n 1)
@@ -438,16 +442,15 @@
 (def buttons2(user sname doc)
   (tag (div class "buttons")
     (do
-      (button2 user sname doc 1 "" "thumbs down" "down.jpg")
-      (button2 user sname doc 2 "" "thumbs up" "up.jpg"))
+      (button2 user sname doc 2 "like" "&#x21e7;")
+      (button2 user sname doc 1 "skip" "&#x21e9;"))
     (clear)))
 
-(def button2(user sname doc n cls tooltip image)
-  (tag:input type "image" class (+ cls " button")
-             value tooltip src image
-             onclick (inline "content"
-                             (+ "/docupdate2?doc=" urlencode.doc
-                                "&station=" urlencode.sname "&outcome=" n))))
+(def button2(user sname doc n cls label)
+  (votebutton cls label
+            (inline "content"
+                    (+ "/docupdate2?doc=" urlencode.doc
+                       "&station=" urlencode.sname "&outcome=" n))))
 
 (defop docupdate2 req
   (with (user (current-user req)
