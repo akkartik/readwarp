@@ -17,11 +17,12 @@ body{ font-size:62.5%; }
   .buttons{ }
 
     .button{ float:left; width:12em; height:3em; margin-right:3em;
+             margin-bottom:2em;
              border-top: 3px #dddddd outset; border-left: 3px #dddddd outset;
              border-bottom: 3px #888888 outset; border-right: 3px #888888 outset;
              text-align:center; }
-    .like{ background:#dddddd; color:#888888; } .outcome_2{ color:#cccccc; }
-    .skip{ background:#888888; color:#dddddd; } .outcome_1{ color:#888888; }
+    .like{ background:#dddddd; color:#bbbbbb; } .outcome_2{ color:#dddddd; }
+    .skip{ background:#bbbbbb; color:#dddddd; } .outcome_1{ color:#bbbbbb; }
     .icon{ }
     .outcome_icon{ float:right; margin-right:0.2em; margin-left:0.5em;
       width:16px; height:24px; font-size:75%;}

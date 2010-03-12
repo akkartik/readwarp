@@ -1540,3 +1540,5 @@ Revert arrows to be cross-browser.
 More tweaks to the signup flow; a progress bar and don't let people click on
 the hidden stuff in the signup page.
 =-=596 - Fri Mar 12 09:39:24 PST 2010
+Post-signup layout tweaks.
+=-=597 - Fri Mar 12 09:54:35 PST 2010
