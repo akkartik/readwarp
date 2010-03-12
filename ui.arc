@@ -172,13 +172,13 @@
     (tag (h2 class "title")
       (tag (a href doc-url.doc target "_blank")
         (pr (check doc-title.doc ~empty "no title"))))
-    (tag (div class "date")
-      (aif pubdate.doc (pr render-date.it)))
-    (tag div
+    (tag (div class "subtitle")
+      (tag (div class "date")
+        (aif pubdate.doc (pr render-date.it)))
       (iflet siteurl doc-site.doc
         (tag (a href siteurl target "_blank")
           (pr (check doc-feedtitle.doc ~empty "website")))))
-    (tag p
+    (tag (div class "readwarp-post-body")
       (pr:contents doc))
     (clear)))
 
@@ -278,7 +278,7 @@
           (tag div
             (pr "Readwarp learns your tastes &mdash; <i>fast</i>."))
           (tag (div style "margin-top: 0.2em")
-            (pr "Just vote on 6 stories to get started."))
+            (pr "Vote on just 6 stories to get started."))
           (tag:input type "button" value "Start reading" style "margin-top:1.5em"
                      onclick "location.href='/begin'")
 
