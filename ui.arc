@@ -30,7 +30,7 @@
                 (if (or (> (len-keys userinfo*.user!stations) 2)
                         (and (is 2 (len-keys userinfo*.user!stations))
                              (is ,station userinfo*.user!all)))
-                  (tag (div class "stations" style "margin-bottom:1em")
+                  (tag (div class "stations" style "margin-bottom:1.5em; padding-bottom:1em")
                     (tag b
                       (if (is ,station userinfo*.user!all)
                         (pr "your channels")
@@ -46,11 +46,11 @@
                               (tag:img src "close_x.gif")))
                           (link sname (+ "/station?seed=" urlencode.sname)))))))
 
-                (tag (div style "margin-bottom:1.5em; padding-bottom:0.5em; border-bottom:1px solid #cccccc")
+                (tag (div style "margin-bottom:1.5em; padding-bottom:1em")
                   (tag b (pr "new channel"))
                   (tag (form action "/station")
                        (tag:input name "seed" size "15")
-                       (tag (div style "color:#aaa; font-size:90%;
+                       (tag (div style "color:#888888; font-size:90%;
                                  margin-top:2px") (pr "type in a website or author"))
                        (tag:input type "submit" value "switch" style "margin-top:5px")))
 
@@ -145,8 +145,7 @@
            Readwarp is under construction. If it seems confused, try creating
            a new channel. And send us feedback!")
     (set userinfo*.user!noob))
-  (tag (div style "float:right")
-    (feedback-form sname doc))
+  (feedback-form sname doc)
   (if doc
     (tag (div id (+ "doc_" doc))
       (buttons user sname doc)
@@ -311,7 +310,7 @@
                (erp:shuffle:map stringify signup-groups*))
             (= userinfo*.user!stations.query!groups (table)))
 
-          (tag (div id "content" style "padding-left:0")
+          (tag (div id "content" style "padding-left:0; margin-top:1em")
             (if (is 2 userinfo*.user!signup-stage)
               (flash:+ "Ok! We'll now gauge your tastes using " quiz-length*
                        " stories.<br>
@@ -391,7 +390,7 @@
                               (tag:img src "close_x.gif")))
                           (link sname (+ "/station?seed=" urlencode.sname)))))))
 
-                (tag (div style "margin-bottom:1.5em; padding-bottom:0.5em; border-bottom:1px solid #cccccc")
+                (tag (div style "margin-bottom:1.5em; padding-bottom:0.5em")
                   (tag b (pr "new channel"))
                   (tag (form action "/station")
                        (tag:input name "seed" size "15")
@@ -435,8 +434,7 @@
               t))))
 
 (def render-doc-with-context2(user sname doc)
-  (tag (div style "float:right")
-    (feedback-form sname doc))
+  (feedback-form sname doc)
   (if doc
     (tag (div id (+ "doc_" doc))
       (buttons2 user sname doc)
@@ -510,23 +508,26 @@
   "/")
 
 (def feedback-form(sname doc)
-  (tag (div style "margin-top:1em; text-align:right")
-    (tag (a onclick "$('feedback').toggle(); return false" href "#")
-      (pr "feedback")))
-  (tag (form action "/feedback" method "post" id "feedback"
-             style "display:none; float:right; z-index:1000; margin-top:1em; margin-left:-4000px")
-    (tag:textarea name "msg" cols "25" rows "6")(br)
-    (tag (div style "font-size: 75%; margin-top:0.5em")
-      (pr "Your email?"))
-    (tag:input name "email") (tag (i style "font-size:75%") (pr "(optional)")) (br)
-    (tag:input type "hidden" name "location" value (+ "/station?seed=" sname))
-    (tag:input type "hidden" name "station" value sname)
-    (tag:input type "hidden" name "doc" value doc)
-    (tag (div style "margin-top:0.5em")
-      (do
-        (tag:input type "submit" value "send" style "margin-right:1em")
-        (tag:input type "button" value "cancel" onclick "$('feedback').toggle()"))))
-  (clear))
+  (tag (div style "float:right")
+    (tag (div class "feedback_link")
+      (tag (a onclick "$('feedback').toggle(); return false" href "#")
+        (pr "feedback")))
+    (tag (form action "/feedback" method "post" id "feedback"
+               style "display:none; z-index:1000; margin-top:0.5em;
+                      float:right; margin-left:-4000px;
+                      padding:5px; border:1px solid #dddddd;")
+      (tag:textarea name "msg" cols "25" rows "6" style "text-align:left")(br)
+      (tag (div style "font-size: 75%; margin-top:0.5em; text-align:left")
+        (pr "Your email?"))
+      (tag:input name "email") (tag (i style "font-size:75%") (pr "(optional)")) (br)
+      (tag:input type "hidden" name "location" value (+ "/station?seed=" sname))
+      (tag:input type "hidden" name "station" value sname)
+      (tag:input type "hidden" name "doc" value doc)
+      (tag (div style "margin-top:0.5em; text-align:left")
+        (do
+          (tag:input type "submit" value "send" style "margin-right:1em")
+          (tag:input type "button" value "cancel" onclick "$('feedback').toggle()"))))
+    (clear)))
 
 (def write-feedback(user email sname doc msg)
   (w/prfile (+ "feedback/" (seconds))

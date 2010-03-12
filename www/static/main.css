@@ -1,24 +1,26 @@
 @import url("http://yui.yahooapis.com/2.6.0/build/reset-fonts-grids/reset-fonts-grids.css");
+
 /* For modal dialogs */
 html,body{ margin:0 auto; padding:0 auto; height:100%; width:100%; overflow:hidden; }
 #body{ margin:0 auto; padding:0 auto; overflow:auto; height:100%; width:100%; }
 
 body{ font-size:62.5%; font-family:sans-serif; }
 #page{ font-size:1.4em; margin:auto; padding:auto; width:960px; }
+.clear{ clear:both; }
 
-#left-panel{ width:18%; padding-top:1.5em; border-right:1px solid #cccccc; }
+#left-panel{ width:18%; padding-top:1.5em; border-right:1px solid #dddddd; }
 
-#content{ padding-top:1em; padding-left:1em; font-size:1.4em; }
+#content{ padding-left:1em; font-size:1.4em; margin-bottom:1em; }
 
-  .nav{ margin-top:10px; border-bottom:1px solid #cccccc; }
+  .nav{ margin-top:10px; border-bottom:1px solid #dddddd; }
 
   .buttons{ }
 
-    .button{ float:left; padding:0.5em; width:2.5em; height:2.5em; margin-left:3em;
+    .button{ float:left; padding:0.5em; width:5em; height:2.5em; margin-right:3em;
              font-family:serif;
-             border-top: 3px #cccccc outset; border-left: 3px #cccccc outset;
+             border-top: 3px #dddddd outset; border-left: 3px #dddddd outset;
              border-bottom: 3px #888888 outset; border-right: 3px #888888 outset;
-             text-align:center; padding-left:3em; padding-right:3em; }
+             text-align:center; }
     .like{ background:#dddddd; color:#888888; } .outcome_2{ color:#dddddd; }
     .skip{ background:#888888; color:#dddddd; } .outcome_1{ color:#888888; }
     .icon{ }
@@ -40,25 +42,20 @@ a:hover{ text-decoration:underline; }
 
 h2.title a{ color:#44c; font-weight:bold; }
 
-.paginate{ color:#888; margin:1em; font-style:italic; text-align:center; font-size:0.8em; }
+.paginate{ color:#aaf; margin:1em; font-style:italic; text-align:center; font-size:0.8em; }
+.paginate a{ color:#66f; margin:1em; font-style:italic; text-align:center; font-size:0.8em; }
 
 .main p{ margin-top:1em; }
 
-#searchbox { margin-left:75%; margin-top:0.5em; }
-
-.date { font-style:italic; font-size:80%; float:right; }
+.feedback_link{ font-size:80%; text-align:right; }
+.feedback_link a{ color:#88c; }
+.date{ font-style:italic; font-size:80%; float:right; }
 
 .frontpage { margin-top:2em; font-size:1.6em; margin-left:auto;margin-right:auto; }
-.logo { /*text-decoration:underline; OMG I rrly like this*/ color:#cccccc; text-align:center; }
+.logo{ /*text-decoration:underline; OMG I rrly like this*/ color:#dddddd; text-align:center; }
 .logo-button, a.logo-button, a.logo-button:visited {
   display:inline; text-align:center; font-family:Georgia,serif; font-weight:bold; color:#666666; }
-.logo .logo-button { font-size:4em; color:#777777; }
+.logo.logo-button { font-size:4em; color:#777777; }
 
-.flash { font-size:14px; background:#cccccc; padding-top:2px; padding-bottom:2px; }
-.debug { text-align:right; font-size:9px; color:#cccccc; }
-
-.ticker { overflow:hidden; margin:auto; padding:auto;
-  border-top:1px solid #cccccc; border-bottom:1px solid #cccccc; }
-a.tickeritem:hover { color:#43aa43; }
-
-.clear { clear:both; }
+.flash{ font-size:14px; background:#dddddd; padding-top:2px; padding-bottom:2px; margin-bottom:1em; }
+.debug{ text-align:right; font-size:9px; color:#dddddd; }
