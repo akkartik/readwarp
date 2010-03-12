@@ -50,7 +50,7 @@ h2.title a{ font-family:serif; font-size:2em; color:#66e; }
 .subtitle{ font-style:italic; margin-top:0.5em; margin-bottom:1em; }
 .readwarp-post-body{ margin-top:2em; }
 
-.flash{ background:#dddddd; padding-top:2px; padding-bottom:2px; }
+.flash{ background:#eeeeee; padding-top:2px; padding-bottom:2px; }
 .debug{ text-align:right; color:#dddddd; }
 
 .feedback_link{ text-align:right; }
@@ -59,7 +59,7 @@ h2.title a{ font-family:serif; font-size:2em; color:#66e; }
 
 
 
-#left-panel b{ color:#aaaaaa; }
+#left-panel b{ color:#999999; }
 #history .item{ margin-top:1em; margin-bottom:1em; }
 #history a{ font-size:90%; }
 
