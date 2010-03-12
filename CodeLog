@@ -1530,3 +1530,6 @@ Bugfix. But now load '/' takes too long. Why is there thread conflict?
 Seemingly because the rebuild is trying to prn to the string that was already
 closed. Fixed. Things are snappy now.
 =-=592 - Thu Mar 11 19:34:39 PST 2010
+Hack: wait a bit before starting the precompute thread, let the current page
+go through first.
+=-=594 - Thu Mar 11 19:59:58 PST 2010

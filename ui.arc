@@ -260,7 +260,7 @@
 (init funnel-length* (+ 1 funnel-signup-stage*))
 (def start-funnel(req)
   (let user current-user.req
-    (start-rebuilding-signup-showlist user)
+    (start-rebuilding-signup-showlist user 'sleep)
     (page user
       (tag (div class "nav")
         (tag (div style "float:right")
@@ -295,7 +295,7 @@
 
 (defop begin req
   (let user current-user.req
-    (start-rebuilding-signup-showlist user)
+    (start-rebuilding-signup-showlist user nil)
     (or= userinfo*.user!signup-stage 2)
     (page user
       (tag (div style "width:600px; margin:auto")
@@ -336,9 +336,10 @@
 (def pick2(user)
   (car userinfo*.user!signup-showlist))
 
-(proc start-rebuilding-signup-showlist(user)
+(proc start-rebuilding-signup-showlist(user pause)
   (or= userinfo*.user!signup-showlist-thread
        (thread "signup-showlist"
+         (if pause (sleep 1))
          (w/stdout (stderr)
            (rebuild-signup-showlist user)))))
 
