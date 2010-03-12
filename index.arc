@@ -138,8 +138,7 @@
   (prn "migrate-stations")
   (wipe userinfo*.nil)
   (each user (keys userinfo*)
-    (set userinfo*.user!signedup)
-    (= userinfo*.user!created (seconds))))
+    (zap no:no userinfo*.user!signup-showlist-thread)))
 
 (init history-size* 5)
 

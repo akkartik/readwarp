@@ -337,11 +337,12 @@
   (car userinfo*.user!signup-showlist))
 
 (proc start-rebuilding-signup-showlist(user pause)
-  (or= userinfo*.user!signup-showlist-thread
-       (thread "signup-showlist"
-         (if pause (sleep 1))
-         (w/stdout (stderr)
-           (rebuild-signup-showlist user)))))
+  (unless userinfo*.user!signup-showlist-thread
+    (set userinfo*.user!signup-showlist-thread)
+    (thread "signup-showlist"
+      (if pause (sleep 1))
+      (w/stdout (stderr)
+        (rebuild-signup-showlist user)))))
 
 (proc rebuild-signup-showlist(user)
   (unless userinfo*.user!all
