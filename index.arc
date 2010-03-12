@@ -236,7 +236,6 @@
 
     (erp "Groups: " ans)
     (unless ans
-      (flash "Showing a few random stories")
       (= ans feedgroups*))))
 
 (proc gen-groups(user sname)

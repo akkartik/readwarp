@@ -30,7 +30,7 @@
                 (if (or (> (len-keys userinfo*.user!stations) 2)
                         (and (is 2 (len-keys userinfo*.user!stations))
                              (is ,station userinfo*.user!all)))
-                  (tag (div class "stations" style "margin-bottom:1.5em; padding-bottom:1em")
+                  (tag (div class "stations" style "margin-bottom:1em; padding-bottom:1em")
                     (tag b
                       (if (is ,station userinfo*.user!all)
                         (pr "your channels")
@@ -46,7 +46,7 @@
                               (tag:img src "close_x.gif")))
                           (link sname (+ "/station?seed=" urlencode.sname)))))))
 
-                (tag (div style "margin-bottom:1.5em; padding-bottom:1em")
+                (tag (div style "margin-bottom:1em; padding-bottom:1em")
                   (tag b (pr "new channel"))
                   (tag (form action "/station")
                        (tag:input name "seed" size "15")
@@ -374,7 +374,7 @@
                 (if (or (> (len-keys userinfo*.user!stations) 2)
                         (and (is 2 (len-keys userinfo*.user!stations))
                              (is ,station userinfo*.user!all)))
-                  (tag (div class "stations" style "margin-bottom:1em")
+                  (tag (div class "stations" style "margin-bottom:1em; padding-bottom:1em")
                     (tag b
                       (if (is ,station userinfo*.user!all)
                         (pr "your channels")
@@ -390,11 +390,11 @@
                               (tag:img src "close_x.gif")))
                           (link sname (+ "/station?seed=" urlencode.sname)))))))
 
-                (tag (div style "margin-bottom:1.5em; padding-bottom:0.5em")
+                (tag (div style "margin-bottom:1em; padding-bottom:1em")
                   (tag b (pr "new channel"))
                   (tag (form action "/station")
                        (tag:input name "seed" size "15")
-                       (tag (div style "color:#aaa; font-size:90%;
+                       (tag (div style "color:#888888; font-size:90%;
                                  margin-top:2px") (pr "type in a website or author"))
                        (tag:input type "submit" value "switch" style "margin-top:5px")))
 

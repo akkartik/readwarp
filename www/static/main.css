@@ -8,15 +8,15 @@ body{ font-size:62.5%; }
 #page{ margin:auto; padding:auto; width:960px;
        font-size:1.4em; font-family:sans-serif; }
 
-.nav{ margin-top:10px; margin-bottom:1em; border-bottom:1px solid #dddddd; }
+.nav{ margin-top:10px; border-bottom:1px solid #dddddd; }
 
-#left-panel{ width:18%; padding-top:1.5em; border-right:1px solid #dddddd; }
+#left-panel{ width:18%; padding-top:1em; border-right:1px solid #dddddd; }
 
-#content{ padding-left:1em; padding-top:1.5em; font-size:1.4em; margin-bottom:1em; }
+#content{ padding-left:1em; padding-top:1em; margin-bottom:1em; }
 
   .buttons{ }
 
-    .button{ float:left; padding:0.5em; width:9em; height:2.5em; margin-right:3em;
+    .button{ float:left; padding:0.5em; width:12em; height:3em; margin-right:3em;
              font-family:serif;
              border-top: 3px #dddddd outset; border-left: 3px #dddddd outset;
              border-bottom: 3px #888888 outset; border-right: 3px #888888 outset;
@@ -27,7 +27,7 @@ body{ font-size:62.5%; }
     .outcome_icon{ float:right; margin-right:0.2em; margin-left:0.5em;
       width:16px; height:24px; font-size:75%;}
 
-  .post{ margin-top:1em; margin-bottom:1em; line-height:1.4; text-align:left; }
+  .post{ font-size:1.4em; margin-bottom:1em; line-height:1.4; text-align:left; }
 
 
 
@@ -50,10 +50,10 @@ h2.title a{ font-family:serif; font-size:2em; color:#66e; }
 .subtitle{ font-style:italic; margin-top:0.5em; margin-bottom:1em; }
 .readwarp-post-body{ margin-top:2em; }
 
-.flash{ font-size:14px; background:#dddddd; padding-top:2px; padding-bottom:2px; margin-top:1em; margin-bottom:1em; }
-.debug{ text-align:right; font-size:9px; color:#dddddd; }
+.flash{ background:#dddddd; padding-top:2px; padding-bottom:2px; margin-top:1em; margin-bottom:1em; }
+.debug{ text-align:right; color:#dddddd; }
 
-.feedback_link{ font-size:80%; text-align:right; }
+.feedback_link{ text-align:right; }
 .feedback_link a{ color:#88c; }
 .date{ font-style:italic; font-size:80%; float:right; }
 
