@@ -35,6 +35,8 @@ td{ vertical-align:top; }
 a{ text-decoration:none; }
 a:hover{ text-decoration:underline; }
 
+blockquote{ margin:1em; }
+
 .clear{ clear:both; }
 
 
@@ -64,3 +66,6 @@ h2.title a{ font-family:serif; font-size:2em; color:#66e; }
 
 .paginate{ color:#aaf; margin:1em; font-style:italic; text-align:center; font-size:0.8em; }
 .paginate a{ color:#66f; margin:1em; font-style:italic; text-align:center; font-size:0.8em; }
+
+.progress{ margin-left:1em; float:left; height:1em; border:1px solid #88c; }
+.progress_filled{ float:left; height:1em; background-color:#88c; }

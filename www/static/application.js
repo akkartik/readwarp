@@ -33,6 +33,7 @@ function inline(id, url, params) {
         parameters: params,
         onSuccess: function(response) {
           $(id).innerHTML = response.responseText;
+          runScripts($(id));
         }
       });
   return false;

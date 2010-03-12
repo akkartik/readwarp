@@ -427,11 +427,6 @@
              ,@body))))))
 
 (def signup-form(user query req)
-  ; example rendering
-  (with-history-sub2 req user query
-    (render-doc-with-context user query (next-doc user query)))
-  (start-rebuilding-showlist user userinfo*.user!stations.query)
-
   (modal "display:block"
     (tag (div style "background:#fff; padding:1em; margin-bottom:100%")
       (prbold "Thank you!")
@@ -446,9 +441,27 @@
                                         (signup new-username ip))
                                       "/")))
               (fn() (pwfields "signup"))
-              t))))
+              t)))
+
+  ; example rendering
+  (with-history-sub2 req user query
+    (render-doc-with-context user query (next-doc user query)))
+  (start-rebuilding-showlist user userinfo*.user!stations.query))
+
+(def progress-bar(user)
+  (tag div
+    (tag (div style "float:left")
+      (pr "Progress: "))
+    (tag (div class "progress" style "width:8em")
+      (tag (div class "progress_filled"
+                style (+ "width:"
+                         (int:* 8 (/ userinfo*.user!signup-stage
+                                     funnel-signup-stage*))
+                         "em;"))))
+    (clear)))
 
 (def render-doc-with-context2(user sname doc)
+  (progress-bar user)
   (feedback-form sname doc)
   (if doc
     (tag (div id (+ "doc_" doc))
