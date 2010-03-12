@@ -310,7 +310,7 @@
                (erp:shuffle:map stringify signup-groups*))
             (= userinfo*.user!stations.query!groups (table)))
 
-          (tag (div id "content" style "padding-left:0; margin-top:1em")
+          (tag (div id "content" style "padding-left:0;")
             (if (is 2 userinfo*.user!signup-stage)
               (flash:+ "Ok! We'll now gauge your tastes using " quiz-length*
                        " stories.<br>
@@ -330,8 +330,6 @@
 (proc next-stage(user query req)
   (let stage userinfo*.user!signup-stage
     (signup-funnel-analytics stage req)
-    (unless is-prod.req
-      (tag (div class "debug") (pr:+ "Stage " stage)))
     (erp user ": stage " stage)
     (if (>= stage funnel-signup-stage*)
       (signup-form user query req)

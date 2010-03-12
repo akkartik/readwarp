@@ -16,7 +16,7 @@ body{ font-size:62.5%; }
 
   .buttons{ }
 
-    .button{ float:left; padding:0.5em; width:12em; height:3em; margin-right:3em;
+    .button{ float:left; width:12em; height:3em; margin-right:3em;
              font-family:serif;
              border-top: 3px #dddddd outset; border-left: 3px #dddddd outset;
              border-bottom: 3px #888888 outset; border-right: 3px #888888 outset;
