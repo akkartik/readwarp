@@ -260,6 +260,7 @@
 (init funnel-length* (+ 1 funnel-signup-stage*))
 (def start-funnel(req)
   (let user current-user.req
+    (start-rebuilding-signup-showlist user)
     (page user
       (tag (div class "nav")
         (tag (div style "float:right")
@@ -294,28 +295,20 @@
 
 (defop begin req
   (let user current-user.req
+    (start-rebuilding-signup-showlist user)
     (or= userinfo*.user!signup-stage 2)
     (page user
       (tag (div style "width:600px; margin:auto")
         (tag (div class "nav")
           (logo-small))
 
-        (unless userinfo*.user!all
-          (= userinfo*.user!all (stringify:unique-id)))
-
-        (let query userinfo*.user!all
-          (unless userinfo*.user!stations.query
-            (ensure-station2 user query)
-            (= userinfo*.user!initial-stations
-               (erp:shuffle:map stringify signup-groups*))
-            (= userinfo*.user!stations.query!groups (table)))
-
+        (let sname userinfo*.user!all
           (tag (div id "content" style "padding-left:0;")
             (if (is 2 userinfo*.user!signup-stage)
               (flash:+ "Ok! We'll now gauge your tastes using " quiz-length*
                        " stories.<br>
                        Vote for the stories or sites that you like."))
-            (next-stage user query req)))))))
+            (next-stage user sname req)))))))
 
 (proc ensure-station2(user sname)
   (ensure-user user)
@@ -324,6 +317,7 @@
     (let station userinfo*.user!stations.sname
       (= station!name sname station!preferred (table) station!unpreferred (table))
       (= station!created (seconds))
+      (= station!groups (table))
       (= station!showlist (queue))
       (= station!last-showlist (queue)))))
 
@@ -336,12 +330,34 @@
       (render-doc-with-context2 user query next-doc2.user))))
 
 (def next-doc2(user)
-  (withs (group (car userinfo*.user!initial-stations)
-          feeds (group-feeds* group)
-          feed  (findg randpos.feeds
-                       [most-recent-unread user _]))
-    (w/stdout (stderr) (pr user " " group " => "))
-    (erp:most-recent-unread user feed)))
+  (until userinfo*.user!signup-showlist)
+  (pick2 user))
+
+(def pick2(user)
+  (car userinfo*.user!signup-showlist))
+
+(proc start-rebuilding-signup-showlist(user)
+  (or= userinfo*.user!signup-showlist-thread*
+       (thread "signup-showlist"
+         (rebuild-signup-showlist user))))
+
+(proc rebuild-signup-showlist(user)
+  (unless userinfo*.user!all
+    (= userinfo*.user!all (stringify:unique-id)))
+
+  (let sname userinfo*.user!all
+    (unless userinfo*.user!stations.sname
+      (ensure-station2 user sname)
+      (= userinfo*.user!initial-groups
+         (erp:shuffle:map stringify signup-groups*))
+
+      (= userinfo*.user!signup-showlist
+         (accum acc
+           (each group userinfo*.user!initial-groups
+              (withs (feeds group-feeds*.group
+                      feed  (findg randpos.feeds
+                                   [most-recent-unread user _]))
+                (acc:most-recent-unread user feed))))))))
 
 (mac modal(show . body)
   `(do
@@ -412,7 +428,6 @@
   ; example rendering
   (with-history-sub2 req user query
     (render-doc-with-context user query (next-doc user query)))
-  (= userinfo*.user!stations.query!showlist (queue))
   (start-rebuilding-showlist user userinfo*.user!stations.query)
 
   (modal "display:block"
@@ -464,7 +479,7 @@
          doc (arg req "doc")
          outcome (arg req "outcome"))
     (nopr
-      (ensure-station user sname)
+      (ensure-station2 user sname)
       (mark-read2 user sname doc outcome)
       (++ userinfo*.user!signup-stage))
     (next-stage user sname req)))
@@ -477,16 +492,14 @@
       (push doc station!read-list))
     (= userinfo*.user!read.doc outcome)
 
-    (or= station!last-showlist (queue))
     (enq-limit feed
           station!last-showlist
           history-size*)
 
-    (or= station!preferred (table))
     (when (is outcome "2")
-      (each g (erp:signup-group-mapping*:car userinfo*.user!initial-stations)
+      (each g (erp:signup-group-mapping*:car userinfo*.user!initial-groups)
         (or= userinfo*.user!stations.sname!groups.g (backoff doc 2))))
-    (pop userinfo*.user!initial-stations)))
+    (pop userinfo*.user!signup-showlist)))
 
 (init signup-group-mapping*
   (obj
