@@ -261,6 +261,7 @@
 (def start-funnel(req)
   (let user current-user.req
     (start-rebuilding-signup-showlist user)
+    (erp "back")
     (page user
       (tag (div class "nav")
         (tag (div style "float:right")
@@ -337,11 +338,13 @@
   (car userinfo*.user!signup-showlist))
 
 (proc start-rebuilding-signup-showlist(user)
-  (or= userinfo*.user!signup-showlist-thread*
+  (erp "start-rebuilding-signup-showlist " user " " (keys userinfo*.user))
+  (or= userinfo*.user!signup-showlist-thread
        (thread "signup-showlist"
          (rebuild-signup-showlist user))))
 
 (proc rebuild-signup-showlist(user)
+  (erp "rebuild-signup-showlist")
   (unless userinfo*.user!all
     (= userinfo*.user!all (stringify:unique-id)))
 
