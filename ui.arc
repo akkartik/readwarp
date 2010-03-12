@@ -187,8 +187,8 @@
     (tag (div id (+ "outcome_" doc)
               class (+ "outcome_icon outcome_" (read? user doc)))
       (pr "&#9632;"))
-    (tag (p class "title item")
-      (tag (a onclick (+ "showDoc('" jsesc.sname "', '" jsesc.doc "')") href "#" style "font-weight:bold")
+    (tag (p class "item")
+      (tag (a onclick (+ "showDoc('" jsesc.sname "', '" jsesc.doc "')") href "#")
         (pr (check doc-title.doc ~empty "no title"))))))
 
 (def buttons(user sname doc)
