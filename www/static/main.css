@@ -44,13 +44,13 @@ a:hover{ text-decoration:underline; }
 .logo{ color:#dddddd; text-align:center; }
 .logo-button, a.logo-button, a.logo-button:visited {
   display:inline; text-align:center; font-family:Georgia,serif; font-weight:bold; color:#666666; }
-.logo.logo-button { font-size:4em; color:#777777; }
+.logo .logo-button { font-size:4em; color:#777777; }
 
 h2.title a{ font-family:serif; font-size:2em; color:#66e; }
 .subtitle{ font-style:italic; margin-top:0.5em; margin-bottom:1em; }
 .readwarp-post-body{ margin-top:2em; }
 
-.flash{ background:#dddddd; padding-top:2px; padding-bottom:2px; margin-top:1em; margin-bottom:1em; }
+.flash{ background:#dddddd; padding-top:2px; padding-bottom:2px; }
 .debug{ text-align:right; color:#dddddd; }
 
 .feedback_link{ text-align:right; }
