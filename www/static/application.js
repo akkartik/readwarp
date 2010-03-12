@@ -133,8 +133,9 @@ function showDoc(station, doc) {
 }
 
 function prepareAjax() {
-  $('content').innerHTML = "<img src=\"waiting.gif\"/>";
   scroll(0, 0);
+  $('body').scrollTop = 0;
+  $('content').innerHTML = "<img src=\"waiting.gif\"/>";
   setTimeout(errorMessage, 5000);
 }
 
