@@ -194,8 +194,8 @@
 (def buttons(user sname doc)
   (tag (div class "buttons")
     (do
-      (button user sname doc 2 "like" "&#x21e7;")
-      (button user sname doc 1 "skip" "&#x21e9;"))
+      (button user sname doc 2 "like" "&#8593;")
+      (button user sname doc 1 "skip" "&#8595;"))
     (clear)))
 
 (def button(user sname doc n cls label)
@@ -465,8 +465,8 @@
 (def buttons2(user sname doc)
   (tag (div class "buttons")
     (do
-      (button2 user sname doc 2 "like" "&#x21e7;")
-      (button2 user sname doc 1 "skip" "&#x21e9;"))
+      (button2 user sname doc 2 "like" "&#8593;")
+      (button2 user sname doc 1 "skip" "&#8595;"))
     (clear)))
 
 (def button2(user sname doc n cls label)

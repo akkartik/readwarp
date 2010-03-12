@@ -1533,3 +1533,6 @@ closed. Fixed. Things are snappy now.
 Hack: wait a bit before starting the precompute thread, let the current page
 go through first.
 =-=594 - Thu Mar 11 19:59:58 PST 2010
+
+Revert arrows to be cross-browser.
+=-=595 - Thu Mar 11 23:44:33 PST 2010
