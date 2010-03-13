@@ -1559,3 +1559,5 @@ Decision: flush page left.
 Separate column for buttons. We waste some space, but there's also room for
 other (play mode?) controls.
 =-=602 - Fri Mar 12 21:52:33 PST 2010
+Tweaks on production now that we've settled on this layout.
+=-=605 - Fri Mar 12 22:18:26 PST 2010

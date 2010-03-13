@@ -7,24 +7,24 @@ html,body{ height:100%; width:100%; overflow:hidden; }
 body{ font-size:62.5%; }
 #page{ width:960px; margin-left:30px; font-size:1.4em; font-family:sans-serif; }
 
-.nav{ margin-top:10px; border-bottom:1px solid #dddddd; }
+.nav{ margin-top:10px; border-bottom:1px solid #dddddd; height:15px; }
 
 #left-panel{ width:175px; padding-top:1em; border-right:1px solid #dddddd; }
 
-#content{ margin-left:100px; width:685px; padding-left:1em; padding-top:1em; margin-bottom:1em; }
+.buttons{ margin-left:1em; position:fixed; top:40px; left:190px; }
 
-  .buttons{ margin-left:1em; position:fixed; top:3em; left:190px; }
+  .button{ width:70px; height:8em;
+           margin-bottom:2em;
+           border-top: 3px #dddddd outset; border-left: 3px #dddddd outset;
+           border-bottom: 3px #888888 outset; border-right: 3px #888888 outset;
+           text-align:center; }
+  .like{ background:#dddddd; color:#bbbbbb; } .outcome_2{ color:#dddddd; }
+  .skip{ background:#bbbbbb; color:#dddddd; } .outcome_1{ color:#bbbbbb; }
+  .icon{ }
+  .outcome_icon{ float:right; margin-right:0.2em; margin-left:0.5em;
+    width:16px; height:24px; font-size:75%;}
 
-    .button{ width:5em; height:8em;
-             margin-bottom:2em;
-             border-top: 3px #dddddd outset; border-left: 3px #dddddd outset;
-             border-bottom: 3px #888888 outset; border-right: 3px #888888 outset;
-             text-align:center; }
-    .like{ background:#dddddd; color:#bbbbbb; } .outcome_2{ color:#dddddd; }
-    .skip{ background:#bbbbbb; color:#dddddd; } .outcome_1{ color:#bbbbbb; }
-    .icon{ }
-    .outcome_icon{ float:right; margin-right:0.2em; margin-left:0.5em;
-      width:16px; height:24px; font-size:75%;}
+#content{ margin-left:100px; width:685px; padding-left:1em; padding-top:5px; margin-bottom:1em; }
 
   .post{ font-size:1.4em; margin-bottom:1em; line-height:1.4; text-align:left; }
 
