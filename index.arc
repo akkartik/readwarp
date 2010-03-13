@@ -16,7 +16,7 @@
   (def doc-feedtitle(doc)
     (check-doc doc docinfo*.doc!feedtitle))
   (def doc-timestamp(doc)
-    (or pubdate.doc feeddate.doc))
+    (or pubdate.doc feeddate.doc 0))
   (def pubdate(doc)
     (check-doc doc docinfo*.doc!date))
   (def feeddate(doc)
