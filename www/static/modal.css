@@ -1,6 +1,6 @@
 /* http://foohack.com/2007/11/css-modal-dialog-that-works-right */
 .overlay-decorator {
-        background:#024;
+        background:#cccccc;
         height:100%;
         width:100%;
         position:absolute;
