@@ -15,9 +15,8 @@
 
 (mac with-history-sub(req user station . body)
   `(let user ,user
-    (tag (table width "100%")
-      (tr
-        (tag (td id "left-panel")
+    (tag (div style "width:100%")
+        (tag (div id "left-panel")
           (if user
              (tag div
 
@@ -62,9 +61,9 @@
             (tag (div id "history")
               (history-panel user ,station ,req))))
 
-        (tag (td id "contents-wrap")
+        (tag (div id "contents-wrap")
            (tag (div id "content")
-             ,@body))))))
+             ,@body)))))
 
 
 
@@ -148,7 +147,7 @@
   (if doc
     (do
       (tag (div id (+ "doc_" doc))
-        (tag (div style "width:100%; margin-right:1em")
+        (tag (div id "post-wrapper")
           (feedback-form sname doc)
           (tag (div class "history" style "display:none")
             (render-doc-link user sname doc))
@@ -540,7 +539,7 @@
   "/")
 
 (def feedback-form(sname doc)
-  (tag (div style "float:right")
+  (tag (div id "feedback")
     (tag (div class "feedback_link")
       (tag (a onclick "$('feedback').toggle(); return false" href "#")
         (pr "feedback")))

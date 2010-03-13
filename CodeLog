@@ -1561,3 +1561,6 @@ other (play mode?) controls.
 =-=602 - Fri Mar 12 21:52:33 PST 2010
 Tweaks on production now that we've settled on this layout.
 =-=605 - Fri Mar 12 22:18:26 PST 2010
+CSS is now complex enough that it's starting to interact with tables. Out with
+the tables.
+=-=606 - Fri Mar 12 22:50:36 PST 2010

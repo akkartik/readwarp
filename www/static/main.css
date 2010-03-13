@@ -9,9 +9,9 @@ body{ font-size:62.5%; }
 
 .nav{ margin-top:10px; border-bottom:1px solid #dddddd; height:15px; }
 
-#left-panel{ width:175px; padding-top:1em; border-right:1px solid #dddddd; }
+#left-panel{ float:left; text-align:left; width:175px; padding-top:15px; border-right:1px solid #dddddd; }
 
-.buttons{ margin-left:1em; position:fixed; top:40px; left:190px; }
+.buttons{ margin-left:1em; position:fixed; top:40px; left:210px; }
 
   .button{ width:70px; height:8em;
            margin-bottom:2em;
@@ -24,7 +24,10 @@ body{ font-size:62.5%; }
   .outcome_icon{ float:right; margin-right:0.2em; margin-left:0.5em;
     width:16px; height:24px; font-size:75%;}
 
-#content{ margin-left:100px; width:685px; padding-left:1em; padding-top:5px; margin-bottom:1em; }
+#content{ float:left; margin-left:90px; width:680px; padding-left:1em; padding-top:5px; margin-bottom:1em; }
+
+  #post-wrapper{ }
+  #feedback{ float:right; margin-top:10px; }
 
   .post{ font-size:1.4em; margin-bottom:1em; line-height:1.4; text-align:left; }
 
