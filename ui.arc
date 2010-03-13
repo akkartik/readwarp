@@ -466,13 +466,15 @@
 
 (def render-doc-with-context2(user sname doc)
   (progress-bar user)
-  (feedback-form sname doc)
   (if doc
-    (tag (div id (+ "doc_" doc))
-      (buttons2 user sname doc)
-      (tag (div class "post")
-        (render-doc sname doc))
-      (buttons2 user sname doc)
+    (do
+      (tag (div id (+ "doc_" doc))
+        (tag (div style "width:100%; margin-right:1em")
+          (feedback-form sname doc)
+          (tag (div class "post")
+            (render-doc sname doc)))
+        (tag div
+          (buttons2 user sname doc)))
       (update-title doc-title.doc))
     (do
       (deq-showlist user sname)
