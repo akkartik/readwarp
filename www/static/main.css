@@ -30,14 +30,14 @@ body{ font-size:62.5%; }
 
 
 
-td{ vertical-align:top; }
-
 a{ text-decoration:none; }
 a:hover{ text-decoration:underline; }
 
+td{ vertical-align:top; }
 blockquote{ margin:1em; }
-
 p{ margin-top:1em; }
+em{ font-style:italic; }
+strong{ font-weight:bold; }
 
 .clear{ clear:both; }
 
