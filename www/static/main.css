@@ -1,22 +1,21 @@
 @import url("http://yui.yahooapis.com/2.6.0/build/reset-fonts-grids/reset-fonts-grids.css");
 
 /* For modal dialogs */
-html,body{ margin:0 auto; padding:0 auto; height:100%; width:100%; overflow:hidden; }
-#body{ margin:0 auto; padding:0 auto; overflow:auto; height:100%; width:100%; }
+html,body{ height:100%; width:100%; overflow:hidden; }
+#body{ overflow:auto; height:100%; width:100%; }
 
 body{ font-size:62.5%; }
-#page{ margin:auto; padding:auto; width:960px;
-       font-size:1.4em; font-family:sans-serif; }
+#page{ width:960px; margin-left:30px; font-size:1.4em; font-family:sans-serif; }
 
 .nav{ margin-top:10px; border-bottom:1px solid #dddddd; }
 
-#left-panel{ width:18%; padding-top:1em; border-right:1px solid #dddddd; }
+#left-panel{ width:175px; padding-top:1em; border-right:1px solid #dddddd; }
 
-#content{ padding-left:1em; padding-top:1em; margin-bottom:1em; }
+#content{ margin-left:100px; width:685px; padding-left:1em; padding-top:1em; margin-bottom:1em; }
 
-  .buttons{ }
+  .buttons{ margin-left:1em; position:fixed; top:3em; left:190px; }
 
-    .button{ float:left; width:12em; height:3em; margin-right:3em;
+    .button{ width:5em; height:8em;
              margin-bottom:2em;
              border-top: 3px #dddddd outset; border-left: 3px #dddddd outset;
              border-bottom: 3px #888888 outset; border-right: 3px #888888 outset;

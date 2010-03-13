@@ -1550,3 +1550,12 @@ with the back button, and it forgets its place on the screen.
 
 Bugfix: thread objects can't be persisted.
 =-=599 - Fri Mar 12 10:56:10 PST 2010
+
+Moving to a single set of always-accessible buttons.
+Tradeoffs:
+  an iframe is an extra request
+  position:fixed interacts poorly with a centered page
+Decision: flush page left.
+Separate column for buttons. We waste some space, but there's also room for
+other (play mode?) controls.
+=-=602 - Fri Mar 12 21:52:33 PST 2010

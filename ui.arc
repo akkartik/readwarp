@@ -145,15 +145,17 @@
            Readwarp is under construction. If it seems confused, try creating
            a new channel. And send us feedback!")
     (set userinfo*.user!noob))
-  (feedback-form sname doc)
   (if doc
-    (tag (div id (+ "doc_" doc))
-      (buttons user sname doc)
-      (tag (div class "history" style "display:none")
-        (render-doc-link user sname doc))
-      (tag (div class "post")
-        (render-doc sname doc))
-      (buttons user sname doc)
+    (do
+      (tag (div id (+ "doc_" doc))
+        (tag (div style "width:100%; margin-right:1em")
+          (feedback-form sname doc)
+          (tag (div class "history" style "display:none")
+            (render-doc-link user sname doc))
+          (tag (div class "post")
+            (render-doc sname doc)))
+        (tag div
+          (buttons user sname doc)))
       (update-title doc-title.doc))
     (do
       (deq-showlist user sname)
@@ -195,6 +197,7 @@
   (tag (div class "buttons")
     (do
       (button user sname doc 2 "like" "&#8593;")
+      (tag p)
       (button user sname doc 1 "skip" "&#8595;"))
     (clear)))
 
