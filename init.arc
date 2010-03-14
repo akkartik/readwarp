@@ -8,6 +8,7 @@
   (include "index.arc")
 
   (include "ui.arc")
+  (include "signup.arc")
 )
 (init-code)
 

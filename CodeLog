@@ -1584,3 +1584,6 @@ Cleanup button template.
 Put the scollbars on an inner div only in the signup flow. That way logged in
 users can still scroll without first needing a click on the page.
 =-=615 - Sun Mar 14 01:37:06 PST 2010
+
+Break signup into its own file.
+=-=616 - Sun Mar 14 01:38:47 PST 2010
