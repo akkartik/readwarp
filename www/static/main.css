@@ -22,7 +22,7 @@ body{ font-size:62.5%; }
   .outcome_icon{ float:right; margin-right:0.2em; margin-left:0.5em;
     width:16px; height:24px; font-size:75%;}
 
-#content{ float:left; margin-left:90px; width:680px; padding-left:1em; padding-top:5px; margin-bottom:1em; }
+#content{ float:left; margin-left:90px; width:679px; padding-left:1em; padding-top:5px; margin-bottom:1em; }
 
   #post-wrapper{ }
   #feedback{ float:right; margin-top:10px; }
