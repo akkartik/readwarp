@@ -1595,3 +1595,7 @@ Copy on station creation.
 
 Apply GC on feed-docs*.
 =-=619 - Sun Mar 14 15:44:50 PDT 2010
+
+Enq items into signup-showlist rather than building it in one
+latency-consuming operation.
+=-=620 - Sun Mar 14 15:59:22 PDT 2010

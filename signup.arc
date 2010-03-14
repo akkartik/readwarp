@@ -83,11 +83,11 @@
       (render-doc-with-context2 user query next-doc2.user))))
 
 (def next-doc2(user)
-  (until userinfo*.user!signup-showlist)
+  (until (> (qlen userinfo*.user!signup-showlist) 0))
   (pick2 user))
 
 (def pick2(user)
-  (car userinfo*.user!signup-showlist))
+  (deq userinfo*.user!signup-showlist))
 
 (proc start-rebuilding-signup-showlist(user pause)
   (unless userinfo*.user!signup-showlist-thread
@@ -107,13 +107,12 @@
       (= userinfo*.user!initial-groups
          (shuffle:map stringify signup-groups*))
 
-      (= userinfo*.user!signup-showlist
-         (accum acc
-           (each group userinfo*.user!initial-groups
-              (withs (feeds group-feeds*.group
-                      feed  (findg randpos.feeds
-                                   [most-recent-unread user _]))
-                (acc:most-recent-unread user feed))))))))
+      (= userinfo*.user!signup-showlist (queue))
+      (each group userinfo*.user!initial-groups
+        (withs (feeds group-feeds*.group
+                feed  (findg randpos.feeds
+                             [most-recent-unread user _]))
+          (enq (most-recent-unread user feed) userinfo*.user!signup-showlist))))))
 
 (mac modal(show . body)
   `(do
