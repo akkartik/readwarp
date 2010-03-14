@@ -1580,3 +1580,7 @@ instantly.
 =-=613 - Sun Mar 14 00:50:26 PST 2010
 Cleanup button template.
 =-=614 - Sun Mar 14 01:35:39 PST 2010
+
+Put the scollbars on an inner div only in the signup flow. That way logged in
+users can still scroll without first needing a click on the page.
+=-=615 - Sun Mar 14 01:37:06 PST 2010

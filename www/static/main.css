@@ -1,9 +1,5 @@
 @import url("http://yui.yahooapis.com/2.6.0/build/reset-fonts-grids/reset-fonts-grids.css");
 
-/* For modal dialogs */
-html,body{ height:100%; width:100%; overflow:hidden; }
-#body{ overflow:auto; height:100%; width:100%; }
-
 body{ font-size:62.5%; }
 #page{ width:960px; margin-left:30px; font-size:1.4em; font-family:sans-serif; }
 

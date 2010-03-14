@@ -301,16 +301,24 @@
   (let user current-user.req
     (start-rebuilding-signup-showlist user nil)
     (or= userinfo*.user!signup-stage 2)
-    (page user
-        (tag (div class "nav")
-          (logo-small))
+    (tag html
+      (header
+        (tag style
+          ; For modal dialogs
+          (pr "html,body{ height:100%; width:100%; overflow:hidden; }
+               #body{ overflow:auto; height:100%; width:100%; }")))
+      (tag body
+        (tag (div id "body")
+        (tag (div id "page")
+          (tag (div class "nav")
+            (logo-small))
 
-        (let sname userinfo*.user!all
-      (tag (div style "width:100%")
-        (tag (div style "float:left; height:1em; width:175px"))
-        (tag (div id "contents-wrap")
-          (tag (div id "content")
-              (next-stage user sname req))))))))
+          (let sname userinfo*.user!all
+            (tag (div style "width:100%")
+              (tag (div style "float:left; height:1em; width:175px"))
+              (tag (div id "contents-wrap")
+                (tag (div id "content")
+                    (next-stage user sname req)))))))))))
 
 (proc ensure-station2(user sname)
   (ensure-user user)

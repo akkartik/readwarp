@@ -137,24 +137,26 @@
 (def csstag(src)
   (prn "<link rel=\"stylesheet\" href=\"" cache-control.src "\"></link>"))
 
-(def header()
-  (tag title (pr "Readwarp"))
-  (tag head
-    (prn "<meta name=\"robots\" content=\"nofollow\"/>")
-    (prn "<link rel=\"icon\" href=\"/favicon.ico\"/>")
-    (csstag "main.css")
+(mac header extra-directives
+  `(do
+    (tag title (pr "Readwarp"))
+    (tag head
+      (prn "<meta name=\"robots\" content=\"nofollow\"/>")
+      (prn "<link rel=\"icon\" href=\"/favicon.ico\"/>")
+      (csstag "main.css")
 
-    (jstag "http://api.mixpanel.com/site_media/js/api/mixpanel.js")
-    (tag script
-      (pr "try {
-            var mpmetrics = new MixpanelLib(\"65cfd23d70294fdadc5c7211e3814d8c\");
-          } catch(err) {}"))
+      (jstag "http://api.mixpanel.com/site_media/js/api/mixpanel.js")
+      (tag script
+        (pr "try {
+              var mpmetrics = new MixpanelLib(\"65cfd23d70294fdadc5c7211e3814d8c\");
+            } catch(err) {}"))
 
-    (jstag "prototype.js")
-    (jstag "effects.js")
-    (jstag "controls.js")
-    (jstag "dragdrop.js")
-    (jstag "application.js")))
+      (jstag "prototype.js")
+      (jstag "effects.js")
+      (jstag "controls.js")
+      (jstag "dragdrop.js")
+      (jstag "application.js")
+      ,@extra-directives)))
 
 (def signup-funnel-analytics(n req)
   (let funnel-name (if is-prod.req
