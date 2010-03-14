@@ -125,10 +125,17 @@
               ,set-copy (+ ,(+ "/" (stringify addop) "?" var-str "=") (eschtml ,var))
               (,test-fn ,var ,storage))))))
 
+(def cache-control(static-file)
+  (on-err
+    (fn(ex) static-file)
+    (fn()
+      (let filename (+ "www/static/" static-file)
+        (+ static-file "?" ($:file-or-directory-modify-seconds filename))))))
+
 (def jstag(src)
-  (prn "<script src=\"" src "\"></script>"))
+  (prn "<script src=\"" cache-control.src "\"></script>"))
 (def csstag(src)
-  (prn "<link rel=\"stylesheet\" href=\"" src "\"></link>"))
+  (prn "<link rel=\"stylesheet\" href=\"" cache-control.src "\"></link>"))
 
 (def header()
   (tag title (pr "Readwarp"))
