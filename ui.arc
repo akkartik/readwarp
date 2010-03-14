@@ -75,9 +75,13 @@
 
 (defop station req
   (withs (user (current-user req)
-          sname (or (arg req "seed") ""))
+          sname (or (arg req "seed") "")
+          new-sname (no userinfo*.user!stations.sname))
     (ensure-station user sname)
     (with-history req user sname
+      (if new-sname
+        (flash "You're now browsing in a new channel.<p>
+               Votes here will not affect recommendations on other channels."))
       (render-doc-with-context user sname (next-doc user sname)))))
 
 (defop delstation req
