@@ -1578,3 +1578,5 @@ still pretty easy to acquire.
 Turned on cache control in arc. Ensure changes to static files update
 instantly.
 =-=613 - Sun Mar 14 00:50:26 PST 2010
+Cleanup button template.
+=-=614 - Sun Mar 14 01:35:39 PST 2010
