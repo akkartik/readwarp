@@ -13,11 +13,11 @@ body{ font-size:62.5%; }
 
 .buttons{ margin-left:1em; position:fixed; top:40px; left:205px; }
 
-  .button{ width:70px; height:120px; cursor:pointer;
+  .button{ width:70px; height:70px; cursor:pointer;
            margin-bottom:2em; position:relative;
            text-align:center; }
-  .like{ background-image:url('button-899ab6.png'); color:#30151e; } .outcome_2{ color:#899ab6; }
-  .skip{ background-image:url('button-30151e.png'); color:#899ab6; } .outcome_1{ color:#30151e; }
+  .like{ background-image:url('square-button-899ab6.png'); color:#30151e; } .outcome_2{ color:#899ab6; }
+  .skip{ background-image:url('square-button-30151e.png'); color:#899ab6; } .outcome_1{ color:#30151e; }
   .icon{ }
   .outcome_icon{ float:right; margin-right:0.2em; margin-left:0.5em;
     width:16px; height:24px; font-size:75%;}

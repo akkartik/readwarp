@@ -208,7 +208,7 @@
 (def votebutton(cls label img onclick)
   (tag (div class (+ "button " cls)
             onclick onclick)
-    (tag (div style "position:relative; top:45px; font-size:22px;")
+    (tag (div style "position:relative; top:20px; font-size:22px;")
       (pr label))))
 
 (def mark-read-url(user sname doc n)
