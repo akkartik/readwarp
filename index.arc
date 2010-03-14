@@ -121,7 +121,7 @@
 
 (proc ensure-station(user sname)
   (ensure-user user)
-  (when (no userinfo*.user!stations.sname)
+  (unless userinfo*.user!stations.sname
     (erp "new station: " sname)
     (= userinfo*.user!stations.sname (table))
     (let station userinfo*.user!stations.sname

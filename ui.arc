@@ -15,55 +15,56 @@
         ,@body)))))
 
 (mac with-history-sub(req user station . body)
-  `(let user ,user
-    (tag (div id "left-panel")
-      (if user
-         (tag div
+  (w/uniq s
+    `(let user ,user
+      (tag (div id "left-panel")
+        (if user
+           (tag div
 
-            (when (and ,station
-                       (~is ,station userinfo*.user!all))
-              (tag (div style "margin-bottom:1em")
-                (tag b (pr "current channel"))
-                (tag div (pr ,station))))
+              (when (and ,station
+                         (~is ,station userinfo*.user!all))
+                (tag (div style "margin-bottom:1em")
+                  (tag b (pr "current channel"))
+                  (tag div (pr ,station))))
 
-            (if (or (> (len-keys userinfo*.user!stations) 2)
-                    (and (is 2 (len-keys userinfo*.user!stations))
-                         (is ,station userinfo*.user!all)))
-              (tag (div class "stations" style "margin-bottom:1em; padding-bottom:1em")
-                (tag b
-                  (if (is ,station userinfo*.user!all)
-                    (pr "your channels")
-                    (pr "other channels")))
-                (each sname (keys userinfo*.user!stations)
-                  (if (and (~is sname userinfo*.user!all)
-                           (~is sname ,station)
-                           (~blank sname))
-                    (tag (div class "station")
-                      (tag (div style "float:right; margin-right:0.5em")
-                        (tag (a href (+ "/delstation?station=" urlencode.sname)
-                                onclick "jsget(this); del(this.parentNode.parentNode); return false;")
-                          (tag:img src "close_x.gif")))
-                      (link sname (+ "/station?seed=" urlencode.sname)))))))
+              (when (or (> (len-keys userinfo*.user!stations) 2)
+                      (and (is 2 (len-keys userinfo*.user!stations))
+                           (is ,station userinfo*.user!all)))
+                (tag (div class "stations" style "margin-bottom:1em; padding-bottom:1em")
+                  (tag b
+                    (if (is ,station userinfo*.user!all)
+                      (pr "your channels")
+                      (pr "other channels")))
+                  (each ,s (keys userinfo*.user!stations)
+                    (when (and (~is ,s userinfo*.user!all)
+                             (~is ,s ,station)
+                             (~blank ,s))
+                      (tag (div class "station")
+                        (tag (div style "float:right; margin-right:0.5em")
+                          (tag (a href (+ "/delstation?station=" (urlencode ,s))
+                                  onclick "jsget(this); del(this.parentNode.parentNode); return false;")
+                            (tag:img src "close_x.gif")))
+                        (link ,s (+ "/station?seed=" (urlencode ,s))))))))
 
-            (tag (div style "margin-bottom:1em; padding-bottom:1em")
-              (tag b (pr "new channel"))
-              (tag (form action "/station")
-                   (tag:input name "seed" size "15")
-                   (tag (div style "color:#888888; font-size:90%;
-                             margin-top:2px") (pr "type in a website or author"))
-                   (tag:input type "submit" value "switch" style "margin-top:5px")))
+              (tag (div style "margin-bottom:1em; padding-bottom:1em")
+                (tag b (pr "new channel"))
+                (tag (form action "/station")
+                     (tag:input name "seed" size "15")
+                     (tag (div style "color:#888888; font-size:90%;
+                               margin-top:2px") (pr "type in a website or author"))
+                     (tag:input type "submit" value "switch" style "margin-top:5px")))
 
-            ))
+              ))
 
-      (tag (div style "margin-bottom:1em")
-        (tag b
-          (pr "recently viewed"))
-        (tag (div id "history")
-          (history-panel user ,station ,req))))
+        (tag (div style "margin-bottom:1em")
+          (tag b
+            (pr "recently viewed"))
+          (tag (div id "history")
+            (history-panel user ,station ,req))))
 
-    (tag (div id "contents-wrap")
-       (tag (div id "content")
-         ,@body))))
+      (tag (div id "contents-wrap")
+         (tag (div id "content")
+           ,@body)))))
 
 
 
@@ -74,10 +75,10 @@
 
 (defop station req
   (withs (user (current-user req)
-          query (or (arg req "seed") ""))
-    (ensure-station user query)
-    (with-history req user query
-      (render-doc-with-context user query (next-doc user query)))))
+          sname (or (arg req "seed") ""))
+    (ensure-station user sname)
+    (with-history req user sname
+      (render-doc-with-context user sname (next-doc user sname)))))
 
 (defop delstation req
   (withs (user (current-user req)
@@ -86,10 +87,10 @@
 
 (def reader(req)
   (withs (user current-user.req
-          query (or= userinfo*.user!all (stringify:unique-id)))
-    (ensure-station user query)
-    (with-history req user query
-      (render-doc-with-context user query (next-doc user query)))))
+          global-sname (or= userinfo*.user!all (stringify:unique-id)))
+    (ensure-station user global-sname)
+    (with-history req user global-sname
+      (render-doc-with-context user global-sname (next-doc user global-sname)))))
 
 (defop docupdate req
   (with (user (current-user req)
