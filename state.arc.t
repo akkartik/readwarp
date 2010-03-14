@@ -205,4 +205,23 @@
   (obj #\a 3)
   b-as*)
 
+(= b-as* (table))
+(update b-as* #\a rconsn.3 1)
+(test-iso "update rconsn works like rcons at the start"
+  (list 1)
+  (b-as* #\a))
+(update b-as* #\a rconsn.3 2)
+(update b-as* #\a rconsn.3 3)
+(test-iso "update rconsn works like rcons at the start - 2"
+  (list 3 2 1)
+  (b-as* #\a))
+(update b-as* #\a rconsn.3 4)
+(test-iso "update rconsn trims to n elems or under"
+  (list 4 3 2)
+  (b-as* #\a))
+(update b-as* #\a rconsn.3 2)
+(test-iso "update rconsn dedups"
+  (list 4 3 2)
+  (b-as* #\a))
+
 ))

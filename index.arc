@@ -12,7 +12,7 @@
     (check-doc doc docinfo*.doc!site))
   (rhash doc feed "n-1"
     (check-doc doc docinfo*.doc!feed)
-    rconsuniq)
+    rconsn.10)
   (def doc-feedtitle(doc)
     (check-doc doc docinfo*.doc!feedtitle))
   (def doc-timestamp(doc)

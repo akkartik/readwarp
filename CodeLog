@@ -1592,3 +1592,6 @@ Refactor.
 =-=617 - Sun Mar 14 13:54:19 PDT 2010
 Copy on station creation.
 =-=618 - Sun Mar 14 13:55:01 PDT 2010
+
+Apply GC on feed-docs*.
+=-=619 - Sun Mar 14 15:44:50 PDT 2010

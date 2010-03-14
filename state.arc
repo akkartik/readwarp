@@ -399,9 +399,13 @@
     (= (table key) (transform (table key) value))))
 
 ; Policies (storage var -> storage)
-(def rcons(l a) (cons a l))
-(def rconsuniq(l a) (if (pos a l) l (cons a l)))
+(def rcons(l a) (if (pos a l) l (cons a l))) ; prepend if new
 (def or=fn(l a) (or= l a)) ; first lookup wins
 (def replace(old new) new) ; last lookup wins
-; Policy generator
+
+; Policy generators
 (def most2(f) (fn(old new) (most-skipping-nils f (list old new))))
+
+(def rconsn(n)
+  (fn(old new)
+    (firstn n (if (pos new old) old (cons new old)))))
