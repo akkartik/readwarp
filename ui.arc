@@ -195,19 +195,21 @@
 (def buttons(user sname doc)
   (tag (div class "buttons")
     (do
-      (button user sname doc 2 "like" "&#8593;")
+      (button user sname doc 2 "like" "button-899ab6.png" "&#8593;")
       (tag p)
-      (button user sname doc 1 "skip" "&#8595;"))
+      (button user sname doc 1 "skip" "button-30151e.png" "&#8595;"))
     (clear)))
 
-(def button(user sname doc n cls label)
-  (votebutton cls label
+(def button(user sname doc n cls img label)
+  (votebutton cls label img
             (or (mark-read-url user sname doc n)
                 (pushHistory sname doc (+ "'outcome=" n "'")))))
 
-(def votebutton(cls label onclick)
-  (pr "<input type=\"button\" class=\"button " cls "\" value=\"" label "\" "
-      "onclick=\"" onclick "\"/>"))
+(def votebutton(cls label img onclick)
+  (tag (div class (+ "button " cls)
+            onclick onclick)
+    (tag (div style "position:relative; top:45px; font-size:22px;")
+      (pr label))))
 
 (def mark-read-url(user sname doc n)
   (if (is n 1)
