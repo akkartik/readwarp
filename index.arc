@@ -278,7 +278,7 @@
     (= station!showlist (queue)))
   (when (< (qlen station!showlist) rebuild-threshold*)
     (start-rebuilding-showlist user station))
-  (until (> (qlen station!showlist) 0))
+  (wait:< 0 (qlen station!showlist))
   (qlist station!showlist))
 
 (proc start-rebuilding-showlist(user station)

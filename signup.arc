@@ -83,7 +83,7 @@
       (render-doc-with-context2 user query next-doc2.user))))
 
 (def next-doc2(user)
-  (until (> (qlen userinfo*.user!signup-showlist) 0))
+  (wait:< 0 (qlen userinfo*.user!signup-showlist))
   (pick2 user))
 
 (def pick2(user)
