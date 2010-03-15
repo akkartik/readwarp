@@ -222,7 +222,7 @@
     (when (is outcome "2")
       (each g (erp:signup-group-mapping*:car userinfo*.user!initial-groups)
         (or= userinfo*.user!stations.sname!groups.g (backoff doc 2))))
-    (pop userinfo*.user!signup-showlist)))
+    (deq userinfo*.user!signup-showlist)))
 
 (init signup-group-mapping*
   (obj
