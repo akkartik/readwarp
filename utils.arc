@@ -162,8 +162,9 @@
 (let old new-thread
   (def new-thread(name f)
     (let t0 (msec)
-      (old name f)
-      (srvlog 'times sym.name (- (msec) t0)))))
+      (do1
+        (old name f)
+        (srvlog 'times sym.name (- (msec) t0))))))
 
 (mac log-time(name . body)
   (w/uniq t0
