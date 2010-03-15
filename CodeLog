@@ -1620,3 +1620,7 @@ Cleanup signup css based on email from Andy Harrison.
 Bugfix in signup flow. I was dequeuing too quickly so user never made it
 through the funnel.
 =-=630 - Mon Mar 15 14:26:01 PDT 2010
+
+I'm concerned we are or will soon run into realtime constraints with
+mzscheme's GIL. Let's start logging times.
+=-=631 - Mon Mar 15 14:34:29 PDT 2010

@@ -67,7 +67,8 @@
        (set ,(symize stringify.fnname "-init*"))
        (sleep ,interval)
        (forever
-         ,@body
+         (log-time ,fnname
+           ,@body)
          (set ,(symize stringify.fnname "-init*"))
          (sleep ,interval)))
      (init ,(symize stringify.fnname "-thread*") (new-thread ,stringify.fnname ,fnname))))

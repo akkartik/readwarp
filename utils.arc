@@ -159,6 +159,18 @@
            (set ,done-flag)))
        (wait ,done-flag))))
 
+(let old new-thread
+  (def new-thread(name f)
+    (let t0 (msec)
+      (old name f)
+      (srvlog 'times sym.name (- (msec) t0)))))
+
+(mac log-time(name . body)
+  (w/uniq t0
+    `(let ,t0 (msec)
+       ,@body
+       (srvlog 'times ',name (- (msec) ,t0)))))
+
 
 
 (def kwargs(args-and-body (o defaults))
