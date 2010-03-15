@@ -3,7 +3,10 @@
     (or= (docinfo* ,doc) (metadata ,doc))
     ,@body))
 
-(chunked-persisted docinfo*)
+(def metadata(doc)
+  (read-json-table (+ "urls/" doc ".metadata")))
+
+(init docinfo* (table))
   (def doc-url(doc)
     (check-doc doc docinfo*.doc!url))
   (def doc-title(doc)
@@ -73,7 +76,7 @@
                             feed-list*))
   (prn "updating feedinfo*")
   (update-feedinfo)
-  (prn "updating scan-feeds")
+  (prn "updating feed index")
   (update-feed-keywords))
 (wait update-feeds-init*)
 )
@@ -85,10 +88,12 @@
                             feed-list*))
 ) ; }}}
 
-
+(prn "Loading docinfo")
+(everyp feed feed-list* 100
+  (each doc (firstn 5 (sort-by doc-timestamp feed-docs.feed))
+    (check-doc doc)))
 
-(def metadata(doc)
-  (read-json-table (+ "urls/" doc ".metadata")))
+
 
 (defscan index-doc "clean"
   (doc-feed doc))
