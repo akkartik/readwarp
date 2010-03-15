@@ -88,17 +88,8 @@
                             feed-list*))
 ) ; }}}
 
-
-
 (defscan index-doc "clean"
   (doc-feed doc))
-
-(def scan-doc-dir()
-  (everyp file (dir "urls") 1000
-    (if (posmatch ".clean" file)
-      (let doc (subst "" ".clean" file)
-        (unless docinfo*.doc prn.doc)
-        doc-feed.doc))))
 
 
 
@@ -253,14 +244,6 @@
   (rem [station!unpreferred _]
        (feeds:keys station!groups)))
 
-(def guess-type(entry)
-  (if entry
-    (if (feedinfo* symize.entry)     'feed
-        docinfo*.entry               'doc
-        (headmatch "http" entry)     'url
-        (posmatch "//" entry)        'url
-                                     'keyword)))
-
 
 
 (init batch-size* 5)
@@ -330,10 +313,8 @@
   (most doc-timestamp (rem [read? user _] feed-docs.feed)))
 
 (def pick(user station)
-  (ret ans (car (showlist user station))
-    (if (pos guess-type.ans '(feed url))
-      (zap [most-recent-unread user _] ans))))
-      ; XXX: nothing unread left? (only dup feeds)
+  (most-recent-unread user
+                      (car:showlist user station)))
 
 (def deq-showlist(user sname)
   (deq userinfo*.user!stations.sname!showlist)

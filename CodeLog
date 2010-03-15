@@ -1607,3 +1607,7 @@ We need a way to maintain a consolidated snapshot of docinfo. Let's just keep
 doing the chunked-persisted thing. Maybe a naming convention to say it's not
 essential?
 =-=623 - Sun Mar 14 19:06:52 PDT 2010
+Cleanup. Deemphasize docinfo - all it's doing is acting as a cache.
+Should I rename it?
+Should I move it lower down index.arc?
+=-=624 - Sun Mar 14 19:12:53 PDT 2010
