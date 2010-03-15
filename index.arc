@@ -6,7 +6,7 @@
 (def metadata(doc)
   (read-json-table (+ "urls/" doc ".metadata")))
 
-(init docinfo* (table))
+(chunked-persisted docinfo*)
   (def doc-url(doc)
     (check-doc doc docinfo*.doc!url))
   (def doc-title(doc)
@@ -87,11 +87,6 @@
                                              '("Programming" "Technology")]
                             feed-list*))
 ) ; }}}
-
-(prn "Loading docinfo")
-(everyp feed feed-list* 100
-  (each doc (firstn 5 (sort-by doc-timestamp feed-docs.feed))
-    (check-doc doc)))
 
 
 

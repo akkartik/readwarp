@@ -1603,3 +1603,7 @@ latency-consuming operation.
 First cut at making docinfo non-persistent. Loading 10k files is taking too
 long.
 =-=622 - Sun Mar 14 18:47:22 PDT 2010
+We need a way to maintain a consolidated snapshot of docinfo. Let's just keep
+doing the chunked-persisted thing. Maybe a naming convention to say it's not
+essential?
+=-=623 - Sun Mar 14 19:06:52 PDT 2010
