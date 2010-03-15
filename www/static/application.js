@@ -147,13 +147,13 @@ function errorMessage(id) {
   var waitMsg
   var msgToAdd = " Hmm, still waiting. You may want to try reloading this page.";
   if (elem.indexOf(readwarp_waitGif) > 0
-      && elem.length < readwarp_waitMsg.length+msgToAdd.length) {
+      && elem.length < readwarp_waitMsg.length+msgToAdd.length - 5) {
     $(id).innerHTML += msgToAdd;
   }
 }
 
 function checkContent(id) {
-  if ($(id).innerHTML.length == 0) {
+  if ($(id).innerHTML.length < 100) {
     $(id).innerHTML = "Didn't get back the next story. Sorry about that; please try reloading this page.";
   }
 }
