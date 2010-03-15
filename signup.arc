@@ -84,7 +84,7 @@
   (erp:pick2 user))
 
 (def pick2(user)
-  (deq userinfo*.user!signup-showlist))
+  (car:qlist userinfo*.user!signup-showlist))
 
 (proc start-rebuilding-signup-showlist(user pause)
   (unless userinfo*.user!signup-showlist-thread
@@ -174,7 +174,6 @@
           (buttons2 user sname doc)))
       (update-title doc-title.doc))
     (do
-      (deq-showlist user sname)
       (prn "Oops, there was an error. I've told Kartik. Please try reloading the page. And please feel free to use the feedback form &rarr;")
       (write-feedback user "" sname "" "No result found"))))
 
