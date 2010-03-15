@@ -158,7 +158,7 @@
       "2" (handle-upvote user station doc feed))))
 
 (def show-same-station(outcome user feed)
-  (when (is outcome "4")
+  (when (is outcome "4") ; XXX Obsolete
     (ret ans (most-recent-unread user feed)
       (unless ans
         (flash "No stories left in that site")))))

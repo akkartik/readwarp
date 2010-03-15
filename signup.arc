@@ -4,7 +4,6 @@
 
 (init quiz-length* 6)
 (init funnel-signup-stage* (+ 2 quiz-length*))
-(init funnel-length* (+ 1 funnel-signup-stage*))
 (def start-funnel(req)
   (let user current-user.req
     (start-rebuilding-signup-showlist user 'sleep)
@@ -84,7 +83,8 @@
 
 (def next-doc2(user)
   (wait:< 0 (qlen userinfo*.user!signup-showlist))
-  (pick2 user))
+  (w/stdout (stderr) (pr user " => "))
+  (erp:pick2 user))
 
 (def pick2(user)
   (deq userinfo*.user!signup-showlist))
@@ -210,6 +210,7 @@
 (proc mark-read2(user sname doc outcome)
   (with (station  userinfo*.user!stations.sname
          feed     doc-feed.doc)
+    (erp outcome " " doc)
 
     (unless userinfo*.user!read.doc
       (push doc station!read-list))
