@@ -45,10 +45,7 @@
     (or= userinfo*.user!signup-stage 2)
     (tag html
       (header
-        (tag style
-          ; For modal dialogs
-          (pr "html,body{ height:100%; width:100%; overflow:hidden; }
-               #body{ overflow:auto; height:100%; width:100%; }")))
+        (csstag "modal.css"))
       (tag body
         (tag (div id "body")
         (tag (div id "page")
@@ -116,7 +113,6 @@
 
 (mac modal(show . body)
   `(do
-    (csstag "modal.css")
     (tag (div id "modal" style ,show)
       (tag:div class "overlay-decorator" style ,show)
       (tag (div class "overlay-wrap")

@@ -1,4 +1,7 @@
 /* http://foohack.com/2007/11/css-modal-dialog-that-works-right */
+body.modal{ height:100%; overflow:hidden; }
+body.modal #body{ overflow:auto; height:100%; }
+
 .overlay-decorator {
         background:#cccccc;
         height:100%;

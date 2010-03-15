@@ -1614,3 +1614,6 @@ Should I move it lower down index.arc?
 
 Don't show the spinner error messages multiple times.
 =-=627 - Mon Mar 15 13:04:49 PDT 2010
+
+Cleanup signup css based on email from Andy Harrison.
+=-=629 - Mon Mar 15 13:28:51 PDT 2010
