@@ -1624,3 +1624,6 @@ through the funnel.
 I'm concerned we are or will soon run into realtime constraints with
 mzscheme's GIL. Let's start logging times.
 =-=631 - Mon Mar 15 14:34:29 PDT 2010
+
+Don't let wait messages show from previous stages of the funnel.
+=-=632 - Mon Mar 15 15:59:40 PDT 2010

@@ -135,16 +135,19 @@ function showDoc(station, doc) {
 
 var readwarp_waitGif = "waiting.gif";
 var readwarp_waitMsg = "<img src=\"" + readwarp_waitGif + "\"/>";
+var readwarp_msgCount = 0;
 function prepareAjax(id) {
   scroll(0, 0);
   $('body').scrollTop = 0;
   $(id).innerHTML = readwarp_waitMsg;
-  setTimeout("errorMessage('"+id+"');", 5000);
+  ++readwarp_msgCount;
+  setTimeout("errorMessage('"+id+"', "+readwarp_msgCount+");", 5000);
 }
 
-function errorMessage(id) {
+function errorMessage(id, count) {
+  if (readwarp_msgCount != count) return;
+
   var elem = $(id).innerHTML;
-  var waitMsg
   var msgToAdd = " Hmm, still waiting. You may want to try reloading this page.";
   if (elem.indexOf(readwarp_waitGif) > 0
       && elem.length < readwarp_waitMsg.length+msgToAdd.length - 5) {
