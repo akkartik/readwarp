@@ -133,16 +133,22 @@ function showDoc(station, doc) {
   return false;
 }
 
+var readwarp_waitGif = "waiting.gif";
+var readwarp_waitMsg = "<img src=\"" + readwarp_waitGif + "\"/>";
 function prepareAjax(id) {
   scroll(0, 0);
   $('body').scrollTop = 0;
-  $(id).innerHTML = "<img src=\"waiting.gif\"/>";
+  $(id).innerHTML = readwarp_waitMsg;
   setTimeout("errorMessage('"+id+"');", 5000);
 }
 
 function errorMessage(id) {
-  if ($(id).innerHTML.indexOf("<img src=\"waiting.gif\"") == 0) {
-    $(id).innerHTML += " Hmm, still waiting. You may want to try reloading this page.";
+  var elem = $(id).innerHTML;
+  var waitMsg
+  var msgToAdd = " Hmm, still waiting. You may want to try reloading this page.";
+  if (elem.indexOf(readwarp_waitGif) > 0
+      && elem.length < readwarp_waitMsg.length+msgToAdd.length) {
+    $(id).innerHTML += msgToAdd;
   }
 }
 

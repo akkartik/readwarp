@@ -1611,3 +1611,6 @@ Cleanup. Deemphasize docinfo - all it's doing is acting as a cache.
 Should I rename it?
 Should I move it lower down index.arc?
 =-=624 - Sun Mar 14 19:12:53 PDT 2010
+
+Don't show the spinner error messages multiple times.
+=-=627 - Mon Mar 15 13:04:49 PDT 2010
