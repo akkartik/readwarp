@@ -53,9 +53,11 @@ h2.title a{ font-family:serif; font-size:2em; color:#66e; }
 .flash{ background:#eeeeee; padding-top:2px; padding-bottom:2px; }
 .debug{ text-align:right; color:#dddddd; }
 
-.feedback_link{ text-align:right; }
-.feedback_link a{ color:#88c; }
 .date{ font-style:italic; font-size:80%; float:right; }
+
+.feedback_link{ text-align:right; margin-left:1em; }
+.feedback_link a{ color:#88c; }
+#feedback{ z-index:1000; float:right margin-top:0.5em; margin-left:0.5em; padding:5px; border:1px solid #dddddd; background:#fff; }
 
 
 
@@ -68,5 +70,3 @@ h2.title a{ font-family:serif; font-size:2em; color:#66e; }
 
 .progress{ margin-left:1em; float:left; height:1em; border:1px solid #888; }
 .progress_filled{ float:left; height:1em; background-color:#888; }
-
-#feedback{ z-index:1000; float:right margin-top:0.5em; margin-left:0.5em; padding:5px; border:1px solid #dddddd; background:#fff; }
