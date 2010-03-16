@@ -1,5 +1,5 @@
 import sys
-from datetime import date
+from datetime import datetime
 
 for i, arg in enumerate(sys.argv[1:]):
-  print i, date.fromtimestamp(int(arg))
+  print i, datetime.fromtimestamp(int(arg))
