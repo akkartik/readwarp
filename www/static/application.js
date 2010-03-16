@@ -103,14 +103,14 @@ function pushHistory(station, doc, params) {
     }
   }
 
-  prepareAjax();
+  prepareAjax('content');
   new Ajax.Request("/docupdate",
       {
         method: 'post',
         parameters: 'doc='+escape(doc)+'&'+'station='+escape(station)+'&'+params,
         onSuccess: function(response) {
           $('content').innerHTML = response.responseText;
-          checkContent();
+          checkContent('content');
           runScripts($('content'));
         }
       });
