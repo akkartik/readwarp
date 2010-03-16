@@ -119,11 +119,22 @@ def crawl(feed):
     print 'bozo'
     return
 
-  feedinfo[feed] = {'title': feedtitle(f), 'description': feeddesc(f), 'site': site(f), 'url': feed, 'author': author(f)}
+  feedinfo[feed] = deunicodify({'title': feedtitle(f), 'description': feeddesc(f), 'site': site(f), 'url': feed, 'author': author(f)})
   for item in f.entries:
     try:
       crawlUrl(item.link, {'title': title(item), 'feedtitle': f.feed.title, 'date': date(item), 'feeddate': time.mktime(time.gmtime()), 'feed': feed, 'site': site(f), 'description': desc(item)})
     except: traceback.print_exc(file=sys.stdout)
+
+def deunicodify(hash):
+  hash['unicode'] = ' '.join([normalize(val) for val in hash.values()])
+  return hash
+
+import unicodedata
+def normalize(s):
+  try:
+    return ''.join([unicodedata.normalize('NFKD', c)[0] for c in s])
+  except:
+    return ''
 
 def author(f):
   try: f.feed.author

@@ -1633,3 +1633,6 @@ Bug in 631's change to new-thread: wasn't returning the thread value.
 
 Argh, js bugfix. Readwarp was non-functional for 9-12 hours.
 =-=634 - Mon Mar 15 23:08:44 PDT 2010
+
+Figured out how to convert ascii queries to unicode as appropriate!
+=-=636 - Tue Mar 16 03:32:36 PDT 2010
