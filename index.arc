@@ -216,7 +216,7 @@
 (def groups(feeds)
   (dedup:flat:map feed-groups* feeds))
 
-(def initial-preferred-groups-for(sname)
+(def initial-preferred-groups-for(user sname)
   (ret ans (dedup:keep id (groups scan-feeds.sname))
     ;; HACK while my feeds are dominated by nerdy stuff.
     (if (len> ans 2)
@@ -226,11 +226,13 @@
 
     (erp "Groups: " ans)
     (unless ans
+      (unless (is sname userinfo*.user!all)
+        (write-feedback user "" sname "" "Random stories for group"))
       (= ans feedgroups*))))
 
 (proc gen-groups(user sname)
   (or= userinfo*.user!stations.sname!groups
-       (backoffify initial-preferred-groups-for.sname 2)))
+       (backoffify (initial-preferred-groups-for user sname) 2)))
 
 (def feeds(groups)
   (dedup:flat:map group-feeds* groups))
