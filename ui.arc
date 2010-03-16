@@ -265,14 +265,12 @@
   "/")
 
 (def feedback-form(sname doc)
-  (tag (div id "feedback")
+  (tag (div id "feedback-wrapper")
     (tag (div class "feedback_link")
       (tag (a onclick "$('feedback').toggle(); return false" href "#")
         (pr "feedback")))
-    (tag (form action "/feedback" method "post" id "feedback"
-               style "display:none; z-index:1000; margin-top:0.5em;
-                      float:right; margin-left:-4000px;
-                      padding:5px; border:1px solid #dddddd;")
+    (tag (form id "feedback" action "/feedback" method "post" style
+               "display:none")
       (tag:textarea name "msg" cols "25" rows "6" style "text-align:left")(br)
       (tag (div style "font-size: 75%; margin-top:0.5em; text-align:left")
         (pr "Your email?"))

@@ -21,7 +21,7 @@ body{ font-size:62.5%; }
 #content{ float:left; margin-left:90px; width:679px; padding-left:1em; padding-top:5px; margin-bottom:1em; }
 
   #post-wrapper{ }
-  #feedback{ float:right; margin-top:10px; }
+  #feedback-wrapper{ float:right; margin-top:10px; }
 
   .post{ font-size:1.4em; margin-bottom:1em; line-height:1.4; text-align:left; }
 
@@ -68,3 +68,5 @@ h2.title a{ font-family:serif; font-size:2em; color:#66e; }
 
 .progress{ margin-left:1em; float:left; height:1em; border:1px solid #888; }
 .progress_filled{ float:left; height:1em; background-color:#888; }
+
+#feedback{ z-index:1000; float:right margin-top:0.5em; margin-left:0.5em; padding:5px; border:1px solid #dddddd; background:#fff; }

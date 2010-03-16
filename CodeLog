@@ -1636,3 +1636,6 @@ Argh, js bugfix. Readwarp was non-functional for 9-12 hours.
 
 Figured out how to convert ascii queries to unicode as appropriate!
 =-=636 - Tue Mar 16 03:32:36 PDT 2010
+
+Feedback form wasn't working since Friday.
+=-=637 - Tue Mar 16 12:39:45 PDT 2010
