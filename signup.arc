@@ -128,7 +128,7 @@
       (prbold "Thank you!")
       (br)
       (tag (span style "font-size:14px; color:#888888")
-        (pr "Please claim your personal reading channel."))
+        (pr "Please save your preferences."))
       (br2)
       (fnform (fn(req) (create-handler req 'register
                                 (list (fn(new-username ip)
