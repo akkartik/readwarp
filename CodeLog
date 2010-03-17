@@ -1726,3 +1726,6 @@ Ok, here's a test.
 Moved to production to test drive after hanging production and needing to
 restart.
 =-=663 - Wed Mar 17 13:44:08 PDT 2010
+
+Refactor: replace string id's and classes in html with symbols.
+=-=664 - Wed Mar 17 13:51:25 PDT 2010

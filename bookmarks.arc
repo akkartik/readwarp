@@ -1,5 +1,5 @@
 (def save-button(user doc)
-  (tag (div class "button")
+  (tag (div class 'button)
     (toggle-icon (+ "save_" doc)
       (tag div
         (tag:img src IMG width "32px")
@@ -17,7 +17,7 @@
       (add-to userinfo*.user!saved doc))))
 
 (def bookmarks-link()
-  (tag (div class "vlist")
+  (tag (div class 'vlist)
     (tag (a href "/saved")
       (tag b (pr "your bookmarks"))
       (tag:img src "/saved.gif" height "14px" style "margin-left:0.5em"))))
@@ -27,14 +27,14 @@
     (page user
       (nav user)
       (tag (div style "width:100%")
-        (tag (div id "left-panel")
+        (tag (div id 'left-panel)
           (bookmarks-link)
           (channels-panel user nil)
           (new-channel-form)
           (bookmarks-panel user req))
 
-        (tag (div id "contents-wrap")
-          (tag (div id "content")
+        (tag (div id 'contents-wrap)
+          (tag (div id 'content)
             (bookmarked-doc-panel user next-save.user)))))))
 
 (def next-save(user)
@@ -58,10 +58,10 @@
         (bookmarked-doc-panel-sub user next-save.user)))))
 
 (def bookmarks-panel(user req)
-  (tag (div class "vlist")
+  (tag (div class 'vlist)
     (tag b
       (pr "other bookmarks"))
-    (tag (div id "history")
+    (tag (div id 'history)
       (bookmarks-panel-body user req))))
 
 (def bookmarks-panel-body(user req)
@@ -69,7 +69,7 @@
     (paginate req "history" "/bhist"
               history-size* len.items
       :do
-        (tag (div id "history-elems")
+        (tag (div id 'history-elems)
           (each doc (cut items start-index end-index)
             (render-doc-link user "bookmarks" doc))))))
 
@@ -78,18 +78,18 @@
 
 (def bookmarked-doc-panel-sub(user doc)
   (tag (div id (+ "doc_" doc))
-    (tag (div id "post-wrapper")
+    (tag (div id 'post-wrapper)
       (feedback-form "bookmarks" doc)
-      (tag (div class "history" style "display:none")
+      (tag (div class 'history style "display:none")
         (render-doc-link user "bookmarks" doc))
-      (tag (div class "post")
+      (tag (div class 'post)
         (render-doc doc)))
     (tag div
       (bookmark-buttons user doc)))
   (update-title doc-title.doc))
 
 (def bookmark-buttons(user doc)
-  (tag (div class "buttons")
+  (tag (div class 'buttons)
     (bookmark-button user doc "like" "&#8593;")
     (tag p)
     (bookmark-button user doc "skip" "&#8595;")

@@ -1,5 +1,5 @@
 (mac logo(msg)
-  `(tag (div class "logo-button")
+  `(tag (div class 'logo-button)
       (pr ,msg)))
 
 (init quiz-length* 6)
@@ -8,15 +8,15 @@
   (let user current-user.req
     (start-rebuilding-signup-showlist user 'sleep)
     (page user
-      (tag (div class "nav")
+      (tag (div class 'nav)
         (tag (div style "float:right")
           (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
                   (pr "login")))
         (clear))
 
-      (tag (div class "frontpage")
+      (tag (div class 'frontpage)
 
-        (tag (div class "logo")
+        (tag (div class 'logo)
           (logo "Readwarp"))
         (tag (div style "font-style:italic; margin-top:1em")
           (pr "&ldquo;What do I read next?&rdquo;"))
@@ -47,16 +47,16 @@
       (header
         (csstag "modal.css"))
       (tag body
-        (tag (div id "body")
-        (tag (div id "page")
-          (tag (div class "nav")
+        (tag (div id 'body)
+        (tag (div id 'page)
+          (tag (div class 'nav)
             (logo-small))
 
           (let sname userinfo*.user!all
             (tag (div style "width:100%")
               (tag (div style "float:left; height:1em; width:175px"))
-              (tag (div id "contents-wrap")
-                (tag (div id "content")
+              (tag (div id 'contents-wrap)
+                (tag (div id 'content)
                     (next-stage user sname req)))))))))))
 
 (proc ensure-station2(user sname)
@@ -114,13 +114,13 @@
 
 (mac modal(show . body)
   `(do
-    (tag (div id "modal" style ,show)
-      (tag:div class "overlay-decorator" style ,show)
-      (tag (div class "overlay-wrap")
-        (tag (div class "overlay")
-          (tag:div class "dialog-decorator")
-          (tag (div class "dialog-wrap")
-            (tag (div id "dialog" class "dialog")
+    (tag (div id 'modal style ,show)
+      (tag:div class 'overlay-decorator style ,show)
+      (tag (div class 'overlay-wrap)
+        (tag (div class 'overlay)
+          (tag:div class 'dialog-decorator)
+          (tag (div class 'dialog-wrap)
+            (tag (div id 'dialog class 'dialog)
               ,@body)))))))
 
 (def signup-form(user query req)
@@ -150,8 +150,8 @@
   (tag div
     (tag (div style "float:left")
       (pr "Progress: "))
-    (tag (div class "progress" style "width:8em")
-      (tag (div class "progress_filled"
+    (tag (div class 'progress style "width:8em")
+      (tag (div class 'progress_filled
                 style (+ "width:"
                          (int:* 8 (/ userinfo*.user!signup-stage
                                      funnel-signup-stage*))
@@ -169,7 +169,7 @@
                          " stories.<br>
                          Vote for the stories or sites that you like."))
           (feedback-form sname doc)
-          (tag (div class "post")
+          (tag (div class 'post)
             (render-doc doc)))
         (tag div
           (buttons2 user sname doc)))
@@ -179,7 +179,7 @@
       (write-feedback user "" sname "" "No result found"))))
 
 (def buttons2(user sname doc)
-  (tag (div class "buttons")
+  (tag (div class 'buttons)
     (button2 user sname doc 2 "like" "&#8593;")
     (tag p)
     (button2 user sname doc 1 "skip" "&#8595;"))

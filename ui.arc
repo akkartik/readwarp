@@ -2,8 +2,8 @@
   `(tag html
     (header)
     (tag body
-      (tag (div id "body")
-      (tag (div id "page")
+      (tag (div id 'body)
+      (tag (div id 'page)
         ,@body)))))
 
 (mac with-history(req user station . body)
@@ -16,15 +16,15 @@
 
 (mac with-history-sub(req user sname . body)
   `(do
-    (tag (div id "left-panel")
+    (tag (div id 'left-panel)
       (current-channel-link ,user ,sname)
       (channels-panel ,user ,sname)
       (new-channel-form)
       (bookmarks-link)
       (history-panel ,user ,sname ,req))
 
-    (tag (div id "contents-wrap")
-       (tag (div id "content")
+    (tag (div id 'contents-wrap)
+       (tag (div id 'content)
          ,@body))))
 
 
@@ -94,7 +94,7 @@
               history-size* len.items
         reverse t nextcopy "&laquo;older" prevcopy "newer&raquo;"
       :do
-        (tag (div id "history-elems")
+        (tag (div id 'history-elems)
           (each doc (cut items start-index end-index)
             (render-doc-link user sname doc))))))
 
@@ -121,11 +121,11 @@
 
 (def doc-panel-sub(user sname doc)
   (tag (div id (+ "doc_" doc))
-    (tag (div id "post-wrapper")
+    (tag (div id 'post-wrapper)
       (feedback-form sname doc)
-      (tag (div class "history" style "display:none")
+      (tag (div class 'history style "display:none")
         (render-doc-link user sname doc))
-      (tag (div class "post")
+      (tag (div class 'post)
         (render-doc doc)))
     (tag div
       (buttons user sname doc)))
@@ -145,16 +145,16 @@
 
 (def render-doc(doc)
   (tag (div id (+ "contents_" doc))
-    (tag (h2 class "title")
+    (tag (h2 class 'title)
       (tag (a href doc-url.doc target "_blank")
         (pr (check doc-title.doc ~empty "no title"))))
-    (tag (div class "subtitle")
-      (tag (div class "date")
+    (tag (div class 'subtitle)
+      (tag (div class 'date)
         (aif pubdate.doc (pr render-date.it)))
       (iflet siteurl doc-site.doc
         (tag (a href siteurl target "_blank")
           (pr (check doc-feedtitle.doc ~empty "website")))))
-    (tag (div class "readwarp-post-body")
+    (tag (div class 'readwarp-post-body)
       (pr:contents doc))
     (clear)))
 
@@ -164,12 +164,12 @@
       (tag (div id (+ "outcome_" doc)
                 class (+ "outcome_icon outcome_" (read? user doc)))
         (pr "&#9632;")))
-    (tag (p class "item")
+    (tag (p class 'item)
       (tag (a onclick (+ "showDoc('" jsesc.sname "', '" jsesc.doc "')") href "#")
         (pr (check doc-title.doc ~empty "no title"))))))
 
 (def buttons(user sname doc)
-  (tag (div class "buttons")
+  (tag (div class 'buttons)
     (button user sname doc 2 "like" "&#8593;")
     (tag p)
     (button user sname doc 1 "skip" "&#8595;")
@@ -215,11 +215,11 @@
 
 (proc logo-small()
   (tag (div style "text-align:left")
-    (tag (a href "/" class "logo-button")
+    (tag (a href "/" class 'logo-button)
       (pr "Readwarp"))))
 
 (proc nav(user)
-  (tag (div class "nav")
+  (tag (div class 'nav)
     (tag (div style "float:right")
       (if signedup?.user
         (do
@@ -250,7 +250,7 @@
         (when (and (~is s userinfo*.user!all)
                  (~is s sname)
                  (~blank s))
-          (tag (div class "station")
+          (tag (div class 'station)
             (tag (div style "float:right; margin-right:0.5em")
               (tag (a href (+ "/delstation?station=" urlencode.s)
                       onclick "jsget(this); del(this.parentNode.parentNode); return false;")
@@ -258,7 +258,7 @@
             (link s (+ "/station?seed=" urlencode.s))))))))
 
 (def new-channel-form()
-  (tag (div class "vlist")
+  (tag (div class 'vlist)
     (tag b (pr "new channel"))
     (tag (form action "/station")
          (tag:input name "seed" size "15")
@@ -267,10 +267,10 @@
          (tag:input type "submit" value "switch" style "margin-top:5px"))))
 
 (def history-panel(user sname req)
-  (tag (div class "vlist")
+  (tag (div class 'vlist)
     (tag b
       (pr "recently viewed"))
-    (tag (div id "history")
+    (tag (div id 'history)
       (history-panel-body user sname req))))
 
 
@@ -280,11 +280,11 @@
   "/")
 
 (def feedback-form(sname doc)
-  (tag (div id "feedback-wrapper")
-    (tag (div class "feedback_link")
+  (tag (div id 'feedback-wrapper)
+    (tag (div class 'feedback_link)
       (tag (a onclick "$('feedback').toggle(); return false" href "#")
         (pr "feedback")))
-    (tag (form id "feedback" action "/feedback" method "post" style
+    (tag (form id 'feedback action "/feedback" method "post" style
                "display:none")
       (tag:textarea name "msg" cols "25" rows "6" style "text-align:left")(br)
       (tag (div style "font-size: 75%; margin-top:0.5em; text-align:left")
