@@ -1652,5 +1652,8 @@ Start backing up user votes.
 Update crontab
 =-=642 - Tue Mar 16 17:06:46 PDT 2010
 
-Reorganized feeds before implementing Private feeds.
+Reorganizing feeds before implementing Private feeds.
 =-=643 - Tue Mar 16 22:03:52 PDT 2010
+Private feeds. They get crawled but they're not in any feed lists or any feed
+groups. The only way you can find them is if you search for them.
+=-=644 - Tue Mar 16 22:05:20 PDT 2010
