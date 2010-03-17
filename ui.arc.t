@@ -28,4 +28,15 @@
   (test-ok "station queries work"
     (run-op station '(("seed" "blog"))))
 
-)))))))
+(shadowing userinfo*
+    (obj
+      "a" (obj preferred-feeds (table)
+               read (table)
+               stations (table)
+               signup-showlist (queue)))
+
+  (shadowing current-user (fn(req) "a")
+    (test-ok "signup query works"
+      (run-op begin nil)))
+
+))))))))
