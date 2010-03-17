@@ -156,7 +156,7 @@ function errorMessage(id, count) {
 }
 
 function checkContent(id) {
-  if ($(id).innerHTML.length < 100) {
+  if ($(id).innerHTML.length < 10) {
     $(id).innerHTML = "Didn't get back the next story. Sorry about that; please try reloading this page.";
   }
 }

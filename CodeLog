@@ -1705,3 +1705,6 @@ function.
 =-=654 - Wed Mar 17 01:47:35 PDT 2010
 Bugfix: name collision.
 =-=655 - Wed Mar 17 01:51:22 PDT 2010
+No bookmark message was getting suppressed. Why was the checkContent limit so
+high?
+=-=658 - Wed Mar 17 12:39:23 PDT 2010
