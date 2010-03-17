@@ -132,7 +132,7 @@
   (each user (keys userinfo*)
     (zap no:no userinfo*.user!signup-showlist-thread)))
 
-(init history-size* 5)
+(init last-showlist-size* 5)
 
 (proc mark-read(user sname doc outcome prune-feed prune-group)
   (with (station  userinfo*.user!stations.sname
@@ -151,7 +151,7 @@
       (or= station!last-showlist (queue))
       (enq-limit (deq station!showlist)
             station!last-showlist
-            history-size*))
+            last-showlist-size*))
 
     (or= station!preferred (table))
     (case outcome

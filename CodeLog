@@ -1703,3 +1703,5 @@ the ajax requests happen in parallel, so the history panel can go out of sync.
 This seems to work. Inelegant way to get around javascript's lack of a sleep
 function.
 =-=654 - Wed Mar 17 01:47:35 PDT 2010
+Bugfix: name collision.
+=-=655 - Wed Mar 17 01:51:22 PDT 2010
