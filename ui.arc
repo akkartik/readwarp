@@ -207,6 +207,10 @@
           (tag (div id "content")
             (render-doc-with-context user sname next-save.user)))))))
 
+(def next-save.user(user)
+  (if userinfo*.user!saved
+    (
+
 (def mark-read-url(user sname doc n)
   (if (is n 1)
     (if

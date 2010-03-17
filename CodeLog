@@ -1685,3 +1685,5 @@ A list is easier when we want to be able to unbookmark items at random.
 A queue is easier to implement rotation.
 Perhaps just a list and an index.
 =-=649 - Tue Mar 16 23:35:25 PDT 2010
+But how to keep index from jumping around in the presence of random deletions?
+=-=650 - Tue Mar 16 23:38:05 PDT 2010
