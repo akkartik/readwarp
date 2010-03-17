@@ -169,7 +169,7 @@
                          Vote for the stories or sites that you like."))
           (feedback-form sname doc)
           (tag (div class "post")
-            (render-doc sname doc)))
+            (render-doc doc)))
         (tag div
           (buttons2 user sname doc)))
       (update-title doc-title.doc))
