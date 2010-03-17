@@ -1,0 +1,3 @@
+45 * * * * /home/akkartik/readwarp/scripts/crawl >> /tmp/readwarp_crawl.out 2>> /tmp/readwarp_crawl.err
+5 3 * * * /home/akkartik/readwarp/scripts/new_queries >> /tmp/new_queries.out 2>> /tmp/new_queries.err
+35 * * * * /home/akkartik/readwarp/scripts/backup-data >> /tmp/backup.out 2>> /tmp/backup.err
