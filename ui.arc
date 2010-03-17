@@ -192,6 +192,21 @@
       (nrem doc userinfo*.user!saved)
       (add-to userinfo*.user!saved doc))))
 
+(defop saved req
+  (let user get-user.req
+    (page user
+      (nav user)
+      (tag (div style "width:100%")
+        (tag (div id "left-panel")
+          (bookmarks-link)
+          (channels-panel user nil)
+          (new-channel-form)
+          (bookmarks-panel user))
+
+        (tag (div id "contents-wrap")
+          (tag (div id "content")
+            (render-doc-with-context user sname next-save.user)))))))
+
 (def mark-read-url(user sname doc n)
   (if (is n 1)
     (if

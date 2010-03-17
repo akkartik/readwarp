@@ -1680,3 +1680,8 @@ Refactoring the left panel in preparation of duplication.
 =-=647 - Tue Mar 16 23:23:39 PDT 2010
 Refactor history panel.
 =-=648 - Tue Mar 16 23:25:33 PDT 2010
+Hmm, should the bookmarks be in a queue or a list?
+A list is easier when we want to be able to unbookmark items at random.
+A queue is easier to implement rotation.
+Perhaps just a list and an index.
+=-=649 - Tue Mar 16 23:35:25 PDT 2010
