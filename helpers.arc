@@ -53,7 +53,7 @@
 
 
 (mac toggle-icon(id template url reset-img set-img test-fn)
-  `(jstogglelink id
+  `(jstogglelink ,id
       ,(rewrite reset-img 'IMG template) ,url
       ,(rewrite set-img 'IMG template) ,url
       ,test-fn))

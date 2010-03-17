@@ -1715,3 +1715,5 @@ elegantly refactor it. The different stuff is quite deep inside.
 Useful side-effect: tinkering with the buttons doesn't break the rest of the
 page since they're right at the end.
 =-=660 - Wed Mar 17 13:03:54 PDT 2010
+Fixed.
+=-=661 - Wed Mar 17 13:05:32 PDT 2010
