@@ -1,0 +1,1 @@
+tar zcf /tmp/backup.tgz snapshots/hpw `ls -t snapshots/userinfo* |head -n10`
