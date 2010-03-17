@@ -3,7 +3,7 @@
     (toggle-icon (+ "save_" doc)
       (tag div
         (tag:img src IMG width "32px")
-        (tag (div style "font-size:10px; color:#aaaaaa")
+        (tag (div class 'bookmark_icon)
           (pr "read later")))
       (+ "/save?doc=" doc)
       "/saved.gif" "/save.gif"
