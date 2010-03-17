@@ -199,10 +199,11 @@
 
 (def buttons(user sname doc)
   (tag (div class "buttons")
-    (do
-      (button user sname doc 2 "like" "&#8593;")
-      (tag p)
-      (button user sname doc 1 "skip" "&#8595;"))
+    (button user sname doc 2 "like" "&#8593;")
+    (tag p)
+    (button user sname doc 1 "skip" "&#8595;")
+    (tag p)
+    (save-button user doc)
     (clear)))
 
 (def button(user sname doc n cls label)
@@ -215,6 +216,20 @@
             onclick onclick)
     (tag (div style "position:relative; top:20px; font-size:22px;")
       (pr label))))
+
+(def save-button(user doc)
+  (tag (div class "button")
+    (jstogglelink (+ "save_" doc)
+      (tag:img src "/saved.gif" width "32px") (+ "/save?doc=" doc)
+      (tag:img src "/save.gif" width "32px") (+ "/save?doc=" doc)
+      (pos doc userinfo*.user!saved))))
+
+(defop save req
+  (with (user (current-user req)
+         doc (arg req "doc"))
+    (if (pos doc userinfo*.user!saved)
+      (nrem doc userinfo*.user!saved)
+      (add-to userinfo*.user!saved doc))))
 
 (def mark-read-url(user sname doc n)
   (if (is n 1)

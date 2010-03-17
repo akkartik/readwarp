@@ -1657,3 +1657,19 @@ Reorganizing feeds before implementing Private feeds.
 Private feeds. They get crawled but they're not in any feed lists or any feed
 groups. The only way you can find them is if you search for them.
 =-=644 - Tue Mar 16 22:05:20 PDT 2010
+
+New feature: save to read later. Saving to a list is easy. But how to show the
+saved list?
+
+To minimize our work we'll cut several corners:
+a) Where should the link to bookmarks be? Options: as another channel, or on
+the nav next to user name. Put it to the right of the 'new channels' header.
+It is always visible.
+b) No list mode. Just fit the bookmarks page into the existing design.
+c) What does voting on a story from bookmarks page do? Nothing. It's detached
+from the parent station. But still keep the vote buttons for navigation. They
+basically have the same effect.
+d) Navigation within the bookmark list doesn't delete from the list. So you
+can keep rotating through your bookmarks.
+e) Pagination within bookmark history should rotate as well.
+=-=645 - Tue Mar 16 22:48:27 PDT 2010
