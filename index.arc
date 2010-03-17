@@ -60,7 +60,8 @@
     (push feed group-feeds*.g)))
 
 (proc update-feed-groups()
-  (= feedgroups* (tokens:tostring:system "cd feeds; ls [A-Z]* |grep -v \"^All$\\|^Discard$\\|^Risque$\""))
+  (= feedgroups* (tokens:tostring:system "cd feeds; ls -d [A-Z]* |grep -v \"^$\\|^All$\\|^Private$\""))
+  (prn feedgroups*)
   (each group feedgroups*
     (read-group group)))
 
@@ -323,8 +324,8 @@
   (start-rebuilding-showlist user userinfo*.user!stations.sname))
 
 (def load-feeds(user)
-  (if (file-exists (+ "feeds/" user))
-    (w/infile f (+ "feeds/" user)
+  (if (file-exists (+ "feeds/users/" user))
+    (w/infile f (+ "feeds/users/" user)
       (w/table ans
         (whilet line (readline f)
           (zap trim line)
