@@ -1708,3 +1708,7 @@ Bugfix: name collision.
 No bookmark message was getting suppressed. Why was the checkContent limit so
 high?
 =-=658 - Wed Mar 17 12:39:23 PDT 2010
+Add a little copy to the bookmark icon (nivi).
+That call to jstogglelink is getting a little hairy. But I don't know how to
+elegantly refactor it. The different stuff is quite deep inside.
+=-=659 - Wed Mar 17 12:49:16 PDT 2010

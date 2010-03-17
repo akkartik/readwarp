@@ -67,8 +67,8 @@ h2.title a{ font-family:serif; font-size:2em; color:#66e; }
 
 .vlist{ margin-bottom:1em; padding-bottom:1em; }
 
-.paginate{ color:#aaf; margin:1em; font-style:italic; text-align:center; font-size:0.8em; }
-.paginate a{ color:#66f; margin:1em; font-style:italic; text-align:center; font-size:0.8em; }
+.paginate{ color:#aaf; margin:1em; font-style:italic; text-align:center; font-size:10px; }
+.paginate a{ color:#66f; }
 
 .progress{ margin-left:1em; float:left; height:1em; border:1px solid #888; }
 .progress_filled{ float:left; height:1em; background-color:#888; }
