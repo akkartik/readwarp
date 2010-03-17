@@ -14,63 +14,23 @@
       (with-history-sub ,req user ,station
         ,@body)))))
 
-(mac with-history-sub(req user station . body)
-  (w/uniq s
-    `(let user ,user
-      (tag (div id "left-panel")
-        (if user
-           (tag div
+(mac with-history-sub(req user sname . body)
+  `(do
+    (tag (div id "left-panel")
+      (current-channel-link ,user ,sname)
+      (channels-panel ,user ,sname)
+      (new-channel-form)
+      (bookmarks-link)
 
-              (when (and ,station
-                         (~is ,station userinfo*.user!all))
-                (tag (div style "margin-bottom:1em")
-                  (tag b (pr "current channel"))
-                  (tag div (pr ,station))))
+      (tag (div class "vlist")
+        (tag b
+          (pr "recently viewed"))
+        (tag (div id "history")
+          (history-panel user ,sname ,req))))
 
-              (when (or (> (len-keys userinfo*.user!stations) 2)
-                      (and (is 2 (len-keys userinfo*.user!stations))
-                           (is ,station userinfo*.user!all)))
-                (tag (div class "stations vlist")
-                  (tag b
-                    (if (is ,station userinfo*.user!all)
-                      (pr "your channels")
-                      (pr "other channels")))
-                  (each ,s (keys userinfo*.user!stations)
-                    (when (and (~is ,s userinfo*.user!all)
-                             (~is ,s ,station)
-                             (~blank ,s))
-                      (tag (div class "station")
-                        (tag (div style "float:right; margin-right:0.5em")
-                          (tag (a href (+ "/delstation?station=" (urlencode ,s))
-                                  onclick "jsget(this); del(this.parentNode.parentNode); return false;")
-                            (tag:img src "close_x.gif")))
-                        (link ,s (+ "/station?seed=" (urlencode ,s))))))))
-
-              (tag (div class "vlist")
-                (tag b (pr "new channel"))
-                (tag (form action "/station")
-                     (tag:input name "seed" size "15")
-                     (tag (div style "color:#888888; font-size:90%;
-                               margin-top:2px") (pr "type in a website or author"))
-                     (tag:input type "submit" value "switch" style "margin-top:5px")))
-
-              (tag (div class "vlist")
-                (tag (a href "/saved")
-                  (tag b
-                    (pr "your bookmarks"))
-                  (tag:img src "/saved.gif" height "14px" style "margin-left:0.5em")))
-
-              ))
-
-        (tag (div class "vlist")
-          (tag b
-            (pr "recently viewed"))
-          (tag (div id "history")
-            (history-panel user ,station ,req))))
-
-      (tag (div id "contents-wrap")
-         (tag (div id "content")
-           ,@body)))))
+    (tag (div id "contents-wrap")
+       (tag (div id "content")
+         ,@body))))
 
 
 
@@ -278,6 +238,48 @@
                 (pr "login"))))
     (logo-small)
     (clear)))
+
+(def current-channel-link(user sname)
+  (when (and sname
+             (~is sname userinfo*.user!all))
+    (tag (div style "margin-bottom:1em")
+      (tag b (pr "current channel"))
+      (tag div (pr sname)))))
+
+(def channels-panel(user sname)
+  (when (or (> (len-keys userinfo*.user!stations) 2)
+          (and (is 2 (len-keys userinfo*.user!stations))
+               (is sname userinfo*.user!all)))
+    (tag (div class "stations vlist")
+      (tag b
+        (if (is sname userinfo*.user!all)
+          (pr "your channels")
+          (pr "other channels")))
+      (each s (keys userinfo*.user!stations)
+        (when (and (~is s userinfo*.user!all)
+                 (~is s sname)
+                 (~blank s))
+          (tag (div class "station")
+            (tag (div style "float:right; margin-right:0.5em")
+              (tag (a href (+ "/delstation?station=" urlencode.s)
+                      onclick "jsget(this); del(this.parentNode.parentNode); return false;")
+                (tag:img src "close_x.gif")))
+            (link s (+ "/station?seed=" urlencode.s))))))))
+
+(def new-channel-form()
+  (tag (div class "vlist")
+    (tag b (pr "new channel"))
+    (tag (form action "/station")
+         (tag:input name "seed" size "15")
+         (tag (div style "color:#888888; font-size:90%; margin-top:2px")
+           (pr "type in a website or author"))
+         (tag:input type "submit" value "switch" style "margin-top:5px"))))
+
+(def bookmarks-link()
+  (tag (div class "vlist")
+    (tag (a href "/saved")
+      (tag b (pr "your bookmarks"))
+      (tag:img src "/saved.gif" height "14px" style "margin-left:0.5em"))))
 
 
 
