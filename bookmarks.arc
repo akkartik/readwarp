@@ -44,14 +44,14 @@
     (bookmarked-doc-panel-sub user doc)))
 
 (def update-bookmarks(req)
-    (with (user current-user.req
-           doc (arg req "doc"))
-      (if (no userinfo*.user!saved)
-        (flash no-bookmarks-msg*)
-        (do
-          (if (is doc (car userinfo*.user!saved))
-            (nslowrot userinfo*.user!saved))
-          (bookmarked-doc-panel-sub user next-save.user)))))
+  (with (user current-user.req
+         doc (arg req "doc"))
+    (if (no userinfo*.user!saved)
+      (flash no-bookmarks-msg*)
+      (do
+        (if (is doc (car userinfo*.user!saved))
+          (nslowrot userinfo*.user!saved))
+        (bookmarked-doc-panel-sub user next-save.user)))))
 
 (def bookmarks-panel(user req)
   (tag (div class "vlist")
