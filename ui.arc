@@ -266,12 +266,6 @@
            (pr "type in a website or author"))
          (tag:input type "submit" value "switch" style "margin-top:5px"))))
 
-(def bookmarks-link()
-  (tag (div class "vlist")
-    (tag (a href "/saved")
-      (tag b (pr "your bookmarks"))
-      (tag:img src "/saved.gif" height "14px" style "margin-left:0.5em"))))
-
 (def history-panel(user sname req)
   (tag (div class "vlist")
     (tag b

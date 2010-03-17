@@ -12,6 +12,12 @@
       (nrem doc userinfo*.user!saved)
       (add-to userinfo*.user!saved doc))))
 
+(def bookmarks-link()
+  (tag (div class "vlist")
+    (tag (a href "/saved")
+      (tag b (pr "your bookmarks"))
+      (tag:img src "/saved.gif" height "14px" style "margin-left:0.5em"))))
+
 (defop saved req
   (let user get-user.req
     (page user
