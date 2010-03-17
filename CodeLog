@@ -1687,3 +1687,7 @@ Perhaps just a list and an index.
 =-=649 - Tue Mar 16 23:35:25 PDT 2010
 But how to keep index from jumping around in the presence of random deletions?
 =-=650 - Tue Mar 16 23:38:05 PDT 2010
+Refactor doc-panel in preparation of duplication.
+We're putting off what happens on bookmark navigation for now. Assume it'll be
+a slow rotation operation.
+=-=651 - Tue Mar 16 23:45:26 PDT 2010

@@ -29,6 +29,11 @@
   `(aif ,elem
      (push it ,ls)))
 
+(mac firsttime(place . body)
+  `(unless ,place
+     ,@body
+     (set ,place)))
+
 (mac proc(name args . body)
   `(def ,name ,args ,@body nil))
 

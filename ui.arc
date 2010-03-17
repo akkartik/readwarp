@@ -43,7 +43,7 @@
       (if new-sname
         (flash "You're now browsing in a new channel.<p>
                Votes here will not affect recommendations on other channels."))
-      (render-doc-with-context user sname (next-doc user sname)))))
+      (doc-panel user sname (next-doc user sname)))))
 
 (defop delstation req
   (withs (user (current-user req)
@@ -55,7 +55,7 @@
           global-sname (or= userinfo*.user!all (stringify:unique-id)))
     (ensure-station user global-sname)
     (with-history req user global-sname
-      (render-doc-with-context user global-sname (next-doc user global-sname)))))
+      (doc-panel user global-sname (next-doc user global-sname)))))
 
 (defop docupdate req
   (with (user (current-user req)
@@ -66,13 +66,13 @@
          prune-group (is "true" (arg req "prune-group")))
     (ensure-station user sname)
     (mark-read user sname doc outcome prune-feed prune-group)
-    (render-doc-with-context user sname (next-doc user sname))))
+    (doc-panel user sname (next-doc user sname))))
 
 (defop doc req
   (with (user (current-user req)
          sname (arg req "station")
          doc (arg req "doc"))
-    (render-doc-with-context
+    (doc-panel
             user
             sname
             (if blank.doc
@@ -101,31 +101,34 @@
   (w/stdout (stderr) (pr user " " sname " => "))
   (erp:pick user userinfo*.user!stations.sname))
 
-(def render-doc-with-context(user sname doc)
-  (unless userinfo*.user!noob
+(def doc-panel(user sname doc)
+  (firsttime userinfo*.user!noob
     (flash "Welcome! Keep voting on stories as you read, and Readwarp will
            continually fine-tune its recommendations.
 
            <br><br>
            Readwarp is under construction. If it seems confused, try creating
-           a new channel. And send us feedback!")
-    (set userinfo*.user!noob))
+           a new channel. And send us feedback!"))
   (if doc
-    (do
-      (tag (div id (+ "doc_" doc))
-        (tag (div id "post-wrapper")
-          (feedback-form sname doc)
-          (tag (div class "history" style "display:none")
-            (render-doc-link user sname doc))
-          (tag (div class "post")
-            (render-doc sname doc)))
-        (tag div
-          (buttons user sname doc)))
-      (update-title doc-title.doc))
-    (do
-      (deq-showlist user sname)
-      (prn "Oops, there was an error. I've told Kartik. Please try reloading the page. And please feel free to use the feedback form &rarr;")
-      (write-feedback user "" sname "" "No result found"))))
+    (doc-panel-sub user sname)
+    (doc-panel-error user sname doc)))
+
+(def doc-panel-sub(user sname doc)
+  (tag (div id (+ "doc_" doc))
+    (tag (div id "post-wrapper")
+      (feedback-form sname doc)
+      (tag (div class "history" style "display:none")
+        (render-doc-link user sname doc))
+      (tag (div class "post")
+        (render-doc sname doc)))
+    (tag div
+      (buttons user sname doc)))
+  (update-title doc-title.doc))
+
+(def doc-panel-error(user sname)
+  (deq-showlist user sname)
+  (prn "Oops, there was an error. I've told Kartik. Please try reloading the page. And please feel free to use the feedback form &rarr;")
+  (write-feedback user "" sname "" "No result found"))
 
 (def update-title(s)
   (if (empty s)
@@ -205,11 +208,10 @@
 
         (tag (div id "contents-wrap")
           (tag (div id "content")
-            (render-doc-with-context user sname next-save.user)))))))
+            (doc-panel user sname next-save.user)))))))
 
-(def next-save.user(user)
-  (if userinfo*.user!saved
-    (
+(def next-save(user)
+  (carif userinfo*.user!saved))
 
 (def mark-read-url(user sname doc n)
   (if (is n 1)

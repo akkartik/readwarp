@@ -101,8 +101,7 @@
     (erp "new user: " user)
     (inittab userinfo*.user
              'preferred-feeds (or load-feeds.user (table))
-             'read (table) 'stations (table)
-             'save-index 0)))
+             'read (table) 'stations (table))))
 
 (def read-list(user station)
   userinfo*.user!stations.station!read-list)
