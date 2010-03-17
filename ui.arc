@@ -21,12 +21,7 @@
       (channels-panel ,user ,sname)
       (new-channel-form)
       (bookmarks-link)
-
-      (tag (div class "vlist")
-        (tag b
-          (pr "recently viewed"))
-        (tag (div id "history")
-          (history-panel user ,sname ,req))))
+      (history-panel ,user ,sname ,req))
 
     (tag (div id "contents-wrap")
        (tag (div id "content")
@@ -84,7 +79,7 @@
               (next-doc user sname)
               doc))))
 
-(def history-panel(user sname req)
+(def history-panel-body(user sname req)
   (or= sname "")
   (ensure-station user sname)
   (let items (read-list user sname)
@@ -98,7 +93,7 @@
             (render-doc-link user sname doc))))))
 
 (defop history req
-  (history-panel current-user.req (arg req "station") req))
+  (history-panel-body current-user.req (arg req "station") req))
 
 
 
@@ -280,6 +275,13 @@
     (tag (a href "/saved")
       (tag b (pr "your bookmarks"))
       (tag:img src "/saved.gif" height "14px" style "margin-left:0.5em"))))
+
+(def history-panel(user sname req)
+  (tag (div class "vlist")
+    (tag b
+      (pr "recently viewed"))
+    (tag (div id "history")
+      (history-panel-body user sname req))))
 
 
 
