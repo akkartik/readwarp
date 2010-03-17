@@ -355,6 +355,12 @@
            (prn " " index " " ,var))
          ,@body))))
 
+(def rewrite(new old form)
+  (if
+    (is form old) new
+    (~acons form) form
+                  (map [rewrite new old _] form)))
+
 
 
 (def pair?(l)

@@ -1712,3 +1712,6 @@ Add a little copy to the bookmark icon (nivi).
 That call to jstogglelink is getting a little hairy. But I don't know how to
 elegantly refactor it. The different stuff is quite deep inside.
 =-=659 - Wed Mar 17 12:49:16 PDT 2010
+Useful side-effect: tinkering with the buttons doesn't break the rest of the
+page since they're right at the end.
+=-=660 - Wed Mar 17 13:03:54 PDT 2010

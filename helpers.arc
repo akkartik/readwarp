@@ -52,6 +52,12 @@
 
 
 
+(mac toggle-icon(id template url reset-img set-img test-fn)
+  `(jstogglelink id
+      ,(rewrite reset-img 'IMG template) ,url
+      ,(rewrite set-img 'IMG template) ,url
+      ,test-fn))
+
 ; calling convention for fn args: var storage -> storage
 (mac deftoggle(name var test-fn
                set-copy set-fn reset-copy reset-fn)

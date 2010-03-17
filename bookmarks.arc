@@ -1,16 +1,12 @@
 (def save-button(user doc)
   (tag (div class "button")
-    (jstogglelink (+ "save_" doc)
+    (toggle-icon (+ "save_" doc)
       (tag div
-           (tag:img src "/saved.gif" width "32px")
-           (tag (div style "font-size:10px; color:#aaa")
-             (pr "read later")))
-        (+ "/save?doc=" doc)
-      (tag div
-           (tag:img src "/save.gif" width "32px")
-           (tag (div style "font-size:10px; color:#aaa")
-             (pr "read later")))
-        (+ "/save?doc=" doc)
+        (tag:img src IMG width "32px")
+        (tag (div style "font-size:10px; color:#aaaaaa")
+          (pr "read later")))
+      (+ "/save?doc=" doc)
+      "/saved.gif" "/save.gif"
       (pos doc userinfo*.user!saved))))
 
 (defop save req
