@@ -160,3 +160,17 @@ function checkContent(id) {
     $(id).innerHTML = "Didn't get back the next story. Sorry about that; please try reloading this page.";
   }
 }
+
+function pullFromHistory(doc) {
+  $('history').innerHTML = readwarp_waitMsg;
+  inline('content', '/docupdate?station=bookmarks&doc='+doc);
+  setTimeout(waitAndUpdateHistory, 100);
+}
+function waitAndUpdateHistory() {
+  if ($('content').innerHTML.indexOf(readwarp_waitGif) > 0) {
+    setTimeout(waitAndUpdateHistory, 100);
+  }
+  else {
+    inline('history', '/bhist');
+  }
+}

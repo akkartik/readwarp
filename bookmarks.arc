@@ -89,8 +89,4 @@
 
 (def bookmark-button(user doc cls label)
   (votebutton cls label
-            (jsdo
-              (inline "history" "/bhist")
-              (inline "content"
-                      (+ "/docupdate?doc=" urlencode.doc
-                         "&station=bookmarks")))))
+              (+ "pullFromHistory('" urlencode.doc "');")))

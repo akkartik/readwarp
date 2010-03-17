@@ -1700,3 +1700,6 @@ panel.
 How to update both history and doc? I'm trying two inlines in parallel, but
 the ajax requests happen in parallel, so the history panel can go out of sync.
 =-=653 - Wed Mar 17 01:23:30 PDT 2010
+This seems to work. Inelegant way to get around javascript's lack of a sleep
+function.
+=-=654 - Wed Mar 17 01:47:35 PDT 2010
