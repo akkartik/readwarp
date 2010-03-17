@@ -30,7 +30,7 @@
               (when (or (> (len-keys userinfo*.user!stations) 2)
                       (and (is 2 (len-keys userinfo*.user!stations))
                            (is ,station userinfo*.user!all)))
-                (tag (div class "stations" style "margin-bottom:1em; padding-bottom:1em")
+                (tag (div class "stations vlist")
                   (tag b
                     (if (is ,station userinfo*.user!all)
                       (pr "your channels")
@@ -46,7 +46,7 @@
                             (tag:img src "close_x.gif")))
                         (link ,s (+ "/station?seed=" (urlencode ,s))))))))
 
-              (tag (div style "margin-bottom:1em; padding-bottom:1em")
+              (tag (div class "vlist")
                 (tag b (pr "new channel"))
                 (tag (form action "/station")
                      (tag:input name "seed" size "15")
@@ -54,9 +54,15 @@
                                margin-top:2px") (pr "type in a website or author"))
                      (tag:input type "submit" value "switch" style "margin-top:5px")))
 
+              (tag (div class "vlist")
+                (tag (a href "/saved")
+                  (tag b
+                    (pr "your bookmarks"))
+                  (tag:img src "/saved.gif" height "14px" style "margin-left:0.5em")))
+
               ))
 
-        (tag (div style "margin-bottom:1em")
+        (tag (div class "vlist")
           (tag b
             (pr "recently viewed"))
           (tag (div id "history")
