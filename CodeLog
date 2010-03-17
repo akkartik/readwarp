@@ -1691,3 +1691,6 @@ Refactor doc-panel in preparation of duplication.
 We're putting off what happens on bookmark navigation for now. Assume it'll be
 a slow rotation operation.
 =-=651 - Tue Mar 16 23:45:26 PDT 2010
+Closed the loop. Doc page now renders but buttons don't work. We may have to
+duplicate further.
+=-=652 - Wed Mar 17 00:22:29 PDT 2010

@@ -96,6 +96,30 @@
 
 
 
+(let a '(1 2 3 4)
+  (nslowrot a)
+  (test-iso "slowrot works"
+    '(2 3 4 1)
+    a)
+
+  (wipe a)
+  (nslowrot a)
+  (test-iso "slowrot works on empty lists"
+    '()
+    a)
+
+  (push 3 a)
+  (nslowrot a)
+  (test-iso "slowrot works on single lists"
+    '(3)
+    a)
+
+  (push 2 a)
+  (nslowrot a)
+  (test-iso "slowrot swaps 2-elem lists"
+    '(3 2)
+    a))
+
 (test-ok "random-new returns random element"
          (pos (random-new '(1 2 3) nil) '(1 2 3)))
 

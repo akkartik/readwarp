@@ -58,6 +58,11 @@
       (doc-panel user global-sname (next-doc user global-sname)))))
 
 (defop docupdate req
+  (if (is "bookmarks" (arg req "station"))
+    (update-bookmarks req)
+    (update-station req)))
+
+(def update-station(req)
   (with (user (current-user req)
          sname (or (arg req "station") "")
          doc (arg req "doc")
@@ -79,13 +84,14 @@
               (next-doc user sname)
               doc))))
 
+(init history-size* 25) ; sync with application.js
+
 (def history-panel-body(user sname req)
   (or= sname "")
   (ensure-station user sname)
   (let items (read-list user sname)
     (paginate req "history" (+ "/history?station=" urlencode.sname)
-              25 ; sync with application.js
-              len.items
+              history-size* len.items
         reverse t nextcopy "&laquo;older" prevcopy "newer&raquo;"
       :do
         (tag (div id "history-elems")
@@ -110,8 +116,8 @@
            Readwarp is under construction. If it seems confused, try creating
            a new channel. And send us feedback!"))
   (if doc
-    (doc-panel-sub user sname)
-    (doc-panel-error user sname doc)))
+    (doc-panel-sub user sname doc)
+    (doc-panel-error user sname)))
 
 (def doc-panel-sub(user sname doc)
   (tag (div id (+ "doc_" doc))
@@ -120,7 +126,7 @@
       (tag (div class "history" style "display:none")
         (render-doc-link user sname doc))
       (tag (div class "post")
-        (render-doc sname doc)))
+        (render-doc doc)))
     (tag div
       (buttons user sname doc)))
   (update-title doc-title.doc))
@@ -137,7 +143,7 @@
   (tag script
     (pr (+ "document.title = \"" jsesc.s "\";"))))
 
-(def render-doc(sname doc)
+(def render-doc(doc)
   (tag (div id (+ "contents_" doc))
     (tag (h2 class "title")
       (tag (a href doc-url.doc target "_blank")
@@ -154,9 +160,10 @@
 
 (def render-doc-link(user sname doc)
   (tag (div id (+ "history_" doc))
-    (tag (div id (+ "outcome_" doc)
-              class (+ "outcome_icon outcome_" (read? user doc)))
-      (pr "&#9632;"))
+    (unless (is "bookmarks" sname)
+      (tag (div id (+ "outcome_" doc)
+                class (+ "outcome_icon outcome_" (read? user doc)))
+        (pr "&#9632;")))
     (tag (p class "item")
       (tag (a onclick (+ "showDoc('" jsesc.sname "', '" jsesc.doc "')") href "#")
         (pr (check doc-title.doc ~empty "no title"))))))
@@ -181,6 +188,31 @@
     (tag (div style "position:relative; top:20px; font-size:22px;")
       (pr label))))
 
+(def mark-read-url(user sname doc n)
+  (when (and (is n 1) (~is sname "bookmarks"))
+    (if
+      (and (borderline-preferred-feed user sname doc)
+           (~empty doc-feedtitle.doc))
+        (pushHistory sname doc
+                     (addjsarg
+                       (+ "outcome=" n)
+                       (check-with-user
+                         (+ "Should I stop showing articles from\\n"
+                            "  " doc-feedtitle.doc "\\n"
+                            "in this channel?")
+                         "prune")))
+      (awhen (borderline-unpreferred-group user sname doc)
+        (pushHistory sname doc
+                     (addjsarg
+                       (+ "outcome=" n)
+                       (check-with-user
+                         (+ "Should I stop showing any articles about\\n"
+                            "  " it "\\n"
+                            "in this channel?")
+                         "prune-group")))))))
+
+
+
 (def save-button(user doc)
   (tag (div class "button")
     (jstogglelink (+ "save_" doc)
@@ -204,37 +236,43 @@
           (bookmarks-link)
           (channels-panel user nil)
           (new-channel-form)
-          (bookmarks-panel user))
+          (bookmarks-panel user req))
 
         (tag (div id "contents-wrap")
           (tag (div id "content")
-            (doc-panel user sname next-save.user)))))))
+            (bookmarked-doc-panel user next-save.user)))))))
 
 (def next-save(user)
   (carif userinfo*.user!saved))
 
-(def mark-read-url(user sname doc n)
-  (if (is n 1)
-    (if
-      (and (borderline-preferred-feed user sname doc)
-           (~empty doc-feedtitle.doc))
-        (pushHistory sname doc
-                     (addjsarg
-                       (+ "outcome=" n)
-                       (check-with-user
-                         (+ "Should I stop showing articles from\\n"
-                            "  " doc-feedtitle.doc "\\n"
-                            "in this channel?")
-                         "prune")))
-      (awhen (borderline-unpreferred-group user sname doc)
-        (pushHistory sname doc
-                     (addjsarg
-                       (+ "outcome=" n)
-                       (check-with-user
-                         (+ "Should I stop showing any articles about\\n"
-                            "  " it "\\n"
-                            "in this channel?")
-                         "prune-group")))))))
+(def bookmarked-doc-panel(user doc)
+  (if no.doc
+    (flash "You have no bookmarks. Stories you save to read later by clicking
+           on the star will show up on this page.")
+    (doc-panel-sub user "bookmarks" doc)))
+
+(def update-bookmarks(req)
+  (with (user current-user.req
+         doc (arg req "doc"))
+    (if (is doc (car userinfo*.user!saved))
+      (nslowrot userinfo*.user!saved))
+    (doc-panel-sub user "bookmarks" next-save.user)))
+
+(def bookmarks-panel(user req)
+  (tag (div class "vlist")
+    (tag b
+      (pr "bookmarks"))
+    (tag (div id "history")
+      (bookmarks-panel-body user req))))
+
+(def bookmarks-panel-body(user req)
+  (let items userinfo*.user!saved
+    (paginate req "history" "/bhist"
+              history-size* len.items
+      :do
+        (tag (div id "history-elems")
+          (each doc (cut items start-index end-index)
+            (render-doc-link user "bookmarks" doc))))))
 
 
 

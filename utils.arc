@@ -217,6 +217,9 @@
   `(each k (keys ,tab)
       (zap ,f (,tab k))))
 
+(mac nslowrot(l)
+  `(if ,l (= ,l (+ (cdr ,l) (list (car ,l))))))
+
 ; random elem in from that isn't already in to (and satisfies f)
 (def random-new(from to (o f))
   (ret ans nil
