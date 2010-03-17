@@ -61,7 +61,6 @@
 
 (proc update-feed-groups()
   (= feedgroups* (tokens:tostring:system "cd feeds; ls -d [A-Z]* |grep -v \"^$\\|^All$\\|^Private$\""))
-  (prn feedgroups*)
   (each group feedgroups*
     (read-group group)))
 

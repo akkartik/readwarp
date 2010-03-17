@@ -2,13 +2,15 @@
 (def init-code()
   (include "utils.arc")
   (include "skiplist.arc")
-  (include "helpers.arc")
 
   (include "state.arc")
   (include "index.arc")
 
+  (include "helpers.arc")
+  (include "js.arc")
   (include "ui.arc")
   (include "signup.arc")
+  (include "bookmarks.arc")
 )
 (init-code)
 

@@ -42,3 +42,11 @@
   (tostring:w/jslink (update-dom :into "id" :with "bar" :style "foo")
     (pr "a")))
 
+
+
+
+(test-iso "jsdo concatenates args"
+  "inline('id', 'http://example.com/get1?arg=bar');inline('id', 'http://example.com/get1?arg=bar');"
+  (jsdo
+    (inline "id" "http://example.com/get1?arg=bar")
+    (inline "id" "http://example.com/get1?arg=bar")))

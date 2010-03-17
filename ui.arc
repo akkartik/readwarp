@@ -189,7 +189,7 @@
       (pr label))))
 
 (def mark-read-url(user sname doc n)
-  (when (and (is n 1) (~is sname "bookmarks"))
+  (when (is n 1)
     (if
       (and (borderline-preferred-feed user sname doc)
            (~empty doc-feedtitle.doc))
@@ -210,69 +210,6 @@
                             "  " it "\\n"
                             "in this channel?")
                          "prune-group")))))))
-
-
-
-(def save-button(user doc)
-  (tag (div class "button")
-    (jstogglelink (+ "save_" doc)
-      (tag:img src "/saved.gif" width "32px") (+ "/save?doc=" doc)
-      (tag:img src "/save.gif" width "32px") (+ "/save?doc=" doc)
-      (pos doc userinfo*.user!saved))))
-
-(defop save req
-  (with (user (current-user req)
-         doc (arg req "doc"))
-    (if (pos doc userinfo*.user!saved)
-      (nrem doc userinfo*.user!saved)
-      (add-to userinfo*.user!saved doc))))
-
-(defop saved req
-  (let user get-user.req
-    (page user
-      (nav user)
-      (tag (div style "width:100%")
-        (tag (div id "left-panel")
-          (bookmarks-link)
-          (channels-panel user nil)
-          (new-channel-form)
-          (bookmarks-panel user req))
-
-        (tag (div id "contents-wrap")
-          (tag (div id "content")
-            (bookmarked-doc-panel user next-save.user)))))))
-
-(def next-save(user)
-  (carif userinfo*.user!saved))
-
-(def bookmarked-doc-panel(user doc)
-  (if no.doc
-    (flash "You have no bookmarks. Stories you save to read later by clicking
-           on the star will show up on this page.")
-    (doc-panel-sub user "bookmarks" doc)))
-
-(def update-bookmarks(req)
-  (with (user current-user.req
-         doc (arg req "doc"))
-    (if (is doc (car userinfo*.user!saved))
-      (nslowrot userinfo*.user!saved))
-    (doc-panel-sub user "bookmarks" next-save.user)))
-
-(def bookmarks-panel(user req)
-  (tag (div class "vlist")
-    (tag b
-      (pr "bookmarks"))
-    (tag (div id "history")
-      (bookmarks-panel-body user req))))
-
-(def bookmarks-panel-body(user req)
-  (let items userinfo*.user!saved
-    (paginate req "history" "/bhist"
-              history-size* len.items
-      :do
-        (tag (div id "history-elems")
-          (each doc (cut items start-index end-index)
-            (render-doc-link user "bookmarks" doc))))))
 
 
 

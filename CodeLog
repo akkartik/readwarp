@@ -1694,3 +1694,9 @@ a slow rotation operation.
 Closed the loop. Doc page now renders but buttons don't work. We may have to
 duplicate further.
 =-=652 - Wed Mar 17 00:22:29 PDT 2010
+The most compelling model seems to be to do the reverse of pushHistory. So in
+the bookmarks channel stories come off the left panel to show up on the main
+panel.
+How to update both history and doc? I'm trying two inlines in parallel, but
+the ajax requests happen in parallel, so the history panel can go out of sync.
+=-=653 - Wed Mar 17 01:23:30 PDT 2010
