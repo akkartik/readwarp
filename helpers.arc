@@ -144,24 +144,6 @@
 (def jsesc(s)
   (subst "\\'" "'" (subst "\\\"" "\"" s)))
 
-(def linkify(s)
-  (gsub s
-    (r "([^'\"'] *)(http://[^ \n'\"\\)\\]>]*)") "\\1<a target='_blank' href='\\2'>\\2</a>"
-  ))
-
-(def highlight-word(doc word keyword)
-  (gsub doc
-    (r (+ "(" (regexp-escape word) ")")) (+ "<a href='docs?gram=" keyword "'>\\1</a>")))
-
-(def highlight-if-keyword(word keys)
-  (if (pos (canonicalize word) keys)
-    (highlight-word word word (canonicalize word))
-    word))
-
-(def highlight-keywords(doc)
-  (let keys (keywords doc)
-    (apply + (map [highlight-if-keyword _ keys] (partition-words doc)))))
-
 
 
 (let server-thread* (ifcall server-thread)

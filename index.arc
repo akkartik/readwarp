@@ -335,5 +335,3 @@
                 (set ans.url)))))))))
 (after-exec load-feeds(user)
   (erp "found " len-keys.result " preferred feeds"))
-
-(prn "Done loading index.arc")
