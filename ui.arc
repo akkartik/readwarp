@@ -2,8 +2,8 @@
   `(tag html
     (header)
     (tag body
-      (tag (div id 'body)
-      (tag (div id 'page)
+      (tag (div id 'rwbody)
+      (tag (div id 'rwpage)
         ,@body)))))
 
 (mac with-history(req user station . body)
@@ -16,15 +16,15 @@
 
 (mac with-history-sub(req user sname . body)
   `(do
-    (tag (div id 'left-panel)
+    (tag (div id 'rwleft-panel)
       (current-channel-link ,user ,sname)
       (channels-panel ,user ,sname)
       (new-channel-form)
       (bookmarks-link)
       (history-panel ,user ,sname ,req))
 
-    (tag (div id 'contents-wrap)
-       (tag (div id 'content)
+    (tag (div id 'rwcontents-wrap)
+       (tag (div id 'rwcontent)
          ,@body))))
 
 
@@ -90,11 +90,11 @@
   (or= sname "")
   (ensure-station user sname)
   (let items (read-list user sname)
-    (paginate req "history" (+ "/history?station=" urlencode.sname)
+    (paginate req "rwhistory" (+ "/history?station=" urlencode.sname)
               history-size* len.items
         reverse t nextcopy "&laquo;older" prevcopy "newer&raquo;"
       :do
-        (tag (div id 'history-elems)
+        (tag (div id 'rwhistory-elems)
           (each doc (cut items start-index end-index)
             (render-doc-link user sname doc))))))
 
@@ -121,11 +121,11 @@
 
 (def doc-panel-sub(user sname doc)
   (tag (div id (+ "doc_" doc))
-    (tag (div id 'post-wrapper)
+    (tag (div id 'rwpost-wrapper)
       (feedback-form sname doc)
-      (tag (div class 'history style "display:none")
+      (tag (div class 'rwhistory style "display:none")
         (render-doc-link user sname doc))
-      (tag (div class 'post)
+      (tag (div class 'rwpost)
         (render-doc doc)))
     (tag div
       (buttons user sname doc)))
@@ -145,16 +145,16 @@
 
 (def render-doc(doc)
   (tag (div id (+ "contents_" doc))
-    (tag (h2 class 'title)
+    (tag (h2 class 'rwtitle)
       (tag (a href doc-url.doc target "_blank")
         (pr (check doc-title.doc ~empty "no title"))))
-    (tag (div class 'subtitle)
-      (tag (div class 'date)
+    (tag (div class 'rwsubtitle)
+      (tag (div class 'rwdate)
         (aif pubdate.doc (pr render-date.it)))
       (iflet siteurl doc-site.doc
         (tag (a href siteurl target "_blank")
           (pr (check doc-feedtitle.doc ~empty "website")))))
-    (tag (div class 'readwarp-post-body)
+    (tag (div class 'rwpost-body)
       (pr:contents doc))
     (clear)))
 
@@ -162,17 +162,17 @@
   (tag (div id (+ "history_" doc))
     (unless (is "bookmarks" sname)
       (tag (div id (+ "outcome_" doc)
-                class (+ "outcome_icon outcome_" (read? user doc)))
+                class (+ "rwoutcome_icon rwoutcome_" (read? user doc)))
         (pr "&#9632;")))
-    (tag (p class 'item)
+    (tag (p class 'rwitem)
       (tag (a onclick (+ "showDoc('" jsesc.sname "', '" jsesc.doc "')") href "#")
         (pr (check doc-title.doc ~empty "no title"))))))
 
 (def buttons(user sname doc)
-  (tag (div class 'buttons)
-    (button user sname doc 2 "like" "&#8593;")
+  (tag (div class 'rwbuttons)
+    (button user sname doc 2 "rwlike" "&#8593;")
     (tag p)
-    (button user sname doc 1 "skip" "&#8595;")
+    (button user sname doc 1 "rwskip" "&#8595;")
     (tag p)
     (save-button user doc)
     (clear)))
@@ -183,7 +183,7 @@
                 (pushHistory sname doc (+ "'outcome=" n "'")))))
 
 (def votebutton(cls label onclick)
-  (tag (div class (+ "button " cls)
+  (tag (div class (+ "rwbutton " cls)
             onclick onclick)
     (tag (div style "position:relative; top:20px; font-size:22px;")
       (pr label))))
@@ -215,11 +215,11 @@
 
 (proc logo-small()
   (tag (div style "text-align:left")
-    (tag (a href "/" class 'logo-button)
+    (tag (a href "/" class 'rwlogo-button)
       (pr "Readwarp"))))
 
 (proc nav(user)
-  (tag (div class 'nav)
+  (tag (div class 'rwnav)
     (tag (div style "float:right")
       (if signedup?.user
         (do
@@ -241,7 +241,7 @@
   (when (or (> (len-keys userinfo*.user!stations) 2)
           (and (is 2 (len-keys userinfo*.user!stations))
                (is sname userinfo*.user!all)))
-    (tag (div class "stations vlist")
+    (tag (div class "rwstations rwvlist")
       (tag b
         (if (is sname userinfo*.user!all)
           (pr "your channels")
@@ -250,7 +250,7 @@
         (when (and (~is s userinfo*.user!all)
                  (~is s sname)
                  (~blank s))
-          (tag (div class 'station)
+          (tag (div class 'rwstation)
             (tag (div style "float:right; margin-right:0.5em")
               (tag (a href (+ "/delstation?station=" urlencode.s)
                       onclick "jsget(this); del(this.parentNode.parentNode); return false;")
@@ -258,7 +258,7 @@
             (link s (+ "/station?seed=" urlencode.s))))))))
 
 (def new-channel-form()
-  (tag (div class 'vlist)
+  (tag (div class 'rwvlist)
     (tag b (pr "new channel"))
     (tag (form action "/station")
          (tag:input name "seed" size "15")
@@ -267,10 +267,10 @@
          (tag:input type "submit" value "switch" style "margin-top:5px"))))
 
 (def history-panel(user sname req)
-  (tag (div class 'vlist)
+  (tag (div class 'rwvlist)
     (tag b
       (pr "recently viewed"))
-    (tag (div id 'history)
+    (tag (div id 'rwhistory)
       (history-panel-body user sname req))))
 
 
@@ -280,11 +280,11 @@
   "/")
 
 (def feedback-form(sname doc)
-  (tag (div id 'feedback-wrapper)
-    (tag (div class 'feedback_link)
-      (tag (a onclick "$('feedback').toggle(); return false" href "#")
+  (tag (div id 'rwfeedback-wrapper)
+    (tag (div class 'rwfeedback_link)
+      (tag (a onclick "$('rwfeedback').toggle(); return false" href "#")
         (pr "feedback")))
-    (tag (form id 'feedback action "/feedback" method "post" style
+    (tag (form id 'rwfeedback action "/feedback" method "post" style
                "display:none")
       (tag:textarea name "msg" cols "25" rows "6" style "text-align:left")(br)
       (tag (div style "font-size: 75%; margin-top:0.5em; text-align:left")
@@ -296,7 +296,7 @@
       (tag (div style "margin-top:0.5em; text-align:left")
         (do
           (tag:input type "submit" value "send" style "margin-right:1em")
-          (tag:input type "button" value "cancel" onclick "$('feedback').toggle()"))))
+          (tag:input type "button" value "cancel" onclick "$('rwfeedback').toggle()"))))
     (clear)))
 
 (def write-feedback(user email sname doc msg)

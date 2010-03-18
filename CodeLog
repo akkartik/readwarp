@@ -1739,3 +1739,7 @@ I never see any other feeds with this problem, so let's just hack it.
 =-=667 - Wed Mar 17 20:17:04 PDT 2010
 Done. Now it'll update json timestamps.
 =-=668 - Wed Mar 17 20:36:13 PDT 2010
+
+Prefix all css id and class names to eliminate the possibility of conflict
+from some document.
+=-=669 - Wed Mar 17 21:14:24 PDT 2010

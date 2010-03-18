@@ -24,7 +24,7 @@
 
 (def paginate-nav(id url n start-index end-index max-index (o params (table)))
   (let n (- end-index start-index)
-    (tag (div class "paginate")
+    (tag (div class "rwpaginate")
       (if (params 'reverse)
         (do
           (paginate-next id url n start-index end-index max-index params)
@@ -136,10 +136,10 @@
 
 
 (def clear()
-  (tag (div class "clear")))
+  (tag (div class "rwclear")))
 
 (def flash(msg)
-  (tag (div class "flash") prn.msg))
+  (tag (div class "rwflash") prn.msg))
 
 (def jsesc(s)
   (subst "\\'" "'" (subst "\\\"" "\"" s)))

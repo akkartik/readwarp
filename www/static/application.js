@@ -83,51 +83,51 @@ function gen_inline(id, url) {
 
 function pushHistory(station, doc, params) {
   var elem = $('outcome_'+doc);
-  elem.className = "outcome_icon "+params.replace(/.*outcome=([^&]*).*/, "outcome_$1");
+  elem.className = "rwoutcome_icon "+params.replace(/.*outcome=([^&]*).*/, "outcome_$1");
 
-  src = $$('#doc_'+doc+' .history');
-  new Insertion.Top('history-elems', src[0].innerHTML);
+  src = $$('#doc_'+doc+' .rwhistory');
+  new Insertion.Top('rwhistory-elems', src[0].innerHTML);
 
-  if($('history-elems').childNodes.length > history_size) {
-    for(len = $('history-elems').childNodes.length; len > history_size; --len) {
-      $('history-elems').removeChild($('history-elems').childNodes[len-1]);
+  if($('rwhistory-elems').childNodes.length > history_size) {
+    for(len = $('rwhistory-elems').childNodes.length; len > history_size; --len) {
+      $('rwhistory-elems').removeChild($('rwhistory-elems').childNodes[len-1]);
     }
 
-    if($('history').childNodes[0].childNodes.length <= 1) {
-      $('history').childNodes[0].innerHTML =
-      $('history').childNodes[2].innerHTML =
+    if($('rwhistory').childNodes[0].childNodes.length <= 1) {
+      $('rwhistory').childNodes[0].innerHTML =
+      $('rwhistory').childNodes[2].innerHTML =
         gen_jslink("&laquo;older",
-          gen_inline('history',
+          gen_inline('rwhistory',
                 '/history?from='+history_size+'&station='+escape(station))) +
         "&nbsp;newer&raquo;";
     }
   }
 
-  prepareAjax('content');
+  prepareAjax('rwcontent');
   new Ajax.Request("/docupdate",
       {
         method: 'post',
         parameters: 'doc='+escape(doc)+'&'+'station='+escape(station)+'&'+params,
         onSuccess: function(response) {
-          $('content').innerHTML = response.responseText;
-          checkContent('content');
-          runScripts($('content'));
+          $('rwcontent').innerHTML = response.responseText;
+          checkContent('rwcontent');
+          runScripts($('rwcontent'));
         }
       });
   return false;
 }
 
 function showDoc(station, doc) {
-  prepareAjax('content');
+  prepareAjax('rwcontent');
   new Ajax.Request("/doc",
       {
         method: 'get',
         parameters: 'doc='+escape(doc)+'&station='+escape(station),
         onSuccess: function(response) {
           del($('history_'+doc));
-          $('content').innerHTML = response.responseText;
-          checkContent('content');
-          runScripts($('content'));
+          $('rwcontent').innerHTML = response.responseText;
+          checkContent('rwcontent');
+          runScripts($('rwcontent'));
         }
       });
   return false;
@@ -138,7 +138,7 @@ var readwarp_waitMsg = "<img src=\"" + readwarp_waitGif + "\"/>";
 var readwarp_msgCount = 0;
 function prepareAjax(id) {
   scroll(0, 0);
-  $('body').scrollTop = 0;
+  $('rwbody').scrollTop = 0;
   $(id).innerHTML = readwarp_waitMsg;
   ++readwarp_msgCount;
   setTimeout("errorMessage('"+id+"', "+readwarp_msgCount+");", 5000);
@@ -162,15 +162,15 @@ function checkContent(id) {
 }
 
 function pullFromHistory(doc) {
-  $('history').innerHTML = readwarp_waitMsg;
-  inline('content', '/docupdate?station=bookmarks&doc='+doc);
+  $('rwhistory').innerHTML = readwarp_waitMsg;
+  inline('rwcontent', '/docupdate?station=bookmarks&doc='+doc);
   setTimeout(waitAndUpdateHistory, 100);
 }
 function waitAndUpdateHistory() {
-  if ($('content').innerHTML.indexOf(readwarp_waitGif) > 0) {
+  if ($('rwcontent').innerHTML.indexOf(readwarp_waitGif) > 0) {
     setTimeout(waitAndUpdateHistory, 100);
   }
   else {
-    inline('history', '/bhist');
+    inline('rwhistory', '/bhist');
   }
 }
