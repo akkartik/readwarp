@@ -1743,3 +1743,6 @@ Done. Now it'll update json timestamps.
 Prefix all css id and class names to eliminate the possibility of conflict
 from some document.
 =-=669 - Wed Mar 17 21:14:24 PDT 2010
+Stop recording randomness in empty channels.
+Cleanup: if -> when, unless-or -> if-neither.
+=-=671 - Thu Mar 18 09:04:31 PDT 2010

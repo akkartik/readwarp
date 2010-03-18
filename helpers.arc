@@ -152,12 +152,12 @@
     (= server-thread* (new-thread "server" (fn() (asv port))))
     (push server-thread* scan-registry*))
   (proc stop-server()
-    (if server-thread* (kill-thread server-thread*)))
+    (when server-thread* (kill-thread server-thread*)))
   (def server-thread()
     server-thread*))
 
 (def kill-handlers()
   (each (name thread) threads*
-    (if (and (pos name '("handler" "timeout"))
-             (~dead thread))
+    (when (and (pos name '("handler" "timeout"))
+               (~dead thread))
       (kill-thread thread))))

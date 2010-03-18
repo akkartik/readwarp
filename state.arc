@@ -81,12 +81,12 @@
 (let session-timestamp (seconds)
   (defrep save-state 300
     (unless disable-autosave*
-      (if prn-autosave* (prn "Saving"))
+      (when prn-autosave* (prn "Saving"))
       (each var autosaved-vars*
-        (if prn-autosave* (prn " " var))
+        (when prn-autosave* (prn " " var))
         (eval `(save-snapshot ,var ,session-timestamp))
         (sleep 10))
-      (if quit-after-autosave* (really-quit)))))
+      (when quit-after-autosave* (really-quit)))))
 
 (def quit()
   (prn "Killing scans")
@@ -172,13 +172,13 @@
   `(fwritefile (+ (new-snapshot-name ,var) "." ,i) ,var))
 
 (init chunked-persisted-vars* nil)
-(if (no:test-mode)
+(when (no:test-mode)
   (mac chunked-persisted(var)
     `(do
        (init ,(globalize stringify.var "-chunk") nil)
        (let ref (load-chunks ,var)
          (push (list ref ',var) chunked-persisted-vars*)))))
-(if (test-mode)
+(when (test-mode)
   (mac chunked-persisted(var)
     `(init ,var (table))))
 
@@ -199,7 +199,7 @@
           (let i 0
             (whilet ,var (read ,f)
               (++ i)
-              (if (is 0 (remainder i chunk-size*))
+              (when (is 0 (remainder i chunk-size*))
                 (prn i))
               ,@body)))))))
 
@@ -243,7 +243,7 @@
   (push attempt b.2))
 
 (def backoff-borderline(b)
-  (if b
+  (when b
     (>= (len b.2) (- b.1 1))))
 
 (mac backoff-check(b pred)
@@ -259,7 +259,7 @@
   `(zap [* 2 _] (,b 1)))
 
 (def backoff-clear(b)
-  (if b
+  (when b
     (wipe b.2)))
 
 ; backoff structures are often organized in tables
@@ -366,7 +366,7 @@
         ,body)
       (def ,set-function-name(,key-name)
         (let ,value-name (,create-function-name ,key-name)
-          ,(if forward
+          ,(when forward
              `(if ,value-name
                  (= (,value-table-name ,key-name) ,value-name)
                  (= (,value-table-nil-name ,key-name) t)))

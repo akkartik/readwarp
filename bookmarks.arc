@@ -53,7 +53,7 @@
     (if (no userinfo*.user!saved)
       (flash no-bookmarks-msg*)
       (do
-        (if (is doc (car userinfo*.user!saved))
+        (when (is doc (car userinfo*.user!saved))
           (nslowrot userinfo*.user!saved))
         (bookmarked-doc-panel-sub user next-save.user)))))
 

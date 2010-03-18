@@ -21,8 +21,10 @@
   `(unless (bound ',(car args))
      (= ,@args)))
 
+(= neither nor)
+
 (mac ifcall(var)
-  `(if (bound ',var)
+  `(when (bound ',var)
      (,var)))
 
 (mac pushif(elem ls)
@@ -218,7 +220,7 @@
       (zap ,f (,tab k))))
 
 (mac nslowrot(l)
-  `(if ,l (= ,l (+ (cdr ,l) (list (car ,l))))))
+  `(when ,l (= ,l (+ (cdr ,l) (list (car ,l))))))
 
 ; random elem in from that isn't already in to (and satisfies f)
 (def random-new(from to (o f))
@@ -226,9 +228,9 @@
     (let counter 0
       (until (or ans (> (++ counter) 10))
         (let curr randpos.from
-          (if (and (~pos curr to)
-                   (or no.f
-                       (f curr)))
+          (when (and (~pos curr to)
+                     (or no.f
+                         (f curr)))
             (= ans curr)))))))
 
 (mac randpick args
@@ -258,19 +260,19 @@
       (a (firstn n xs)))))
 
 (def deltas(l)
-   (if (cdr l)
+   (when (cdr l)
      (let (a b . rest) l
        (cons (- b a) (deltas (cons b rest))))))
 
 (def mean(l)
-  (if l
+  (when l
     (/ (apply + l) (len l))))
 
 (def sum-of-squares(l)
   (apply + (map [* _ _] l)))
 
 (def stddev(l)
-  (iflet mu (mean l)
+  (whenlet mu (mean l)
     (sqrt (- (/ (sum-of-squares l) (len l)) (* mu mu)))))
 
 (def log10(n)
@@ -304,7 +306,7 @@
     (car body)))
 
 (def randpos(l)
-  (if l
+  (when l
     (l (rand:len l))))
 
 (def sorted(t f)
@@ -351,7 +353,7 @@
     `(let ,ls ,l
        (prn:len ,ls)
        (on ,var ,l
-         (if (is 0 (remainder index ,iters))
+         (when (is 0 (remainder index ,iters))
            (prn " " index " " ,var))
          ,@body))))
 
@@ -459,7 +461,7 @@
     seq))
 
 (def posmatchall(pat seq (o start 0))
-  (iflet ind (posmatch pat seq start)
+  (whenlet ind (posmatch pat seq start)
     (cons ind (posmatchall pat seq (+ ind (len pat))))))
 
 (def slurp(f (o sep "\n"))
@@ -526,7 +528,7 @@
 (def max-by-tag(l)
   (let (max maxval) (list nil nil)
     (each (curr . v) (keep cdr l)
-      (if (or no.maxval (> v maxval))
+      (when (or no.maxval (> v maxval))
         (= max curr maxval v)))
     max))
 
@@ -542,9 +544,9 @@
 (def add-index-tags(l)
    (add-index-tags-sub l))
 (def add-index-tags-sub(l (o x 0))
-   (if (acons l)
-     (cons (cons (car l) x)
-           (add-index-tags-sub (cdr l) (++ x)))))
+   (when acons.l
+     (cons (cons car.l x)
+           (add-index-tags-sub cdr.l ++.x))))
 
 
 
@@ -579,8 +581,8 @@
   (after*
     (= test-failures* 0)
     (each file (dir ".")
-      (if (and (posmatch ".arc.t" file)
-               (~litmatch "." file))
+      (when (and (posmatch ".arc.t" file)
+                 (~litmatch "." file))
         (include file)))
   :do
     (prn:plural test-failures* "failure")))
@@ -625,8 +627,8 @@
        (pop maintenance-tasks*))))
 
 (def maintenance-task()
-  (if (acons maintenance-tasks*)
-    (eval (car maintenance-tasks*))))
+  (when acons.maintenance-tasks*
+    (eval car.maintenance-tasks*)))
 
 (= plurals* (table))
 (def plural-of(s)

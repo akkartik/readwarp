@@ -91,7 +91,7 @@
   (unless userinfo*.user!signup-showlist-thread
     (set userinfo*.user!signup-showlist-thread)
     (thread "signup-showlist"
-      (if pause (sleep 1))
+      (when pause (sleep 1))
       (w/stdout (stderr)
         (rebuild-signup-showlist user)))))
 
@@ -164,7 +164,7 @@
     (do
       (tag (div id (+ "doc_" doc))
         (tag (div style "width:100%; margin-right:1em")
-              (if (is 2 userinfo*.user!signup-stage)
+              (when (is 2 userinfo*.user!signup-stage)
                 (flash:+ "Ok! We'll now gauge your tastes using " quiz-length*
                          " stories.<br>
                          Vote for the stories or sites that you like."))

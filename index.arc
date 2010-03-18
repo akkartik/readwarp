@@ -49,7 +49,6 @@
   (= feed-keywords* (table) keyword-feeds* (table) feed-keyword-nils* (table))
   ; XXX: queries here may fail
   (everyp feed feed-list* 100
-    (if (is 0 (remainder index 50)) (sleep 1)) ; does this help with segfault?
     (feed-keywords feed)))
 
 (init feed-groups* (table))
@@ -198,12 +197,12 @@
                          2)))))))
 
 (def borderline-preferred-feed(user sname doc)
-  (iflet feed doc-feed.doc
+  (whenlet feed doc-feed.doc
     (and (pos feed (preferred-feeds user userinfo*.user!stations.sname))
          (backoff-borderline userinfo*.user!stations.sname!preferred.feed))))
 
 (def borderline-unpreferred-group(user sname doc)
-  (iflet feed doc-feed.doc
+  (whenlet feed doc-feed.doc
     (and (~pos feed (preferred-feeds user userinfo*.user!stations.sname))
          (find [backoff-borderline userinfo*.user!stations.sname!groups._]
                (groups:list feed)))))
@@ -220,14 +219,13 @@
 (def initial-preferred-groups-for(user sname)
   (ret ans (dedup:keep id (groups scan-feeds.sname))
     ;; HACK while my feeds are dominated by nerdy stuff.
-    (if (len> ans 2)
-      (nrem "Programming" ans))
-    (if (len> ans 2)
-      (nrem "Technology" ans))
+    (when (len> ans 2) (nrem "Programming" ans))
+    (when (len> ans 2) (nrem "Technology" ans))
 
     (erp "Groups: " ans)
     (unless ans
-      (unless (is sname userinfo*.user!all)
+      (when (neither blank.sname
+                     (is sname userinfo*.user!all))
         (write-feedback user "" sname "" "Random stories for group"))
       (= ans feedgroups*))))
 
@@ -293,20 +291,20 @@
     (findg randpos.candidates
            [neglected-unread user station _])))
 (after-exec choose-from-preferred(user station)
-  (if result (erp "preferred: " result)))
+  (when result (erp "preferred: " result)))
 
 (def choose-from-group(user station)
   (let candidates (feeds-from-groups user station)
     (findg randpos.candidates
            [neglected-unread user station _])))
 (after-exec choose-from-group(user station)
-  (if result (erp "group: " result)))
+  (when result (erp "group: " result)))
 
 (def choose-from-random(user station)
   (findg randpos.nonnerdy-feed-list*
          [neglected-unread user station _]))
 (after-exec choose-from-random(user station)
-  (if result (erp "random: " result)))
+  (when result (erp "random: " result)))
 
 (def recently-shown?(station feed)
   (or (pos feed (qlist station!last-showlist))
@@ -324,14 +322,14 @@
   (start-rebuilding-showlist user userinfo*.user!stations.sname))
 
 (def load-feeds(user)
-  (if (file-exists (+ "feeds/users/" user))
+  (when (file-exists (+ "feeds/users/" user))
     (w/infile f (+ "feeds/users/" user)
       (w/table ans
         (whilet line (readline f)
           (zap trim line)
-          (if (~empty line)
+          (when (~empty line)
             (let url (car:tokens line)
-              (if (headmatch "http" url)
+              (when (headmatch "http" url)
                 (set ans.url)))))))))
 (after-exec load-feeds(user)
   (erp "found " len-keys.result " preferred feeds"))

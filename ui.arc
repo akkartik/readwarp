@@ -40,7 +40,7 @@
           new-sname (no userinfo*.user!stations.sname))
     (ensure-station user sname)
     (with-history req user sname
-      (if new-sname
+      (when new-sname
         (flash "You're now browsing in a new channel.<p>
                Votes here will not affect recommendations on other channels."))
       (doc-panel user sname (next-doc user sname)))))
@@ -151,7 +151,7 @@
     (tag (div class 'rwsubtitle)
       (tag (div class 'rwdate)
         (aif pubdate.doc (pr render-date.it)))
-      (iflet siteurl doc-site.doc
+      (whenlet siteurl doc-site.doc
         (tag (a href siteurl target "_blank")
           (pr (check doc-feedtitle.doc ~empty "website")))))
     (tag (div class 'rwpost-body)

@@ -73,8 +73,8 @@
 
 
 (def tied(sl a b)
-  (unless (or (pos skiplist-max-node* (list a b))
-              (pos sl (list a b)))
+  (when (neither (pos skiplist-max-node* (list a b))
+                 (pos sl (list a b)))
     (is (metric sl a) (metric sl b))))
 
 (def valmatch(a b)
@@ -92,7 +92,7 @@
          nv   slnode.v)
     (letloop l skiplist-max-level* (>= l 0) (-- l)
       (= n (scan-handling-ties sl n nv l)))
-    (if (iso v n!next.0!val)
+    (when (iso v n!next.0!val)
       n!next.0)))
 
 (proc delete-sl(sl v)
@@ -100,7 +100,7 @@
          nv   slnode.v)
     (letloop l skiplist-max-level* (>= l 0) (-- l)
       (= n (scan-handling-ties sl n nv l))
-      (if (iso v n!next.l!val)
+      (when (iso v n!next.l!val)
         (= n!next.l n!next.l!next.l)))))
 
 (proc delete-worst-sl(sl)
