@@ -27,14 +27,12 @@ body{ font-size:62.5%; }
 
 a{ text-decoration:none; }
 a:hover{ text-decoration:underline; }
-
 td{ vertical-align:top; }
+
+b,strong,h1,h2,h3,h4,h5,h6{ font-weight:bold; }
+i,em{ font-style:italic; }
 blockquote{ margin:1em; }
 p{ margin-top:1em; }
-em{ font-style:italic; }
-strong{ font-weight:bold; }
-
-.rwclear{ clear:both; }
 
 
 
@@ -73,3 +71,5 @@ h2.rwtitle a{ font-family:serif; font-size:2em; color:#66e; }
 
 a .rwbookmark_icon{ font-size:10px; color:#aaaaaa; }
 a:hover .rwbookmark_icon{ font-size:10px; color:#aaaaaa; }
+
+.rwclear{ clear:both; }
