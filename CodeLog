@@ -1732,3 +1732,8 @@ Refactor: replace string id's and classes in html with symbols.
 Trying to get rid of the ugly blue underline on hover in a couple of places.
 No luck. Firebug not helping with this one.
 =-=665 - Wed Mar 17 13:52:35 PDT 2010
+
+PG's feed has bugged me for the last time with its timestamp-less out-of-order
+items.
+I never see any other feeds with this problem, so let's just hack it.
+=-=667 - Wed Mar 17 20:17:04 PDT 2010
