@@ -83,7 +83,7 @@ function gen_inline(id, url) {
 
 function pushHistory(station, doc, params) {
   var elem = $('outcome_'+doc);
-  elem.className = "rwoutcome_icon "+params.replace(/.*outcome=([^&]*).*/, "outcome_$1");
+  elem.className = "rwoutcome_icon "+params.replace(/.*outcome=([^&]*).*/, "rwoutcome_$1");
 
   src = $$('#doc_'+doc+' .rwhistory');
   new Insertion.Top('rwhistory-elems', src[0].innerHTML);
