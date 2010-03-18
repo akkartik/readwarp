@@ -1737,3 +1737,5 @@ PG's feed has bugged me for the last time with its timestamp-less out-of-order
 items.
 I never see any other feeds with this problem, so let's just hack it.
 =-=667 - Wed Mar 17 20:17:04 PDT 2010
+Done. Now it'll update json timestamps.
+=-=668 - Wed Mar 17 20:36:13 PDT 2010
