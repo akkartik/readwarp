@@ -26,7 +26,7 @@
             (pr "Readwarp learns your tastes &mdash; <i>fast</i>."))
           (tag (div style "margin-top: 0.2em")
             (pr "Vote on just 6 stories to get started."))
-          (tag:input type "button" value "Start reading" style "margin-top:1.5em"
+          (tag:input type "button" id "start-funnel" value "Start reading" style "margin-top:1.5em"
                      onclick "location.href='/begin'")
 
           (signup-funnel-analytics 1 req)
