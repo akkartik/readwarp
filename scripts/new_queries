@@ -4,6 +4,10 @@ export PATH=.:/app/local/0bin:/app/local/share/scripts:/app/local/share/scripts/
 
 cd ~/readwarp
 {
+  echo "Returning users"
+  wget http://readwarp.com/rusers -O -
+
+  echo; echo
   for i in feedback/*
   do
     echo "== $i"

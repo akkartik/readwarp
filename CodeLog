@@ -1750,3 +1750,6 @@ Cleanup: if -> when, unless-or -> if-neither.
 I still wasn't logging thread durations correctly. Gotta do the logging inside
 the thread.
 =-=676 - Fri Mar 19 10:28:26 PDT 2010
+
+Show who came to readwarp in the daily email.
+=-=677 - Fri Mar 19 10:57:51 PDT 2010

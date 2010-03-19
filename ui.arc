@@ -331,3 +331,12 @@
 (def current-user(req)
   (ret user get-user.req
     (unless userinfo*.user ensure-user.user)))
+
+(persisted returning-users* (table))
+(defop rusers req
+  (when (is req!ip "174.129.11.4")
+    (prn keys.returning-users*)
+    (= returning-users* (table))))
+(after-exec current-user(req)
+  (when userinfo*.result!signedup
+    (set returning-users*.result)))
