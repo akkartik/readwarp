@@ -16,7 +16,7 @@ body{ font-size:62.5%; }
   .rwskip{ background-image:url('square-button-30151e.png'); color:#899ab6; } .rwoutcome_1{ color:#30151e; }
   .rwoutcome_icon{ float:right; margin-right:0.2em; margin-left:0.5em; width:16px; height:24px; font-size:75%;}
 
-#rwcontent{ float:left; margin-left:90px; width:679px; padding-left:1em; padding-top:5px; margin-bottom:1em; }
+#rwcontent{ float:left; margin-left:90px; width:679px; padding-left:1em; padding-top:5px; margin-bottom:1em; border-bottom:1px solid #dddddd; }
 
   #rwpost-wrapper{ }
   #rwfeedback-wrapper{ float:right; margin-top:10px; }
