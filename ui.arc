@@ -330,7 +330,9 @@
 
 (def current-user(req)
   (ret user get-user.req
-    (unless userinfo*.user ensure-user.user)))
+    (unless userinfo*.user
+      (erp "new user: " user " " req!ip)
+      ensure-user.user)))
 
 (persisted returning-users* (table))
 (defop rusers req
