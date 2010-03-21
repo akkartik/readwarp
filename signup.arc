@@ -107,10 +107,8 @@
 
       (= userinfo*.user!signup-showlist (queue))
       (each group userinfo*.user!initial-groups
-        (withs (feeds group-feeds*.group
-                feed  (findg randpos.feeds
-                             [most-recent-unread user _]))
-          (enq (most-recent-unread user feed) userinfo*.user!signup-showlist))))))
+        (enq random-story-from.group
+             userinfo*.user!signup-showlist)))))
 
 (mac modal(show . body)
   `(do

@@ -245,6 +245,9 @@
   (rem [station!unpreferred _]
        (feeds:keys station!groups)))
 
+(def random-story-from(group)
+  (most-recent (randpos group-feeds*.group)))
+
 
 
 (init batch-size* 5)
@@ -310,6 +313,8 @@
   (or (pos feed (qlist station!last-showlist))
       (pos feed (qlist station!showlist))))
 
+(def most-recent(feed)
+  (most doc-timestamp feed-docs.feed))
 (def most-recent-unread(user feed)
   (most doc-timestamp (rem [read? user _] feed-docs.feed)))
 
