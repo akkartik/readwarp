@@ -4,7 +4,10 @@ export PATH=.:/app/local/0bin:/app/local/share/scripts:/app/local/share/scripts/
 
 cd ~/readwarp
 {
-  echo "Returning users"
+  echo "New sessions"
+  grep "||" $(ls www/logs/srv-* |sort |tail -n2 |head -n1) |grep "nil)" |column 2 |sort |uniq |wc -l
+
+  echo "Signed-up users"
   wget http://readwarp.com/rusers -O -
 
   echo; echo
