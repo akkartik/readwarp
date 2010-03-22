@@ -1,0 +1,37 @@
+#!/bin/zsh
+
+extract_doc() {
+  cat $1 |grep doc_ |perl -pwe 's/.*doc_//' |perl -pwe 's/".*//'
+}
+extract_station() {
+  cat $1 |perl -pwe 's/></>
+</g' |grep "input type=hidden" |grep "\"station\"" |perl -pwe 's/.*value="//' |perl -pwe 's/".*//'
+}
+
+SESSION=$RANDOM
+echo session: $SESSION
+mkdir $SESSION || exit
+cd $SESSION
+COOKIE_FILE=cookies.txt
+echo "/"
+wget --save-cookies $COOKIE_FILE http://readwarp.com -o /dev/null
+counter=0
+sleep 1
+
+echo "/begin"
+wget --load-cookies $COOKIE_FILE http://readwarp.com/begin -O $counter -o /dev/null
+
+next_stage() {
+  doc=`extract_doc $counter`
+  echo doc: $doc
+  station=`extract_station $counter`
+  echo station: $station
+  counter=$(($counter+1))
+  echo $counter
+  time wget --load-cookies $COOKIE_FILE "http://readwarp.com/docupdate?doc=$doc&outcome=1&station=$station" -O $counter -o /dev/null
+}
+
+for i in `seq 0 8`
+do
+  next_stage
+done
