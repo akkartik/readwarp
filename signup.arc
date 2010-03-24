@@ -84,7 +84,7 @@
       (render-doc-with-context2 user query next-doc2.user))))
 
 (def next-doc2(user)
-  (ret ans (random-story-from:randpos userinfo*.user!initial-groups)
+  (ret ans (random-story-from:car userinfo*.user!initial-groups)
     (enq ans userinfo*.user!signup-showlist)))
 
 (mac modal(show . body)

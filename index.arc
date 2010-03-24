@@ -246,7 +246,9 @@
        (feeds:keys station!groups)))
 
 (def random-story-from(group)
-  (most-recent (randpos group-feeds*.group)))
+  (most-recent
+    (findg (randpos group-feeds*.group)
+           most-recent)))
 
 
 

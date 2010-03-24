@@ -1774,3 +1774,5 @@ translating from scheme.
 Eliminating the prefetch thread improves performance. 10 new users at a time
 in <4s, 100 at a time in <25s.
 =-=686 - Wed Mar 24 16:25:53 PDT 2010
+Bugfixes. random-story-from can now never return nil.
+=-=687 - Wed Mar 24 16:50:02 PDT 2010
