@@ -605,12 +605,6 @@
     (prn msg)
     ($:print (continuation-mark-set->context (current-continuation-marks)))))
 
-($:require errortrace)
-(def dump-stack-trace2()
-  ($:with-handlers ((exn? (lambda (exn)
-                        (print-error-trace (current-output-port) exn))))
-    (error "catch me")))
-
 (mac rotlog(var msg)
   `(do
      (push ,msg ,var)
