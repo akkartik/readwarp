@@ -6,7 +6,6 @@
 (init funnel-signup-stage* (+ 2 quiz-length*))
 (def start-funnel(req)
   (let user current-user.req
-    (start-rebuilding-signup-showlist user 'sleep)
     (page user
       (tag (div class 'rwnav)
         (tag (div style "float:right")
@@ -41,8 +40,14 @@
 
 (defop begin req
   (let user current-user.req
-    (start-rebuilding-signup-showlist user nil)
+    (ensure-user user)
+    (or= userinfo*.user!all (stringify:unique-id))
     (or= userinfo*.user!signup-stage 2)
+    (or= userinfo*.user!signup-showlist (queue))
+    (or= userinfo*.user!initial-groups
+         (shuffle:map stringify signup-groups*))
+
+    (ensure-station2 user userinfo*.user!all)
     (tag html
       (header
         (csstag "modal.css"))
@@ -79,36 +84,8 @@
       (render-doc-with-context2 user query next-doc2.user))))
 
 (def next-doc2(user)
-  (erp "waiting")
-  (wait:< 0 (qlen userinfo*.user!signup-showlist))
-  (w/stdout (stderr) (pr user " => "))
-  (erp:pick2 user))
-
-(def pick2(user)
-  (car:qlist userinfo*.user!signup-showlist))
-
-(proc start-rebuilding-signup-showlist(user pause)
-  (unless userinfo*.user!signup-showlist-thread
-    (set userinfo*.user!signup-showlist-thread)
-    (thread "signup-showlist"
-      (when pause (sleep 1))
-      (w/stdout (stderr)
-        (rebuild-signup-showlist user)))))
-
-(proc rebuild-signup-showlist(user)
-  (unless userinfo*.user!all
-    (= userinfo*.user!all (stringify:unique-id)))
-
-  (let sname userinfo*.user!all
-    (unless userinfo*.user!stations.sname
-      (ensure-station2 user sname)
-      (= userinfo*.user!initial-groups
-         (shuffle:map stringify signup-groups*))
-
-      (= userinfo*.user!signup-showlist (queue))
-      (each group userinfo*.user!initial-groups
-        (enq random-story-from.group
-             userinfo*.user!signup-showlist)))))
+  (ret ans (random-story-from:randpos userinfo*.user!initial-groups)
+    (enq ans userinfo*.user!signup-showlist)))
 
 (mac modal(show . body)
   `(do
@@ -214,8 +191,9 @@
           history-size*)
 
     (when (is outcome "2")
-      (each g (erp:signup-group-mapping*:car userinfo*.user!initial-groups)
+      (each g (signup-group-mapping*:car userinfo*.user!initial-groups)
         (or= userinfo*.user!stations.sname!groups.g (backoff doc 2))))
+    (zap cdr userinfo*.user!initial-groups)
     (deq userinfo*.user!signup-showlist)))
 
 (init signup-group-mapping*
