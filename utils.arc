@@ -438,6 +438,16 @@
     (each o l
       (++ (ans o 0)))))
 
+; freq without any atomic operations
+(def freqcounts(l f (o n 0))
+  (if (no cdr.l)
+    (prn car.l " " n)
+    (if (is (f car.l) (f cadr.l))
+      (freqcounts cdr.l f (+ n 1))
+      (do
+        (prn car.l " " n)
+        (freqcounts cdr.l f 0)))))
+
 (def max-freq(l)
   (max-key freq.l))
 
@@ -572,10 +582,9 @@
   (erp maybe.msg performance-vector))
 
 (proc prn-stats2((o msg))
-  (erp maybe.msg (w/table ans
-    (each (name thread) threads*
-      (unless dead.thread
-        (++ (ans name 0)))))))
+  (freqcounts
+    (sort-by car (rem [dead cadr._] threads*))
+    car))
 
 (include "arctap.arc")
 (proc tests()
@@ -590,6 +599,17 @@
 
 (def test-mode()
   (~empty (getenv "TEST")))
+
+(def dump-stack-trace1(msg)
+  (w/stdout (stderr)
+    (prn msg)
+    ($:print (continuation-mark-set->context (current-continuation-marks)))))
+
+($:require errortrace)
+(def dump-stack-trace2()
+  ($:with-handlers ((exn? (lambda (exn)
+                        (print-error-trace (current-output-port) exn))))
+    (error "catch me")))
 
 (mac rotlog(var msg)
   `(do

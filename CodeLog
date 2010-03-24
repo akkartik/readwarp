@@ -1766,3 +1766,8 @@ Summaries when autosubmitting.
 
 Struggling to understand arc's performance bottlenecks.
 =-=683 - Mon Mar 22 16:08:12 PDT 2010
+A couple of utilities:
+1. prn-stats2 that doesn't need to wait on atomic sections.
+2. Dumping stack traces. dump-stack-trace2 still doesn't work after
+translating from scheme.
+=-=684 - Wed Mar 24 15:10:53 PDT 2010
