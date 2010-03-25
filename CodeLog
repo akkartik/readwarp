@@ -1776,3 +1776,5 @@ in <4s, 100 at a time in <25s.
 =-=686 - Wed Mar 24 16:25:53 PDT 2010
 Bugfixes. random-story-from can now never return nil.
 =-=687 - Wed Mar 24 16:50:02 PDT 2010
+Nope, perf on readwarp server has actually degraded. Undo 686-688.
+=-=689 - Wed Mar 24 18:06:03 PDT 2010
