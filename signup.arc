@@ -84,8 +84,11 @@
       (render-doc-with-context2 user query next-doc2.user))))
 
 (def next-doc2(user)
-  (ret ans (random-story-from:car userinfo*.user!initial-groups)
-    (enq ans userinfo*.user!signup-showlist)))
+  (let showlist userinfo*.user!signup-showlist
+    (when (is 0 qlen.showlist)
+      (enq (random-story-from:car userinfo*.user!initial-groups)
+           showlist))
+    (car:qlist showlist)))
 
 (mac modal(show . body)
   `(do
