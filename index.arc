@@ -117,18 +117,14 @@
     (= userinfo*.user!stations.sname (table))
     (let station userinfo*.user!stations.sname
       (= station!name sname station!preferred (table) station!unpreferred (table))
-      (= station!created (seconds))
-      (= station!showlist (queue))
-      (= station!last-showlist (queue))))
+      (= station!created (seconds))))
   (gen-groups user sname))
 
 (defreg migrate-stations() migrations*
   (prn "migrate-stations")
   (wipe userinfo*.nil)
   (each user (keys userinfo*)
-    (zap no:no userinfo*.user!signup-showlist-thread)))
-
-(init last-showlist-size* 5)
+        ))
 
 (proc mark-read(user sname doc outcome prune-feed prune-group)
   (with (station  userinfo*.user!stations.sname
@@ -139,26 +135,10 @@
       (push doc station!read-list))
     (= userinfo*.user!read.doc outcome)
 
-    (let top (car:qlist station!showlist)
-      (unless (is top doc-feed.doc)
-        (erp "error: wrong feed")))
-
-    (unless (show-same-station outcome user feed)
-      (or= station!last-showlist (queue))
-      (enq-limit (deq station!showlist)
-            station!last-showlist
-            last-showlist-size*))
-
     (or= station!preferred (table))
     (case outcome
       "1" (handle-downvote user station doc feed prune-feed prune-group)
       "2" (handle-upvote user station doc feed))))
-
-(def show-same-station(outcome user feed)
-  (when (is outcome "4") ; XXX Obsolete
-    (ret ans (most-recent-unread user feed)
-      (unless ans
-        (flash "No stories left in that site")))))
 
 (proc handle-upvote(user station doc feed)
   (= station!preferred.feed (backoff doc 2))
@@ -258,59 +238,31 @@
 (init preferred-probability* 0.6)
 (init group-probability* 1.0)
 
-(def showlist(user station)
-  (when (~is (qlen station!showlist) (len:qlist station!showlist))
-    (erp "ERRORERRORERROR CORRUPTION IN showlist")
-    (= station!showlist (queue)))
-  (when (< (qlen station!showlist) rebuild-threshold*)
-    (start-rebuilding-showlist user station))
-  (wait:< 0 (qlen station!showlist))
-  (qlist station!showlist))
-
-(proc start-rebuilding-showlist(user station)
-  (erp "new thread: showlist for " user " " station!name)
-  (thread "showlist"
-    (repeat batch-size*
-      (add-to-showlist user station))))
-
-(proc add-to-showlist(user station)
-  (whenlet doc (new-doc user station)
-    (enq doc station!showlist)))
-
-(def new-doc(user station)
+(def new-feed(user station)
   (randpick
         preferred-probability*      (choose-from-preferred user station)
         group-probability*          (choose-from-group user station)
         1.01                        (choose-from-random user station)))
 
-(def neglected-unread(user station feed)
-  ((andf [~recently-shown? station _]
-        [most-recent-unread user _])
-    feed))
-
 (def choose-from-preferred(user station)
   (let candidates (preferred-feeds user station)
     (findg randpos.candidates
-           [neglected-unread user station _])))
+           [most-recent-unread user _])))
 (after-exec choose-from-preferred(user station)
   (when result (erp "preferred: " result)))
 
 (def choose-from-group(user station)
   (let candidates (feeds-from-groups user station)
     (findg randpos.candidates
-           [neglected-unread user station _])))
+           [most-recent-unread user _])))
 (after-exec choose-from-group(user station)
   (when result (erp "group: " result)))
 
 (def choose-from-random(user station)
   (findg randpos.nonnerdy-feed-list*
-         [neglected-unread user station _]))
+         [most-recent-unread user _]))
 (after-exec choose-from-random(user station)
   (when result (erp "random: " result)))
-
-(def recently-shown?(station feed)
-  (or (pos feed (qlist station!last-showlist))
-      (pos feed (qlist station!showlist))))
 
 (def most-recent(feed)
   (most doc-timestamp feed-docs.feed))
@@ -319,12 +271,8 @@
 
 (def pick(user station)
   (most-recent-unread user
-    (findg (new-doc user station)
+    (findg (new-feed user station)
            [most-recent-unread user _])))
-
-(def deq-showlist(user sname)
-  (deq userinfo*.user!stations.sname!showlist)
-  (start-rebuilding-showlist user userinfo*.user!stations.sname))
 
 (def load-feeds(user)
   (when (file-exists (+ "feeds/users/" user))

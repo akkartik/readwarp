@@ -1782,3 +1782,8 @@ Eliminated prefetch thread for logged in users. Readwarp can now handle 6
 concurrent users. At 6 requests start taking over 10s. But for single users
 it's still under a second.
 =-=691 - Fri Mar 26 11:01:17 PDT 2010
+Cleanup. We no longer watch what stories you saw recently, so you may
+accidentally see the same feed pop up multiple times. In particular people
+with a few preferred feeds will have a hard time going outside them. I should
+bias the odds of preferred feeds down at some point.
+=-=692 - Fri Mar 26 11:40:43 PDT 2010

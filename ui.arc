@@ -132,7 +132,6 @@
   (update-title doc-title.doc))
 
 (def doc-panel-error(user sname)
-  (deq-showlist user sname)
   (prn "Oops, there was an error. I've told Kartik. Please try reloading the page. And please feel free to use the feedback form &rarr;")
   (write-feedback user "" sname "" "No result found"))
 
