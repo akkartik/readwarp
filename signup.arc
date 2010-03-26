@@ -141,7 +141,7 @@
   ; example rendering
   (tag (div style "width:960px")
     (with-history-sub req user query
-      (render-doc-with-context user query (next-doc user query))))
+      (doc-panel user query (next-doc user query))))
   (start-rebuilding-showlist user userinfo*.user!stations.query))
 
 (def progress-bar(user)
