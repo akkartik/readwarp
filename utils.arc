@@ -51,6 +51,10 @@
          (unless (,test ,ans)
            (= ,ans nil))))))
 
+; counterpart of only: keep retrying until expr returns something, then apply f to it
+(mac always(f expr)
+  `(,f (findg ,expr ,f)))
+
 (mac awhile(expr . body)
   `(whilet it ,expr
     ,@body))

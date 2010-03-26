@@ -1787,3 +1787,5 @@ accidentally see the same feed pop up multiple times. In particular people
 with a few preferred feeds will have a hard time going outside them. I should
 bias the odds of preferred feeds down at some point.
 =-=692 - Fri Mar 26 11:40:43 PDT 2010
+Refactor. I don't like the name: always. What's the alternative?
+=-=693 - Fri Mar 26 12:18:08 PDT 2010

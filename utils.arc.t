@@ -24,6 +24,14 @@
 (test-nil "findg returns nil on infinite loop"
   (findg 3 even))
 
+(withs (a (obj 1 'a 3 'b 5 'c 6 'd)
+        foo (fn(n)
+              (if even.n
+                a.n)))
+  (test-is "always is like only but reruns the generator until it succeeds"
+    'd
+    (always foo (randpos keys.a))))
+
 
 
 (test-is "blet is let when post-condition is satisfied"

@@ -270,9 +270,8 @@
   (most doc-timestamp (rem [read? user _] feed-docs.feed)))
 
 (def pick(user station)
-  (most-recent-unread user
-    (findg (new-feed user station)
-           [most-recent-unread user _])))
+  (always [most-recent-unread user _]
+          (new-feed user station)))
 
 (def load-feeds(user)
   (when (file-exists (+ "feeds/users/" user))
