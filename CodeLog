@@ -1778,3 +1778,7 @@ Bugfixes. random-story-from can now never return nil.
 =-=687 - Wed Mar 24 16:50:02 PDT 2010
 Nope, perf on readwarp server has actually degraded. Undo 686-688.
 =-=689 - Wed Mar 24 18:06:03 PDT 2010
+Eliminated prefetch thread for logged in users. Readwarp can now handle 6
+concurrent users. At 6 requests start taking over 10s. But for single users
+it's still under a second.
+=-=691 - Fri Mar 26 11:01:17 PDT 2010

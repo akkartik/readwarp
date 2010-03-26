@@ -119,9 +119,6 @@
       (= station!name sname station!preferred (table) station!unpreferred (table))
       (= station!created (seconds))
       (= station!showlist (queue))
-      (each feed (keep [most-recent-unread user _] scan-feeds.sname)
-        (enq feed station!showlist))
-      (start-rebuilding-showlist user station)
       (= station!last-showlist (queue))))
   (gen-groups user sname))
 
@@ -322,7 +319,8 @@
 
 (def pick(user station)
   (most-recent-unread user
-                      (car:showlist user station)))
+    (findg (new-doc user station)
+           [most-recent-unread user _])))
 
 (def deq-showlist(user sname)
   (deq userinfo*.user!stations.sname!showlist)
