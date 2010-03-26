@@ -439,14 +439,14 @@
       (++ (ans o 0)))))
 
 ; freq without any atomic operations
-(def freqcounts(l f (o n 0))
+(def freqcounts(l f (o n 1))
   (if (no cdr.l)
     (prn car.l " " n)
     (if (is (f car.l) (f cadr.l))
       (freqcounts cdr.l f (+ n 1))
       (do
         (prn car.l " " n)
-        (freqcounts cdr.l f 0)))))
+        (freqcounts cdr.l f)))))
 
 (def max-freq(l)
   (max-key freq.l))
