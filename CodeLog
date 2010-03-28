@@ -1830,3 +1830,5 @@ Almost done; station!preferred is now an rrand data structure as well.
 =-=708 - Sun Mar 28 08:16:35 PDT 2010
 Final step: make choose-from-random use an rrand as well.
 =-=709 - Sun Mar 28 08:26:24 PDT 2010
+Ah, one more long pole in the tent: most-recent-unread.
+=-=710 - Sun Mar 28 09:43:15 PDT 2010

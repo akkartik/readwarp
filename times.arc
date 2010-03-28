@@ -6,15 +6,19 @@
        (def ,(symize (stringify name) "_core") ,args
           ,@body)
        (def ,name ,args
-        (withs (time0 (msec)
-                ans ,(cons (symize (stringify name) "_core") args)
-                time1 (msec))
-          (or= (times* ,(stringify name)) (cons 0 0))
-          (= (times* ,(stringify name))
-             (cons
-               (+ (car (times* ,(stringify name))) (- time1 time0))
-               (+ 1 (cdr (times* ,(stringify name))))))
-          ans)))))
+        (let t0 (msec)
+          (ret ans ,(cons (symize (stringify name) "_core") args)
+            (update-time ,(stringify name) t0)))))))
+
+(proc update-time(name t0)
+  (or= times*.name (list 0 0 nil))
+  (with ((a b c)  times*.name
+         timing   (- (msec) t0))
+    (= times*.name
+       (list
+         (+ a timing)
+         (+ b 1)
+         (cons timing c)))))
 
 (def print_times()
   (prn "gc " (current-gc-milliseconds))

@@ -21,6 +21,7 @@
        (let ,count 0
          (until (or (,test ,ans) (> (++ ,count) 10))
             (= ,ans ,generator))
+         (push ,count (times* "findg"))
          (unless (,test ,ans)
            (= ,ans nil))))))
 
@@ -89,9 +90,14 @@
   (if (no l)
     (list origl tb rtb n)
     (do
-      (= (tb n) (car l))
-      (= (rtb car.l) (backoff n default-rrand-backoff*))
-      (make-rrand cdr.l tb rtb (or origl l) (+ n 1)))))
+      (unless origl
+        (erp "make-rrand: " len.l))
+      (let t0 (msec)
+        (= (tb n) (car l))
+        (= (rtb car.l) (backoff n default-rrand-backoff*))
+        (ret ans (make-rrand cdr.l tb rtb (or origl l) (+ n 1))
+          (unless origl
+            (update-time "make-rrand" t0)))))))
 
 (def rrand-maybe-list(rr) ; may contain deleted elems
   rr.0)

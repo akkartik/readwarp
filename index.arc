@@ -246,13 +246,13 @@
         group-probability*          (choose-from-group user station)
         1.01                        (choose-from-random user station)))
 
-(def choose-from-preferred(user station)
+(deftimed choose-from-preferred(user station)
   (findg (rrand station!preferred)
          [most-recent-unread user _]))
 (after-exec choose-from-preferred(user station)
   (when result (erp "preferred: " result)))
 
-(def choose-from-group(user station)
+(deftimed choose-from-group(user station)
   (findg (random-feed-from-groups station)
          [and (~station!unpreferred _)
               (most-recent-unread user _)]))
@@ -267,7 +267,7 @@
 
 (def most-recent(feed)
   (most doc-timestamp feed-docs.feed))
-(def most-recent-unread(user feed)
+(deftimed most-recent-unread(user feed)
   (most doc-timestamp (rem [read? user _] feed-docs.feed)))
 
 (def pick(user station)
