@@ -51,13 +51,12 @@
     (pos "a.com/feed" (scan-feeds "blog")))
 
   (test-iso "gen-groups works"
-    (obj "group2" '("group2" 2 nil)
-         "group3" '("group3" 2 nil))
-    ((userinfo*.nil!stations "a") 'groups))
+    '("group2" "group3")
+    (rrand-maybe-list ((userinfo*.nil!stations "a") 'groups)))
 
   (test-iso "feeds works"
     '("a.com/feed" "b.com/feed")
-    (feeds:keys ((userinfo*.nil!stations "a") 'groups)))
+    (feeds (userinfo*.nil!stations "a")))
 
 (or= userinfo*.nil!all (stringify:unique-id))
 (ensure-station nil userinfo*.nil!all)
@@ -66,7 +65,7 @@
 (let station (userinfo*.nil!stations "randomstring")
   (test-iso "unknown keywords start out selecting feeds randomly across all groups"
     (sort < feedgroups*)
-    (sort < (keys station!groups)))
+    (sort < (rrand-maybe-list station!groups)))
 
   ; XXX Assumption: up/down don't ever call doc-feed
   (handle-downvote nil station "b_com_a" "b.com/feed" t t)
@@ -76,7 +75,7 @@
   (handle-downvote nil station "b_com_a" "b.com/feed" t t)
   (test-iso "consecutive downvotes demote group"
     '("group1" "group3")
-    (sort < (keys station!groups)))
+    (sort < (keys:rrand-lookup-table station!groups)))
 
   (handle-upvote nil station "doc1" "feed1")
   (test-ok "upvoting a non-preferred feed puts it immediately in the preferred list"
@@ -108,16 +107,16 @@
   (handle-downvote nil station "doc9" "a.com/feed" t t)
   (test-iso "demoting the last group resets groups to all but that groups"
     '("group1")
-    (keys station!groups))
+    (keys:rrand-lookup-table station!groups))
 
   (handle-downvote nil station "doc10" "feed2" t t)
   (test-iso "downvoting a non-preferred feed doesn't demote its group"
-    '("group1" 2 ("feed2"))
-    (station!groups "group1"))
+    '(0 2 ("feed2"))
+    ((rrand-lookup-table station!groups) "group1"))
 
   (handle-upvote nil station "doc11" "feed2")
   (test-iso "upvoting a non-preferred feed resets its group's situation"
-    '("group1" 2 nil)
-    (station!groups "group1"))
+    '(0 2 nil)
+    ((rrand-lookup-table station!groups) "group1"))
 
 ))))))))))))))))

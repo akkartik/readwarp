@@ -66,7 +66,7 @@
     (let station userinfo*.user!stations.sname
       (= station!name sname station!preferred (table) station!unpreferred (table))
       (= station!created (seconds))
-      (= station!groups (table))
+      (= station!groups (make-rrand))
       (= station!showlist (queue))
       (= station!last-showlist (queue)))))
 
@@ -215,7 +215,7 @@
 
     (when (is outcome "2")
       (each g (erp:signup-group-mapping*:car userinfo*.user!initial-groups)
-        (or= userinfo*.user!stations.sname!groups.g (backoff doc 2))))
+        (add-rrand station!groups g)))
     (deq userinfo*.user!signup-showlist)))
 
 (init signup-group-mapping*

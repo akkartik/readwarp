@@ -1818,3 +1818,6 @@ Refactor feeds to take station directly.
 Bugfix: add-rrand wasn't creating backoff.
 Enhancement: rrand-backoff-clear.
 =-=702 - Sun Mar 28 05:27:19 PDT 2010
+First integration of rrand into the app; station!groups is now an rrand data
+structure.
+=-=706 - Sun Mar 28 06:41:35 PDT 2010
