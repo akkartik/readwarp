@@ -42,5 +42,41 @@
 
 
 (test-iso "make-rrand works"
-          (list (obj 0 'a 1 'b) 2)
-          (make-rrand '(a b) (table) 0))
+          (list '(a b) (obj 0 'a 1 'b) (obj a 0 b 1) 2)
+          (make-rrand '(a b)))
+
+(let rr (make-rrand '(a b))
+  (test-iso "rrand-maybe-list works"
+            '(a b)
+            rrand-maybe-list.rr)
+
+  (test-iso "rrand-len works"
+            2
+            rrand-len.rr)
+
+  (add-rrand rr 'c)
+  (test-iso "add-rrand works"
+            3
+            rrand-len.rr)
+
+  (test-ok "added element is present"
+           (check-rrand rr 'c))
+
+  (test-iso "present in random table"
+           'c
+           (rrand-random-table.rr (rrand-lookup-table.rr 'c)))
+
+  (test-iso "present in list"
+            0
+            (pos 'c rrand-maybe-list.rr))
+
+  (del-rrand rr 'a)
+  (test-nil "del-rrand works"
+            (check-rrand rr 'a))
+
+  (test-iso "del-rrand decrements length"
+            2
+            rrand-len.rr)
+
+  (test-nil "deleted elem removed from random table"
+            (pos 'a (vals rrand-random-table.rr))))

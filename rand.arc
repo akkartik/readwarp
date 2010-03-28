@@ -40,22 +40,40 @@
             (= ans curr)))))))
 
 ; Make random selection easier.
-(def make-rrand(l (o tb (table)) (o rtb (table)) (o n 0))
+(def make-rrand(l (o tb (table)) (o rtb (table)) (o origl nil) (o n 0))
   (if (no l)
-    (list tb rtb n)
+    (list origl tb rtb n)
     (do
       (= (tb n) (car l))
       (= (rtb car.l) n)
-      (make-rrand cdr.l tb rtb (+ n 1)))))
+      (make-rrand cdr.l tb rtb (or origl l) (+ n 1)))))
+
+(def rrand-maybe-list(rr) ; may contain deleted elems
+  rr.0)
+(def rrand-len(rr)
+  rr.3)
+(def rrand-lookup-table(rr)
+  rr.2)
+(def rrand-random-table(rr)
+  rr.1)
+
 (def rrand(rr)
-  (rr.0 (rand rr.2)))
+  (rr.1 (rand rr.3)))
+
 (def add-rrand(rr v)
-  (unless (rr.0 rr.2)
-    (= (rr.0 rr.2) v)
-    (= (rr.1 v) rr.2)
-    (++ rr.2)))
+  (unless (rr.2 v)
+    (push v rr.0)
+    (= (rr.1 rr.3) v)
+    (= (rr.2 v) rr.3)
+    (++ rr.3)))
+
+(def check-rrand(rr v)
+  (rr.2 v))
+
 (def del-rrand(rr v)
   (when rr
-    (let n (rr.1 v)
-      (wipe rr.1.v)
-      (wipe rr.0.n))))
+    (whenlet n (rr.2 v)
+      ; too expensive to update rr.0
+      (wipe rr.1.n)
+      (wipe rr.2.v)
+      (-- rr.3))))

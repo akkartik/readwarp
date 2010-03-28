@@ -1804,3 +1804,6 @@ the actual data structures to allow fast random selection.
 =-=695 - Sun Mar 28 02:04:36 PDT 2010
 Reorg.
 =-=696 - Sun Mar 28 02:11:50 PDT 2010
+New data structure completed - constant-time insert, delete, lookup,
+random-select.
+=-=697 - Sun Mar 28 03:11:20 PDT 2010
