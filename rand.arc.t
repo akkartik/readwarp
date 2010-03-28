@@ -18,6 +18,7 @@
         foo (fn(n)
               (if even.n
                 a.n)))
+  ; occasionally fails because findg failed for 10 iterations
   (test-is "always is like only but reruns the generator until it succeeds"
     'd
     (always foo (randpos keys.a))))
@@ -30,19 +31,18 @@
 (test-ok "random-new returns random new element"
          (pos (random-new '(1 2 3) '(2)) '(1 3)))
 
-(scoped-extend random-new
-  (after-exec random-new(from to f)
-    (prn result))
-
-  (test-is "random-new returns random new element satisfying pred"
-           1
-           (random-new '(1 2 3) '(3) odd))
-)
+(test-is "random-new returns random new element satisfying pred"
+         1
+         (random-new '(1 2 3) '(3) odd))
 
 
 
 (test-iso "make-rrand works"
-          (list '(a b) (obj 0 'a 1 'b) (obj a 0 b 1) 2)
+          (list '(a b)
+                (obj 0 'a 1 'b)
+                (obj a (backoff 0 default-rrand-backoff*)
+                     b (backoff 1 default-rrand-backoff*))
+                2)
           (make-rrand '(a b)))
 
 (let rr (make-rrand '(a b))
@@ -80,3 +80,25 @@
 
   (test-nil "deleted elem removed from random table"
             (pos 'a (vals rrand-random-table.rr))))
+
+(let rr (make-rrand '(a b))
+  (rrand-backoff rr 'a "abc" nil)
+  (test-iso "rrand-backoff adds to backoff"
+            '(0 2 ("abc"))
+            (rrand-lookup-table.rr 'a))
+
+  (rrand-backoff rr 'a "def" t)
+  (test-nil "rrand-backoff a second time deletes"
+            (check-rrand rr 'a))
+
+  (test-iso "rrand-backoff updates length on delete"
+            1
+            rrand-len.rr)
+
+  (test-iso "rrand-backoff updates lookup-table on delete"
+            (obj b (backoff 1 default-rrand-backoff*))
+            rrand-lookup-table.rr)
+
+  (test-iso "rrand-backoff updates random-table on delete"
+            (obj 1 'b)
+            rrand-random-table.rr))

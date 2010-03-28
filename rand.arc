@@ -24,7 +24,8 @@
          (unless (,test ,ans)
            (= ,ans nil))))))
 
-; counterpart of only: keep retrying until expr returns something, then apply f to it
+; counterpart to only: keep retrying until expr returns something that passes
+; f, then apply f to it
 (mac always(f expr)
   `(,f (findg ,expr ,f)))
 
@@ -39,13 +40,50 @@
                          (f curr)))
             (= ans curr)))))))
 
+
+
+; State machine for exponential backoff.
+; Each elem contains a 3-tuple: an item, a backoff limit, and a list of attempts.
+(def backoff(item n)
+  (list item n nil))
+
+(def backoff-add(b attempt)
+  (push attempt b.2))
+
+(def backoff-borderline(b)
+  (when b
+    (>= (len b.2) (- b.1 1))))
+
+(mac backoff-check(b pred)
+  `(when (>= (len (,b 2)) (,b 1))
+    (if ,pred
+      (wipe ,b)
+      (backoff-again ,b))))
+
+(mac backoff-again(b)
+  `(zap [* 2 _] (,b 1)))
+
+(def backoff-clear(b)
+  (when b
+    (wipe b.2)))
+
+; backoff structures are often organized in tables
+(def backoffify(l n)
+  (w/table ans
+    (each elem l
+      (= ans.elem (backoff elem n)))))
+
+
+
+(= default-rrand-backoff* 2)
+
 ; Make random selection easier.
 (def make-rrand(l (o tb (table)) (o rtb (table)) (o origl nil) (o n 0))
   (if (no l)
     (list origl tb rtb n)
     (do
       (= (tb n) (car l))
-      (= (rtb car.l) n)
+      (= (rtb car.l) (backoff n default-rrand-backoff*))
       (make-rrand cdr.l tb rtb (or origl l) (+ n 1)))))
 
 (def rrand-maybe-list(rr) ; may contain deleted elems
@@ -71,9 +109,17 @@
   (rr.2 v))
 
 (def del-rrand(rr v)
-  (when rr
-    (whenlet n (rr.2 v)
-      ; too expensive to update rr.0
-      (wipe rr.1.n)
-      (wipe rr.2.v)
-      (-- rr.3))))
+  (whenlet nb (rr.2 v)
+    ; too expensive to update rr.0
+    (wipe (rr.1 nb.0))
+    (wipe rr.2.v)
+    (-- rr.3)))
+
+(def rrand-backoff(rr v x delete)
+  (when (and rr rr.2.v)
+    (let n rr.2.v.0
+      (backoff-add rr.2.v x)
+      (backoff-check rr.2.v delete)
+      (unless rr.2.v
+        (wipe rr.1.n)
+        (-- rr.3)))))
