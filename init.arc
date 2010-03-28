@@ -2,6 +2,7 @@
 (def init-code()
   (include "utils.arc")
   (include "skiplist.arc")
+  (include "rand.arc")
 
   (include "state.arc")
   (include "index.arc")

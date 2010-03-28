@@ -1802,3 +1802,5 @@ faster. Now latency is halved, but I'm no longer sure it's correct, that I'm
 invalidating the cache everywhere I should be. Don't make it a cache, change
 the actual data structures to allow fast random selection.
 =-=695 - Sun Mar 28 02:04:36 PDT 2010
+Reorg.
+=-=696 - Sun Mar 28 02:11:50 PDT 2010
