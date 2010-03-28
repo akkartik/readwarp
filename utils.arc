@@ -551,6 +551,9 @@
     (sort-by car (rem [dead cadr._] threads*))
     car))
 
+(def threads(name)
+  (map cadr (keep [is car._ name] threads*)))
+
 (include "arctap.arc")
 (proc tests()
   (after*

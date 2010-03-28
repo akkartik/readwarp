@@ -73,7 +73,6 @@
   (= nonnerdy-feed-list* (keep [set-subtract (feed-groups* _)
                                              '("Programming" "Technology")]
                             feed-list*))
-  (= nonnerdy-feedcache* (make-rrand nonnerdy-feed-list*))
   (prn "updating feedinfo*")
   (update-feedinfo)
   (prn "updating feed index")
@@ -123,10 +122,7 @@
   (wipe userinfo*.nil)
   (each (u ui) userinfo*
     (each (s st) ui
-      (wipe st!groupcache)
-      (wipe st!preferredcache)
-      (wipe st!feedcache))
-        ))
+        )))
 
 (proc mark-read(user sname doc outcome prune-feed prune-group)
   (with (station  userinfo*.user!stations.sname
@@ -155,14 +151,12 @@
     (do
       (erp "currently preferred")
       (or= station!preferred.feed (backoff doc 2))
-      (add-rrand station!preferredcache feed)
       (backoff-add station!preferred.feed doc)
       (backoff-check station!preferred.feed (or prune-feed prune-group)))
     (do
       ; sync preconditions to get here with borderline-unpreferred-group
       (erp "currently not in preferred; unpreferring " feed)
       (set station!unpreferred.feed)
-      (del-rrand station!groupcache feed)
       (let curr-groups  (groups list.feed)
         (each g curr-groups
           (when station!groups.g
@@ -170,7 +164,6 @@
             (backoff-add station!groups.g feed)
             (erp "now: " station!groups.g)
             (backoff-check station!groups.g prune-group)
-            (if prune-group (wipe station!feedcache))
             (erp "groups remaining: " (len-keys station!groups))))
         (when (empty station!groups)
           (= station!groups
@@ -215,22 +208,17 @@
   (or= userinfo*.user!stations.sname!groups
        (backoffify (initial-preferred-groups-for user sname) 2)))
 
-(def feeds(station)
-  (or= station!feedcache
-      (dedup:flat:map group-feeds* (keys station!groups))))
+(def feeds(groups)
+  (dedup:flat:map group-feeds* groups))
 
 (def preferred-feeds(user station)
-  (or= station!preferredcache
-       (make-rrand
-          (+ (keys station!preferred)
-             (keep [userinfo*.user!preferred-feeds _]
-                   feeds.station)))))
+  (+ (keys station!preferred)
+     (keep [userinfo*.user!preferred-feeds _]
+           (feeds:keys station!groups))))
 
 (def feeds-from-groups(user station)
-  (or= station!groupcache
-       (make-rrand
-          (rem [station!unpreferred _]
-               feeds.station))))
+  (rem [station!unpreferred _]
+       (feeds:keys station!groups)))
 
 (def random-story-from(group)
   (most-recent
@@ -256,20 +244,20 @@
 
 (def choose-from-preferred(user station)
   (let candidates (preferred-feeds user station)
-    (findg rrand.candidates
+    (findg randpos.candidates
            [most-recent-unread user _])))
 (after-exec choose-from-preferred(user station)
   (when result (erp "preferred: " result)))
 
 (def choose-from-group(user station)
   (let candidates (feeds-from-groups user station)
-    (findg rrand.candidates
+    (findg randpos.candidates
            [most-recent-unread user _])))
 (after-exec choose-from-group(user station)
   (when result (erp "group: " result)))
 
 (def choose-from-random(user station)
-  (findg rrand.nonnerdy-feedcache*
+  (findg randpos.nonnerdy-feed-list*
          [most-recent-unread user _]))
 (after-exec choose-from-random(user station)
   (when result (erp "random: " result)))
@@ -277,8 +265,7 @@
 (def most-recent(feed)
   (most doc-timestamp feed-docs.feed))
 (def most-recent-unread(user feed)
-  (if feed
-    (most doc-timestamp (rem [read? user _] feed-docs.feed))))
+  (most doc-timestamp (rem [read? user _] feed-docs.feed)))
 
 (def pick(user station)
   (always [most-recent-unread user _]

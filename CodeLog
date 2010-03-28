@@ -1809,3 +1809,7 @@ random-select.
 =-=697 - Sun Mar 28 03:11:20 PDT 2010
 Integrate backoff into it. Now we should never del-rrand directly.
 =-=699 - Sun Mar 28 04:29:33 PDT 2010
+Clean slate for index.arc from my previous hacks.
+Ensure tests all pass. Fixed signup controller test that was polluting
+userinfo*.
+=-=700 - Sun Mar 28 04:47:25 PDT 2010
