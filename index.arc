@@ -208,17 +208,15 @@
   (or= userinfo*.user!stations.sname!groups
        (backoffify (initial-preferred-groups-for user sname) 2)))
 
-(def feeds(groups)
-  (dedup:flat:map group-feeds* groups))
+(def feeds(station)
+  (dedup:flat:map group-feeds* (keys station!groups)))
 
 (def preferred-feeds(user station)
   (+ (keys station!preferred)
-     (keep [userinfo*.user!preferred-feeds _]
-           (feeds:keys station!groups))))
+     (keep [userinfo*.user!preferred-feeds _] feeds.station)))
 
 (def feeds-from-groups(user station)
-  (rem [station!unpreferred _]
-       (feeds:keys station!groups)))
+  (rem [station!unpreferred _] feeds.station))
 
 (def random-story-from(group)
   (most-recent

@@ -1813,3 +1813,5 @@ Clean slate for index.arc from my previous hacks.
 Ensure tests all pass. Fixed signup controller test that was polluting
 userinfo*.
 =-=700 - Sun Mar 28 04:47:25 PDT 2010
+Refactor feeds to take station directly.
+=-=701 - Sun Mar 28 04:51:05 PDT 2010
