@@ -1826,3 +1826,5 @@ simply initialize them correctly from the user's global preferred-feeds and
 update as necessary.
 Upvotes add to a user's preferred feeds, but downvotes never remove from it.
 =-=707 - Sun Mar 28 07:00:17 PDT 2010
+Almost done; station!preferred is now an rrand data structure as well.
+=-=708 - Sun Mar 28 08:16:35 PDT 2010

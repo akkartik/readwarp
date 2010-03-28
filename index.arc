@@ -114,7 +114,6 @@
     (erp "new station: " sname)
     (inittab userinfo*.user!stations.sname
              'name sname
-             'preferred (table)
              'unpreferred (table)
              'created (seconds)))
   (init-groups user sname)
@@ -124,8 +123,9 @@
   (prn "migrate-stations")
   (wipe userinfo*.nil)
   (each (u ui) userinfo*
-    (each (s st) ui
+    (each (s st) ui!stations
       (zap [make-rrand keys._] st!groups)
+      (zap [make-rrand keys._] st!preferred)
         )))
 
 (proc mark-read(user sname doc outcome prune-feed prune-group)
@@ -137,48 +137,47 @@
       (push doc station!read-list))
     (= userinfo*.user!read.doc outcome)
 
-    (or= station!preferred (table))
+    (or= station!preferred (make-rrand))
     (case outcome
       "1" (handle-downvote user station doc feed prune-feed prune-group)
       "2" (handle-upvote user station doc feed))))
 
 (proc handle-upvote(user station doc feed)
-  (= station!preferred.feed (backoff doc 2))
-  (whenlet alls userinfo*.user!all
-    (or= userinfo*.user!stations.alls!preferred (table))
-    (= userinfo*.user!stations.alls!preferred.feed (backoff doc 2)))
-  (set userinfo*.user!preferred-feeds.feed)
+  (add-rrand station!preferred feed)
   (each g (groups list.feed)
-    (backoff-clear-rrand station!groups g)))
+    (backoff-clear-rrand station!groups g))
+
+  (set userinfo*.user!preferred-feeds.feed)
+  (whenlet global-sname userinfo*.user!all
+    (unless (is station!name global-sname)
+      (init-preferred user userinfo*.user!all)
+        (add-rrand userinfo*.user!stations.global-sname!preferred feed))))
 
 (proc handle-downvote(user station doc feed prune-feed prune-group)
-  (if (pos feed (keys station!preferred))
-    (do
-      (erp "currently preferred")
-      (or= station!preferred.feed (backoff doc 2))
-      (backoff-add station!preferred.feed doc)
-      (backoff-check station!preferred.feed (or prune-feed prune-group)))
-    (do
-      ; sync preconditions to get here with borderline-unpreferred-group
-      (erp "currently not in preferred; unpreferring " feed)
-      (set station!unpreferred.feed)
-      (let curr-groups (groups list.feed)
-        (each g curr-groups
-          (backoff-rrand station!groups g feed prune-group))
-        (when (empty-rrand station!groups)
-          (= station!groups
-             (make-rrand (rem [pos _ curr-groups] feedgroups*))))))))
+  (if (check-rrand station!preferred feed)
+    (backoff-rrand station!preferred feed doc prune-feed)
+    ; sync preconditions to get here with borderline-unpreferred-group
+    (unprefer-feed station feed prune-group)))
+
+(proc unprefer-feed(station feed prune-group)
+  (set station!unpreferred.feed)
+  (let curr-groups (groups list.feed)
+    (each g curr-groups
+      (backoff-rrand station!groups g feed prune-group))
+    (when (empty-rrand station!groups)
+      (= station!groups
+         (make-rrand (rem [pos _ curr-groups] feedgroups*))))))
 
 (def borderline-preferred-feed(user sname doc)
   (whenlet feed doc-feed.doc
     (let station userinfo*.user!stations.sname
-      (and (pos feed (keys station!preferred))
+      (and (check-rrand station!preferred feed)
            (backoff-borderline station!preferred.feed)))))
 
 (def borderline-unpreferred-group(user sname doc)
   (whenlet feed doc-feed.doc
     (let station userinfo*.user!stations.sname
-      (and (~pos feed (keys station!preferred))
+      (and (~check-rrand station!preferred feed)
            (find [backoff-borderline-rrand station!groups _]
                  (groups list.feed))))))
 
@@ -209,8 +208,12 @@
        (make-rrand (initial-preferred-groups-for user sname))))
 
 (proc init-preferred(user sname)
-  (or= userinfo*.user!stations.sname!preferred
-       (memtable (keep [userinfo*.user!preferred-feeds _] feeds.station))))
+  (let station userinfo*.user!stations.sname
+    (or= station!preferred
+         (make-rrand
+           (if (is userinfo*.user!all sname)
+             (keys userinfo*.user!preferred-feeds)
+             (keep [userinfo*.user!preferred-feeds _] feeds.station))))))
 
 (def feeds(station)
   (dedup:flat:map group-feeds* (rrand-maybe-list station!groups)))
@@ -242,9 +245,8 @@
         1.01                        (choose-from-random user station)))
 
 (def choose-from-preferred(user station)
-  (let candidates (keys station!preferred)
-    (findg randpos.candidates
-           [most-recent-unread user _])))
+  (findg (rrand station!preferred)
+         [most-recent-unread user _]))
 (after-exec choose-from-preferred(user station)
   (when result (erp "preferred: " result)))
 

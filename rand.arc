@@ -101,6 +101,8 @@
   rr.2)
 (def rrand-random-table(rr)
   rr.1)
+(def rrand-obj(rr v)
+  rrand-lookup-table.rr.v)
 
 (def rrand(rr)
   (when (and rr (> rr.3 0))
@@ -111,7 +113,8 @@
     (push v rr.0)
     (= (rr.1 rr.3) v)
     (= (rr.2 v) (backoff rr.3 default-rrand-backoff*))
-    (++ rr.3)))
+    (++ rr.3))
+  (backoff-clear rr.2.v))
 
 (def check-rrand(rr v)
   (only.backoff-item rr.2.v))

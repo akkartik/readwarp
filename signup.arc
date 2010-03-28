@@ -62,13 +62,12 @@
 (proc ensure-station2(user sname)
   (ensure-user user)
   (when (no userinfo*.user!stations.sname)
-    (= userinfo*.user!stations.sname (table))
-    (let station userinfo*.user!stations.sname
-      (= station!name sname station!preferred (table) station!unpreferred (table))
-      (= station!created (seconds))
-      (= station!groups (make-rrand))
-      (= station!showlist (queue))
-      (= station!last-showlist (queue)))))
+    (inittab userinfo*.user!stations.sname
+             'name sname
+             'preferred (make-rrand)
+             'unpreferred (table)
+             'created (seconds)
+             'groups (make-rrand))))
 
 (proc next-stage(user query req)
   (let stage userinfo*.user!signup-stage
@@ -208,10 +207,6 @@
     (unless userinfo*.user!read.doc
       (push doc station!read-list))
     (= userinfo*.user!read.doc outcome)
-
-    (enq-limit feed
-          station!last-showlist
-          history-size*)
 
     (when (is outcome "2")
       (each g (erp:signup-group-mapping*:car userinfo*.user!initial-groups)

@@ -79,29 +79,29 @@
 
   (handle-upvote nil station "doc1" "feed1")
   (test-ok "upvoting a non-preferred feed puts it immediately in the preferred list"
-    (station!preferred "feed1"))
+    (rrand-obj station!preferred "feed1"))
 
   (test-ok "upvoting a feed in a channel also puts it in the global channel's preferred list"
-    (((userinfo*.nil!stations userinfo*.nil!all) 'preferred) "feed1"))
+    (rrand-obj ((userinfo*.nil!stations userinfo*.nil!all) 'preferred) "feed1"))
 
   (handle-downvote nil station "doc2" "feed1" t t)
   (test-iso "downvoting a preferred feed doesn't demote it the first time"
-    '("doc1" 2 ("doc2"))
-    (station!preferred "feed1"))
+    '(0 2 ("doc2"))
+    (rrand-obj station!preferred "feed1"))
 
   (handle-upvote nil station "doc3" "feed1")
   (test-iso "upvoting a preferred feed resets its situation"
-    '("doc3" 2 nil)
-    (station!preferred "feed1"))
+    '(0 2 nil)
+    (rrand-obj station!preferred "feed1"))
 
   (handle-downvote nil station "doc4" "feed1" t t)
   (test-iso "non-consecutive downvotes don't demote preferred feeds"
-    '("doc3" 2 ("doc4"))
-    (station!preferred "feed1"))
+    '(0 2 ("doc4"))
+    (rrand-obj station!preferred "feed1"))
 
   (handle-downvote nil station "doc5" "feed1" t t)
   (test-nil "consecutive downvotes demotes preferred feeds"
-    (station!preferred "feed1"))
+    (rrand-obj station!preferred "feed1"))
 
   (handle-downvote nil station "doc8" "a.com/feed" t t)
   (handle-downvote nil station "doc9" "a.com/feed" t t)
