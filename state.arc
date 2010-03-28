@@ -354,8 +354,8 @@
 
 (def pluralize-controls(s)
   (let as (stringify s)
-    (list (not (iso (as 0) #\1))
-          (not (iso (as 2) #\1)))))
+    (list (~iso as.0 #\1)
+          (~iso as.2 #\1))))
 
 (def update(table key transform value)
   (if (acons key)
