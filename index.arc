@@ -119,9 +119,11 @@
   (init-groups user sname)
   (init-preferred user sname))
 
-(defreg migrate-stations() migrations*
+(defreg migrate() migrations*
   (prn "migrate-stations")
   (wipe userinfo*.nil)
+  (everyp f (keys feed-docs*) 10
+    (zap [sort-by doc-timestamp _] feed-docs*.f))
   (each (u ui) userinfo*
     (each (s st) ui!stations
       )))
@@ -261,9 +263,9 @@
   (when result (erp "random: " result)))
 
 (def most-recent(feed)
-  (most doc-timestamp feed-docs.feed))
+  (car feed-docs.feed))
 (def most-recent-unread(user feed)
-  (most doc-timestamp (rem [read? user _] feed-docs.feed)))
+  (car (rem [read? user _] feed-docs.feed)))
 
 (def pick(user station)
   (always [most-recent-unread user _]

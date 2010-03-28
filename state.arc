@@ -284,7 +284,7 @@
 (def run-migrations()
   (prn "running migrations")
   (each f migrations*
-    (prn "  " f)
+    (prn " -- migration: " f)
     (f)))
 
 
