@@ -50,7 +50,7 @@
   (test-ok "scan-feeds finds feeds containing a keyword"
     (pos "a.com/feed" (scan-feeds "blog")))
 
-  (test-iso "gen-groups works"
+  (test-iso "init-groups works"
     '("group2" "group3")
     (rrand-maybe-list ((userinfo*.nil!stations "a") 'groups)))
 

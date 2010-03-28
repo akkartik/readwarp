@@ -1821,3 +1821,8 @@ Enhancement: rrand-backoff-clear.
 First integration of rrand into the app; station!groups is now an rrand data
 structure.
 =-=706 - Sun Mar 28 06:41:35 PDT 2010
+Intermezzo: Rather than compute preferred-feeds for a station every request,
+simply initialize them correctly from the user's global preferred-feeds and
+update as necessary.
+Upvotes add to a user's preferred feeds, but downvotes never remove from it.
+=-=707 - Sun Mar 28 07:00:17 PDT 2010
