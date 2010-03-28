@@ -249,6 +249,27 @@
                    (= ,ans ,expr))))
          (acc ans)))))
 
+; Make random selection easier.
+(def make-rrand(l (o tb (table)) (o rtb (table)) (o n 0))
+  (if (no l)
+    (list tb rtb n)
+    (do
+      (= (tb n) (car l))
+      (= (rtb car.l) n)
+      (make-rrand cdr.l tb rtb (+ n 1)))))
+(def rrand(rr)
+  (rr.0 (rand rr.2)))
+(def add-rrand(rr v)
+  (unless (rr.0 rr.2)
+    (= (rr.0 rr.2) v)
+    (= (rr.1 v) rr.2)
+    (++ rr.2)))
+(def del-rrand(rr v)
+  (when rr
+    (let n (rr.1 v)
+      (wipe rr.1.v)
+      (wipe rr.0.n))))
+
 (def shuffle(ls)
   (let n len.ls
     (ret ans copy.ls
