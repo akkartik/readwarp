@@ -50,14 +50,14 @@
   (test-ok "scan-feeds finds feeds containing a keyword"
     (pos "a.com/feed" (scan-feeds "blog")))
 
-  (test-iso "gen-groups works"
+  (test-iso "init-groups works"
     (obj "group2" '("group2" 2 nil)
          "group3" '("group3" 2 nil))
     ((userinfo*.nil!stations "a") 'groups))
 
   (test-iso "feeds works"
     '("a.com/feed" "b.com/feed")
-    (feeds:keys ((userinfo*.nil!stations "a") 'groups)))
+    (feeds (userinfo*.nil!stations "a")))
 
 (or= userinfo*.nil!all (stringify:unique-id))
 (ensure-station nil userinfo*.nil!all)

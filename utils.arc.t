@@ -106,25 +106,25 @@
 
 (let a '(1 2 3 4)
   (nslowrot a)
-  (test-iso "slowrot works"
+  (test-iso "nslowrot works"
     '(2 3 4 1)
     a)
 
   (wipe a)
   (nslowrot a)
-  (test-iso "slowrot works on empty lists"
+  (test-iso "nslowrot works on empty lists"
     '()
     a)
 
   (push 3 a)
   (nslowrot a)
-  (test-iso "slowrot works on single lists"
+  (test-iso "nslowrot works on single lists"
     '(3)
     a)
 
   (push 2 a)
   (nslowrot a)
-  (test-iso "slowrot swaps 2-elem lists"
+  (test-iso "nslowrot swaps 2-elem lists"
     '(3 2)
     a))
 
@@ -134,14 +134,9 @@
 (test-ok "random-new returns random new element"
          (pos (random-new '(1 2 3) '(2)) '(1 3)))
 
-(scoped-extend random-new
-  (after-exec random-new(from to f)
-    (prn result))
-
-  (test-is "random-new returns random new element satisfying pred"
-           1
-           (random-new '(1 2 3) '(3) odd))
-)
+(test-is "random-new returns random new element satisfying pred"
+         1
+         (random-new '(1 2 3) '(3) odd))
 
 (test-iso "tags-matching should return cdrs of dotted pairs whose cars satisfy"
           '(3 6)

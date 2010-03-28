@@ -239,6 +239,11 @@
 (def backoff(item n)
   (list item n nil))
 
+(mac backoff-add-and-check(b attempt pred)
+  `(do
+     (backoff-add ,b ,attempt)
+     (backoff-check ,b ,pred)))
+
 (def backoff-add(b attempt)
   (push attempt b.2))
 
@@ -248,12 +253,9 @@
 
 (mac backoff-check(b pred)
   `(when (>= (len (,b 2)) (,b 1))
-    (erp "clearing " (,b 0))
     (if ,pred
       (wipe ,b)
-      (do
-        (erp "backing off")
-        (backoff-again ,b)))))
+      (backoff-again ,b))))
 
 (mac backoff-again(b)
   `(zap [* 2 _] (,b 1)))
@@ -390,8 +392,8 @@
 
 (def pluralize-controls(s)
   (let as (stringify s)
-    (list (not (iso (as 0) #\1))
-          (not (iso (as 2) #\1)))))
+    (list (~iso as.0 #\1)
+          (~iso as.2 #\1))))
 
 (def update(table key transform value)
   (if (acons key)

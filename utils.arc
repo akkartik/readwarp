@@ -227,6 +227,8 @@
 (mac nslowrot(l)
   `(when ,l (= ,l (+ (cdr ,l) (list (car ,l))))))
 
+
+
 ; random elem in from that isn't already in to (and satisfies f)
 (def random-new(from to (o f))
   (ret ans nil
@@ -254,6 +256,8 @@
     (ret ans copy.ls
       (repeat (/ n 2)
         (swap (ans rand.n) (ans rand.n))))))
+
+
 
 (def zip ls
   (apply map list ls))
@@ -589,6 +593,9 @@
   (freqcounts
     (sort-by car (rem [dead cadr._] threads*))
     car))
+
+(def threads(name)
+  (map cadr (keep [is car._ name] threads*)))
 
 (include "arctap.arc")
 (proc tests()

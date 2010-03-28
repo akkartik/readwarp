@@ -107,24 +107,24 @@
 (def read?(user doc)
   userinfo*.user!read.doc)
 
-(def stations(user)
-  (keys userinfo*.user!stations))
-
 (proc ensure-station(user sname)
   (ensure-user user)
   (unless userinfo*.user!stations.sname
     (erp "new station: " sname)
-    (= userinfo*.user!stations.sname (table))
-    (let station userinfo*.user!stations.sname
-      (= station!name sname station!preferred (table) station!unpreferred (table))
-      (= station!created (seconds))))
-  (gen-groups user sname))
+    (inittab userinfo*.user!stations.sname
+             'name sname
+             'preferred (table)
+             'unpreferred (table)
+             'created (seconds)))
+  (init-groups user sname)
+  (init-preferred user sname))
 
 (defreg migrate-stations() migrations*
   (prn "migrate-stations")
   (wipe userinfo*.nil)
-  (each user (keys userinfo*)
-        ))
+  (each (u ui) userinfo*
+    (each (s st) ui!stations
+      )))
 
 (proc mark-read(user sname doc outcome prune-feed prune-group)
   (with (station  userinfo*.user!stations.sname
@@ -142,47 +142,45 @@
 
 (proc handle-upvote(user station doc feed)
   (= station!preferred.feed (backoff doc 2))
-  (whenlet alls userinfo*.user!all
-    (or= userinfo*.user!stations.alls!preferred (table))
-    (= userinfo*.user!stations.alls!preferred.feed (backoff doc 2)))
   (each g (groups list.feed)
-    (backoff-clear station!groups.g)))
+    (backoff-clear station!groups.g))
+
+  (set userinfo*.user!preferred-feeds.feed)
+  (whenlet global-sname userinfo*.user!all
+    (unless (is station!name global-sname)
+      (init-preferred user global-sname)
+      (= userinfo*.user!stations.global-sname!preferred.feed
+         (backoff doc 2)))))
 
 (proc handle-downvote(user station doc feed prune-feed prune-group)
-  (if (pos feed (preferred-feeds user station))
-    (do
-      (erp "currently preferred")
-      (or= station!preferred.feed (backoff doc 2))
-      (backoff-add station!preferred.feed doc)
-      (backoff-check station!preferred.feed (or prune-feed prune-group)))
-    (do
-      ; sync preconditions to get here with borderline-unpreferred-group
-      (erp "currently not in preferred; unpreferring " feed)
-      (set station!unpreferred.feed)
-      (let curr-groups  (groups list.feed)
-        (each g curr-groups
-          (when station!groups.g
-            (erp "trying to delete " g)
-            (backoff-add station!groups.g feed)
-            (erp "now: " station!groups.g)
-            (backoff-check station!groups.g prune-group)
-            (erp "groups remaining: " (len-keys station!groups))))
-        (when (empty station!groups)
-          (= station!groups
-             (backoffify (rem [pos _ curr-groups]
-                             feedgroups*)
-                         2)))))))
+  (if (pos feed (keys station!preferred))
+    (backoff-add-and-check station!preferred.feed doc prune-feed)
+    ; sync preconditions to get here with borderline-unpreferred-group
+    (unprefer-feed station feed prune-group)))
+
+(proc unprefer-feed(station feed prune-group)
+  (set station!unpreferred.feed)
+  (let curr-groups  (groups list.feed)
+    (each g curr-groups
+      (backoff-add-and-check station!groups.g feed prune-group))
+    (when (empty station!groups)
+      (= station!groups
+         (backoffify (rem [pos _ curr-groups]
+                         feedgroups*)
+                     2)))))
 
 (def borderline-preferred-feed(user sname doc)
   (whenlet feed doc-feed.doc
-    (and (pos feed (preferred-feeds user userinfo*.user!stations.sname))
-         (backoff-borderline userinfo*.user!stations.sname!preferred.feed))))
+    (let station userinfo*.user!stations.sname
+      (and (pos feed (keys station!preferred))
+           (backoff-borderline station!preferred.feed)))))
 
 (def borderline-unpreferred-group(user sname doc)
   (whenlet feed doc-feed.doc
-    (and (~pos feed (preferred-feeds user userinfo*.user!stations.sname))
-         (find [backoff-borderline userinfo*.user!stations.sname!groups._]
-               (groups:list feed)))))
+    (let station userinfo*.user!stations.sname
+      (and (~pos feed (keys station!preferred))
+           (find [backoff-borderline station!groups._]
+                 (groups list.feed))))))
 
 
 
@@ -206,21 +204,19 @@
         (write-feedback user "" sname "" "Random stories for group"))
       (= ans feedgroups*))))
 
-(proc gen-groups(user sname)
+(proc init-groups(user sname)
   (or= userinfo*.user!stations.sname!groups
        (backoffify (initial-preferred-groups-for user sname) 2)))
 
-(def feeds(groups)
-  (dedup:flat:map group-feeds* groups))
+(proc init-preferred(user sname)
+  (or= userinfo*.user!stations.sname!preferred
+       (memtable (keep [userinfo*.user!preferred-feeds _] feeds.station))))
 
-(def preferred-feeds(user station)
-  (+ (keys station!preferred)
-     (keep [userinfo*.user!preferred-feeds _]
-           (feeds:keys station!groups))))
+(def feeds(station)
+  (dedup:flat:map group-feeds* (keys station!groups)))
 
 (def feeds-from-groups(user station)
-  (rem [station!unpreferred _]
-       (feeds:keys station!groups)))
+  (rem [station!unpreferred _] feeds.station))
 
 (def random-story-from(group)
   (most-recent
@@ -245,7 +241,7 @@
         1.01                        (choose-from-random user station)))
 
 (def choose-from-preferred(user station)
-  (let candidates (preferred-feeds user station)
+  (let candidates (keys station!preferred)
     (findg randpos.candidates
            [most-recent-unread user _])))
 (after-exec choose-from-preferred(user station)

@@ -62,13 +62,12 @@
 (proc ensure-station2(user sname)
   (ensure-user user)
   (when (no userinfo*.user!stations.sname)
-    (= userinfo*.user!stations.sname (table))
-    (let station userinfo*.user!stations.sname
-      (= station!name sname station!preferred (table) station!unpreferred (table))
-      (= station!created (seconds))
-      (= station!groups (table))
-      (= station!showlist (queue))
-      (= station!last-showlist (queue)))))
+    (inittab userinfo*.user!stations.sname
+             'name sname
+             'preferred (table)
+             'unpreferred (table)
+             'created (seconds)
+             'groups (table))))
 
 (proc next-stage(user query req)
   (let stage userinfo*.user!signup-stage
@@ -141,7 +140,7 @@
   ; example rendering
   (tag (div style "width:960px")
     (with-history-sub req user query
-      (render-doc-with-context user query (next-doc user query))))
+      (doc-panel user query (next-doc user query))))
   (start-rebuilding-showlist user userinfo*.user!stations.query))
 
 (def progress-bar(user)
@@ -209,13 +208,9 @@
       (push doc station!read-list))
     (= userinfo*.user!read.doc outcome)
 
-    (enq-limit feed
-          station!last-showlist
-          history-size*)
-
     (when (is outcome "2")
       (each g (erp:signup-group-mapping*:car userinfo*.user!initial-groups)
-        (or= userinfo*.user!stations.sname!groups.g (backoff doc 2))))
+        (or= station!groups.g (backoff doc 2))))
     (deq userinfo*.user!signup-showlist)))
 
 (init signup-group-mapping*
