@@ -108,9 +108,6 @@
 (def read?(user doc)
   userinfo*.user!read.doc)
 
-(def stations(user)
-  (keys userinfo*.user!stations))
-
 (proc ensure-station(user sname)
   (ensure-user user)
   (unless userinfo*.user!stations.sname
@@ -124,8 +121,8 @@
 (defreg migrate-stations() migrations*
   (prn "migrate-stations")
   (wipe userinfo*.nil)
-  (each user (keys userinfo*)
-    (each (s st) userinfo*.user!stations
+  (each (u ui) userinfo*
+    (each (s st) ui
       (wipe st!groupcache)
       (wipe st!preferredcache)
       (wipe st!feedcache))
