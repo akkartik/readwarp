@@ -1855,3 +1855,6 @@ Start measuring ab latency more often.
 
 Bringing back some refactorings from last night.
 =-=715 - Sun Mar 28 11:14:39 PDT 2010
+Did we still have this vestigial call through all this? Doesn't look like I
+took it out overnight.
+=-=716 - Sun Mar 28 11:55:05 PDT 2010
