@@ -13,7 +13,7 @@
     (doc-feed doc))
 
 (shadowing feed-list* '("a.com/feed" "b.com/feed")
-(shadowing nonnerdy-feed-list* '("a.com/feed" "b.com/feed")
+(shadowing nonnerdy-feeds* (make-rrand '("a.com/feed" "b.com/feed"))
 
 (shadowing feedinfo*
     (obj

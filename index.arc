@@ -71,9 +71,10 @@
   (= feed-list* (tokens:slurp "feeds/All"))
   (prn "updating feed-groups*")
   (update-feed-groups)
-  (= nonnerdy-feed-list* (keep [set-subtract (feed-groups* _)
-                                             '("Programming" "Technology")]
-                            feed-list*))
+  (= nonnerdy-feeds*
+      (make-rrand (keep [set-subtract (feed-groups* _)
+                                      '("Programming" "Technology")]
+                        feed-list*)))
   (prn "updating feedinfo*")
   (update-feedinfo)
   (prn "updating feed index")
@@ -83,9 +84,10 @@
 (when (test-mode) ; {{{
   (= feed-list* (tokens:slurp "feeds/All"))
   (update-feed-groups)
-  (= nonnerdy-feed-list* (keep [set-subtract (feed-groups* _)
-                                             '("Programming" "Technology")]
-                            feed-list*))
+  (= nonnerdy-feeds*
+      (make-rrand (keep [set-subtract (feed-groups* _)
+                                      '("Programming" "Technology")]
+                        feed-list*)))
 ) ; }}}
 
 (defscan index-doc "clean"
@@ -172,7 +174,7 @@
   (whenlet feed doc-feed.doc
     (let station userinfo*.user!stations.sname
       (and (check-rrand station!preferred feed)
-           (backoff-borderline station!preferred.feed)))))
+           (backoff-borderline-rrand station!preferred feed)))))
 
 (def borderline-unpreferred-group(user sname doc)
   (whenlet feed doc-feed.doc
@@ -258,7 +260,7 @@
   (when result (erp "group: " result)))
 
 (def choose-from-random(user station)
-  (findg randpos.nonnerdy-feed-list*
+  (findg (rrand nonnerdy-feeds*)
          [most-recent-unread user _]))
 (after-exec choose-from-random(user station)
   (when result (erp "random: " result)))
