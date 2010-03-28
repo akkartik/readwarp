@@ -1848,3 +1848,7 @@ patch 527 from Mar 1.
 =-=712 - Sun Mar 28 10:27:51 PDT 2010
 Hackish attempt at connecting up with a user.
 =-=713 - Sun Mar 28 10:28:27 PDT 2010
+
+Start including times.arc so we start using it every few weeks.
+Start measuring ab latency more often.
+=-=714 - Sun Mar 28 10:58:51 PDT 2010
