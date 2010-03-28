@@ -47,6 +47,13 @@
 (def backoff(item n)
   (list item n nil))
 
+(def backoff-item(b)
+  b.0)
+(def backoff-limit(b)
+  b.1)
+(def backoff-attempts(b)
+  b.2)
+
 (def backoff-add(b attempt)
   (push attempt b.2))
 
@@ -102,11 +109,11 @@
   (unless (rr.2 v)
     (push v rr.0)
     (= (rr.1 rr.3) v)
-    (= (rr.2 v) rr.3)
+    (= (rr.2 v) (backoff rr.3 default-rrand-backoff*))
     (++ rr.3)))
 
 (def check-rrand(rr v)
-  (rr.2 v))
+  (only.backoff-item rr.2.v))
 
 (def del-rrand(rr v)
   (whenlet nb (rr.2 v)
@@ -123,3 +130,7 @@
       (unless rr.2.v
         (wipe rr.1.n)
         (-- rr.3)))))
+
+(def rrand-backoff-clear(rr v)
+  (when rr
+    (backoff-clear rr.2.v)))

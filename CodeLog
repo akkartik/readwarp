@@ -1815,3 +1815,6 @@ userinfo*.
 =-=700 - Sun Mar 28 04:47:25 PDT 2010
 Refactor feeds to take station directly.
 =-=701 - Sun Mar 28 04:51:05 PDT 2010
+Bugfix: add-rrand wasn't creating backoff.
+Enhancement: rrand-backoff-clear.
+=-=702 - Sun Mar 28 05:27:19 PDT 2010

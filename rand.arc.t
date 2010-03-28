@@ -59,12 +59,13 @@
             3
             rrand-len.rr)
 
-  (test-ok "added element is present"
-           (check-rrand rr 'c))
+  (test-iso "added element is present"
+            2
+            (check-rrand rr 'c))
 
   (test-iso "present in random table"
            'c
-           (rrand-random-table.rr (rrand-lookup-table.rr 'c)))
+           (rrand-random-table.rr (check-rrand rr 'c)))
 
   (test-iso "present in list"
             0
@@ -101,4 +102,16 @@
 
   (test-iso "rrand-backoff updates random-table on delete"
             (obj 1 'b)
-            rrand-random-table.rr))
+            rrand-random-table.rr)
+
+  (rrand-backoff rr 'b "abc" nil)
+  (rrand-backoff rr 'b "abc" nil)
+  (test-iso "rrand-backoff a second time backs off"
+            2
+            (len:backoff-attempts rrand-lookup-table.rr!b))
+
+  (rrand-backoff-clear rr 'b)
+  (test-iso "rrand-backoff-clear clears backoff"
+            0
+            (len:backoff-attempts rrand-lookup-table.rr!b))
+  )
