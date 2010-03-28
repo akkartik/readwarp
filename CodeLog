@@ -1832,3 +1832,11 @@ Final step: make choose-from-random use an rrand as well.
 =-=709 - Sun Mar 28 08:26:24 PDT 2010
 Ah, one more long pole in the tent: most-recent-unread.
 =-=710 - Sun Mar 28 09:43:15 PDT 2010
+Fuck, that's the only long pole all along. Why didn't I start using deftimed a
+week ago?
+1. At the start timings were flaky, which led me astray.
+2. most-recent-unread is a lot of stuff in just one line, making it easy to overlook.
+3. I stopped including times.arc for a few months. I'd basically forgotten it existed.
+
+Reverting to patch 693.
+=-=711 - Sun Mar 28 10:22:29 PDT 2010

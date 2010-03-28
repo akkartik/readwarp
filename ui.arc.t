@@ -39,8 +39,4 @@
     (test-ok "signup query works"
       (run-op begin nil)))
 
-  (erp "waiting for thread to finish")
-  (until (all dead (threads "signup-showlist"))
-    (sleep 1))
-
 ))))))))

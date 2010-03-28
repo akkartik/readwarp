@@ -42,6 +42,19 @@
 (mac ret(var val . body)
  `(let ,var ,val ,@body ,var))
 
+(mac findg(generator test)
+  (w/uniq (ans count)
+    `(ret ,ans ,generator
+       (let ,count 0
+         (until (or (,test ,ans) (> (++ ,count) 10))
+            (= ,ans ,generator))
+         (unless (,test ,ans)
+           (= ,ans nil))))))
+
+; counterpart of only: keep retrying until expr returns something, then apply f to it
+(mac always(f expr)
+  `(,f (findg ,expr ,f)))
+
 (mac awhile(expr . body)
   `(whilet it ,expr
     ,@body))
@@ -214,7 +227,33 @@
 (mac nslowrot(l)
   `(when ,l (= ,l (+ (cdr ,l) (list (car ,l))))))
 
-
+; random elem in from that isn't already in to (and satisfies f)
+(def random-new(from to (o f))
+  (ret ans nil
+    (let counter 0
+      (until (or ans (> (++ counter) 10))
+        (let curr randpos.from
+          (when (and (~pos curr to)
+                     (or no.f
+                         (f curr)))
+            (= ans curr)))))))
+
+(mac randpick args
+  (w/uniq (x ans)
+    `(with (,x (rand)
+            ,ans nil)
+      ,@(accum acc
+         (each (thresh expr) (pair args)
+           (acc `(when (and (no ,ans)
+                            (< ,x ,thresh))
+                   (= ,ans ,expr))))
+         (acc ans)))))
+
+(def shuffle(ls)
+  (let n len.ls
+    (ret ans copy.ls
+      (repeat (/ n 2)
+        (swap (ans rand.n) (ans rand.n))))))
 
 (def zip ls
   (apply map list ls))
@@ -550,9 +589,6 @@
   (freqcounts
     (sort-by car (rem [dead cadr._] threads*))
     car))
-
-(def threads(name)
-  (map cadr (keep [is car._ name] threads*)))
 
 (include "arctap.arc")
 (proc tests()

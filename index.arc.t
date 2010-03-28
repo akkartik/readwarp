@@ -13,7 +13,7 @@
     (doc-feed doc))
 
 (shadowing feed-list* '("a.com/feed" "b.com/feed")
-(shadowing nonnerdy-feeds* (make-rrand '("a.com/feed" "b.com/feed"))
+(shadowing nonnerdy-feed-list* '("a.com/feed" "b.com/feed")
 
 (shadowing feedinfo*
     (obj
@@ -50,13 +50,14 @@
   (test-ok "scan-feeds finds feeds containing a keyword"
     (pos "a.com/feed" (scan-feeds "blog")))
 
-  (test-iso "init-groups works"
-    '("group2" "group3")
-    (rrand-maybe-list ((userinfo*.nil!stations "a") 'groups)))
+  (test-iso "gen-groups works"
+    (obj "group2" '("group2" 2 nil)
+         "group3" '("group3" 2 nil))
+    ((userinfo*.nil!stations "a") 'groups))
 
   (test-iso "feeds works"
     '("a.com/feed" "b.com/feed")
-    (feeds (userinfo*.nil!stations "a")))
+    (feeds:keys ((userinfo*.nil!stations "a") 'groups)))
 
 (or= userinfo*.nil!all (stringify:unique-id))
 (ensure-station nil userinfo*.nil!all)
@@ -65,7 +66,7 @@
 (let station (userinfo*.nil!stations "randomstring")
   (test-iso "unknown keywords start out selecting feeds randomly across all groups"
     (sort < feedgroups*)
-    (sort < (rrand-maybe-list station!groups)))
+    (sort < (keys station!groups)))
 
   ; XXX Assumption: up/down don't ever call doc-feed
   (handle-downvote nil station "b_com_a" "b.com/feed" t t)
@@ -75,48 +76,48 @@
   (handle-downvote nil station "b_com_a" "b.com/feed" t t)
   (test-iso "consecutive downvotes demote group"
     '("group1" "group3")
-    (sort < (keys:rrand-lookup-table station!groups)))
+    (sort < (keys station!groups)))
 
   (handle-upvote nil station "doc1" "feed1")
   (test-ok "upvoting a non-preferred feed puts it immediately in the preferred list"
-    (rrand-obj station!preferred "feed1"))
+    (station!preferred "feed1"))
 
   (test-ok "upvoting a feed in a channel also puts it in the global channel's preferred list"
-    (rrand-obj ((userinfo*.nil!stations userinfo*.nil!all) 'preferred) "feed1"))
+    (((userinfo*.nil!stations userinfo*.nil!all) 'preferred) "feed1"))
 
   (handle-downvote nil station "doc2" "feed1" t t)
   (test-iso "downvoting a preferred feed doesn't demote it the first time"
-    '(0 2 ("doc2"))
-    (rrand-obj station!preferred "feed1"))
+    '("doc1" 2 ("doc2"))
+    (station!preferred "feed1"))
 
   (handle-upvote nil station "doc3" "feed1")
   (test-iso "upvoting a preferred feed resets its situation"
-    '(0 2 nil)
-    (rrand-obj station!preferred "feed1"))
+    '("doc3" 2 nil)
+    (station!preferred "feed1"))
 
   (handle-downvote nil station "doc4" "feed1" t t)
   (test-iso "non-consecutive downvotes don't demote preferred feeds"
-    '(0 2 ("doc4"))
-    (rrand-obj station!preferred "feed1"))
+    '("doc3" 2 ("doc4"))
+    (station!preferred "feed1"))
 
   (handle-downvote nil station "doc5" "feed1" t t)
   (test-nil "consecutive downvotes demotes preferred feeds"
-    (rrand-obj station!preferred "feed1"))
+    (station!preferred "feed1"))
 
   (handle-downvote nil station "doc8" "a.com/feed" t t)
   (handle-downvote nil station "doc9" "a.com/feed" t t)
   (test-iso "demoting the last group resets groups to all but that groups"
     '("group1")
-    (keys:rrand-lookup-table station!groups))
+    (keys station!groups))
 
   (handle-downvote nil station "doc10" "feed2" t t)
   (test-iso "downvoting a non-preferred feed doesn't demote its group"
-    '(0 2 ("feed2"))
-    ((rrand-lookup-table station!groups) "group1"))
+    '("group1" 2 ("feed2"))
+    (station!groups "group1"))
 
   (handle-upvote nil station "doc11" "feed2")
   (test-iso "upvoting a non-preferred feed resets its group's situation"
-    '(0 2 nil)
-    ((rrand-lookup-table station!groups) "group1"))
+    '("group1" 2 nil)
+    (station!groups "group1"))
 
 ))))))))))))))))

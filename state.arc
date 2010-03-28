@@ -234,6 +234,42 @@
 
 
 
+; State machine for exponential backoff.
+; Each elem contains a 3-tuple: an item, a backoff limit, and a list of attempts.
+(def backoff(item n)
+  (list item n nil))
+
+(def backoff-add(b attempt)
+  (push attempt b.2))
+
+(def backoff-borderline(b)
+  (when b
+    (>= (len b.2) (- b.1 1))))
+
+(mac backoff-check(b pred)
+  `(when (>= (len (,b 2)) (,b 1))
+    (erp "clearing " (,b 0))
+    (if ,pred
+      (wipe ,b)
+      (do
+        (erp "backing off")
+        (backoff-again ,b)))))
+
+(mac backoff-again(b)
+  `(zap [* 2 _] (,b 1)))
+
+(def backoff-clear(b)
+  (when b
+    (wipe b.2)))
+
+; backoff structures are often organized in tables
+(def backoffify(l n)
+  (w/table ans
+    (each elem l
+      (= ans.elem (backoff elem n)))))
+
+
+
 (proc migrate-state()
   (system "touch migrate")
   (quit))
@@ -354,8 +390,8 @@
 
 (def pluralize-controls(s)
   (let as (stringify s)
-    (list (~iso as.0 #\1)
-          (~iso as.2 #\1))))
+    (list (not (iso (as 0) #\1))
+          (not (iso (as 2) #\1)))))
 
 (def update(table key transform value)
   (if (acons key)
