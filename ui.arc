@@ -25,6 +25,11 @@
 
     (tag (div id 'rwcontents-wrap)
        (tag (div id 'rwcontent)
+         (when (is user "pk45059")
+           (flash "Hello pk45059! I loved your feedback, but have no way to
+                  follow up with you. Pretty please email me at
+                  akkartik@gmail.com? Or leave your email in feedback. Much
+                  appreciated."))
          ,@body))))
 
 

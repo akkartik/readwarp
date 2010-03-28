@@ -1846,3 +1846,5 @@ changes to the htmlcleaner of Mar 4 immediately caused more files to not be
 cleaned. Just roll that change back for now. Reverting to htmlclean.py of
 patch 527 from Mar 1.
 =-=712 - Sun Mar 28 10:27:51 PDT 2010
+Hackish attempt at connecting up with a user.
+=-=713 - Sun Mar 28 10:28:27 PDT 2010
