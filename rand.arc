@@ -103,7 +103,8 @@
   rr.1)
 
 (def rrand(rr)
-  (rr.1 (rand rr.3)))
+  (when (and rr (> rr.3 0))
+    (rr.1 (rand rr.3))))
 
 (def add-rrand(rr v)
   (unless (rr.2 v)
@@ -137,3 +138,7 @@
 (def backoff-clear-rrand(rr v)
   (when rr
     (backoff-clear rr.2.v)))
+
+(def backoff-borderline-rrand(rr v)
+  (when rr
+    (backoff-borderline rr.2.v)))

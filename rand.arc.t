@@ -52,6 +52,12 @@
                 0)
           (make-rrand))
 
+(test-nil "rrand works for nil rrands"
+          (rrand nil))
+
+(test-nil "rrand works for empty rrands"
+          (rrand:make-rrand))
+
 (let rr (make-rrand '(a b))
   (test-iso "rrand-maybe-list works"
             '(a b)
