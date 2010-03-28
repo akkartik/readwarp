@@ -45,6 +45,13 @@
                 2)
           (make-rrand '(a b)))
 
+(test-iso "make-rrand works without args"
+          (list nil
+                (table)
+                (table)
+                0)
+          (make-rrand))
+
 (let rr (make-rrand '(a b))
   (test-iso "rrand-maybe-list works"
             '(a b)
@@ -83,35 +90,35 @@
             (pos 'a (vals rrand-random-table.rr))))
 
 (let rr (make-rrand '(a b))
-  (rrand-backoff rr 'a "abc" nil)
-  (test-iso "rrand-backoff adds to backoff"
+  (backoff-rrand rr 'a "abc" nil)
+  (test-iso "backoff-rrand adds to backoff"
             '(0 2 ("abc"))
             (rrand-lookup-table.rr 'a))
 
-  (rrand-backoff rr 'a "def" t)
-  (test-nil "rrand-backoff a second time deletes"
+  (backoff-rrand rr 'a "def" t)
+  (test-nil "backoff-rrand a second time deletes"
             (check-rrand rr 'a))
 
-  (test-iso "rrand-backoff updates length on delete"
+  (test-iso "backoff-rrand updates length on delete"
             1
             rrand-len.rr)
 
-  (test-iso "rrand-backoff updates lookup-table on delete"
+  (test-iso "backoff-rrand updates lookup-table on delete"
             (obj b (backoff 1 default-rrand-backoff*))
             rrand-lookup-table.rr)
 
-  (test-iso "rrand-backoff updates random-table on delete"
+  (test-iso "backoff-rrand updates random-table on delete"
             (obj 1 'b)
             rrand-random-table.rr)
 
-  (rrand-backoff rr 'b "abc" nil)
-  (rrand-backoff rr 'b "abc" nil)
-  (test-iso "rrand-backoff a second time backs off"
+  (backoff-rrand rr 'b "abc" nil)
+  (backoff-rrand rr 'b "abc" nil)
+  (test-iso "backoff-rrand a second time backs off"
             2
             (len:backoff-attempts rrand-lookup-table.rr!b))
 
-  (rrand-backoff-clear rr 'b)
-  (test-iso "rrand-backoff-clear clears backoff"
+  (backoff-clear-rrand rr 'b)
+  (test-iso "backoff-clear-rrand clears backoff"
             0
             (len:backoff-attempts rrand-lookup-table.rr!b))
   )

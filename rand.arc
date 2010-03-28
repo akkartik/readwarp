@@ -85,7 +85,7 @@
 (= default-rrand-backoff* 2)
 
 ; Make random selection easier.
-(def make-rrand(l (o tb (table)) (o rtb (table)) (o origl nil) (o n 0))
+(def make-rrand((o l) (o tb (table)) (o rtb (table)) (o origl) (o n 0))
   (if (no l)
     (list origl tb rtb n)
     (do
@@ -115,6 +115,9 @@
 (def check-rrand(rr v)
   (only.backoff-item rr.2.v))
 
+(def empty-rrand(rr)
+  (empty rrand-lookup-table.rr))
+
 (def del-rrand(rr v)
   (whenlet nb (rr.2 v)
     ; too expensive to update rr.0
@@ -122,7 +125,7 @@
     (wipe rr.2.v)
     (-- rr.3)))
 
-(def rrand-backoff(rr v x delete)
+(def backoff-rrand(rr v x delete)
   (when (and rr rr.2.v)
     (let n rr.2.v.0
       (backoff-add rr.2.v x)
@@ -131,6 +134,6 @@
         (wipe rr.1.n)
         (-- rr.3)))))
 
-(def rrand-backoff-clear(rr v)
+(def backoff-clear-rrand(rr v)
   (when rr
     (backoff-clear rr.2.v)))
