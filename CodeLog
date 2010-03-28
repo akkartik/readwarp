@@ -1840,3 +1840,9 @@ week ago?
 
 Reverting to patch 693.
 =-=711 - Sun Mar 28 10:22:29 PDT 2010
+
+Let's take a breather. Pending patch since last night. I discovered that my
+changes to the htmlcleaner of Mar 4 immediately caused more files to not be
+cleaned. Just roll that change back for now. Reverting to htmlclean.py of
+patch 527 from Mar 1.
+=-=712 - Sun Mar 28 10:27:51 PDT 2010

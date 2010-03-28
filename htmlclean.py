@@ -4,8 +4,6 @@ import StringIO
 import difflib
 from utils import *
 
-from encoding import to_byte_string
-
 badParaRegex = re.compile("comment|meta|footer|footnote")
 goodParaRegex = re.compile("^(post|hentry|entry[-]?(content|text|body)?|article[-]?(content|text|body)?)$")
 def init(node):
@@ -59,10 +57,10 @@ def hint_contents(file):
 def matching_size(a, b, debug):
   s = difflib.SequenceMatcher(a=a, b=b)
   lens = [x[2] for x in s.get_matching_blocks()]
-#?   if debug:
-#?     print "=="
-#?     print b
-#?     print sum(lens), len(b), s.get_matching_blocks()
+  if debug:
+    print "=="
+    print b
+    print sum(lens), len(b), s.get_matching_blocks()
   return sum(lens)
 
 def fuzzymatch(a, b, debug=False):
@@ -79,8 +77,8 @@ def pickTopMatchingCandidate(candidates, scores, hint_stripped, debug):
     if debug:
       print "==", scores[node]
       print node
-#?       print "=="
-#?       print hint_stripped
+      print "=="
+      print hint_stripped
     if hint_stripped == '' or fuzzymatch(htmlstrip(node), hint_stripped):
       return node
 
@@ -140,7 +138,7 @@ def cleanAll():
     f2 = 'urls/'+doc+'.clean'
     try:
       with open(f2, 'w') as output:
-        output.write(to_byte_string(cleanup(f)))
+        output.write(cleanup(f).encode('utf-8'))
       with open('fifos/clean', 'w') as fifo:
         fifo.write(line)
       with open('docs', 'a+') as fifo:
@@ -158,12 +156,12 @@ def fuzzycheck(expected, got, debug=False):
   passed = dilution > 0.6
   if match and dilution > 0.5:
     print match, dilution
-#?   if debug:
-#?     print passed, match, dilution
-#?     if dilution > 1.5:
-#?       print expected
-#?       print "==="
-#?       print got
+  if debug:
+    print passed, match, dilution
+    if dilution > 1.5:
+      print expected
+      print "==="
+      print got
   return passed
 
 numreallypassed=0
@@ -232,8 +230,6 @@ if __name__ == '__main__':
     elif os.path.exists(sys.argv[1]):
       cleanup(sys.argv[1], debug=True)
     elif os.path.exists('urls/'+sys.argv[1]+'.raw'):
-      ans = cleanup('urls/'+sys.argv[1]+'.raw', debug=False)
-      with open('z', 'w') as output:
-        output.write(to_byte_string(ans))
+      cleanup('urls/'+sys.argv[1]+'.raw', debug=True)
     elif os.path.exists('test/fixtures/clean/'+sys.argv[1]):
       cleanup('test/fixtures/clean/'+sys.argv[1], debug=True)
