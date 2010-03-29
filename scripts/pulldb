@@ -1,2 +1,3 @@
+# snapshots before urls for consistency
 rsync -avz --delete readwarp.com:/app/readwarp/snapshots/ snapshots
 rsync -avz --delete readwarp.com:/app/readwarp/urls/ urls
