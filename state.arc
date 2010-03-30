@@ -172,15 +172,11 @@
   `(fwritefile (+ (new-snapshot-name ,var) "." ,i) ,var))
 
 (init chunked-persisted-vars* nil)
-(when (no:test-mode)
-  (mac chunked-persisted(var)
-    `(do
-       (init ,(globalize stringify.var "-chunk") nil)
-       (let ref (load-chunks ,var)
-         (push (list ref ',var) chunked-persisted-vars*)))))
-(when (test-mode)
-  (mac chunked-persisted(var)
-    `(init ,var (table))))
+(mac chunked-persisted(var)
+  `(do
+     (init ,(globalize stringify.var "-chunk") nil)
+     (let ref (load-chunks ,var)
+       (push (list ref ',var) chunked-persisted-vars*))))
 
 (extend sref(com val ind) (alref chunked-persisted-vars* com)
   (eval `(save-to-chunk ,(alref chunked-persisted-vars* com) ',(tablist2 val) ,ind))
