@@ -153,7 +153,10 @@
 
 (proc unprefer-feed(station feed group prune-group)
   (set station!unpreferred.feed)
-  (backoff-add-and-check station!groups.group feed prune-group)
+  (if group
+    (backoff-add-and-check station!groups.group feed prune-group)
+    (each g (groups list.feed)
+      (backoff-add-and-check station!groups.g feed nil)))
   (when (empty station!groups)
     (= station!groups
        (backoffify (rem group feedgroups*) 2))))

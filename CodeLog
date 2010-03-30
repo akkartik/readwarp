@@ -1884,3 +1884,8 @@ Bugfix: downvote now won't ever demote any group but the one it popped up for.
 =-=727 - Tue Mar 30 11:25:29 PDT 2010
 Push that change through to UI.
 =-=728 - Tue Mar 30 11:37:11 PDT 2010
+I didn't have it quite right: I only provide a group when downvoting to
+suppress it. But backoff was never building then. Solution: if no group is
+given, backoff all groups for this feed like before.
+All tests pass again.
+=-=729 - Tue Mar 30 12:15:25 PDT 2010
