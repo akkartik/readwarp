@@ -209,7 +209,7 @@
       (awhen (borderline-unpreferred-group user sname doc)
         (pushHistory sname doc
                      (addjsarg
-                       (+ "outcome=" n)
+                       (+ "outcome=" n "&group=" it)
                        (check-with-user
                          (+ "Should I stop showing any articles about\\n"
                             "  " uncamelcase.it "\\n"
