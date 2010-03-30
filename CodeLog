@@ -1875,3 +1875,7 @@ production. Tests were failing since commit 715.
 Make most-recent-unread slightly more efficient yet, eliminate a bunch of
 unnec conses.
 =-=725 - Tue Mar 30 10:31:26 PDT 2010
+
+Uncamelcase groups in the popup.
+Some reorg.
+=-=726 - Tue Mar 30 11:24:34 PDT 2010

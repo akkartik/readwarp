@@ -211,7 +211,7 @@
                        (+ "outcome=" n)
                        (check-with-user
                          (+ "Should I stop showing any articles about\\n"
-                            "  " it "\\n"
+                            "  " uncamelcase.it "\\n"
                             "in this channel?")
                          "prune-group")))))))
 

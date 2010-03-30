@@ -239,6 +239,14 @@
   '("a" "com" "b")
   (split-urls "a.com/b"))
 
+(test-iso "uncamelcase works"
+  "Bay Area"
+  (uncamelcase "BayArea"))
+
+(test-iso "uncamelcase leaves unchanged if necessary"
+  "Venture"
+  (uncamelcase "Venture"))
+
 
 
 (test-iso "aboutnmost should take top n"

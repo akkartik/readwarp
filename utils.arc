@@ -530,8 +530,12 @@
 
 (def int2(n)
   (if n
-    (coerce n 'int)
+    int.n
     0))
+
+(def uncamelcase(word)
+  (gsub word
+    (r "([a-z])([A-Z])") "\\1 \\2"))
 
 
 
@@ -611,7 +615,16 @@
 (def test-mode()
   (~empty (getenv "TEST")))
 
-(def dump-stack-trace1(msg)
+(def l(f)
+  (include:+ stringify.f ".arc"))
+(def test(f)
+  (after*
+    (= test-failures* 0)
+    (include:+ stringify.f ".arc.t")
+  :do
+    (prn:plural test-failures* "failure")))
+
+(def dump-stack-trace(msg)
   (w/stdout (stderr)
     (prn msg)
     ($:print (continuation-mark-set->context (current-continuation-marks)))))
@@ -673,11 +686,6 @@
 (def render-date(s)
   (let d (date int.s)
     (+ "" d.0 "-" d.1 "-" d.2)))
-
-(def l(f)
-  (include:+ stringify.f ".arc"))
-(def test(f)
-  (include:+ stringify.f ".arc.t"))
 
 
 
