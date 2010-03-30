@@ -256,7 +256,7 @@
 (def most-recent(feed)
   (car feed-docs.feed))
 (def most-recent-unread(user feed)
-  (car (rem [read? user _] feed-docs.feed)))
+  (find [~read? user _] feed-docs.feed))
 
 (def pick(user station)
   (always [most-recent-unread user _]

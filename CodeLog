@@ -1871,3 +1871,7 @@ But now I've stopped preloading docinfo and now I can get 25 concurrents.
 Bugfix. Again I haven't been running my unit tests before pushing to
 production. Tests were failing since commit 715.
 =-=723 - Mon Mar 29 20:14:31 PDT 2010
+
+Make most-recent-unread slightly more efficient yet, eliminate a bunch of
+unnec conses.
+=-=725 - Tue Mar 30 10:31:26 PDT 2010
