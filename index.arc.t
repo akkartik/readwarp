@@ -32,7 +32,7 @@
 (shadowing feedgroups* '("group1" "group2" "group3")
 (shadowing group-feeds*
     (obj
-      "group1" (list "feed2")
+      "group1" (list "feed2" "b.com/feed")
       "group2" (list "a.com/feed" "b.com/feed")
       "group3" (list "a.com/feed"))
 (shadowing feed-groups*
@@ -69,11 +69,11 @@
     (sort < (keys station!groups)))
 
   ; XXX Assumption: up/down don't ever call doc-feed
-  (handle-downvote nil station "b_com_a" "b.com/feed" t t)
+  (handle-downvote nil station "b_com_a" "b.com/feed" t "group2" t)
   (test-ok "downvoting a non-preferred feed puts it immediately in the unpreferred list"
     (station!unpreferred "b.com/feed"))
 
-  (handle-downvote nil station "b_com_a" "b.com/feed" t t)
+  (handle-downvote nil station "b_com_a" "b.com/feed" t "group2" t)
   (test-iso "consecutive downvotes demote group"
     '("group1" "group3")
     (sort < (keys station!groups)))
@@ -85,7 +85,7 @@
   (test-ok "upvoting a feed in a channel also puts it in the global channel's preferred list"
     (((userinfo*.nil!stations userinfo*.nil!all) 'preferred) "feed1"))
 
-  (handle-downvote nil station "doc2" "feed1" t t)
+  (handle-downvote nil station "doc2" "feed1" t "" t)
   (test-iso "downvoting a preferred feed doesn't demote it the first time"
     '("doc1" 2 ("doc2"))
     (station!preferred "feed1"))
@@ -95,22 +95,22 @@
     '("doc3" 2 nil)
     (station!preferred "feed1"))
 
-  (handle-downvote nil station "doc4" "feed1" t t)
+  (handle-downvote nil station "doc4" "feed1" t "" t)
   (test-iso "non-consecutive downvotes don't demote preferred feeds"
     '("doc3" 2 ("doc4"))
     (station!preferred "feed1"))
 
-  (handle-downvote nil station "doc5" "feed1" t t)
+  (handle-downvote nil station "doc5" "feed1" t "" t)
   (test-nil "consecutive downvotes demotes preferred feeds"
     (station!preferred "feed1"))
 
-  (handle-downvote nil station "doc8" "a.com/feed" t t)
-  (handle-downvote nil station "doc9" "a.com/feed" t t)
+  (handle-downvote nil station "doc8" "a.com/feed" t "group2" t)
+  (handle-downvote nil station "doc9" "a.com/feed" t "group2" t)
   (test-iso "demoting the last group resets groups to all but that groups"
-    '("group1")
+    '("group3" "group1")
     (keys station!groups))
 
-  (handle-downvote nil station "doc10" "feed2" t t)
+  (handle-downvote nil station "doc10" "feed2" t "group1" t)
   (test-iso "downvoting a non-preferred feed doesn't demote its group"
     '("group1" 2 ("feed2"))
     (station!groups "group1"))

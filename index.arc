@@ -119,7 +119,7 @@
     (each (s st) ui!stations
       )))
 
-(proc mark-read(user sname doc outcome prune-feed prune-group)
+(proc mark-read(user sname doc outcome prune-feed group prune-group)
   (with (station  userinfo*.user!stations.sname
          feed     doc-feed.doc)
     (erp outcome " " doc)
@@ -130,7 +130,7 @@
 
     (or= station!preferred (table))
     (case outcome
-      "1" (handle-downvote user station doc feed prune-feed prune-group)
+      "1" (handle-downvote user station doc feed prune-feed group prune-group)
       "2" (handle-upvote user station doc feed))))
 
 (proc handle-upvote(user station doc feed)
@@ -145,22 +145,18 @@
       (= userinfo*.user!stations.global-sname!preferred.feed
          (backoff doc 2)))))
 
-(proc handle-downvote(user station doc feed prune-feed prune-group)
+(proc handle-downvote(user station doc feed prune-feed group prune-group)
   (if (pos feed (keys station!preferred))
     (backoff-add-and-check station!preferred.feed doc prune-feed)
     ; sync preconditions to get here with borderline-unpreferred-group
-    (unprefer-feed station feed prune-group)))
+    (unprefer-feed station feed group prune-group)))
 
-(proc unprefer-feed(station feed prune-group)
+(proc unprefer-feed(station feed group prune-group)
   (set station!unpreferred.feed)
-  (let curr-groups  (groups list.feed)
-    (each g curr-groups
-      (backoff-add-and-check station!groups.g feed prune-group))
-    (when (empty station!groups)
-      (= station!groups
-         (backoffify (rem [pos _ curr-groups]
-                         feedgroups*)
-                     2)))))
+  (backoff-add-and-check station!groups.group feed prune-group)
+  (when (empty station!groups)
+    (= station!groups
+       (backoffify (rem group feedgroups*) 2))))
 
 (def borderline-preferred-feed(user sname doc)
   (whenlet feed doc-feed.doc

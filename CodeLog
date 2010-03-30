@@ -1879,3 +1879,6 @@ unnec conses.
 Uncamelcase groups in the popup.
 Some reorg.
 =-=726 - Tue Mar 30 11:24:34 PDT 2010
+
+Bugfix: downvote now won't ever demote any group but the one it popped up for.
+=-=727 - Tue Mar 30 11:25:29 PDT 2010

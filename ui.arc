@@ -73,9 +73,10 @@
          doc (arg req "doc")
          outcome (arg req "outcome")
          prune-feed (is "true" (arg req "prune"))
+         group (arg req "group")
          prune-group (is "true" (arg req "prune-group")))
     (ensure-station user sname)
-    (mark-read user sname doc outcome prune-feed prune-group)
+    (mark-read user sname doc outcome prune-feed group prune-group)
     (doc-panel user sname (next-doc user sname))))
 
 (defop doc req
