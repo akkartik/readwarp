@@ -240,7 +240,7 @@
   (list item n nil))
 
 (mac backoff-add-and-check(b attempt pred)
-  `(do
+  `(when ,b
      (backoff-add ,b ,attempt)
      (backoff-check ,b ,pred)))
 

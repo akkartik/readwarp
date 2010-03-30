@@ -1867,3 +1867,7 @@ That was on localhost. Over the network it's just 10-15 concurrent users
 without timeouts.
 But now I've stopped preloading docinfo and now I can get 25 concurrents.
 =-=721 - Sun Mar 28 14:44:46 PDT 2010
+
+Bugfix. Again I haven't been running my unit tests before pushing to
+production. Tests were failing since commit 715.
+=-=723 - Mon Mar 29 20:14:31 PDT 2010
