@@ -1896,3 +1896,6 @@ needing docinfo to be persisted.
 
 Signup copy tweaks.
 =-=732 - Tue Mar 30 20:46:43 PDT 2010
+Draft of a half-broken decision tree data structure for A/B testing.
+But it's got issues.
+=-=733 - Tue Mar 30 21:17:36 PDT 2010
