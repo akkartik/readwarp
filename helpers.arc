@@ -120,7 +120,10 @@
 
 (def abtest(user key (o options))
   (or= userinfo*.user!abtests (table))
-  (or= userinfo*.user!abtests.key randpos.options))
+  (unless (or userinfo*.user!abtests.key options)
+    (erp "Error: abtest " key " with no options"))
+  (ret ans (or= userinfo*.user!abtests.key randpos.options)
+    (erp "abtest: " key " " ans)))
 
 (def alist-json(al)
   (tostring

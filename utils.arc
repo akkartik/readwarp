@@ -128,9 +128,8 @@
   `(let old ,fnname
       (redef ,fnname
             (fn ,args
-              (let result (old ,@args)
-                ,@body
-                result)))))
+              (ret result (old ,@args)
+                ,@body)))))
 
 (mac scoped-extend(var . body)
   (let stack (globalize stringify.var "-stack")
