@@ -20,5 +20,5 @@
 
 (def print-times()
   (prn "gc " (current-gc-milliseconds))
-  (each (name time) (tablist times*)
+  (each (name time) times*
     (prn name " " time)))
