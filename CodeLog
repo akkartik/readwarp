@@ -1905,3 +1905,7 @@ fast enough?
 =-=734 - Tue Mar 30 21:27:16 PDT 2010
 Simple performance test. Previous commit doesn't degrade performance.
 =-=735 - Tue Mar 30 21:43:59 PDT 2010
+
+A simple A/B test to start. Does the bold call to vote up help improve
+conversions at the worst stage in the pipeline?
+=-=736 - Wed Mar 31 02:41:20 PDT 2010

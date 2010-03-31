@@ -110,12 +110,26 @@
       (jstag "application.js")
       ,@extra-directives)))
 
-(def signup-funnel-analytics(n req)
-  (let funnel-name (if is-prod.req
+(def signup-funnel-analytics(prod n user)
+  (let funnel-name (if prod
                      "\"Signup1 Production\""
                      "\"Signup1\"")
     (tag script
-      (pr "mpmetrics.track_funnel(" funnel-name ", " n ", \"" n "\");"))))
+      (pr "mpmetrics.track_funnel(" funnel-name ", " n ", \"" n "\", "
+          (alist-json:tablist userinfo*.user!abtests) ");"))))
+
+(def abtest(user key (o options))
+  (or= userinfo*.user!abtests (table))
+  (or= userinfo*.user!abtests.key randpos.options))
+
+(def alist-json(al)
+  (tostring
+    (pr "{")
+    (each (k v) al
+      (if (~is k caar.al)
+        (pr ", "))
+      (pr "\"" stringify.k "\": \"" stringify.v "\""))
+    (pr "}")))
 
 (def is-prod(req)
   (~is "127.0.0.1" req!ip))

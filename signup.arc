@@ -6,6 +6,7 @@
 (init funnel-signup-stage* (+ 2 quiz-length*))
 (def start-funnel(req)
   (let user current-user.req
+    (init-abtests user)
     (start-rebuilding-signup-showlist user 'sleep)
     (page user
       (tag (div class 'rwnav)
@@ -29,7 +30,7 @@
           (tag:input type "button" id "start-funnel" value "Start reading" style "margin-top:1.5em"
                      onclick "location.href='/begin'")
 
-          (signup-funnel-analytics 1 req)
+          (signup-funnel-analytics is-prod.req 1 user)
 
         )))))
 
@@ -70,10 +71,10 @@
              'groups (table))))
 
 (proc next-stage(user query req)
-  (let stage userinfo*.user!signup-stage
-    (signup-funnel-analytics stage req)
-    (erp user ": stage " stage)
-    (if (>= stage funnel-signup-stage*)
+  (let funnel-stage userinfo*.user!signup-stage
+    (signup-funnel-analytics is-prod.req funnel-stage user)
+    (erp user ": stage " funnel-stage)
+    (if (>= funnel-stage funnel-signup-stage*)
       (signup-form user query req)
       (render-doc-with-context2 user query next-doc2.user))))
 
@@ -154,6 +155,9 @@
                          "em;"))))
     (clear)))
 
+(proc init-abtests(user)
+  (abtest user "signup-calltovoteup" '(false true)))
+
 (def render-doc-with-context2(user sname doc)
   (progress-bar user)
   (if doc
@@ -164,8 +168,9 @@
                 (flash:+ "Ok! Use the buttons to tell us what you think of " quiz-length*
                          " stories.<br>
                          Vote up stories about topics you care about,
-                         or by sites you like.<br>
-                         <b>When in doubt, vote up</b>."))
+                         or by sites you like.<br>"
+                         (if (is "true" (abtest user "signup-calltovoteup"))
+                           "<b>When in doubt, vote up</b>.")))
           (feedback-form sname doc)
           (tag (div class 'rwpost)
             (render-doc doc)))
