@@ -339,11 +339,19 @@
       (erp "new user: " user " " req!ip)
       ensure-user.user)))
 
-(persisted returning-users* (table))
+(persisted loggedin-users* (table))
 (defop rusers req
   (when (is req!ip "174.129.11.4")
-    (prn keys.returning-users*)
-    (= returning-users* (table))))
+    (let (returning new) (partition keys.loggedin-users* old-user)
+      (prn "Newly signedup: " len.new)
+      (prn)
+      (prn "Returning: " returning))
+    (= loggedin-users* (table))))
 (after-exec current-user(req)
   (when userinfo*.result!signedup
-    (set returning-users*.result)))
+    (set loggedin-users*.result)))
+
+(def old-user(user)
+  (or (no userinfo*.user!created)
+      (< userinfo*.user!created
+         (time-ago:* 60 60 24))))

@@ -261,6 +261,13 @@
 (def zip ls
   (apply map list ls))
 
+(def partition(l f)
+  (when l
+    (let (a b) (partition cdr.l f)
+      (if (f car.l)
+        (list (cons car.l a) b)
+        (list a (cons car.l b))))))
+
 (def sliding-window(n xs)
   (accum a
     (a (firstn n xs))
