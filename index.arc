@@ -218,8 +218,6 @@
 
 
 
-(init batch-size* 5)
-(init rebuild-threshold* 2)
 ;; XXX Currently constant; should depend on:
 ;;  a) how many preferred feeds the user has
 ;;  b) recent downvotes
@@ -236,22 +234,32 @@
 (def choose-from-preferred(user station)
   (let candidates (keys station!preferred)
     (findg randpos.candidates
-           [most-recent-unread user _])))
+           (andf
+             [most-recent-unread user _]
+             [~recently-shown? station _]))))
 (after-exec choose-from-preferred(user station)
   (when result (erp "preferred: " result)))
 
 (def choose-from-group(user station)
   (let candidates (feeds-from-groups user station)
     (findg randpos.candidates
-           [most-recent-unread user _])))
+           (andf
+             [most-recent-unread user _]
+             [~recently-shown? station _]))))
 (after-exec choose-from-group(user station)
   (when result (erp "group: " result)))
 
 (def choose-from-random(user station)
   (findg randpos.nonnerdy-feed-list*
-         [most-recent-unread user _]))
+         (andf
+           [most-recent-unread user _]
+           [~recently-shown? station _])))
 (after-exec choose-from-random(user station)
   (when result (erp "random: " result)))
+
+(def recently-shown?(station feed)
+  (pos feed
+       (map doc-feed (firstn history-size* station!read-list))))
 
 (def most-recent(feed)
   (car feed-docs.feed))
