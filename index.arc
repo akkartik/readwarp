@@ -74,6 +74,7 @@
                             feed-list*))
   (prn "updating feedinfo*")
   (update-feedinfo)
+  (set update-feeds-init*)
   (prn "updating feed index")
   (update-feed-keywords))
 (wait update-feeds-init*)

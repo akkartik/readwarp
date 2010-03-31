@@ -1889,3 +1889,7 @@ suppress it. But backoff was never building then. Solution: if no group is
 given, backoff all groups for this feed like before.
 All tests pass again.
 =-=729 - Tue Mar 30 12:15:25 PDT 2010
+
+Faster startup and simpler defrep as I percolate the implications of not
+needing docinfo to be persisted.
+=-=730 - Tue Mar 30 20:43:48 PDT 2010

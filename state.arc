@@ -61,15 +61,9 @@
   `(do
      (init ,(symize stringify.fnname "-init*") nil)
      (proc ,fnname()
-        ; Make the first iter go as fast as possible in case we're waiting at
-        ; file load time.
-       (atomic ,@body)
-       (set ,(symize stringify.fnname "-init*"))
-       (sleep ,interval)
        (forever
          (log-time ,fnname
            ,@body)
-         (set ,(symize stringify.fnname "-init*"))
          (sleep ,interval)))
      (init ,(symize stringify.fnname "-thread*") (new-thread ,stringify.fnname ,fnname))))
 
