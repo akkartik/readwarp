@@ -161,9 +161,11 @@
       (tag (div id (+ "doc_" doc))
         (tag (div style "width:100%; margin-right:1em")
               (when (is 2 userinfo*.user!signup-stage)
-                (flash:+ "Ok! We'll now gauge your tastes using " quiz-length*
+                (flash:+ "Ok! Use the buttons to tell us what you think of " quiz-length*
                          " stories.<br>
-                         Vote for the stories or sites that you like."))
+                         Vote up stories about topics you care about,
+                         or by sites you like.<br>
+                         <b>When in doubt, vote up</b>."))
           (feedback-form sname doc)
           (tag (div class 'rwpost)
             (render-doc doc)))
