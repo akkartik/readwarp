@@ -1,0 +1,8 @@
+#!/bin/zsh
+
+if [ $# -gt 0 ]
+then
+  ab -n100 -c15 -C user=test-user-cookie "http://readwarp.com/docupdate?doc=a&sname=global&outcome=1"
+else
+  ab -n100 -c30 -C user=test-user-cookie "http://127.0.0.1:8080/docupdate?doc=a&sname=global&outcome=1"
+fi

@@ -1903,3 +1903,5 @@ But it's got issues.
 R's running into lack of diversity. Bring back neglected unread. But is this
 fast enough?
 =-=734 - Tue Mar 30 21:27:16 PDT 2010
+Simple performance test. Previous commit doesn't degrade performance.
+=-=735 - Tue Mar 30 21:43:59 PDT 2010
