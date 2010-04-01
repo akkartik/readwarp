@@ -282,3 +282,14 @@
                 (set ans.url)))))))))
 (after-exec load-feeds(user)
   (erp "found " len-keys.result " preferred feeds"))
+
+(def update-preferred-feeds(user)
+  (each f (keys load-feeds.user)
+    (unless userinfo*.user!preferred-feeds.f
+      (erp f))
+    (set userinfo*.user!preferred-feeds.f)
+    (let gs userinfo*.user!all
+      (unless userinfo*.user!stations.gs!unpreferred.f
+        (unless userinfo*.user!stations.gs!preferred.f
+          (erp "global: " f))
+        (set userinfo*.user!stations.gs!preferred.f)))))

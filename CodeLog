@@ -1912,3 +1912,6 @@ conversions at the worst stage in the pipeline?
 
 Update daily email to separate new from returning users.
 =-=739 - Wed Mar 31 15:28:25 PDT 2010
+
+Update preferred feeds after the user has been initialized.
+=-=740 - Thu Apr  1 12:40:28 PDT 2010
