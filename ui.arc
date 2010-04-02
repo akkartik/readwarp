@@ -10,9 +10,9 @@
   `(let user ,user
     (page user
       (nav user)
-    (tag (div style "width:100%")
-      (with-history-sub ,req user ,station
-        ,@body)))))
+      (tag (div style "width:100%")
+        (with-history-sub ,req user ,station
+          ,@body)))))
 
 (mac with-history-sub(req user sname . body)
   `(do
