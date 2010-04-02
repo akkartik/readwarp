@@ -150,8 +150,9 @@
     (tag (div class 'rwprogress style "width:8em")
       (tag (div class 'rwprogress_filled
                 style (+ "width:"
-                         (int:* 8 (/ userinfo*.user!signup-stage
-                                     funnel-signup-stage*))
+                         (int:* funnel-signup-stage*
+                                (/ userinfo*.user!signup-stage
+                                   funnel-signup-stage*))
                          "em;"))))
     (clear)))
 

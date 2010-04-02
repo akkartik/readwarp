@@ -60,6 +60,14 @@
           global-sname (or= userinfo*.user!all (stringify:unique-id)))
     (ensure-station user global-sname)
     (with-history req user global-sname
+      (firsttime userinfo*.user!noob
+        (signup-funnel-analytics is-prod.req (+ 1 funnel-signup-stage*) user)
+        (flash "Welcome! Keep voting on stories as you read, and Readwarp will
+               continually fine-tune its recommendations.
+
+               <br><br>
+               Readwarp is under construction. If it seems confused, try creating
+               a new channel. And send us feedback!"))
       (doc-panel user global-sname (next-doc user global-sname)))))
 
 (defop docupdate req
@@ -114,13 +122,6 @@
   (erp:pick user userinfo*.user!stations.sname))
 
 (def doc-panel(user sname doc)
-  (firsttime userinfo*.user!noob
-    (flash "Welcome! Keep voting on stories as you read, and Readwarp will
-           continually fine-tune its recommendations.
-
-           <br><br>
-           Readwarp is under construction. If it seems confused, try creating
-           a new channel. And send us feedback!"))
   (if doc
     (doc-panel-sub user sname doc)
     (doc-panel-error user sname)))

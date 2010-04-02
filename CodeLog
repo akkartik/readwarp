@@ -1915,3 +1915,9 @@ Update daily email to separate new from returning users.
 
 Update preferred feeds after the user has been initialized.
 =-=740 - Thu Apr  1 12:40:28 PDT 2010
+
+Signup funnel was ending before the actual act of signup. Hopefully not a big
+deal; we'll see.
+Another bug: post-signup copy wasn't showing up because it was hidden under
+the signup box. Needed to be on the next screen.
+=-=741 - Fri Apr  2 11:33:59 PDT 2010
