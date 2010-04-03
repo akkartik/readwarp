@@ -1926,3 +1926,5 @@ Refactoring in preparation of redoing the signup screen. I want to make the
 email address mandatory when signing up. Hmm, just rename username to email
 address?
 =-=743 - Fri Apr  2 19:35:22 PDT 2010
+Done. What could go wrong? We're not even saving usernames as filenames.
+=-=744 - Fri Apr  2 19:53:48 PDT 2010

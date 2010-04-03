@@ -135,7 +135,11 @@
                                               userinfo*.new-username)
                                         (signup new-username ip))
                                       "/")))
-              (fn() (pwfields "signup"))
+              (fn()
+                (inputs u email 20 nil
+                        p password 20 nil)
+                (br)
+                (submit "signup"))
               t)))
 
   ; example rendering
