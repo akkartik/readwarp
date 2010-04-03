@@ -1928,3 +1928,6 @@ address?
 =-=743 - Fri Apr  2 19:35:22 PDT 2010
 Done. What could go wrong? We're not even saving usernames as filenames.
 =-=744 - Fri Apr  2 19:53:48 PDT 2010
+
+Argh, my abtest wasn't working. Fixed.
+=-=745 - Fri Apr  2 23:16:39 PDT 2010

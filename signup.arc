@@ -174,7 +174,7 @@
                          " stories.<br>
                          Vote up stories about topics you care about,
                          or by sites you like.<br>"
-                         (if (is "true" (abtest user "signup-calltovoteup"))
+                         (when (is 'true (abtest user "signup-calltovoteup"))
                            "<b>When in doubt, vote up</b>.")))
           (feedback-form sname doc)
           (tag (div class 'rwpost)
