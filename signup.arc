@@ -8,7 +8,7 @@
   (let user current-user.req
     (init-abtests user)
     (start-rebuilding-signup-showlist user 'sleep)
-    (page user
+    (page
       (tag (div class 'rwnav)
         (tag (div style "float:right")
           (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))

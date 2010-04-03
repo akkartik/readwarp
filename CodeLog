@@ -1921,3 +1921,8 @@ deal; we'll see.
 Another bug: post-signup copy wasn't showing up because it was hidden under
 the signup box. Needed to be on the next screen.
 =-=741 - Fri Apr  2 11:33:59 PDT 2010
+
+Refactoring in preparation of redoing the signup screen. I want to make the
+email address mandatory when signing up. Hmm, just rename username to email
+address?
+=-=743 - Fri Apr  2 19:35:22 PDT 2010

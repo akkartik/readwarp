@@ -1,4 +1,4 @@
-(mac page(user . body)
+(mac page body
   `(tag html
     (header)
     (tag body
@@ -7,12 +7,11 @@
         ,@body)))))
 
 (mac with-history(req user station . body)
-  `(let user ,user
-    (page user
-      (nav user)
-      (tag (div style "width:100%")
-        (with-history-sub ,req user ,station
-          ,@body)))))
+  `(page
+    (nav ,user)
+    (tag (div style "width:100%")
+      (with-history-sub ,req ,user ,station
+        ,@body))))
 
 (mac with-history-sub(req user sname . body)
   `(do
