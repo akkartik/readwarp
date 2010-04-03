@@ -1931,3 +1931,8 @@ Done. What could go wrong? We're not even saving usernames as filenames.
 
 Argh, my abtest wasn't working. Fixed.
 =-=745 - Fri Apr  2 23:16:39 PDT 2010
+
+Some users were seeing an error in stage 2 of the funnel. Ben Silberman, some
+mturkers. It seems abtests was nil when I was trying to run tablist on it.
+Guard against this. But why is it happening?
+=-=746 - Sat Apr  3 10:53:18 PDT 2010

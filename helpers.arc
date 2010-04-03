@@ -116,7 +116,7 @@
                      "\"Signup1\"")
     (tag script
       (pr "mpmetrics.track_funnel(" funnel-name ", " n ", \"" n "\", "
-          (alist-json:tablist userinfo*.user!abtests) ");"))))
+          (alist-json abtests.user) ");"))))
 
 (def abtest(user key (o options))
   (or= userinfo*.user!abtests (table))
@@ -124,6 +124,12 @@
     (erp "Error: abtest " key " with no options"))
   (ret ans (or= userinfo*.user!abtests.key randpos.options)
     (erp "abtest: " key " " ans)))
+
+(def abtests(user)
+  (when (no userinfo*.user!abtests)
+    (erp "ERRORERRORERROR No abtests for user " user))
+  (init-abtests user)
+  (tablist userinfo*.user!abtests))
 
 (def alist-json(al)
   (tostring
