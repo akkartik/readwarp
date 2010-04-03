@@ -1936,3 +1936,6 @@ Some users were seeing an error in stage 2 of the funnel. Ben Silberman, some
 mturkers. It seems abtests was nil when I was trying to run tablist on it.
 Guard against this. But why is it happening?
 =-=746 - Sat Apr  3 10:53:18 PDT 2010
+
+Ack, memtable when I meant backoffify. This is what luliu was running into.
+=-=747 - Sat Apr  3 11:11:30 PDT 2010

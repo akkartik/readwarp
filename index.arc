@@ -114,10 +114,10 @@
 (defreg migrate() migrations*
   (prn "migrate-stations")
   (wipe userinfo*.nil)
-  (everyp f (keys feed-docs*) 10
-    (zap [sort-by doc-timestamp _] feed-docs*.f))
   (each (u ui) userinfo*
     (each (s st) ui!stations
+      (when (is t (first-value st!preferred))
+        (= st!preferred (backoffify (keys st!preferred) 2)))
       )))
 
 (proc mark-read(user sname doc outcome prune-feed group prune-group)
@@ -203,7 +203,8 @@
 
 (proc init-preferred(user sname)
   (or= userinfo*.user!stations.sname!preferred
-       (memtable (keep [userinfo*.user!preferred-feeds _] feeds.station))))
+       (backoffify (keep [userinfo*.user!preferred-feeds _] feeds.station)
+                   2)))
 
 (def feeds(station)
   (dedup:flat:map group-feeds* (keys station!groups)))
