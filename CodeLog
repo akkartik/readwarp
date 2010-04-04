@@ -1942,3 +1942,6 @@ Ack, memtable when I meant backoffify. This is what luliu was running into.
 
 Quick and dirty change-password form. Zero error checking, no redirection.
 =-=748 - Sun Apr  4 14:55:00 PDT 2010
+
+Reload shouldn't move to a new article.
+=-=749 - Sun Apr  4 15:03:13 PDT 2010

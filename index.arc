@@ -128,6 +128,7 @@
     (unless userinfo*.user!read.doc
       (push doc station!read-list))
     (= userinfo*.user!read.doc outcome)
+    (wipe station!current)
 
     (or= station!preferred (table))
     (case outcome
@@ -268,8 +269,9 @@
   (find [~read? user _] feed-docs.feed))
 
 (def pick(user station)
-  (always [most-recent-unread user _]
-          (new-feed user station)))
+  (or= station!current
+       (always [most-recent-unread user _]
+               (new-feed user station))))
 
 (def load-feeds(user)
   (when (file-exists (+ "feeds/users/" user))
