@@ -1939,3 +1939,6 @@ Guard against this. But why is it happening?
 
 Ack, memtable when I meant backoffify. This is what luliu was running into.
 =-=747 - Sat Apr  3 11:11:30 PDT 2010
+
+Quick and dirty change-password form. Zero error checking, no redirection.
+=-=748 - Sun Apr  4 14:55:00 PDT 2010

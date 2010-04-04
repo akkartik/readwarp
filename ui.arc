@@ -330,6 +330,11 @@
     (set userinfo*.user!signedup)
     (= userinfo*.user!created (seconds))))
 
+(defop resetpw req
+  (let user current-user.req
+    (uform user req (set-pw user (arg req "p"))
+      (single-input "New password: " 'p 20 "update" t))))
+
 (def signedup?(user)
   (and userinfo*.user userinfo*.user!signedup))
 
