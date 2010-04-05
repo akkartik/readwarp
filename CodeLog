@@ -1951,3 +1951,7 @@ Nice copy fix for the ok/cancel problem. Ramki's idea.
 
 Reset password now redirects to '/'.
 =-=751 - Sun Apr  4 18:48:38 PDT 2010
+
+Bookmarklet for people to submit sites. Almost works - the request doesn't
+hold the user.
+=-=752 - Sun Apr  4 19:15:07 PDT 2010

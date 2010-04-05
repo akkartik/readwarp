@@ -322,6 +322,15 @@
                   (arg req "msg"))
   (arg req "location"))
 
+(defop bookmarklet req
+  (page
+    (nav current-user.req)
+    (br2)
+    (pr "Drag this link to your browser toolbar. Then click it to submit a
+        page.")
+    (br2)
+    (pr "<a href='javascript:var x = new XMLHttpRequest();x.open(\"GET\", \"http://readwarp.com/feedback?msg=CRAWL%20\"+location.href);x.send(null);alert(\"ReadWarp: submitted, thank you.\");'>Submit to Readwarp</a>")))
+
 (def signup(user ip)
   (ensure-user user)
   (or= userinfo*.user!all (stringify:unique-id))
