@@ -332,7 +332,7 @@
 
 (defop resetpw req
   (let user current-user.req
-    (uform user req (set-pw user (arg req "p"))
+    (urform user req "/" (set-pw user (arg req "p"))
       (single-input "New password: " 'p 20 "update" t))))
 
 (def signedup?(user)
