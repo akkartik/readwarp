@@ -326,13 +326,15 @@
   (w/outstring o ((srvops* 'feedback) o req)))
 
 (defop bookmarklet req
-  (page
-    (nav current-user.req)
-    (br2)
-    (pr "Drag this link to your browser toolbar. Then click it to submit a
-        page.")
-    (br2)
-    (pr "<a href='javascript:var x = new XMLHttpRequest();x.open(\"GET\", \"http://readwarp.com/submit?msg=CRAWL%20\"+location.href);x.send(null);alert(\"ReadWarp: submitted, thank you.\");'>Submit to Readwarp</a>")))
+  (let user current-user.req
+    (page
+      (nav current-user.req)
+      (br2)
+      (pr "Drag this link to your browser toolbar.")
+      (br2)
+      (pr "<a href='javascript:var x = new XMLHttpRequest();x.open(\"GET\", \"http://readwarp.com/submit?msg=CRAWL%20" user "%20\"+location.href);x.send(null);alert(\"ReadWarp: submitted, thank you.\");'>Submit to Readwarp</a>")
+      (br2)
+      (pr "Anytime you click on it thereafter, it will submit the page you're on to Readwarp."))))
 
 (def signup(user ip)
   (ensure-user user)
