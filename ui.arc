@@ -202,18 +202,18 @@
                      (addjsarg
                        (+ "outcome=" n)
                        (check-with-user
-                         (+ "Should I stop showing articles from\\n"
+                         (+ "I will stop showing articles from\\n"
                             "  " doc-feedtitle.doc "\\n"
-                            "in this channel?")
+                            "in this channel. (press 'cancel' to keep showing them)")
                          "prune")))
       (awhen (borderline-unpreferred-group user sname doc)
         (pushHistory sname doc
                      (addjsarg
                        (+ "outcome=" n "&group=" it)
                        (check-with-user
-                         (+ "Should I stop showing any articles about\\n"
+                         (+ "I will stop showing any articles about\\n"
                             "  " uncamelcase.it "\\n"
-                            "in this channel?")
+                            "in this channel. (press 'cancel' to keep showing them)")
                          "prune-group")))))))
 
 

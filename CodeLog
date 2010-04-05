@@ -1945,3 +1945,6 @@ Quick and dirty change-password form. Zero error checking, no redirection.
 
 Reload shouldn't move to a new article.
 =-=749 - Sun Apr  4 15:03:13 PDT 2010
+
+Nice copy fix for the ok/cancel problem. Ramki's idea.
+=-=750 - Sun Apr  4 18:44:12 PDT 2010
