@@ -1955,3 +1955,6 @@ Reset password now redirects to '/'.
 Bookmarklet for people to submit sites. Almost works - the request doesn't
 hold the user.
 =-=752 - Sun Apr  4 19:15:07 PDT 2010
+Make sure people don't have to update their bookmarklet when you make it
+suck less.
+=-=753 - Sun Apr  4 19:19:32 PDT 2010
