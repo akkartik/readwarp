@@ -54,31 +54,20 @@ def hint_contents(file):
   except: pass
   return ''
 
-def matching_size(a, b, debug):
+def matching_size(a, b):
   s = difflib.SequenceMatcher(a=a, b=b)
   lens = [x[2] for x in s.get_matching_blocks()]
-  if debug:
-    print "=="
-    print b
-    print sum(lens), len(b), s.get_matching_blocks()
   return sum(lens)
 
-def fuzzymatch(a, b, debug=False):
+def fuzzymatch(a, b):
   print min(len(a), len(b))
   if a == '' or b == '': return False
-  return (float(max(matching_size(a,b,debug), matching_size(b,a,debug))) /
+  return (float(max(matching_size(a,b), matching_size(b,a))) /
             min(len(a), len(b))) > 0.8
 
-def pickTopMatchingCandidate(candidates, scores, hint_stripped, debug):
-  if debug: print "==", len(candidates), "candidates"
-
+def pickTopMatchingCandidate(candidates, scores, hint_stripped):
   for i, node in enumerate(candidates):
     if i > 0 and i % 100 == 0: print "  ", i
-    if debug:
-      print "==", scores[node]
-      print node
-      print "=="
-      print hint_stripped
     if hint_stripped == '' or fuzzymatch(htmlstrip(node), hint_stripped):
       return node
 
@@ -88,11 +77,8 @@ def postproc(node):
   if node is None: return
   return re.sub(r"^<td ", "<div ", node)
 
-def cleanup(file, debug=False):
+def cleanup(file):
   deschint = hint_contents(file)
-  if debug:
-    print "== deschint"
-    print deschint
   soup = BeautifulSoup(re.sub(r"<br\s*/?\s*>\s*<br\s*/?\s*>", "<p>", slurp(file)))
 
   for s in soup.findAll('script'): s.extract()
@@ -111,10 +97,9 @@ def cleanup(file, debug=False):
     scores[pars] += commaCount(para)
 
   candidates = sortedKeys(scores)
-  pick = pickTopMatchingCandidate(candidates, scores, htmlstrip(deschint), debug)
+  pick = pickTopMatchingCandidate(candidates, scores, htmlstrip(deschint))
   if pick: return postproc(pick)
 
-  if debug: print "pick failed"
   if deschint == '': return postproc(candidates[0])
   return deschint
 
@@ -148,89 +133,20 @@ def cleanAll():
 def txtlen(html):
   return len(htmlstrip(html))
 
-def fuzzycheck(expected, got, debug=False):
-  match = fuzzymatch(got, expected, debug)
+def fuzzycheck(expected, got):
+  match = fuzzymatch(got, expected)
   if not match: return False
 
   dilution = float(len(expected))/len(got)
   passed = dilution > 0.6
   if match and dilution > 0.5:
     print match, dilution
-  if debug:
-    print passed, match, dilution
-    if dilution > 1.5:
-      print expected
-      print "==="
-      print got
   return passed
-
-numreallypassed=0
-def test(f, debug=False):
-  global numreallypassed
-  f2 = f[:-3]+'clean'
-  expected = slurp(f2)
-  got = cleanup(f)
-  if expected == got:
-    passed = True
-    numreallypassed += 1
-  else:
-    passed = fuzzycheck(expected, got)
-
-  if debug: print passed
-#?   if not passed:
-#?     with open(f2+'.error', 'w') as output:
-#?       output.write(got)
-#?   else:
-#?     try: os.unlink(f2+'.error')
-#?     except OSError: pass
-  return passed
-
-def scan(f):
-  soup = BeautifulSoup(re.sub(r"<br\s*/?\s*>\s*<br\s*/?\s*>", "<p>", slurp(f)))
-  print '====', f
-  for elem in soup.findAll(text=re.compile('comments')):
-    print '=='
-    print elem
-  for elem in soup.findAll(text=re.compile('responses', re.I)):
-    print '=='
-    print elem
-
-def testAll():
-  dir='test/fixtures/clean'
-  newLine=False
-  numcorrect=numincorrect=0
-  for file in os.listdir(dir):
-    if file[-4:] == '.raw':
-      scan(dir+'/'+file)
-      if not test(dir+'/'+file):
-        print "failed", file[:-4]
-        numincorrect+=1
-      else:
-        print "passed", file[:-4]
-        numcorrect+=1
-      sys.stdout.flush()
-  print numcorrect+numincorrect
-  print numincorrect, "failed"
-  print numreallypassed, "surely passed"
 
 if __name__ == '__main__':
   if len(sys.argv) == 1:
     while True:
       cleanAll()
   else:
-    if sys.argv[1] == 'test':
-      if len(sys.argv) == 2:
-        testAll()
-      elif os.path.exists(sys.argv[2]):
-        cleanup(sys.argv[2], debug=True)
-      elif os.path.exists('test/fixtures/clean/'+sys.argv[2]):
-        test('test/fixtures/clean/'+sys.argv[2], debug=True)
-      elif os.path.exists('test/fixtures/clean/'+sys.argv[2]+'.raw'):
-        test('test/fixtures/clean/'+sys.argv[2]+'.raw', debug=True)
-    elif os.path.exists(sys.argv[1]):
-      with open(sys.argv[1]+'.clean', 'w') as output:
-        output.write(cleanup(sys.argv[1]))
-    elif os.path.exists('urls/'+sys.argv[1]+'.raw'):
-      cleanup('urls/'+sys.argv[1]+'.raw', debug=True)
-    elif os.path.exists('test/fixtures/clean/'+sys.argv[1]):
-      cleanup('test/fixtures/clean/'+sys.argv[1], debug=True)
+    with open(sys.argv[1]+'.clean', 'w') as output:
+      output.write(cleanup(sys.argv[1]))

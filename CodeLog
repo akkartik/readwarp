@@ -1963,3 +1963,9 @@ Bookmarklet tweaks. Copy, and an utterly insecure way to provide username.
 
 Back to the html cleaner.
 =-=755 - Wed Apr  7 22:26:19 PDT 2010
+Turns out just getting rid of 'encode(utf-8)' makes things much better.
+Get rid of all the test framework and debug crap. We don't really know what
+we're doing yet.
+I've started following the readability plugin. How can I directly use
+improvements to it? Firefox plugin?
+=-=756 - Wed Apr  7 22:39:25 PDT 2010
