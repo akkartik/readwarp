@@ -138,7 +138,7 @@ def cleanAll():
     f2 = 'urls/'+doc+'.clean'
     try:
       with open(f2, 'w') as output:
-        output.write(cleanup(f).encode('utf-8'))
+        output.write(cleanup(f))
       with open('fifos/clean', 'w') as fifo:
         fifo.write(line)
       with open('docs', 'a+') as fifo:
@@ -179,7 +179,7 @@ def test(f, debug=False):
   if debug: print passed
 #?   if not passed:
 #?     with open(f2+'.error', 'w') as output:
-#?       output.write(got.encode('utf-8'))
+#?       output.write(got)
 #?   else:
 #?     try: os.unlink(f2+'.error')
 #?     except OSError: pass
@@ -228,7 +228,8 @@ if __name__ == '__main__':
       elif os.path.exists('test/fixtures/clean/'+sys.argv[2]+'.raw'):
         test('test/fixtures/clean/'+sys.argv[2]+'.raw', debug=True)
     elif os.path.exists(sys.argv[1]):
-      cleanup(sys.argv[1], debug=True)
+      with open(sys.argv[1]+'.clean', 'w') as output:
+        output.write(cleanup(sys.argv[1]))
     elif os.path.exists('urls/'+sys.argv[1]+'.raw'):
       cleanup('urls/'+sys.argv[1]+'.raw', debug=True)
     elif os.path.exists('test/fixtures/clean/'+sys.argv[1]):
