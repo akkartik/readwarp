@@ -1969,3 +1969,6 @@ we're doing yet.
 I've started following the readability plugin. How can I directly use
 improvements to it? Firefox plugin?
 =-=756 - Wed Apr  7 22:39:25 PDT 2010
+After getting rid of encode(utf-8), the number of uncleaned files drops from
+67.6k to 4.1k.
+=-=757 - Thu Apr  8 22:55:27 PDT 2010
