@@ -1,8 +1,7 @@
-import sys, os, time, re, math, string, traceback, json
+import sys, os, time, re, math, string, traceback, json, codecs
 from BeautifulSoup import BeautifulSoup
-import StringIO
-import difflib
 from utils import *
+import difflib
 
 badParaRegex = re.compile("comment|meta|footer|footnote")
 goodParaRegex = re.compile("^(post|hentry|entry[-]?(content|text|body)?|article[-]?(content|text|body)?)$")
@@ -60,7 +59,6 @@ def matching_size(a, b):
   return sum(lens)
 
 def fuzzymatch(a, b):
-  print min(len(a), len(b))
   if a == '' or b == '': return False
   return (float(max(matching_size(a,b), matching_size(b,a))) /
             min(len(a), len(b))) > 0.8
@@ -122,7 +120,7 @@ def cleanAll():
     f = 'urls/'+doc+'.raw'
     f2 = 'urls/'+doc+'.clean'
     try:
-      with open(f2, 'w') as output:
+      with codecs.open(f2, 'w', 'utf-8') as output:
         output.write(cleanup(f))
       with open('fifos/clean', 'w') as fifo:
         fifo.write(line)
@@ -148,5 +146,5 @@ if __name__ == '__main__':
     while True:
       cleanAll()
   else:
-    with open(sys.argv[1]+'.clean', 'w') as output:
+    with codecs.open(sys.argv[1]+'.clean', 'w', 'utf-8') as output:
       output.write(cleanup(sys.argv[1]))

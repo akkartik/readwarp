@@ -6,8 +6,9 @@ def sortedKeys(h):
 def isa(var, type):
   return var.__class__.__name__ == type
 
-def slurp(f):
-  return open(f).read()
+import codecs
+def slurp(f, encoding='utf-8'):
+  return codecs.open(f, 'r', encoding).read()
 
 import re
 def urlToFilename(url):

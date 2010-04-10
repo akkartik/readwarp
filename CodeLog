@@ -1972,3 +1972,9 @@ improvements to it? Firefox plugin?
 After getting rid of encode(utf-8), the number of uncleaned files drops from
 67.6k to 4.1k.
 =-=757 - Thu Apr  8 22:55:27 PDT 2010
+So far it seems feedparser emits utf-8, and beautifulSoup returns utf-8. So
+our problem is to simply not screw it up with the utf-8 that we are given.
+
+htmlclean.py should now only ever read or write utf-8 by default. Let's test
+this.
+=-=758 - Fri Apr  9 20:08:28 PDT 2010
