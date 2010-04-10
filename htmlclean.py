@@ -87,7 +87,7 @@ def cleanup(file):
   scores = {}
   for para in soup.findAll('p'):
     parent = para.parent
-    pars = str(parent)
+    pars = unicode(parent)
     if not scores.has_key(pars):
       scores[pars] = init(parent)
 
@@ -98,7 +98,9 @@ def cleanup(file):
   pick = pickTopMatchingCandidate(candidates, scores, htmlstrip(deschint))
   if pick: return postproc(pick)
 
-  if deschint == '': return postproc(candidates[0])
+  if deschint == '':
+    try: return postproc(candidates[0])
+    except: pass
   return deschint
 
 def commaCount(node):
