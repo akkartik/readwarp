@@ -3,6 +3,8 @@ from BeautifulSoup import BeautifulSoup
 from utils import *
 import difflib
 
+# http://code.google.com/p/arc90labs-readability/source/browse/tags/final-releases/0.4.5/js/readability.js
+
 badParaRegex = re.compile("comment|meta|footer|footnote")
 goodParaRegex = re.compile("^(post|hentry|entry[-]?(content|text|body)?|article[-]?(content|text|body)?)$")
 def init(node):
