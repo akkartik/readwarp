@@ -238,8 +238,10 @@
   (push attempt b.2))
 
 (def backoff-borderline(b)
-  (when b
-    (>= (len b.2) (- b.1 1))))
+  (if (is b t)
+    (do1 nil (erp "ERRORERRORERROR backoff is t"))
+    (when b
+      (>= (len b.2) (- b.1 1)))))
 
 (mac backoff-check(b pred)
   `(when (>= (len (,b 2)) (,b 1))
