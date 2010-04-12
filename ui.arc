@@ -24,11 +24,6 @@
 
     (tag (div id 'rwcontents-wrap)
        (tag (div id 'rwcontent)
-         (when (is user "pk45059")
-           (flash "Hello pk45059! I loved your feedback, but have no way to
-                  follow up with you. Pretty please email me at
-                  akkartik@gmail.com? Or leave your email in feedback. Much
-                  appreciated."))
          ,@body))))
 
 
@@ -45,8 +40,14 @@
     (ensure-station user sname)
     (with-history req user sname
       (when new-sname
-        (flash "You're now browsing in a new channel.<p>
-               Votes here will not affect recommendations on other channels."))
+        (if (len> userinfo*.user!stations.sname!groups 10)
+          (flash "Hmm, I don't understand that query. Sorry :(<br/>
+                  I'm going to go off and try to pinpoint what you mean, which
+                  may take a day. In the meantime, I'll try to narrow down
+                  what you mean, but it may take ~20 stories to do so.<br/>
+                 Please try a different query if you don't want to wait that long.")
+          (flash "You're now browsing in a new channel.<p>
+                 Votes here will not affect recommendations on other channels.")))
       (doc-panel user sname (next-doc user sname)))))
 
 (defop delstation req
