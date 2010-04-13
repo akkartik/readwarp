@@ -19,15 +19,15 @@
 (def bookmarks-link()
   (tag (div class 'rwvlist)
     (tag (a href "/saved")
-      (tag b (pr "your bookmarks"))
-      (tag:img src "/saved.gif" height "14px" style "margin-left:0.5em"))))
+      (tag b (pr "my bookmarks"))
+      (tag:img src "/save.gif" height "14px" style "margin-left:0.5em"))))
 
 (defop saved req
   (let user get-user.req
     (page user
       (nav user)
       (tag (div style "width:100%")
-        (tag (div id 'rwleft-panel)
+        (tag (div id 'rwright-panel)
           (bookmarks-link)
           (channels-panel user nil)
           (new-channel-form)

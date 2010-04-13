@@ -55,7 +55,6 @@
 
           (let sname userinfo*.user!all
             (tag (div style "width:100%")
-              (tag (div style "float:left; height:1em; width:175px"))
               (tag (div id 'rwcontents-wrap)
                 (tag (div id 'rwcontent)
                     (next-stage user sname req)))))))))))

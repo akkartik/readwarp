@@ -3,11 +3,12 @@
 body{ font-size:62.5%; }
 #rwpage{ width:960px; margin-left:30px; font-size:1.4em; font-family:sans-serif; }
 
-.rwnav{ margin-top:10px; border-bottom:1px solid #dddddd; height:15px; }
+.rwnav{ margin-top:10px; border-bottom:1px solid #dddddd; height:17px; }
 
-#rwleft-panel{ float:left; text-align:left; width:175px; padding-top:15px; border-right:1px solid #dddddd; }
+#rwright-panel{ float:right; text-align:left; width:165px; padding-top:15px;
+  border-left:1px solid #dddddd; padding-left:10px; }
 
-.rwbuttons{ margin-left:1em; position:fixed; top:40px; left:205px; }
+.rwbuttons{ position:fixed; top:40px; left:30px; }
 
   .rwbutton{ width:70px; height:70px; cursor:pointer;
            margin-bottom:2em; position:relative;
@@ -16,7 +17,7 @@ body{ font-size:62.5%; }
   .rwskip{ background-image:url('square-button-30151e.png'); color:#899ab6; } .rwoutcome_1{ color:#30151e; }
   .rwoutcome_icon{ float:right; margin-right:0.2em; margin-left:0.5em; width:16px; height:24px; font-size:75%;}
 
-#rwcontent{ float:left; margin-left:90px; width:679px; padding-left:1em; padding-top:5px; margin-bottom:1em; padding-bottom:2em; border-bottom:1px solid #dddddd; }
+#rwcontent{ float:left; margin-left:70px; width:679px; padding-left:1em; padding-top:5px; margin-bottom:1em; padding-bottom:2em; border-bottom:1px solid #dddddd; }
 
   #rwpost-wrapper{ }
   #rwfeedback-wrapper{ float:right; margin-top:10px; }
@@ -57,13 +58,14 @@ h2.rwtitle a{ font-family:serif; font-size:1.4em; font-weight:bold; color:#66e; 
 
 
 
-#rwleft-panel b{ color:#999999; }
+#rwright-panel b{ color:#bbbbbb; }
+#rwright-panel a{ color:#888888; }
 #rwhistory .rwitem{ margin-top:1em; margin-bottom:1em; }
 #rwhistory a{ font-size:90%; }
 
 .rwvlist{ margin-bottom:1em; padding-bottom:1em; }
 
-.rwpaginate{ color:#aaf; margin:1em; font-style:italic; text-align:center; font-size:10px; }
+.rwpaginate{ color:#fff; margin:1em; font-style:italic; text-align:center; font-size:10px; }
 .rwpaginate a{ color:#66f; }
 
 .rwprogress{ margin-left:1em; float:left; height:1em; border:1px solid #888; }

@@ -15,10 +15,9 @@
 
 (mac with-history-sub(req user sname . body)
   `(do
-    (tag (div id 'rwleft-panel)
+    (tag (div id 'rwright-panel)
       (current-channel-link ,user ,sname)
       (channels-panel ,user ,sname)
-      (new-channel-form)
       (bookmarks-link)
       (history-panel ,user ,sname ,req))
 
@@ -250,7 +249,7 @@
     (tag (div class "rwstations rwvlist")
       (tag b
         (if (is sname userinfo*.user!all)
-          (pr "your channels")
+          (pr "my channels")
           (pr "other channels")))
       (each s (keys userinfo*.user!stations)
         (when (and (~is s userinfo*.user!all)
@@ -261,16 +260,18 @@
               (tag (a href (+ "/delstation?station=" urlencode.s)
                       onclick "jsget(this); del(this.parentNode.parentNode); return false;")
                 (tag:img src "close_x.gif")))
-            (link s (+ "/station?seed=" urlencode.s))))))))
+            (link s (+ "/station?seed=" urlencode.s)))))
+      (new-channel-form))))
 
 (def new-channel-form()
-  (tag (div class 'rwvlist)
+  (tag (div style "margin-top:1em")
     (tag b (pr "new channel"))
     (tag (form action "/station")
-         (tag:input name "seed" size "15")
+         (tag:input name "seed" size "12")
+         (tag:input type "submit" value "go" style
+                    "margin-top:5px;margin-left:5px")
          (tag (div style "color:#888888; font-size:90%; margin-top:2px")
-           (pr "type in a website or author"))
-         (tag:input type "submit" value "switch" style "margin-top:5px"))))
+           (pr "type in a website or author")))))
 
 (def history-panel(user sname req)
   (tag (div class 'rwvlist)
