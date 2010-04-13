@@ -56,8 +56,7 @@
           (let sname userinfo*.user!all
             (tag (div style "width:100%")
               (tag (div id 'rwcontents-wrap)
-                (tag (div id 'rwcontent)
-                    (next-stage user sname req)))))))))))
+                (next-stage user sname req))))))))))
 
 (proc ensure-station2(user sname)
   (ensure-user user)
@@ -166,7 +165,7 @@
   (progress-bar user)
   (if doc
     (do
-      (tag (div id (+ "doc_" doc))
+      (tag div
         (tag (div style "width:100%; margin-right:1em")
               (when (is 2 userinfo*.user!signup-stage)
                 (flash:+ "Ok! Use the buttons to tell us what you think of " quiz-length*

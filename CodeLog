@@ -1993,3 +1993,5 @@ Incorporating comments from Daniel Gackle, Ben Silberman, and Tristan Kromer.
   fixed buttons were distracting between two columns of scrolling text; move
   left navigation to the right, deemphasizing it further.
 =-=764 - Tue Apr 13 16:06:58 PDT 2010
+Layout fix for signup screen.
+=-=765 - Tue Apr 13 16:32:57 PDT 2010
