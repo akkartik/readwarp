@@ -87,7 +87,7 @@
 
 (def bookmark-buttons(user doc)
   (tag (div class 'rwbuttons)
-    (bookmark-button user doc "rwlike" "&#8593;")
+    (bookmark-button user doc "rwlike" "next")
     (tag p)
     (save-button user doc)
     (tag p)
