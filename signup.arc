@@ -56,7 +56,8 @@
           (let sname userinfo*.user!all
             (tag (div style "width:100%")
               (tag (div id 'rwcontents-wrap)
-                (next-stage user sname req))))))))))
+                (tag (div id 'rwcontent)
+                  (next-stage user sname req)))))))))))
 
 (proc ensure-station2(user sname)
   (ensure-user user)
@@ -142,7 +143,13 @@
 
   ; example rendering
   (tag (div style "width:960px")
-    (with-history-sub req user query
+    (tag (div id 'rwright-panel)
+      (current-channel-link user query)
+      (channels-panel user query)
+      (bookmarks-link)
+      (history-panel user query req))
+
+    (tag (div id 'rwcontents-wrap style "margin-right:5px")
       (doc-panel user query (next-doc user query)))))
 
 (def progress-bar(user)
@@ -185,10 +192,12 @@
       (write-feedback user "" sname "" "No result found"))))
 
 (def buttons2(user sname doc)
-  (tag (div class 'rwbuttons)
-    (button2 user sname doc 2 "rwlike" "&#8593;")
+  (tag (div class 'rwbuttons style "top:15px")
+    (button2 user sname doc 2 "" "<img src='signup-up.png' height='96px'
+             style='margin-left:-10px'>")
     (tag p)
-    (button2 user sname doc 1 "rwskip" "&#8595;"))
+    (button2 user sname doc 1 "" "<img src='signup-down.png' height='96px'
+             style='margin-left:-10px'>"))
     (clear))
 
 (def button2(user sname doc n cls label)
