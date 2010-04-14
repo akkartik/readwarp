@@ -2008,3 +2008,5 @@ copywidget from http://github.com/mojombo/clippy
 =-=772 - Wed Apr 14 03:14:08 PDT 2010
 Signup pages were broken since yesterday. Fixed.
 =-=775 - Wed Apr 14 14:00:41 PDT 2010
+Signup page had stopped blocking scrolling for weeks. Fixed.
+=-=776 - Wed Apr 14 14:47:59 PDT 2010

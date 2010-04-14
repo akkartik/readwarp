@@ -1,6 +1,6 @@
 /* http://foohack.com/2007/11/css-modal-dialog-that-works-right */
-body.rwmodal{ height:100%; overflow:hidden; }
-body.rwmodal #body{ overflow:auto; height:100%; }
+body{ height:100%; overflow:hidden; }
+body #body{ overflow:auto; height:100%; }
 
 .rwoverlay-decorator {
         background:#cccccc;
