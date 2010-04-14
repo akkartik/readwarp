@@ -5,8 +5,7 @@ body{ font-size:62.5%; }
 
 .rwnav{ margin-top:10px; border-bottom:1px solid #dddddd; height:17px; }
 
-#rwright-panel{ float:right; text-align:left; width:165px; padding-top:15px;
-  border-left:1px solid #dddddd; padding-left:10px; }
+#rwright-panel{ float:right; text-align:left; width:165px; padding-top:10px; border-left:1px solid #dddddd; padding-left:10px; }
 
 .rwbuttons{ position:fixed; top:40px; left:30px; }
 
