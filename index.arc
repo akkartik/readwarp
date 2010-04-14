@@ -300,3 +300,10 @@
         (unless userinfo*.user!stations.gs!preferred.f
           (erp "global: " f))
         (set userinfo*.user!stations.gs!preferred.f)))))
+
+(def clear-user(user)
+  (wipe userinfo*.user hpasswords*.user))
+
+(def feedstats(user)
+  (let r (dedup:map doc-feed (keys userinfo*.user!read))
+    (rem [pos _ r] (keys userinfo*.user!preferred-feeds))))
