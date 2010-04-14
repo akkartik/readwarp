@@ -12,8 +12,8 @@ body{ font-size:62.5%; }
   .rwbutton{ width:70px; height:70px; cursor:pointer;
            margin-bottom:2em; position:relative;
            text-align:center; }
-  .rwlike{ background-image:url('square-button-899ab6.png'); color:#30151e; } .rwoutcome_2{ color:#899ab6; }
-  .rwskip{ background-image:url('square-button-30151e.png'); color:#899ab6; } .rwoutcome_1{ color:#30151e; }
+  .rwlike{ background-image:url('square-button-899ab6.png'); color:#30151e; background-position:center center; background-repeat:no-repeat; } .rwoutcome_2{ color:#899ab6; }
+  .rwskip{ background-image:url('square-button-30151e.png'); color:#000000; } .rwoutcome_1{ color:#000000; }
   .rwoutcome_icon{ float:right; margin-right:0.2em; margin-left:0.5em; width:16px; height:24px; font-size:75%;}
 
 #rwcontent{ float:left; margin-left:70px; width:679px; padding-left:1em; padding-top:5px; margin-bottom:1em; padding-bottom:2em; border-bottom:1px solid #dddddd; }

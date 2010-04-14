@@ -1,10 +1,8 @@
 (def save-button(user doc)
-  (tag (div class 'rwbutton)
+  (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:20px")
     (toggle-icon (+ "save_" doc)
       (tag div
-        (tag:img src IMG width "32px")
-        (tag (div class 'rwbookmark_icon)
-          (pr "read later")))
+        (tag:img src IMG width "32px"))
       (+ "/save?doc=" doc)
       "/saved.gif" "/save.gif"
       (pos doc userinfo*.user!saved))))
@@ -30,7 +28,6 @@
         (tag (div id 'rwright-panel)
           (bookmarks-link)
           (channels-panel user nil)
-          (new-channel-form)
           (bookmarks-panel user req))
 
         (tag (div id 'rwcontents-wrap)
@@ -92,9 +89,11 @@
   (tag (div class 'rwbuttons)
     (bookmark-button user doc "rwlike" "&#8593;")
     (tag p)
-    (bookmark-button user doc "rwskip" "&#8595;")
-    (tag p)
     (save-button user doc)
+    (tag p)
+    (tag (div class 'rwbutton onclick
+            (+ "pullFromHistory('" urlencode.doc "');"))
+      (tag:img src "td.png"))
     (clear)))
 
 (def bookmark-button(user doc cls label)

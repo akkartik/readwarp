@@ -1995,3 +1995,7 @@ Incorporating comments from Daniel Gackle, Ben Silberman, and Tristan Kromer.
 =-=764 - Tue Apr 13 16:06:58 PDT 2010
 Layout fix for signup screen.
 =-=765 - Tue Apr 13 16:32:57 PDT 2010
+New button layout, with a thumb for downvoting and making upvotes less
+stress-inducing.
+Now update the algorithm to not over-interpret upvotes.
+=-=767 - Tue Apr 13 19:12:55 PDT 2010

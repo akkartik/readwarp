@@ -175,11 +175,14 @@
 
 (def buttons(user sname doc)
   (tag (div class 'rwbuttons)
-    (button user sname doc 2 "rwlike" "&#8593;")
-    (tag p)
-    (button user sname doc 1 "rwskip" "&#8595;")
+    (button user sname doc 2 "rwlike" "next")
     (tag p)
     (save-button user doc)
+    (tag p)
+    (tag (div class 'rwbutton onclick
+            (or (mark-read-url user sname doc 1)
+                (pushHistory sname doc (+ "'outcome=" 1 "'"))))
+      (tag:img src "td.png"))
     (clear)))
 
 (def button(user sname doc n cls label)
