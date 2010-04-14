@@ -92,14 +92,16 @@
   (tag (div class 'rwbuttons)
     (votebutton "rwlike" "next"
                 (+ "pullFromHistory('" urlencode.doc "');"))
+
     (tag p)
     (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:20px")
-      (tag (div onclick
-            (+ "pullFromHistory('" urlencode.doc "&outcome=" vote-bookmark* "')"))
-        (tag:img src
-          (if (pos doc userinfo*.user!saved)
-            "/saved.gif"
-            "/save.gif"))))
+      (toggle-icon (+ "save_" doc)
+        (tag div
+          (tag:img src IMG width "32px"))
+        (+ "/save?doc=" doc)
+        "/saved.gif" "/save.gif"
+        (pos doc userinfo*.user!saved)))
+
     (tag p)
     (tag (div class 'rwbutton onclick
             (+ "pullFromHistory('" urlencode.doc "');"))

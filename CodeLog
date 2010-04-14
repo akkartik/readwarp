@@ -2002,3 +2002,5 @@ Now update the algorithm to not over-interpret upvotes.
 Star now moves to next story.
 It also does this in the bookmark view, but that is perhaps a bad idea.
 =-=770 - Tue Apr 13 23:36:07 PDT 2010
+In the bookmark view unstarring/restarring doesn't move onward.
+=-=771 - Tue Apr 13 23:41:08 PDT 2010
