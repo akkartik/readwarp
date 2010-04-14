@@ -1,18 +1,19 @@
-(def save-button(user doc)
+(def save-button(user sname doc)
   (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:20px")
-    (toggle-icon (+ "save_" doc)
-      (tag div
-        (tag:img src IMG width "32px"))
-      (+ "/save?doc=" doc)
-      "/saved.gif" "/save.gif"
-      (pos doc userinfo*.user!saved))))
+    (tag (div onclick
+          (pushHistory sname doc (+ "'outcome=" vote-bookmark* "'")))
+      (tag:img src
+        (if (pos doc userinfo*.user!saved)
+          "/saved.gif"
+          "/save.gif")))))
 
 (defop save req
-  (with (user (current-user req)
-         doc (arg req "doc"))
-    (if (pos doc userinfo*.user!saved)
-      (nrem doc userinfo*.user!saved)
-      (add-to userinfo*.user!saved doc))))
+  (toggle-save current-user.req (arg req "doc")))
+
+(def toggle-save(user doc)
+  (if (pos doc userinfo*.user!saved)
+    (nrem doc userinfo*.user!saved)
+    (add-to userinfo*.user!saved doc)))
 
 (def bookmarks-link()
   (tag (div class 'rwvlist)
@@ -47,6 +48,8 @@
 (def update-bookmarks(req)
   (with (user current-user.req
          doc (arg req "doc"))
+    (when (is "4" (arg req "outcome"))
+      (toggle-save user doc))
     (if (no userinfo*.user!saved)
       (flash no-bookmarks-msg*)
       (do
@@ -87,15 +90,18 @@
 
 (def bookmark-buttons(user doc)
   (tag (div class 'rwbuttons)
-    (bookmark-button user doc "rwlike" "next")
+    (votebutton "rwlike" "next"
+                (+ "pullFromHistory('" urlencode.doc "');"))
     (tag p)
-    (save-button user doc)
+    (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:20px")
+      (tag (div onclick
+            (+ "pullFromHistory('" urlencode.doc "&outcome=" vote-bookmark* "')"))
+        (tag:img src
+          (if (pos doc userinfo*.user!saved)
+            "/saved.gif"
+            "/save.gif"))))
     (tag p)
     (tag (div class 'rwbutton onclick
             (+ "pullFromHistory('" urlencode.doc "');"))
       (tag:img src "td.png"))
     (clear)))
-
-(def bookmark-button(user doc cls label)
-  (votebutton cls label
-              (+ "pullFromHistory('" urlencode.doc "');")))

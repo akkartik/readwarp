@@ -177,7 +177,7 @@
   (tag (div class 'rwbuttons)
     (button user sname doc 2 "rwlike" "next")
     (tag p)
-    (save-button user doc)
+    (save-button user sname doc)
     (tag p)
     (tag (div class 'rwbutton onclick
             (or (mark-read-url user sname doc 1)

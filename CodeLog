@@ -1999,3 +1999,6 @@ New button layout, with a thumb for downvoting and making upvotes less
 stress-inducing.
 Now update the algorithm to not over-interpret upvotes.
 =-=767 - Tue Apr 13 19:12:55 PDT 2010
+Star now moves to next story.
+It also does this in the bookmark view, but that is perhaps a bad idea.
+=-=770 - Tue Apr 13 23:36:07 PDT 2010
