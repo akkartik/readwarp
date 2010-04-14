@@ -44,20 +44,15 @@
   (let user current-user.req
     (start-rebuilding-signup-showlist user nil)
     (or= userinfo*.user!signup-stage 2)
-    (tag html
-      (header
-        (csstag "modal.css"))
-      (tag body
-        (tag (div id 'rwbody)
-        (tag (div id 'rwpage)
-          (tag (div class 'rwnav)
-            (logo-small))
+    (page
+      (tag (div class 'rwnav)
+        (logo-small))
 
-          (let sname userinfo*.user!all
-            (tag (div style "width:100%")
-              (tag (div id 'rwcontents-wrap)
-                (tag (div id 'rwcontent)
-                  (next-stage user sname req)))))))))))
+      (let sname userinfo*.user!all
+        (tag (div style "width:100%")
+          (tag (div id 'rwcontents-wrap)
+            (tag (div id 'rwcontent)
+              (next-stage user sname req))))))))
 
 (proc ensure-station2(user sname)
   (ensure-user user)
@@ -73,9 +68,7 @@
   (let funnel-stage userinfo*.user!signup-stage
     (signup-funnel-analytics is-prod.req funnel-stage user)
     (erp user ": stage " funnel-stage)
-    (if (>= funnel-stage funnel-signup-stage*)
-      (signup-form user query req)
-      (render-doc-with-context2 user query next-doc2.user))))
+    (render-doc-with-context2 user query next-doc2.user)))
 
 (def next-doc2(user)
   (erp "waiting")
@@ -109,48 +102,23 @@
         (enq random-story-from.group
              userinfo*.user!signup-showlist)))))
 
-(mac modal(show . body)
-  `(do
-    (tag (div id 'rwmodal style ,show)
-      (tag:div class 'rwoverlay-decorator style ,show)
-      (tag (div class 'rwoverlay-wrap)
-        (tag (div class 'rwoverlay)
-          (tag:div class 'rwdialog-decorator)
-          (tag (div class 'rwdialog-wrap)
-            (tag (div id 'rwdialog class 'rwdialog)
-              ,@body)))))))
-
-(def signup-form(user query req)
-  (modal "display:block"
-    (tag (div style "background:#fff; padding:1em; margin-bottom:100%")
-      (prbold "Thank you!")
-      (br)
-      (tag (span style "font-size:14px; color:#888888")
-        (pr "Please save your preferences."))
-      (br2)
-      (fnform (fn(req) (create-handler req 'register
-                                (list (fn(new-username ip)
-                                        (swap userinfo*.user
-                                              userinfo*.new-username)
-                                        (signup new-username ip))
-                                      "/")))
-              (fn()
-                (inputs u email 20 nil
-                        p password 20 nil)
-                (br)
-                (submit "signup"))
-              t)))
-
-  ; example rendering
-  (tag (div style "width:960px")
-    (tag (div id 'rwright-panel)
-      (current-channel-link user query)
-      (channels-panel user query)
-      (bookmarks-link)
-      (history-panel user query req))
-
-    (tag (div id 'rwcontents-wrap style "margin-right:5px")
-      (doc-panel user query (next-doc user query)))))
+(def signup-form(user)
+  (tag (div style "float:right")
+    (tag (span style "font-size:14px; color:#888888")
+      (pr "Please save your preferences."))
+    (br2)
+    (fnform (fn(req) (create-handler req 'register
+                              (list (fn(new-username ip)
+                                      (swap userinfo*.user
+                                            userinfo*.new-username)
+                                      (signup new-username ip))
+                                    "/")))
+            (fn()
+              (inputs u email 20 nil
+                      p password 20 nil)
+              (br)
+              (submit "signup"))
+            t)))
 
 (def progress-bar(user)
   (tag div
@@ -169,7 +137,9 @@
   (abtest user "signup-calltovoteup" '(false true)))
 
 (def render-doc-with-context2(user sname doc)
-  (progress-bar user)
+  (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
+    (signup-form user)
+    (progress-bar user))
   (if doc
     (do
       (tag div
