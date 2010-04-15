@@ -149,8 +149,8 @@
       (tag div
         (tag (div style "width:100%; margin-right:1em")
               (when (is 2 userinfo*.user!signup-stage)
-                (flash:+ "Ok! Click on <img src='save.gif'
-                         style='vertical-align:bottom'> to like a story,
+                (flash:+ "Ok! Click on <img src='save-button-384cff.png'
+                         style='vertical-align:bottom' height='28px'> to like a story,
                          and on <img src='signup-down.png' height='40px'
                          style='vertical-align:bottom; margin-bottom:-5px'> to dislike."))
           (feedback-form sname doc)
@@ -173,12 +173,12 @@
       (tag (div style "position:relative; top:25px; font-size:16px;")
         (pr "next")))
     (tag p)
-    (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:30px"
+    (tag (div class 'rwbutton
               onclick (inline "rwcontent"
                               (+ "/docupdate2?doc=" urlencode.doc
                                  "&station=" urlencode.sname
                                  "&outcome=" vote-bookmark*)))
-      (tag:img src "save.gif"))
+      (tag:img src "save-button-384cff.png" height "65px"))
     (tag (div class 'rwbutton onclick
             (inline "rwcontent"
                     (+ "/docupdate2?doc=" urlencode.doc

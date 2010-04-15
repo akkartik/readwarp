@@ -2065,3 +2065,6 @@ The funnel with signup=true measures what stage people signup at.
 =-=795 - Thu Apr 15 13:06:28 PDT 2010
 Agh, I break the signup so easily.
 =-=796 - Thu Apr 15 14:30:40 PDT 2010
+Button for star as well. Buttons now consistently indicate navigation. So the
+star on the bookmark page isn't a button.
+=-=797 - Thu Apr 15 14:48:02 PDT 2010
