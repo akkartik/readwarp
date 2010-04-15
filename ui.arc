@@ -61,7 +61,7 @@
     (with-history req user global-sname
       (firsttime userinfo*.user!noob
         (signup-funnel-analytics is-prod.req (+ 1 funnel-signup-stage*) user)
-        (flash "Welcome! Keep voting on stories as you read, and Readwarp will
+        (flash "Thank you! Keep voting on stories as you read, and Readwarp will
                continually fine-tune its recommendations.
 
                <br><br>

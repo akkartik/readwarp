@@ -103,10 +103,10 @@
              userinfo*.user!signup-showlist)))))
 
 (def signup-form(user)
-  (tag (div style "float:right")
-    (tag (span style "font-size:14px; color:#888888")
-      (pr "Please save your preferences."))
-    (br2)
+  (tag (div style "text-align:left; background:#999999; padding:1em; margin-bottom:1em")
+    (tag (span style "font-size:14px; color:#444444")
+      (prbold "Please save your preferences."))
+    (br)
     (fnform (fn(req) (create-handler req 'register
                               (list (fn(new-username ip)
                                       (swap userinfo*.user
@@ -114,9 +114,11 @@
                                       (signup new-username ip))
                                     "/")))
             (fn()
-              (inputs u email 20 nil
-                      p password 20 nil)
-              (br)
+              (pr "email: ")
+              (input 'u "" 20)
+              (tag:span style "margin-left:1em")
+              (pr "password: ")
+              (tag:input name 'p type 'password size 20)
               (submit "signup"))
             t)))
 
