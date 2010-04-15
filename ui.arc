@@ -347,11 +347,11 @@
 (defop email req
   (let user current-user.req
     (= userinfo*.user!email (arg req "from"))
-    (pipe-to (system "sendmail -t")
+    (pipe-to (system "sendmail -t -f feedback@readwarp.com")
       (prn "Reply-To: " (arg req "from"))
       (prn "To: " (arg req "to"))
-      (prn "Cc: " (when (is "true" (arg req "ccme"))
-                    (arg req "from")))
+      (when (is "true" (arg req "ccme"))
+        (prn "Cc: " (arg req "from")))
       (prn "Bcc: akkartik@gmail.com")
       (prn "Subject: " (arg req "subject"))
       (prn)

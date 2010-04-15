@@ -2046,3 +2046,12 @@ Build a simple version.
 =-=790 - Wed Apr 14 22:18:15 PDT 2010
 Back-end done!
 =-=791 - Wed Apr 14 22:58:40 PDT 2010
+Done configuring authsmtp according to instructions at:
+  http://www.authsmtp.com/postfix
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_sasl_mechanism_filter = plain
+relayhost = mail.authsmtp.com
+
+Then run postmap and restart postfix.
+=-=792 - Thu Apr 15 02:01:15 PDT 2010
