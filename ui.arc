@@ -319,14 +319,24 @@
                        $('rwform-flash').show();
                        return false")
     (tab
-      (tag (tr style "")
-        (td (prbold "From:&nbsp;")) (td (tag:input style "margin-bottom:5px" name "from" value user-email.user)))
       (tr
-        (td (prbold "To:&nbsp;")) (td (tag:input name "from" value user-email.user))))
+        (td:prbold "From:&nbsp;")
+        (td:tag:input style "margin-bottom:5px" name "from" size "30"
+                      value user-email.user))
+      (tr
+        (td:prbold "To:&nbsp;")
+        (td:tag:input style "margin-bottom:5px" name "to" size "30"))
+      (tr
+        (td:prbold "Subject:&nbsp;")
+        (td:tag:input style "margin-bottom:5px" name "subject" size "30"
+                      value doc-title.doc)))
     (prbold "Note: ") (pr "(optional)")(br)
-    (tag:textarea name "msg" cols "50" rows "6" style "text-align:left")
+    (tag (textarea name "msg" cols "50" rows "6" style "text-align:left")
+      (pr:+ doc-title.doc #\newline
+            doc-url.doc))
     (tag (div style "margin-top:5px")
-      (tag:input name "ccme" id "ccme" type "checkbox" style "vertical-align:top; width:1em; height:1em")
+      (tag:input name "ccme" id "ccme" type "checkbox"
+                 style "width:1em; height:1em")
       (tag (label for "ccme") (pr " Send me a copy")))
     (tag (div style "margin-top:0.5em; text-align:left")
       (do
@@ -335,7 +345,17 @@
           (pr "cancel"))))))
 
 (defop email req
-  (erp "aaaaa"))
+  (let user current-user.req
+    (= userinfo*.user!email (arg req "from"))
+    (pipe-to (system "sendmail -t")
+      (prn "Reply-To: " (arg req "from"))
+      (prn "To: " (arg req "to"))
+      (prn "Cc: " (when (is "true" (arg req "ccme"))
+                    (arg req "from")))
+      (prn "Bcc: akkartik@gmail.com")
+      (prn "Subject: " (arg req "subject"))
+      (prn)
+      (prn (arg req "msg")))))
 
 (def user-email(user)
   (if (pos #\@ user)

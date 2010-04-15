@@ -51,6 +51,11 @@
          (unless (,test ,ans)
            (= ,ans nil))))))
 
+(mac pipe-to(dest . body)
+  `(fromstring
+     (tostring ,@body)
+     ,dest))
+
 ; counterpart of only: keep retrying until expr returns something, then apply f to it
 (mac always(f expr)
   `(,f (findg ,expr ,f)))
