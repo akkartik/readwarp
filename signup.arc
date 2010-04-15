@@ -167,7 +167,7 @@
   (tag (div class 'rwbuttons)
     (tag (div class "rwbutton rwlike"
               onclick (inline "rwcontent"
-                              (+ "/" update-url.user "?doc=" urlencode.doc
+                              (+ "/docupdate2?doc=" urlencode.doc
                                  "&station=" urlencode.sname
                                  "&outcome=" 2)))
       (tag (div style "position:relative; top:25px; font-size:16px;")
@@ -175,32 +175,31 @@
     (tag p)
     (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:30px"
               onclick (inline "rwcontent"
-                              (+ "/" update-url.user "?doc=" urlencode.doc
+                              (+ "/docupdate2?doc=" urlencode.doc
                                  "&station=" urlencode.sname
                                  "&outcome=" vote-bookmark*)))
       (tag:img src "save.gif"))
     (tag p)
     (tag (div class 'rwbutton onclick
             (inline "rwcontent"
-                    (+ "/" update-url.user "?doc=" urlencode.doc
+                    (+ "/docupdate2?doc=" urlencode.doc
                        "&station=" urlencode.sname "&outcome=" 1)))
       (tag:img src "signup-down.png" height "90px"))
     (clear)))
-
-(def update-url(user)
-  (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
-    "docupdate"
-    "docupdate2"))
 
 (defop docupdate2 req
   (with (user (current-user req)
          sname (or (arg req "station") "")
          doc (arg req "doc")
          outcome (arg req "outcome"))
-    (nopr
-      (ensure-station2 user sname)
-      (mark-read2 user sname doc outcome)
-      (++ userinfo*.user!signup-stage))
+    (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
+      (do
+        (ensure-station user sname)
+        (mark-read user sname doc outcome nil nil nil))
+      (do
+        (ensure-station2 user sname)
+        (mark-read2 user sname doc outcome)))
+    (++ userinfo*.user!signup-stage)
     (next-stage user sname req)))
 
 (proc mark-read2(user sname doc outcome)
