@@ -136,7 +136,7 @@
     (clear)))
 
 (proc init-abtests(user)
-  (abtest user "signup-calltovoteup" '(false true)))
+  )
 
 (def render-doc-with-context2(user sname doc)
   (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
