@@ -183,7 +183,7 @@
     (tag (div class 'rwbutton onclick
             (or (mark-read-url user sname doc 1)
                 (pushHistory sname doc (+ "'outcome=" 1 "'"))))
-      (tag:img src "td.png"))
+      (tag:img src "signup-down.png" height "90px"))
     (clear)))
 
 (def button(user sname doc n cls label)
