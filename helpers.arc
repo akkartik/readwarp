@@ -126,8 +126,6 @@
     (erp "abtest: " key " " ans)))
 
 (def abtests(user)
-  (when (no userinfo*.user!abtests)
-    (erp "ERRORERRORERROR No abtests for user " user))
   (init-abtests user)
   (only.tablist userinfo*.user!abtests))
 
