@@ -25,6 +25,15 @@ function jsget(elem) {
   return false;
 }
 
+function jspost(url, params) {
+  new Ajax.Request(stringOrHref(url),
+      {
+        method: 'post',
+        parameters: params
+      });
+  return false;
+}
+
 function inline(id, url, params) {
   prepareAjax(id);
   new Ajax.Request(stringOrHref(url),
@@ -173,4 +182,29 @@ function waitAndUpdateHistory() {
   else {
     inline('rwhistory', '/bhist');
   }
+}
+
+function params(elem) {
+  var ans = {};
+  var inputs = elem.getElementsByTagName('input');
+  for (var i=0; i < inputs.length; ++i) {
+    if (inputs[i].type == "checkbox") {
+      ans[inputs[i].name] = inputs[i].checked;
+    }
+    else {
+      ans[inputs[i].name] = inputs[i].value;
+    }
+  }
+
+  var inputs = elem.getElementsByTagName('select');
+  for (var i = 0; i < inputs.length; ++i) {
+    ans[inputs[i].name] = inputs[i].options[inputs[i].selectedIndex].value;
+  }
+
+  var inputs = elem.getElementsByTagName('textarea');
+  for (var i = 0; i < inputs.length; ++i) {
+    ans[inputs[i].name] = inputs[i].value;
+  }
+
+  return ans;
 }

@@ -155,7 +155,7 @@
                          style='vertical-align:bottom'> to dislike one."))
           (feedback-form sname doc)
           (tag (div class 'rwpost)
-            (render-doc doc)))
+            (render-doc user doc)))
         (tag div
           (buttons2 user sname doc)))
       (update-title doc-title.doc))

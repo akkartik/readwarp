@@ -132,7 +132,7 @@
       (tag (div class 'rwhistory style "display:none")
         (render-doc-link user sname doc))
       (tag (div class 'rwpost)
-        (render-doc doc)))
+        (render-doc user doc)))
     (tag div
       (buttons user sname doc)))
   (update-title doc-title.doc))
@@ -148,7 +148,7 @@
   (tag script
     (pr (+ "document.title = \"" jsesc.s "\";"))))
 
-(def render-doc(doc)
+(def render-doc(user doc)
   (tag (div id (+ "contents_" doc))
     (tag (h2 class 'rwtitle)
       (tag (a href doc-url.doc target "_blank")
@@ -160,6 +160,7 @@
       (whenlet siteurl doc-site.doc
         (tag (a href siteurl target "_blank")
           (pr (check doc-feedtitle.doc ~empty "website")))))
+    (email-form user doc)
     (tag (div class 'rwpost-body)
       (pr:contents doc))
     (clear)))
@@ -180,11 +181,19 @@
     (tag p)
     (save-button user sname doc)
     (tag p)
+    (email-button user doc)
+    (tag p)
     (tag (div class 'rwbutton onclick
             (or (mark-read-url user sname doc 1)
                 (pushHistory sname doc (+ "'outcome=" 1 "'"))))
       (tag:img src "signup-down.png" height "90px"))
     (clear)))
+
+(def email-button(user doc)
+  (tag (div onclick "$('rwemail').toggle();
+                     $('rwform-flash').innerHTML='';
+                     $('rwform-flash').hide()")
+    (tag:img src "email.jpg")))
 
 (def button(user sname doc n cls label)
   (votebutton cls label
@@ -300,6 +309,38 @@
 (defopr logout req
   (logout-user current-user.req)
   "/")
+
+(def email-form(user doc)
+  (tag:div class "rwflash" id "rwform-flash" style "font-size:75%; display:none")
+  (tag (form id "rwemail" style "display:none" method "post"
+             onsubmit "$('rwemail').toggle();
+                       jspost('/email', params($('rwemail')));
+                       $('rwform-flash').innerHTML = 'sent';
+                       $('rwform-flash').show();
+                       return false")
+    (tab
+      (tag (tr style "")
+        (td (prbold "From:&nbsp;")) (td (tag:input style "margin-bottom:5px" name "from" value user-email.user)))
+      (tr
+        (td (prbold "To:&nbsp;")) (td (tag:input name "from" value user-email.user))))
+    (prbold "Note: ") (pr "(optional)")(br)
+    (tag:textarea name "msg" cols "50" rows "6" style "text-align:left")
+    (tag (div style "margin-top:5px")
+      (tag:input name "ccme" id "ccme" type "checkbox" style "vertical-align:top; width:1em; height:1em")
+      (tag (label for "ccme") (pr " Send me a copy")))
+    (tag (div style "margin-top:0.5em; text-align:left")
+      (do
+        (tag:input type "submit" value "send" style "margin-right:1em")
+        (tag (a href "#" onclick "$('rwemail').toggle()")
+          (pr "cancel"))))))
+
+(defop email req
+  (erp "aaaaa"))
+
+(def user-email(user)
+  (if (pos #\@ user)
+    user
+    userinfo*.user!email))
 
 (def feedback-form(sname doc)
   (tag (div id 'rwfeedback-wrapper)

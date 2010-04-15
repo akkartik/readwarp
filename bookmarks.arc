@@ -94,6 +94,9 @@
         (pos doc userinfo*.user!saved)))
 
     (tag p)
+    (email-button user doc)
+
+    (tag p)
     (tag (div class 'rwbutton onclick
             (+ "pullFromHistory('" urlencode.doc "');"))
       (tag:img src "td.png"))
