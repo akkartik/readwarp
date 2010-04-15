@@ -241,6 +241,8 @@
     (tag (div style "float:right")
       (if signedup?.user
         (do
+          (tag (span style "margin-right:1em")
+            (link "home" "/"))
           (pr user "&nbsp;|&nbsp;")
           (link "logout" "/logout"))
         (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
@@ -256,10 +258,10 @@
       (tag div (pr sname)))))
 
 (def channels-panel(user sname)
-  (when (or (> (len-keys userinfo*.user!stations) 2)
-          (and (is 2 (len-keys userinfo*.user!stations))
-               (is sname userinfo*.user!all)))
-    (tag (div class "rwstations rwvlist")
+  (tag (div class "rwstations rwvlist")
+    (when (or (> (len-keys userinfo*.user!stations) 2)
+            (and (is 2 (len-keys userinfo*.user!stations))
+                 (is sname userinfo*.user!all)))
       (tag b
         (if (is sname userinfo*.user!all)
           (pr "my channels")
@@ -273,11 +275,11 @@
               (tag (a href (+ "/delstation?station=" urlencode.s)
                       onclick "jsget(this); del(this.parentNode.parentNode); return false;")
                 (tag:img src "close_x.gif")))
-            (link s (+ "/station?seed=" urlencode.s)))))
-      (new-channel-form))))
+            (link s (+ "/station?seed=" urlencode.s))))))
+    (new-channel-form)))
 
 (def new-channel-form()
-  (tag (div style "margin-top:1em")
+  (tag div
     (tag b (pr "new channel"))
     (tag (form action "/station")
          (tag:input name "seed" size "12")
