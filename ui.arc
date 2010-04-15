@@ -342,6 +342,7 @@
     (= userinfo*.user!email (arg req "from"))
     (pipe-to (system "sendmail -t -f feedback@readwarp.com")
       (prn "Reply-To: " (arg req "from"))
+      ;(prn "From: " (arg req "from")) Not allowed by authsmtp
       (prn "To: " (arg req "to"))
       (when (is "true" (arg req "ccme"))
         (prn "Cc: " (arg req "from")))
