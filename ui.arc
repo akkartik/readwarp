@@ -325,8 +325,11 @@
                       value doc-title.doc)))
     (prbold "Note: ") (pr "(optional)")(br)
     (tag (textarea name "msg" cols "50" rows "6" style "text-align:left")
-      (pr:+ doc-title.doc #\newline
-            doc-url.doc))
+      (prn)
+      (prn)
+      (prn)
+      (prn doc-url.doc)
+      (prn))
     (tag (div style "margin-top:5px")
       (tag:input name "ccme" id "ccme" type "checkbox"
                  style "width:1em; height:1em")
@@ -349,7 +352,8 @@
       (prn "Bcc: akkartik@gmail.com")
       (prn "Subject: " (arg req "subject"))
       (prn)
-      (prn (arg req "from") "says:")
+      (prn (arg req "from") " shared a link with you.")
+      (prn)
       (prn (arg req "msg"))
       (prn "--")
       (prn "Sent from http://readwarp.com"))))
