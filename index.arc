@@ -301,8 +301,9 @@
           (erp "global: " f))
         (set userinfo*.user!stations.gs!preferred.f)))))
 
-(def clear-user(user)
-  (wipe userinfo*.user hpasswords*.user))
+(proc clear-user(user)
+  (wipe userinfo*.user hpasswords*.user loggedin-users*.user)
+  (save-table hpasswords* hpwfile*))
 
 (def feedstats(user)
   (let r (dedup:map doc-feed (keys userinfo*.user!read))
