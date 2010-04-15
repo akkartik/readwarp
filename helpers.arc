@@ -129,7 +129,7 @@
   (when (no userinfo*.user!abtests)
     (erp "ERRORERRORERROR No abtests for user " user))
   (init-abtests user)
-  (tablist userinfo*.user!abtests))
+  (only.tablist userinfo*.user!abtests))
 
 (def alist-json(al)
   (tostring
