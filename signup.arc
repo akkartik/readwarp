@@ -147,12 +147,10 @@
       (tag div
         (tag (div style "width:100%; margin-right:1em")
               (when (is 2 userinfo*.user!signup-stage)
-                (flash:+ "Ok! Use the buttons to tell us what you think of " quiz-length*
-                         " stories.<br>
-                         Vote up stories about topics you care about,
-                         or by sites you like.<br>"
-                         (when (is 'true (abtest user "signup-calltovoteup"))
-                           "<b>When in doubt, vote up</b>.")))
+                (flash:+ "Ok! Click on <img src='save.gif'
+                         style='vertical-align:bottom'> to like a story,
+                         and on <img src='signup-down.png' height='42px'
+                         style='vertical-align:bottom'> to dislike one."))
           (feedback-form sname doc)
           (tag (div class 'rwpost)
             (render-doc doc)))
@@ -164,13 +162,17 @@
       (write-feedback user "" sname "" "No result found"))))
 
 (def buttons2(user sname doc)
-  (tag (div class 'rwbuttons style "top:15px")
-    (button2 user sname doc 2 "" "<img src='signup-up.png' height='96px'
-             style='margin-left:-10px'>")
+  (tag (div class 'rwbuttons)
+    (button2 user sname doc 2 "rwlike" "next")
     (tag p)
-    (button2 user sname doc 1 "" "<img src='signup-down.png' height='96px'
-             style='margin-left:-10px'>"))
-    (clear))
+    (save-button user sname doc)
+    (tag p)
+    (tag (div class 'rwbutton onclick
+            (inline "rwcontent"
+                    (+ "/docupdate2?doc=" urlencode.doc
+                       "&station=" urlencode.sname "&outcome=" 1)))
+      (tag:img src "signup-down.png" height "90px"))
+    (clear)))
 
 (def button2(user sname doc n cls label)
   (votebutton cls label
