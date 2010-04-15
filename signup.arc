@@ -165,22 +165,32 @@
 
 (def buttons2(user sname doc)
   (tag (div class 'rwbuttons)
-    (button2 user sname doc 2 "rwlike" "next")
+    (tag (div class "rwbutton rwlike"
+              onclick (inline "rwcontent"
+                              (+ "/" update-url.user "?doc=" urlencode.doc
+                                 "&station=" urlencode.sname
+                                 "&outcome=" 2)))
+      (tag (div style "position:relative; top:25px; font-size:16px;")
+        (pr "next")))
     (tag p)
-    (save-button user sname doc)
+    (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:30px"
+              onclick (inline "rwcontent"
+                              (+ "/" update-url.user "?doc=" urlencode.doc
+                                 "&station=" urlencode.sname
+                                 "&outcome=" vote-bookmark*)))
+      (tag:img src "save.gif"))
     (tag p)
     (tag (div class 'rwbutton onclick
             (inline "rwcontent"
-                    (+ "/docupdate2?doc=" urlencode.doc
+                    (+ "/" update-url.user "?doc=" urlencode.doc
                        "&station=" urlencode.sname "&outcome=" 1)))
       (tag:img src "signup-down.png" height "90px"))
     (clear)))
 
-(def button2(user sname doc n cls label)
-  (votebutton cls label
-            (inline "rwcontent"
-                    (+ "/docupdate2?doc=" urlencode.doc
-                       "&station=" urlencode.sname "&outcome=" n))))
+(def update-url(user)
+  (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
+    "docupdate"
+    "docupdate2"))
 
 (defop docupdate2 req
   (with (user (current-user req)

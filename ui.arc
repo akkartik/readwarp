@@ -197,6 +197,15 @@
     (tag (div style "position:relative; top:25px; font-size:16px;")
       (pr label))))
 
+(def save-button(user sname doc)
+  (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:30px")
+    (tag (div onclick
+          (pushHistory sname doc (+ "'outcome=" vote-bookmark* "'")))
+      (tag:img src
+        (if (pos doc userinfo*.user!saved)
+          "/saved.gif"
+          "/save.gif")))))
+
 (def mark-read-url(user sname doc n)
   (when (is n 1)
     (if

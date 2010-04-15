@@ -1,12 +1,3 @@
-(def save-button(user sname doc)
-  (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:30px")
-    (tag (div onclick
-          (pushHistory sname doc (+ "'outcome=" vote-bookmark* "'")))
-      (tag:img src
-        (if (pos doc userinfo*.user!saved)
-          "/saved.gif"
-          "/save.gif")))))
-
 (defop save req
   (toggle-save current-user.req (arg req "doc")))
 
