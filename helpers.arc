@@ -125,6 +125,13 @@
   (ret ans (or= userinfo*.user!abtests.key randpos.options)
     (erp "abtest: " key " " ans)))
 
+(def init-funnel-property(user key val)
+  (or= userinfo*.user!abtests (table))
+  (or= userinfo*.user!abtests.key randpos.options))
+
+(def set-funnel-property(user key val)
+  (= userinfo*.user!abtests.key val))
+
 (def abtests(user)
   (init-abtests user)
   (only.tablist userinfo*.user!abtests))

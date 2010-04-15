@@ -60,7 +60,8 @@
     (ensure-station user global-sname)
     (with-history req user global-sname
       (firsttime userinfo*.user!noob
-        (signup-funnel-analytics is-prod.req (+ 1 funnel-signup-stage*) user)
+        (set-funnel-property user "signup" "true")
+        (signup-funnel-analytics is-prod.req userinfo*.user!signup-stage user)
         (flash "Thank you! Keep voting on stories as you read, and Readwarp will
                continually fine-tune its recommendations.
 

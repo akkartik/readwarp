@@ -138,7 +138,7 @@
     (clear)))
 
 (proc init-abtests(user)
-  )
+  (init-funnel-property user "signup" "false"))
 
 (def render-doc-with-context2(user sname doc)
   (if (>= userinfo*.user!signup-stage funnel-signup-stage*)

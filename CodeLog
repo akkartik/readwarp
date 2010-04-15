@@ -2057,3 +2057,9 @@ Then run postmap and restart postfix.
 =-=792 - Thu Apr 15 02:01:15 PDT 2010
 Layout and email copy tweaks on production.
 =-=793 - Thu Apr 15 02:23:11 PDT 2010
+
+Funnel analytics should start working again now. But they need to be
+interpreted differently. The old funnel is the new funnel with property
+signup=false, and it can go on indefinitely.
+The funnel with signup=true measures what stage people signup at.
+=-=795 - Thu Apr 15 13:06:28 PDT 2010
