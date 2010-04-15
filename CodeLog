@@ -2026,3 +2026,5 @@ Standardize button layout for signup.
 =-=782 - Wed Apr 14 20:46:30 PDT 2010
 A/B Test cleanup.
 =-=783 - Wed Apr 14 20:47:12 PDT 2010
+Don't let signup flow run out of stories.
+=-=784 - Wed Apr 14 20:51:20 PDT 2010

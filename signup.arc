@@ -71,10 +71,12 @@
     (render-doc-with-context2 user query next-doc2.user)))
 
 (def next-doc2(user)
-  (erp "waiting")
-  (wait:< 0 (qlen userinfo*.user!signup-showlist))
-  (w/stdout (stderr) (pr user " => "))
-  (erp:pick2 user))
+  (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
+    (next-doc user userinfo*.user!all)
+    (do
+      (wait:< 0 (qlen userinfo*.user!signup-showlist))
+      (w/stdout (stderr) (pr user " => "))
+      (erp:pick2 user))))
 
 (def pick2(user)
   (car:qlist userinfo*.user!signup-showlist))
