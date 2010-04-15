@@ -2073,3 +2073,7 @@ Make the border one step darker on 0to255.com. afb7ff to 9ea8ff.
 =-=798 - Thu Apr 15 14:50:29 PDT 2010
 Darker border makes button seems larger. Compensate.
 =-=799 - Thu Apr 15 14:52:15 PDT 2010
+
+Email copy tweak. Still not very obvious who's sending the message.
+Perhaps add to subject.
+=-=801 - Thu Apr 15 15:07:44 PDT 2010

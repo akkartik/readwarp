@@ -348,6 +348,7 @@
       (prn "Bcc: akkartik@gmail.com")
       (prn "Subject: " (arg req "subject"))
       (prn)
+      (prn (arg req "from") "says:")
       (prn (arg req "msg"))
       (prn "--")
       (prn "Sent from http://readwarp.com"))))
