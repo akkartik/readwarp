@@ -127,7 +127,7 @@
 
 (def init-funnel-property(user key val)
   (or= userinfo*.user!abtests (table))
-  (or= userinfo*.user!abtests.key randpos.options))
+  (or= userinfo*.user!abtests.key val))
 
 (def set-funnel-property(user key val)
   (= userinfo*.user!abtests.key val))

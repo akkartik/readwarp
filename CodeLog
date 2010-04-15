@@ -2063,3 +2063,5 @@ interpreted differently. The old funnel is the new funnel with property
 signup=false, and it can go on indefinitely.
 The funnel with signup=true measures what stage people signup at.
 =-=795 - Thu Apr 15 13:06:28 PDT 2010
+Agh, I break the signup so easily.
+=-=796 - Thu Apr 15 14:30:40 PDT 2010
