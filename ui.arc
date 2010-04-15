@@ -180,13 +180,12 @@
     (button user sname doc 2 "rwlike" "next")
     (tag p)
     (save-button user sname doc)
-    (tag p)
-    (email-button user doc)
-    (tag p)
     (tag (div class 'rwbutton onclick
             (or (mark-read-url user sname doc 1)
                 (pushHistory sname doc (+ "'outcome=" 1 "'"))))
       (tag:img src "signup-down.png" height "90px"))
+    (tag p)
+    (email-button user doc)
     (clear)))
 
 (def email-button(user doc)
@@ -355,7 +354,9 @@
       (prn "Bcc: akkartik@gmail.com")
       (prn "Subject: " (arg req "subject"))
       (prn)
-      (prn (arg req "msg")))))
+      (prn (arg req "msg"))
+      (prn "--")
+      (prn "Sent from http://readwarp.com"))))
 
 (def user-email(user)
   (if (pos #\@ user)

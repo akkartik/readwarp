@@ -151,8 +151,8 @@
               (when (is 2 userinfo*.user!signup-stage)
                 (flash:+ "Ok! Click on <img src='save.gif'
                          style='vertical-align:bottom'> to like a story,
-                         and on <img src='signup-down.png' height='42px'
-                         style='vertical-align:bottom'> to dislike one."))
+                         and on <img src='signup-down.png' height='40px'
+                         style='vertical-align:bottom; margin-bottom:-5px'> to dislike."))
           (feedback-form sname doc)
           (tag (div class 'rwpost)
             (render-doc user doc)))
@@ -179,7 +179,6 @@
                                  "&station=" urlencode.sname
                                  "&outcome=" vote-bookmark*)))
       (tag:img src "save.gif"))
-    (tag p)
     (tag (div class 'rwbutton onclick
             (inline "rwcontent"
                     (+ "/docupdate2?doc=" urlencode.doc

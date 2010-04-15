@@ -2055,3 +2055,5 @@ relayhost = mail.authsmtp.com
 
 Then run postmap and restart postfix.
 =-=792 - Thu Apr 15 02:01:15 PDT 2010
+Layout and email copy tweaks on production.
+=-=793 - Thu Apr 15 02:23:11 PDT 2010

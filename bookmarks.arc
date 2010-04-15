@@ -74,7 +74,7 @@
       (tag (div class 'rwhistory style "display:none")
         (render-doc-link user "bookmarks" doc))
       (tag (div class 'rwpost)
-        (render-doc doc)))
+        (render-doc user doc)))
     (tag div
       (bookmark-buttons user doc)))
   (update-title doc-title.doc))
@@ -85,7 +85,7 @@
                 (+ "pullFromHistory('" urlencode.doc "');"))
 
     (tag p)
-    (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:20px")
+    (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:30px")
       (toggle-icon (+ "save_" doc)
         (tag div
           (tag:img src IMG width "32px"))
@@ -93,11 +93,10 @@
         "/saved.gif" "/save.gif"
         (pos doc userinfo*.user!saved)))
 
-    (tag p)
-    (email-button user doc)
-
-    (tag p)
     (tag (div class 'rwbutton onclick
             (+ "pullFromHistory('" urlencode.doc "');"))
-      (tag:img src "td.png"))
+      (tag:img src "signup-down.png" height "90px"))
+
+    (tag p)
+    (email-button user doc)
     (clear)))
