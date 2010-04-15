@@ -1,5 +1,5 @@
 (def save-button(user sname doc)
-  (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:30px")
+  (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:20px")
     (tag (div onclick
           (pushHistory sname doc (+ "'outcome=" vote-bookmark* "'")))
       (tag:img src

@@ -2017,3 +2017,6 @@ Signup flow tweaks.
 =-=778 - Wed Apr 14 18:08:36 PDT 2010
 Signup's downvote button to default UI.
 =-=779 - Wed Apr 14 20:17:57 PDT 2010
+Move back to next/save instead of arrows for default UI. Nah, move back.
+We'll move to next/star/thumbsdown for signup as well.
+=-=780 - Wed Apr 14 20:35:16 PDT 2010

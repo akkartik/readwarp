@@ -7,13 +7,13 @@ body{ font-size:62.5%; }
 
 #rwright-panel{ float:right; text-align:left; width:165px; padding-top:10px; border-left:1px solid #dddddd; padding-left:10px; }
 
-.rwbuttons{ position:fixed; top:35px; left:15px; }
+.rwbuttons{ position:fixed; top:35px; left:27px; }
 
-  .rwbutton{ height:70px; cursor:pointer;
+  .rwbutton{ width:70px; height:70px; cursor:pointer;
            margin-bottom:2em; position:relative;
            text-align:center; }
   .rwlike{ background-image:url('square-button-899ab6.png'); color:#000000; background-position:center center; background-repeat:no-repeat; } .rwoutcome_2{ color:#899ab6; }
-  .rwskip{ background-image:url('square-button-30151e.png'); color:#000000; } .rwoutcome_1{ color:#000000; }
+  .rwskip{ background-image:url('square-button-30151e.png'); color:#000000; background-position:center center; background-repeat:no-repeat; } .rwoutcome_1{ color:#000000; }
   .rwoutcome_icon{ float:right; margin-right:0.2em; margin-left:0.5em; width:16px; height:24px; font-size:75%;}
 
 #rwcontent{ float:left; margin-left:70px; width:679px; padding-left:1em; padding-top:5px; margin-bottom:1em; padding-bottom:2em; border-bottom:1px solid #dddddd; }

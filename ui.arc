@@ -180,10 +180,7 @@
     (tag p)
     (save-button user sname doc)
     (tag p)
-    (tag (div class 'rwbutton onclick
-            (or (mark-read-url user sname doc 1)
-                (pushHistory sname doc (+ "'outcome=" 1 "'"))))
-      (tag:img src "signup-down.png" height "90px"))
+    (button user sname doc 1 "rwskip" "skip")
     (clear)))
 
 (def button(user sname doc n cls label)
