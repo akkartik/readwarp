@@ -182,7 +182,7 @@
     (tag p)
     (tag (div class 'rwbutton onclick
             (pushHistory sname doc (+ "'outcome=" vote-bookmark* "'")))
-      (tag:img src "save-button-384cff.png" height "65px"))
+      (tag:img src "save-button-384cff.png" height "60px"))
     (tag (div class 'rwbutton onclick
             (or (mark-read-url user sname doc 1)
                 (pushHistory sname doc (+ "'outcome=" 1 "'"))))

@@ -178,7 +178,7 @@
                               (+ "/docupdate2?doc=" urlencode.doc
                                  "&station=" urlencode.sname
                                  "&outcome=" vote-bookmark*)))
-      (tag:img src "save-button-384cff.png" height "65px"))
+      (tag:img src "save-button-384cff.png" height "60px"))
     (tag (div class 'rwbutton onclick
             (inline "rwcontent"
                     (+ "/docupdate2?doc=" urlencode.doc

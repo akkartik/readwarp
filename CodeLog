@@ -2065,8 +2065,11 @@ The funnel with signup=true measures what stage people signup at.
 =-=795 - Thu Apr 15 13:06:28 PDT 2010
 Agh, I break the signup so easily.
 =-=796 - Thu Apr 15 14:30:40 PDT 2010
+
 Button for star as well. Buttons now consistently indicate navigation. So the
 star on the bookmark page isn't a button.
 =-=797 - Thu Apr 15 14:48:02 PDT 2010
 Make the border one step darker on 0to255.com. afb7ff to 9ea8ff.
 =-=798 - Thu Apr 15 14:50:29 PDT 2010
+Darker border makes button seems larger. Compensate.
+=-=799 - Thu Apr 15 14:52:15 PDT 2010
