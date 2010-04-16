@@ -179,7 +179,11 @@
 
 (def buttons(user sname doc)
   (tag (div id 'rwbuttons)
-    (button user sname doc 2 "rwlike" "next")
+    (tag (div class "rwbutton rwlike" onclick
+              (or (mark-read-url user sname doc 2)
+                  (pushHistory sname doc (+ "'outcome=" 2 "'"))))
+      (tag (div style "position:relative; top:25px; font-size:16px;")
+        (pr "next")))
     (tag p)
     (tag (div class 'rwbutton onclick
             (pushHistory sname doc (+ "'outcome=" vote-bookmark* "'")))
@@ -197,17 +201,6 @@
                      $('rwform-flash').innerHTML='';
                      $('rwform-flash').hide()")
     (tag:img src "email.jpg")))
-
-(def button(user sname doc n cls label)
-  (votebutton cls label
-            (or (mark-read-url user sname doc n)
-                (pushHistory sname doc (+ "'outcome=" n "'")))))
-
-(def votebutton(cls label onclick)
-  (tag (div class (+ "rwbutton " cls)
-            onclick onclick)
-    (tag (div style "position:relative; top:25px; font-size:16px;")
-      (pr label))))
 
 (def mark-read-url(user sname doc n)
   (when (is n 1)

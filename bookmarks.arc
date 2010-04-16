@@ -81,8 +81,10 @@
 
 (def bookmark-buttons(user doc)
   (tag (div id 'rwbuttons)
-    (votebutton "rwlike" "next"
-                (+ "pullFromHistory('" urlencode.doc "');"))
+    (tag (div class "rwbutton rwlike" onclick
+              (+ "pullFromHistory('" urlencode.doc "');"))
+      (tag (div style "position:relative; top:25px; font-size:16px;")
+        (pr "next")))
 
     (tag p)
     (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:30px")
