@@ -9,7 +9,7 @@
     (init-abtests user)
     (start-rebuilding-signup-showlist user 'sleep)
     (page
-      (tag (div class 'rwnav)
+      (tag (div id 'rwnav)
         (tag (div style "float:right")
           (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
                   (pr "login")))
@@ -45,7 +45,7 @@
     (start-rebuilding-signup-showlist user nil)
     (or= userinfo*.user!signup-stage 2)
     (page
-      (tag (div class 'rwnav)
+      (tag (div id 'rwnav)
         (logo-small))
 
       (let sname userinfo*.user!all
@@ -154,7 +154,7 @@
                          and on <img src='signup-down.png' height='40px'
                          style='vertical-align:bottom; margin-bottom:-5px'> to dislike."))
           (feedback-form sname doc)
-          (tag (div class 'rwpost)
+          (tag (div id 'rwpost)
             (render-doc user doc)))
         (tag div
           (buttons2 user sname doc)))
@@ -164,7 +164,7 @@
       (write-feedback user "" sname "" "No result found"))))
 
 (def buttons2(user sname doc)
-  (tag (div class 'rwbuttons)
+  (tag (div id 'rwbuttons)
     (tag (div class "rwbutton rwlike"
               onclick (inline "rwcontent"
                               (+ "/docupdate2?doc=" urlencode.doc

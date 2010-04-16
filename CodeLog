@@ -2086,3 +2086,7 @@ absolutely positioned buttons that stay on-screen. How'd he do that?!
 Modified his test.html to have the same structure as my current layout in
 test2.html.
 =-=807 - Thu Apr 15 21:59:57 PDT 2010
+Cleanup in preparation of applying test.html; be more consistent in using ids
+and classes. Couple of id/class css bugfixes (rwhistory, rwpost-body).
+main.css now more readable.
+=-=808 - Thu Apr 15 22:14:36 PDT 2010

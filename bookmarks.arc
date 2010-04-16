@@ -71,16 +71,16 @@
   (tag (div id (+ "doc_" doc))
     (tag (div id 'rwpost-wrapper)
       (feedback-form "bookmarks" doc)
-      (tag (div class 'rwhistory style "display:none")
+      (tag (div id 'rwhistory style "display:none")
         (render-doc-link user "bookmarks" doc))
-      (tag (div class 'rwpost)
+      (tag (div id 'rwpost)
         (render-doc user doc)))
     (tag div
       (bookmark-buttons user doc)))
   (update-title doc-title.doc))
 
 (def bookmark-buttons(user doc)
-  (tag (div class 'rwbuttons)
+  (tag (div id 'rwbuttons)
     (votebutton "rwlike" "next"
                 (+ "pullFromHistory('" urlencode.doc "');"))
 

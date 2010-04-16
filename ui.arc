@@ -128,13 +128,13 @@
 
 (def doc-panel-sub(user sname doc)
   (tag (div id (+ "doc_" doc))
-    (tag (div class 'rwfixed)
+    (tag (div id 'rwfixed)
       (buttons user sname doc))
     (tag (div id 'rwpost-wrapper)
       (feedback-form sname doc)
-      (tag (div class 'rwhistory style "display:none")
+      (tag (div id 'rwhistory style "display:none")
         (render-doc-link user sname doc))
-      (tag (div class 'rwpost)
+      (tag (div id 'rwpost)
         (render-doc user doc)))
     (clear))
   (update-title doc-title.doc))
@@ -163,7 +163,7 @@
         (tag (a href siteurl target "_blank")
           (pr (check doc-feedtitle.doc ~empty "website")))))
     (email-form user doc)
-    (tag (div class 'rwpost-body)
+    (tag (div id 'rwpost-body)
       (pr:contents doc))
     (clear)))
 
@@ -178,7 +178,7 @@
         (pr (check doc-title.doc ~empty "no title"))))))
 
 (def buttons(user sname doc)
-  (tag (div class 'rwbuttons)
+  (tag (div id 'rwbuttons)
     (button user sname doc 2 "rwlike" "next")
     (tag p)
     (tag (div class 'rwbutton onclick
@@ -240,7 +240,7 @@
       (pr "Readwarp"))))
 
 (proc nav(user)
-  (tag (div class 'rwnav)
+  (tag (div id 'rwnav)
     (tag (div style "float:right")
       (if signedup?.user
         (do
