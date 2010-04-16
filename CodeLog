@@ -2079,3 +2079,7 @@ Perhaps add to subject.
 =-=801 - Thu Apr 15 15:07:44 PDT 2010
 More minor email copy tweaks.
 =-=803 - Thu Apr 15 15:21:43 PDT 2010
+
+Srikanth's found a way to center the site in the browser but still have
+absolutely positioned buttons that stay on-screen. How'd he do that?!
+=-=806 - Thu Apr 15 21:53:23 PDT 2010
