@@ -38,16 +38,19 @@
           new-sname (no userinfo*.user!stations.sname))
     (ensure-station user sname)
     (with-history req user sname
-      (when new-sname
-        (if (len> userinfo*.user!stations.sname!groups 10)
-          (flash "Hmm, I don't understand that query. Sorry :(<br/>
-                  I'm going to go off and try to pinpoint what you mean, which
-                  may take a day. In the meantime, I'll try to narrow down
-                  what you mean, but it may take ~20 stories to do so.<br/>
-                 Please try a different query if you don't want to wait that long.")
-          (flash "You're now browsing in a new channel.<p>
-                 Votes here will not affect recommendations on other channels.")))
-      (doc-panel user sname (next-doc user sname)))))
+      (doc-panel user sname (next-doc user sname)
+        (fn()
+          (when new-sname
+            (if (len> userinfo*.user!stations.sname!groups 10)
+              (flash "Hmm, I don't understand that query. Sorry :(<br/>
+                      I'm going to go off and try to pinpoint what you mean, which
+                      may take a day.<br/>
+                      In the meantime, I'll try to narrow down what you mean,
+                      but it may take ~20 stories to do so.<br/>
+                     <b>Please try a different query to avoid utterly random stories.</b>")
+              (flash "You're now browsing in a new channel.<p>
+                     Votes here will not affect recommendations on other
+                     channels."))))))))
 
 (defop delstation req
   (withs (user (current-user req)
@@ -59,10 +62,17 @@
           global-sname (or= userinfo*.user!all (stringify:unique-id)))
     (ensure-station user global-sname)
     (with-history req user global-sname
-      (unless userinfo*.user!noob
-        (set-funnel-property user "signup" "true")
-        (signup-funnel-analytics is-prod.req userinfo*.user!signup-stage user))
-      (doc-panel user global-sname (next-doc user global-sname)))))
+      (doc-panel user global-sname (next-doc user global-sname)
+        (fn()
+          (firsttime userinfo*.user!noob
+            (set-funnel-property user "signup" "true")
+            (signup-funnel-analytics is-prod.req userinfo*.user!signup-stage user)
+            (flash
+              "Thank you! Keep voting on stories as you read, and
+               Readwarp will continually fine-tune its recommendations.
+               <br><br>
+               Readwarp is under construction. If it seems confused, try
+               creating a new channel. And send us feedback!")))))))
 
 (defop docupdate req
   (if (is "bookmarks" (arg req "station"))
@@ -85,12 +95,8 @@
   (with (user (current-user req)
          sname (arg req "station")
          doc (arg req "doc"))
-    (doc-panel
-            user
-            sname
-            (if blank.doc
-              (next-doc user sname)
-              doc))))
+    (doc-panel user sname
+               (check doc blank (next-doc user sname)))))
 
 (init history-size* 25) ; sync with application.js
 
@@ -115,23 +121,17 @@
   (w/stdout (stderr) (pr user " " sname " => "))
   (erp:pick user userinfo*.user!stations.sname))
 
-(def doc-panel(user sname doc)
+(def doc-panel(user sname doc (o flashfn))
   (if doc
-    (doc-panel-sub user sname doc)
+    (doc-panel-sub user sname doc flashfn)
     (doc-panel-error user sname)))
 
-(def doc-panel-sub(user sname doc)
+(def doc-panel-sub(user sname doc flashfn)
   (tag (div id (+ "doc_" doc))
     (tag div
       (buttons user sname doc))
     (tag (div id 'rwpost-wrapper)
-      (firsttime userinfo*.user!noob
-        (flash "Thank you! Keep voting on stories as you read, and Readwarp will
-               continually fine-tune its recommendations.
-
-               <br><br>
-               Readwarp is under construction. If it seems confused, try creating
-               a new channel. And send us feedback!"))
+      (if flashfn (flashfn))
       (feedback-form sname doc)
       (tag (div class 'rwhistory-link style "display:none")
         (render-doc-link user sname doc))

@@ -31,22 +31,15 @@
 
 (init no-bookmarks-msg*
       "You have no bookmarks. Click on the star button to add some.")
-(def bookmarked-doc-panel(user doc)
-  (if no.doc
-    (flash no-bookmarks-msg*)
-    (bookmarked-doc-panel-sub user doc)))
 
 (def update-bookmarks(req)
   (with (user current-user.req
          doc (arg req "doc"))
     (when (is "4" (arg req "outcome"))
       (toggle-save user doc))
-    (if (no userinfo*.user!saved)
-      (flash no-bookmarks-msg*)
-      (do
-        (when (is doc (car userinfo*.user!saved))
-          (nslowrot userinfo*.user!saved))
-        (bookmarked-doc-panel-sub user next-save.user)))))
+    (when (is doc (car userinfo*.user!saved))
+      (nslowrot userinfo*.user!saved))
+    (bookmarked-doc-panel user next-save.user)))
 
 (def bookmarks-panel(user req)
   (tag (div class 'rwvlist)
@@ -67,16 +60,19 @@
 (defop bhist req
   (bookmarks-panel-body current-user.req req))
 
-(def bookmarked-doc-panel-sub(user doc)
+(def bookmarked-doc-panel(user doc)
   (tag (div id (+ "doc_" doc))
     (tag div
       (bookmark-buttons user doc))
     (tag (div id 'rwpost-wrapper)
-      (feedback-form "bookmarks" doc)
-      (tag (div class 'rwhistory-link style "display:none")
-        (render-doc-link user "bookmarks" doc))
-      (tag (div id 'rwpost)
-        (render-doc user doc)))
+      (if (no doc)
+        (flash no-bookmarks-msg*)
+        (do
+          (feedback-form "bookmarks" doc)
+          (tag (div class 'rwhistory-link style "display:none")
+            (render-doc-link user "bookmarks" doc))
+          (tag (div id 'rwpost)
+            (render-doc user doc)))))
     (clear))
   (update-title doc-title.doc))
 
