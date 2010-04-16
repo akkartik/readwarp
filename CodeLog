@@ -2094,3 +2094,6 @@ Done!
 =-=809 - Thu Apr 15 22:25:23 PDT 2010
 Get rid of obsolete button helpers.
 =-=810 - Thu Apr 15 22:32:20 PDT 2010
+But now the buttons had stopped working. There were confusingly both a class
+and an id called rwhistory. Fixed.
+=-=811 - Thu Apr 15 22:58:02 PDT 2010

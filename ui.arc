@@ -132,7 +132,7 @@
       (buttons user sname doc))
     (tag (div id 'rwpost-wrapper)
       (feedback-form sname doc)
-      (tag (div id 'rwhistory style "display:none")
+      (tag (div class 'rwhistory-link style "display:none")
         (render-doc-link user sname doc))
       (tag (div id 'rwpost)
         (render-doc user doc)))

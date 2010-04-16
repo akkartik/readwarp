@@ -94,7 +94,7 @@ function pushHistory(station, doc, params) {
   var elem = $('outcome_'+doc);
   elem.className = "rwoutcome_icon "+params.replace(/.*outcome=([^&]*).*/, "rwoutcome_$1");
 
-  src = $$('#doc_'+doc+' .rwhistory');
+  src = $$('#doc_'+doc+' .rwhistory-link');
   new Insertion.Top('rwhistory-elems', src[0].innerHTML);
 
   if($('rwhistory-elems').childNodes.length > history_size) {
