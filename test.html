@@ -3,39 +3,57 @@
   <head>
     <title>Test</title>
     <style type='text/css'>
-      body {
-        background-color: #eee;
-      }
-      .content {
+      .rwpage {
         width: 900px;
         background-color: white;
         margin: 0 auto;
       }
-      .col {
-        float: left;
+        .rwfixed { float:left; }
+          .rwbuttons {
+            position: fixed;
+            width:30px;
+            padding: 20px;
+            background-color: #999;
+            top: 100px;
+          }
+
+        .rwpost-wrapper {
+          float:left;
+          width:530px;
+          background-color: #ccc;
+          margin-left:70px; /* test: width+padding*2 */
+        }
+
+        .rwright-panel {
+          float:right;
+          width:300px;
+          background:#ccf;
+          height:100%;
+        }
+
+      body {
+        background-color: #eee;
       }
-      .main-col {
-        width: 700px;
-        background-color: #ccc;
-      }
-      .side-col {
-        width: 200px;
-        background-color: #999;
-      }
-      .clear {
+      .rwclear {
         clear: both;
-      }
-      .test {
-        position: fixed;
-        padding: 20px;
-        background-color: #999;
-        top: 100px;
       }
     </style>
   </head>
   <body>
-    <div class='content'>
-      <div class='col main-col'>
+    <div id='rwbody'>
+      <div class='rwpage'>
+        <div class='rwright-panel'>
+          foo
+        </div>
+        <div class='rwcontents-wrap'>
+          <div class='rwcontent'>
+            <div id='doc_123434324'>
+              <div class='rwfixed'>
+                <div class='rwbuttons'>One</div>
+              </div>
+              <div class='rwpost-wrapper'>
+                <div class='rwpost'>
+        content {{{
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ornare neque porta mauris pellentesque imperdiet. Curabitur nisl eros, semper id pellentesque vel, vehicula vel enim. Ut lobortis odio non turpis feugiat pulvinar. Nam ac erat eu elit imperdiet vehicula sed at nibh. Praesent laoreet nisl id lorem posuere egestas. Aliquam erat volutpat. Aliquam leo ipsum, congue et varius eget, tincidunt vitae orci. Donec bibendum imperdiet quam sed tempor. Phasellus malesuada odio sit amet dolor iaculis fermentum. Mauris mattis, felis a consequat bibendum, nunc mauris condimentum enim, porta tincidunt orci ligula aliquam libero.
 
         Mauris rhoncus, nunc a hendrerit convallis, ante dui imperdiet augue, nec accumsan dui libero vel erat. Donec suscipit pretium quam, at facilisis nunc sagittis vitae. Maecenas non sem purus. Phasellus accumsan orci at dui eleifend eleifend. Aenean non quam eget nisi consequat pellentesque a a ligula. Morbi malesuada augue in ligula mollis id porta tellus semper. Pellentesque commodo mauris sit amet dui luctus egestas. Phasellus in felis sapien. Ut imperdiet odio sit amet ligula varius ultricies. Nam non sagittis tortor.
@@ -75,11 +93,14 @@
         Nunc ultricies justo vel nibh consequat vitae dapibus ligula lacinia. Nunc est elit, ultrices sit amet rutrum non, imperdiet faucibus lacus. Quisque sem urna, sollicitudin quis auctor at, semper in justo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean auctor dui interdum neque adipiscing ullamcorper. Ut feugiat felis sed ante placerat nec mattis lorem consectetur. Donec eu leo non nisi tincidunt sodales eu vel magna. Praesent ut tristique dolor. Aenean at blandit est. Maecenas lacinia tincidunt dapibus.
 
         Aliquam erat volutpat. Morbi nisl nulla, iaculis vel posuere ornare, lobortis a dui. Sed mattis purus sed quam iaculis ornare. Proin vitae accumsan dui. Fusce quis purus et libero dignissim aliquam aliquet id ante. Nunc at hendrerit libero. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam a justo orci. Suspendisse tempor, dolor at euismod volutpat, tellus lorem eleifend lectus, lacinia rhoncus nisl nibh non libero. Quisque magna libero, imperdiet vitae viverra eu, malesuada non tellus. Vivamus ultricies dolor a neque mollis elementum. Nulla elit enim, ultricies vehicula eleifend a, volutpat eu lectus. Nam suscipit lorem sit amet nulla volutpat a lobortis leo feugiat. Suspendisse odio neque, facilisis ut tempus in, dignissim nec nisi.
+        }}}
+                </div>
+              </div>
+              <div class='rwclear'></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class='col side-col'>
-        <div class='test'>One</div>
-      </div>
-      <div class='clear'>
     </div>
   </body>
 </html>

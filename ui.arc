@@ -128,14 +128,15 @@
 
 (def doc-panel-sub(user sname doc)
   (tag (div id (+ "doc_" doc))
+    (tag (div class 'rwfixed)
+      (buttons user sname doc))
     (tag (div id 'rwpost-wrapper)
       (feedback-form sname doc)
       (tag (div class 'rwhistory style "display:none")
         (render-doc-link user sname doc))
       (tag (div class 'rwpost)
         (render-doc user doc)))
-    (tag div
-      (buttons user sname doc)))
+    (clear))
   (update-title doc-title.doc))
 
 (def doc-panel-error(user sname)
