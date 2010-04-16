@@ -2090,3 +2090,5 @@ Cleanup in preparation of applying test.html; be more consistent in using ids
 and classes. Couple of id/class css bugfixes (rwhistory, rwpost-body).
 main.css now more readable.
 =-=808 - Thu Apr 15 22:14:36 PDT 2010
+Done!
+=-=809 - Thu Apr 15 22:25:23 PDT 2010
