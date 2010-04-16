@@ -28,7 +28,7 @@ p{ margin-top:1em; }
 
 
 
-.rwfrontpage { margin-top:2em; font-size:1.6em; margin-left:auto;margin-right:auto; }
+#rwfrontpage { margin-top:2em; font-size:1.6em; margin-left:auto;margin-right:auto; }
 .rwlogo{ color:#dddddd; text-align:center; }
 .rwlogo-button, a.rwlogo-button, a.rwlogo-button:visited {
   display:inline; text-align:center; font-family:Georgia,serif; font-weight:bold; color:#666666; }
