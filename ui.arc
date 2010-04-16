@@ -128,7 +128,7 @@
 
 (def doc-panel-sub(user sname doc)
   (tag (div id (+ "doc_" doc))
-    (tag (div id 'rwfixed)
+    (tag div
       (buttons user sname doc))
     (tag (div id 'rwpost-wrapper)
       (feedback-form sname doc)

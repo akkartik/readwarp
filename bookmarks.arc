@@ -69,14 +69,15 @@
 
 (def bookmarked-doc-panel-sub(user doc)
   (tag (div id (+ "doc_" doc))
+    (tag div
+      (bookmark-buttons user doc))
     (tag (div id 'rwpost-wrapper)
       (feedback-form "bookmarks" doc)
       (tag (div class 'rwhistory-link style "display:none")
         (render-doc-link user "bookmarks" doc))
       (tag (div id 'rwpost)
         (render-doc user doc)))
-    (tag div
-      (bookmark-buttons user doc)))
+    (clear))
   (update-title doc-title.doc))
 
 (def bookmark-buttons(user doc)

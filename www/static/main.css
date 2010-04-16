@@ -10,8 +10,7 @@ body{ font-size:62.5%; }
   #rwcontent{ width:679px; padding-left:1em; padding-top:5px;
               margin-bottom:1em; padding-bottom:2em; border-bottom:1px solid #dddddd; }
 
-    #rwfixed{ }
-      #rwbuttons{ position:fixed; top:35px; /*XXX*/ margin-left:-30px; }
+    #rwbuttons{ position:fixed; top:35px; /*XXX*/ margin-left:-30px; }
 
     #rwpost-wrapper{ float:left; }
       #rwpost{ margin-left:70px; margin-bottom:1em; font-size:1.4em; line-height:1.4; text-align:left; }

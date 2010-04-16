@@ -2097,3 +2097,5 @@ Get rid of obsolete button helpers.
 But now the buttons had stopped working. There were confusingly both a class
 and an id called rwhistory. Fixed.
 =-=811 - Thu Apr 15 22:58:02 PDT 2010
+Fix bookmark view.
+=-=812 - Thu Apr 15 23:01:53 PDT 2010
