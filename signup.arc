@@ -68,7 +68,7 @@
   (let funnel-stage userinfo*.user!signup-stage
     (signup-funnel-analytics is-prod.req funnel-stage user)
     (erp user ": stage " funnel-stage)
-    (render-doc-with-context2 user query next-doc2.user)))
+    (doc-panel2 user query next-doc2.user)))
 
 (def next-doc2(user)
   (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
@@ -140,23 +140,23 @@
 (proc init-abtests(user)
   (init-funnel-property user "signup" "false"))
 
-(def render-doc-with-context2(user sname doc)
-  (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
-    (signup-form user)
-    (progress-bar user))
+(def doc-panel2(user sname doc)
   (if doc
     (do
       (tag div
         (tag div
           (buttons2 user sname doc))
-        (tag (div style "width:100%; margin-right:1em")
-              (when (is 2 userinfo*.user!signup-stage)
-                (flash:+ "Ok! Click on <img src='save-button-384cff.png'
-                         style='vertical-align:bottom' height='28px'> to like a story,
-                         and on <img src='signup-down.png' height='40px'
-                         style='vertical-align:bottom; margin-bottom:-5px'> to dislike."))
-          (feedback-form sname doc)
-          (tag (div id 'rwpost-wrapper)
+        (tag (div id 'rwpost-wrapper)
+          (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
+            (signup-form user)
+            (progress-bar user))
+          (tag (div style "width:100%; margin-right:1em")
+                (when (is 2 userinfo*.user!signup-stage)
+                  (flash:+ "Ok! Click on <img src='save-button-384cff.png'
+                           style='vertical-align:bottom' height='28px'> to like a story,
+                           and on <img src='signup-down.png' height='40px'
+                           style='vertical-align:bottom; margin-bottom:-5px'> to dislike."))
+            (feedback-form sname doc)
             (tag (div id 'rwpost)
               (render-doc user doc))))
         (clear))

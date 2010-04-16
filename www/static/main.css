@@ -12,8 +12,8 @@ body{ font-size:62.5%; }
 
     #rwbuttons{ position:fixed; top:35px; /*XXX*/ margin-left:-12px; }
 
-    #rwpost-wrapper{ float:left; }
-      #rwpost{ margin-left:70px; padding-left:10px; margin-bottom:1em; font-size:1.4em; line-height:1.4; text-align:left; }
+    #rwpost-wrapper{ float:left; margin-left:70px; }
+      #rwpost{ padding-left:10px; margin-bottom:1em; font-size:1.4em; line-height:1.4; text-align:left; }
 
 
 

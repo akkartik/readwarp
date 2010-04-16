@@ -59,15 +59,9 @@
           global-sname (or= userinfo*.user!all (stringify:unique-id)))
     (ensure-station user global-sname)
     (with-history req user global-sname
-      (firsttime userinfo*.user!noob
+      (unless userinfo*.user!noob
         (set-funnel-property user "signup" "true")
-        (signup-funnel-analytics is-prod.req userinfo*.user!signup-stage user)
-        (flash "Thank you! Keep voting on stories as you read, and Readwarp will
-               continually fine-tune its recommendations.
-
-               <br><br>
-               Readwarp is under construction. If it seems confused, try creating
-               a new channel. And send us feedback!"))
+        (signup-funnel-analytics is-prod.req userinfo*.user!signup-stage user))
       (doc-panel user global-sname (next-doc user global-sname)))))
 
 (defop docupdate req
@@ -131,6 +125,13 @@
     (tag div
       (buttons user sname doc))
     (tag (div id 'rwpost-wrapper)
+      (firsttime userinfo*.user!noob
+        (flash "Thank you! Keep voting on stories as you read, and Readwarp will
+               continually fine-tune its recommendations.
+
+               <br><br>
+               Readwarp is under construction. If it seems confused, try creating
+               a new channel. And send us feedback!"))
       (feedback-form sname doc)
       (tag (div class 'rwhistory-link style "display:none")
         (render-doc-link user sname doc))

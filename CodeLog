@@ -2105,3 +2105,5 @@ More css cleanup.
 One remaining issue. Flash messages and the signup progress bar are too wide.
 I need to put them within rwpost, not rwcontent.
 =-=814 - Thu Apr 15 23:49:34 PDT 2010
+Done, but now the function boundaries are seemingly in all the wrong places.
+=-=815 - Fri Apr 16 09:08:39 PDT 2010
