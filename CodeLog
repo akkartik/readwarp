@@ -2101,3 +2101,7 @@ Fix bookmark view.
 =-=812 - Thu Apr 15 23:01:53 PDT 2010
 Fix signup view.
 =-=813 - Thu Apr 15 23:32:58 PDT 2010
+More css cleanup.
+One remaining issue. Flash messages and the signup progress bar are too wide.
+I need to put them within rwpost, not rwcontent.
+=-=814 - Thu Apr 15 23:49:34 PDT 2010
