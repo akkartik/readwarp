@@ -18,8 +18,10 @@
       (nav user)
       (tag (div style "width:100%")
         (tag (div id 'rwright-panel)
-          (bookmarks-link)
-          (channels-panel user nil)
+          (tag (div id 'rwchannels)
+            (bookmarks-link)
+            (channels-panel user nil))
+          (tag:div class 'rwsep)
           (bookmarks-panel user req))
 
         (tag (div id 'rwcontents-wrap)
@@ -42,7 +44,7 @@
     (bookmarked-doc-panel user next-save.user)))
 
 (def bookmarks-panel(user req)
-  (tag (div class 'rwvlist)
+  (tag (div id 'rwhistory-wrapper class 'rwvlist)
     (tag b
       (pr "other bookmarks"))
     (tag (div id 'rwhistory)

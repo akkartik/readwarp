@@ -14,6 +14,7 @@
           (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
                   (pr "login")))
         (clear))
+      (tag:div class 'rwsep)
 
       (tag (div id 'rwfrontpage)
 
@@ -47,6 +48,7 @@
     (page
       (tag (div id 'rwnav)
         (logo-small))
+      (tag:div class 'rwsep)
 
       (let sname userinfo*.user!all
         (tag (div style "width:100%")

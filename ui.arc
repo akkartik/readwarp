@@ -3,10 +3,10 @@
     (header)
     (tag body
       (tag (div id 'rwbody)
-      (tag (div id 'rwpage)
-        ,@body
-        (tag:div class 'rwclear)
-        (tag:div class 'rwsep))))))
+        (tag (div id 'rwpage)
+          ,@body
+          (tag:div class 'rwclear)
+          (tag:div class 'rwsep))))))
 
 (mac with-history(req user station . body)
   `(page
@@ -18,9 +18,10 @@
 (mac with-history-sub(req user sname . body)
   `(do
     (tag (div id 'rwright-panel)
-      (current-channel-link ,user ,sname)
-      (channels-panel ,user ,sname)
-      (bookmarks-link)
+      (tag (div id 'rwchannels)
+        (current-channel-link ,user ,sname)
+        (channels-panel ,user ,sname)
+        (bookmarks-link))
       (tag:div class 'rwsep)
       (history-panel ,user ,sname ,req))
 
@@ -290,7 +291,7 @@
            (pr "type in a website or author")))))
 
 (def history-panel(user sname req)
-  (tag (div class 'rwvlist)
+  (tag (div id 'rwhistory-wrapper class 'rwvlist)
     (tag b
       (pr "recently viewed"))
     (tag (div id 'rwhistory)

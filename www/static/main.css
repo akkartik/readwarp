@@ -1,19 +1,21 @@
 @import url("http://yui.yahooapis.com/2.6.0/build/reset-fonts-grids/reset-fonts-grids.css");
 
-body{ font-size:62.5%; }
-#rwpage{ width:890px; margin:0 auto; font-size:1.4em; font-family:sans-serif; }
+body{ font-size:62.5%; background:#eee; }
+#rwbody{ width:890px; margin:0 auto; }
+#rwpage{ font-size:1.4em; font-family:sans-serif; }
 
-  #rwnav{ margin-top:10px; border-bottom:1px solid #dddddd; height:17px; }
+  #rwnav{ height:20px; margin-left:70px; background:white; padding:10px; }
 
-  #rwright-panel{ float:right; text-align:left; width:165px; padding-top:10px; border-left:1px solid #dddddd; padding-left:10px; }
+  #rwright-panel{ float:right; text-align:left; width:165px; }
+    #rwchannels{ background:white; padding:10px; }
+    #rwhistory-wrapper{ background:white; padding:10px; }
 
-  #rwcontent{ width:705px; padding-top:5px;
-              margin-bottom:1em; padding-bottom:2em; border-bottom:1px solid #dddddd; }
+  #rwcontent{ width:705px; }
 
-    #rwbuttons{ position:fixed; top:35px; /*XXX*/ margin-left:-12px; }
+    #rwbuttons{ position:fixed; top:60px; /*XXX*/ padding-top:10px; margin-left:-12px; background:white; }
 
-    #rwpost-wrapper{ float:left; margin-left:70px; }
-      #rwpost{ padding-left:10px; margin-bottom:1em; font-size:1.4em; line-height:1.4; text-align:left; }
+    #rwpost-wrapper{ float:left; margin-left:70px; background:white; }
+      #rwpost{ padding:10px; margin-bottom:1em; font-size:1.4em; line-height:1.4; text-align:left; }
 
 
 
@@ -66,7 +68,7 @@ h2.rwtitle a{ font-family:serif; font-size:1.4em; font-weight:bold; color:#66e; 
 .rwpaginate a{ color:#66f; }
 
 .rwprogress{ margin-left:1em; float:left; height:1em; border:1px solid #888; }
-.rwprogress_filled{ float:left; height:1em; background-color:#888; }
+.rwprogress_filled{ float:left; height:1em; background:#888; }
 
 a .rwbookmark_icon{ font-size:10px; color:#aaaaaa; }
 a:hover .rwbookmark_icon{ font-size:10px; color:#aaaaaa; }
