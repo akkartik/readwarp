@@ -9,31 +9,31 @@
     (init-abtests user)
     (start-rebuilding-signup-showlist user 'sleep)
     (page
-      (tag (div id 'rwnav)
-        (tag (div style "float:right")
-          (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
-                  (pr "login")))
-        (clear))
-      (tag:div class 'rwsep)
+      (tag (div style "background:white; min-height:95%;")
+        (tag (div id 'rwnav)
+          (tag (div style "float:right")
+            (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
+                    (pr "login")))
+          (clear))
 
-      (tag (div id 'rwfrontpage)
+        (tag (div id 'rwfrontpage)
 
-        (tag (div class 'rwlogo)
-          (logo "Readwarp"))
-        (tag (div style "font-style:italic; margin-top:1em")
-          (pr "&ldquo;What do I read next?&rdquo;"))
+          (tag (div class 'rwlogo)
+            (logo "Readwarp"))
+          (tag (div style "font-style:italic; margin-top:1em")
+            (pr "&ldquo;What do I read next?&rdquo;"))
 
-        (tag (div style "margin-top:1.5em")
-          (tag div
-            (pr "Readwarp learns your tastes &mdash; <i>fast</i>."))
-          (tag (div style "margin-top: 0.2em")
-            (pr "Vote on just 6 stories to get started."))
-          (tag:input type "button" id "start-funnel" value "Start reading" style "margin-top:1.5em"
-                     onclick "location.href='/begin'")
+          (tag (div style "margin-top:1.5em")
+            (tag div
+              (pr "Readwarp learns your tastes &mdash; <i>fast</i>."))
+            (tag (div style "margin-top: 0.2em")
+              (pr "Vote on just 6 stories to get started."))
+            (tag:input type "button" id "start-funnel" value "Start reading" style "margin-top:1.5em"
+                       onclick "location.href='/begin'")
 
-          (signup-funnel-analytics is-prod.req 1 user)
+            (signup-funnel-analytics is-prod.req 1 user)
 
-        )))))
+        ))))))
 
 (init signup-groups* '(News Technology Magazine Economics
                        Sports Fashion Travel Comics))

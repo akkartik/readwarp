@@ -30,7 +30,7 @@ p{ margin-top:1em; }
 
 
 
-#rwfrontpage { margin-top:2em; font-size:1.6em; margin-left:auto;margin-right:auto; }
+#rwfrontpage { margin-top:2em; font-size:1.6em; margin-left:auto;margin-right:auto; margin-left:70px; }
 .rwlogo{ color:#dddddd; text-align:center; }
 .rwlogo-button, a.rwlogo-button, a.rwlogo-button:visited {
   display:inline; text-align:center; font-family:Georgia,serif; font-weight:bold; color:#666666; }
@@ -50,7 +50,7 @@ h2.rwtitle a{ font-family:serif; font-size:1.4em; font-weight:bold; color:#66e; 
 
 .rwdate{ font-style:italic; font-size:80%; float:right; }
 
-#rwfeedback-wrapper{ float:right; margin-top:10px; }
+#rwfeedback-wrapper{ float:right; margin-top:10px; margin-right:10px; }
 .rwfeedback_link{ text-align:right; margin-left:1em; }
 .rwfeedback_link a{ color:#88c; }
 #rwfeedback{ z-index:1000; float:right margin-top:0.5em; margin-left:0.5em; padding:5px; border:1px solid #dddddd; background:#fff; }
