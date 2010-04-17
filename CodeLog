@@ -2111,7 +2111,11 @@ Code reorganized to apply flash properly. Still some rough edges in where the
 function boundaries are, but I'm more confident it's at least correct.
 =-=816 - Fri Apr 16 12:00:06 PDT 2010
 
-Further design ideas from Srikanth.
+Further design ideas from Srikanth. Put the buttons 'outside' the rest of the
+layout. Visually separate various components and optionally make them pop with
+drop shadows and a very slight rounded corner.
 =-=817 - Fri Apr 16 21:26:08 PDT 2010
 Lining them up with readwarp layout.
 =-=819 - Fri Apr 16 23:32:50 PDT 2010
+Intermezzo.
+=-=820 - Sat Apr 17 13:51:20 PDT 2010

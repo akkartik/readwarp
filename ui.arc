@@ -4,7 +4,9 @@
     (tag body
       (tag (div id 'rwbody)
       (tag (div id 'rwpage)
-        ,@body)))))
+        ,@body
+        (tag:div class 'rwclear)
+        (tag:div class 'rwsep))))))
 
 (mac with-history(req user station . body)
   `(page
@@ -19,6 +21,7 @@
       (current-channel-link ,user ,sname)
       (channels-panel ,user ,sname)
       (bookmarks-link)
+      (tag:div class 'rwsep)
       (history-panel ,user ,sname ,req))
 
     (tag (div id 'rwcontents-wrap)
@@ -245,7 +248,8 @@
         (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
                 (pr "login"))))
     (logo-small)
-    (clear)))
+    (clear))
+  (tag:div class 'rwsep))
 
 (def current-channel-link(user sname)
   (when (and sname

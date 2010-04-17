@@ -72,3 +72,5 @@ a .rwbookmark_icon{ font-size:10px; color:#aaaaaa; }
 a:hover .rwbookmark_icon{ font-size:10px; color:#aaaaaa; }
 
 .rwclear{ clear:both; }
+.rwsep{ height:20px; }
+.rwgutter{ width:20px; height:5px; }
