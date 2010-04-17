@@ -2110,3 +2110,6 @@ Done, but now the function boundaries are seemingly in all the wrong places.
 Code reorganized to apply flash properly. Still some rough edges in where the
 function boundaries are, but I'm more confident it's at least correct.
 =-=816 - Fri Apr 16 12:00:06 PDT 2010
+
+Further design ideas from Srikanth.
+=-=817 - Fri Apr 16 21:26:08 PDT 2010

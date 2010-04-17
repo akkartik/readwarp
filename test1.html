@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en-GB' xml:lang='en-GB' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>Test</title>
+    <style type='text/css'>
+      body {
+        background-color: #eee;
+      }
+      #content {
+        width: 900px;
+        margin: 0 auto;
+      }
+      #left {
+        width: 100px;
+        float: left;
+        height: 100px;
+      }
+      #controls {
+        position: fixed;
+        top: 150px;
+        min-height: 300px;
+        width: 100px;
+        background: white;
+      }
+      #main {
+        width: 800px;
+        float: left;
+      }
+      #header {
+        height: 60px;
+        background-color: white;
+      }
+      #article {
+        width: 540px;
+        min-height: 1000px;
+        padding: 20px;
+        background-color: white;
+      }
+      #sidebar {
+        width: 200px;
+      }
+      #navigation {
+        background: white;
+        min-height: 200px;
+      }
+      #history {
+        background: white;
+        min-height: 200px;
+      }
+      #footer {
+        height: 60px;
+        background: white;
+      }
+      .sep {
+        height: 20px;
+      }
+      .col {
+        float: left;
+      }
+      .clear {
+        clear: both;
+      }
+      .gutter {
+        width: 20px;
+        height: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='content'>
+      <div id='left'>
+        <div id='controls'>Controls</div>
+      </div>
+      <div id='main'>
+        <div id='header'>
+          Header
+        </div>
+        <div class='sep'></div>
+        <div id='article' class='col'>
+          Article
+
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ornare neque porta mauris pellentesque imperdiet. Curabitur nisl eros, semper id pellentesque vel, vehicula vel enim. Ut lobortis odio non turpis feugiat pulvinar. Nam ac erat eu elit imperdiet vehicula sed at nibh. Praesent laoreet nisl id lorem posuere egestas. Aliquam erat volutpat. Aliquam leo ipsum, congue et varius eget, tincidunt vitae orci. Donec bibendum imperdiet quam sed tempor. Phasellus malesuada odio sit amet dolor iaculis fermentum. Mauris mattis, felis a consequat bibendum, nunc mauris condimentum enim, porta tincidunt orci ligula aliquam libero.</p>
+
+        </div>
+        <div class='gutter col'></div>
+        <div id='sidebar' class='col'>
+          <div id='navigation'>Navigation</div>
+          <div class='sep'></div>
+          <div id='history'>History</div>
+        </div>
+        <div class='clear'></div>
+        <div class='sep'></div>
+        <div id='footer'>
+          Footer
+        </div>
+      </div>
+      <div class='clear'></div>
+    </div>
+  </body>
+</html>
