@@ -46,7 +46,7 @@
     (start-rebuilding-signup-showlist user nil)
     (or= userinfo*.user!signup-stage 2)
     (page
-      (tag (div id 'rwnav)
+      (tag (div id 'rwnav class 'white-shadow)
         (logo-small))
       (tag:div class 'rwsep)
 
@@ -128,9 +128,9 @@
 
 (def progress-bar(user)
   (tag div
-    (tag (div style "float:left")
+    (tag (div style "float:left;margin-left:1em; margin-top:1em")
       (pr "Progress: "))
-    (tag (div class 'rwprogress style "width:8em")
+    (tag (div class 'rwprogress style "width:8em; margin-top:1em")
       (tag (div class 'rwprogress_filled
                 style (+ "width:"
                          (int:* funnel-signup-stage*
@@ -148,7 +148,7 @@
       (tag div
         (tag div
           (buttons2 user sname doc))
-        (tag (div id 'rwpost-wrapper)
+        (tag (div id 'rwpost-wrapper class 'white-shadow)
           (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
             (signup-form user)
             (progress-bar user))
@@ -168,7 +168,7 @@
       (write-feedback user "" sname "" "No result found"))))
 
 (def buttons2(user sname doc)
-  (tag (div id 'rwbuttons)
+  (tag (div id 'rwbuttons class 'white-left)
     (tag (div class "rwbutton rwlike"
               onclick (inline "rwcontent"
                               (+ "/docupdate2?doc=" urlencode.doc

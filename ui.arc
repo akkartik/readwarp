@@ -18,7 +18,7 @@
 (mac with-history-sub(req user sname . body)
   `(do
     (tag (div id 'rwright-panel)
-      (tag (div id 'rwchannels)
+      (tag (div id 'rwchannels class 'white-shadow)
         (current-channel-link ,user ,sname)
         (channels-panel ,user ,sname)
         (bookmarks-link))
@@ -134,7 +134,7 @@
   (tag (div id (+ "doc_" doc))
     (tag div
       (buttons user sname doc))
-    (tag (div id 'rwpost-wrapper)
+    (tag (div id 'rwpost-wrapper class 'white-shadow)
       (if flashfn (flashfn))
       (feedback-form sname doc)
       (tag (div class 'rwhistory-link style "display:none")
@@ -183,7 +183,7 @@
         (pr (check doc-title.doc ~empty "no title"))))))
 
 (def buttons(user sname doc)
-  (tag (div id 'rwbuttons)
+  (tag (div id 'rwbuttons class 'white-left)
     (tag (div class "rwbutton rwlike" onclick
               (or (mark-read-url user sname doc 2)
                   (pushHistory sname doc (+ "'outcome=" 2 "'"))))
@@ -238,7 +238,7 @@
       (pr "Readwarp"))))
 
 (proc nav(user)
-  (tag (div id 'rwnav)
+  (tag (div id 'rwnav class 'white-shadow)
     (tag (div style "float:right")
       (if signedup?.user
         (do
@@ -284,14 +284,14 @@
   (tag div
     (tag b (pr "new channel"))
     (tag (form action "/station")
-         (tag:input name "seed" size "12")
+         (tag:input name "seed" size "10")
          (tag:input type "submit" value "go" style
                     "margin-top:5px;margin-left:5px")
          (tag (div style "color:#888888; font-size:90%; margin-top:2px")
            (pr "type in a website or author")))))
 
 (def history-panel(user sname req)
-  (tag (div id 'rwhistory-wrapper class 'rwvlist)
+  (tag (div id 'rwhistory-wrapper class "rwvlist white-shadow")
     (tag b
       (pr "recently viewed"))
     (tag (div id 'rwhistory)
