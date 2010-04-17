@@ -6,41 +6,41 @@
       body {
         background-color: #eee;
       }
-      #content {
+      #rwbody {
         width: 900px;
         margin: 0 auto;
       }
-      #left {
+      #rwpage {
+        width: 900px;
+        float: left;
+      }
+      #rwnav {
+        margin-left:100px;
+        height: 60px;
+        background-color: white;
+      }
+      #rwright-panel {
+        float:right;
+        width: 200px;
+      }
+      #rwleft {
         width: 100px;
         float: left;
         height: 100px;
       }
-      #controls {
+      #rwbuttons {
         position: fixed;
         top: 150px;
         min-height: 300px;
         width: 100px;
         background: white;
       }
-      #main {
-        width: 900px;
-        float: left;
-      }
-      #header {
-        margin-left:100px;
-        height: 60px;
-        background-color: white;
-      }
-      #article {
+      #rwpost {
         float: left;
         width: 540px;
         min-height: 1000px;
         padding: 20px;
         background-color: white;
-      }
-      #sidebar {
-        float:right;
-        width: 200px;
       }
       #navigation {
         background: white;
@@ -71,40 +71,39 @@
         -webkit-border-top-left-radius: 2px;
         -webkit-border-bottom-left-radius: 2px;
       }
-      .sep {
+      .rwsep {
         height: 20px;
       }
-      .clear {
+      .rwclear {
         clear: both;
       }
-      .gutter {
+      .rwgutter {
         width: 20px;
         height: 5px;
       }
     </style>
   </head>
   <body>
-    <div id='content' class='rwbody'>
-      <div id='main' class='rwpage'>
-        <div id='header' class='white-shadow rwnav'>
+    <div id='rwbody'>
+      <div id='rwpage'>
+        <div id='rwnav' class='white-shadow'>
           Header
         </div>
-        <div class='sep'></div>
+        <div class='rwsep'></div>
 
-        <div id='sidebar' class='rwright-panel'>
+        <div id='rwright-panel'>
           <div id='navigation' class='white-shadow'>Navigation</div>
-          <div class='sep'></div>
+          <div class='rwsep'></div>
           <div id='history' class='white-shadow'>History</div>
         </div>
 
-        <div id='left' class='rwleft'>
-          <div id='controls' class='rwbuttons white-left'>
+        <div id='rwleft'>
+          <div id='rwbuttons' class='white-left'>
             Controls
           </div>
         </div>
 
-        <div id='article' class='white-shadow rwpost'>
-          <h1>Article</h1>
+        <div id='rwpost' class='white-shadow'>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ornare neque porta mauris pellentesque imperdiet. Curabitur nisl eros, semper id pellentesque vel, vehicula vel enim. Ut lobortis odio non turpis feugiat pulvinar. Nam ac erat eu elit imperdiet vehicula sed at nibh. Praesent laoreet nisl id lorem posuere egestas. Aliquam erat volutpat. Aliquam leo ipsum, congue et varius eget, tincidunt vitae orci. Donec bibendum imperdiet quam sed tempor. Phasellus malesuada odio sit amet dolor iaculis fermentum. Mauris mattis, felis a consequat bibendum, nunc mauris condimentum enim, porta tincidunt orci ligula aliquam libero.
 
         Mauris rhoncus, nunc a hendrerit convallis, ante dui imperdiet augue, nec accumsan dui libero vel erat. Donec suscipit pretium quam, at facilisis nunc sagittis vitae. Maecenas non sem purus. Phasellus accumsan orci at dui eleifend eleifend. Aenean non quam eget nisi consequat pellentesque a a ligula. Morbi malesuada augue in ligula mollis id porta tellus semper. Pellentesque commodo mauris sit amet dui luctus egestas. Phasellus in felis sapien. Ut imperdiet odio sit amet ligula varius ultricies. Nam non sagittis tortor.
@@ -146,10 +145,10 @@
         Aliquam erat volutpat. Morbi nisl nulla, iaculis vel posuere ornare, lobortis a dui. Sed mattis purus sed quam iaculis ornare. Proin vitae accumsan dui. Fusce quis purus et libero dignissim aliquam aliquet id ante. Nunc at hendrerit libero. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam a justo orci. Suspendisse tempor, dolor at euismod volutpat, tellus lorem eleifend lectus, lacinia rhoncus nisl nibh non libero. Quisque magna libero, imperdiet vitae viverra eu, malesuada non tellus. Vivamus ultricies dolor a neque mollis elementum. Nulla elit enim, ultricies vehicula eleifend a, volutpat eu lectus. Nam suscipit lorem sit amet nulla volutpat a lobortis leo feugiat. Suspendisse odio neque, facilisis ut tempus in, dignissim nec nisi.
         </div>
 
-        <div class='clear rwclear'></div>
-        <div class='sep'></div>
+        <div class='rwclear'></div>
+        <div class='rwsep'></div>
       </div>
-      <div class='clear rwclear'></div>
+      <div class='rwclear'></div>
     </div>
   </body>
 </html>
