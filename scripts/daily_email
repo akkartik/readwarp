@@ -15,6 +15,6 @@ cd ~/readwarp
     echo "== $i"
     cat $i
   done
-} |sendmail akkartik@gmail.com
+} |sendmail -f feedback@readwarp.com akkartik@gmail.com
 
 rm feedback/*
