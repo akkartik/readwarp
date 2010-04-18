@@ -2135,3 +2135,8 @@ Reduce the number of different font sizes. Everything is 14px by default; only
 article title, next button and pagination links in history panel are
 different.
 =-=827 - Sat Apr 17 19:44:13 PDT 2010
+Made title same size as the next button.
+Move button bar below article header.
+Added min-height to article box.
+More cleanup.
+=-=828 - Sat Apr 17 20:01:14 PDT 2010

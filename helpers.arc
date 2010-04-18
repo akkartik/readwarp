@@ -165,7 +165,7 @@
   (pr:+
     "<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\"
             width=\"110\"
-            height=\"16\"
+            height=\"14\"
             id=\"clippy\" >
     <param name=\"movie\" value=\"/clippy.swf\"/>
     <param name=\"allowScriptAccess\" value=\"always\" />
@@ -175,7 +175,7 @@
     <param name=\"bgcolor\" value=\"#ffffff\">
     <embed src=\"/clippy.swf\"
            width=\"110\"
-           height=\"16\"
+           height=\"14\"
            name=\"clippy\"
            quality=\"high\"
            allowScriptAccess=\"always\"

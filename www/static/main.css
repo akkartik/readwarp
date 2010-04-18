@@ -2,7 +2,7 @@
 
 body{ font-size:62.5%; background:#eee; }
 #rwbody{ width:890px; margin:0 auto; }
-#rwpage{ font-size:1.4em; font-family:sans-serif; }
+#rwpage{ font-size:1.4em; line-height:1.4; font-family:sans-serif; }
 
   #rwnav{ height:20px; margin-left:70px; background:white; padding:10px; }
 
@@ -12,13 +12,13 @@ body{ font-size:62.5%; background:#eee; }
 
   #rwcontent{ width:705px; }
 
-    #rwbuttons{ position:fixed; top:60px; background:white; 
+    #rwbuttons{ position:fixed; top:120px; background:white;
             padding-top:10px; padding-bottom:20px;
             /*IE*/ float:left;
             /*XXX*/ margin-left:-15px; }
 
     #rwpost-wrapper{ float:left; margin-left:70px; background:white; }
-      #rwpost{ padding:10px; line-height:1.4; text-align:left; }
+      #rwpost{ padding:10px; min-height:80%; text-align:left; }
 
 
 
@@ -44,7 +44,7 @@ p{ margin-top:1em; }
 .rwskip{ background-image:url('square-button-30151e.png'); color:#000000; } .rwoutcome_1{ color:#000000; }
 .rwoutcome_icon{ float:right; margin-left:0.5em; }
 
-h2.rwtitle a{ font-family:serif; font-size:1.4em; font-weight:bold; color:#66e; }
+h2.rwtitle a{ font-family:serif; font-size:1.15em; font-weight:bold; color:#66e; }
 .rwsubtitle{ font-style:italic; margin-top:0.5em; margin-bottom:1em; }
 .rwpost-body{ margin-top:2em; }
 
