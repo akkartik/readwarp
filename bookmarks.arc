@@ -71,7 +71,7 @@
       (if (no doc)
         (flash no-bookmarks-msg*)
         (do
-          (feedback-form "bookmarks" doc)
+          (feedback-form user "bookmarks" doc)
           (tag (div class 'rwhistory-link style "display:none")
             (render-doc-link user "bookmarks" doc))
           (tag (div id 'rwpost)

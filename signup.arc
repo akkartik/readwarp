@@ -158,7 +158,7 @@
                            style='vertical-align:bottom' height='28px'> to like a story,
                            and on <img src='signup-down.png' height='40px'
                            style='vertical-align:bottom; margin-bottom:-5px'> to dislike."))
-            (feedback-form sname doc)
+            (feedback-form user sname doc)
             (tag (div id 'rwpost)
               (render-doc user doc))))
         (clear))

@@ -136,7 +136,7 @@
       (buttons user sname doc))
     (tag (div id 'rwpost-wrapper class 'white-shadow)
       (if flashfn (flashfn))
-      (feedback-form sname doc)
+      (feedback-form user sname doc)
       (tag (div class 'rwhistory-link style "display:none")
         (render-doc-link user sname doc))
       (tag (div id 'rwpost)
@@ -363,7 +363,7 @@
     user
     userinfo*.user!email))
 
-(def feedback-form(sname doc)
+(def feedback-form(user sname doc)
   (tag (div id 'rwfeedback-wrapper)
     (tag (div class 'rwfeedback_link)
       (tag (a onclick "$('rwfeedback').toggle(); return false" href "#")
@@ -373,7 +373,7 @@
       (tag:textarea name "msg" cols "25" rows "6" style "text-align:left")(br)
       (tag (div style "font-size: 75%; margin-top:0.5em; text-align:left")
         (pr "Your email?"))
-      (tag:input name "email") (tag (i style "font-size:75%") (pr "(optional)")) (br)
+      (tag:input name "email" value user-email.user) (tag (i style "font-size:75%") (pr "(optional)")) (br)
       (tag:input type "hidden" name "location" value (+ "/station?seed=" sname))
       (tag:input type "hidden" name "station" value sname)
       (tag:input type "hidden" name "doc" value doc)
@@ -394,6 +394,8 @@
     (prn)))
 
 (defopr feedback req
+  (w/stdout (stderr) (system "date"))
+  (erp "FEEDBACK " current-user.req " " (arg req "msg"))
   (write-feedback (current-user req)
                   (arg req "email")
                   (arg req "station")
