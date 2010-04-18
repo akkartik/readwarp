@@ -2128,3 +2128,6 @@ Lots of tweaks.
 =-=824 - Sat Apr 17 16:09:48 PDT 2010
 Drop shadow for the spinner.
 =-=825 - Sat Apr 17 17:06:10 PDT 2010
+CSS tweaks for IE. Still ugly in IE; margin-left for rwpost is being
+misinterpreted.
+=-=826 - Sat Apr 17 19:27:08 PDT 2010

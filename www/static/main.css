@@ -14,6 +14,7 @@ body{ font-size:62.5%; background:#eee; }
 
     #rwbuttons{ position:fixed; top:60px; background:white; 
             padding-top:10px; padding-bottom:20px;
+            /*IE*/ float:left;
             /*XXX*/ margin-left:-15px; }
 
     #rwpost-wrapper{ float:left; margin-left:70px; background:white; }
@@ -38,7 +39,7 @@ p{ margin-top:1em; }
   display:inline; text-align:center; font-family:Georgia,serif; font-weight:bold; color:#666666; }
 .rwlogo .rwlogo-button { font-size:4em; color:#777777; }
 
-.rwbutton{ height:70px; cursor:pointer; text-align:center; position:relative; }
+.rwbutton{ height:70px; cursor:pointer; position:relative; width:90px; }
 .rwlike{ background-image:url('square-button-899ab6.png'); color:#000000; background-position:center center; background-repeat:no-repeat; } .rwoutcome_2{ color:#899ab6; } .rwoutcome_4{ color:#ccccff; }
 .rwskip{ background-image:url('square-button-30151e.png'); color:#000000; } .rwoutcome_1{ color:#000000; }
 .rwoutcome_icon{ float:right; margin-right:0.2em; margin-left:0.5em; width:16px; height:24px; font-size:75%;}
