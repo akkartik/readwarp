@@ -102,7 +102,7 @@
     (doc-panel user sname
                (check doc blank (next-doc user sname)))))
 
-(init history-size* 25) ; sync with application.js
+(init history-size* 10) ; sync with application.js
 
 (def history-panel-body(user sname req)
   (or= sname "")

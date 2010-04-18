@@ -81,7 +81,7 @@ function toggleLink(elem) {
 
 
 
-var history_size = 25;
+var history_size = 10;
 
 function gen_jslink(text, onclick) {
   return "<a href=\"#\" onclick=\""+onclick+"\">"+text+"</a>";
