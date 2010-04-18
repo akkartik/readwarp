@@ -6,11 +6,12 @@
     (nrem doc userinfo*.user!saved)
     (add-to userinfo*.user!saved doc)))
 
-(def bookmarks-link()
+(def bookmarks-link(user)
   (tag (div class 'rwvlist)
     (tag (a href "/saved")
       (tag b (pr "my bookmarks"))
-      (tag:img src "/save.gif" height "14px" style "margin-left:0.5em"))))
+      (tag:img src    (if userinfo*.user!saved "/saved.gif" "/save.gif")
+               height "14px" style "margin-left:0.5em"))))
 
 (defop saved req
   (let user get-user.req
@@ -19,7 +20,7 @@
       (tag (div style "width:100%")
         (tag (div id 'rwright-panel)
           (tag (div id 'rwchannels class 'white-shadow)
-            (bookmarks-link)
+            (bookmarks-link user)
             (channels-panel user nil))
           (tag:div class 'rwsep)
           (bookmarks-panel user req))

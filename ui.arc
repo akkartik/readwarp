@@ -21,7 +21,7 @@
       (tag (div id 'rwchannels class 'white-shadow)
         (current-channel-link ,user ,sname)
         (channels-panel ,user ,sname)
-        (bookmarks-link))
+        (bookmarks-link ,user))
       (tag:div class 'rwsep)
       (history-panel ,user ,sname ,req))
 
