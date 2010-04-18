@@ -183,7 +183,7 @@
         (pr (check doc-title.doc ~empty "no title"))))))
 
 (def buttons(user sname doc)
-  (tag (div id 'rwbuttons class 'white-left)
+  (tag (div id 'rwbuttons class 'white-shadow-left)
     (tag (div class "rwbutton rwlike" onclick
               (or (mark-read-url user sname doc 2)
                   (pushHistory sname doc (+ "'outcome=" 2 "'"))))

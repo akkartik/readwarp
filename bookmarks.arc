@@ -79,7 +79,7 @@
   (update-title doc-title.doc))
 
 (def bookmark-buttons(user doc)
-  (tag (div id 'rwbuttons class 'white-left)
+  (tag (div id 'rwbuttons class 'white-shadow-left)
     (tag (div class "rwbutton rwlike" onclick
               (+ "pullFromHistory('" urlencode.doc "');"))
       (tag (div style "position:relative; top:25px; font-size:16px;")

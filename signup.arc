@@ -168,7 +168,7 @@
       (write-feedback user "" sname "" "No result found"))))
 
 (def buttons2(user sname doc)
-  (tag (div id 'rwbuttons class 'white-left)
+  (tag (div id 'rwbuttons class 'white-shadow-left)
     (tag (div class "rwbutton rwlike"
               onclick (inline "rwcontent"
                               (+ "/docupdate2?doc=" urlencode.doc

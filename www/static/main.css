@@ -90,7 +90,7 @@ a:hover .rwbookmark_icon{ font-size:10px; color:#aaaaaa; }
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
 }
-.white-left {
+.white-shadow-left {
   background: white;
   box-shadow: -2px 2px 8px #ddd;
   -moz-box-shadow: -2px 2px 8px #ddd;
