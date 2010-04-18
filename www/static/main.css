@@ -18,7 +18,7 @@ body{ font-size:62.5%; background:#eee; }
             /*XXX*/ margin-left:-15px; }
 
     #rwpost-wrapper{ float:left; margin-left:70px; background:white; }
-      #rwpost{ padding:10px; min-height:450px; text-align:left; }
+      #rwpost{ padding:10px; width:620px; min-height:450px; text-align:left; }
 
 img{ max-width:620px; }
 
