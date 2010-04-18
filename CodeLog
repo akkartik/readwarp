@@ -2156,3 +2156,7 @@ in today. Probably srikanth?
 =-=834 - Sun Apr 18 13:52:44 PDT 2010
 Start showing feedback in the screenlog.
 =-=835 - Sun Apr 18 14:10:49 PDT 2010
+
+Article layout. Start deleting crap from the cleaned html like in readability
+0.5. We're gradually going to bring in all of 0.5's heuristics.
+=-=836 - Sun Apr 18 14:46:45 PDT 2010
