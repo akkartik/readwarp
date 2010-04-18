@@ -2143,3 +2143,6 @@ More cleanup.
 
 Change the star to show that a user has bookmarks.
 =-=829 - Sat Apr 17 21:58:05 PDT 2010
+
+Tweaks to handle large images and short articles.
+=-=832 - Sun Apr 18 12:34:16 PDT 2010
