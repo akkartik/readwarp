@@ -100,7 +100,7 @@
          sname (arg req "station")
          doc (arg req "doc"))
     (doc-panel user sname
-               (check doc blank (next-doc user sname)))))
+               (check doc ~blank (next-doc user sname)))))
 
 (init history-size* 10) ; sync with application.js
 

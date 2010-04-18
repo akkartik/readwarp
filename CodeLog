@@ -2146,3 +2146,6 @@ Change the star to show that a user has bookmarks.
 
 Tweaks to handle large images and short articles.
 =-=832 - Sun Apr 18 12:34:16 PDT 2010
+
+Bugfix: clicking on history was broken since patch 816 48 hours ago.
+=-=833 - Sun Apr 18 12:36:11 PDT 2010
