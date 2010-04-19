@@ -54,7 +54,7 @@ h2.rwtitle a{ font-family:serif; font-size:1.15em; font-weight:bold; color:#66e;
 
 .rwdate{ font-style:italic; float:right; }
 
-#rwfeedback-wrapper{ float:right; margin-top:10px; margin-right:10px; }
+#rwfeedback-wrapper{ float:right; }
 .rwfeedback_link{ text-align:right; margin-left:1em; }
 .rwfeedback_link a{ color:#88c; }
 #rwfeedback{ z-index:1000; float:right margin-top:0.5em; margin-left:0.5em; padding:5px; border:1px solid #dddddd; background:#fff; }

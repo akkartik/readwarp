@@ -2169,3 +2169,6 @@ Bugfix: signing up without going through the funnel had stopped working.
 
 paulgraham.com updates.
 =-=843 - Mon Apr 19 02:55:07 PDT 2010
+
+Feedback link was in its own line. Fixed.
+=-=845 - Mon Apr 19 12:12:58 PDT 2010
