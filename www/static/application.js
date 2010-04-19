@@ -143,7 +143,7 @@ function showDoc(station, doc) {
 }
 
 var readwarp_waitGif = "waiting.gif";
-var readwarp_waitMsg = "<img src=\"" + readwarp_waitGif + "\" style=\"white-shadow\"/>";
+var readwarp_waitMsg = "<img src=\"" + readwarp_waitGif + "\" class=\"white-shadow\"/>";
 var readwarp_msgCount = 0;
 function prepareAjax(id) {
   scroll(0, 0);
