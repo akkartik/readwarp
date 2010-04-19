@@ -130,6 +130,7 @@
   (or= userinfo*.user!abtests.key val))
 
 (def set-funnel-property(user key val)
+  (or= userinfo*.user!abtests (table))
   (= userinfo*.user!abtests.key val))
 
 (def abtests(user)
