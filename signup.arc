@@ -9,7 +9,7 @@
     (init-abtests user)
     (start-rebuilding-signup-showlist user 'sleep)
     (page
-      (tag (div style "background:white; min-height:95%;")
+      (tag (div style "background:white; min-height:95%;" class "rounded-bottom white-shadow")
         (tag (div id 'rwnav)
           (tag (div style "float:right")
             (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
@@ -46,7 +46,7 @@
     (start-rebuilding-signup-showlist user nil)
     (or= userinfo*.user!signup-stage 2)
     (page
-      (tag (div id 'rwnav class 'white-shadow)
+      (tag (div id 'rwnav class "rounded-bottom white-shadow")
         (logo-small))
       (tag:div class 'rwsep)
 
@@ -148,7 +148,7 @@
       (tag div
         (tag div
           (buttons2 user sname doc))
-        (tag (div id 'rwpost-wrapper class 'white-shadow)
+        (tag (div id 'rwpost-wrapper class "rounded white-shadow")
           (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
             (signup-form user)
             (progress-bar user))
@@ -158,8 +158,8 @@
                            style='vertical-align:bottom' height='28px'> to like a story,
                            and on <img src='signup-down.png' height='40px'
                            style='vertical-align:bottom; margin-bottom:-5px'> to dislike."))
-            (feedback-form user sname doc)
             (tag (div id 'rwpost)
+              (feedback-form user sname doc)
               (render-doc user doc))))
         (clear))
       (update-title doc-title.doc))
@@ -168,7 +168,7 @@
       (write-feedback user "" sname "" "No result found"))))
 
 (def buttons2(user sname doc)
-  (tag (div id 'rwbuttons class 'white-shadow-left)
+  (tag (div id 'rwbuttons class "rounded-left button-shadow")
     (tag (div class "rwbutton rwlike"
               onclick (inline "rwcontent"
                               (+ "/docupdate2?doc=" urlencode.doc
