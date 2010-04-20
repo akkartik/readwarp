@@ -2227,3 +2227,12 @@ Ah, I missed the key piece.
 All these weeks init-preferred was never actually running. Now I've forced it
 on it promptly had a bug.
 =-=864 - Tue Apr 20 03:11:07 PDT 2010
+
+Another bug: people's preferred feeds haven't properly loaded into their
+channels. Argh.. I changed how this worked at some point but didn't update the
+data.
+Just updating my feeds for now to see if that breaks anything.
+Loading subsets of preferred feeds into a station is a mess. What if I delete
+a group? We're going to redo this next, go through a group selection before a
+feed selection.
+=-=865 - Tue Apr 20 03:26:44 PDT 2010

@@ -113,10 +113,13 @@
 (defreg migrate() migrations*
   (prn "migrate-stations")
   (wipe userinfo*.nil)
-  (each (u ui) userinfo*
+;?   (each (u ui) userinfo*
+  (withs (u "akkartik" ui userinfo*.u)
     (each (s st) ui!stations
-      (when (is t (first-value st!preferred))
-        (= st!preferred (backoffify (keys st!preferred) 2)))
+      (each f (keep [ui!preferred-feeds _] feeds.st)
+        (unless st!preferred.f
+          (erp u " " s " " f)
+          (= st!preferred.f (backoff f 2))))
       )))
 
 (= vote-bookmark* 4)
