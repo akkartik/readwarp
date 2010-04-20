@@ -2208,3 +2208,5 @@ Grey gone.
 
 More spacing for next/prev.
 =-=856 - Mon Apr 19 22:39:42 PDT 2010
+Bugfix: clicking on bookmark links wasn't working.
+=-=857 - Mon Apr 19 22:44:21 PDT 2010

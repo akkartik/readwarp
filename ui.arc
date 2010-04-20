@@ -208,7 +208,7 @@
     (tag:img src "email.jpg")))
 
 (def mark-read-url(user sname doc n)
-  (when (is n 1)
+  (when (and (~is sname "bookmarks") (is n 1))
     (if
       (and (borderline-preferred-feed user sname doc)
            (~empty doc-feedtitle.doc))
