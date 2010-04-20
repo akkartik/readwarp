@@ -135,8 +135,9 @@
       (tag:img src "save-button-384cff.png" height "60px"))
     (tag (div class 'rwbutton onclick
             (inline "rwcontent"
+                  (maybe-prompt user sname doc
                     (+ "/docupdate2?doc=" urlencode.doc
-                       "&station=" urlencode.sname "&outcome=" 1)))
+                       "&station=" urlencode.sname "&outcome=" 1))))
       (tag:img src "thumbs-down-button2.png" height "64px"))
     (clear)))
 

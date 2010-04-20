@@ -2221,3 +2221,5 @@ Eliminate all the complexity in deciding what to show on signup. Just get one
 selection algorithm right, make it work for signup as well.
 But I never see feeds repeat pre-signup. Bug?
 =-=861 - Tue Apr 20 02:30:46 PDT 2010
+Ah, I missed the key piece.
+=-=863 - Tue Apr 20 02:39:04 PDT 2010
