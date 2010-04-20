@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.47 r22583"
-   sodipodi:docname="b.svg">
+   sodipodi:docname="thumbs-down-button1.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -129,7 +129,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -147,7 +147,7 @@
        rx="16"
        ry="16" />
     <rect
-       style="fill:url(#linearGradient3637);fill-opacity:1;stroke:#000000;stroke-width:0.57429045;stroke-opacity:1"
+       style="fill:url(#linearGradient3637);fill-opacity:1;stroke:none;stroke-width:0.57429045000000001;stroke-opacity:1"
        id="rect3613"
        width="64"
        height="64"

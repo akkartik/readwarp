@@ -2192,3 +2192,6 @@ Email form tweaks. Outline tries to match email icon.
 Pushing new cleaner to production. Attempts to test it have been mixed; I see
 places with totally different text. Outdated urls?
 =-=851 - Mon Apr 19 03:49:46 PDT 2010
+
+thumbs down button: Remove dark border.
+=-=852 - Mon Apr 19 18:34:00 PDT 2010
