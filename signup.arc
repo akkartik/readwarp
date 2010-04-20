@@ -104,10 +104,8 @@
             (progress-bar user))
           (tag (div style "width:100%; margin-right:1em")
                 (when (is 2 userinfo*.user!signup-stage)
-                  (flash:+ "Ok! Click on <img src='save-button-384cff.png'
-                           style='vertical-align:bottom' height='28px'> to like a story,
-                           and on <img src='thumbs-down-button2.png' height='28px'
-                           style='vertical-align:bottom;'> to dislike."))
+                  (flash:+ "Ok! Click on the buttons on the left to like or
+                           dislike each story and move to the next one."))
             (tag (div id 'rwpost)
               (feedback-form user sname doc)
               (render-doc user doc))))
@@ -123,22 +121,17 @@
               onclick (inline "rwcontent"
                               (+ "/docupdate2?doc=" urlencode.doc
                                  "&station=" urlencode.sname
-                                 "&outcome=" 2)))
-      (tag (div style "position:relative; top:25px; font-size:16px;")
-        (pr "next")))
-    (tag p)
-    (tag (div class 'rwbutton
+                                 "&outcome=" 2))))
+    (tag (div class "rwbutton rwsave"
               onclick (inline "rwcontent"
                               (+ "/docupdate2?doc=" urlencode.doc
                                  "&station=" urlencode.sname
-                                 "&outcome=" vote-bookmark*)))
-      (tag:img src "save-button-384cff.png" height "60px"))
-    (tag (div class 'rwbutton onclick
+                                 "&outcome=" vote-bookmark*))))
+    (tag (div class "rwbutton rwskip" onclick
             (inline "rwcontent"
                   (maybe-prompt user sname doc
                     (+ "/docupdate2?doc=" urlencode.doc
-                       "&station=" urlencode.sname "&outcome=" 1))))
-      (tag:img src "thumbs-down-button2.png" height "64px"))
+                       "&station=" urlencode.sname "&outcome=" 1)))))
     (clear)))
 
 (defop docupdate2 req

@@ -187,20 +187,13 @@
 (def buttons(user sname doc)
   (tag (div id 'rwbuttons class "button-shadow rounded-left")
     (tag (div class "rwbutton rwlike" onclick
-              (pushHistory sname doc (+ "'outcome=" 2 "'")))
-      (tag (div style "position:relative; top:25px; font-size:16px;")
-        (pr "next")))
-    (tag p)
-    (tag (div class 'rwbutton onclick
-            (pushHistory sname doc (+ "'outcome=" vote-bookmark* "'")))
-      (tag:img src "save-button-384cff.png" height "60px"))
-    (tag (div class 'rwbutton onclick
+              (pushHistory sname doc (+ "'outcome=" 2 "'"))))
+    (tag (div class "rwbutton rwsave" onclick
+            (pushHistory sname doc (+ "'outcome=" vote-bookmark* "'"))))
+    (tag (div class "rwbutton rwskip" onclick
             (pushHistory sname doc
-                         (maybe-prompt user sname doc "outcome=1")))
-      (tag:img src "thumbs-down-button2.png" height "64px"))
-    (tag p)
-    (email-button user doc)
-    (clear)))
+                         (maybe-prompt user sname doc "outcome=1"))))
+    (email-button user doc)))
 
 (def maybe-prompt(user sname doc default)
   (or

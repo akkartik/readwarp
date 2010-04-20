@@ -82,9 +82,7 @@
 (def bookmark-buttons(user doc)
   (tag (div id 'rwbuttons class "rounded-left button-shadow")
     (tag (div class "rwbutton rwlike" onclick
-              (+ "pullFromHistory('" urlencode.doc "');"))
-      (tag (div style "position:relative; top:25px; font-size:16px;")
-        (pr "next")))
+              (+ "pullFromHistory('" urlencode.doc "');")))
 
     (tag p)
     (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:30px")
@@ -96,10 +94,8 @@
         (pos doc userinfo*.user!saved)))
     (tag p)
 
-    (tag (div class 'rwbutton onclick
-            (+ "pullFromHistory('" urlencode.doc "');"))
-      (tag:img src "thumbs-down-button2.png" height "64px"))
+    (tag (div class "rwbutton rwskip" onclick
+            (+ "pullFromHistory('" urlencode.doc "');")))
 
     (tag p)
-    (email-button user doc)
-    (clear)))
+    (email-button user doc)))
