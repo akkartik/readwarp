@@ -156,8 +156,8 @@
                 (when (is 2 userinfo*.user!signup-stage)
                   (flash:+ "Ok! Click on <img src='save-button-384cff.png'
                            style='vertical-align:bottom' height='28px'> to like a story,
-                           and on <img src='signup-down.png' height='40px'
-                           style='vertical-align:bottom; margin-bottom:-5px'> to dislike."))
+                           and on <img src='thumbs-down-button2.png' height='28px'
+                           style='vertical-align:bottom;'> to dislike."))
             (tag (div id 'rwpost)
               (feedback-form user sname doc)
               (render-doc user doc))))
@@ -187,7 +187,7 @@
             (inline "rwcontent"
                     (+ "/docupdate2?doc=" urlencode.doc
                        "&station=" urlencode.sname "&outcome=" 1)))
-      (tag:img src "thumbs-down-button1.png" height "70px"))
+      (tag:img src "thumbs-down-button2.png" height "64px"))
     (clear)))
 
 (defop docupdate2 req

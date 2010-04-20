@@ -98,7 +98,7 @@
 
     (tag (div class 'rwbutton onclick
             (+ "pullFromHistory('" urlencode.doc "');"))
-      (tag:img src "thumbs-down-button1.png" height "70px"))
+      (tag:img src "thumbs-down-button2.png" height "64px"))
 
     (tag p)
     (email-button user doc)

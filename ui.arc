@@ -196,7 +196,7 @@
     (tag (div class 'rwbutton onclick
             (or (mark-read-url user sname doc 1)
                 (pushHistory sname doc (+ "'outcome=" 1 "'"))))
-      (tag:img src "thumbs-down-button1.png" height "64px"))
+      (tag:img src "thumbs-down-button2.png" height "64px"))
     (tag p)
     (email-button user doc)
     (clear)))

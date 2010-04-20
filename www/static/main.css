@@ -43,15 +43,15 @@ p{ margin-top:1em; }
 .rwlogo .rwlogo-button { font-size:4em; color:#777777; }
 
 .rwbutton{ height:70px; cursor:pointer; position:relative; width:90px; }
-.rwlike{ background-image:url('next-button1.png'); color:#000000; background-position:center center; background-repeat:no-repeat; } .rwoutcome_2{ color:#42791f; } .rwoutcome_4{ color:#ccccff; }
-.rwskip{ background-image:url('square-button-30151e.png'); color:#000000; } .rwoutcome_1{ color:#741d34; }
+.rwlike{ background-image:url('next-button2.png'); color:#000000; background-position:center center; background-repeat:no-repeat; } .rwoutcome_2{ color:#abdd8b; } .rwoutcome_4{ color:#ccccff; }
+.rwskip{ background-image:url('square-button-30151e.png'); color:#000000; } .rwoutcome_1{ color:#e0a4b3; }
 .rwoutcome_icon{ float:right; margin-left:0.5em; }
 
 h2.rwtitle a{ font-family:serif; font-size:1.15em; font-weight:bold; color:#66e; }
 .rwsubtitle{ font-style:italic; margin-top:0.5em; margin-bottom:1em; }
 .rwpost-body{ margin-top:2em; }
 
-.rwflash{ background:#dddddd; padding-top:2px; padding-bottom:2px; margin:1em; }
+.rwflash{ background:#c26278; padding-top:2px; padding-bottom:2px; margin:1em; }
 
 .rwdate{ font-style:italic; float:right; }
 
@@ -73,8 +73,8 @@ h2.rwtitle a{ font-family:serif; font-size:1.15em; font-weight:bold; color:#66e;
 .rwpaginate{ color:#fff; margin:1em; font-style:italic; text-align:center; font-size:10px; }
 .rwpaginate a{ color:#66f; }
 
-.rwprogress{ float:left; margin-left:1em; margin-top:1em; height:1em; border:1px solid #888; }
-.rwprogress_filled{ float:left; height:1em; background:#888; }
+.rwprogress{ float:left; margin-left:1em; margin-top:1em; height:1em; border:1px solid #c26278; }
+.rwprogress_filled{ float:left; height:1em; background:#c26278; }
 
 .rwclear{ clear:both; }
 .rwsep{ height:20px; }
