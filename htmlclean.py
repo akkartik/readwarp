@@ -112,7 +112,15 @@ def preproc(file):
   if len(soup.findAll('h2')) == 1:
     for s in soup.findAll('h2'): s.extract()
 
+  for s in soup.findAll('table'):
+    try: del(s['width'])
+    except KeyError: pass
+
   for s in soup.findAll(True):
+    try: del(s['id'])
+    except KeyError: pass
+    try: del(s['class'])
+    except KeyError: pass
     try: del(s['style'])
     except KeyError: pass
 
