@@ -2216,3 +2216,8 @@ entrypoint function that knows what to do when the station is bookmarks.
 
 Email form tweaks.
 =-=860 - Tue Apr 20 01:48:30 PDT 2010
+
+Eliminate all the complexity in deciding what to show on signup. Just get one
+selection algorithm right, make it work for signup as well.
+But I never see feeds repeat pre-signup. Bug?
+=-=861 - Tue Apr 20 02:30:46 PDT 2010

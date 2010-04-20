@@ -187,8 +187,7 @@
 (def buttons(user sname doc)
   (tag (div id 'rwbuttons class "button-shadow rounded-left")
     (tag (div class "rwbutton rwlike" onclick
-              (or (mark-read-url user sname doc 2)
-                  (pushHistory sname doc (+ "'outcome=" 2 "'"))))
+              (pushHistory sname doc (+ "'outcome=" 2 "'")))
       (tag (div style "position:relative; top:25px; font-size:16px;")
         (pr "next")))
     (tag p)
@@ -196,41 +195,41 @@
             (pushHistory sname doc (+ "'outcome=" vote-bookmark* "'")))
       (tag:img src "save-button-384cff.png" height "60px"))
     (tag (div class 'rwbutton onclick
-            (or (mark-read-url user sname doc 1)
-                (pushHistory sname doc (+ "'outcome=" 1 "'"))))
+            (pushHistory sname doc
+                         (maybe-prompt user sname doc "outcome=1")))
       (tag:img src "thumbs-down-button2.png" height "64px"))
     (tag p)
     (email-button user doc)
     (clear)))
+
+(def maybe-prompt(user sname doc default)
+  (or
+    (unless (is sname "bookmarks")
+      (if
+        (and (borderline-preferred-feed user sname doc)
+             (~empty doc-feedtitle.doc))
+           (addjsarg
+             default
+             (check-with-user
+               (+ "I will stop showing articles from\\n"
+                  "  " doc-feedtitle.doc "\\n"
+                  "in this channel. (press 'cancel' to keep showing them)")
+               "prune"))
+        (awhen (borderline-unpreferred-group user sname doc)
+           (addjsarg
+             (+ default "&group=" it)
+             (check-with-user
+               (+ "I will stop showing any articles about\\n"
+                  "  " uncamelcase.it "\\n"
+                  "in this channel. (press 'cancel' to keep showing them)")
+               "prune-group")))))
+    (+ "'" default "'")))
 
 (def email-button(user doc)
   (tag (div onclick "$('rwemail').toggle();
                      $('rwform-flash').innerHTML='';
                      $('rwform-flash').hide()")
     (tag:img src "email.jpg")))
-
-(def mark-read-url(user sname doc n)
-  (when (and (~is sname "bookmarks") (is n 1))
-    (if
-      (and (borderline-preferred-feed user sname doc)
-           (~empty doc-feedtitle.doc))
-        (pushHistory sname doc
-                     (addjsarg
-                       (+ "outcome=" n)
-                       (check-with-user
-                         (+ "I will stop showing articles from\\n"
-                            "  " doc-feedtitle.doc "\\n"
-                            "in this channel. (press 'cancel' to keep showing them)")
-                         "prune")))
-      (awhen (borderline-unpreferred-group user sname doc)
-        (pushHistory sname doc
-                     (addjsarg
-                       (+ "outcome=" n "&group=" it)
-                       (check-with-user
-                         (+ "I will stop showing any articles about\\n"
-                            "  " uncamelcase.it "\\n"
-                            "in this channel. (press 'cancel' to keep showing them)")
-                         "prune-group")))))))
 
 
 

@@ -105,7 +105,6 @@
     (erp "new station: " sname)
     (inittab userinfo*.user!stations.sname
              'name sname
-             'preferred (table)
              'unpreferred (table)
              'created (seconds)))
   (init-groups user sname)

@@ -7,7 +7,6 @@
 (def start-funnel(req)
   (let user current-user.req
     (init-abtests user)
-    (start-rebuilding-signup-showlist user 'sleep)
     (page
       (tag (div style "background:white; min-height:95%;" class "rounded-bottom white-shadow")
         (tag (div id 'rwnav)
@@ -35,15 +34,10 @@
 
         ))))))
 
-(init signup-groups* '(News Technology Magazine Economics
-                       Sports Fashion Travel Comics))
-(when (len< signup-groups* quiz-length*)
-  (erp "Too few signup groups")
-  (really-quit))
-
 (defop begin req
-  (let user current-user.req
-    (start-rebuilding-signup-showlist user nil)
+  (withs (user current-user.req
+          global-sname (or= userinfo*.user!all (stringify:unique-id)))
+    (ensure-station user global-sname)
     (or= userinfo*.user!signup-stage 2)
     (page
       (tag (div id 'rwnav class "rounded-bottom white-shadow")
@@ -56,55 +50,11 @@
             (tag (div id 'rwcontent)
               (next-stage user sname req))))))))
 
-(proc ensure-station2(user sname)
-  (ensure-user user)
-  (when (no userinfo*.user!stations.sname)
-    (inittab userinfo*.user!stations.sname
-             'name sname
-             'preferred (table)
-             'unpreferred (table)
-             'created (seconds)
-             'groups (table))))
-
 (proc next-stage(user query req)
   (let funnel-stage userinfo*.user!signup-stage
     (signup-funnel-analytics is-prod.req funnel-stage user)
     (erp user ": stage " funnel-stage)
-    (doc-panel2 user query next-doc2.user)))
-
-(def next-doc2(user)
-  (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
-    (next-doc user userinfo*.user!all)
-    (do
-      (wait:< 0 (qlen userinfo*.user!signup-showlist))
-      (w/stdout (stderr) (pr user " => "))
-      (erp:pick2 user))))
-
-(def pick2(user)
-  (car:qlist userinfo*.user!signup-showlist))
-
-(proc start-rebuilding-signup-showlist(user pause)
-  (unless userinfo*.user!signup-showlist-thread
-    (set userinfo*.user!signup-showlist-thread)
-    (thread "signup-showlist"
-      (when pause (sleep 1))
-      (w/stdout (stderr)
-        (rebuild-signup-showlist user)))))
-
-(proc rebuild-signup-showlist(user)
-  (unless userinfo*.user!all
-    (= userinfo*.user!all (stringify:unique-id)))
-
-  (let sname userinfo*.user!all
-    (unless userinfo*.user!stations.sname
-      (ensure-station2 user sname)
-      (= userinfo*.user!initial-groups
-         (shuffle:map stringify signup-groups*))
-
-      (= userinfo*.user!signup-showlist (queue))
-      (each group userinfo*.user!initial-groups
-        (enq random-story-from.group
-             userinfo*.user!signup-showlist)))))
+    (doc-panel2 user query (next-doc user userinfo*.user!all))))
 
 (def signup-form(user)
   (tag (div style "text-align:left; background:#999999; padding:1em; margin-bottom:1em")
@@ -194,38 +144,11 @@
   (with (user (current-user req)
          sname (or (arg req "station") "")
          doc (arg req "doc")
-         outcome (arg req "outcome"))
-    (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
-      (do
-        (ensure-station user sname)
-        (mark-read user sname doc outcome nil nil nil))
-      (do
-        (ensure-station2 user sname)
-        (mark-read2 user sname doc outcome)))
+         outcome (arg req "outcome")
+         prune-feed (is "true" (arg req "prune"))
+         group (arg req "group")
+         prune-group (is "true" (arg req "prune-group")))
+    (ensure-station user sname)
+    (mark-read user sname doc outcome prune-feed group prune-group)
     (++ userinfo*.user!signup-stage)
     (next-stage user sname req)))
-
-(proc mark-read2(user sname doc outcome)
-  (with (station  userinfo*.user!stations.sname
-         feed     doc-feed.doc)
-    (erp outcome " " doc)
-
-    (unless userinfo*.user!read.doc
-      (push doc station!read-list))
-    (= userinfo*.user!read.doc outcome)
-
-    (when (is outcome "2")
-      (each g (erp:signup-group-mapping*:car userinfo*.user!initial-groups)
-        (or= station!groups.g (backoff doc 2))))
-    (deq userinfo*.user!signup-showlist)))
-
-(init signup-group-mapping*
-  (obj
-    "News" '("News" "Politics" "Economics" "Technology")
-    "Technology" '("Technology" "Programming" "Venture" "Games" "Science" "Biology")
-    "Magazine" '("Magazine" "Comics" "Design" "Movies" "Books" "Music" "Auto" "Art" "Travel")
-    "Economics" '("News" "Politics" "Economics" "Technology")
-    "Sports" '("Sports" "Cricket")
-    "Fashion" '("Fashion" "Glamor" "Food" "Health")
-    "Travel" '("Magazine" "Comics" "Design" "Movies" "Books" "Music" "Auto" "Art" "Travel")
-    "Comics" '("Magazine" "Games" "Comics")))
