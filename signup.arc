@@ -57,8 +57,8 @@
     (doc-panel2 user query (next-doc user userinfo*.user!all))))
 
 (def signup-form(user)
-  (tag (div style "text-align:left; background:#999999; padding:1em; margin-bottom:1em")
-    (tag (span style "font-size:14px; color:#444444")
+  (tag (div style "text-align:left; background:#915c69; padding:0.5em")
+    (tag (span style "font-size:14px; color:#222222")
       (prbold "Please save your preferences."))
     (br)
     (fnform (fn(req) (create-handler req 'register
