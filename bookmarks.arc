@@ -94,10 +94,11 @@
         (+ "/save?doc=" doc)
         "/saved.gif" "/save.gif"
         (pos doc userinfo*.user!saved)))
+    (tag p)
 
     (tag (div class 'rwbutton onclick
             (+ "pullFromHistory('" urlencode.doc "');"))
-      (tag:img src "signup-down.png" height "90px"))
+      (tag:img src "thumbs-down-button1.png" height "70px"))
 
     (tag p)
     (email-button user doc)

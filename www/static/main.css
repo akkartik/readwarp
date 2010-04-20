@@ -5,24 +5,23 @@ body{ font-size:62.5%; background:#8c6988/*#934b8a*/; }
 #rwbody{ width:890px; margin:0 auto; }
 #rwpage{ font-size:1.4em; line-height:1.4; font-family:sans-serif; }
 
-  #rwnav{ height:20px; margin-left:70px; background:white; padding:10px; }
+  #rwnav{ height:20px; margin-left:90px; background:white; padding:10px; }
 
   #rwright-panel{ float:right; text-align:left; width:165px; }
     #rwchannels{ background:white; padding:10px; }
     #rwhistory-wrapper{ background:white; padding:10px; }
 
-  #rwcontent{ width:705px; }
+  #rwcontent{ width:685px; }
 
     #rwbuttons{ position:fixed; top:120px; background:white;
             padding-top:10px; padding-bottom:20px;
-            /*IE*/ float:left;
-            /*XXX*/ margin-left:-15px; }
+            /*IE*/ float:left; }
 
-    #rwpost-wrapper{ float:left; margin-left:70px; background:white; }
-      #rwpost{ padding:10px; width:615px; min-height:450px; text-align:left; overflow:hidden; }
+    #rwpost-wrapper{ float:left; margin-left:90px; background:white; }
+      #rwpost{ padding:10px; width:595px; min-height:450px; text-align:left; overflow:hidden; }
       * html #rwpost{ width:auto; }
 
-img{ max-width:615px; }
+img{ max-width:595px; }
 
 
 
@@ -44,8 +43,8 @@ p{ margin-top:1em; }
 .rwlogo .rwlogo-button { font-size:4em; color:#777777; }
 
 .rwbutton{ height:70px; cursor:pointer; position:relative; width:90px; }
-.rwlike{ background-image:url('square-button-899ab6.png'); color:#000000; background-position:center center; background-repeat:no-repeat; } .rwoutcome_2{ color:#899ab6; } .rwoutcome_4{ color:#ccccff; }
-.rwskip{ background-image:url('square-button-30151e.png'); color:#000000; } .rwoutcome_1{ color:#000000; }
+.rwlike{ background-image:url('next-button1.png'); color:#000000; background-position:center center; background-repeat:no-repeat; } .rwoutcome_2{ color:#42791f; } .rwoutcome_4{ color:#ccccff; }
+.rwskip{ background-image:url('square-button-30151e.png'); color:#000000; } .rwoutcome_1{ color:#741d34; }
 .rwoutcome_icon{ float:right; margin-left:0.5em; }
 
 h2.rwtitle a{ font-family:serif; font-size:1.15em; font-weight:bold; color:#66e; }
@@ -60,6 +59,8 @@ h2.rwtitle a{ font-family:serif; font-size:1.15em; font-weight:bold; color:#66e;
 .rwfeedback_link{ text-align:right; margin-left:1em; }
 .rwfeedback_link a{ color:#88c; }
 #rwfeedback{ z-index:1000; float:right margin-top:0.5em; margin-left:0.5em; padding:5px; border:1px solid #dddddd; background:#fff; }
+
+#rwemail{ margin:1em; padding:1em; border:2px solid #8daaff; }
 
 
 

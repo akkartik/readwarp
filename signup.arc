@@ -187,7 +187,7 @@
             (inline "rwcontent"
                     (+ "/docupdate2?doc=" urlencode.doc
                        "&station=" urlencode.sname "&outcome=" 1)))
-      (tag:img src "signup-down.png" height "90px"))
+      (tag:img src "thumbs-down-button1.png" height "70px"))
     (clear)))
 
 (defop docupdate2 req

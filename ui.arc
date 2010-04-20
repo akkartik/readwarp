@@ -196,7 +196,7 @@
     (tag (div class 'rwbutton onclick
             (or (mark-read-url user sname doc 1)
                 (pushHistory sname doc (+ "'outcome=" 1 "'"))))
-      (tag:img src "signup-down.png" height "90px"))
+      (tag:img src "thumbs-down-button1.png" height "64px"))
     (tag p)
     (email-button user doc)
     (clear)))
@@ -311,20 +311,21 @@
                        $('rwform-flash').innerHTML = 'sent';
                        $('rwform-flash').show();
                        return false")
+    (tag h3 (pr "Send someone a note"))(br)
     (tab
       (tr
         (td:prbold "From:&nbsp;")
-        (td:tag:input style "margin-bottom:5px" name "from" size "30"
+        (td:tag:input style "margin-bottom:5px" name "from" size "50"
                       value user-email.user))
       (tr
         (td:prbold "To:&nbsp;")
-        (td:tag:input style "margin-bottom:5px" name "to" size "30"))
+        (td:tag:input style "margin-bottom:5px" name "to" size "50"))
       (tr
         (td:prbold "Subject:&nbsp;")
-        (td:tag:input style "margin-bottom:5px" name "subject" size "30"
+        (td:tag:input style "margin-bottom:5px" name "subject" size "50"
                       value doc-title.doc)))
     (prbold "Note: ") (pr "(optional)")(br)
-    (tag (textarea name "msg" cols "50" rows "6" style "text-align:left")
+    (tag (textarea name "msg" cols "60" rows "6" style "text-align:left")
       (prn)
       (prn)
       (prn)
