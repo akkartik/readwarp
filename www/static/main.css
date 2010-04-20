@@ -42,7 +42,7 @@ p{ margin-top:1em; }
   display:inline; text-align:center; font-family:Georgia,serif; font-weight:bold; color:#8c6988; }
 .rwlogo .rwlogo-button { font-size:4em; color:#8c6988; }
 
-.rwbutton{ height:70px; cursor:pointer; position:relative; width:80px; margin-left:10px; }
+.rwbutton{ height:70px; cursor:pointer; position:relative; width:80px; margin-left:10px; margin-bottom:10px; }
 .rwoutcome_icon{ float:right; margin-left:0.5em; }
 
 div.rwlike{ background:transparent url('next.png') 0px 0px no-repeat; }
