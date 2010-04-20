@@ -242,9 +242,8 @@
     (tag (div style "float:right")
       (if signedup?.user
         (do
-          (tag (span style "margin-right:1em")
+          (tag (span style "margin-right:5em")
             (link "home" "/"))
-          (pr user "&nbsp;|&nbsp;")
           (link "logout" "/logout"))
         (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
                 (pr "login"))))
@@ -287,7 +286,7 @@
          (tag:input name "seed" size "10")
          (tag:input type "submit" value "go" style
                     "margin-top:5px;margin-left:5px")
-         (tag (div style "color:#888888; font-size:90%; margin-top:2px")
+         (tag (div style "font-size:90%; margin-top:2px")
            (pr "type in a website or author")))))
 
 (def history-panel(user sname req)

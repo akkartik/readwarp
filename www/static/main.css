@@ -7,7 +7,7 @@ body{ font-size:62.5%; background:#8c6988/*#934b8a*/; }
 
   #rwnav{ height:20px; margin-left:90px; background:white; padding:10px; }
 
-  #rwright-panel{ float:right; text-align:left; width:165px; }
+  #rwright-panel{ float:right; text-align:left; width:165px; color:#915c69; }
     #rwchannels{ background:white; padding:10px; }
     #rwhistory-wrapper{ background:white; padding:10px; }
 
@@ -37,10 +37,10 @@ p{ margin-top:1em; }
 
 
 #rwfrontpage { margin-top:2em; font-size:1.6em; height:80%; margin-left:auto;margin-right:auto; margin-left:70px; }
-.rwlogo{ color:#dddddd; text-align:center; }
+.rwlogo{ color:#8c6988; text-align:center; }
 .rwlogo-button, a.rwlogo-button, a.rwlogo-button:visited {
-  display:inline; text-align:center; font-family:Georgia,serif; font-weight:bold; color:#666666; }
-.rwlogo .rwlogo-button { font-size:4em; color:#777777; }
+  display:inline; text-align:center; font-family:Georgia,serif; font-weight:bold; color:#8c6988; }
+.rwlogo .rwlogo-button { font-size:4em; color:#8c6988; }
 
 .rwbutton{ height:70px; cursor:pointer; position:relative; width:90px; }
 .rwlike{ background-image:url('next-button2.png'); color:#000000; background-position:center center; background-repeat:no-repeat; } .rwoutcome_2{ color:#abdd8b; } .rwoutcome_4{ color:#ccccff; }
@@ -64,8 +64,10 @@ h2.rwtitle a{ font-family:serif; font-size:1.15em; font-weight:bold; color:#66e;
 
 
 
-#rwright-panel b{ color:#bbbbbb; }
-#rwright-panel a{ color:#888888; }
+#rwnav{color:#915c69; }
+#rwnav a{color:#915c69; }
+#rwright-panel b{ color:#915c69; }
+#rwright-panel a{ color:#915c69; }
 #rwhistory .rwitem{ margin-top:1em; margin-bottom:1em; }
 
 .rwvlist{ margin-bottom:1em; }
