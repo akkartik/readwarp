@@ -206,9 +206,10 @@
        (backoffify (initial-preferred-groups-for user sname) 2)))
 
 (proc init-preferred(user sname)
-  (or= userinfo*.user!stations.sname!preferred
-       (backoffify (keep [userinfo*.user!preferred-feeds _] feeds.station)
-                   2)))
+  (let station userinfo*.user!stations.sname
+    (or= station!preferred
+         (backoffify (keep [userinfo*.user!preferred-feeds _] feeds.station)
+                     2))))
 
 (def feeds(station)
   (dedup:flat:map group-feeds* (keys station!groups)))

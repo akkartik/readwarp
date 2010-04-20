@@ -2223,3 +2223,7 @@ But I never see feeds repeat pre-signup. Bug?
 =-=861 - Tue Apr 20 02:30:46 PDT 2010
 Ah, I missed the key piece.
 =-=863 - Tue Apr 20 02:39:04 PDT 2010
+
+All these weeks init-preferred was never actually running. Now I've forced it
+on it promptly had a bug.
+=-=864 - Tue Apr 20 03:11:07 PDT 2010
