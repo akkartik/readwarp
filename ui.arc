@@ -99,8 +99,10 @@
   (with (user (current-user req)
          sname (arg req "station")
          doc (arg req "doc"))
-    (doc-panel user sname
-               (check doc ~blank (next-doc user sname)))))
+    (if (is sname "bookmarks")
+      (bookmarked-doc-panel user next-save.user)
+      (doc-panel user sname
+                 (check doc ~blank (next-doc user sname))))))
 
 (init history-size* 10) ; sync with application.js
 
