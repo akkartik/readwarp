@@ -2213,3 +2213,6 @@ Bugfix: clicking on bookmark links wasn't working.
 The problem went deeper. 5 whys: give each panel on the screen a single
 entrypoint function that knows what to do when the station is bookmarks.
 =-=858 - Mon Apr 19 22:52:53 PDT 2010
+
+Email form tweaks.
+=-=860 - Tue Apr 20 01:48:30 PDT 2010

@@ -312,17 +312,17 @@
                        $('rwform-flash').innerHTML = 'sent';
                        $('rwform-flash').show();
                        return false")
-    (tag h3 (pr "Send someone a note"))(br)
+    (tag h3 (pr "Email this story"))(br)
     (tab
       (tr
-        (td:prbold "From:&nbsp;")
+        (tag (td style "vertical-align:middle") (prbold "From:&nbsp;"))
         (td:tag:input style "margin-bottom:5px" name "from" size "50"
                       value user-email.user))
       (tr
-        (td:prbold "To:&nbsp;")
+        (tag (td style "vertical-align:middle") (prbold "To:&nbsp;"))
         (td:tag:input style "margin-bottom:5px" name "to" size "50"))
       (tr
-        (td:prbold "Subject:&nbsp;")
+        (tag (td style "vertical-align:middle") (prbold "Subject:&nbsp;"))
         (td:tag:input style "margin-bottom:5px" name "subject" size "50"
                       value doc-title.doc)))
     (prbold "Note: ") (pr "(optional)")(br)
