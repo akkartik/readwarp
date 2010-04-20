@@ -28,11 +28,11 @@
       (if (params 'reverse)
         (do
           (paginate-next id url n start-index end-index max-index params)
-          (pr "&nbsp;")
+          (pr "&nbsp;&nbsp;&nbsp;&nbsp;")
           (paginate-prev id url n start-index end-index params))
         (do
           (paginate-prev id url n start-index end-index params)
-          (pr "&nbsp;")
+          (pr "&nbsp;&nbsp;&nbsp;&nbsp;")
           (paginate-next id url n start-index end-index max-index params))))))
 
 (def paginate-prev(id url n start-index end-index params)
