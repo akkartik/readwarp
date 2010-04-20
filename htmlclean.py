@@ -107,6 +107,8 @@ def preproc(file):
   for s in soup.findAll('form'): s.extract()
   for s in soup.findAll('object'): s.extract()
   for s in soup.findAll('iframe'): s.extract()
+  for s in soup.findAll('textarea'): s.extract()
+  for s in soup.findAll('input'): s.extract()
 
   for s in soup.findAll('h1'): s.extract()
   if len(soup.findAll('h2')) == 1:
@@ -117,11 +119,9 @@ def preproc(file):
     except KeyError: pass
 
   for s in soup.findAll(True):
-    try: del(s['id'])
-    except KeyError: pass
-    try: del(s['class'])
-    except KeyError: pass
-    try: del(s['style'])
+    try:
+      if not re.match(re.compile('display:\s*none'), s['style']):
+        del(s['style'])
     except KeyError: pass
 
   return soup
