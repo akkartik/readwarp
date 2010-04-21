@@ -81,7 +81,7 @@
 
 (def bookmark-buttons(user doc)
   (tag (div id 'rwbuttons class "rounded-left button-shadow")
-    (tag (div class "rwbutton rwlike" onclick
+    (tag (div title "next" class "rwbutton rwlike" onclick
               (+ "pullFromHistory('" urlencode.doc "');")))
 
     (tag p)
@@ -94,7 +94,7 @@
         (pos doc userinfo*.user!saved)))
     (tag p)
 
-    (tag (div class "rwbutton rwskip" onclick
+    (tag (div title "skip" class "rwbutton rwskip" onclick
             (+ "pullFromHistory('" urlencode.doc "');")))
 
     (tag p)

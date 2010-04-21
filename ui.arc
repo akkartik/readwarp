@@ -186,11 +186,11 @@
 
 (def buttons(user sname doc)
   (tag (div id 'rwbuttons class "button-shadow rounded-left")
-    (tag (div class "rwbutton rwlike" onclick
+    (tag (div title "next" class "rwbutton rwlike" onclick
               (pushHistory sname doc (+ "'outcome=" 2 "'"))))
-    (tag (div class "rwbutton rwsave" onclick
+    (tag (div title "like" class "rwbutton rwsave" onclick
             (pushHistory sname doc (+ "'outcome=" vote-bookmark* "'"))))
-    (tag (div class "rwbutton rwskip" onclick
+    (tag (div title "skip" class "rwbutton rwskip" onclick
             (pushHistory sname doc
                          (maybe-prompt user sname doc "outcome=1"))))
     (email-button user doc)))
