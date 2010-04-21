@@ -346,7 +346,7 @@
       (prn "Bcc: akkartik@gmail.com")
       (prn "Subject: " (arg req "subject"))
       (prn)
-      (prn (arg req "from") " shared a link with you.")
+      (prn "(" (arg req "from") " shared a link with you.)")
       (prn)
       (prn (arg req "msg"))
       (prn "--")
