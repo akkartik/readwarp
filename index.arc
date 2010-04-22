@@ -311,3 +311,10 @@
 (def feedstats(user)
   (let r (dedup:map doc-feed (keys userinfo*.user!read))
     (rem [pos _ r] (keys userinfo*.user!preferred-feeds))))
+
+(def rename-feed(old new)
+  (each (u ui) userinfo*
+    (swap ui!preferred-feeds.old ui!preferred-feeds.new)
+    (each (s st) ui!stations
+      (swap st!preferred.old st!preferred.new)
+      (swap st!unpreferred.old st!unpreferred.new))))
