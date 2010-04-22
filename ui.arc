@@ -301,7 +301,7 @@
   (tag (form id "rwemail" style "display:none" method "post"
              onsubmit "$('rwemail').toggle();
                        jspost('/email', params($('rwemail')));
-                       $('rwform-flash').innerHTML = 'sent';
+                       $('rwform-flash').innerHTML = ' sent';
                        $('rwform-flash').show();
                        return false")
     (tag h3 (pr "Email this story"))(br)
