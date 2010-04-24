@@ -113,13 +113,8 @@
 (defreg migrate() migrations*
   (prn "migrate-stations")
   (wipe userinfo*.nil)
-;?   (each (u ui) userinfo*
-  (withs (u "akkartik" ui userinfo*.u)
+  (each (u ui) userinfo*
     (each (s st) ui!stations
-      (each f (keep [ui!preferred-feeds _] feeds.st)
-        (unless st!preferred.f
-          (erp u " " s " " f)
-          (= st!preferred.f (backoff f 2))))
       )))
 
 (= vote-bookmark* 4)
@@ -280,6 +275,8 @@
        (always [most-recent-unread user _]
                (new-feed user station))))
 
+
+
 (def load-feeds(user)
   (when (file-exists (+ "feeds/users/" user))
     (w/infile f (+ "feeds/users/" user)
@@ -318,3 +315,9 @@
     (each (s st) ui!stations
       (swap st!preferred.old st!preferred.new)
       (swap st!unpreferred.old st!unpreferred.new))))
+
+(def add-preferred(user feed)
+  (withs (s userinfo*.user!all
+          st userinfo*.user!stations.s)
+    (set userinfo*.user!preferred-feeds.feed)
+    (= userinfo*.user!stations.s!preferred.feed (backoff feed 2))))
