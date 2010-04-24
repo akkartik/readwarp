@@ -233,7 +233,7 @@
 
 (proc nav(user)
   (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
-    (tag (div style "float:right")
+    (tag (div style "float:right; margin-top:10px")
       (if signedup?.user
         (do
           (tag (span style "margin-right:5em")
