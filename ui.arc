@@ -100,7 +100,8 @@
          sname (arg req "station")
          doc (arg req "doc"))
     (if (is sname "bookmarks")
-      (bookmarked-doc-panel user next-save.user)
+      (bookmarked-doc-panel user
+                 (check doc ~blank next-save.user))
       (doc-panel user sname
                  (check doc ~blank (next-doc user sname))))))
 

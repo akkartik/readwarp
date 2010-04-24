@@ -2246,3 +2246,7 @@ Tooltips.
 =-=871 - Tue Apr 20 21:41:30 PDT 2010
 More button tweaks from srikanth.
 =-=872 - Wed Apr 21 11:21:52 PDT 2010
+
+Yet another bookmarking bug that nobody noticed. Bookmarks and channels are
+def on their way out.
+=-=878 - Sat Apr 24 05:26:58 PDT 2010
