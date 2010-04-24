@@ -228,9 +228,8 @@
 
 
 (proc logo-small()
-  (tag (div style "text-align:left")
-    (tag (a href "/" class 'rwlogo-button)
-      (pr "Readwarp"))))
+  (tag (a href "/" class 'rwlogo-button)
+    (tag:img src "readwarp-small.png" style "float:left; width:150px")))
 
 (proc nav(user)
   (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
