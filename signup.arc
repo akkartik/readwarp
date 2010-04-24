@@ -8,7 +8,7 @@
   (let user current-user.req
     (init-abtests user)
     (page
-      (tag (div style "background:white; min-height:95%;" class "rounded-bottom white-shadow")
+      (tag (div style "background:white; min-height:95%;" class "rwrounded-bottom rwshadow")
         (tag (div id 'rwnav)
           (tag (div style "float:right")
             (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
@@ -40,7 +40,7 @@
     (ensure-station user global-sname)
     (or= userinfo*.user!signup-stage 2)
     (page
-      (tag (div id 'rwnav class "rounded-bottom white-shadow")
+      (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
         (logo-small))
       (tag:div class 'rwsep)
 
@@ -98,7 +98,7 @@
       (tag div
         (tag div
           (buttons2 user sname doc))
-        (tag (div id 'rwpost-wrapper class "rounded white-shadow")
+        (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
           (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
             (signup-form user)
             (progress-bar user))
@@ -116,7 +116,7 @@
       (write-feedback user "" sname "" "No result found"))))
 
 (def buttons2(user sname doc)
-  (tag (div id 'rwbuttons class "rounded-left button-shadow")
+  (tag (div id 'rwbuttons class "rwrounded-left rwbutton-shadow")
     (tag (div title "next" class "rwbutton rwlike"
               onclick (inline "rwcontent"
                               (+ "/docupdate2?doc=" urlencode.doc

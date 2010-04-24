@@ -19,7 +19,7 @@
       (nav user)
       (tag (div style "width:100%")
         (tag (div id 'rwright-panel)
-          (tag (div id 'rwchannels class "rounded white-shadow")
+          (tag (div id 'rwchannels class "rwrounded rwshadow")
             (bookmarks-link user)
             (channels-panel user nil))
           (tag:div class 'rwsep)
@@ -45,7 +45,7 @@
     (bookmarked-doc-panel user next-save.user)))
 
 (def bookmarks-panel(user req)
-  (tag (div id 'rwhistory-wrapper class "rwvlist rounded white-shadow")
+  (tag (div id 'rwhistory-wrapper class "rwvlist rwrounded rwshadow")
     (tag b
       (pr "other bookmarks"))
     (tag (div id 'rwhistory)
@@ -67,7 +67,7 @@
   (tag (div id (+ "doc_" doc))
     (tag div
       (bookmark-buttons user doc))
-    (tag (div id 'rwpost-wrapper class "rounded white-shadow")
+    (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
       (if (no doc)
         (flash no-bookmarks-msg*)
         (do
@@ -80,7 +80,7 @@
   (update-title doc-title.doc))
 
 (def bookmark-buttons(user doc)
-  (tag (div id 'rwbuttons class "rounded-left button-shadow")
+  (tag (div id 'rwbuttons class "rwrounded-left rwbutton-shadow")
     (tag (div title "next" class "rwbutton rwlike" onclick
               (+ "pullFromHistory('" urlencode.doc "');")))
 

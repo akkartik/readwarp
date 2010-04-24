@@ -18,7 +18,7 @@
 (mac with-history-sub(req user sname . body)
   `(do
     (tag (div id 'rwright-panel)
-      (tag (div id 'rwchannels class "rounded white-shadow")
+      (tag (div id 'rwchannels class "rwrounded rwshadow")
         (current-channel-link ,user ,sname)
         (channels-panel ,user ,sname)
         (bookmarks-link ,user))
@@ -137,7 +137,7 @@
   (tag (div id (+ "doc_" doc))
     (tag div
       (buttons user sname doc))
-    (tag (div id 'rwpost-wrapper class "rounded white-shadow")
+    (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
       (if flashfn (flashfn))
       (tag (div class 'rwhistory-link style "display:none")
         (render-doc-link user sname doc))
@@ -186,7 +186,7 @@
         (pr (check doc-title.doc ~empty "no title"))))))
 
 (def buttons(user sname doc)
-  (tag (div id 'rwbuttons class "button-shadow rounded-left")
+  (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
     (tag (div title "next" class "rwbutton rwlike" onclick
               (pushHistory sname doc (+ "'outcome=" 2 "'"))))
     (tag (div title "like" class "rwbutton rwsave" onclick
@@ -233,7 +233,7 @@
       (pr "Readwarp"))))
 
 (proc nav(user)
-  (tag (div id 'rwnav class "rounded-bottom white-shadow")
+  (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
     (tag (div style "float:right")
       (if signedup?.user
         (do
@@ -285,7 +285,7 @@
            (pr "type in a website or author")))))
 
 (def history-panel(user sname req)
-  (tag (div id 'rwhistory-wrapper class "rwvlist rounded white-shadow")
+  (tag (div id 'rwhistory-wrapper class "rwvlist rwrounded rwshadow")
     (tag b
       (pr "recently viewed"))
     (tag (div id 'rwhistory)
