@@ -2256,3 +2256,6 @@ Srikanth's new logo.
 
 Trying to get back into arc hacking with a new kwarg macro.
 =-=883 - Sat Apr 24 19:50:55 PDT 2010
+Yet another kwarg macro. Allow random symbols to be inserted into a call for
+documentation purposes. They can be misleading, though.
+=-=884 - Sat Apr 24 20:16:08 PDT 2010

@@ -203,6 +203,15 @@
       (withs ,(with-bindings-from-table args paramtab)
         ,@body))))
 
+; def with fake kwargs that still need to be ordered right
+(mac defc(fnname args . body)
+  (let subfn (symize stringify.fnname "-sub")
+    `(do
+       (def ,subfn ,args
+          ,@body)
+       (mac ,fnname params
+          ,(list 'apply subfn `(rem colonsym params))))))
+
 (def extract-car(block test)
   (if (test*.test car.block)
     `(,(car block) ,(cdr block))
@@ -565,6 +574,11 @@
 (def uncamelcase(word)
   (gsub word
     (r "([a-z])([A-Z])") "\\1 \\2"))
+
+(def colonsym(sym)
+  (headmatch ":" (stringify sym)))
+;? (mac colonsym(sym)
+;?   `(headmatch ":" (stringify ',sym)))
 
 (def strip-colon(sym)
   (let ans stringify.sym
