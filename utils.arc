@@ -190,10 +190,18 @@
 
 
 
+; helper for keyword args separated from body by :do
 (def kwargs(args-and-body (o defaults))
   (let (kws body) (split-by args-and-body ':do)
     (list (fill-table (listtab:pair defaults) kws)
           (cdr body))))
+
+; def to be called with mandatory keyword args
+(mac defk(fnname args . body)
+  `(def ,fnname params
+    (let paramtab (listtab pair.params)
+      (withs ,(with-bindings-from-table args paramtab)
+        ,@body))))
 
 (def extract-car(block test)
   (if (test*.test car.block)
@@ -204,6 +212,9 @@
   (if (isa test 'fn)   test
       (isa test 'sym)  [isa _ test]
                        [is _ test]))
+
+(mac with-bindings-from-table(args tabname)
+  `(mappend [cons _ (list:list ',tabname `(quote ,_))] ,args))
 
 
 
@@ -272,6 +283,13 @@
       (if (f car.l)
         (list (cons car.l a) b)
         (list a (cons car.l b))))))
+
+(def map-every(f l n (o offset 0))
+  (map [let (v . i) _
+         (if (is offset (remainder i n))
+           (f v)
+           v)]
+    (add-index-tags l)))
 
 (def sliding-window(n xs)
   (accum a
@@ -548,6 +566,12 @@
   (gsub word
     (r "([a-z])([A-Z])") "\\1 \\2"))
 
+(def strip-colon(sym)
+  (let ans stringify.sym
+    (if (is ans.0 #\:)
+      (= ans (cut ans 1)))
+    symize.ans))
+
 
 
 (def sort-by(f l)
@@ -710,21 +734,3 @@
   `($ (define ,name (ffi-lib ,(curr-path f)))))
 
 ($:xdef getenv getenv)
-
-
-
-;; input table: key -> cluster of values
-;; output table: value1, value2 -> affinity
-;; affinity gets distributed between clusters
-(def normalized-affinity-table(similarity-table)
-  (w/table ans
-    (each (e cluster) similarity-table
-      (let n len.cluster
-        (each v cluster
-          (each v2 cluster
-            (when (< v v2)
-              (or= ans.v (table))
-              (or= ans.v2 (table))
-              (or= ans.v.v2 0)
-              (zap [+ _ (/ 1.0 (- n 1))] ans.v.v2)
-              (= ans.v2.v ans.v.v2))))))))
