@@ -127,7 +127,7 @@
                               (+ "/docupdate2?doc=" urlencode.doc
                                  "&station=" urlencode.sname
                                  "&outcome=" vote-bookmark*))))
-    (tag (div title "skip" class "rwbutton rwskip" onclick
+    (tag (div title "dislike" class "rwbutton rwskip" onclick
             (inline "rwcontent"
                   (maybe-prompt user sname doc
                     (+ "/docupdate2?doc=" urlencode.doc

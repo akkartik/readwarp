@@ -29,6 +29,22 @@
        (tag (div id 'rwcontent)
          ,@body))))
 
+(= user-msg* (obj
+    "pk45059"
+       "<strong>Apr 26. To: pk45059</strong><p/>I loved your feedback a few
+       weeks ago. Welcome back! To answer your question yesterday: 'next'
+       means <i>show me the next story</i> without committing to whether you
+       liked or disliked it. 'skip' is like a downvote; it indicates that you
+       didn't find a story interesting (and are therefore 'skipping' reading
+       it). I'll make this clearer.<p>
+
+       I love your comments, but wish I had a way to follow up. Please
+       email me at <a
+       href='mailto:feedback@readwarp.com'>feedback@readwarp.com</a> or leave
+       me your email in feedback? Much appreciated."
+
+  ))
+
 
 
 (defop || req
@@ -139,6 +155,7 @@
       (buttons user sname doc))
     (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
       (if flashfn (flashfn))
+      (only.flash user-msg*.user)
       (tag (div class 'rwhistory-link style "display:none")
         (render-doc-link user sname doc))
       (tag (div id 'rwpost)
@@ -191,7 +208,7 @@
               (pushHistory sname doc (+ "'outcome=" 2 "'"))))
     (tag (div title "like" class "rwbutton rwsave" onclick
             (pushHistory sname doc (+ "'outcome=" vote-bookmark* "'"))))
-    (tag (div title "skip" class "rwbutton rwskip" onclick
+    (tag (div title "dislike" class "rwbutton rwskip" onclick
             (pushHistory sname doc
                          (maybe-prompt user sname doc "outcome=1"))))
     (email-button user doc)))

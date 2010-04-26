@@ -85,7 +85,8 @@
               (+ "pullFromHistory('" urlencode.doc "');")))
 
     (tag p)
-    (tag (div class 'rwbutton style "width:32px; height:32px; margin-left:30px")
+    (tag (div title "like" class 'rwbutton
+              style "width:32px; height:32px; margin-left:30px")
       (toggle-icon (+ "save_" doc)
         (tag div
           (tag:img src IMG width "32px"))
@@ -94,7 +95,7 @@
         (pos doc userinfo*.user!saved)))
     (tag p)
 
-    (tag (div title "skip" class "rwbutton rwskip" onclick
+    (tag (div title "dislike" class "rwbutton rwskip" onclick
             (+ "pullFromHistory('" urlencode.doc "');")))
 
     (tag p)

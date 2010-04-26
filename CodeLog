@@ -2278,3 +2278,8 @@ Key features:
 Here's also an example that uses async-exec that queries twitter for the
 number of friends for a user, but returns nil if it takes too long.
 =-=887 - Mon Apr 26 03:29:05 PDT 2010
+
+pk45059 is back again, for two consecutive days this time.
+New feedback just 3-4 hours ago: whats the difference between "next" and
+"skip"? Response in flash.
+=-=888 - Mon Apr 26 04:08:12 PDT 2010
