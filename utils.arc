@@ -210,7 +210,9 @@
        (def ,subfn ,args
           ,@body)
        (mac ,fnname params
-          ,(list 'apply subfn `(rem colonsym params))))))
+          (if (~check-kwargs params ',args)
+            (err "" params " doesn't match " ',args)
+            ,(list 'apply subfn `(rem colonsym params)))))))
 
 (def extract-car(block test)
   (if (test*.test car.block)
@@ -224,6 +226,9 @@
 
 (mac with-bindings-from-table(args tabname)
   `(mappend [cons _ (list:list ',tabname `(quote ,_))] ,args))
+
+(def check-kwargs(args prototype)
+  (is prototype (map strip-colon:car (pair args))))
 
 
 
