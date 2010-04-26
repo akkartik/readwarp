@@ -162,6 +162,29 @@
           '((1))
           (sliding-window 2 '(1)))
 
+(test-ok "subseq? works"
+  (subseq? '(1 3 5) '(1 2 3 4 5 6)))
+(test-ok "subseq? handles empty sequence and pat"
+  (subseq? '() '()))
+(test-nil "subseq? handles empty sequence"
+  (subseq? '(1 3 5) '()))
+(test-ok "subseq? handles empty pat"
+  (subseq? '() '(1 3 5)))
+(test-ok "subseq? handles sequences identical to pat"
+  (subseq? '(1 3 5) '(1 3 5)))
+(test-ok "subseq? handles sequences that end at the same time as pat"
+  (subseq? '(1 3 5) '(1 2 5 3 5)))
+(test-nil "subseq? detects missing elem"
+  (subseq? '(1 3 5) '(1 2 3 4 6)))
+(test-ok "subseq? ignores order of other elems"
+  (subseq? '(1 3 5) '(1 2 3 5 4 6)))
+(test-nil "subseq? detects unordered elems in the subseq?uence"
+  (subseq? '(1 3 5) '(1 2 5 3 4 6)))
+(test-ok "subseq? ok's dup elems as long as one of them is in order"
+  (subseq? '(1 3 5) '(1 2 5 3 5 4 6)))
+
+
+
 (test-iso "freq initializes empty table"
           (table)
           (freq '()))
@@ -344,33 +367,6 @@
 (test-iso "set works"
   (obj a t b t)
   (Set 'a 'b))
-
-
-
-(test-iso "normalized-affinity-table works on 2-element clusters"
-  (obj
-    "a" (obj "b" 1.0)
-    "b" (obj "a" 1.0))
-  (normalized-affinity-table (obj dummy '("a" "b"))))
-
-(test-iso "normalized-affinity-table distributes weight across large clusters"
-  (obj
-    "a" (obj "b" 0.5 "c" 0.5)
-    "b" (obj "a" 0.5 "c" 0.5)
-    "c" (obj "a" 0.5 "b" 0.5))
-  (normalized-affinity-table (obj dummy '("a" "b" "c"))))
-
-(test-iso "normalized-affinity-table adds weights from different clusters"
-  (obj
-    "a" (obj "b" 1.0)
-    "b" (obj "a" 1.0 "c" 1.0)
-    "c" (obj "b" 1.0))
-  (normalized-affinity-table (obj x1 '("a" "b") x2 '("b" "c"))))
-
-(let a (normalized-affinity-table (obj x1 '("a" "b") x2 '("b" "c")))
-  (test-is "reflexive affinities never exist"
-    nil
-    ((a "a") "a")))
 
 
 

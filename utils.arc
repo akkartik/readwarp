@@ -211,7 +211,7 @@
           ,@body)
        (mac ,fnname params
           (if (~check-kwargs params ',args)
-            (err "" params " doesn't match " ',args)
+            (do1 nil (erp "" params " doesn't match " ',args))
             ,(list 'apply subfn `(rem colonsym params)))))))
 
 (def extract-car(block test)
@@ -228,7 +228,10 @@
   `(mappend [cons _ (list:list ',tabname `(quote ,_))] ,args))
 
 (def check-kwargs(args prototype)
-  (is prototype (map strip-colon:car (pair args))))
+  (subseq? (map strip-colon:car
+               (keep [colonsym car._]
+                     (tuplize-by args colonsym)))
+           prototype))
 
 
 
@@ -346,6 +349,14 @@
     string  (split seq (or (posmatch delim seq) (len seq)))
             (err "bad type for split-by")))
 
+(def tuplize-by(seq f (o ans))
+  (if (no seq)
+    (rev (map rev ans))
+    (tuplize-by cdr.seq f
+                (if (f car.seq)
+                  (cons (list car.seq) ans)
+                  (cons (cons car.seq car.ans) cdr.ans)))))
+
 (mac add-to(l v)
   `(push ,v ,l))
 (mac add-to-back(l v)
@@ -366,6 +377,14 @@
 
 (mac append(a b)
   `(= ,a (+ ,a ,b)))
+
+(def subseq?(pat ls)
+  (if (no pat)
+    t
+    (if (no ls)
+      nil
+      (subseq? (if (is car.pat car.ls) cdr.pat pat)
+               cdr.ls))))
 
 (def intersect(l1 l2)
   (keep [pos _ l2] l1))

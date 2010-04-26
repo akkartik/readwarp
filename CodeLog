@@ -2262,3 +2262,6 @@ documentation purposes. They can be misleading, though.
 A very strict checker for mandatory keyword args. Now them to be optional, but
 not out of order.
 =-=885 - Mon Apr 26 02:13:00 PDT 2010
+A less rigid checker. It still won't check that you have the right number of
+args, nor that you give a value to each kwarg. But it will enforce ordering.
+=-=886 - Mon Apr 26 02:53:20 PDT 2010
