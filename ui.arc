@@ -415,6 +415,9 @@
 (defopr feedback req
   (w/stdout (stderr) (system "date"))
   (erp "FEEDBACK " current-user.req " " (arg req "msg"))
+  (when (is "pk45059" current-user.req)
+    (pipe-to (system "sendmail -f feedback@readwarp.com akkartik@gmail.com")
+      (prn "pk45059 sent feedback!")))
   (write-feedback (current-user req)
                   (arg req "email")
                   (arg req "station")
