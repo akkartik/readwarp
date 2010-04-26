@@ -156,7 +156,7 @@
 (mac wait(var)
   `(until ,var))
 
-(mac timeout-exec (timeout . body)
+(mac timeout-exec(timeout . body)
   (w/uniq (done-flag thread-var)
     `(withs (,done-flag nil
              ,thread-var (new-thread "bound"
@@ -173,6 +173,19 @@
            (kill-thread ,thread-var)
            (set ,done-flag)))
        (wait ,done-flag))))
+
+(mac async-exec(cache timeout . body)
+  (w/uniq done-flag
+    `(let ,done-flag nil
+       (thread "async"
+          (or= ,cache
+               (do ,@body))
+          (set ,done-flag))
+       (thread "async-timeout"
+          (sleep ,timeout)
+          (set ,done-flag))
+       (wait ,done-flag)
+       ,cache)))
 
 (let old new-thread
   (def new-thread(name f)

@@ -2265,3 +2265,16 @@ not out of order.
 A less rigid checker. It still won't check that you have the right number of
 args, nor that you give a value to each kwarg. But it will enforce ordering.
 =-=886 - Mon Apr 26 02:53:20 PDT 2010
+
+Turns out async-exec needs to be a macro anyway so I can't use defc.
+Once we get past the need for kwargs, async-exec is an easy macro to write.
+Key features:
+  the body is gated by a cache variable. If the cache is set we don't perform
+  the expensive asynchronous body.
+  if the body takes too long we give up and return nil.
+  we don't wait longer than we need to. If the body returns we yield the
+  result immediately.
+
+Here's also an example that uses async-exec that queries twitter for the
+number of friends for a user, but returns nil if it takes too long.
+=-=887 - Mon Apr 26 03:29:05 PDT 2010
