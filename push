@@ -1,0 +1,13 @@
+#!/bin/bash
+
+pushd ~/readwarp
+  if [[ `git diff HEAD |wc -l` -gt 0 ]]
+  then
+    echo uncommitted changes in readwarp
+    exit
+  fi
+popd
+
+git push
+
+cd ~/readwarp && git reset --hard

@@ -2290,3 +2290,10 @@ pinging me.
 
 Reduce the number of corners catching the eye as Mike Albers suggested.
 =-=891 - Wed Apr 28 17:21:13 PDT 2010
+
+New branch: working on a redo in node.js. Several pieces are now working: haml
+rendering, db using riak, crawling twitter in non-blocking fashion.
+But it's not clear node.js has threads.
+And riak seems like an overly low-level interface. I'd have to build up
+primitives to maintain lists of keys in each bucket.
+=-=892 - Thu Apr 29 11:52:05 PDT 2010

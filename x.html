@@ -1,0 +1,514 @@
+<html>
+    <title>Readwarp
+    </title>
+    <head>
+        <meta name="robots" content="nofollow"/>
+        <link rel="icon" href="/favicon.ico"/>
+        <link rel="stylesheet" href="main.css?1272500420">
+        </link>
+        <script src="http://api.mixpanel.com/site_media/js/api/mixpanel.js">
+        </script>
+        <script>
+            try {
+                var mpmetrics = new MixpanelLib("65cfd23d70294fdadc5c7211e3814d8c");
+            } catch(err) {}
+        </script>
+        <script src="prototype.js?1260933111">
+        </script>
+        <script src="effects.js?1260933111">
+        </script>
+        <script src="controls.js?1260933111">
+        </script>
+        <script src="dragdrop.js?1260933111">
+        </script>
+        <script src="application.js?1272149773">
+        </script>
+    </head>
+    <body>
+        <div id="rwbody">
+            <div id="rwpage">
+                <div id="rwnav" class="rwrounded-bottom rwshadow">
+                    <div style="float:right; margin-top:10px">
+                        <span style="margin-right:5em">
+                            <a href="/">home
+                            </a>
+                        </span>
+                        <a href="/logout">logout
+                        </a>
+                    </div>
+                    <a href="/" class="rwlogo-button">
+                        <img src="readwarp-small.png" style="float:left; width:150px">
+                        </img>
+                    </a>
+                    <div class="rwclear">
+                    </div>
+                </div>
+                <div class="rwsep">
+                </div>
+                <div style="width:100%">
+                    <div id="rwright-panel">
+                        <div id="rwchannels" class="rwrounded rwshadow">
+                            <div class="rwstations rwvlist">
+                                <b>my channels
+                                </b>
+                                <div class="rwstation">
+                                    <div style="float:right; margin-right:0.5em">
+                                        <a href="/delstation?station=%61%6e%64%72%65%77%20%73%75%6c%6c%69%76%61%6e" onclick="jsget(this); del(this.parentNode.parentNode); return false;">
+                                            <img src="close_x.gif">
+                                            </img>
+                                        </a>
+                                    </div>
+                                    <a href="/station?seed=%61%6e%64%72%65%77%20%73%75%6c%6c%69%76%61%6e">andrew sullivan
+                                    </a>
+                                </div>
+                                <div class="rwstation">
+                                    <div style="float:right; margin-right:0.5em">
+                                        <a href="/delstation?station=%63%72%69%63%6b%65%74" onclick="jsget(this); del(this.parentNode.parentNode); return false;">
+                                            <img src="close_x.gif">
+                                            </img>
+                                        </a>
+                                    </div>
+                                    <a href="/station?seed=%63%72%69%63%6b%65%74">cricket
+                                    </a>
+                                </div>
+                                <div class="rwstation">
+                                    <div style="float:right; margin-right:0.5em">
+                                        <a href="/delstation?station=%68%61%63%6b%65%72%20%6e%65%77%73" onclick="jsget(this); del(this.parentNode.parentNode); return false;">
+                                            <img src="close_x.gif">
+                                            </img>
+                                        </a>
+                                    </div>
+                                    <a href="/station?seed=%68%61%63%6b%65%72%20%6e%65%77%73">hacker news
+                                    </a>
+                                </div>
+                                <div class="rwstation">
+                                    <div style="float:right; margin-right:0.5em">
+                                        <a href="/delstation?station=%66%61%73%68%69%6f%6e" onclick="jsget(this); del(this.parentNode.parentNode); return false;">
+                                            <img src="close_x.gif">
+                                            </img>
+                                        </a>
+                                    </div>
+                                    <a href="/station?seed=%66%61%73%68%69%6f%6e">fashion
+                                    </a>
+                                </div>
+                                <div class="rwstation">
+                                    <div style="float:right; margin-right:0.5em">
+                                        <a href="/delstation?station=%6b%72%75%67%6d%61%6e" onclick="jsget(this); del(this.parentNode.parentNode); return false;">
+                                            <img src="close_x.gif">
+                                            </img>
+                                        </a>
+                                    </div>
+                                    <a href="/station?seed=%6b%72%75%67%6d%61%6e">krugman
+                                    </a>
+                                </div>
+                                <div class="rwstation">
+                                    <div style="float:right; margin-right:0.5em">
+                                        <a href="/delstation?station=%62%75%72%72%69%74%6f%20%6a%75%73%74%69%63%65" onclick="jsget(this); del(this.parentNode.parentNode); return false;">
+                                            <img src="close_x.gif">
+                                            </img>
+                                        </a>
+                                    </div>
+                                    <a href="/station?seed=%62%75%72%72%69%74%6f%20%6a%75%73%74%69%63%65">burrito justice
+                                    </a>
+                                </div>
+                                <div>
+                                    <b>new channel
+                                    </b>
+                                    <form action="/station">
+                                        <input name="seed" size=10>
+                                        </input>
+                                        <input type=submit value="go" style="margin-top:5px;margin-left:5px">
+                                        </input>
+                                        <div style="font-size:90%; margin-top:2px">type in a website or author
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="rwvlist">
+                                <a href="/saved">
+                                    <b>my bookmarks
+                                    </b>
+                                    <img src="/saved.gif" height=14px style="margin-left:0.5em">
+                                    </img>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="rwsep">
+                        </div>
+                        <div id="rwhistory-wrapper" class="rwvlist rwrounded rwshadow">
+                            <b>recently viewed
+                            </b>
+                            <div id="rwhistory">
+                                <div class="rwpaginate">
+                                    <a href="#" onclick="inline('rwhistory', '/history?station=%52%50%42%4c%4d%61%79%44&from=10')">&laquo;older
+                                    </a>&nbsp;&nbsp;&nbsp;&nbsp;newer&raquo;
+                                </div>
+                                <div id="rwhistory-elems">
+                                    <div id="history_http___www_onemoreidea_org_surely_you_are_joking_mr_open_">
+                                        <div id="outcome_http___www_onemoreidea_org_surely_you_are_joking_mr_open_" class="rwoutcome_icon rwoutcome_2">&#9632;
+                                        </div>
+                                        <p class="rwitem">
+                                        <a onclick="showDoc('RPBLMayD', 'http___www_onemoreidea_org_surely_you_are_joking_mr_open_')" href="#">Surely you are joking Mr Open!
+                                        </a>
+                                        </p>
+                                    </div>
+                                    <div id="history_http___chrysbader_com_pitching_your_product_in_a_social_setting_utm_source_feedburner_utm_medium_feed_utm_campaign_Feed_3A_chrysbader__28Chrys_Bader___Tales_of_an_Entrepreneur_29_c_1">
+                                        <div id="outcome_http___chrysbader_com_pitching_your_product_in_a_social_setting_utm_source_feedburner_utm_medium_feed_utm_campaign_Feed_3A_chrysbader__28Chrys_Bader___Tales_of_an_Entrepreneur_29_c_1" class="rwoutcome_icon rwoutcome_2">&#9632;
+                                        </div>
+                                        <p class="rwitem">
+                                        <a onclick="showDoc('RPBLMayD', 'http___chrysbader_com_pitching_your_product_in_a_social_setting_utm_source_feedburner_utm_medium_feed_utm_campaign_Feed_3A_chrysbader__28Chrys_Bader___Tales_of_an_Entrepreneur_29_c_1')" href="#">Pitching your product in a social setting
+                                        </a>
+                                        </p>
+                                    </div>
+                                    <div id="history_http___www_untyped_com_untyping_2010_04_20_formalising_bonds_with_the_informal_">
+                                        <div id="outcome_http___www_untyped_com_untyping_2010_04_20_formalising_bonds_with_the_informal_" class="rwoutcome_icon rwoutcome_4">&#9632;
+                                        </div>
+                                        <p class="rwitem">
+                                        <a onclick="showDoc('RPBLMayD', 'http___www_untyped_com_untyping_2010_04_20_formalising_bonds_with_the_informal_')" href="#">Formalising Bonds with the Informal
+                                        </a>
+                                        </p>
+                                    </div>
+                                    <div id="history_http___many_corante_com_archives_2007_06_27_knowledge_access_as_a_public_good_php">
+                                        <div id="outcome_http___many_corante_com_archives_2007_06_27_knowledge_access_as_a_public_good_php" class="rwoutcome_icon rwoutcome_1">&#9632;
+                                        </div>
+                                        <p class="rwitem">
+                                        <a onclick="showDoc('RPBLMayD', 'http___many_corante_com_archives_2007_06_27_knowledge_access_as_a_public_good_php')" href="#">knowledge access as a public good
+                                        </a>
+                                        </p>
+                                    </div>
+                                    <div id="history_http___blogs_cricinfo_com_fromeditor_archives_2010_02_hawkeye_at_your_fingertips_php">
+                                        <div id="outcome_http___blogs_cricinfo_com_fromeditor_archives_2010_02_hawkeye_at_your_fingertips_php" class="rwoutcome_icon rwoutcome_2">&#9632;
+                                        </div>
+                                        <p class="rwitem">
+                                        <a onclick="showDoc('RPBLMayD', 'http___blogs_cricinfo_com_fromeditor_archives_2010_02_hawkeye_at_your_fingertips_php')" href="#">Hawk-Eye at your fingertips
+                                        </a>
+                                        </p>
+                                    </div>
+                                    <div id="history_http___jasonlbaptiste_com_personal_advice_12_year_">
+                                        <div id="outcome_http___jasonlbaptiste_com_personal_advice_12_year_" class="rwoutcome_icon rwoutcome_2">&#9632;
+                                        </div>
+                                        <p class="rwitem">
+                                        <a onclick="showDoc('RPBLMayD', 'http___jasonlbaptiste_com_personal_advice_12_year_')" href="#">Advice From My 12 Year Old Self
+                                        </a>
+                                        </p>
+                                    </div>
+                                    <div id="history_http___news_ycombinator_com_item_id_1303237">
+                                        <div id="outcome_http___news_ycombinator_com_item_id_1303237" class="rwoutcome_icon rwoutcome_2">&#9632;
+                                        </div>
+                                        <p class="rwitem">
+                                        <a onclick="showDoc('RPBLMayD', 'http___news_ycombinator_com_item_id_1303237')" href="#">Poll: Your income bracket in 2009?
+                                        </a>
+                                        </p>
+                                    </div>
+                                    <div id="history_http___igoro_com_archive_use_c_dynamic_typing_to_conveniently_access_internals_of_an_object_">
+                                        <div id="outcome_http___igoro_com_archive_use_c_dynamic_typing_to_conveniently_access_internals_of_an_object_" class="rwoutcome_icon rwoutcome_2">&#9632;
+                                        </div>
+                                        <p class="rwitem">
+                                        <a onclick="showDoc('RPBLMayD', 'http___igoro_com_archive_use_c_dynamic_typing_to_conveniently_access_internals_of_an_object_')" href="#">Use C# dynamic typing to conveniently access internals of an object
+                                        </a>
+                                        </p>
+                                    </div>
+                                    <div id="history_http___glinden_blogspot_com_2010_04_google_launches_web_search_similarities_html">
+                                        <div id="outcome_http___glinden_blogspot_com_2010_04_google_launches_web_search_similarities_html" class="rwoutcome_icon rwoutcome_2">&#9632;
+                                        </div>
+                                        <p class="rwitem">
+                                        <a onclick="showDoc('RPBLMayD', 'http___glinden_blogspot_com_2010_04_google_launches_web_search_similarities_html')" href="#">Google launches web search similarities
+                                        </a>
+                                        </p>
+                                    </div>
+                                    <div id="history_http___www_longtail_com_the_long_tail_2009_07_making_a_physical_book_free_too_html">
+                                        <div id="outcome_http___www_longtail_com_the_long_tail_2009_07_making_a_physical_book_free_too_html" class="rwoutcome_icon rwoutcome_2">&#9632;
+                                        </div>
+                                        <p class="rwitem">
+                                        <a onclick="showDoc('RPBLMayD', 'http___www_longtail_com_the_long_tail_2009_07_making_a_physical_book_free_too_html')" href="#">Making a physical book free, too
+                                        </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="rwpaginate">
+                                    <a href="#" onclick="inline('rwhistory', '/history?station=%52%50%42%4c%4d%61%79%44&from=10')">&laquo;older
+                                    </a>&nbsp;&nbsp;&nbsp;&nbsp;newer&raquo;
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="rwcontents-wrap">
+                        <div id="rwcontent">
+                            <div id="doc_http___www_rubyinside_com_drx_visually_inspect_ruby_objects_3233_html">
+                                <div>
+                                    <div id="rwbuttons" class="rwbutton-shadow rwrounded-left">
+                                        <div title="next" class="rwbutton rwlike" onclick="pushHistory('RPBLMayD', 'http___www_rubyinside_com_drx_visually_inspect_ruby_objects_3233_html', 'outcome=2')">
+                                        </div>
+                                        <div title="like" class="rwbutton rwsave" onclick="pushHistory('RPBLMayD', 'http___www_rubyinside_com_drx_visually_inspect_ruby_objects_3233_html', 'outcome=4')">
+                                        </div>
+                                        <div title="dislike" class="rwbutton rwskip" onclick="pushHistory('RPBLMayD', 'http___www_rubyinside_com_drx_visually_inspect_ruby_objects_3233_html', 'outcome=1')">
+                                        </div>
+                                        <div onclick="$('rwemail').toggle();
+                                            $('rwform-flash').innerHTML='';
+                                            $('rwform-flash').hide()">
+                                            <img src="email.jpg">
+                                            </img>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="rwpost-wrapper" class="rwrounded rwshadow">
+                                    <div class="rwhistory-link" style="display:none">
+                                        <div id="history_http___www_rubyinside_com_drx_visually_inspect_ruby_objects_3233_html">
+                                            <div id="outcome_http___www_rubyinside_com_drx_visually_inspect_ruby_objects_3233_html" class="rwoutcome_icon rwoutcome_">&#9632;
+                                            </div>
+                                            <p class="rwitem">
+                                            <a onclick="showDoc('RPBLMayD', 'http___www_rubyinside_com_drx_visually_inspect_ruby_objects_3233_html')" href="#">Visually Inspect Ruby Object Models with DrX
+                                            </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="rwpost">
+                                        <div id="rwfeedback-wrapper">
+                                            <div class="rwfeedback_link">
+                                                <a onclick="$('rwfeedback').toggle(); return false" href="#">feedback
+                                                </a>
+                                            </div>
+                                            <form id="rwfeedback" action="/feedback" method=post style="display:none">
+                                                <textarea name="msg" cols=25 rows=6 style="text-align:left">
+                                                </textarea>
+                                                <br>
+                                                <div style="font-size: 75%; margin-top:0.5em; text-align:left">Your email?
+                                                </div>
+                                                <input name="email" value="Kartik Agaram &#60;readwarp@akkartik.com&#62;">
+                                                </input>
+                                                <i style="font-size:75%">(optional)
+                                                </i>
+                                                <br>
+                                                <input type=hidden name="location" value="/station?seed=RPBLMayD">
+                                                </input>
+                                                <input type=hidden name="station" value="RPBLMayD">
+                                                </input>
+                                                <input type=hidden name="doc" value="http___www_rubyinside_com_drx_visually_inspect_ruby_objects_3233_html">
+                                                </input>
+                                                <div style="margin-top:0.5em; text-align:left">
+                                                    <input type=submit value="send" style="margin-right:1em">
+                                                    </input>
+                                                    <input type=button value="cancel" onclick="$('rwfeedback').toggle()">
+                                                    </input>
+                                                </div>
+                                            </form>
+                                            <div class="rwclear">
+                                            </div>
+                                        </div>
+                                        <div id="contents_http___www_rubyinside_com_drx_visually_inspect_ruby_objects_3233_html">
+                                            <h2 class="rwtitle">
+                                                <a href="http://www.rubyinside.com/drx-visually-inspect-ruby-objects-3233.html" target="_blank">Visually Inspect Ruby Object Models with DrX
+                                                </a>
+                                                <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+                                                    width="110"
+                                                    height="14"
+                                                    id="clippy" >
+                                                    <param name="movie" value="/clippy.swf"/>
+                                                    <param name="allowScriptAccess" value="always" />
+                                                    <param name="quality" value="high" />
+                                                    <param name="scale" value="noscale" />
+                                                    <param NAME="FlashVars" value="text=#{text}">
+                                                    <param name="bgcolor" value="#ffffff">
+                                                    <embed src="/clippy.swf"
+                                                    width="110"
+                                                    height="14"
+                                                    name="clippy"
+                                                    quality="high"
+                                                    allowScriptAccess="always"
+                                                    type="application/x-shockwave-flash"
+                                                    pluginspage="http://www.macromedia.com/go/getflashplayer"
+                                                    FlashVars="text=http://www.rubyinside.com/drx-visually-inspect-ruby-objects-3233.html"
+                                                    bgcolor="#ffffff"
+                                                    />
+                                                </object>
+                                            </h2>
+                                            <div class="rwsubtitle">
+                                                <div class="rwdate">2010-4-29
+                                                </div>
+                                                <a href="http://www.rubyinside.com" target="_blank">Ruby Inside
+                                                </a>
+                                            </div>
+                                            <div class="rwflash" id="rwform-flash" style="font-size:75%; display:none">
+                                            </div>
+                                            <form id="rwemail" style="display:none" method=post onsubmit="$('rwemail').toggle();
+                                                jspost('/email', params($('rwemail')));
+                                                $('rwform-flash').innerHTML = ' sent';
+                                                $('rwform-flash').show();
+                                                return false">
+                                                <h3>Email this story
+                                                </h3>
+                                                <br>
+                                                <table border=0>
+                                                    <tr>
+                                                        <td style="vertical-align:middle">
+                                                            <b>From:&nbsp;
+                                                            </b>
+                                                        </td>
+                                                        <td>
+                                                            <input style="margin-bottom:5px" name="from" size=50 value="Kartik Agaram &#60;readwarp@akkartik.com&#62;">
+                                                            </input>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="vertical-align:middle">
+                                                            <b>To:&nbsp;
+                                                            </b>
+                                                        </td>
+                                                        <td>
+                                                            <input style="margin-bottom:5px" name="to" size=50>
+                                                            </input>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="vertical-align:middle">
+                                                            <b>Subject:&nbsp;
+                                                            </b>
+                                                        </td>
+                                                        <td>
+                                                            <input style="margin-bottom:5px" name="subject" size=50 value="Visually Inspect Ruby Object Models with DrX">
+                                                            </input>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <b>Note: 
+                                                </b>(optional)
+                                                <br>
+                                                <textarea name="msg" cols=60 rows=6 style="text-align:left">
+                                                    http://www.rubyinside.com/drx-visually-inspect-ruby-objects-3233.html
+                                                </textarea>
+                                                <div style="margin-top:5px">
+                                                    <input name="ccme" id="ccme" type=checkbox style="width:1em; height:1em">
+                                                    </input>
+                                                    <label for="ccme"> Send me a copy
+                                                    </label>
+                                                </div>
+                                                <div style="margin-top:0.5em; text-align:left">
+                                                    <input type=submit value="send" style="margin-right:1em">
+                                                    </input>
+                                                    <a href="#" onclick="$('rwemail').toggle()">cancel
+                                                    </a>
+                                                </div>
+                                            </form>
+                                            <div id="rwpost-body">
+                                                <div class="entrytext">
+                                                    <div id="greet_block">
+                                                        <noscript>
+                                                            <div class="greet_block">
+                                                                <div class="greet_text">
+                                                                    <div class="greet_image">
+                                                                        <a href="http://www.rubyinside.com/feed/rss" rel="nofollow">
+                                                                            <img src="http://www.rubyinside.com/wp-content/plugins/wp-greet-box/images/rss_icon.png" alt="WP Greet Box icon" />
+                                                                        </a>
+                                                                    </div>Hello there! If you are new here, you might want to 
+                                                                    <a href="http://www.rubyinside.com/feed/rss" rel="nofollow">
+                                                                        <strong>subscribe to the RSS feed
+                                                                        </strong>
+                                                                    </a> for updates on this topic.
+                                                                    <div>
+                                                                    </div>
+                                                                    <div class="greet_block_powered_by">
+                                                                        <a href="http://omninoggin.com/projects/wordpress-plugins/wp-greet-box-wordpress-plugin/" title="WP Greet Box WordPress Plugin">Powered by WP Greet Box
+                                                                        </a>
+                                                                    </div>
+                                                                    <div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </noscript>
+                                                    </div>
+                                                    <p>
+                                                    <img src="http://www.rubyinside.com/wp-content/uploads/2010/04/drx.png" class="alignleft size-thumbnail bordered" />When you want to inspect your objects in Ruby, 
+                                                    <code>Object#inspect
+                                                    </code>, 
+                                                    <code>p
+                                                    </code>, or 
+                                                    <a href="http://www.rubyinside.com/awesome_print-a-new-pretty-printer-for-your-ruby-objects-3208.html">awesome_print
+                                                    </a> are all valuable. You're stuck with plain-text, though, and primarily designed to look at object data rather than object 
+                                                    <em>models
+                                                    </em>. If you want to drill down into parent classes, see object and class relationships, etc, then, check out 
+                                                    <a href="http://drx.rubyforge.org/">DrX
+                                                    </a>, a visual object inspector for Ruby!
+                                                    </p>
+                                                    <p>
+                                                    <a href="http://drx.rubyforge.org/">DrX
+                                                    </a> bills itself as a "small object inspector", but its key features are that it shows results visually (in a 
+                                                    <span class="caps">GUI
+                                                    </span> interface) and that it focuses on showing the object model behind your objects, rather than the data contained within. A visual example of a DrX session should give you the idea:
+                                                    </p>
+                                                    <p>
+                                                    <img src="http://www.rubyinside.com/wp-content/uploads/2010/04/drx2.jpg" alt="" />
+                                                    </p>
+                                                    <h3>Usage
+                                                    </h3>
+                                                    <p>Once DrX is installed (more on that in the next section), you just 
+                                                    <code>require 'drx'
+                                                    </code> it into your app (or even within 
+                                                    <a href="http://www.rubyinside.com/irb-lets-bone-up-on-the-interactive-ruby-shell-1771.html">irb
+                                                    </a>) and then use the 
+                                                    <code>Object#see
+                                                    </code> method to get DrX into action:
+                                                    </p>
+<pre>require 'drx'
+123.see
+</pre>
+                                                    <p>Even this rudimentary example will bring up an interesting graph. The DrX author does, however, provide a more interesting example to show off DrX's introspective features:
+                                                    </p>
+<pre>s = "wizard of oz"
+def s.strong
+"&lt;strong&gt;" + self + "!&lt;/strong&gt;"
+end
+s.see
+</pre>
+                                                    <h3>Installation and Prerequisites
+                                                    </h3>
+                                                    <p>Depending on your setup, DrX might take some serious work to get going. If you're running Linux and are heavy on your development experimentation, you might have everything ready to go. Just try 
+                                                    <code>gem install drx
+                                                    </code> and see if the above examples work in 
+                                                    <code>irb
+                                                    </code>.
+                                                    </p>
+                                                    <p>Failing that, DrX uses 
+                                                    <a href="http://www.tcl.tk/">Tk
+                                                    </a> for its 
+                                                    <span class="caps">GUI
+                                                    </span> work in order to be cross-platform and also requires 
+                                                    <a href="http://www.graphviz.org/">GraphViz
+                                                    </a> to be present. Install these with your package manager of choice and ensure that your Ruby installation has the Tk bindings installed (again, easier said than done).
+                                                    </p>
+                                                    <p>On OS X 10.6 (Snow Leopard) I discovered that the stock Ruby installation does 
+                                                    <strong>not
+                                                    </strong> include the Tk bindings, even though Tk is present otherwise. Rather than mess it up, I relied on the always-wonderful 
+                                                    <a href="http://rvm.beginrescueend.com/" title="Ruby Version Manager">
+                                                        <span class="caps">RVM
+                                                        </span>
+                                                    </a> and installed Ruby 1.9.2-preview1 (
+                                                    <code>rvm install ruby-1.9.2-preview1
+                                                    </code>). With this, Tk worked "out of the box" and 
+                                                    <code>gem install rbx
+                                                    </code> was OK. For the Graphviz dependency, 
+                                                    <code>sudo port install graphviz
+                                                    </code> did the trick and also "just worked." If you're one of the anti-Macports crowd, though, you might need to find a different approach.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="rwclear">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="rwclear">
+                                </div>
+                            </div>
+                            <script>document.title = "Visually Inspect Ruby Object Models with DrX - Readwarp";
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <div class="rwclear">
+                </div>
+                <div class="rwsep">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
