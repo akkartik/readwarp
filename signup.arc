@@ -59,7 +59,8 @@
 (def signup-form(user)
   (tag (div style "text-align:left; background:#915c69; padding:0.5em")
     (tag (span style "font-size:14px; color:#222222")
-      (prbold "Please save your preferences."))
+      (prbold "Please sign up to save your preferences &mdash; and to unlock a
+              few more features."))
     (br)
     (fnform (fn(req) (create-handler req 'register
                               (list (fn(new-username ip)
