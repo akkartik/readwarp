@@ -2297,3 +2297,5 @@ But it's not clear node.js has threads.
 And riak seems like an overly low-level interface. I'd have to build up
 primitives to maintain lists of keys in each bucket.
 =-=892 - Thu Apr 29 11:52:05 PDT 2010
+Separate js modules.
+=-=893 - Thu Apr 29 12:16:48 PDT 2010
