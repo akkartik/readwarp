@@ -5,7 +5,7 @@ body{ font-size:62.5%; background:#8c6988/*#934b8a*/; }
 #rwbody{ width:890px; margin:0 auto; }
 #rwpage{ font-size:1.4em; line-height:1.4; font-family:sans-serif; }
 
-  #rwnav{ height:25px; margin-left:90px; background:white; padding:10px; }
+  #rwnav{ height:25px; padding:10px; background:white; }
 
   #rwright-panel{ float:right; text-align:left; width:165px; color:#915c69; }
     #rwchannels{ background:white; padding:10px; }
@@ -13,7 +13,7 @@ body{ font-size:62.5%; background:#8c6988/*#934b8a*/; }
 
   #rwcontent{ width:685px; }
 
-    #rwbuttons{ position:fixed; top:120px; background:white; padding-top:10px; padding-bottom:10px;
+    #rwbuttons{ position:fixed; top:65px; background:white; padding-top:10px; padding-bottom:10px;
             /*IE*/ float:left; }
 
     #rwpost-wrapper{ float:left; margin-left:90px; background:white; }
