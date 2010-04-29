@@ -2299,3 +2299,7 @@ primitives to maintain lists of keys in each bucket.
 =-=892 - Thu Apr 29 11:52:05 PDT 2010
 Separate js modules.
 =-=893 - Thu Apr 29 12:16:48 PDT 2010
+Import http://github.com/akkartik/node_chat
+Next: convert www/static/index.html to the readwarp page layout with the chat
+on the right. Perhaps in haml.
+=-=894 - Thu Apr 29 12:56:42 PDT 2010
