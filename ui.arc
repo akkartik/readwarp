@@ -30,27 +30,6 @@
          ,@body))))
 
 (= user-msg* (obj
-    "pk45059"
-       "<strong>Apr 26.</strong> <span style='margin-left:4em'> To:
-       pk45059</span><p/>
-
-       I loved your feedback a few weeks ago. Welcome back!<p/>
-
-       &gt; <i>whats the difference between &ldquo;next&rdquo; and
-       &ldquo;skip&rdquo;?</i><p/>
-
-       'next' means <i>&lsquo;show me the next story&rsquo;</i> without committing to
-       whether you liked or disliked it. 'skip' is like a downvote; it
-       indicates that you didn't find a story interesting (and are therefore
-       'skipping' reading it). I'll make this clearer.<p>
-
-       I love your comments, but wish I had a way to follow up. Please
-       email me at <a
-       href='mailto:feedback@readwarp.com'>feedback@readwarp.com</a>? Or leave
-       me your email in feedback?<p/>
-
-       Much appreciated,<br/>Kartik Agaram,<br/>Creator, Readwarp"
-
   ))
 
 
