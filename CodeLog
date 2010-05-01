@@ -2303,3 +2303,11 @@ Import http://github.com/akkartik/node_chat
 Next: convert www/static/index.html to the readwarp page layout with the chat
 on the right. Perhaps in haml.
 =-=894 - Thu Apr 29 12:56:42 PDT 2010
+This thread by jerf convinced me to not do *everything* in node.js
+  http://news.ycombinator.com/item?id=1304599
+End of branch. After comments from HN:
+  http://news.ycombinator.com/item?id=1306313
+it becomes apparent I need to make smarter recommendations for new users.
+That's the priority. And it's on the way of real-time updates and greater
+engagement as well. But that's later.
+=-=897 - Fri Apr 30 20:34:55 PDT 2010
