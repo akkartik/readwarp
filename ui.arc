@@ -74,6 +74,8 @@
           (firsttime userinfo*.user!noob
             (tag script
               (pr "mpmetrics.register({\"signup\": \"true\"});"))
+            (when voting-stats*.user
+              (set voting-stats*.user!signup))
             (signup-funnel-analytics is-prod.req userinfo*.user!signup-stage user)
             (flash
               "Thank you! Keep voting on stories as you read, and
@@ -457,3 +459,26 @@
   (or (no userinfo*.user!created)
       (< userinfo*.user!created
          (time-ago:* 60 60 24))))
+
+(persisted voting-stats* (table))
+(after-exec mark-read(user a b outcome c d e)
+  (erp "lll " outcome type.outcome)
+  (or= voting-stats*.user (table))
+  (or= voting-stats*.user.outcome 0)
+  (++ voting-stats*.user.outcome)
+  (or= voting-stats*!total (table))
+  (or= voting-stats*!total.outcome 0)
+  (++ voting-stats*!total.outcome))
+(defop votingstats req
+  (when (is req!ip "174.129.11.4")
+    (awhen voting-stats*!total
+      (prn "TOTAL +" (it "4")
+                " =" (it "2")
+                " -" (it "1")))
+    (each (user info) voting-stats*
+      (unless (is 'total user)
+        (prn user " +" (or (info "4") 0)
+                  " =" (or (info "2") 0)
+                  " -" (or (info "1") 0)
+                  (if info!signup " SIGNEDUP" ""))))
+    (= voting-stats* (table))))

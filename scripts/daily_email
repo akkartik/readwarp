@@ -9,6 +9,9 @@ cd ~/readwarp
 
   wget http://readwarp.com/rusers -O -
 
+  echo
+  wget http://readwarp.com/votingstats -O -
+
   echo; echo
   for i in feedback/*
   do

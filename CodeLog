@@ -2318,3 +2318,5 @@ So let's start figuring out how to change the signup flow by first getting the
 measurements right. The mixpanel funnel's been broken for weeks, unable to
 detect signups. Tim at Mixpanel suggests using superproperties. Let's see.
 =-=899 - Sun May  2 11:12:07 PDT 2010
+Daily email: start summarizing voting stats.
+=-=900 - Sun May  2 15:29:55 PDT 2010
