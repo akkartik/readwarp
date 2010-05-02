@@ -72,7 +72,8 @@
       (doc-panel user global-sname (next-doc user global-sname)
         (fn()
           (firsttime userinfo*.user!noob
-            (set-funnel-property user "signup" "true")
+            (tag script
+              (pr "mpmetrics.register({\"signup\": \"true\"});"))
             (signup-funnel-analytics is-prod.req userinfo*.user!signup-stage user)
             (flash
               "Thank you! Keep voting on stories as you read, and

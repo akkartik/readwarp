@@ -2311,3 +2311,10 @@ it becomes apparent I need to make smarter recommendations for new users.
 That's the priority. And it's on the way of real-time updates and greater
 engagement as well. But that's later.
 =-=897 - Fri Apr 30 20:34:55 PDT 2010
+
+Kent Beck: Learn, Measure, Build
+  http://www.justin.tv/startuplessonslearned/b/262656520
+So let's start figuring out how to change the signup flow by first getting the
+measurements right. The mixpanel funnel's been broken for weeks, unable to
+detect signups. Tim at Mixpanel suggests using superproperties. Let's see.
+=-=899 - Sun May  2 11:12:07 PDT 2010

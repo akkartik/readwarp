@@ -91,7 +91,7 @@
     (clear)))
 
 (proc init-abtests(user)
-  (init-funnel-property user "signup" "false"))
+  )
 
 (def doc-panel2(user sname doc)
   (if doc
