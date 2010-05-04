@@ -2320,3 +2320,7 @@ detect signups. Tim at Mixpanel suggests using superproperties. Let's see.
 =-=899 - Sun May  2 11:12:07 PDT 2010
 Daily email: start summarizing voting stats.
 =-=900 - Sun May  2 15:29:55 PDT 2010
+
+Start preparing the back-end for more extensive crawling. First step: GC docs.
+First sub-step: stop adding to docs, figure out how to render GC'd docs.
+=-=901 - Mon May  3 19:09:20 PDT 2010
