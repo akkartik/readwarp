@@ -81,8 +81,8 @@
   (update-feed-keywords))
 (wait update-feeds-init*)
 
-;? (defscan index-doc "clean"
-;?   (doc-feed doc))
+(defscan index-doc "clean"
+  (doc-feed doc))
 
 
 
