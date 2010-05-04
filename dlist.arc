@@ -11,15 +11,18 @@
      ,var))
 
 (def dlist((o elems))
-  (ret ans (cons '() '())
+  (ret ans (annotate 'dlist (list '() '() 0))
     (each elem elems
       (push-back ans elem))))
 
 (mac da(dl)
-  `(car ,dl))
+  `((rep ,dl) 0))
 
 (mac db(dl)
-  `(cdr ,dl))
+  `((rep ,dl) 1))
+
+(mac dl-len(dl)
+  `((rep ,dl) 2))
 
 (mac prev(node)
   `(cdr ,node))
@@ -41,6 +44,7 @@
 
 (proc push-front(dl v)
   (let n (cons (cons v '()) '())
+    (++ dl-len.dl)
     (if (dl-empty? dl)
       (= da.dl n db.dl n)
       (= (prev da.dl)   n
@@ -49,6 +53,7 @@
 
 (proc push-back(dl v)
   (let n (cons (cons v '()) '())
+    (++ dl-len.dl)
     (if (dl-empty? dl)
       (= da.dl n db.dl n)
       (= (next db.dl)   n
@@ -57,6 +62,7 @@
 
 (def pop-front(dl)
   (unless (dl-empty? dl)
+    (-- dl-len.dl)
     (ret ans (val da.dl)
       (if (is da.dl db.dl)
         (= da.dl nil db.dl nil)
@@ -65,6 +71,7 @@
 
 (def pop-back(dl)
   (unless (dl-empty? dl)
+    (-- dl-len.dl)
     (ret ans (val db.dl)
       (if (is da.dl db.dl)
         (= da.dl nil db.dl nil)
