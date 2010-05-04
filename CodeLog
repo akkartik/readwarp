@@ -2324,3 +2324,13 @@ Daily email: start summarizing voting stats.
 Start preparing the back-end for more extensive crawling. First step: GC docs.
 First sub-step: stop adding to docs, figure out how to render GC'd docs.
 =-=901 - Mon May  3 19:09:20 PDT 2010
+readwarp can now handle docs absent in urls/. Key metadata is saved to
+old-docs*, and other stuff is errsafe'd to ensure it's off the critical path.
+Hopefully new fields won't cause errors with absent docs; I've overloaded
+check-doc to return nil by default rather than raise error.
+
+I'm going to migrate existing docs. After that, old-docs* will include any
+doc that gets shown.
+Eventually I'll need to run a 'copying GC' pass to eliminate docs only shown
+to non-loggedin users. Should be simple to build when needed.
+=-=902 - Mon May  3 20:42:11 PDT 2010

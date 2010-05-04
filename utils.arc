@@ -496,8 +496,8 @@
       (maptable (fn(k v) (= ans.k v)) coerce-tab.tab))
     ans))
 
-(def read-json-table(filename)
-  (on-err (fn(ex) (table))
+(def read-json-table(filename (o errfn [table]))
+  (on-err errfn
           (fn()
             (w/infile f filename (json-read f)))))
 

@@ -1,10 +1,11 @@
 (mac check-doc(doc . body)
   `(do
     (or= (docinfo* ,doc) (metadata ,doc))
-    ,@body))
+    (errsafe ,@body)))
 
 (def metadata(doc)
-  (read-json-table (+ "urls/" doc ".metadata")))
+  (read-json-table (+ "urls/" doc ".metadata")
+                   [old-docs* doc]))
 
 (init docinfo* (table))
 (def doc-url(doc)
@@ -25,7 +26,8 @@
 (def feeddate(doc)
   (check-doc doc docinfo*.doc!feeddate))
 (def contents(doc)
-  (slurp (+ "urls/" doc ".clean")))
+  (or (errsafe:slurp (+ "urls/" doc ".clean"))
+      ""))
 
 (init feedinfo* (table))
 (proc update-feedinfo()
@@ -114,7 +116,8 @@
   (prn "migrate-stations")
   (wipe userinfo*.nil)
   (each (u ui) userinfo*
-    (each (s st) ui!stations
+    (each doc (keys ui!read)
+      (save-to-old-docs doc)
       )))
 
 (= vote-bookmark* 4)
@@ -274,6 +277,14 @@
   (or= station!current
        (always [most-recent-unread user _]
                (new-feed user station))))
+
+(persisted old-docs* (table))
+(def save-to-old-docs(doc)
+  (= old-docs*.doc (obj url doc-url.doc  title doc-title.doc
+                        site doc-site.doc  feedtitle doc-feedtitle.doc)))
+(after-exec pick(user station)
+  (unless old-docs*.result
+    (save-to-old-docs result)))
 
 
 
