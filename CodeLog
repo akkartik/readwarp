@@ -2334,3 +2334,7 @@ doc that gets shown.
 Eventually I'll need to run a 'copying GC' pass to eliminate docs only shown
 to non-loggedin users. Should be simple to build when needed.
 =-=902 - Mon May  3 20:42:11 PDT 2010
+Migration done. But I can't just use a queue in the feed-docs rhash. I need a
+data structure I can iterate through.
+Let's just build a doubly linked list.
+=-=904 - Tue May  4 03:17:20 PDT 2010
