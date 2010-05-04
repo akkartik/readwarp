@@ -462,13 +462,10 @@
 
 (persisted voting-stats* (table))
 (after-exec mark-read(user a b outcome c d e)
-  (erp "lll " outcome type.outcome)
   (or= voting-stats*.user (table))
-  (or= voting-stats*.user.outcome 0)
-  (++ voting-stats*.user.outcome)
+  (++ (voting-stats*.user outcome 0))
   (or= voting-stats*!total (table))
-  (or= voting-stats*!total.outcome 0)
-  (++ voting-stats*!total.outcome))
+  (++ (voting-stats*!total outcome 0)))
 (defop votingstats req
   (when (is req!ip "174.129.11.4")
     (awhen voting-stats*!total
