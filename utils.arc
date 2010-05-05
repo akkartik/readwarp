@@ -465,30 +465,32 @@
     (acons tab)       (listtab:pair tab)
                       (table)))
 
-(def converting-tablists(l)
+; nil is a table
+(def unserialize(l)
   (if no.l      (table)
       alist?.l  (listtab2 l)
+      dlist?.l  (dlist cadr.l)
                 l))
 
 (def listtab2(al)
   (let h (table)
-    (map (fn ((k v)) (= (h k) (converting-tablists v)))
+    (map (fn ((k v)) (= (h k) (unserialize v)))
          al)
     h))
 
 (def read-nested-table((o i (stdin)) (o eof))
-  (let e (read i eof)
-    (if no.e        (table)
-        (alist? e)  (listtab2 e)
-                    e)))
+  (unserialize (read i eof)))
 
-(def tablist2(h)
-  (if (isa h 'table)
-    (accum a (maptable (fn (k v) (a (list k (tablist2 v)))) h))
-    h))
+(def serialize(agg)
+  (if
+    (isa agg 'table)
+          (accum a (maptable (fn (k v) (a (list k (serialize v)))) agg))
+    (isa agg 'dlist)
+          (list 'dlist (serialize dl-elems.agg))
+        agg))
 
 (def write-nested-table(h (o o (stdout)))
-  (write (tablist2 h) o))
+  (write serialize.h o))
 
 (def merge-tables tables
   (let ans (table)

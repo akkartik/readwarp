@@ -2352,3 +2352,8 @@ certainly a bug here because of how many places it's touching.
 
 I'm starting to realize how much overhead is caused by css ids. Minimize.
 =-=910 - Wed May  5 12:15:03 PDT 2010
+
+Transparent persistence for dlists now works. But one test fails because arc
+doesn't know how to compare dlists.
+I think we need to add generics to arc now.
+=-=912 - Wed May  5 12:54:00 PDT 2010

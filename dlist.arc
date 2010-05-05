@@ -11,9 +11,16 @@
      ,var))
 
 (def dlist((o elems))
-  (ret ans (annotate 'dlist (list '() '() 0))
-    (each elem elems
-      (push-back ans elem))))
+  (if (isa elems 'dlist)
+    elems
+    (ret ans (annotate 'dlist (list '() '() 0))
+      (each elem elems
+        (push-back ans elem)))))
+
+(def dlist?(l)
+  (or (isa l 'dlist)
+      (and (isa l 'cons)
+           (is car.l 'dlist))))
 
 (mac da(dl)
   `((rep ,dl) 0))

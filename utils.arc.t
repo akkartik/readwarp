@@ -340,6 +340,14 @@
   (obj 1 2 3 (table))
   (w/instring f "((1 2) (3 nil))" (read-nested-table f)))
 
+(test-iso "read-nested-table handles tables containing dlists"
+  (obj 1 2 3 (dlist '(4)))
+  (w/instring f "((1 2) (3 (dlist (4))))" (read-nested-table f)))
+
+(test-iso "serialize handles tables containing dlists"
+  '((1 2) (3 (dlist (4))))
+  (serialize (obj 1 2 3 (dlist '(4)))))
+
 (test-iso "merge-tables works on tables"
   (obj a 1 b 2)
   (merge-tables (obj a 1) (obj b 2)))
