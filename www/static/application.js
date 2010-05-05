@@ -1,3 +1,7 @@
+function blank(s) {
+  return s && s != '';
+}
+
 function stringOrHref(s) {
   if (typeof(s) == 'string')
     return s;
@@ -92,7 +96,8 @@ function gen_inline(id, url) {
 
 function pushHistory(station, doc, params) {
   var src = $$('#doc_'+doc+' .rwhistory-link');
-  if (src && src != '') updateHistoryPanel(station, doc, params, src);
+  if (blank(src))
+    updateHistoryPanel(station, doc, params, src);
 
   prepareAjax('rwcontent');
   new Ajax.Request("/docupdate",
