@@ -2343,3 +2343,6 @@ Add length field to dlist.
 New policy for persistent hashes: fixedq. Pops elems when it grows too big,
 and applies delete function to them as they are popped.
 =-=908 - Tue May  4 23:13:30 PDT 2010
+
+Center-align logo like malbers suggested.
+=-=909 - Tue May  4 15:35:42 PDT 2010
