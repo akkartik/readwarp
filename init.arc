@@ -4,6 +4,7 @@
   (include "times.arc")
 
   (include "skiplist.arc")
+  (include "dlist.arc")
 
   (include "state.arc")
   (include "index.arc")

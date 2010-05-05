@@ -44,39 +44,43 @@
 
 (proc push-front(dl v)
   (let n (cons (cons v '()) '())
-    (++ dl-len.dl)
-    (if (dl-empty? dl)
-      (= da.dl n db.dl n)
-      (= (prev da.dl)   n
-         (next n)       da.dl
-         da.dl          n))))
+    (atomic
+      (++ dl-len.dl)
+      (if (dl-empty? dl)
+        (= da.dl n db.dl n)
+        (= (prev da.dl)   n
+           (next n)       da.dl
+           da.dl          n)))))
 
 (proc push-back(dl v)
   (let n (cons (cons v '()) '())
-    (++ dl-len.dl)
-    (if (dl-empty? dl)
-      (= da.dl n db.dl n)
-      (= (next db.dl)   n
-         (prev n)       db.dl
-         db.dl          n))))
+    (atomic
+      (++ dl-len.dl)
+      (if (dl-empty? dl)
+        (= da.dl n db.dl n)
+        (= (next db.dl)   n
+           (prev n)       db.dl
+           db.dl          n)))))
 
 (def pop-front(dl)
-  (unless (dl-empty? dl)
-    (-- dl-len.dl)
-    (ret ans (val da.dl)
-      (if (is da.dl db.dl)
-        (= da.dl nil db.dl nil)
-        (wipe (prev (next da.dl))))
-      (= da.dl (next da.dl)))))
+  (atomic
+    (unless (dl-empty? dl)
+      (-- dl-len.dl)
+      (ret ans (val da.dl)
+        (if (is da.dl db.dl)
+          (= da.dl nil db.dl nil)
+          (wipe (prev (next da.dl))))
+        (= da.dl (next da.dl))))))
 
 (def pop-back(dl)
-  (unless (dl-empty? dl)
-    (-- dl-len.dl)
-    (ret ans (val db.dl)
-      (if (is da.dl db.dl)
-        (= da.dl nil db.dl nil)
-        (wipe (next (prev db.dl))))
-      (= db.dl (prev db.dl)))))
+  (atomic
+    (unless (dl-empty? dl)
+      (-- dl-len.dl)
+      (ret ans (val db.dl)
+        (if (is da.dl db.dl)
+          (= da.dl nil db.dl nil)
+          (wipe (next (prev db.dl))))
+        (= db.dl (prev db.dl))))))
 
 (def dl-elems(dl)
   (accum acc
@@ -84,3 +88,11 @@
       (while curr
         (acc caar.curr)
         (zap cdr:car curr)))))
+
+(def pushn(dl v n)
+     (erp dl)
+     (erp "a")
+  (push-front dl v)
+     (erp "b")
+  (when (> dl-len.dl n)
+    (pop-back dl)))
