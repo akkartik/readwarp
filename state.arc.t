@@ -224,4 +224,23 @@
   (list 4 3 2)
   (b-as* #\a))
 
+(= b-as* (table))
+(= last-popped* nil)
+(= u3 (fixedq 3 [= last-popped* _]))
+(update b-as* #\a u3 1)
+(update b-as* #\a u3 2)
+(update b-as* #\a u3 3)
+(test-iso "update fixedq works like rcons at the start"
+  '(3 2 1)
+  (dl-elems:b-as* #\a))
+
+(update b-as* #\a u3 4)
+(test-iso "update fixedq trims to n elems or under"
+  '(4 3 2)
+  (dl-elems:b-as* #\a))
+
+(test-iso "update fixedq operates on popped elem"
+  1
+  last-popped*)
+
 ))

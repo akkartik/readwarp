@@ -83,16 +83,14 @@
         (= db.dl (prev db.dl))))))
 
 (def dl-elems(dl)
-  (accum acc
-    (let curr da.dl
-      (while curr
-        (acc caar.curr)
-        (zap cdr:car curr)))))
+  (if dl
+    (accum acc
+      (let curr da.dl
+        (while curr
+          (acc val.curr)
+          (= curr next.curr))))))
 
 (def pushn(dl v n)
-     (erp dl)
-     (erp "a")
   (push-front dl v)
-     (erp "b")
   (when (> dl-len.dl n)
     (pop-back dl)))

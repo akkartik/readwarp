@@ -2340,3 +2340,6 @@ Let's just build a doubly linked list.
 =-=904 - Tue May  4 03:17:20 PDT 2010
 Add length field to dlist.
 =-=906 - Tue May  4 10:10:41 PDT 2010
+New policy for persistent hashes: fixedq. Pops elems when it grows too big,
+and applies delete function to them as they are popped.
+=-=908 - Tue May  4 23:13:30 PDT 2010

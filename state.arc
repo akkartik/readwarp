@@ -404,3 +404,8 @@
 (def rconsn(n)
   (fn(old new)
     (firstn n (if (pos new old) old (cons new old)))))
+
+(def fixedq(n on-delete)
+  (fn(q val)
+    (ret ans (or q (dlist))
+      (only.on-delete (pushn ans val n)))))
