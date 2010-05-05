@@ -144,10 +144,11 @@
     (tag div
       (buttons user sname doc))
     (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
-      (if flashfn (flashfn))
+      (when flashfn (flashfn))
       (only.flash user-msg*.user)
-      (tag (div class 'rwhistory-link style "display:none")
-        (render-doc-link user sname doc))
+      (unless userinfo*.user!read.doc
+        (tag (div class 'rwhistory-link style "display:none")
+          (render-doc-link user sname doc)))
       (tag (div id 'rwpost)
         (feedback-form user sname doc)
         (render-doc user doc)))
@@ -183,7 +184,7 @@
     (clear)))
 
 (def render-doc-link(user sname doc)
-  (tag (div id (+ "history_" doc))
+  (tag div
     (unless (is "bookmarks" sname)
       (tag (div id (+ "outcome_" doc)
                 class (+ "rwoutcome_icon rwoutcome_" (read? user doc)))

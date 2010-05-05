@@ -91,10 +91,27 @@ function gen_inline(id, url) {
 }
 
 function pushHistory(station, doc, params) {
+  var src = $$('#doc_'+doc+' .rwhistory-link');
+  if (src && src != '') updateHistoryPanel(station, doc, params, src);
+
+  prepareAjax('rwcontent');
+  new Ajax.Request("/docupdate",
+      {
+        method: 'post',
+        parameters: 'doc='+escape(doc)+'&'+'station='+escape(station)+'&'+params,
+        onSuccess: function(response) {
+          $('rwcontent').innerHTML = response.responseText;
+          checkContent('rwcontent');
+          runScripts($('rwcontent'));
+        }
+      });
+  return false;
+}
+
+function updateHistoryPanel(station, doc, params, src) {
   var elem = $('outcome_'+doc);
   elem.className = "rwoutcome_icon "+params.replace(/.*outcome=([^&]*).*/, "rwoutcome_$1");
 
-  src = $$('#doc_'+doc+' .rwhistory-link');
   new Insertion.Top('rwhistory-elems', src[0].innerHTML);
 
   if($('rwhistory-elems').childNodes.length > history_size) {
@@ -111,19 +128,6 @@ function pushHistory(station, doc, params) {
         "&nbsp;newer&raquo;";
     }
   }
-
-  prepareAjax('rwcontent');
-  new Ajax.Request("/docupdate",
-      {
-        method: 'post',
-        parameters: 'doc='+escape(doc)+'&'+'station='+escape(station)+'&'+params,
-        onSuccess: function(response) {
-          $('rwcontent').innerHTML = response.responseText;
-          checkContent('rwcontent');
-          runScripts($('rwcontent'));
-        }
-      });
-  return false;
 }
 
 function showDoc(station, doc) {
@@ -133,7 +137,6 @@ function showDoc(station, doc) {
         method: 'get',
         parameters: 'doc='+escape(doc)+'&station='+escape(station),
         onSuccess: function(response) {
-          del($('history_'+doc));
           $('rwcontent').innerHTML = response.responseText;
           checkContent('rwcontent');
           runScripts($('rwcontent'));

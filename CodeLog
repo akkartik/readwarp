@@ -2346,3 +2346,9 @@ and applies delete function to them as they are popped.
 
 Center-align logo like malbers suggested.
 =-=909 - Tue May  4 15:35:42 PDT 2010
+
+Make clicking on history not delete elems. A small patch, but there's almost
+certainly a bug here because of how many places it's touching.
+
+I'm starting to realize how much overhead is caused by css ids. Minimize.
+=-=910 - Wed May  5 12:15:03 PDT 2010
