@@ -2377,3 +2377,9 @@ Time to drop a stake in the ground. Where we are right now:
 - pickle is broken because it isn't recursive. defmethods and pickles must
   always be recursive to handle nested data structures.
 =-=917 - Thu May  6 09:02:26 PDT 2010
+Ah, let's just make it a convention to pickle data structures using the
+serialize generic. This can remain in userspace, or we could later have
+arc.arc do special things with the serialize generic.
+
+serialize dlist is now correct. Unserialize remains.
+=-=918 - Thu May  6 09:11:07 PDT 2010

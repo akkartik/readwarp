@@ -467,6 +467,7 @@
       (maptable (fn (k v)
                   (a (list k serialize.v)))
                 x))))
+(pickle table serialize)
 
 (def pair?(l)
   (and (acons l)
