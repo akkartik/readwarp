@@ -42,6 +42,9 @@
   (list 'dlist (map serialize dl-elems.agg)))
 (pickle dlist serialize)
 
+(defmethod unserialize dlist (l)
+  (dlist (map unserialize cadr.l)))
+
 (def dl-empty?(dl)
   (no da.dl))
 

@@ -71,3 +71,10 @@
 (test-iso "pushn pops element"
     '(42 43 44)
     dl-elems.d)
+
+(test-iso "serialize dlist works"
+    '(dlist (42 43 44))
+    (serialize (dlist '(42 43 44))))
+(test-iso "unserialize undoes serialize"
+    (dlist '(42 43 44))
+    (unserialize:serialize (dlist '(42 43 44))))

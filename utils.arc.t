@@ -329,8 +329,12 @@
   (w/instring f "((1 2) (3 (dlist (4))))" (read-nested-table f)))
 
 (test-iso "serialize handles tables containing dlists"
-  '((1 2) (3 (dlist (4))))
+  '(table ((1 2) (3 (dlist (4)))))
   (serialize (obj 1 2 3 (dlist '(4)))))
+
+(test-iso "unserialize can handle tables"
+  (table)
+  (unserialize:serialize (table)))
 
 (test-is "alist? detects lists of pairs"
   t

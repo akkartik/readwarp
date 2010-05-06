@@ -469,6 +469,21 @@
                 x))))
 (pickle table serialize)
 
+; can't use defgeneric; everything is likely a list when serialized
+(or= vtables*!unserialize (table))
+(def unserialize(x)
+  (aif (vtables*!unserialize type*.x)
+    (it x)
+    (aif (pickles* type*.x)
+      (unserialize it.x)
+      x)))
+
+(def type*(x)
+  (if (and (pair? x)
+           (isa car.x 'sym))
+    car.x
+    type.x))
+
 (def pair?(l)
   (and (acons l)
        (acons:cdr l)
@@ -478,8 +493,13 @@
   (and (acons l)
        (all pair? l)))
 
+(defmethod unserialize table (x)
+  (w/table h
+    (map (fn ((k v)) (= h.k unserialize.v))
+         cadr.x)))
+
 ; nil is a table
-(def unserialize(l)
+(def unserialize-old(l)
   (if no.l      (table)
       alist?.l  (unserialize-alist l)
       dlist?.l  (dlist cadr.l)
@@ -487,11 +507,11 @@
 
 (def unserialize-alist(al)
   (w/table h
-    (map (fn ((k v)) (= h.k unserialize.v))
+    (map (fn ((k v)) (= h.k unserialize-old.v))
          al)))
 
 (def read-nested-table((o i (stdin)) (o eof))
-  (unserialize (read i eof)))
+  (unserialize-old (read i eof)))
 
 (def write-nested-table(h (o o (stdout)))
   (write serialize.h o))

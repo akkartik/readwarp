@@ -2383,3 +2383,6 @@ arc.arc do special things with the serialize generic.
 
 serialize dlist is now correct. Unserialize remains.
 =-=918 - Thu May  6 09:11:07 PDT 2010
+Unserialize built. I'm still using the old unserialize inside
+read-nested-table. Time to migrate data.
+=-=919 - Thu May  6 10:08:22 PDT 2010
