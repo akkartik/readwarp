@@ -2386,3 +2386,10 @@ serialize dlist is now correct. Unserialize remains.
 Unserialize built. I'm still using the old unserialize inside
 read-nested-table. Time to migrate data.
 =-=919 - Thu May  6 10:08:22 PDT 2010
+Ok, I've tested the next commit and verified the migration, but I can't commit
+yet because I need to migrate production at this point. Steps on production:
+  a) (quit), wait for restart
+  b) (migrate), wait for restart
+At this point the server should be running as usual, but with one caveat. If
+it goes down before the next commit it won't be able to read its snapshots.
+=-=920 - Thu May  6 10:50:08 PDT 2010

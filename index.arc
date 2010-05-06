@@ -113,11 +113,11 @@
   (init-preferred user sname))
 
 (defreg migrate() migrations*
-  (prn "migrate-stations")
+  (prn "running migrations")
+  (quit)
   (wipe userinfo*.nil)
   (each (u ui) userinfo*
     (each doc (keys ui!read)
-      (save-to-old-docs doc)
       )))
 
 (= vote-bookmark* 4)
