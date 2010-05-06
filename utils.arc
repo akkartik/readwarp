@@ -477,6 +477,8 @@
     (aif (pickles* type*.x)
       (unserialize it.x)
       x)))
+(defmethod unserialize cons (x)
+  (map unserialize x))
 
 (def type*(x)
   (if (and (pair? x)
@@ -498,20 +500,8 @@
     (map (fn ((k v)) (= h.k unserialize.v))
          cadr.x)))
 
-; nil is a table
-(def unserialize-old(l)
-  (if no.l      (table)
-      alist?.l  (unserialize-alist l)
-      dlist?.l  (dlist cadr.l)
-                l))
-
-(def unserialize-alist(al)
-  (w/table h
-    (map (fn ((k v)) (= h.k unserialize-old.v))
-         al)))
-
 (def read-nested-table((o i (stdin)) (o eof))
-  (unserialize-old (read i eof)))
+  (unserialize (read i eof)))
 
 (def write-nested-table(h (o o (stdout)))
   (write serialize.h o))

@@ -298,11 +298,11 @@
 
 (test-iso "read-nested-table handles tables"
   (obj 1 2)
-  (w/instring f "((1 2))" (read-nested-table f)))
+  (w/instring f "(table ((1 2)))" (read-nested-table f)))
 
 (test-iso "read-nested-table handles nil"
   (table)
-  (w/instring f "nil" (read-nested-table f)))
+  (w/instring f "(table nil)" (read-nested-table f)))
 
 (test-iso "read-nested-table handles non-tables"
   '(1 2)
@@ -318,15 +318,19 @@
 
 (test-iso "read-nested-table handles nested tables"
   (obj 1 "abc" 2 (obj 3 4))
-  (w/instring f "((1 \"abc\") (2 ((3 4))))" (read-nested-table f)))
+  (w/instring f "(table ((1 \"abc\") (2 (table ((3 4))))))" (read-nested-table f)))
 
 (test-iso "read-nested-table handles nested empty tables"
   (obj 1 2 3 (table))
-  (w/instring f "((1 2) (3 nil))" (read-nested-table f)))
+  (w/instring f "(table ((1 2) (3 (table nil))))" (read-nested-table f)))
 
 (test-iso "read-nested-table handles tables containing dlists"
   (obj 1 2 3 (dlist '(4)))
-  (w/instring f "((1 2) (3 (dlist (4))))" (read-nested-table f)))
+  (w/instring f "(table ((1 2) (3 (dlist (4)))))" (read-nested-table f)))
+
+(test-iso "read-nested-table handles lists containing tables"
+  (list 1 2 (table))
+  (w/instring f "(1 2 (table nil))" (read-nested-table f)))
 
 (test-iso "serialize handles tables containing dlists"
   '(table ((1 2) (3 (dlist (4)))))

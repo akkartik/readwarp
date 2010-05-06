@@ -8,7 +8,13 @@
     (let var nil (save-snapshot var))
     (let var nil
       (load-snapshot var (table))
-      (test-iso "nil file loads into empty table"
+      (test-nil "nil file loads into nil"
+        var))
+
+    (let var (table) (save-snapshot var))
+    (let var nil
+      (load-snapshot var (table))
+      (test-iso "empty table loads correctly"
         (table)
         var))
 

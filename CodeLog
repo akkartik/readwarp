@@ -2393,3 +2393,14 @@ yet because I need to migrate production at this point. Steps on production:
 At this point the server should be running as usual, but with one caveat. If
 it goes down before the next commit it won't be able to read its snapshots.
 =-=920 - Thu May  6 10:50:08 PDT 2010
+And here's the final patch. All tests now pass. Server can read its snapshots
+again. Steps:
+  wait for b) above
+  push from client
+Thu May  6 11:03:30 PDT 2010
+Heh, murphy's law: server crashed during restart b. Fortunately nothing was
+being saved yet or we'd have to redo the process. Lesson: wait for feeds to
+finish loading before typing in (migrate).
+Thu May  6 11:09:31 PDT 2010
+Hmm, I miscalculated. Server is down after step b. Push.
+=-=921 - Thu May  6 10:59:53 PDT 2010
