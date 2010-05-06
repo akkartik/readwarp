@@ -2369,3 +2369,5 @@ The new version has several problems:
   since alists are now annotated I need to migrate data. But it eliminates the
   problem of special-casing nil to translate to a table.
 =-=914 - Wed May  5 23:15:01 PDT 2010
+Really quit when encountering a corrupted snapshot.
+=-=915 - Wed May  5 23:25:46 PDT 2010

@@ -4,7 +4,7 @@
 (system:+ "rm " snapshots-dir* "/?s*.*")
 
 (let quit-called nil
-  (shadowing quit (fn() set.quit-called)
+  (shadowing really-quit (fn() set.quit-called)
     (let var nil (save-snapshot var))
     (let var nil
       (load-snapshot var (table))

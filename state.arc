@@ -1,5 +1,7 @@
 (= snapshots-dir* "snapshots")
 
+(init really-quit quit)
+
 (mac most-recent-snapshot-name(var)
    ; max works because times lie between 10^9s and 2*10^9s
    `(aif (apply max
@@ -17,7 +19,7 @@
         (fread it ,var)
         (unless (is (type ,var) (type ,initval))
           (prn "Error: corrupted snapshot " it)
-          (quit)))
+          (really-quit)))
       (or (init ,var ,initval) ,var)))
 
 (mac new-snapshot-name(var (o timestamp))
@@ -66,8 +68,6 @@
            ,@body)
          (sleep ,interval)))
      (init ,(symize stringify.fnname "-thread*") (new-thread ,stringify.fnname ,fnname))))
-
-(init really-quit quit)
 
 (init disable-autosave* t)
 (init prn-autosave* nil)
