@@ -127,7 +127,7 @@
               onclick (inline "rwcontent"
                               (+ "/docupdate2?doc=" urlencode.doc
                                  "&station=" urlencode.sname
-                                 "&outcome=" vote-bookmark*))))
+                                 "&outcome=" 4))))
     (tag (div title "dislike" class "rwbutton rwskip" onclick
             (inline "rwcontent"
                   (maybe-prompt user sname doc

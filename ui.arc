@@ -20,8 +20,7 @@
     (tag (div id 'rwright-panel)
       (tag (div id 'rwchannels class "rwrounded rwshadow")
         (current-channel-link ,user ,sname)
-        (channels-panel ,user ,sname)
-        (bookmarks-link ,user))
+        (channels-panel ,user ,sname))
       (tag:div class 'rwsep)
       (history-panel ,user ,sname ,req))
 
@@ -85,11 +84,6 @@
                creating a new channel. And send us feedback!")))))))
 
 (defop docupdate req
-  (if (is "bookmarks" (arg req "station"))
-    (update-bookmarks req)
-    (update-station req)))
-
-(def update-station(req)
   (with (user (current-user req)
          sname (or (arg req "station") "")
          doc (arg req "doc")
@@ -105,11 +99,8 @@
   (with (user (current-user req)
          sname (arg req "station")
          doc (arg req "doc"))
-    (if (is sname "bookmarks")
-      (bookmarked-doc-panel user
-                 (check doc ~blank next-save.user))
-      (doc-panel user sname
-                 (check doc ~blank (next-doc user sname))))))
+    (doc-panel user sname
+               (check doc ~blank (next-doc user sname)))))
 
 (init history-size* 10) ; sync with application.js
 
@@ -185,10 +176,9 @@
 
 (def render-doc-link(user sname doc)
   (tag div
-    (unless (is "bookmarks" sname)
-      (tag (div id (+ "outcome_" doc)
-                class (+ "rwoutcome_icon rwoutcome_" (read? user doc)))
-        (pr "&#9632;")))
+    (tag (div id (+ "outcome_" doc)
+              class (+ "rwoutcome_icon rwoutcome_" (read? user doc)))
+      (pr "&#9632;"))
     (tag (p class 'rwitem)
       (tag (a onclick (+ "showDoc('" jsesc.sname "', '" jsesc.doc "')") href "#")
         (pr (check doc-title.doc ~empty "no title"))))))
@@ -196,9 +186,9 @@
 (def buttons(user sname doc)
   (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
     (tag (div title "next" class "rwbutton rwlike" onclick
-              (pushHistory sname doc (+ "'outcome=" 2 "'"))))
+            (pushHistory sname doc "'outcome=2'")))
     (tag (div title "like" class "rwbutton rwsave" onclick
-            (pushHistory sname doc (+ "'outcome=" vote-bookmark* "'"))))
+            (pushHistory sname doc "'outcome=4'")))
     (tag (div title "dislike" class "rwbutton rwskip" onclick
             (pushHistory sname doc
                          (maybe-prompt user sname doc "outcome=1"))))
@@ -206,25 +196,24 @@
 
 (def maybe-prompt(user sname doc default)
   (or
-    (unless (is sname "bookmarks")
-      (if
-        (and (borderline-preferred-feed user sname doc)
-             (~empty doc-feedtitle.doc))
-           (addjsarg
-             default
-             (check-with-user
-               (+ "I will stop showing articles from\\n"
-                  "  " doc-feedtitle.doc "\\n"
-                  "in this channel. (press 'cancel' to keep showing them)")
-               "prune"))
-        (awhen (borderline-unpreferred-group user sname doc)
-           (addjsarg
-             (+ default "&group=" it)
-             (check-with-user
-               (+ "I will stop showing any articles about\\n"
-                  "  " uncamelcase.it "\\n"
-                  "in this channel. (press 'cancel' to keep showing them)")
-               "prune-group")))))
+    (if
+      (and (borderline-preferred-feed user sname doc)
+           (~empty doc-feedtitle.doc))
+         (addjsarg
+           default
+           (check-with-user
+             (+ "I will stop showing articles from\\n"
+                "  " doc-feedtitle.doc "\\n"
+                "in this channel. (press 'cancel' to keep showing them)")
+             "prune"))
+      (awhen (borderline-unpreferred-group user sname doc)
+         (addjsarg
+           (+ default "&group=" it)
+           (check-with-user
+             (+ "I will stop showing any articles about\\n"
+                "  " uncamelcase.it "\\n"
+                "in this channel. (press 'cancel' to keep showing them)")
+             "prune-group"))))
     (+ "'" default "'")))
 
 (def email-button(user doc)

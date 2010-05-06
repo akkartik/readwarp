@@ -129,7 +129,6 @@ id))
 ;?     )
   ))
 
-(= vote-bookmark* 4)
 (proc mark-read(user sname doc outcome prune-feed group prune-group)
   (with (station  userinfo*.user!stations.sname
          feed     doc-feed.doc)
@@ -143,10 +142,7 @@ id))
     (or= station!preferred (table))
     (case outcome
       "1" (handle-downvote user station doc feed prune-feed group prune-group)
-      ; sync with vote-bookmark*
-      "4" (do
-            (toggle-save user doc)
-            (handle-upvote user station doc feed)))))
+      "4" (handle-upvote user station doc feed))))
 
 (proc handle-upvote(user station doc feed)
   (= station!preferred.feed (backoff doc 2))

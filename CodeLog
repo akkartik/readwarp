@@ -2421,3 +2421,6 @@ get rid of it.
 Whoa, I turn on GC and browsing is immediately slower. Disable.
 Perhaps I should have an external script do this, connected through a fifo.
 =-=926 - Thu May  6 15:00:02 PDT 2010
+
+Getting rid of bookmarks.
+=-=928 - Thu May  6 15:52:27 PDT 2010

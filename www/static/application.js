@@ -178,20 +178,6 @@ function checkContent(id) {
   }
 }
 
-function pullFromHistory(doc) {
-  $('rwhistory').innerHTML = readwarp_waitMsg;
-  inline('rwcontent', '/docupdate?station=bookmarks&doc='+doc);
-  setTimeout(waitAndUpdateHistory, 100);
-}
-function waitAndUpdateHistory() {
-  if ($('rwcontent').innerHTML.indexOf(readwarp_waitGif) > 0) {
-    setTimeout(waitAndUpdateHistory, 100);
-  }
-  else {
-    inline('rwhistory', '/bhist');
-  }
-}
-
 function params(elem) {
   var ans = {};
   var inputs = elem.getElementsByTagName('input');
