@@ -19,7 +19,6 @@
   (fixedq 10
 ;?     :on-delete
       (fn(doc)
-        (erp "deleting " doc)
         (each ext '(".raw" ".metadata" ".clean")
           (system:+ "rm urls/" doc ext)))))
 (def doc-feedtitle(doc)
