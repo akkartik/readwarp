@@ -460,14 +460,13 @@
 
 (defgeneric serialize(x)
   x)
-(defgeneric unserialize(x)
-  x)
-(pickle table tablist)
 
 (defmethod serialize table (x)
-  (annotate 'alist tablist.x))
-(defmethod unserialize alist (x)
-  (listtab rep.x))
+  (list 'table
+    (accum a
+      (maptable (fn (k v)
+                  (a (list k serialize.v)))
+                x))))
 
 (def pair?(l)
   (and (acons l)
@@ -479,17 +478,16 @@
        (all pair? l)))
 
 ; nil is a table
-;? (def unserialize(l)
-;?   (if no.l      (table)
-;?       alist?.l  (listtab2 l)
-;?       dlist?.l  (dlist cadr.l)
-;?                 l))
+(def unserialize(l)
+  (if no.l      (table)
+      alist?.l  (unserialize-alist l)
+      dlist?.l  (dlist cadr.l)
+                l))
 
-(def listtab2(al)
-  (let h (table)
-    (map (fn ((k v)) (= (h k) (unserialize v)))
-         al)
-    h))
+(def unserialize-alist(al)
+  (w/table h
+    (map (fn ((k v)) (= h.k unserialize.v))
+         al)))
 
 (def read-nested-table((o i (stdin)) (o eof))
   (unserialize (read i eof)))

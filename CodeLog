@@ -2371,3 +2371,9 @@ The new version has several problems:
 =-=914 - Wed May  5 23:15:01 PDT 2010
 Really quit when encountering a corrupted snapshot.
 =-=915 - Wed May  5 23:25:46 PDT 2010
+Time to drop a stake in the ground. Where we are right now:
+- serialize table is correct. It can handle nested serializables.
+- unserialize is still the old version. We can't use defgeneric for that.
+- pickle is broken because it isn't recursive. defmethods and pickles must
+  always be recursive to handle nested data structures.
+=-=917 - Thu May  6 09:02:26 PDT 2010

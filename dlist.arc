@@ -37,7 +37,6 @@
         (while curr
           (acc val.curr)
           (= curr next.curr))))))
-(pickle dlist dl-elems)
 
 (def dl-empty?(dl)
   (no da.dl))
