@@ -2361,3 +2361,11 @@ iso now an extensible generic function. Tests pass. As a bonus, we're able to
 revert the system definition of iso (just def -> defgeneric) and extend it for
 tables in 'user space'.
 =-=913 - Wed May  5 22:53:03 PDT 2010
+Playing with genericizing serialize/unserialize.
+I can't just use the pickled representation to serialize tables or dlists,
+because there's no way to detect that they're not lists when de-serializing.
+The new version has several problems:
+  nested structures aren't properly serialized
+  since alists are now annotated I need to migrate data. But it eliminates the
+  problem of special-casing nil to translate to a table.
+=-=914 - Wed May  5 23:15:01 PDT 2010
