@@ -185,9 +185,9 @@
 
 (def buttons(user sname doc)
   (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
-    (tag (div title "next" class "rwbutton rwlike" onclick
+    (tag (div title "next" class "rwbutton rwnext" onclick
             (pushHistory sname doc "'outcome=2'")))
-    (tag (div title "like" class "rwbutton rwsave" onclick
+    (tag (div title "like" class "rwbutton rwlike" onclick
             (pushHistory sname doc "'outcome=4'")))
     (tag (div title "dislike" class "rwbutton rwskip" onclick
             (pushHistory sname doc

@@ -2424,3 +2424,5 @@ Perhaps I should have an external script do this, connected through a fifo.
 
 Getting rid of bookmarks.
 =-=928 - Thu May  6 15:52:27 PDT 2010
+get rid of save from class names: like->next, save->like.
+=-=929 - Thu May  6 15:55:09 PDT 2010

@@ -118,12 +118,12 @@
 
 (def buttons2(user sname doc)
   (tag (div id 'rwbuttons class "rwrounded-left rwbutton-shadow")
-    (tag (div title "next" class "rwbutton rwlike"
+    (tag (div title "next" class "rwbutton rwnext"
               onclick (inline "rwcontent"
                               (+ "/docupdate2?doc=" urlencode.doc
                                  "&station=" urlencode.sname
                                  "&outcome=" 2))))
-    (tag (div title "like" class "rwbutton rwsave"
+    (tag (div title "like" class "rwbutton rwlike"
               onclick (inline "rwcontent"
                               (+ "/docupdate2?doc=" urlencode.doc
                                  "&station=" urlencode.sname
