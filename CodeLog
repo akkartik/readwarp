@@ -2417,3 +2417,7 @@ Should have killed scans first.
 No point relying on pickle in unserialize. When we run into it we hang. Just
 get rid of it.
 =-=924 - Thu May  6 14:54:08 PDT 2010
+
+Whoa, I turn on GC and browsing is immediately slower. Disable.
+Perhaps I should have an external script do this, connected through a fifo.
+=-=926 - Thu May  6 15:00:02 PDT 2010
