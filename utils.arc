@@ -474,9 +474,7 @@
 (def unserialize(x)
   (aif (vtables*!unserialize type*.x)
     (it x)
-    (aif (pickles* type*.x)
-      (unserialize it.x)
-      x)))
+    x))
 (defmethod unserialize cons (x)
   (map unserialize x))
 
