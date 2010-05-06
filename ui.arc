@@ -1,6 +1,6 @@
-(mac page body
+(mac page(req . body)
   `(tag html
-    (header)
+    (header ,req)
     (tag body
       (tag (div id 'rwbody)
         (tag (div id 'rwpage)
@@ -9,7 +9,7 @@
           (tag:div class 'rwsep))))))
 
 (mac with-history(req user station . body)
-  `(page
+  `(page ,req
     (nav ,user)
     (tag (div style "width:100%")
       (with-history-sub ,req ,user ,station
@@ -403,7 +403,7 @@
 
 (defop bookmarklet req
   (let user current-user.req
-    (page
+    (page req
       (nav current-user.req)
       (br2)
       (pr "Drag this link to your browser toolbar.")

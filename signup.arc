@@ -7,7 +7,7 @@
 (def start-funnel(req)
   (let user current-user.req
     (init-abtests user)
-    (page
+    (page req
       (tag (div style "background:white; min-height:95%;" class "rwrounded-bottom rwshadow")
         (tag (div id 'rwnav)
           (tag (div style "float:right")
@@ -39,7 +39,7 @@
           global-sname (or= userinfo*.user!all (stringify:unique-id)))
     (ensure-station user global-sname)
     (or= userinfo*.user!signup-stage 2)
-    (page
+    (page req
       (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
         (logo-small))
       (tag:div class 'rwsep)

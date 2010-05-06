@@ -2426,3 +2426,7 @@ Getting rid of bookmarks.
 =-=928 - Thu May  6 15:52:27 PDT 2010
 get rid of save from class names: like->next, save->like.
 =-=929 - Thu May  6 15:55:09 PDT 2010
+
+test=1 in mixpanel calls to try to get real-time feedback. Still not working.
+Moving right along..
+=-=930 - Thu May  6 16:37:32 PDT 2010
