@@ -454,9 +454,8 @@
        (isa y 'table)
        (is (len keys.x) (len keys.y))
        (all
-         (fn(pair)
-           (let (k v) pair
-             (iso y.k v)))
+         (fn((k v))
+           (iso y.k v))
          tablist.x)))
 
 (defgeneric serialize(x)
@@ -479,13 +478,6 @@
   (and (acons l)
        (all pair? l)))
 
-(def coerce-tab(tab)
-  (if
-    (isa tab 'table)  tab
-    (alist? tab)      (listtab tab)
-    (acons tab)       (listtab:pair tab)
-                      (table)))
-
 ; nil is a table
 ;? (def unserialize(l)
 ;?   (if no.l      (table)
@@ -502,22 +494,8 @@
 (def read-nested-table((o i (stdin)) (o eof))
   (unserialize (read i eof)))
 
-;? (def serialize(agg)
-;?   (if
-;?     (isa agg 'table)
-;?           (accum a (maptable (fn (k v) (a (list k (serialize v)))) agg))
-;?     (isa agg 'dlist)
-;?           (list 'dlist (serialize dl-elems.agg))
-;?         agg))
-
 (def write-nested-table(h (o o (stdout)))
   (write serialize.h o))
-
-(def merge-tables tables
-  (let ans (table)
-    (each tab tables
-      (maptable (fn(k v) (= ans.k v)) coerce-tab.tab))
-    ans))
 
 (def read-json-table(filename (o errfn [table]))
   (on-err errfn

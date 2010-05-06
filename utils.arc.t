@@ -296,22 +296,6 @@
   nil
   (pair? '(1 2 3 4)))
 
-(test-iso "coerce-tab leaves tables as-is"
-  (obj a 1 b 2)
-  (coerce-tab (obj a 1 b 2)))
-
-(test-iso "coerce-tab converts tablists"
-  (obj a 1 b 2)
-  (coerce-tab '((a 1) (b 2))))
-
-(test-iso "coerce-tab converts non-tablist lists"
-  (obj a 1 b 2)
-  (coerce-tab '(a 1 b 2)))
-
-(test-iso "coerce-tab converts nil to empty table"
-  (table)
-  (coerce-tab ()))
-
 (test-iso "read-nested-table handles tables"
   (obj 1 2)
   (w/instring f "((1 2))" (read-nested-table f)))
@@ -347,18 +331,6 @@
 (test-iso "serialize handles tables containing dlists"
   '((1 2) (3 (dlist (4))))
   (serialize (obj 1 2 3 (dlist '(4)))))
-
-(test-iso "merge-tables works on tables"
-  (obj a 1 b 2)
-  (merge-tables (obj a 1) (obj b 2)))
-
-(test-iso "merge-tables overrides in sequence"
-  (obj a 1 b 2)
-  (merge-tables (obj a 1 b 1) (obj b 2)))
-
-(test-iso "merge-tables converts to tables if necessary"
-  (obj a 1 b 2)
-  (merge-tables '(a 1 b 1) (obj b 2)))
 
 (test-is "alist? detects lists of pairs"
   t
