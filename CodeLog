@@ -2357,3 +2357,7 @@ Transparent persistence for dlists now works. But one test fails because arc
 doesn't know how to compare dlists.
 I think we need to add generics to arc now.
 =-=912 - Wed May  5 12:54:00 PDT 2010
+iso now an extensible generic function. Tests pass. As a bonus, we're able to
+revert the system definition of iso (just def -> defgeneric) and extend it for
+tables in 'user space'.
+=-=913 - Wed May  5 22:53:03 PDT 2010

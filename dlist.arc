@@ -1,15 +1,5 @@
 ; Ported from http://eli.thegreenplace.net/2007/10/03/sicp-section-332
 ; Exercise 3.23
-(mac proc(fnname args . body)
-  `(def ,fnname ,args
-    ,@body
-    nil))
-
-(mac ret(var val . body)
-  `(let ,var ,val
-     ,@body
-     ,var))
-
 (def dlist((o elems))
   (if (isa elems 'dlist)
     elems
@@ -39,6 +29,15 @@
 
 (mac val(node)
   `(car:car ,node))
+
+(def dl-elems(dl)
+  (if dl
+    (accum acc
+      (let curr da.dl
+        (while curr
+          (acc val.curr)
+          (= curr next.curr))))))
+(pickle dlist dl-elems)
 
 (def dl-empty?(dl)
   (no da.dl))
@@ -88,14 +87,6 @@
           (= da.dl nil db.dl nil)
           (wipe (next (prev db.dl))))
         (= db.dl (prev db.dl))))))
-
-(def dl-elems(dl)
-  (if dl
-    (accum acc
-      (let curr da.dl
-        (while curr
-          (acc val.curr)
-          (= curr next.curr))))))
 
 (def pushn(dl v n)
   (push-front dl v)

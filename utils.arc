@@ -449,6 +449,16 @@
 
 
 
+(defmethod iso table (x y)
+  (and (isa x 'table)
+       (isa y 'table)
+       (is (len keys.x) (len keys.y))
+       (all
+         (fn(pair)
+           (let (k v) pair
+             (iso y.k v)))
+         tablist.x)))
+
 (def pair?(l)
   (and (acons l)
        (acons:cdr l)
