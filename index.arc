@@ -327,6 +327,11 @@ id))
   (wipe userinfo*.user hpasswords*.user loggedin-users*.user)
   (save-table hpasswords* hpwfile*))
 
+(proc clear-users()
+  (map [wipe userinfo*._]
+       (rem [or (userinfo*._ 'signedup) (logins* _)]
+            keys.userinfo*)))
+
 (def feedstats(user)
   (let r (dedup:map doc-feed (keys userinfo*.user!read))
     (rem [pos _ r] (keys userinfo*.user!preferred-feeds))))
