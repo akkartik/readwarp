@@ -2410,3 +2410,6 @@ Finally, garbage collecting for feed-docs. Steps on production after pushing:
   b) (migrate)
   c) (quit), wait for restart
 =-=922 - Thu May  6 14:44:31 PDT 2010
+Didn't take into account that files are coming in between a) and b) above.
+Should have killed scans first.
+=-=923 - Thu May  6 14:48:19 PDT 2010
