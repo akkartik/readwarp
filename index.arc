@@ -16,7 +16,12 @@
   (check-doc doc docinfo*.doc!site))
 (rhash doc feed "n-1"
   (check-doc doc docinfo*.doc!feed)
-  rconsn.10)
+  (fixedq 10
+;?     :on-delete
+      (fn(doc)
+        (erp "deleting " doc)
+        (each ext '(".raw" ".metadata" ".clean")
+          (system:+ "rm urls/" doc ext)))))
 (def doc-feedtitle(doc)
   (check-doc doc docinfo*.doc!feedtitle))
 (def doc-timestamp(doc)
@@ -114,11 +119,15 @@
 
 (defreg migrate() migrations*
   (prn "running migrations")
-  (quit)
   (wipe userinfo*.nil)
-  (each (u ui) userinfo*
-    (each doc (keys ui!read)
-      )))
+  (wipe feed-docs*.nil)
+  (each (f d) feed-docs*
+    (zap dlist feed-docs*.f)
+;?   (each (u ui) userinfo*
+;?     (each (s st) ui!stations
+;?     (each doc (keys ui!read)
+;?     )
+  ))
 
 (= vote-bookmark* 4)
 (proc mark-read(user sname doc outcome prune-feed group prune-group)
@@ -268,10 +277,12 @@
   (pos feed
        (map doc-feed (firstn history-size* station!read-list))))
 
+(def docs(feed)
+  (dl-elems feed-docs.feed))
 (def most-recent(feed)
-  (car feed-docs.feed))
+  (car docs.feed))
 (def most-recent-unread(user feed)
-  (find [~read? user _] feed-docs.feed))
+  (find [~read? user _] docs.feed))
 
 (def pick(user station)
   (or= station!current
