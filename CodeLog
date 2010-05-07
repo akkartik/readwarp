@@ -2455,3 +2455,8 @@ History panel in pre-signup flow as well.
 
 Bugfix: sometimes was unnecessarily picking stories.
 =-=941 - Thu May  6 23:51:33 PDT 2010
+
+Bugfixes on production after getting done with GC. On dev I didn't test with a
+live data pipeline.
+Also a typo that was showing the non-signedup view even to logged in users.
+=-=942 - Fri May  7 12:47:36 PDT 2010

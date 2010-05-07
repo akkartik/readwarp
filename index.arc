@@ -1,3 +1,8 @@
+(init docinfo* (table))
+(persisted old-docs* (table))
+(proc send-to-gc(doc)
+  (w/outfile f "fifos/gc" (disp (+ doc #\newline) f)))
+
 (mac check-doc(doc . body)
   `(do
     (or= (docinfo* ,doc) (metadata ,doc))
@@ -7,7 +12,6 @@
   (read-json-table (+ "urls/" doc ".metadata")
                    [old-docs* doc]))
 
-(init docinfo* (table))
 (def doc-url(doc)
   (check-doc doc docinfo*.doc!url))
 (def doc-title(doc)
@@ -286,7 +290,6 @@
        (always [most-recent-unread user _]
                (new-feed user station))))
 
-(persisted old-docs* (table))
 (def save-to-old-docs(doc)
   (= old-docs*.doc (obj url doc-url.doc  title doc-title.doc
                         site doc-site.doc  feedtitle doc-feedtitle.doc)))
@@ -345,9 +348,6 @@
           st userinfo*.user!stations.s)
     (set userinfo*.user!preferred-feeds.feed)
     (= userinfo*.user!stations.s!preferred.feed (backoff feed 2))))
-
-(proc send-to-gc(doc)
-  (w/outfile f "fifos/gc" (disp (+ doc #\newline) f)))
 
 (proc gc-doc-dir()
   (erp "gc-doc-dir running")
