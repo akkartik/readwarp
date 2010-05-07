@@ -137,7 +137,8 @@
     (unless userinfo*.user!read.doc
       (push doc station!read-list))
     (= userinfo*.user!read.doc outcome)
-    (wipe station!current)
+    (when (is doc station!current)
+      (wipe station!current))
 
     (or= station!preferred (table))
     (case outcome

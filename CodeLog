@@ -2452,3 +2452,6 @@ Move email button to article title.
 =-=939 - Thu May  6 23:19:07 PDT 2010
 History panel in pre-signup flow as well.
 =-=940 - Thu May  6 23:49:44 PDT 2010
+
+Bugfix: sometimes was unnecessarily picking stories.
+=-=941 - Thu May  6 23:51:33 PDT 2010
