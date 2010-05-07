@@ -2443,3 +2443,7 @@ Temporary fix; let's think about the right organization here.
 
 Button reorg. Thumbs-up for like, give it the dark color, move it to the top.
 =-=936 - Thu May  6 22:56:20 PDT 2010
+
+Get rid of gc thread. Still running on production. We can't push until it's
+done.
+=-=938 - Thu May  6 23:09:38 PDT 2010

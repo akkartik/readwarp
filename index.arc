@@ -86,8 +86,8 @@
   (update-feed-keywords))
 (wait update-feeds-init*)
 
-;? (defscan index-doc "clean"
-;?   (doc-feed doc))
+(defscan index-doc "clean"
+  (doc-feed doc))
 
 
 
@@ -357,5 +357,3 @@
         (unless (pos doc (dl-elems feed-docs*.feed))
           (send-to-gc doc)))))
   (erp "gc-doc-dir done"))
-
-(init gc-thread* (new-thread "offline-gc" gc-doc-dir))
