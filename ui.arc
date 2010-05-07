@@ -162,6 +162,7 @@
     (tag (h2 class 'rwtitle)
       (tag (a href doc-url.doc target "_blank")
         (pr (check doc-title.doc ~empty "no title")))
+      (email-button user doc)
       (copywidget doc-url.doc))
     (tag (div class 'rwsubtitle)
       (tag (div class 'rwdate)
@@ -191,8 +192,7 @@
             (pushHistory sname doc "'outcome=2'")))
     (tag (div title "dislike" class "rwbutton rwskip" onclick
             (pushHistory sname doc
-                         (maybe-prompt user sname doc "outcome=1"))))
-    (email-button user doc)))
+                         (maybe-prompt user sname doc "outcome=1"))))))
 
 (def maybe-prompt(user sname doc default)
   (or
@@ -217,10 +217,11 @@
     (+ "'" default "'")))
 
 (def email-button(user doc)
-  (tag (div onclick "$('rwemail').toggle();
+  (tag (span style "margin-left:5px"
+            onclick "$('rwemail').toggle();
                      $('rwform-flash').innerHTML='';
                      $('rwform-flash').hide()")
-    (tag:img src "email.jpg")))
+    (tag:img src "email.jpg" height "14px")))
 
 
 

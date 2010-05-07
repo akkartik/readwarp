@@ -2447,3 +2447,6 @@ Button reorg. Thumbs-up for like, give it the dark color, move it to the top.
 Get rid of gc thread. Still running on production. We can't push until it's
 done.
 =-=938 - Thu May  6 23:09:38 PDT 2010
+
+Move email button to article title.
+=-=939 - Thu May  6 23:19:07 PDT 2010
