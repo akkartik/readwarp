@@ -3,10 +3,7 @@ import sys, os, string, traceback
 if __name__ == '__main__':
   while True:
     for line in open("fifos/gc").readlines():
-      if line[:-1] == '\n':
-        doc = line[:-1]
-      else:
-        doc = line
+      doc = line.splitlines()[0]
       print doc
       try:
         os.unlink('urls/'+doc+'.raw')

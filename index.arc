@@ -14,12 +14,14 @@
   (check-doc doc docinfo*.doc!title))
 (def doc-site(doc)
   (check-doc doc docinfo*.doc!site))
+(def lookup-feed(doc)
+  (check-doc doc docinfo*.doc!feed))
 (rhash doc feed "n-1"
-  (check-doc doc docinfo*.doc!feed)
+  lookup-feed.doc
   (fixedq 10
 ;?     :on-delete
       (fn(doc)
-        (w/outfile f "fifos/gc" (disp doc f)))))
+        (send-to-gc doc))))
 (def doc-feedtitle(doc)
   (check-doc doc docinfo*.doc!feedtitle))
 (def doc-timestamp(doc)
@@ -84,8 +86,8 @@
   (update-feed-keywords))
 (wait update-feeds-init*)
 
-(defscan index-doc "clean"
-  (doc-feed doc))
+;? (defscan index-doc "clean"
+;?   (doc-feed doc))
 
 
 
@@ -342,3 +344,25 @@
           st userinfo*.user!stations.s)
     (set userinfo*.user!preferred-feeds.feed)
     (= userinfo*.user!stations.s!preferred.feed (backoff feed 2))))
+
+(proc scan-doc-dir()
+  (everyp file (dir "urls") 1000
+    (if (posmatch ".clean" file)
+      (let doc (subst "" ".clean" file)
+        (unless docinfo*.doc prn.doc)
+        doc-feed.doc))))
+
+(proc send-to-gc(doc)
+  (w/outfile f "fifos/gc" (disp (+ doc #\newline) f)))
+
+(proc gc-doc-dir()
+  (erp "gc-doc-dir running")
+  (everyp file (dir "urls") 1000
+    (if (posmatch ".clean" file)
+      (withs (doc (subst "" ".clean" file)
+              feed (lookup-feed doc))
+        (unless (pos doc (dl-elems feed-docs*.feed))
+          (send-to-gc doc)))))
+  (erp "gc-doc-dir done"))
+
+(new-thread "offline-gc" gc-doc-dir)

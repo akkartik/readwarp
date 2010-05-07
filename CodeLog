@@ -2435,3 +2435,5 @@ Let's try adding a gc process connected through yet another fifo.
 =-=931 - Thu May  6 17:01:13 PDT 2010
 Done and on production.
 =-=932 - Thu May  6 17:24:12 PDT 2010
+Now pruning urls/ on production.
+=-=933 - Thu May  6 19:08:08 PDT 2010
