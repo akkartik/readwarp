@@ -19,7 +19,6 @@
   (fixedq 10
 ;?     :on-delete
       (fn(doc)
-        (erp "gc: " doc)
         (w/outfile f "fifos/gc" (disp doc f)))))
 (def doc-feedtitle(doc)
   (check-doc doc docinfo*.doc!feedtitle))
