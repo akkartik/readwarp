@@ -358,4 +358,4 @@
           (send-to-gc doc)))))
   (erp "gc-doc-dir done"))
 
-(new-thread "offline-gc" gc-doc-dir)
+(init gc-thread* (new-thread "offline-gc" gc-doc-dir))
