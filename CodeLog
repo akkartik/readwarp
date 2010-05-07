@@ -2437,3 +2437,6 @@ Done and on production.
 =-=932 - Thu May  6 17:24:12 PDT 2010
 Now pruning urls/ on production.
 =-=933 - Thu May  6 19:08:08 PDT 2010
+Ack, I can't be running doc-feed willy-nilly now that it has side-effects.
+Temporary fix; let's think about the right organization here.
+=-=934 - Thu May  6 19:29:21 PDT 2010

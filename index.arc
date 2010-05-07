@@ -131,7 +131,7 @@
 
 (proc mark-read(user sname doc outcome prune-feed group prune-group)
   (with (station  userinfo*.user!stations.sname
-         feed     doc-feed.doc)
+         feed     lookup-feed.doc)
     (erp outcome " " doc)
 
     (unless userinfo*.user!read.doc
@@ -173,13 +173,13 @@
        (backoffify (rem group feedgroups*) 2))))
 
 (def borderline-preferred-feed(user sname doc)
-  (whenlet feed doc-feed.doc
+  (whenlet feed lookup-feed.doc
     (let station userinfo*.user!stations.sname
       (and (pos feed (keys station!preferred))
            (backoff-borderline station!preferred.feed)))))
 
 (def borderline-unpreferred-group(user sname doc)
-  (whenlet feed doc-feed.doc
+  (whenlet feed lookup-feed.doc
     (let station userinfo*.user!stations.sname
       (and (~pos feed (keys station!preferred))
            (find [backoff-borderline station!groups._]
@@ -271,7 +271,7 @@
 
 (def recently-shown?(station feed)
   (pos feed
-       (map doc-feed (firstn history-size* station!read-list))))
+       (map lookup-feed (firstn history-size* station!read-list))))
 
 (def docs(feed)
   (dl-elems feed-docs.feed))
@@ -329,7 +329,7 @@
             keys.userinfo*)))
 
 (def feedstats(user)
-  (let r (dedup:map doc-feed (keys userinfo*.user!read))
+  (let r (dedup:map lookup-feed (keys userinfo*.user!read))
     (rem [pos _ r] (keys userinfo*.user!preferred-feeds))))
 
 (def rename-feed(old new)
@@ -344,13 +344,6 @@
           st userinfo*.user!stations.s)
     (set userinfo*.user!preferred-feeds.feed)
     (= userinfo*.user!stations.s!preferred.feed (backoff feed 2))))
-
-(proc scan-doc-dir()
-  (everyp file (dir "urls") 1000
-    (if (posmatch ".clean" file)
-      (let doc (subst "" ".clean" file)
-        (unless docinfo*.doc prn.doc)
-        doc-feed.doc))))
 
 (proc send-to-gc(doc)
   (w/outfile f "fifos/gc" (disp (+ doc #\newline) f)))
