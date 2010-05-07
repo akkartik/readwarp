@@ -42,19 +42,19 @@ p{ margin-top:1em; }
 .rwbutton{ height:70px; cursor:pointer; position:relative; width:80px; margin-left:10px; margin-bottom:10px; }
 .rwoutcome_icon{ float:right; margin-left:0.5em; }
 
+div.rwlike{ background:transparent url('like.png') 0px 0px no-repeat; }
+div.rwlike:hover { background:transparent url('like.png') 0px -70px no-repeat; }
+div.rwlike:active { background:transparent url('like.png') 0px -140px no-repeat; }
+.rwoutcome_4{ color:#42791f; }
+
 div.rwnext{ background:transparent url('next.png') 0px 0px no-repeat; }
 div.rwnext:hover { background:transparent url('next.png') 0px -70px no-repeat; }
 div.rwnext:active { background:transparent url('next.png') 0px -140px no-repeat; }
-.rwoutcome_2{ color:#42791f; }
+.rwoutcome_2{ color:#d4cd1c; }
 
-div.rwlike{ background:transparent url('bookmark.png') 0px 0px no-repeat; }
-div.rwlike:hover { background:transparent url('bookmark.png') 0px -70px no-repeat; }
-div.rwlike:active { background:transparent url('bookmark.png') 0px -140px no-repeat; }
-.rwoutcome_4{ color:#88ad10; }
-
-div.rwskip{ background:transparent url('down.png') 0px 0px no-repeat; }
-div.rwskip:hover { background:transparent url('down.png') 0px -70px no-repeat; }
-div.rwskip:active { background:transparent url('down.png') 0px -140px no-repeat; }
+div.rwskip{ background:transparent url('skip.png') 0px 0px no-repeat; }
+div.rwskip:hover { background:transparent url('skip.png') 0px -70px no-repeat; }
+div.rwskip:active { background:transparent url('skip.png') 0px -140px no-repeat; }
 .rwoutcome_1{ color:#860237; }
 
 h2.rwtitle a{ font-family:serif; font-size:1.15em; font-weight:bold; color:#66e; }
