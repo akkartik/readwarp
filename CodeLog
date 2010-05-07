@@ -2430,3 +2430,6 @@ get rid of save from class names: like->next, save->like.
 test=1 in mixpanel calls to try to get real-time feedback. Still not working.
 Moving right along..
 =-=930 - Thu May  6 16:37:32 PDT 2010
+
+Let's try adding a gc process connected through yet another fifo.
+=-=931 - Thu May  6 17:01:13 PDT 2010

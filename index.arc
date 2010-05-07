@@ -18,10 +18,9 @@
   (check-doc doc docinfo*.doc!feed)
   (fixedq 10
 ;?     :on-delete
-id))
-;?       (fn(doc)
-;?         (each ext '(".raw" ".metadata" ".clean")
-;?           (system:+ "rm urls/" doc ext)))))
+      (fn(doc)
+        (erp "gc: " doc)
+        (w/outfile f "fifos/gc" (disp doc f)))))
 (def doc-feedtitle(doc)
   (check-doc doc docinfo*.doc!feedtitle))
 (def doc-timestamp(doc)
