@@ -46,6 +46,8 @@
 
       (let sname userinfo*.user!all
         (tag (div style "width:100%")
+          (tag (div id 'rwright-panel)
+            (history-panel user sname req))
           (tag (div id 'rwcontents-wrap)
             (tag (div id 'rwcontent)
               (next-stage user sname req))))))))
@@ -96,17 +98,20 @@
 (def doc-panel2(user sname doc)
   (if doc
     (do
-      (tag div
+      (tag (div id (+ "doc_" doc))
         (tag div
-          (buttons2 user sname doc))
+          (buttons user sname doc))
         (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
           (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
             (signup-form user)
             (progress-bar user))
-          (tag (div style "width:100%; margin-right:1em")
-                (when (is 2 userinfo*.user!signup-stage)
-                  (flash:+ "Ok! Click on the buttons on the left to like or
-                           dislike each story and move to the next one."))
+          (tag div
+            (when (is 2 userinfo*.user!signup-stage)
+              (flash:+ "Ok! Click on the buttons on the left to like or
+                       dislike each story and move to the next one."))
+            (unless userinfo*.user!read.doc
+              (tag (div class 'rwhistory-link style "display:none")
+                (render-doc-link user sname doc)))
             (tag (div id 'rwpost)
               (feedback-form user sname doc)
               (render-doc user doc))))
@@ -116,34 +121,6 @@
       (prn "Oops, there was an error. I've told Kartik. Please try reloading the page. And please feel free to use the feedback form &rarr;")
       (write-feedback user "" sname "" "No result found"))))
 
-(def buttons2(user sname doc)
-  (tag (div id 'rwbuttons class "rwrounded-left rwbutton-shadow")
-    (tag (div title "like" class "rwbutton rwlike"
-              onclick (inline "rwcontent"
-                              (+ "/docupdate2?doc=" urlencode.doc
-                                 "&station=" urlencode.sname
-                                 "&outcome=" 4))))
-    (tag (div title "next" class "rwbutton rwnext"
-              onclick (inline "rwcontent"
-                              (+ "/docupdate2?doc=" urlencode.doc
-                                 "&station=" urlencode.sname
-                                 "&outcome=" 2))))
-    (tag (div title "dislike" class "rwbutton rwskip" onclick
-            (inline "rwcontent"
-                  (maybe-prompt user sname doc
-                    (+ "/docupdate2?doc=" urlencode.doc
-                       "&station=" urlencode.sname "&outcome=" 1)))))
-    (clear)))
-
-(defop docupdate2 req
-  (with (user (current-user req)
-         sname (or (arg req "station") "")
-         doc (arg req "doc")
-         outcome (arg req "outcome")
-         prune-feed (is "true" (arg req "prune"))
-         group (arg req "group")
-         prune-group (is "true" (arg req "prune-group")))
-    (ensure-station user sname)
-    (mark-read user sname doc outcome prune-feed group prune-group)
-    (++ userinfo*.user!signup-stage)
-    (next-stage user sname req)))
+(def signup-doc-panel(user sname req)
+  (++ userinfo*.user!signup-stage)
+  (next-stage user sname req))

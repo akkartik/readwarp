@@ -93,7 +93,9 @@
          prune-group (is "true" (arg req "prune-group")))
     (ensure-station user sname)
     (mark-read user sname doc outcome prune-feed group prune-group)
-    (doc-panel user sname (next-doc user sname))))
+    (if userinfo*.user!signup
+      (doc-panel user sname (next-doc user sname))
+      (signup-doc-panel user sname req))))
 
 (defop doc req
   (with (user (current-user req)
