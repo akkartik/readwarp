@@ -124,6 +124,7 @@
 
 
 (def next-doc(user sname)
+  (when userinfo*.user!test (wipe userinfo*.user!stations.sname!current))
   (w/stdout (stderr) (pr user " " sname " => "))
   (erp:pick user userinfo*.user!stations.sname))
 

@@ -2460,3 +2460,11 @@ Bugfixes on production after getting done with GC. On dev I didn't test with a
 live data pipeline.
 Also a typo that was showing the non-signedup view even to logged in users.
 =-=942 - Fri May  7 12:47:36 PDT 2010
+
+Setup a new baseline for performance tests. Currently we can handle 10
+concurrents with 50% at 8.9s, but 20 concurrents is too much to handle.
+
+And let's make this easier. We still have to pick a new user and sname for the
+ab commandline everytime, but at least we don't have to modify the code to
+force a fresh doc to be selected everytime.
+=-=943 - Fri May  7 20:56:37 PDT 2010
