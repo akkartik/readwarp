@@ -352,7 +352,7 @@
       (prn)
       (prn (arg req "msg"))
       (prn "--")
-      (prn "Sent from http://readwarp.com"))))
+      (prn "Sent from http://readwarp.com, your source for personalized reading suggestions."))))
 
 (def user-email(user)
   (if (pos #\@ user)
