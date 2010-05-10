@@ -213,8 +213,12 @@
       (= ans feedgroups*))))
 
 (proc init-groups(user sname)
-  (or= userinfo*.user!stations.sname!groups
-       (backoffify (initial-preferred-groups-for user sname) 2)))
+  (let station userinfo*.user!stations.sname
+    (or= station!initfeeds scan-feeds.sname)
+    (or= station!current (always [most-recent-unread user _]
+                                 (randpos station!initfeeds)))
+    (or= station!groups (backoffify (initial-preferred-groups-for user sname)
+                                    2))))
 
 (proc init-preferred(user sname)
   (let station userinfo*.user!stations.sname
