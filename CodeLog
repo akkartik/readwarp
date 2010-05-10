@@ -2475,3 +2475,6 @@ Rampi's suggestion: a tagline in emails.
 One more mixpanel configuration - and I see real-time updates on my test
 server!
 =-=945 - Mon May 10 10:10:00 PDT 2010
+But signup property is still never set. Let's enable real-time updates on
+production as well so the mixpanel guys can try it out.
+=-=946 - Mon May 10 10:51:09 PDT 2010

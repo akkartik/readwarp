@@ -100,9 +100,10 @@
     (tag script
       (pr "try {
             var mpmetrics = new MixpanelLib(\"65cfd23d70294fdadc5c7211e3814d8c\");")
-      (unless is-prod.req (pr
+;?       (unless is-prod.req (pr
+      (pr
           " mpmetrics.set_config({\"test\": 1});"
-          " mpmetrics.identify(\"" current-user.req "\");"))
+          " mpmetrics.identify(\"" current-user.req "\");");)
       (pr "} catch(err) {}"))
 
     (jstag "prototype.js")
