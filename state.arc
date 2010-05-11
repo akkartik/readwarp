@@ -264,6 +264,25 @@
 
 
 
+(mac lookup-or-generate-transient(place expr (o timeout 500))
+  `(aif (lookup-transient ,place)
+        it
+        (do
+          (= ,place (transient-value ,expr ,timeout))
+          (lookup-transient ,place))))
+
+(def transient-value(v timeout)
+  (let t0 (seconds)
+    (annotate 'transient-value (list v t0 (+ t0 timeout)))))
+
+(def lookup-transient(tr)
+  (when (and tr (is type.tr 'transient-value))
+    (let (val init timeout) rep.tr
+      (when (< (seconds) timeout)
+        val))))
+
+
+
 (proc migrate-state()
   (system "touch migrate")
   (quit))

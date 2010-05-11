@@ -144,7 +144,7 @@
     (unless userinfo*.user!read.doc
       (push doc station!read-list))
     (= userinfo*.user!read.doc outcome)
-    (when (is doc station!current)
+    (when (is doc (lookup-transient station!current))
       (wipe station!current))
 
     (or= station!preferred (table))
@@ -218,8 +218,9 @@
 (proc init-groups(user sname)
   (let station userinfo*.user!stations.sname
     (or= station!initfeeds scan-feeds.sname)
-    (or= station!current (always [most-recent-unread user _]
-                                 (randpos station!initfeeds)))
+    (lookup-or-generate-transient station!current
+       (always [most-recent-unread user _]
+               (randpos station!initfeeds)))
     (or= station!groups (backoffify (initial-preferred-groups-for user sname)
                                     2))))
 
@@ -274,9 +275,9 @@
       [~recently-shown? station _])))
 
 (def pick(user station)
-  (or= station!current
-       (always [most-recent-unread user _]
-               (choose-feed user station))))
+  (lookup-or-generate-transient station!current
+     (always [most-recent-unread user _]
+             (choose-feed user station))))
 
 (def recently-shown?(station feed)
   (pos feed
