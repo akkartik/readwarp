@@ -5,8 +5,10 @@ import difflib
 
 # http://code.google.com/p/arc90labs-readability/source/browse/tags/final-releases/0.4.5/js/readability.js
 
+feedsToSkip = set()
 def cleanup(file):
-  deschint = hint_contents(file)
+  deschint, dontClean = read_metadata(file)
+  print file, ':', dontClean
   soup = preproc(file)
 
   scores = {}
@@ -62,21 +64,17 @@ def desc(item):
   else:
     raise "blahblah"
 
-def hint_contents(file):
+def read_metadata(file):
+  desc = ''
+  dontClean = False
   try:
     mdata = json.load(open(file[:-4]+'.metadata'))
-    if mdata.has_key('description'): return mdata['description']
-
-    for item in json.load(open('urls/'+urlToFilename(mdata['feed'])+'.feed'))['entries']:
-      if item['link'] == mdata['url']:
-        try: return desc(item)
-        except:
-          print item
-          print item.keys()
-          traceback.print_exc(file=sys.stdout)
-          raise
+    if mdata.has_key('description'):
+      desc = mdata['description']
+    if mdata.has_key('feed') and mdata['feed'] in feedsToSkip:
+      dontClean = True
   except: pass
-  return ''
+  return desc, dontClean
 
 def matching_size(a, b):
   s = difflib.SequenceMatcher(a=a, b=b)
@@ -170,9 +168,18 @@ def fuzzycheck(expected, got):
     print match, dilution
   return passed
 
+def updateFeeds():
+  global feedsToSkip
+  with open("feeds/noclean") as input:
+    feedsToSkip = set([unicode(line.rstrip()) for line in input])
+
 if __name__ == '__main__':
   if len(sys.argv) == 1:
+    last_feed_update_time = 0
     while True:
+      if time.time() > last_feed_update_time + 3600:
+        last_feed_update_time = time.time()
+        updateFeeds()
       cleanAll()
   else:
     with codecs.open(sys.argv[1]+'.clean', 'w', 'utf-8') as output:

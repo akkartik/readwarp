@@ -2482,3 +2482,7 @@ production as well so the mixpanel guys can try it out.
 When I got rid of showlists I stopped showing something from the namesake feed
 when a new channel is created. Bring that back.
 =-=947 - Mon May 10 15:57:16 PDT 2010
+
+Stop trying to htmlclean webcomics; it's a fools mission. Just take the
+friggin rss desc and hope it has the img.
+=-=949 - Mon May 10 19:33:25 PDT 2010
