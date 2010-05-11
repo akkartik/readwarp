@@ -2488,3 +2488,8 @@ friggin rss desc and hope it has the img.
 =-=949 - Mon May 10 19:33:25 PDT 2010
 A new data structure for feeds to not show during signup.
 =-=950 - Mon May 10 20:01:42 PDT 2010
+Stop showing poorly-cleaned feeds during signup.
+
+I could simplify choose-feed using choose-from, but I lose the logging of
+where each feed is coming from.
+=-=951 - Tue May 11 11:03:32 PDT 2010

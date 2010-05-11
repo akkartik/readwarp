@@ -245,37 +245,34 @@
 ;;  b) recent downvotes
 ;;  c) user input?
 (init preferred-probability* 0.6)
-(init group-probability* 1.0)
 
-(def new-feed(user station)
+(def choose-feed(user station)
   (randpick
         preferred-probability*      (choose-from-preferred user station)
-        group-probability*          (choose-from-group user station)
+        1.01                        (choose-from-group user station)
         1.01                        (choose-from-random user station)))
+
+(def choose-from(user station candidates)
+  (findg (randpos candidates)
+         (good-feed-predicate user station)))
 
 (def choose-from-preferred(user station)
   (let candidates (keys station!preferred)
     (findg randpos.candidates
-           (andf
-             [most-recent-unread user _]
-             [~recently-shown? station _]))))
+           (good-feed-predicate user station))))
 (after-exec choose-from-preferred(user station)
   (when result (erp "preferred: " result)))
 
 (def choose-from-group(user station)
   (let candidates (feeds-from-groups user station)
     (findg randpos.candidates
-           (andf
-             [most-recent-unread user _]
-             [~recently-shown? station _]))))
+           (good-feed-predicate user station))))
 (after-exec choose-from-group(user station)
   (when result (erp "group: " result)))
 
 (def choose-from-random(user station)
   (findg randpos.nonnerdy-feed-list*
-         (andf
-           [most-recent-unread user _]
-           [~recently-shown? station _])))
+         (good-feed-predicate user station)))
 (after-exec choose-from-random(user station)
   (when result (erp "random: " result)))
 
@@ -290,10 +287,20 @@
 (def most-recent-unread(user feed)
   (find [~read? user _] docs.feed))
 
+(def good-feed-predicate(user station)
+  (if userinfo*.user!signedup
+    (andf
+      [most-recent-unread user _]
+      [~recently-shown? station _])
+    (andf
+      [~poorly-cleaned-feeds* _]
+      [most-recent-unread user _]
+      [~recently-shown? station _])))
+
 (def pick(user station)
   (or= station!current
        (always [most-recent-unread user _]
-               (new-feed user station))))
+               (choose-feed user station))))
 
 (def save-to-old-docs(doc)
   (= old-docs*.doc (obj url doc-url.doc  title doc-title.doc
