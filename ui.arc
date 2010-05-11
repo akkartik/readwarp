@@ -194,30 +194,7 @@
     (tag (div title "next" class "rwbutton rwnext" onclick
             (pushHistory sname doc "'outcome=2'")))
     (tag (div title "dislike" class "rwbutton rwskip" onclick
-            (pushHistory sname doc
-                         (maybe-prompt user sname doc "outcome=1"))))))
-
-(def maybe-prompt(user sname doc default)
-  (or
-    (if
-      (and (borderline-preferred-feed user sname doc)
-           (~empty doc-feedtitle.doc))
-         (addjsarg
-           default
-           (check-with-user
-             (+ "I will stop showing articles from\\n"
-                "  " doc-feedtitle.doc "\\n"
-                "in this channel. (press 'cancel' to keep showing them)")
-             "prune"))
-      (awhen (borderline-unpreferred-group user sname doc)
-         (addjsarg
-           (+ default "&group=" it)
-           (check-with-user
-             (+ "I will stop showing any articles about\\n"
-                "  " uncamelcase.it "\\n"
-                "in this channel. (press 'cancel' to keep showing them)")
-             "prune-group"))))
-    (+ "'" default "'")))
+            (pushHistory sname doc "'outcome=1'")))))
 
 (def email-button(user doc)
   (tag (span style "margin-left:5px"

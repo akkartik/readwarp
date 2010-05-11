@@ -22,11 +22,13 @@
           (tag (div style "font-style:italic; margin-top:1em")
             (pr "&ldquo;What do I read next?&rdquo;"))
 
-          (tag (div style "margin-top:1.5em")
-            (tag div
+          (tag (div style "margin-top:1.3em")
+            (tag (div style "margin-top: 0.2em")
+              (pr "Read all your favorite sites from one place."))
+            (tag (div style "margin-top: 0.2em")
               (pr "Readwarp learns your tastes &mdash; <i>fast</i>."))
             (tag (div style "margin-top: 0.2em")
-              (pr "Vote on just 6 stories to get started."))
+              (pr "Discover sites you'll love."))
             (tag:input type "button" id "start-funnel" value "Start reading" style "margin-top:1.5em"
                        onclick "location.href='/begin'")
 
@@ -103,8 +105,7 @@
           (buttons user sname doc))
         (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
           (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
-            (signup-form user)
-            (progress-bar user))
+            (signup-form user))
           (tag div
             (when (is 2 userinfo*.user!signup-stage)
               (flash:+ "Ok! Click on the buttons on the left to like or
