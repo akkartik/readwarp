@@ -91,8 +91,10 @@
   (update-feed-keywords))
 (wait update-feeds-init*)
 
+(unless (test-mode)
 (defscan index-doc "clean"
   (doc-feed doc))
+)
 
 
 
