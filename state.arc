@@ -281,6 +281,11 @@
       (when (< (seconds) timeout)
         val))))
 
+(defmethod serialize transient-value (agg)
+  (list 'transient-value rep.agg))
+(defmethod unserialize transient-value (l)
+  (annotate 'transient-value cadr.l))
+
 
 
 (proc migrate-state()

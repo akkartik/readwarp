@@ -2507,3 +2507,8 @@ much-villified prompts.
 Are people not reading on readwarp because they see an old article? Expire
 current article after 5 minutes.
 =-=956 - Tue May 11 15:26:20 PDT 2010
+Persistence for transient values. Turns out we can serialize them as is, but
+anyway we've made our own serialization.
+Turns out transient values play well with the old values, but migrating
+ensures that users will now always see fresh stories.
+=-=957 - Tue May 11 15:59:26 PDT 2010

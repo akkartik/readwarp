@@ -128,12 +128,12 @@
   (prn "running migrations")
   (wipe userinfo*.nil)
   (wipe feed-docs*.nil)
-  (each (f d) feed-docs*
-    (zap dlist feed-docs*.f)
-;?   (each (u ui) userinfo*
-;?     (each (s st) ui!stations
+;?   (each (f d) feed-docs*
+  (each (u ui) userinfo*
+    (each (s st) ui!stations
+      (wipe st!current)
 ;?     (each doc (keys ui!read)
-;?     )
+    )
   ))
 
 (proc mark-read(user sname doc outcome prune-feed group prune-group)
