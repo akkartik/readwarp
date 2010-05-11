@@ -2486,3 +2486,5 @@ when a new channel is created. Bring that back.
 Stop trying to htmlclean webcomics; it's a fools mission. Just take the
 friggin rss desc and hope it has the img.
 =-=949 - Mon May 10 19:33:25 PDT 2010
+A new data structure for feeds to not show during signup.
+=-=950 - Mon May 10 20:01:42 PDT 2010
