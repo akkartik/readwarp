@@ -206,14 +206,14 @@
   (ret ans (dedup:keep id (groups scan-feeds.sname))
     ;; HACK while my feeds are dominated by nerdy stuff.
     (when (len> ans 2) (nrem "Programming" ans))
-    (when (len> ans 2) (nrem "Technology" ans))
 
     (erp "Groups: " ans)
     (unless ans
       (when (neither blank.sname
                      (is sname userinfo*.user!all))
         (write-feedback user "" sname "" "Random stories for group"))
-      (= ans feedgroups*))))
+      (= ans '("Economics" "Glamor" "Health" "Magazine" "News" "Politics"
+               "Science" "Technology")))))
 
 (proc init-groups(user sname)
   (let station userinfo*.user!stations.sname

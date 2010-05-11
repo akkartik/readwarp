@@ -2495,3 +2495,7 @@ where each feed is coming from.
 =-=951 - Tue May 11 11:03:32 PDT 2010
 Ok, done simplifying and some reorg.
 =-=952 - Tue May 11 11:27:59 PDT 2010
+
+Tweaking the signup flow: don't show niche topics until users explicitly ask
+for them.
+=-=954 - Tue May 11 11:54:47 PDT 2010
