@@ -2493,3 +2493,5 @@ Stop showing poorly-cleaned feeds during signup.
 I could simplify choose-feed using choose-from, but I lose the logging of
 where each feed is coming from.
 =-=951 - Tue May 11 11:03:32 PDT 2010
+Ok, done simplifying and some reorg.
+=-=952 - Tue May 11 11:27:59 PDT 2010

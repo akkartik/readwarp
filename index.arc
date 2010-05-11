@@ -23,7 +23,7 @@
 (rhash doc feed "n-1"
   lookup-feed.doc
   (fixedq 10
-;?     :on-delete
+    ;on-delete
       (fn(doc)
         (send-to-gc doc))))
 (def doc-feedtitle(doc)
@@ -248,44 +248,18 @@
 
 (def choose-feed(user station)
   (randpick
-        preferred-probability*      (choose-from-preferred user station)
-        1.01                        (choose-from-group user station)
-        1.01                        (choose-from-random user station)))
+        preferred-probability* (choose-from 'preferred (keys station!preferred)
+                                            user station)
+        1.01                   (choose-from 'group (feeds-from-groups user station)
+                                            user station)
+        1.01                   (choose-from 'random nonnerdy-feed-list*
+                                            user station)))
 
-(def choose-from(user station candidates)
-  (findg (randpos candidates)
-         (good-feed-predicate user station)))
-
-(def choose-from-preferred(user station)
-  (let candidates (keys station!preferred)
-    (findg randpos.candidates
-           (good-feed-predicate user station))))
-(after-exec choose-from-preferred(user station)
-  (when result (erp "preferred: " result)))
-
-(def choose-from-group(user station)
-  (let candidates (feeds-from-groups user station)
-    (findg randpos.candidates
-           (good-feed-predicate user station))))
-(after-exec choose-from-group(user station)
-  (when result (erp "group: " result)))
-
-(def choose-from-random(user station)
-  (findg randpos.nonnerdy-feed-list*
-         (good-feed-predicate user station)))
-(after-exec choose-from-random(user station)
-  (when result (erp "random: " result)))
-
-(def recently-shown?(station feed)
-  (pos feed
-       (map lookup-feed (firstn history-size* station!read-list))))
-
-(def docs(feed)
-  (dl-elems feed-docs.feed))
-(def most-recent(feed)
-  (car docs.feed))
-(def most-recent-unread(user feed)
-  (find [~read? user _] docs.feed))
+(def choose-from(msg candidates user station)
+  (ret result
+          (findg (randpos candidates)
+                 (good-feed-predicate user station))
+    (when result (erp msg ": " result))))
 
 (def good-feed-predicate(user station)
   (if userinfo*.user!signedup
@@ -302,12 +276,16 @@
        (always [most-recent-unread user _]
                (choose-feed user station))))
 
-(def save-to-old-docs(doc)
-  (= old-docs*.doc (obj url doc-url.doc  title doc-title.doc
-                        site doc-site.doc  feedtitle doc-feedtitle.doc)))
-(after-exec pick(user station)
-  (unless old-docs*.result
-    (save-to-old-docs result)))
+(def recently-shown?(station feed)
+  (pos feed
+       (map lookup-feed (firstn history-size* station!read-list))))
+
+(def docs(feed)
+  (dl-elems feed-docs.feed))
+(def most-recent(feed)
+  (car docs.feed))
+(def most-recent-unread(user feed)
+  (find [~read? user _] docs.feed))
 
 
 
@@ -323,6 +301,17 @@
                 (set ans.url)))))))))
 (after-exec load-feeds(user)
   (erp "found " len-keys.result " preferred feeds"))
+
+(def save-to-old-docs(doc)
+  (= old-docs*.doc (obj url doc-url.doc  title doc-title.doc
+                        site doc-site.doc  feedtitle doc-feedtitle.doc)))
+(after-exec pick(user station)
+  (unless old-docs*.result
+    (save-to-old-docs result)))
+
+
+
+; console helpers
 
 (def update-preferred-feeds(user)
   (each f (keys load-feeds.user)
