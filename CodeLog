@@ -2542,3 +2542,6 @@ A long-standing bug: crawl new stories in chronological order.
 
 Instantly pause the data pipeline if /tmp/pause_crawl exists.
 =-=965 - Wed May 12 10:02:55 PDT 2010
+
+Pause the data pipeline before copying data to a test box.
+=-=966 - Wed May 12 10:12:01 PDT 2010

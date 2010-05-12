@@ -1,3 +1,4 @@
-# snapshots before urls for consistency
+ssh readwarp.com touch /tmp/pause_crawl
 rsync -avz --bwlimit=128 --delete readwarp.com:/app/readwarp/snapshots/ snapshots
 rsync -avz --bwlimit=128 --delete readwarp.com:/app/readwarp/urls/ urls
+ssh readwarp.com rm /tmp/pause_crawl
