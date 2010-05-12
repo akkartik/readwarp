@@ -254,14 +254,14 @@
                                             (keep recent?
                                                   (keys station!preferred))
                                             user station
-                                            recent-feed-predicate)
+                                            recent-and-well-cleaned)
         preferred-probability* (choose-from 'preferred (keys station!preferred)
                                             user station)
         1.01                   (choose-from 'recent-group
                                             (keep recent?
                                                   (feeds-from-groups user station))
                                             user station
-                                            recent-feed-predicate)
+                                            recent-and-well-cleaned)
         1.01                   (choose-from 'group
                                             (feeds-from-groups user station)
                                             user station)
@@ -287,19 +287,20 @@
     (when result (erp msg ": " result))))
 
 (def good-feed-predicate(user station)
-  (if userinfo*.user!signedup
-    (andf
-      [newest-unread user _]
-      [~recently-shown? station _])
-    (andf
-      [~poorly-cleaned-feeds* _]
-      [newest-unread user _]
-      [~recently-shown? station _])))
+  (andf
+    [newest-unread user _]
+    [~recently-shown? station _]))
 
 (def recent-feed-predicate(user station)
   (andf
     (good-feed-predicate user station)
     [recent-doc?:newest-unread user _]))
+
+(def recent-and-well-cleaned(user station)
+  (andf
+    (good-feed-predicate user station)
+    [recent-doc?:newest-unread user _]
+    [~poorly-cleaned-feeds* _]))
 
 (def pick(user station)
   (lookup-or-generate-transient station!current
