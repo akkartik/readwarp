@@ -250,12 +250,31 @@
 
 (def choose-feed(user station)
   (randpick
+        preferred-probability* (choose-from 'recent-preferred
+                                            (keep recent?
+                                                  (keys station!preferred))
+                                            user station)
         preferred-probability* (choose-from 'preferred (keys station!preferred)
                                             user station)
-        1.01                   (choose-from 'group (feeds-from-groups user station)
+        1.01                   (choose-from 'recent-group
+                                            (keep recent?
+                                                  (feeds-from-groups user station))
                                             user station)
-        1.01                   (choose-from 'random nonnerdy-feed-list*
+        1.01                   (choose-from 'group
+                                            (feeds-from-groups user station)
+                                            user station)
+        1.01                   (choose-from 'random
+                                            nonnerdy-feed-list*
                                             user station)))
+
+(persisted recent-feeds* (table))
+(after-exec doc-feed(doc)
+  (update recent-feeds* result most2.id doc-timestamp.doc))
+(def recent?(feed)
+  (awhen recent-feeds*.feed
+    (if (> (- (seconds) it) (* 60 60 24))
+      (wipe recent-feeds*.feed)
+      it)))
 
 (def choose-from(msg candidates user station)
   (ret result

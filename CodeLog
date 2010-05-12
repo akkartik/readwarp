@@ -2517,3 +2517,8 @@ Bugfix: always should allow for findg to return nil (timeout after n tries).
 Rename: most-recent -> newest. That frees up recent to take on a more precise
 meaning.
 =-=958 - Tue May 11 17:11:06 PDT 2010
+
+Prefer feeds updated in the last day. I'm not going to bother migrating data
+right now. Just push to production, test that it works fine, and watch
+recent-feeds* get populated.
+=-=959 - Tue May 11 17:54:29 PDT 2010
