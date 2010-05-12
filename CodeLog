@@ -2522,3 +2522,9 @@ Prefer feeds updated in the last day. I'm not going to bother migrating data
 right now. Just push to production, test that it works fine, and watch
 recent-feeds* get populated.
 =-=959 - Tue May 11 17:54:29 PDT 2010
+
+crawler was churning out exceptions for the last 2 days trying to recrawl
+deleted docs. Hopefully it wasn't doing any damage.
+In debugging this I clobbered my url_map and had to restore from the laptop,
+perhaps yday's version. Let's ensure that doesn't happen again.
+=-=960 - Tue May 11 18:49:48 PDT 2010

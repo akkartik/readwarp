@@ -34,6 +34,9 @@ import shutil
 def backupFeedinfo():
   try: shutil.copyfile('snapshots/feedinfo', 'snapshots/feedinfo.'+str(time.time()))
   except IOError: pass
+def backupUrlMap():
+  try: shutil.copyfile('snapshots/url_map', 'snapshots/url_map.'+str(time.time()))
+  except IOError: pass
 
 def loadFeeds():
   ans = set()
@@ -92,9 +95,11 @@ def crawlUrl(rurl, metadata):
       absolutify(node, 'href', url)
       absolutify(node, 'src', url)
 
+  if not soup: return
+
   doc = urlToFilename(url)
   outfilename = 'urls/'+doc
-  if soup and not os.path.exists(outfilename+'.raw'):
+  if not os.path.exists(outfilename+'.raw'):
     print repr(url)
     with open(outfilename+'.raw', 'w') as output:
       output.write(soup.renderContents())
@@ -179,6 +184,7 @@ def desc(item):
     return ''
 
 if __name__ == '__main__':
+  backupUrlMap()
   loadUrlMap()
   backupFeedinfo()
 
