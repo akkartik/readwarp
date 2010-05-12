@@ -2,7 +2,7 @@
 
 (init really-quit quit)
 
-(mac most-recent-snapshot-name(var)
+(mac newest-snapshot-name(var)
    ; max works because times lie between 10^9s and 2*10^9s
    `(aif (apply max
           (keep
@@ -12,7 +12,7 @@
       (+ snapshots-dir* "/" it)))
 
 (mac load-snapshot(var initval)
-  `(aif (most-recent-snapshot-name ,var)
+  `(aif (newest-snapshot-name ,var)
       (when (or (~bound ',var) (no ,var))
         (init ,var ,initval)
         (prn "Loading " ',var)

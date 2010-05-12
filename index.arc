@@ -219,7 +219,7 @@
   (let station userinfo*.user!stations.sname
     (or= station!initfeeds scan-feeds.sname)
     (lookup-or-generate-transient station!current
-       (always [most-recent-unread user _]
+       (always [newest-unread user _]
                (randpos station!initfeeds)))
     (or= station!groups (backoffify (initial-preferred-groups-for user sname)
                                     2))))
@@ -237,9 +237,8 @@
   (rem [station!unpreferred _] feeds.station))
 
 (def random-story-from(group)
-  (most-recent
-    (findg (randpos group-feeds*.group)
-           most-recent)))
+  (always newest
+          (randpos group-feeds*.group)))
 
 
 
@@ -267,16 +266,16 @@
 (def good-feed-predicate(user station)
   (if userinfo*.user!signedup
     (andf
-      [most-recent-unread user _]
+      [newest-unread user _]
       [~recently-shown? station _])
     (andf
       [~poorly-cleaned-feeds* _]
-      [most-recent-unread user _]
+      [newest-unread user _]
       [~recently-shown? station _])))
 
 (def pick(user station)
   (lookup-or-generate-transient station!current
-     (always [most-recent-unread user _]
+     (always [newest-unread user _]
              (choose-feed user station))))
 
 (def recently-shown?(station feed)
@@ -285,9 +284,9 @@
 
 (def docs(feed)
   (dl-elems feed-docs.feed))
-(def most-recent(feed)
+(def newest(feed)
   (car docs.feed))
-(def most-recent-unread(user feed)
+(def newest-unread(user feed)
   (find [~read? user _] docs.feed))
 
 

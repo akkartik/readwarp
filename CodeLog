@@ -2512,3 +2512,8 @@ anyway we've made our own serialization.
 Turns out transient values play well with the old values, but migrating
 ensures that users will now always see fresh stories.
 =-=957 - Tue May 11 15:59:26 PDT 2010
+
+Bugfix: always should allow for findg to return nil (timeout after n tries).
+Rename: most-recent -> newest. That frees up recent to take on a more precise
+meaning.
+=-=958 - Tue May 11 17:11:06 PDT 2010
