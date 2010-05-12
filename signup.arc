@@ -123,5 +123,7 @@
       (write-feedback user "" sname "" "No result found"))))
 
 (def signup-doc-panel(user sname req)
+  (ensure-user user)
+  (or= userinfo*.user!signup-stage 0)
   (++ userinfo*.user!signup-stage)
   (next-stage user sname req))

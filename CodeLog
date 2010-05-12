@@ -2559,3 +2559,6 @@ preferred just because the clock ticked. So unpreferring should always create
 a 0-size prefrange. Is there a better representation to more structurally
 encode this invariant?
 =-=968 - Wed May 12 13:39:55 PDT 2010
+
+Bugfix: spotted error in signup-doc-panel. Because I'm GC'ing temporary users?
+=-=970 - Wed May 12 16:04:56 PDT 2010
