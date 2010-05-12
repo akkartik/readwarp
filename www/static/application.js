@@ -1,4 +1,4 @@
-function blank(s) {
+function notblank(s) {
   return s && s != '';
 }
 
@@ -96,7 +96,7 @@ function gen_inline(id, url) {
 
 function pushHistory(station, doc, params) {
   var src = $$('#doc_'+doc+' .rwhistory-link');
-  if (blank(src))
+  if (notblank(src))
     updateHistoryPanel(station, doc, params, src);
 
   prepareAjax('rwcontent');
