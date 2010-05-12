@@ -2534,3 +2534,6 @@ This may affect performance.
 Hmm, turns out I don't need a sense of temperature yet just to be smart about
 pre- vs post-signup users.
 =-=962 - Tue May 11 20:18:24 PDT 2010
+
+Crawler: demarcate runs in log file.
+=-=963 - Wed May 12 10:01:02 PDT 2010
