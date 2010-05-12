@@ -264,6 +264,40 @@
 
 
 
+; prefrange in time. 0-start => unpreferred; start-end => preferred; end->inf => unpreferred
+
+(init defaultrange* 30)
+(def prefrange(start (o end (+ start defaultrange*)))
+  (annotate 'prefrange (list start end)))
+(mac start(pr)
+  `((rep ,pr) 0))
+(mac end(pr)
+  `((rep ,pr) 1))
+
+(def range-compare(r curr)
+  (if
+    (< curr start.r) -1
+    (> curr end.r)    0
+                      1))
+
+(mac extend-prefer(r curr)
+  (if (no r)
+    (= r (prefrange curr))
+    (do
+      (= start.r (min start.r curr))
+      (= end.r (+ curr (max defaultrange*
+                            (* 2 (- end.r curr))))))))
+
+(def extend-unprefer(r curr)
+  (if (no r)
+    (= r (prefrange curr curr))
+    (do
+      (= start.r (+ curr (max defaultrange*
+                              (* 2 (- start.r curr)))))
+      (= end.r start.r))))
+
+
+
 (mac lookup-or-generate-transient(place expr (o timeout 500))
   `(aif (lookup-transient ,place)
         it

@@ -2545,3 +2545,17 @@ Instantly pause the data pipeline if /tmp/pause_crawl exists.
 
 Pause the data pipeline before copying data to a test box.
 =-=966 - Wed May 12 10:12:01 PDT 2010
+
+Blacklists should not be permanent. To enable this I'm going to migrate
+my preferred/unpreferred backoff structures into a single prefrange type, with
+a start and an end time. Every user gets a personal clock that ticks with
+every story shown. The prefrange for a story or group demarcates how long it
+is to be preferred/unpreferred before it becomes neutral again. The interval
+between start and end is the 'preferred range'. Before start it is
+unpreferred, and after end it is neutral.
+
+Hmm, you don't want the prefrange to ever go directly from unpreferred to
+preferred just because the clock ticked. So unpreferring should always create
+a 0-size prefrange. Is there a better representation to more structurally
+encode this invariant?
+=-=968 - Wed May 12 13:39:55 PDT 2010
