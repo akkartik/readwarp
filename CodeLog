@@ -2539,3 +2539,6 @@ Crawler: demarcate runs in log file.
 =-=963 - Wed May 12 10:01:02 PDT 2010
 A long-standing bug: crawl new stories in chronological order.
 =-=964 - Wed May 12 10:01:30 PDT 2010
+
+Instantly pause the data pipeline if /tmp/pause_crawl exists.
+=-=965 - Wed May 12 10:02:55 PDT 2010

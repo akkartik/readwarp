@@ -118,6 +118,9 @@ def crawlUrl(rurl, metadata):
       try: os.unlink(outfilename+'.metadata')
       except os.OSError: pass
 
+    while os.path.exists('/tmp/pause_crawl'):
+      sleep(300)
+
     with open('fifos/crawl', 'w') as fifo:
       fifo.write(doc+"\n")
 
