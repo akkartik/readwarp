@@ -280,6 +280,11 @@
     (> curr end.r)    0
                       1))
 
+(def preferred?(r curr)
+  (is 1 (range-compare r curr)))
+(def unpreferred?(r curr)
+  (is -1 (range-compare r curr)))
+
 (mac extend-prefer(r curr)
   (if (no r)
     (= r (prefrange curr))
