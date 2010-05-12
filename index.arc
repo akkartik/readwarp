@@ -253,13 +253,15 @@
         preferred-probability* (choose-from 'recent-preferred
                                             (keep recent?
                                                   (keys station!preferred))
-                                            user station)
+                                            user station
+                                            recent-feed-predicate)
         preferred-probability* (choose-from 'preferred (keys station!preferred)
                                             user station)
         1.01                   (choose-from 'recent-group
                                             (keep recent?
                                                   (feeds-from-groups user station))
-                                            user station)
+                                            user station
+                                            recent-feed-predicate)
         1.01                   (choose-from 'group
                                             (feeds-from-groups user station)
                                             user station)
@@ -275,11 +277,13 @@
     (if (> (- (seconds) it) (* 60 60 24))
       (wipe recent-feeds*.feed)
       it)))
+(def recent-doc?(doc)
+  (> (- (seconds) doc-timestamp.doc) (* 60 60 24)))
 
-(def choose-from(msg candidates user station)
+(def choose-from(msg candidates user station (o pred good-feed-predicate))
   (ret result
           (findg (randpos candidates)
-                 (good-feed-predicate user station))
+                 (pred user station))
     (when result (erp msg ": " result))))
 
 (def good-feed-predicate(user station)
@@ -291,6 +295,11 @@
       [~poorly-cleaned-feeds* _]
       [newest-unread user _]
       [~recently-shown? station _])))
+
+(def recent-feed-predicate(user station)
+  (andf
+    (good-feed-predicate user station)
+    [recent-doc?:newest-unread user _]))
 
 (def pick(user station)
   (lookup-or-generate-transient station!current

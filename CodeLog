@@ -2528,3 +2528,6 @@ deleted docs. Hopefully it wasn't doing any damage.
 In debugging this I clobbered my url_map and had to restore from the laptop,
 perhaps yday's version. Let's ensure that doesn't happen again.
 =-=960 - Tue May 11 18:49:48 PDT 2010
+Don't keep preferring recent feeds after the recent docs have been read.
+This may affect performance.
+=-=961 - Tue May 11 19:26:05 PDT 2010
