@@ -2650,3 +2650,7 @@ Another bugfix in similar sites.
 =-=990 - Thu May 13 16:20:09 PDT 2010
 Logging.
 =-=991 - Thu May 13 16:23:13 PDT 2010
+Degrade gracefully along this continuum when no candidate is found:
+  same site -> similar site (either by query or just this feed)
+            -> groups (either for query or just this feed)
+=-=992 - Thu May 13 16:37:44 PDT 2010

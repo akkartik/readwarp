@@ -187,21 +187,24 @@
   (extend-unprefer station!sites.feed userinfo*.user!clock))
 
 (proc create-query(user query)
+  (erp user ": query " query)
   (unless blank?.query
     (nrem query userinfo*.user!queries)
     (push query userinfo*.user!queries)
     (let initfeeds scan-feeds.query
       (each feed initfeeds
         (handle-upvote user ustation.user "" feed))
-      (set-current-from user initfeeds))))
+      (or
+        (set-current-from user initfeeds)
+        (set-current-from user (groups-feeds:feeds-groups initfeeds))))))
 
 (proc pick-from-same-site(user doc)
-  (erp "same site:")
+  (erp user ": same site")
   (or (set-current-from user doc-feed.doc)
-      (set-current-from user (scan-feeds (car userinfo*.user!queries)))))
+      (pick-from-similar-site user doc)))
 
 (proc pick-from-similar-site(user doc)
-  (erp "similar site:")
+  (erp user ": similar site")
   (let queryfeeds (scan-feeds (car userinfo*.user!queries))
     (set-current-from user
                       (groups-feeds
