@@ -199,6 +199,17 @@
   (or (set-current-from user doc-feed.doc)
       (set-current-from user (scan-feeds (car userinfo*.user!queries)))))
 
+(proc pick-from-similar-site(user doc)
+  (let queryfeeds (scan-feeds (car userinfo*.user!queries))
+    (set-current-from user
+                      (groups-feeds
+                        (if (pos doc-feed.doc queryfeeds)
+                          queryfeeds
+                          (feed-groups* doc-feed.doc))))))
+
+(def groups-feeds(groups)
+  (dedup:flat:map group-feeds* groups))
+
 
 
 (def scan-feeds(keyword)
