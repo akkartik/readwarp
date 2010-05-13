@@ -115,16 +115,12 @@ function gen_inline(id, url) {
   return "inline('"+id+"', '"+url+"')";
 }
 
-function pushHistory(doc, params) {
-  var src = $$('#doc_'+doc+' .rwhistory-link');
-  if (notblank(src))
-    updateHistoryPanel(doc, params, src);
-
+function newDocFrom(url, params) {
   prepareAjax('rwcontent');
-  new Ajax.Request("/docupdate",
+  new Ajax.Request(url,
       {
         method: 'post',
-        parameters: 'doc='+escape(doc)+'&'+params,
+        parameters: params,
         onSuccess: function(response) {
           $('rwcontent').innerHTML = response.responseText;
           checkContent('rwcontent');
@@ -132,6 +128,18 @@ function pushHistory(doc, params) {
         }
       });
   return false;
+}
+
+function pushHistory(doc, params) {
+  var src = $$('#doc_'+doc+' .rwhistory-link');
+  if (notblank(src))
+    updateHistoryPanel(doc, params, src);
+
+  return newDocFrom('/docupdate', 'doc='+escape(doc)+'&'+params);
+}
+
+function askFor(query) {
+  return newDocFrom('/askfor', 'q='+escape(query));
 }
 
 function updateHistoryPanel(doc, params, src) {

@@ -2627,3 +2627,6 @@ Hmm, perhaps I should then fall back on showing from the query.
 Done. Working great.
 Ok, now let's fix the onclick for the list of queries.
 =-=983 - Thu May 13 14:31:12 PDT 2010
+Ok, clicking on links works.
+If a query yields nothing, say so.
+=-=984 - Thu May 13 14:44:09 PDT 2010

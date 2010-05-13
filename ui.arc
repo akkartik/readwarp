@@ -75,10 +75,15 @@
       (signup-doc-panel user req))))
 
 (defop askfor req
-  (let user current-user.req
-    (create-query user (arg req "q"))
+  (with (user current-user.req
+         query (arg req "q"))
+    (create-query user query)
     (if signedup?.user
-      (doc-panel user (next-doc user))
+      (let nextdoc next-doc.user
+        (doc-panel user nextdoc
+          (fn()
+            (when (~pos doc-feed.nextdoc scan-feeds.query)
+              (flash "No more stories from that site")))))
       (signup-doc-panel user req))))
 
 (defop doc req
@@ -230,7 +235,10 @@
                 (askfor query))
           (pr query))))))
 
-(def askfor(query) query)
+(def pushHistory(doc params)
+  (+ "pushHistory('" jsesc.doc "', " params ")"))
+(def askfor(query)
+  (+ "askFor('" jsesc.query "')"))
 
 (def history-panel(user req)
   (tag (div id 'rwhistory-wrapper class "rwvlist rwrounded rwshadow")
