@@ -97,6 +97,24 @@
       (doc-panel user sname (next-doc user sname))
       (signup-doc-panel user sname req))))
 
+(defop askfor req
+  (withs (user    (current-user req)
+          sname   (or (arg req "station") "")
+          station userinfo*.user!stations.sname
+          query   (arg req "q"))
+    (let initfeeds scan-feeds.query
+      (each feed initfeeds
+        (handle-upvote user station "" feed))
+      (= station!current
+         (transient-value
+           (always [newest-unread user _]
+                   (randpos initfeeds))
+           500)))
+
+    (if signedup?.user
+      (doc-panel user sname (next-doc user sname))
+      (signup-doc-panel user sname req))))
+
 (defop doc req
   (with (user (current-user req)
          sname (arg req "station")
