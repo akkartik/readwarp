@@ -2635,18 +2635,18 @@ Layout tweaks; make the magic box look like a subtly bulleted list.
 Ok, magicbox input works too. Some duplication because I can't figure out how
 to trigger the onsubmit handler through javascript.
 =-=986 - Thu May 13 15:32:14 PDT 2010
-
 Bugfix.
 =-=987 - Thu May 13 15:37:40 PDT 2010
+Data migrated and code updated to production. Amazing.
 
 Rebecca mostly browsed within specific channels. Create a 'similar sites'
 button so she can keep doing that.
 But now she can't vote on stories easily. Browsing within a channel is
 implicitly an upvote..
 =-=988 - Thu May 13 16:11:31 PDT 2010
-
 Keep more stories per site on hand.
 =-=989 - Thu May 13 16:14:22 PDT 2010
-
 Another bugfix in similar sites.
 =-=990 - Thu May 13 16:20:09 PDT 2010
+Logging.
+=-=991 - Thu May 13 16:23:13 PDT 2010

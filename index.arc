@@ -196,10 +196,12 @@
       (set-current-from user initfeeds))))
 
 (proc pick-from-same-site(user doc)
+  (erp "same site:")
   (or (set-current-from user doc-feed.doc)
       (set-current-from user (scan-feeds (car userinfo*.user!queries)))))
 
 (proc pick-from-similar-site(user doc)
+  (erp "similar site:")
   (let queryfeeds (scan-feeds (car userinfo*.user!queries))
     (set-current-from user
                       (groups-feeds
