@@ -117,9 +117,10 @@
              'created (seconds)
              'preferred (table)
              'sites   (table)
-             'groups  (memtable
+             'groups  (prefrangify
                         '("Economics" "Glamor" "Health" "Magazine" "News"
-                          "Politics" "Science" "Technology")))))
+                          "Politics" "Science" "Technology")
+                        100))))
 
 (def ustation(user)
   (let s userinfo*.user!all

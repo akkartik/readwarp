@@ -303,6 +303,14 @@
                               (* 2 (- (start ,r) ,curr)))))
       (= (end ,r) (start ,r)))))
 
+(def prefrangify(l curr (o end))
+  (w/table ans
+    (each elem l
+      (= ans.elem
+         (if end
+           (prefrange curr end)
+           (prefrange curr))))))
+
 
 
 (mac lookup-or-generate-transient(place expr (o timeout 500))
