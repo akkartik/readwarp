@@ -64,22 +64,14 @@
          group (arg req "group"))
     (mark-read user doc outcome group)
     (when (arg req "samesite")
-      (setcurrent user
-        (always [newest-unread user _] doc-feed.doc)))
+      (pick-from-same-site user doc))
     (if signedup?.user
       (doc-panel user next-doc.user)
       (signup-doc-panel user req))))
 
 (defop askfor req
-  (withs (user    (current-user req)
-          station ustation.user
-          query   (arg req "q"))
-    (let initfeeds scan-feeds.query
-      (each feed initfeeds
-        (handle-upvote user station "" feed))
-      (setcurrent user
-        (always [newest-unread user _]
-                randpos.initfeeds)))
+  (let user current-user.req
+    (create-query user (arg req "q"))
     (if signedup?.user
       (doc-panel user (next-doc user))
       (signup-doc-panel user req))))
@@ -179,7 +171,7 @@
             (pushHistory doc "'outcome=2'")))
     (tag (div title "dislike" class "rwbutton rwskip" onclick
             (pushHistory doc "'outcome=1'")))
-    (magic-box doc)))
+    (magic-box user doc)))
 
 (def email-button(user doc)
   (tag (span style "margin-left:5px"
@@ -209,7 +201,7 @@
     (clear))
   (tag:div class 'rwsep))
 
-(def magic-box(doc)
+(def magic-box(user doc)
   (tag (div style "border-top:1px #ccc solid")
     (tag (div style "text-align:left; margin-top:5px; margin-left:2px;
                     font-size:90%; color:#999")
@@ -226,7 +218,14 @@
                     style "width:100px; height:17px; color:#999"
                     value "a new site"
                     onfocus "clearDefault(this, 'a new site');"
-                    onblur "fillDefault(this, 'a new site');"))))
+                    onblur "fillDefault(this, 'a new site');"))
+    (each query (firstn 5 userinfo*.user!queries)
+      (tag (div style "text-align:left; margin-left:5px")
+        (tag (a href "#" onclick
+                (askfor query))
+          (pr query))))))
+
+(def askfor(query) query)
 
 (def history-panel(user req)
   (tag (div id 'rwhistory-wrapper class "rwvlist rwrounded rwshadow")

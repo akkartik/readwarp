@@ -2616,3 +2616,6 @@ How should same site work?
   If you didn't type in anything it should stay within the current feed.
   If there's nothing left to show it should give a message.
 =-=980 - Thu May 13 13:41:57 PDT 2010
+Implemented. Works well for queries like cnn and bbc, but fails miserably for
+queries like technology. What to do?
+=-=981 - Thu May 13 14:18:56 PDT 2010

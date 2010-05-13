@@ -185,11 +185,28 @@
     (extend-unprefer station!groups.group userinfo*.user!clock))
   (extend-unprefer station!sites.feed userinfo*.user!clock))
 
+(proc create-query(user query)
+  (unless blank?.query
+    (nrem query userinfo*.user!queries)
+    (push query userinfo*.user!queries)
+    (let initfeeds scan-feeds.query
+      (each feed initfeeds
+        (handle-upvote user ustation.user "" feed))
+      (set-current-from user initfeeds))))
+
+(proc pick-from-same-site(user doc)
+  (with (feed       doc-feed.doc
+         queryfeeds (scan-feeds (car userinfo*.user!queries)))
+    (if (pos feed queryfeeds)
+      (set-current-from user queryfeeds)
+      (set-current-from user erp.feed))))
+
 
 
 (def scan-feeds(keyword)
-  (dedup:common:map keyword-feeds:canonicalize
-                    (flat:map split-urls words.keyword)))
+  (unless blank?.keyword
+    (dedup:common:map keyword-feeds:canonicalize
+                      (flat:map split-urls words.keyword))))
 
 (def feeds-from-random-group(user station)
   (let curr userinfo*.user!clock
@@ -281,10 +298,17 @@
        (always [newest-unread user _]
                (choose-feed user station)))))
 
-(def setcurrent(user feed)
-  (let station ustation.user
-    (= station!current
-       (transient-value feed 500))))
+(proc set-current-from(user feeds)
+  (whenlet feed (newest-unread-from user feeds)
+    (let station ustation.user
+      (= station!current
+       (transient-value feed 500)))))
+
+(def newest-unread-from(user feeds)
+  (if
+    (~acons feeds)    (newest-unread user feeds)
+    (single feeds)    (newest-unread user car.feeds)
+                      (always [newest-unread user _] randpos.feeds)))
 
 (after-exec choose-feed(user station)
   (update-clock user))
