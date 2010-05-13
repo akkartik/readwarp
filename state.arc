@@ -286,20 +286,20 @@
   (is -1 (range-compare r curr)))
 
 (mac extend-prefer(r curr)
-  (if (no r)
-    (= r (prefrange curr))
+  `(if (no ,r)
+    (= ,r (prefrange ,curr))
     (do
-      (= start.r (min start.r curr))
-      (= end.r (+ curr (max defaultrange*
-                            (* 2 (- end.r curr))))))))
+      (= (start ,r) (min (start ,r) ,curr))
+      (= (end ,r) (+ ,curr (max defaultrange*
+                            (* 2 (- (end ,r) ,curr))))))))
 
-(def extend-unprefer(r curr)
-  (if (no r)
-    (= r (prefrange curr curr))
+(mac extend-unprefer(r curr)
+  `(if (no ,r)
+    (= ,r (prefrange ,curr ,curr))
     (do
-      (= start.r (+ curr (max defaultrange*
-                              (* 2 (- start.r curr)))))
-      (= end.r start.r))))
+      (= (start ,r) (+ ,curr (max defaultrange*
+                              (* 2 (- (start ,r) ,curr)))))
+      (= (end ,r) (start ,r)))))
 
 
 

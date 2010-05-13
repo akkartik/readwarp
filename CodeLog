@@ -2565,3 +2565,13 @@ Bugfix: spotted error in signup-doc-panel. Because I'm GC'ing temporary users?
 
 New op: show me something instantly from this site.
 =-=971 - Wed May 12 17:48:55 PDT 2010
+
+Back to changing the preferred/unpreferred data structure to prefranges. I've
+done the data migration* and updates on votes, and the site actually seems to
+work. The new data structures are not being used, and selection is still from
+st!preferred rather than st!sites. But st!groups is still a table with groups
+in the keys, so things just work.
+
+* - The data migration should be idempotent in that it can be run repeatedly
+without crapping all over itself.
+=-=972 - Thu May 13 10:00:14 PDT 2010

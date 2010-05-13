@@ -105,6 +105,7 @@
     (erp "new user: " user)
     (inittab userinfo*.user
              'preferred-feeds (or load-feeds.user (table))
+             'clock 100 'lastshow (seconds)
              'read (table) 'stations (table))))
 
 (def read-list(user station)
@@ -130,9 +131,22 @@
   (wipe feed-docs*.nil)
 ;?   (each (f d) feed-docs*
   (each (u ui) userinfo*
+    (= ui!clock 100
+       ui!lastshow (seconds))
     (each (s st) ui!stations
-      (wipe st!current)
 ;?     (each doc (keys ui!read)
+
+      (= st!sites (table))
+      (each (f v) st!preferred
+        (= st!sites.f (prefrange 100)))
+      (each (f v) st!unpreferred
+        (= st!sites.f (prefrange 99 99)))
+
+      (unless st!oldgroups
+        (= st!oldgroups st!groups
+           st!groups (table)))
+      (each (g v) st!oldgroups
+        (= st!groups.g (prefrange 100)))
     )
   ))
 
@@ -152,46 +166,15 @@
       "1" (handle-downvote user station doc feed prune-feed group prune-group)
       "4" (handle-upvote user station doc feed))))
 
-(proc handle-upvote(user station doc feed)
-  (= station!preferred.feed (backoff doc 2))
-  (each g (groups list.feed)
-    (backoff-clear station!groups.g))
+(proc handle-upvote(user station feed group)
+  (extend-prefer station!groups.group userinfo*.user!clock)
+  (extend-prefer station!sites.feed   userinfo*.user!clock))
 
-  (set userinfo*.user!preferred-feeds.feed)
-  (whenlet global-sname userinfo*.user!all
-    (unless (is station!name global-sname)
-      (init-preferred user global-sname)
-      (= userinfo*.user!stations.global-sname!preferred.feed
-         (backoff doc 2)))))
-
-(proc handle-downvote(user station doc feed prune-feed group prune-group)
-  (if (pos feed (keys station!preferred))
-    (backoff-add-and-check station!preferred.feed doc prune-feed)
-    ; sync preconditions to get here with borderline-unpreferred-group
-    (unprefer-feed station feed group prune-group)))
-
-(proc unprefer-feed(station feed group prune-group)
-  (set station!unpreferred.feed)
-  (if group
-    (backoff-add-and-check station!groups.group feed prune-group)
-    (each g (groups list.feed)
-      (backoff-add-and-check station!groups.g feed nil)))
-  (when (empty station!groups)
-    (= station!groups
-       (backoffify (rem group feedgroups*) 2))))
-
-(def borderline-preferred-feed(user sname doc)
-  (whenlet feed lookup-feed.doc
-    (let station userinfo*.user!stations.sname
-      (and (pos feed (keys station!preferred))
-           (backoff-borderline station!preferred.feed)))))
-
-(def borderline-unpreferred-group(user sname doc)
-  (whenlet feed lookup-feed.doc
-    (let station userinfo*.user!stations.sname
-      (and (~pos feed (keys station!preferred))
-           (find [backoff-borderline station!groups._]
-                 (groups list.feed))))))
+(proc handle-downvote(user station feed group)
+  (if (and (~blank? group)
+           (~preferred? station!sites.feed userinfo*.user!clock))
+    (extend-unprefer station!groups.group userinfo*.user!clock))
+  (extend-unprefer station!sites.feed userinfo*.user!clock))
 
 
 
@@ -306,6 +289,15 @@
   (lookup-or-generate-transient station!current
      (always [newest-unread user _]
              (choose-feed user station))))
+
+(after-exec choose-feed(user station)
+  (update-clock user))
+(def update-clock(user)
+  (let t0 (seconds)
+    (if (> (- t0 userinfo*.user!lastshow) 3600)
+      (zap [+ 10 _] userinfo*.user!clock)
+      (++ userinfo*.user!clock))
+    (= userinfo*.user!lastshow t0)))
 
 (def recently-shown?(station feed)
   (pos feed
