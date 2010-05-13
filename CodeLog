@@ -2624,3 +2624,6 @@ mean literally same site.
 And show flash when out of stories in that site.
 Hmm, perhaps I should then fall back on showing from the query.
 =-=982 - Thu May 13 14:25:06 PDT 2010
+Done. Working great.
+Ok, now let's fix the onclick for the list of queries.
+=-=983 - Thu May 13 14:31:12 PDT 2010

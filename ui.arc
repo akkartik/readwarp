@@ -64,7 +64,7 @@
          group (arg req "group"))
     (mark-read user doc outcome group)
     (when (arg req "samesite")
-      (set-current-from user doc-feed.doc))
+      (pick-from-same-site user doc))
     (if signedup?.user
       (let nextdoc next-doc.user
         (doc-panel user nextdoc

@@ -194,6 +194,10 @@
         (handle-upvote user ustation.user "" feed))
       (set-current-from user initfeeds))))
 
+(proc pick-from-same-site(user doc)
+  (or (set-current-from user doc-feed.doc)
+      (set-current-from user (scan-feeds (car userinfo*.user!queries)))))
+
 
 
 (def scan-feeds(keyword)
@@ -291,11 +295,12 @@
        (always [newest-unread user _]
                (choose-feed user station)))))
 
-(proc set-current-from(user feeds)
+(def set-current-from(user feeds)
   (whenlet feed (newest-unread-from user feeds)
     (let station ustation.user
       (= station!current
-       (transient-value feed 500)))))
+       (transient-value feed 500)))
+    feed))
 
 (def newest-unread-from(user feeds)
   (if
