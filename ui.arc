@@ -47,10 +47,10 @@
       (doc-panel user sname (next-doc user sname)
         (fn()
           (when new-sname
-            (if (len> userinfo*.user!stations.sname!groups 10)
+            (if (len> userinfo*.user!stations.sname!groups 7)
               (flash "Hmm, I don't understand that query. Sorry :(<br/>
-                      I'm going to go off and try to pinpoint what you mean, which
-                      may take a day.<br/>
+                      I've sent Kartik to go off and pinpoint what you
+                      mean.<br/>
                       In the meantime, I'll try to narrow down what you mean,
                       but it may take ~20 stories to do so.<br/>
                      <b>Please try a different query to avoid utterly random stories.</b>")

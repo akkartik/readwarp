@@ -2575,3 +2575,6 @@ in the keys, so things just work.
 * - The data migration should be idempotent in that it can be run repeatedly
 without crapping all over itself.
 =-=972 - Thu May 13 10:00:14 PDT 2010
+
+Bugfix: random-station feedback was broken. This is going to go away anyway.
+=-=973 - Thu May 13 10:26:18 PDT 2010
