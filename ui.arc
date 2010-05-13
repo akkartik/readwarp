@@ -225,14 +225,14 @@
       (tag (a href "#" onclick
               (pushHistory doc "'outcome=4&samesite=1'"))
         (pr "this site")))
-    (tag (form id "magicbox" action "/askfor")
-         (tag (div style "background:; height:15px; width:15px; float:right; cursor:pointer"
-                   onclick "return submitForm(this, 'magicbox', 'a new site');")
+    (tag (form action "/404" onsubmit "submitMagicBox('magicbox', 'a new site'); return false;")
+         (tag (div style "height:24px; color:#aaf; width:10px; margin-right:2px; float:right; cursor:pointer"
+                   onclick "submitMagicBox('magicbox', 'a new site'); return false;")
             (pr "&rarr;"))
          (tag (span style "color: #ccc")
            (pr "&middot;"))
          (tag:input name "q" id "magicbox"
-                    style "width:90px; height:17px; color:#999"
+                    style "font-size:14px; width:98px; height:24px; color:#999"
                     value "a new site"
                     onfocus "clearDefault(this, 'a new site');"
                     onblur "fillDefault(this, 'a new site');"))

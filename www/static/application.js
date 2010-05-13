@@ -14,13 +14,20 @@ function clearDefault(elem, msg) {
     elem.style.color = '#000';
   }
 }
-function submitForm(elem, id, msg) {
-  if ($(id).value !== msg) {
-    while (elem && elem.tagName !== 'FORM') {
-      elem = elem.parentNode;
-    }
-    elem.submit();
+
+function submitForm(elem) {
+  while (elem && elem.tagName !== 'FORM') {
+    elem = elem.parentNode;
   }
+  elem.submit();
+  return false;
+}
+
+function submitMagicBox(id, msg) {
+  if ($(id).value !== msg) {
+    askFor($(id).value);
+  }
+  return false;
 }
 
 function stringOrHref(s) {

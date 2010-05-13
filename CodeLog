@@ -2632,3 +2632,6 @@ If a query yields nothing, say so.
 =-=984 - Thu May 13 14:44:09 PDT 2010
 Layout tweaks; make the magic box look like a subtly bulleted list.
 =-=985 - Thu May 13 15:00:45 PDT 2010
+Ok, magicbox input works too. Some duplication because I can't figure out how
+to trigger the onsubmit handler through javascript.
+=-=986 - Thu May 13 15:32:14 PDT 2010
