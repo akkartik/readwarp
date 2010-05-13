@@ -64,9 +64,14 @@
          group (arg req "group"))
     (mark-read user doc outcome group)
     (when (arg req "samesite")
-      (pick-from-same-site user doc))
+      (set-current-from user doc-feed.doc))
     (if signedup?.user
-      (doc-panel user next-doc.user)
+      (let nextdoc next-doc.user
+        (doc-panel user nextdoc
+          (fn()
+            (when (and (arg req "samesite")
+                       (~is doc-feed.doc doc-feed.nextdoc))
+              (flash "No more stories from that site")))))
       (signup-doc-panel user req))))
 
 (defop askfor req

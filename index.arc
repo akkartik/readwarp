@@ -194,13 +194,6 @@
         (handle-upvote user ustation.user "" feed))
       (set-current-from user initfeeds))))
 
-(proc pick-from-same-site(user doc)
-  (with (feed       doc-feed.doc
-         queryfeeds (scan-feeds (car userinfo*.user!queries)))
-    (if (pos feed queryfeeds)
-      (set-current-from user queryfeeds)
-      (set-current-from user erp.feed))))
-
 
 
 (def scan-feeds(keyword)

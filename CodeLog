@@ -2619,3 +2619,8 @@ How should same site work?
 Implemented. Works well for queries like cnn and bbc, but fails miserably for
 queries like technology. What to do?
 =-=981 - Thu May 13 14:18:56 PDT 2010
+Ok, if they want to rerun a query they can just click on it. Let same site
+mean literally same site.
+And show flash when out of stories in that site.
+Hmm, perhaps I should then fall back on showing from the query.
+=-=982 - Thu May 13 14:25:06 PDT 2010
