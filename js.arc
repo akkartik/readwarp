@@ -19,8 +19,8 @@
      maybe-flink.f
      ");"))
 
-(def pushHistory(sname doc params)
-  (+ "pushHistory('" jsesc.sname "', '" jsesc.doc "', " params ")"))
+(def pushHistory(doc params)
+  (+ "pushHistory('" jsesc.doc "', " params ")"))
 
 (def confirm(msg s)
   (+ "if(confirm('" msg "')){"

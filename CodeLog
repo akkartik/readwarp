@@ -2594,3 +2594,6 @@ Next step: after a few votes introduce the magic box during signup.
 
 Perf testing is still too fucking laborious. Let's fix this.
 =-=976 - Thu May 13 12:03:40 PDT 2010
+
+First eradicate redundant station args.
+=-=977 - Thu May 13 12:43:14 PDT 2010

@@ -94,16 +94,16 @@ function gen_inline(id, url) {
   return "inline('"+id+"', '"+url+"')";
 }
 
-function pushHistory(station, doc, params) {
+function pushHistory(doc, params) {
   var src = $$('#doc_'+doc+' .rwhistory-link');
   if (notblank(src))
-    updateHistoryPanel(station, doc, params, src);
+    updateHistoryPanel(doc, params, src);
 
   prepareAjax('rwcontent');
   new Ajax.Request("/docupdate",
       {
         method: 'post',
-        parameters: 'doc='+escape(doc)+'&'+'station='+escape(station)+'&'+params,
+        parameters: 'doc='+escape(doc)+'&'+params,
         onSuccess: function(response) {
           $('rwcontent').innerHTML = response.responseText;
           checkContent('rwcontent');
@@ -113,7 +113,7 @@ function pushHistory(station, doc, params) {
   return false;
 }
 
-function updateHistoryPanel(station, doc, params, src) {
+function updateHistoryPanel(doc, params, src) {
   var elem = $('outcome_'+doc);
   elem.className = "rwoutcome_icon "+params.replace(/.*outcome=([^&]*).*/, "rwoutcome_$1");
 
@@ -129,18 +129,18 @@ function updateHistoryPanel(station, doc, params, src) {
       $('rwhistory').childNodes[2].innerHTML =
         gen_jslink("&laquo;older",
           gen_inline('rwhistory',
-                '/history?from='+history_size+'&station='+escape(station))) +
+                '/history?from='+history_size)) +
         "&nbsp;newer&raquo;";
     }
   }
 }
 
-function showDoc(station, doc) {
+function showDoc(doc) {
   prepareAjax('rwcontent');
   new Ajax.Request("/doc",
       {
         method: 'get',
-        parameters: 'doc='+escape(doc)+'&station='+escape(station),
+        parameters: 'doc='+escape(doc),
         onSuccess: function(response) {
           $('rwcontent').innerHTML = response.responseText;
           checkContent('rwcontent');

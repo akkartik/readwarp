@@ -37,28 +37,26 @@
         ))))))
 
 (defop begin req
-  (withs (user current-user.req
-          global-sname (or= userinfo*.user!all (stringify:unique-id)))
-    (ensure-station user global-sname)
+  (let user current-user.req
+    (ensure-user user)
     (or= userinfo*.user!signup-stage 2)
     (page req
       (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
         (logo-small))
       (tag:div class 'rwsep)
 
-      (let sname userinfo*.user!all
-        (tag (div style "width:100%")
-          (tag (div id 'rwright-panel)
-            (history-panel user sname req))
-          (tag (div id 'rwcontents-wrap)
-            (tag (div id 'rwcontent)
-              (next-stage user sname req))))))))
+      (tag (div style "width:100%")
+        (tag (div id 'rwright-panel)
+          (history-panel user req))
+        (tag (div id 'rwcontents-wrap)
+          (tag (div id 'rwcontent)
+            (next-stage user req)))))))
 
-(proc next-stage(user query req)
+(proc next-stage(user req)
   (let funnel-stage userinfo*.user!signup-stage
     (signup-funnel-analytics is-prod.req funnel-stage user)
     (erp user ": stage " funnel-stage)
-    (doc-panel2 user query (next-doc user userinfo*.user!all))))
+    (doc-panel2 user (next-doc user))))
 
 (def signup-form(user)
   (tag (div style "text-align:left; background:#915c69; padding:0.5em")
@@ -97,12 +95,12 @@
 (proc init-abtests(user)
   )
 
-(def doc-panel2(user sname doc)
+(def doc-panel2(user doc)
   (if doc
     (do
       (tag (div id (+ "doc_" doc))
         (tag div
-          (buttons user sname doc))
+          (buttons user doc))
         (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
           (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
             (signup-form user))
@@ -112,18 +110,18 @@
                        dislike each story and move to the next one."))
             (unless userinfo*.user!read.doc
               (tag (div class 'rwhistory-link style "display:none")
-                (render-doc-link user sname doc)))
+                (render-doc-link user doc)))
             (tag (div id 'rwpost)
-              (feedback-form user sname doc)
+              (feedback-form user doc)
               (render-doc user doc))))
         (clear))
       (update-title doc-title.doc))
     (do
       (prn "Oops, there was an error. I've told Kartik. Please try reloading the page. And please feel free to use the feedback form &rarr;")
-      (write-feedback user "" sname "" "No result found"))))
+      (write-feedback user "" "" "No result found"))))
 
-(def signup-doc-panel(user sname req)
+(def signup-doc-panel(user req)
   (ensure-user user)
   (or= userinfo*.user!signup-stage 0)
   (++ userinfo*.user!signup-stage)
-  (next-stage user sname req))
+  (next-stage user req))

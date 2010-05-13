@@ -105,16 +105,11 @@
     (erp "new user: " user)
     (inittab userinfo*.user
              'clock 100 'lastshow (seconds)
-             'read (table) 'stations (table))))
-
-(def read-list(user station)
-  userinfo*.user!stations.station!read-list)
-
-(def read?(user doc)
-  userinfo*.user!read.doc)
+             'all (stringify:unique-id)
+             'read (table) 'stations (table)))
+  (ensure-station user userinfo*.user!all))
 
 (proc ensure-station(user sname)
-  (ensure-user user)
   (unless userinfo*.user!stations.sname
     (erp "new station: " sname)
     (inittab userinfo*.user!stations.sname
@@ -125,6 +120,16 @@
              'groups  (memtable
                         '("Economics" "Glamor" "Health" "Magazine" "News"
                           "Politics" "Science" "Technology")))))
+
+(def ustation(user)
+  (let s userinfo*.user!all
+    userinfo*.user!stations.s))
+
+(def read-list(user)
+  ustation.user!read-list)
+
+(def read?(user doc)
+  userinfo*.user!read.doc)
 
 (defreg migrate() migrations*
   (prn "running migrations")
@@ -151,8 +156,8 @@
     )
   ))
 
-(proc mark-read(user sname doc outcome prune-feed group prune-group)
-  (with (station  userinfo*.user!stations.sname
+(proc mark-read(user doc outcome group)
+  (with (station  ustation.user
          feed     lookup-feed.doc)
     (erp outcome " " doc)
 
@@ -269,10 +274,12 @@
     [recent-doc?:newest-unread user _]
     [~poorly-cleaned-feeds* _]))
 
-(def pick(user station)
-  (lookup-or-generate-transient station!current
-     (always [newest-unread user _]
-             (choose-feed user station))))
+(def pick(user)
+  (withs (s userinfo*.user!all
+          station userinfo*.user!stations.s)
+    (lookup-or-generate-transient station!current
+       (always [newest-unread user _]
+               (choose-feed user station)))))
 
 (after-exec choose-feed(user station)
   (update-clock user))
@@ -299,7 +306,7 @@
 (def save-to-old-docs(doc)
   (= old-docs*.doc (obj url doc-url.doc  title doc-title.doc
                         site doc-site.doc  feedtitle doc-feedtitle.doc)))
-(after-exec pick(user station)
+(after-exec pick(user)
   (unless old-docs*.result
     (save-to-old-docs result)))
 

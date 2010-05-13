@@ -8,21 +8,17 @@
           (tag:div class 'rwclear)
           (tag:div class 'rwsep))))))
 
-(mac with-history(req user station . body)
+(mac with-history(req user . body)
   `(page ,req
     (nav ,user)
     (tag (div style "width:100%")
-      (with-history-sub ,req ,user ,station
+      (with-history-sub ,req ,user
         ,@body))))
 
-(mac with-history-sub(req user sname . body)
+(mac with-history-sub(req user . body)
   `(do
     (tag (div id 'rwright-panel)
-      (tag (div id 'rwchannels class "rwrounded rwshadow")
-        (current-channel-link ,user ,sname)
-        (channels-panel ,user ,sname))
-      (tag:div class 'rwsep)
-      (history-panel ,user ,sname ,req))
+      (history-panel ,user ,req))
 
     (tag (div id 'rwcontents-wrap)
        (tag (div id 'rwcontent)
@@ -39,11 +35,10 @@
     (start-funnel req)))
 
 (def reader(req)
-  (withs (user current-user.req
-          global-sname (or= userinfo*.user!all (stringify:unique-id)))
-    (ensure-station user global-sname)
-    (with-history req user global-sname
-      (doc-panel user global-sname (next-doc user global-sname)
+  (let user current-user.req
+    (ensure-user user)
+    (with-history req user
+      (doc-panel user next-doc.user
         (fn()
           (firsttime userinfo*.user!noob
             (tag script
@@ -59,23 +54,22 @@
                creating a new channel. And send us feedback!")))))))
 
 (defop docupdate req
-  (with (user (current-user req)
-         sname (or (arg req "station") "")
-         doc (arg req "doc")
+  (let user current-user.req
+    (docupdate-sub user req)))
+
+(def docupdate-sub(user req)
+  (ensure-user user)
+  (with (doc (arg req "doc")
          outcome (arg req "outcome")
-         prune-feed (is "true" (arg req "prune"))
-         group (arg req "group")
-         prune-group (is "true" (arg req "prune-group")))
-    (ensure-station user sname)
-    (mark-read user sname doc outcome prune-feed group prune-group)
+         group (arg req "group"))
+    (mark-read user doc outcome group)
     (if signedup?.user
-      (doc-panel user sname (next-doc user sname))
-      (signup-doc-panel user sname req))))
+      (doc-panel user next-doc.user)
+      (signup-doc-panel user req))))
 
 (defop askfor req
   (withs (user    (current-user req)
-          sname   (or (arg req "station") "")
-          station userinfo*.user!stations.sname
+          station ustation.user
           query   (arg req "q"))
     (let initfeeds scan-feeds.query
       (each feed initfeeds
@@ -87,69 +81,61 @@
            500)))
 
     (if signedup?.user
-      (doc-panel user sname (next-doc user sname))
-      (signup-doc-panel user sname req))))
+      (doc-panel user (next-doc user))
+      (signup-doc-panel user req))))
 
 (defop doc req
   (with (user (current-user req)
-         sname (arg req "station")
          doc (arg req "doc"))
-    (doc-panel user sname
-               (check doc ~blank (next-doc user sname)))))
+    (doc-panel user
+               (check doc ~blank next-doc.user))))
 
 (init history-size* 10) ; sync with application.js
 
-(def history-panel-body(user sname req)
-  (or= sname "")
-  (ensure-station user sname)
-  (let items (read-list user sname)
-    (paginate req "rwhistory" (+ "/history?station=" urlencode.sname)
+(def history-panel-body(user req)
+  (ensure-user user)
+  (let items (read-list user)
+    (paginate req "rwhistory" "/history"
               history-size* len.items
         reverse t nextcopy "&laquo;older" prevcopy "newer&raquo;"
       :do
         (tag (div id 'rwhistory-elems)
           (each doc (cut items start-index end-index)
-            (render-doc-link user sname doc))))))
+            (render-doc-link user doc))))))
 
 (defop history req
-  (history-panel-body current-user.req (arg req "station") req))
+  (history-panel-body current-user.req req))
 
 
 
-(defop settest req
-  (unless is-prod.req
-    (let user (arg req "u")
-      (set userinfo*.user!test))))
+(def next-doc(user)
+  (ret doc pick.user
+    (erp user " => " doc)))
 
-(def next-doc(user sname)
-  (when userinfo*.user!test (wipe userinfo*.user!stations.sname!current))
-  (ret doc (pick user userinfo*.user!stations.sname)
-    (erp user " " sname " => " doc)))
-
-(def doc-panel(user sname doc (o flashfn))
+(def doc-panel(user doc (o flashfn))
   (if doc
-    (doc-panel-sub user sname doc flashfn)
-    (doc-panel-error user sname)))
+    (doc-panel-sub user doc flashfn)
+    (doc-panel-error user)))
 
-(def doc-panel-sub(user sname doc flashfn)
+(def doc-panel-sub(user doc flashfn)
   (tag (div id (+ "doc_" doc))
     (tag div
-      (buttons user sname doc))
+      (buttons user doc))
     (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
       (when flashfn (flashfn))
       (only.flash user-msg*.user)
       (unless userinfo*.user!read.doc
         (tag (div class 'rwhistory-link style "display:none")
-          (render-doc-link user sname doc)))
+          (render-doc-link user doc)))
       (tag (div id 'rwpost)
-        (feedback-form user sname doc)
+        (feedback-form user doc)
         (render-doc user doc)))
     (clear))
   (update-title doc-title.doc))
 
-(def doc-panel-error(user sname)
+(def doc-panel-error(user)
   (prn "Oops, there was an error. I've told Kartik. Please try reloading the page. And please feel free to use the feedback form &rarr;")
-  (write-feedback user "" sname "" "No result found"))
+  (write-feedback user "" "" "No result found"))
 
 (def update-title(s)
   (if (empty s)
@@ -176,23 +162,23 @@
       (pr:contents doc))
     (clear)))
 
-(def render-doc-link(user sname doc)
+(def render-doc-link(user doc)
   (tag div
     (tag (div id (+ "outcome_" doc)
               class (+ "rwoutcome_icon rwoutcome_" (read? user doc)))
       (pr "&#9632;"))
     (tag (p class 'rwitem)
-      (tag (a onclick (+ "showDoc('" jsesc.sname "', '" jsesc.doc "')") href "#")
+      (tag (a onclick (+ "showDoc('" jsesc.doc "')") href "#")
         (pr (check doc-title.doc ~empty "no title"))))))
 
-(def buttons(user sname doc)
+(def buttons(user doc)
   (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
     (tag (div title "like" class "rwbutton rwlike" onclick
-            (pushHistory sname doc "'outcome=4'")))
+            (pushHistory doc "'outcome=4'")))
     (tag (div title "next" class "rwbutton rwnext" onclick
-            (pushHistory sname doc "'outcome=2'")))
+            (pushHistory doc "'outcome=2'")))
     (tag (div title "dislike" class "rwbutton rwskip" onclick
-            (pushHistory sname doc "'outcome=1'")))))
+            (pushHistory doc "'outcome=1'")))))
 
 (def email-button(user doc)
   (tag (span style "margin-left:5px"
@@ -222,34 +208,6 @@
     (clear))
   (tag:div class 'rwsep))
 
-(def current-channel-link(user sname)
-  (when (and sname
-             (~is sname userinfo*.user!all))
-    (tag (div style "margin-bottom:1em")
-      (tag b (pr "current channel"))
-      (tag div (pr sname)))))
-
-(def channels-panel(user sname)
-  (tag (div class "rwstations rwvlist")
-    (when (or (> (len-keys userinfo*.user!stations) 2)
-            (and (is 2 (len-keys userinfo*.user!stations))
-                 (is sname userinfo*.user!all)))
-      (tag b
-        (if (is sname userinfo*.user!all)
-          (pr "my channels")
-          (pr "other channels")))
-      (each s (keys userinfo*.user!stations)
-        (when (and (~is s userinfo*.user!all)
-                 (~is s sname)
-                 (~blank s))
-          (tag (div class 'rwstation)
-            (tag (div style "float:right; margin-right:0.5em")
-              (tag (a href (+ "/delstation?station=" urlencode.s)
-                      onclick "jsget(this); del(this.parentNode.parentNode); return false;")
-                (tag:img src "close_x.gif")))
-            (link s (+ "/station?seed=" urlencode.s))))))
-    (new-channel-form)))
-
 (def new-channel-form()
   (tag div
     (tag b (pr "new channel"))
@@ -260,12 +218,12 @@
          (tag (div style "font-size:90%; margin-top:2px")
            (pr "type in a website or author")))))
 
-(def history-panel(user sname req)
+(def history-panel(user req)
   (tag (div id 'rwhistory-wrapper class "rwvlist rwrounded rwshadow")
     (tag b
       (pr "recently viewed"))
     (tag (div id 'rwhistory)
-      (history-panel-body user sname req))))
+      (history-panel-body user req))))
 
 
 
@@ -334,7 +292,7 @@
     user
     userinfo*.user!email))
 
-(def feedback-form(user sname doc)
+(def feedback-form(user doc)
   (tag (div id 'rwfeedback-wrapper)
     (tag (div class 'rwfeedback_link)
       (tag (a onclick "$('rwfeedback').toggle(); return false" href "#")
@@ -345,8 +303,6 @@
       (tag (div style "font-size: 75%; margin-top:0.5em; text-align:left")
         (pr "Your email?"))
       (tag:input name "email" value user-email.user) (tag (i style "font-size:75%") (pr "(optional)")) (br)
-      (tag:input type "hidden" name "location" value (+ "/station?seed=" sname))
-      (tag:input type "hidden" name "station" value sname)
       (tag:input type "hidden" name "doc" value doc)
       (tag (div style "margin-top:0.5em; text-align:left")
         (do
@@ -354,11 +310,10 @@
           (tag:input type "button" value "cancel" onclick "$('rwfeedback').toggle()"))))
     (clear)))
 
-(def write-feedback(user email sname doc msg)
+(def write-feedback(user email doc msg)
   (w/prfile (+ "feedback/" (seconds))
     (prn "User: " user)
     (prn "Email: " email)
-    (prn "Station: " sname)
     (prn "Doc: " doc)
     (prn "Feedback:")
     (prn msg)
@@ -372,10 +327,9 @@
       (prn "pk45059 sent feedback!")))
   (write-feedback (current-user req)
                   (arg req "email")
-                  (arg req "station")
                   (arg req "doc")
                   (arg req "msg"))
-  (arg req "location"))
+  "/")
 
 (defop submit req
   (w/outstring o ((srvops* 'feedback) o req)))
@@ -431,7 +385,7 @@
          (time-ago:* 60 60 24))))
 
 (persisted voting-stats* (table))
-(after-exec mark-read(user a b outcome c d e)
+(after-exec mark-read(user d outcome g)
   (or= voting-stats*.user (table))
   (++ (voting-stats*.user outcome 0))
   (or= voting-stats*!total (table))
