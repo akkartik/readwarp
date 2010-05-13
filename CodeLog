@@ -2578,3 +2578,11 @@ without crapping all over itself.
 
 Bugfix: random-station feedback was broken. This is going to go away anyway.
 =-=973 - Thu May 13 10:26:18 PDT 2010
+
+Still having trouble with the patch to use st!sites and st!groups in
+selections. To ease our lives, let's stop providing the ability to import
+feeds manually. I need to wean myself off that crutch.
+Also stripping out stations from UI.
+
+Tests are now seriously broken.
+=-=974 - Thu May 13 10:51:42 PDT 2010

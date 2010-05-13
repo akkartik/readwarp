@@ -38,31 +38,6 @@
     (reader req)
     (start-funnel req)))
 
-(defop station req
-  (withs (user (current-user req)
-          sname (or (arg req "seed") "")
-          new-sname (no userinfo*.user!stations.sname))
-    (ensure-station user sname)
-    (with-history req user sname
-      (doc-panel user sname (next-doc user sname)
-        (fn()
-          (when new-sname
-            (if (len> userinfo*.user!stations.sname!groups 7)
-              (flash "Hmm, I don't understand that query. Sorry :(<br/>
-                      I've sent Kartik to go off and pinpoint what you
-                      mean.<br/>
-                      In the meantime, I'll try to narrow down what you mean,
-                      but it may take ~20 stories to do so.<br/>
-                     <b>Please try a different query to avoid utterly random stories.</b>")
-              (flash "You're now browsing in a new channel.<p>
-                     Votes here will not affect recommendations on other
-                     channels."))))))))
-
-(defop delstation req
-  (withs (user (current-user req)
-          sname (arg req "station"))
-    (wipe userinfo*.user!stations.sname)))
-
 (def reader(req)
   (withs (user current-user.req
           global-sname (or= userinfo*.user!all (stringify:unique-id)))
@@ -143,8 +118,8 @@
 
 (def next-doc(user sname)
   (when userinfo*.user!test (wipe userinfo*.user!stations.sname!current))
-  (w/stdout (stderr) (pr user " " sname " => "))
-  (erp:pick user userinfo*.user!stations.sname))
+  (ret doc (pick user userinfo*.user!stations.sname)
+    (erp user " " sname " => " doc)))
 
 (def doc-panel(user sname doc (o flashfn))
   (if doc

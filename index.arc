@@ -104,7 +104,6 @@
   (unless userinfo*.user
     (erp "new user: " user)
     (inittab userinfo*.user
-             'preferred-feeds (or load-feeds.user (table))
              'clock 100 'lastshow (seconds)
              'read (table) 'stations (table))))
 
@@ -119,11 +118,14 @@
   (unless userinfo*.user!stations.sname
     (erp "new station: " sname)
     (inittab userinfo*.user!stations.sname
-             'name sname
-             'unpreferred (table)
-             'created (seconds)))
-  (init-groups user sname)
-  (init-preferred user sname))
+             'name    sname
+             'created (seconds)
+             'preferred (table)
+             'unpreferred (table) ; XXX temporary
+             'sites   (table)
+             'groups  (memtable
+                        '("Economics" "Glamor" "Health" "Magazine" "News"
+                          "Politics" "Science" "Technology")))))
 
 (defreg migrate() migrations*
   (prn "running migrations")
@@ -163,11 +165,12 @@
 
     (or= station!preferred (table))
     (case outcome
-      "1" (handle-downvote user station doc feed prune-feed group prune-group)
-      "4" (handle-upvote user station doc feed))))
+      "1" (handle-downvote user station feed group)
+      "4" (handle-upvote user station feed group))))
 
 (proc handle-upvote(user station feed group)
-  (extend-prefer station!groups.group userinfo*.user!clock)
+  (unless blank?.group
+    (extend-prefer station!groups.group userinfo*.user!clock))
   (extend-prefer station!sites.feed   userinfo*.user!clock))
 
 (proc handle-downvote(user station feed group)
@@ -181,37 +184,6 @@
 (def scan-feeds(keyword)
   (dedup:common:map keyword-feeds:canonicalize
                     (flat:map split-urls words.keyword)))
-
-(def groups(feeds)
-  (dedup:flat:map feed-groups* feeds))
-
-(def initial-preferred-groups-for(user sname)
-  (ret ans (dedup:keep id (groups scan-feeds.sname))
-    ;; HACK while my feeds are dominated by nerdy stuff.
-    (when (len> ans 2) (nrem "Programming" ans))
-
-    (erp "Groups: " ans)
-    (unless ans
-      (when (neither blank.sname
-                     (is sname userinfo*.user!all))
-        (write-feedback user "" sname "" "Random stories for group"))
-      (= ans '("Economics" "Glamor" "Health" "Magazine" "News" "Politics"
-               "Science" "Technology")))))
-
-(proc init-groups(user sname)
-  (let station userinfo*.user!stations.sname
-    (or= station!initfeeds scan-feeds.sname)
-    (lookup-or-generate-transient station!current
-       (always [newest-unread user _]
-               (randpos station!initfeeds)))
-    (or= station!groups (backoffify (initial-preferred-groups-for user sname)
-                                    2))))
-
-(proc init-preferred(user sname)
-  (let station userinfo*.user!stations.sname
-    (or= station!preferred
-         (backoffify (keep [userinfo*.user!preferred-feeds _] feeds.station)
-                     2))))
 
 (def feeds(station)
   (dedup:flat:map group-feeds* (keys station!groups)))
@@ -312,19 +284,6 @@
 
 
 
-(def load-feeds(user)
-  (when (file-exists (+ "feeds/users/" user))
-    (w/infile f (+ "feeds/users/" user)
-      (w/table ans
-        (whilet line (readline f)
-          (zap trim line)
-          (when (~empty line)
-            (let url (car:tokens line)
-              (when (headmatch "http" url)
-                (set ans.url)))))))))
-(after-exec load-feeds(user)
-  (erp "found " len-keys.result " preferred feeds"))
-
 (def save-to-old-docs(doc)
   (= old-docs*.doc (obj url doc-url.doc  title doc-title.doc
                         site doc-site.doc  feedtitle doc-feedtitle.doc)))
@@ -336,42 +295,14 @@
 
 ; console helpers
 
-(def update-preferred-feeds(user)
-  (each f (keys load-feeds.user)
-    (unless userinfo*.user!preferred-feeds.f
-      (erp f))
-    (set userinfo*.user!preferred-feeds.f)
-    (let gs userinfo*.user!all
-      (unless userinfo*.user!stations.gs!unpreferred.f
-        (unless userinfo*.user!stations.gs!preferred.f
-          (erp "global: " f))
-        (set userinfo*.user!stations.gs!preferred.f)))))
-
 (proc clear-user(user)
   (wipe userinfo*.user hpasswords*.user loggedin-users*.user)
   (save-table hpasswords* hpwfile*))
 
-(proc clear-users()
+(proc gc-users()
   (map [wipe userinfo*._]
        (rem [or (userinfo*._ 'signedup) (logins* _)]
             keys.userinfo*)))
-
-(def feedstats(user)
-  (let r (dedup:map lookup-feed (keys userinfo*.user!read))
-    (rem [pos _ r] (keys userinfo*.user!preferred-feeds))))
-
-(def rename-feed(old new)
-  (each (u ui) userinfo*
-    (swap ui!preferred-feeds.old ui!preferred-feeds.new)
-    (each (s st) ui!stations
-      (swap st!preferred.old st!preferred.new)
-      (swap st!unpreferred.old st!unpreferred.new))))
-
-(def add-preferred(user feed)
-  (withs (s userinfo*.user!all
-          st userinfo*.user!stations.s)
-    (set userinfo*.user!preferred-feeds.feed)
-    (= userinfo*.user!stations.s!preferred.feed (backoff feed 2))))
 
 (proc gc-doc-dir()
   (erp "gc-doc-dir running")
