@@ -2630,3 +2630,5 @@ Ok, now let's fix the onclick for the list of queries.
 Ok, clicking on links works.
 If a query yields nothing, say so.
 =-=984 - Thu May 13 14:44:09 PDT 2010
+Layout tweaks; make the magic box look like a subtly bulleted list.
+=-=985 - Thu May 13 15:00:45 PDT 2010

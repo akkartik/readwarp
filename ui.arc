@@ -211,26 +211,33 @@
     (clear))
   (tag:div class 'rwsep))
 
+(mac magic-box-middot body
+  `(tag div
+    (tag (span style "color:#ccc")
+      (pr "&middot; "))
+    ,@body))
 (def magic-box(user doc)
-  (tag (div style "border-top:1px #ccc solid")
-    (tag (div style "text-align:left; margin-top:5px; margin-left:2px;
-                    font-size:90%; color:#999")
-      (pr "next story from"))
-    (tag (div style "text-align:left; margin-left:5px")
+  (tag (div style "text-align:left; margin-left:5px; border-top:1px #ccc solid")
+    (tag (div style "margin-top:5px;
+                    font-size:90%; font-weight:bold; color:#999")
+      (pr "next story from:"))
+    (magic-box-middot
       (tag (a href "#" onclick
               (pushHistory doc "'outcome=4&samesite=1'"))
         (pr "this site")))
     (tag (form id "magicbox" action "/askfor")
-         (tag (div style "background:; height:15px; width:1em; float:right; cursor:pointer"
+         (tag (div style "background:; height:15px; width:15px; float:right; cursor:pointer"
                    onclick "return submitForm(this, 'magicbox', 'a new site');")
             (pr "&rarr;"))
+         (tag (span style "color: #ccc")
+           (pr "&middot;"))
          (tag:input name "q" id "magicbox"
-                    style "width:100px; height:17px; color:#999"
+                    style "width:90px; height:17px; color:#999"
                     value "a new site"
                     onfocus "clearDefault(this, 'a new site');"
                     onblur "fillDefault(this, 'a new site');"))
     (each query (firstn 5 userinfo*.user!queries)
-      (tag (div style "text-align:left; margin-left:5px")
+      (magic-box-middot
         (tag (a href "#" onclick
                 (askfor query))
           (pr query))))))
