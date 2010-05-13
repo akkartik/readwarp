@@ -281,6 +281,11 @@
        (always [newest-unread user _]
                (choose-feed user station)))))
 
+(def setcurrent(user feed)
+  (let station ustation.user
+    (= station!current
+       (transient-value feed 500))))
+
 (after-exec choose-feed(user station)
   (update-clock user))
 (def update-clock(user)

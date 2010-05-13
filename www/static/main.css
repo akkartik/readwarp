@@ -13,11 +13,11 @@ body{ font-size:62.5%; background:#8c6988/*#934b8a*/; }
 
   #rwcontent{ width:685px; }
 
-    #rwbuttons{ position:fixed; top:65px; background:white; padding-top:10px; padding-bottom:10px;
+    #rwbuttons{ position:fixed; top:65px; width:120px; background:white; padding-top:10px; padding-bottom:10px;
             /*IE*/ float:left; }
 
-    #rwpost-wrapper{ float:left; margin-left:90px; background:white; }
-      #rwpost{ padding:10px; width:595px; min-height:450px; text-align:left; overflow:hidden; }
+    #rwpost-wrapper{ float:left; margin-left:120px; background:white; }
+      #rwpost{ padding:10px; width:565px; min-height:450px; text-align:left; overflow:hidden; }
       * html #rwpost{ width:auto; }
 
 img{ max-width:595px; }
@@ -39,7 +39,7 @@ p{ margin-top:1em; }
 .rwlogo{ color:#8c6988; text-align:center; }
 .rwlogo .rwlogo-button { font-size:4em; }
 
-.rwbutton{ height:70px; cursor:pointer; position:relative; width:80px; margin-left:10px; margin-bottom:10px; }
+.rwbutton{ height:70px; cursor:pointer; position:relative; width:80px; margin-left:25px; margin-bottom:10px; }
 .rwoutcome_icon{ float:right; margin-left:0.5em; }
 
 div.rwlike{ background:transparent url('like.png') 0px 0px no-repeat; }

@@ -2,6 +2,27 @@ function notblank(s) {
   return s && s != '';
 }
 
+function fillDefault(elem, msg) {
+  if (elem.value === '') {
+    elem.value = msg;
+    elem.style.color = '#999';
+  }
+}
+function clearDefault(elem, msg) {
+  if (elem.value === msg) {
+    elem.value = '';
+    elem.style.color = '#000';
+  }
+}
+function submitForm(elem, id, msg) {
+  if ($(id).value !== msg) {
+    while (elem && elem.tagName !== 'FORM') {
+      elem = elem.parentNode;
+    }
+    elem.submit();
+  }
+}
+
 function stringOrHref(s) {
   if (typeof(s) == 'string')
     return s;

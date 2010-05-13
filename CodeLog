@@ -2608,3 +2608,11 @@ the newly designated test user nil is never in the right format. Now I can run
 a request, get an error, run migrate to get it in the right format, then run
 the perf test.
 =-=978 - Thu May 13 12:57:01 PDT 2010
+
+Finally commit the layout for magic box.
+How should same site work?
+  If you typed in something recently it should show you stuff from one of the
+  feeds of that query.
+  If you didn't type in anything it should stay within the current feed.
+  If there's nothing left to show it should give a message.
+=-=980 - Thu May 13 13:41:57 PDT 2010

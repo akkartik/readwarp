@@ -63,6 +63,9 @@
          outcome (arg req "outcome")
          group (arg req "group"))
     (mark-read user doc outcome group)
+    (when (arg req "samesite")
+      (setcurrent user
+        (always [newest-unread user _] doc-feed.doc)))
     (if signedup?.user
       (doc-panel user next-doc.user)
       (signup-doc-panel user req))))
@@ -74,12 +77,9 @@
     (let initfeeds scan-feeds.query
       (each feed initfeeds
         (handle-upvote user station "" feed))
-      (= station!current
-         (transient-value
-           (always [newest-unread user _]
-                   (randpos initfeeds))
-           500)))
-
+      (setcurrent user
+        (always [newest-unread user _]
+                randpos.initfeeds)))
     (if signedup?.user
       (doc-panel user (next-doc user))
       (signup-doc-panel user req))))
@@ -178,7 +178,8 @@
     (tag (div title "next" class "rwbutton rwnext" onclick
             (pushHistory doc "'outcome=2'")))
     (tag (div title "dislike" class "rwbutton rwskip" onclick
-            (pushHistory doc "'outcome=1'")))))
+            (pushHistory doc "'outcome=1'")))
+    (magic-box doc)))
 
 (def email-button(user doc)
   (tag (span style "margin-left:5px"
@@ -208,15 +209,24 @@
     (clear))
   (tag:div class 'rwsep))
 
-(def new-channel-form()
-  (tag div
-    (tag b (pr "new channel"))
-    (tag (form action "/station")
-         (tag:input name "seed" size "10")
-         (tag:input type "submit" value "go" style
-                    "margin-top:5px;margin-left:5px")
-         (tag (div style "font-size:90%; margin-top:2px")
-           (pr "type in a website or author")))))
+(def magic-box(doc)
+  (tag (div style "border-top:1px #ccc solid")
+    (tag (div style "text-align:left; margin-top:5px; margin-left:2px;
+                    font-size:90%; color:#999")
+      (pr "next story from"))
+    (tag (div style "text-align:left; margin-left:5px")
+      (tag (a href "#" onclick
+              (pushHistory doc "'outcome=4&samesite=1'"))
+        (pr "this site")))
+    (tag (form id "magicbox" action "/askfor")
+         (tag (div style "background:; height:15px; width:1em; float:right; cursor:pointer"
+                   onclick "return submitForm(this, 'magicbox', 'a new site');")
+            (pr "&rarr;"))
+         (tag:input name "q" id "magicbox"
+                    style "width:100px; height:17px; color:#999"
+                    value "a new site"
+                    onfocus "clearDefault(this, 'a new site');"
+                    onblur "fillDefault(this, 'a new site');"))))
 
 (def history-panel(user req)
   (tag (div id 'rwhistory-wrapper class "rwvlist rwrounded rwshadow")
