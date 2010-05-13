@@ -204,11 +204,13 @@
     (set-current-from user
                       (groups-feeds
                         (if (pos doc-feed.doc queryfeeds)
-                          queryfeeds
+                          feeds-groups.queryfeeds
                           (feed-groups* doc-feed.doc))))))
 
 (def groups-feeds(groups)
   (dedup:flat:map group-feeds* groups))
+(def feeds-groups(feeds)
+  (dedup:flat:map feed-groups* feeds))
 
 
 
