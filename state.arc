@@ -281,9 +281,11 @@
                       1))
 
 (def preferred?(r curr)
-  (is 1 (range-compare r curr)))
+  (and r
+    (is 1 (range-compare r curr))))
 (def unpreferred?(r curr)
-  (is -1 (range-compare r curr)))
+  (and r
+    (is -1 (range-compare r curr))))
 
 (mac extend-prefer(r curr)
   `(if (no ,r)

@@ -2586,3 +2586,8 @@ Also stripping out stations from UI.
 
 Tests are now seriously broken.
 =-=974 - Thu May 13 10:51:42 PDT 2010
+Selection works now. Time for a performance test.
+The way things stand right now, people will almost never see programming
+stories by default.
+Next step: after a few votes introduce the magic box during signup.
+=-=975 - Thu May 13 11:50:56 PDT 2010

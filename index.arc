@@ -121,7 +121,6 @@
              'name    sname
              'created (seconds)
              'preferred (table)
-             'unpreferred (table) ; XXX temporary
              'sites   (table)
              'groups  (memtable
                         '("Economics" "Glamor" "Health" "Magazine" "News"
@@ -171,7 +170,9 @@
 (proc handle-upvote(user station feed group)
   (unless blank?.group
     (extend-prefer station!groups.group userinfo*.user!clock))
-  (extend-prefer station!sites.feed   userinfo*.user!clock))
+  (extend-prefer station!sites.feed   userinfo*.user!clock)
+  ; XXX stuff that goes into preferred never goes back out
+  (set station!preferred.feed))
 
 (proc handle-downvote(user station feed group)
   (if (and (~blank? group)
@@ -185,11 +186,11 @@
   (dedup:common:map keyword-feeds:canonicalize
                     (flat:map split-urls words.keyword)))
 
-(def feeds(station)
-  (dedup:flat:map group-feeds* (keys station!groups)))
-
-(def feeds-from-groups(user station)
-  (rem [station!unpreferred _] feeds.station))
+(def feeds-from-random-group(user station)
+  (let curr userinfo*.user!clock
+    (rem [unpreferred? (station!sites _) curr]
+         (group-feeds*:randpos:keep [preferred? (station!groups _) curr]
+                                    (keys station!groups)))))
 
 (def random-story-from(group)
   (always newest
@@ -197,32 +198,43 @@
 
 
 
-;; XXX Currently constant; should depend on:
+;; XXX Currently constant; should depend on 'temperature':
 ;;  a) how many preferred feeds the user has
 ;;  b) recent downvotes
 ;;  c) user input?
-(init preferred-probability* 0.6)
+;; These should also influence whether we only show well-cleaned feeds.
+(init preferred-prob* 0.6)
 
 (def choose-feed(user station)
   (randpick
-        preferred-probability* (choose-from 'recent-preferred
-                                            (keep recent?
-                                                  (keys station!preferred))
-                                            user station
-                                            recent-and-well-cleaned)
-        preferred-probability* (choose-from 'preferred (keys station!preferred)
-                                            user station)
-        1.01                   (choose-from 'recent-group
-                                            (keep recent?
-                                                  (feeds-from-groups user station))
-                                            user station
-                                            recent-and-well-cleaned)
-        1.01                   (choose-from 'group
-                                            (feeds-from-groups user station)
-                                            user station)
-        1.01                   (choose-from 'random
-                                            nonnerdy-feed-list*
-                                            user station)))
+    preferred-prob*  (choose-from 'recent-preferred
+                                  (keep (andf
+                                          recent?
+                                          [preferred? (station!sites _)
+                                                      userinfo*.user!clock])
+                                        (keys station!sites))
+                                  user station
+                                  recent-and-well-cleaned)
+    preferred-prob*  (choose-from 'preferred
+                                  (keep [preferred? (station!sites _)
+                                                    userinfo*.user!clock]
+                                        (keys station!sites))
+                                  user station)
+    preferred-prob*  (choose-from 'old-preferred
+                                  (keys station!preferred)
+                                  user station)
+    ; XXX feeds-from-random-group will repeatedly try the same group
+    1.01             (choose-from 'recent-group
+                                  (keep recent?
+                                        (feeds-from-random-group user station))
+                                  user station
+                                  recent-and-well-cleaned)
+    1.01             (choose-from 'group
+                                  (feeds-from-random-group user station)
+                                  user station)
+    1.01             (choose-from 'random
+                                  nonnerdy-feed-list*
+                                  user station)))
 
 (persisted recent-feeds* (table))
 (after-exec doc-feed(doc)
