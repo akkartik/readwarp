@@ -22,7 +22,7 @@
   (check-doc doc docinfo*.doc!feed))
 (rhash doc feed "n-1"
   lookup-feed.doc
-  (fixedq 10
+  (fixedq 40
     ;on-delete
       (fn(doc)
         (send-to-gc doc))))
