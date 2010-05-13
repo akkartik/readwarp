@@ -55,9 +55,9 @@
 
 (defop docupdate req
   (let user current-user.req
-    (docupdate-sub user req)))
+    (docupdate-core user req)))
 
-(def docupdate-sub(user req)
+(def docupdate-core(user req)
   (ensure-user user)
   (with (doc (arg req "doc")
          outcome (arg req "outcome")
@@ -403,3 +403,8 @@
                   " -" (or (info "1") 0)
                   (if info!signup " SIGNEDUP" ""))))
     (= voting-stats* (table))))
+
+(defop test req
+  (unless is-prod.req
+    (errsafe:wipe ustation.nil!current)
+    (docupdate-core nil req)))

@@ -133,7 +133,7 @@
 
 (defreg migrate() migrations*
   (prn "running migrations")
-  (wipe userinfo*.nil)
+;?   (wipe userinfo*.nil)
   (wipe feed-docs*.nil)
 ;?   (each (f d) feed-docs*
   (each (u ui) userinfo*

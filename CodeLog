@@ -2597,3 +2597,14 @@ Perf testing is still too fucking laborious. Let's fix this.
 
 First eradicate redundant station args.
 =-=977 - Thu May 13 12:43:14 PDT 2010
+
+Ok, perf testing shows we're able to handle 50 concurrents on localhost
+without trouble.
+That's without the data pipeline, but that hasn't changed today. So hopefully
+we're good.
+
+Temporarily need to disable wiping userinfo*.nil during migration, otherwise
+the newly designated test user nil is never in the right format. Now I can run
+a request, get an error, run migrate to get it in the right format, then run
+the perf test.
+=-=978 - Thu May 13 12:57:01 PDT 2010
