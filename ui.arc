@@ -116,6 +116,11 @@
 
 
 
+(defop settest req
+  (unless is-prod.req
+    (let user (arg req "u")
+      (set userinfo*.user!test))))
+
 (def next-doc(user sname)
   (when userinfo*.user!test (wipe userinfo*.user!stations.sname!current))
   (ret doc (pick user userinfo*.user!stations.sname)
