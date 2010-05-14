@@ -245,7 +245,6 @@
 (init preferred-prob* 0.8)
 
 (def choose-feed(user station lastdoc)
-  (erp "choose-feed: " lastdoc)
   (randpick
     preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
                        (when (pos doc-feed.lastdoc currquerygroupfeeds)

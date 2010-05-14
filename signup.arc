@@ -102,18 +102,17 @@
         (tag div
           (buttons user doc))
         (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
-          (if (>= userinfo*.user!signup-stage funnel-signup-stage*)
+          (when (>= userinfo*.user!signup-stage funnel-signup-stage*)
             (signup-form user))
-          (tag div
-            (when (is 2 userinfo*.user!signup-stage)
-              (flash:+ "Ok! Click on the buttons on the left to like or
-                       dislike each story and move to the next one."))
-            (unless userinfo*.user!read.doc
-              (tag (div class 'rwhistory-link style "display:none")
-                (render-doc-link user doc)))
-            (tag (div id 'rwpost)
-              (feedback-form user doc)
-              (render-doc user doc))))
+          (when (is 2 userinfo*.user!signup-stage)
+            (flash:+ "Ok! Click on the buttons on the left to like or
+                     dislike each story and move to the next one."))
+          (unless userinfo*.user!read.doc
+            (tag (div class 'rwhistory-link style "display:none")
+              (render-doc-link user doc)))
+          (tag (div id 'rwpost)
+            (feedback-form user doc)
+            (render-doc user doc)))
         (clear))
       (update-title doc-title.doc))
     (do
