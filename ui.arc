@@ -65,8 +65,6 @@
     (mark-read user doc outcome group)
     (when (arg req "samesite")
       (pick-from-same-site user doc-feed.doc))
-    (when (arg req "similarsite")
-      (pick-from-similar-site user doc-feed.doc))
     (if signedup?.user
       (let nextdoc next-doc.user
         (doc-panel user nextdoc
@@ -227,10 +225,6 @@
       (tag (a href "#" onclick
               (pushHistory doc "'outcome=4&samesite=1'"))
         (pr "this site")))
-    (magic-box-middot
-      (tag (a href "#" onclick
-              (pushHistory doc "'outcome=4&similarsite=1'"))
-        (pr "similar sites")))
     (tag (form action "/404" onsubmit "submitMagicBox('magicbox', 'a new site'); return false;")
          (tag (div style "height:24px; color:#aaf; width:10px; margin-right:2px; float:right; cursor:pointer"
                    onclick "submitMagicBox('magicbox', 'a new site'); return false;")

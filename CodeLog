@@ -2662,3 +2662,6 @@ story.
 =-=994 - Thu May 13 17:44:22 PDT 2010
 Another graceful-degradation bug.
 =-=995 - Thu May 13 18:01:09 PDT 2010
+Now that the buttons are more responsive, get rid of the 'similar sites'
+button.
+=-=997 - Thu May 13 21:22:40 PDT 2010
