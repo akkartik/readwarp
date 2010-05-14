@@ -52,11 +52,18 @@
           (tag (div id 'rwcontent)
             (next-stage user req)))))))
 
-(proc next-stage(user req)
+(proc next-stage(user req (o flashfn))
   (let funnel-stage userinfo*.user!signup-stage
     (signup-funnel-analytics is-prod.req funnel-stage user)
     (erp user ": stage " funnel-stage)
-    (doc-panel2 user (next-doc user))))
+    (doc-panel user next-doc.user
+      (fn()
+        (when (>= userinfo*.user!signup-stage funnel-signup-stage*)
+          (signup-form user))
+        (when (is 2 userinfo*.user!signup-stage)
+          (flash:+ "Ok! Click on the buttons on the left to like or
+                   dislike each story and move to the next one."))
+        (when flashfn (flashfn))))))
 
 (def signup-form(user)
   (tag (div style "text-align:left; background:#915c69; padding:0.5em")
@@ -95,32 +102,8 @@
 (proc init-abtests(user)
   )
 
-(def doc-panel2(user doc)
-  (if doc
-    (do
-      (tag (div id (+ "doc_" doc))
-        (tag div
-          (buttons user doc))
-        (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
-          (when (>= userinfo*.user!signup-stage funnel-signup-stage*)
-            (signup-form user))
-          (when (is 2 userinfo*.user!signup-stage)
-            (flash:+ "Ok! Click on the buttons on the left to like or
-                     dislike each story and move to the next one."))
-          (unless userinfo*.user!read.doc
-            (tag (div class 'rwhistory-link style "display:none")
-              (render-doc-link user doc)))
-          (tag (div id 'rwpost)
-            (feedback-form user doc)
-            (render-doc user doc)))
-        (clear))
-      (update-title doc-title.doc))
-    (do
-      (prn "Oops, there was an error. I've told Kartik. Please try reloading the page. And please feel free to use the feedback form &rarr;")
-      (write-feedback user "" "" "No result found"))))
-
-(def signup-doc-panel(user req)
+(def signup-doc-panel(user req (o flashfn))
   (ensure-user user)
   (or= userinfo*.user!signup-stage 0)
   (++ userinfo*.user!signup-stage)
-  (next-stage user req))
+  (next-stage user req flashfn))

@@ -195,9 +195,15 @@
       (each feed initfeeds
         (handle-upvote user ustation.user "" feed))
       (or
+        (do (erp "initfeeds " initfeeds)
         (set-current-from user initfeeds)
+        )
+        (do (erp "init groups")
         (set-current-from user (groups-feeds:feeds-groups initfeeds))
+        )
+        (do (erp "similar site")
         (pick-from-similar-site user car.initfeeds)))))
+        )
 
 (def pick-from-same-site(user feed)
   (erp user ": same site")
@@ -337,11 +343,12 @@
                (choose-feed user station lastdoc)))))
 
 (def set-current-from(user feeds)
-  (whenlet feed (newest-unread-from user feeds)
-    (let station ustation.user
-      (= station!current
-       (transient-value feed 500)))
-    feed))
+  (when feeds
+    (whenlet feed (newest-unread-from user feeds)
+      (let station ustation.user
+        (= station!current
+         (transient-value feed 500)))
+      feed)))
 
 (def newest-unread-from(user feeds)
   (if

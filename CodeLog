@@ -2665,3 +2665,7 @@ Another graceful-degradation bug.
 Now that the buttons are more responsive, get rid of the 'similar sites'
 button.
 =-=997 - Thu May 13 21:22:40 PDT 2010
+
+Now focus on the signup flow. First make sure the flash messages are
+consistent for users logged-in and not.
+=-=999 - Fri May 14 11:01:37 PDT 2010

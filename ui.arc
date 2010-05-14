@@ -65,26 +65,33 @@
     (mark-read user doc outcome group)
     (when (arg req "samesite")
       (pick-from-same-site user doc-feed.doc))
-    (if signedup?.user
-      (let nextdoc next-doc.user
+    (let nextdoc next-doc.user
+      (if signedup?.user
         (doc-panel user nextdoc
           (fn()
             (when (and (arg req "samesite")
                        (~is doc-feed.doc doc-feed.nextdoc))
-              (flash "No more stories from that site")))))
-      (signup-doc-panel user req))))
+              (flash "No more stories from that site"))))
+        (signup-doc-panel user req
+          (fn()
+            (when (and (arg req "samesite")
+                       (~is doc-feed.doc doc-feed.nextdoc))
+              (flash "No more stories from that site"))))))))
 
 (defop askfor req
   (with (user current-user.req
          query (arg req "q"))
     (create-query user query)
-    (if signedup?.user
-      (let nextdoc next-doc.user
+    (let nextdoc next-doc.user
+      (if signedup?.user
         (doc-panel user nextdoc
           (fn()
             (when (~pos doc-feed.nextdoc scan-feeds.query)
-              (flash "No more stories from that site")))))
-      (signup-doc-panel user req))))
+              (flash "No more stories from that site"))))
+        (signup-doc-panel user req
+          (fn()
+            (when (~pos doc-feed.nextdoc scan-feeds.query)
+              (flash "No more stories from that site"))))))))
 
 (defop doc req
   (with (user (current-user req)
