@@ -2657,3 +2657,6 @@ Degrade gracefully along this continuum when no candidate is found:
 Srikanth: don't make me choose between voting and typing.
 Made the choice more biased toward most recently typed query.
 =-=993 - Thu May 13 17:11:06 PDT 2010
+Several bugfixes; emergency plumbing to connect choose-feed with last-shown
+story.
+=-=994 - Thu May 13 17:44:22 PDT 2010

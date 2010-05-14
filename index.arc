@@ -166,7 +166,7 @@
       (push doc station!read-list))
     (= userinfo*.user!read.doc outcome)
     (when (is doc (lookup-transient station!current))
-      (wipe station!current))
+      (expire-transient station!current))
 
     (or= station!preferred (table))
     (case outcome
@@ -243,16 +243,22 @@
 ;; These should also influence whether we only show well-cleaned feeds.
 (init preferred-prob* 0.8)
 
-(def choose-feed(user station)
+(def choose-feed(user station lastdoc)
+  (erp "choose-feed: " lastdoc)
   (randpick
-    preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds userinfo*.user!queries)
-                       (when (pos (doc-feed (lookup-transient station!current))
-                                  currquerygroupfeeds)
+    preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
+                       (when (pos doc-feed.lastdoc currquerygroupfeeds)
                          (erp "latest query preferred")
                          (choose-from 'latest-query-preferred
-                                      (keep [preferred (station!sites _)
-                                                       userinfo*.user!clock]
+                                      (keep [preferred? (station!sites _)
+                                                        userinfo*.user!clock]
                                             currquerygroupfeeds)
+                                      user station)))
+    preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
+                       (when (pos doc-feed.lastdoc currquerygroupfeeds)
+                         (erp "latest query pre")
+                         (choose-from 'latest-query-pre
+                                      currquerygroupfeeds
                                       user station)))
     preferred-prob*  (choose-from 'recent-preferred
                                   (keep (andf
@@ -270,6 +276,12 @@
     preferred-prob*  (choose-from 'old-preferred
                                   (keys station!preferred)
                                   user station)
+    1.01             (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
+                       (when (pos doc-feed.lastdoc currquerygroupfeeds)
+                         (erp "latest query")
+                         (choose-from 'latest-query
+                                      currquerygroupfeeds
+                                      user station)))
     ; XXX feeds-from-random-group will repeatedly try the same group
     1.01             (choose-from 'recent-group
                                   (keep recent?
@@ -318,10 +330,11 @@
 
 (def pick(user)
   (withs (s userinfo*.user!all
-          station userinfo*.user!stations.s)
+          station userinfo*.user!stations.s
+          lastdoc (transval station!current))
     (lookup-or-generate-transient station!current
        (always [newest-unread user _]
-               (choose-feed user station)))))
+               (choose-feed user station lastdoc)))))
 
 (def set-current-from(user feeds)
   (whenlet feed (newest-unread-from user feeds)
@@ -336,7 +349,7 @@
     (single feeds)    (newest-unread user car.feeds)
                       (always [newest-unread user _] randpos.feeds)))
 
-(after-exec choose-feed(user station)
+(after-exec choose-feed(user station lastdoc)
   (update-clock user))
 (def update-clock(user)
   (let t0 (seconds)

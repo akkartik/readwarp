@@ -325,10 +325,18 @@
     (annotate 'transient-value (list v t0 (+ t0 timeout)))))
 
 (def lookup-transient(tr)
-  (when (and tr (is type.tr 'transient-value))
+  (when (isa tr 'transient-value)
     (let (val init timeout) rep.tr
       (when (< (seconds) timeout)
         val))))
+
+(def transval(tr)
+  (when (isa tr 'transient-value)
+    rep.tr.0))
+
+(def expire-transient(tr)
+  (when (isa tr 'transient-value)
+    (= rep.tr.2 (- (seconds) 1))))
 
 (defmethod serialize transient-value (agg)
   (list 'transient-value rep.agg))
