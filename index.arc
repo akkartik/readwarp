@@ -198,12 +198,12 @@
         (set-current-from user initfeeds)
         (set-current-from user (groups-feeds:feeds-groups initfeeds))))))
 
-(proc pick-from-same-site(user doc)
+(def pick-from-same-site(user doc)
   (erp user ": same site")
   (or (set-current-from user doc-feed.doc)
       (pick-from-similar-site user doc)))
 
-(proc pick-from-similar-site(user doc)
+(def pick-from-similar-site(user doc)
   (erp user ": similar site")
   (let queryfeeds (scan-feeds (car userinfo*.user!queries))
     (set-current-from user
@@ -241,10 +241,19 @@
 ;;  b) recent downvotes
 ;;  c) user input?
 ;; These should also influence whether we only show well-cleaned feeds.
-(init preferred-prob* 0.6)
+(init preferred-prob* 0.8)
 
 (def choose-feed(user station)
   (randpick
+    preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds userinfo*.user!queries)
+                       (when (pos (doc-feed (lookup-transient station!current))
+                                  currquerygroupfeeds)
+                         (erp "latest query preferred")
+                         (choose-from 'latest-query-preferred
+                                      (keep [preferred (station!sites _)
+                                                       userinfo*.user!clock]
+                                            currquerygroupfeeds)
+                                      user station)))
     preferred-prob*  (choose-from 'recent-preferred
                                   (keep (andf
                                           recent?

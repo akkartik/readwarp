@@ -2654,3 +2654,6 @@ Degrade gracefully along this continuum when no candidate is found:
   same site -> similar site (either by query or just this feed)
             -> groups (either for query or just this feed)
 =-=992 - Thu May 13 16:37:44 PDT 2010
+Srikanth: don't make me choose between voting and typing.
+Made the choice more biased toward most recently typed query.
+=-=993 - Thu May 13 17:11:06 PDT 2010
