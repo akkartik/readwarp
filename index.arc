@@ -196,21 +196,22 @@
         (handle-upvote user ustation.user "" feed))
       (or
         (set-current-from user initfeeds)
-        (set-current-from user (groups-feeds:feeds-groups initfeeds))))))
+        (set-current-from user (groups-feeds:feeds-groups initfeeds))
+        (pick-from-similar-site user car.initfeeds)))))
 
-(def pick-from-same-site(user doc)
+(def pick-from-same-site(user feed)
   (erp user ": same site")
-  (or (set-current-from user doc-feed.doc)
-      (pick-from-similar-site user doc)))
+  (or (set-current-from user feed)
+      (pick-from-similar-site user feed)))
 
-(def pick-from-similar-site(user doc)
+(def pick-from-similar-site(user feed)
   (erp user ": similar site")
   (let queryfeeds (scan-feeds (car userinfo*.user!queries))
     (set-current-from user
                       (groups-feeds
-                        (if (pos doc-feed.doc queryfeeds)
+                        (if (pos feed queryfeeds)
                           feeds-groups.queryfeeds
-                          (feed-groups* doc-feed.doc))))))
+                          feed-groups*.feed)))))
 
 (def groups-feeds(groups)
   (dedup:flat:map group-feeds* groups))

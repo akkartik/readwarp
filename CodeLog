@@ -2660,3 +2660,5 @@ Made the choice more biased toward most recently typed query.
 Several bugfixes; emergency plumbing to connect choose-feed with last-shown
 story.
 =-=994 - Thu May 13 17:44:22 PDT 2010
+Another graceful-degradation bug.
+=-=995 - Thu May 13 18:01:09 PDT 2010
