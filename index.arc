@@ -115,7 +115,7 @@
     (inittab userinfo*.user!stations.sname
              'name    sname
              'created (seconds)
-             'preferred (table)
+             'old-preferred (table)
              'sites   (table)
              'groups  (prefrangify
                         '("Economics" "Glamor" "Health" "Magazine" "News"
@@ -143,17 +143,7 @@
     (each (s st) ui!stations
 ;?     (each doc (keys ui!read)
 
-      (= st!sites (table))
-      (each (f v) st!preferred
-        (= st!sites.f (prefrange 100)))
-      (each (f v) st!unpreferred
-        (= st!sites.f (prefrange 99 99)))
-
-      (unless st!oldgroups
-        (= st!oldgroups st!groups
-           st!groups (table)))
-      (each (g v) st!oldgroups
-        (= st!groups.g (prefrange 100)))
+      (swap st!preferred st!old-preferred)
     )
   ))
 
@@ -168,7 +158,6 @@
     (when (is doc (lookup-transient station!current))
       (expire-transient station!current))
 
-    (or= station!preferred (table))
     (case outcome
       "1" (handle-downvote user station feed group)
       "4" (handle-upvote user station feed group))))
@@ -177,8 +166,8 @@
   (unless blank?.group
     (extend-prefer station!groups.group userinfo*.user!clock))
   (extend-prefer station!sites.feed   userinfo*.user!clock)
-  ; XXX stuff that goes into preferred never goes back out
-  (set station!preferred.feed))
+  ; XXX stuff that goes into old-preferred never goes back out
+  (set station!old-preferred.feed))
 
 (proc handle-downvote(user station feed group)
   (if (and (~blank? group)
@@ -280,7 +269,7 @@
                                         (keys station!sites))
                                   user station)
     preferred-prob*  (choose-from 'old-preferred
-                                  (keys station!preferred)
+                                  (keys station!old-preferred)
                                   user station)
     1.01             (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
                        (when (pos doc-feed.lastdoc currquerygroupfeeds)
@@ -408,14 +397,14 @@
           (send-to-gc doc)))))
   (erp "gc-doc-dir done"))
 
-(def add-preferred(user feed)
+(def add-old-preferred(user feed)
   (withs (s userinfo*.user!all
           st userinfo*.user!stations.s)
     (set userinfo*.user!preferred-feeds.feed)
-    (= userinfo*.user!stations.s!preferred.feed (backoff feed 2))))
+    (= userinfo*.user!stations.s!old-preferred.feed (backoff feed 2))))
 
 (def purge-feed(feed)
   (each (u ui) userinfo*
     (when (and ui!preferred-feeds ui!preferred-feeds.feed) (prn u))
     (each (s st) ui!stations
-      (when (and st!preferred st!preferred.feed) (prn u " " s)))))
+      (when (and st!old-preferred st!old-preferred.feed) (prn u " " s)))))

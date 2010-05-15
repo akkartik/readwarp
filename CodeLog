@@ -2669,3 +2669,6 @@ button.
 Now focus on the signup flow. First make sure the flash messages are
 consistent for users logged-in and not.
 =-=999 - Fri May 14 11:01:37 PDT 2010
+
+station!preferred -> old-preferred
+=-=1002 - Sat May 15 11:31:58 PDT 2010
