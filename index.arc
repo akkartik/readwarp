@@ -403,6 +403,14 @@
     (set userinfo*.user!preferred-feeds.feed)
     (= userinfo*.user!stations.s!old-preferred.feed (backoff feed 2))))
 
+(def rename-feed(old new)
+  (each (u ui) userinfo*
+    (when (and ui!preferred-feeds ui!preferred-feeds.old)
+      (swap ui!preferred-feeds.old ui!preferred-feeds.new))
+    (each (s st) ui!stations
+      (when (and st!old-preferred st!old-preferred.old)
+        (swap st!old-preferred.old st!old-preferred.new)))))
+
 (def purge-feed(feed)
   (each (u ui) userinfo*
     (when (and ui!preferred-feeds ui!preferred-feeds.feed) (prn u))
