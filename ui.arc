@@ -81,6 +81,7 @@
 (defop askfor req
   (with (user current-user.req
          query (arg req "q"))
+    (erp "askfor: " user " " query)
     (create-query user query)
     (let nextdoc next-doc.user
       (if signedup?.user
