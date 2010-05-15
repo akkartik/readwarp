@@ -407,3 +407,15 @@
         (unless (pos doc (dl-elems feed-docs*.feed))
           (send-to-gc doc)))))
   (erp "gc-doc-dir done"))
+
+(def add-preferred(user feed)
+  (withs (s userinfo*.user!all
+          st userinfo*.user!stations.s)
+    (set userinfo*.user!preferred-feeds.feed)
+    (= userinfo*.user!stations.s!preferred.feed (backoff feed 2))))
+
+(def purge-feed(feed)
+  (each (u ui) userinfo*
+    (when (and ui!preferred-feeds ui!preferred-feeds.feed) (prn u))
+    (each (s st) ui!stations
+      (when (and st!preferred st!preferred.feed) (prn u " " s)))))
