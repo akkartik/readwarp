@@ -2672,3 +2672,11 @@ consistent for users logged-in and not.
 
 station!preferred -> old-preferred
 =-=1002 - Sat May 15 11:31:58 PDT 2010
+
+station!sites never has many sites. Give it more memory. Hmm, maybe give it a
+*lot* more memory. It gets demoted on a first downvote, and old-preferred is
+the safety net.
+
+What this would do is keep stories popping up from a feed even if they're just
+nexted constantly.
+=-=1003 - Sat May 15 11:34:11 PDT 2010

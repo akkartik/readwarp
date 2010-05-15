@@ -266,7 +266,7 @@
 
 ; prefrange in time. 0-start => unpreferred; start-end => preferred; end->inf => unpreferred
 
-(init defaultrange* 30)
+(init defaultrange* 100)
 (def prefrange(start (o end (+ start defaultrange*)))
   (annotate 'prefrange (list start end)))
 (mac start(pr)
