@@ -72,6 +72,8 @@
 (proc update-feed-groups()
   (= feedgroups* (tokens:tostring:system "cd feeds; ls -d [A-Z]* |grep -v \"^$\\|^All$\\|^Private$\""))
   (= poorly-cleaned-feeds* (memtable (tokens:slurp "feeds/badclean")))
+  (= feed-groups* (table)
+     group-feeds* (table))
   (each group feedgroups*
     (read-group group)))
 
