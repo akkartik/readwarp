@@ -236,7 +236,7 @@
     (tag (form action "/404" onsubmit "submitMagicBox('magicbox', 'a new site'); return false;")
          (tag (div style "height:24px; color:#aaf; width:10px; margin-right:2px; float:right; cursor:pointer"
                    onclick "submitMagicBox('magicbox', 'a new site'); return false;")
-            (pr "&rarr;"))
+            (pr "&crarr;"))
          (tag (span style "color: #ccc")
            (pr "&middot;"))
          (tag:input name "q" id "magicbox"
