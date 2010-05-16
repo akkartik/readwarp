@@ -140,12 +140,12 @@
   (wipe feed-docs*.nil)
 ;?   (each (f d) feed-docs*
   (each (u ui) userinfo*
-    (= ui!clock 100
-       ui!lastshow (seconds))
     (each (s st) ui!stations
 ;?     (each doc (keys ui!read)
 
-      (swap st!preferred st!old-preferred)
+      (each (g gi) st!groups
+        (when (headmatch "http" g)
+          (wipe st!groups.g)))
     )
   ))
 
@@ -184,7 +184,7 @@
     (push query userinfo*.user!queries)
     (let initfeeds scan-feeds.query
       (each feed initfeeds
-        (handle-upvote user ustation.user "" feed))
+        (handle-upvote user ustation.user feed ""))
       (or
         (do (erp "initfeeds " initfeeds)
         (set-current-from user initfeeds)
