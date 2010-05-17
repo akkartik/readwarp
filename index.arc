@@ -186,25 +186,17 @@
       (each feed initfeeds
         (handle-upvote user ustation.user feed ""))
       (or
-        (do (erp "initfeeds " initfeeds)
-        (set-current-from user initfeeds)
-        )
-        (do (erp "init groups")
-        (set-current-from user (groups-feeds:feeds-groups initfeeds))
-        )
-        (do (erp "similar site")
+        (set-current-from 'initfeeds user initfeeds)
+        (set-current-from 'initgroups user (groups-feeds:feeds-groups initfeeds))
         (pick-from-similar-site user car.initfeeds)))))
-        )
 
 (def pick-from-same-site(user feed)
-  (erp user ": same site")
-  (or (set-current-from user feed)
+  (or (set-current-from 'samesite user feed)
       (pick-from-similar-site user feed)))
 
 (def pick-from-similar-site(user feed)
-  (erp user ": similar site")
   (let queryfeeds (scan-feeds (car userinfo*.user!queries))
-    (set-current-from user
+    (set-current-from 'similarsite user
                       (groups-feeds
                         (if (pos feed queryfeeds)
                           feeds-groups.queryfeeds
@@ -333,9 +325,10 @@
        (always [newest-unread user _]
                (choose-feed user station lastdoc)))))
 
-(def set-current-from(user feeds)
+(def set-current-from(name user feeds)
   (when feeds
     (whenlet feed (newest-unread-from user feeds)
+      (erp user ": from " name)
       (let station ustation.user
         (= station!current
          (transient-value feed 500)))
