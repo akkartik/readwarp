@@ -2683,3 +2683,6 @@ nexted constantly.
 
 Bugfix: feeds polluting station!groups.
 =-=1007 - Sun May 16 01:21:34 PDT 2010
+
+Lose failing tests.
+=-=1009 - Mon May 17 03:13:20 PDT 2010

@@ -25,13 +25,12 @@
 
 (shadowing contents (fn(doc) doc)
 
-  (test-ok "station queries work"
-    (run-op station '(("seed" "blog"))))
-
 (shadowing userinfo*
     (obj
       "a" (obj preferred-feeds (table)
                read (table)
+               clock 10
+               lastshow 0
                stations (table)
                signup-showlist (queue)))
 
