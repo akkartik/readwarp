@@ -59,7 +59,14 @@ def postprocessContents(s):
 def urlOpen(url):
   request = urllib2.Request(url)
   f = None
-  try: f = UrlOpener.open(request)
+  try:
+    f = UrlOpener.open(request)
+    try:
+      if float(f.info().get('Content-Length')) > 1024*1024:
+        print 'that file is too big'
+        return None, None
+    except:
+      traceback.print_exc(file=sys.stdout)
   except urllib2.HTTPError: 
     print "Adding user-agent"
     request.add_header('User-Agent', 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5')
@@ -85,7 +92,9 @@ def crawlUrl(rurl, metadata):
   if canonical_url.has_key(rurl):
     url = canonical_url[rurl]
   else:
-    try: url, contents = urlOpen(rurl)
+    try:
+      url, contents = urlOpen(rurl)
+      if url == None: return
     except timeoutsocket.Timeout: return
 
     canonical_url[rurl] = url

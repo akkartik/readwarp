@@ -2686,3 +2686,7 @@ Bugfix: feeds polluting station!groups.
 
 Lose failing tests.
 =-=1009 - Mon May 17 03:13:20 PDT 2010
+
+Handle too-big files during crawl.
+  http://love-python.blogspot.com/2008/10/get-remote-file-size-through-http.html
+=-=1011 - Mon May 17 05:01:04 PDT 2010
