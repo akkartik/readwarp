@@ -237,7 +237,6 @@
   (randpick
     preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
                        (when (pos doc-feed.lastdoc currquerygroupfeeds)
-                         (erp "latest query preferred")
                          (choose-from 'latest-query-preferred
                                       (keep [preferred? (station!sites _)
                                                         userinfo*.user!clock]
@@ -245,7 +244,6 @@
                                       user station)))
     preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
                        (when (pos doc-feed.lastdoc currquerygroupfeeds)
-                         (erp "latest query pre")
                          (choose-from 'latest-query-pre
                                       currquerygroupfeeds
                                       user station)))
