@@ -61,7 +61,8 @@
         (when (>= userinfo*.user!signup-stage funnel-signup-stage*)
           (signup-form user))
         (when (is 2 userinfo*.user!signup-stage)
-          (flash:+ "Ok! Click on the buttons on the left to like or
+          (flash:+ "We'll now show you 6-30 diverse stories to gauge your
+                   interests. Click on the buttons on the left to like or
                    dislike each story and move to the next one."))
         (when flashfn (flashfn))))))
 
