@@ -18,19 +18,21 @@
           (tag (div style "font-style:italic; font-size:80%; margin-top:0.5em")
             (pr "What do I read next?"))
 
-          (tag (div style "margin-top:1em")
-            (tag div
-              (pr "Read all your favorite sites in one place."))
-            (tag div
-              (pr "Readwarp learns your tastes <i>fast</i>."))
-            (tag div
-              (pr "Discover sites you'll love."))
-            (tag:input type "button" id "start-funnel" value "Start reading now"
-                       onclick "location.href='/begin'")
+          (tag (div style "margin-left:auto; margin-right:auto; width:19em")
+            (tag (ul style "margin-top:1em; text-align:left;")
+              (tag li
+                (pr "Read all your favorite sites in one place."))
+              (tag li
+                (pr "Readwarp learns your tastes <i>fast</i>."))
+              (tag li
+                (pr "Discover sites you'll love."))))
 
-            (signup-funnel-analytics is-prod.req 1 user)
+          (tag:input type "button" id "start-funnel" value "Start reading now"
+                     onclick "location.href='/begin'")
 
-        ))))))
+          (signup-funnel-analytics is-prod.req 1 user)
+
+        )))))
 
 (defop begin req
   (let user current-user.req
