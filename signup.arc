@@ -1,7 +1,3 @@
-(mac logo(msg)
-  `(tag (div class 'rwlogo-button)
-      (pr ,msg)))
-
 (init quiz-length* 6)
 (init funnel-signup-stage* (+ 2 quiz-length*))
 (def start-funnel(req)
@@ -18,18 +14,18 @@
         (tag (div id 'rwfrontpage)
 
           (tag (div class 'rwlogo)
-            (logo "Readwarp"))
-          (tag (div style "font-style:italic; margin-top:1em")
-            (pr "&ldquo;What do I read next?&rdquo;"))
+            (tag:img src "readwarp-small.png" width "200px"))
+          (tag (div style "font-style:italic; font-size:80%; margin-top:0.5em")
+            (pr "What do I read next?"))
 
-          (tag (div style "margin-top:1.3em")
-            (tag (div style "margin-top: 0.2em")
-              (pr "Read all your favorite sites from one place."))
-            (tag (div style "margin-top: 0.2em")
-              (pr "Readwarp learns your tastes &mdash; <i>fast</i>."))
-            (tag (div style "margin-top: 0.2em")
+          (tag (div style "margin-top:1em")
+            (tag div
+              (pr "Read all your favorite sites in one place."))
+            (tag div
+              (pr "Readwarp learns your tastes <i>fast</i>."))
+            (tag div
               (pr "Discover sites you'll love."))
-            (tag:input type "button" id "start-funnel" value "Start reading" style "margin-top:1.5em"
+            (tag:input type "button" id "start-funnel" value "Start reading now"
                        onclick "location.href='/begin'")
 
             (signup-funnel-analytics is-prod.req 1 user)
