@@ -49,6 +49,7 @@
            (w/infile f "snapshots/feedinfo.orig"
               (read-nested-table f)))))
 
+(init keyword-feeds-old* nil)
 (dhash-nosave feed keyword "m-n"
   (map canonicalize
        (cons feed
@@ -57,10 +58,12 @@
                                  (vals:feedinfo* symize.feed))))))
 
 (proc update-feed-keywords()
-  (= feed-keywords* (table) keyword-feeds* (table) feed-keyword-nils* (table))
-  ; XXX: queries here may fail
+  (= keyword-feeds-old* keyword-feeds*
+     keyword-feeds* (table))
+  (= feed-keywords* (table) feed-keyword-nils* (table))
   (everyp feed feed-list* 100
-    (feed-keywords feed)))
+    (feed-keywords feed))
+  (wipe keyword-feeds-old*))
 
 (init feed-groups* (table))
 (init group-feeds* (table))
@@ -209,9 +212,12 @@
 
 
 
+(def lookup-feeds-for-keyword(word)
+  ((or keyword-feeds-old* keyword-feeds*) word))
+
 (def scan-feeds(keyword)
   (unless blank?.keyword
-    (dedup:common:map keyword-feeds:canonicalize
+    (dedup:common:map lookup-feeds-for-keyword:canonicalize
                       (flat:map split-urls words.keyword))))
 
 (def feeds-from-random-group(user station)
