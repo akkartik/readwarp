@@ -354,6 +354,7 @@
       (++ userinfo*.user!clock))
     (= userinfo*.user!lastshow t0)))
 
+(init history-size* 10)
 (def recently-shown?(station feed)
   (pos feed
        (map lookup-feed (firstn history-size* station!read-list))))

@@ -44,8 +44,6 @@
       (tag:div class 'rwsep)
 
       (tag (div style "width:100%")
-        (tag (div id 'rwright-panel)
-          (history-panel user req))
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
             (next-stage user req)))))))

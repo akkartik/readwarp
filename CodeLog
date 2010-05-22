@@ -2694,3 +2694,8 @@ Handle too-big files during crawl.
 Bugfix. Queries while recomputing feed-keywords were failing as predicted long
 ago. Fixed. There's probably an idiom here worth extracting at some point.
 =-=1016 - Sat May 22 01:19:01 PDT 2010
+
+Trying it without the history panel as an experiment. What's a better user of
+the space? Show other options, perhaps. Not just titles, but little paragraphs
+of text.
+=-=1017 - Sat May 22 11:30:04 PDT 2010

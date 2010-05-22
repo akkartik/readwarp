@@ -8,22 +8,6 @@
           (tag:div class 'rwclear)
           (tag:div class 'rwsep))))))
 
-(mac with-history(req user . body)
-  `(page ,req
-    (nav ,user)
-    (tag (div style "width:100%")
-      (with-history-sub ,req ,user
-        ,@body))))
-
-(mac with-history-sub(req user . body)
-  `(do
-    (tag (div id 'rwright-panel)
-      (history-panel ,user ,req))
-
-    (tag (div id 'rwcontents-wrap)
-       (tag (div id 'rwcontent)
-         ,@body))))
-
 (= user-msg* (obj
   ))
 
@@ -37,21 +21,25 @@
 (def reader(req)
   (let user current-user.req
     (ensure-user user)
-    (with-history req user
-      (doc-panel user next-doc.user
-        (fn()
-          (firsttime userinfo*.user!noob
-            (tag script
-              (pr "mpmetrics.register({\"signup\": \"true\"});"))
-            (when voting-stats*.user
-              (set voting-stats*.user!signup))
-            (signup-funnel-analytics is-prod.req userinfo*.user!signup-stage user)
-            (flash
-              "Thank you! Keep voting on stories as you read, and
-               Readwarp will continually fine-tune its recommendations.
-               <br><br>
-               Readwarp is under construction. If it seems confused, try
-               creating a new channel. And send us feedback!")))))))
+    (page req
+      (nav user)
+      (tag (div style "width:100%")
+        (tag (div id 'rwcontents-wrap)
+          (tag (div id 'rwcontent)
+            (doc-panel user next-doc.user
+              (fn()
+                (firsttime userinfo*.user!noob
+                  (tag script
+                    (pr "mpmetrics.register({\"signup\": \"true\"});"))
+                  (when voting-stats*.user
+                    (set voting-stats*.user!signup))
+                  (signup-funnel-analytics is-prod.req userinfo*.user!signup-stage user)
+                  (flash
+                    "Thank you! Keep voting on stories as you read, and
+                     Readwarp will continually fine-tune its recommendations.
+                     <br><br>
+                     Readwarp is under construction. If it seems confused, try
+                     creating a new channel. And send us feedback!"))))))))))
 
 (defop docupdate req
   (let user current-user.req
@@ -100,22 +88,6 @@
     (doc-panel user
                (check doc ~blank next-doc.user))))
 
-(init history-size* 10) ; sync with application.js
-
-(def history-panel-body(user req)
-  (ensure-user user)
-  (let items (read-list user)
-    (paginate req "rwhistory" "/history"
-              history-size* len.items
-        reverse t nextcopy "&laquo;older" prevcopy "newer&raquo;"
-      :do
-        (tag (div id 'rwhistory-elems)
-          (each doc (cut items start-index end-index)
-            (render-doc-link user doc))))))
-
-(defop history req
-  (history-panel-body current-user.req req))
-
 
 
 (def next-doc(user)
@@ -134,9 +106,6 @@
     (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
       (when flashfn (flashfn))
       (only.flash user-msg*.user)
-      (unless userinfo*.user!read.doc
-        (tag (div class 'rwhistory-link style "display:none")
-          (render-doc-link user doc)))
       (tag (div id 'rwpost)
         (feedback-form user doc)
         (render-doc user doc)))
@@ -184,11 +153,11 @@
 (def buttons(user doc)
   (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
     (tag (div title "like" class "rwbutton rwlike" onclick
-            (pushHistory doc "'outcome=4'")))
+            (docUpdate doc "'outcome=4'")))
     (tag (div title "next" class "rwbutton rwnext" onclick
-            (pushHistory doc "'outcome=2'")))
+            (docUpdate doc "'outcome=2'")))
     (tag (div title "dislike" class "rwbutton rwskip" onclick
-            (pushHistory doc "'outcome=1'")))
+            (docUpdate doc "'outcome=1'")))
     (magic-box user doc)))
 
 (def email-button(user doc)
@@ -231,7 +200,7 @@
       (pr "next story from:"))
     (magic-box-middot
       (tag (a href "#" onclick
-              (pushHistory doc "'outcome=4&samesite=1'"))
+              (docUpdate doc "'outcome=4&samesite=1'"))
         (pr "this site")))
     (tag (form action "/404" onsubmit "submitMagicBox('magicbox', 'a new site'); return false;")
          (tag (div style "height:24px; color:#aaf; width:10px; margin-right:2px; float:right; cursor:pointer"
@@ -250,17 +219,10 @@
                 (askfor query))
           (pr query))))))
 
-(def pushHistory(doc params)
-  (+ "pushHistory('" jsesc.doc "', " params ")"))
+(def docUpdate(doc params)
+  (+ "docUpdate('" jsesc.doc "', " params ")"))
 (def askfor(query)
   (+ "askFor('" jsesc.query "')"))
-
-(def history-panel(user req)
-  (tag (div id 'rwhistory-wrapper class "rwvlist rwrounded rwshadow")
-    (tag b
-      (pr "recently viewed"))
-    (tag (div id 'rwhistory)
-      (history-panel-body user req))))
 
 
 

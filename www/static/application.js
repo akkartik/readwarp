@@ -113,8 +113,6 @@ function toggleLink(elem) {
 
 
 
-var history_size = 10;
-
 function gen_jslink(text, onclick) {
   return "<a href=\"#\" onclick=\""+onclick+"\">"+text+"</a>";
 }
@@ -137,38 +135,12 @@ function newDocFrom(url, params) {
   return false;
 }
 
-function pushHistory(doc, params) {
-  var src = $$('#doc_'+doc+' .rwhistory-link');
-  if (notblank(src))
-    updateHistoryPanel(doc, params, src);
-
+function docUpdate(doc, params) {
   return newDocFrom('/docupdate', 'doc='+escape(doc)+'&'+params);
 }
 
 function askFor(query) {
   return newDocFrom('/askfor', 'q='+escape(query));
-}
-
-function updateHistoryPanel(doc, params, src) {
-  var elem = $('outcome_'+doc);
-  elem.className = "rwoutcome_icon "+params.replace(/.*outcome=([^&]*).*/, "rwoutcome_$1");
-
-  new Insertion.Top('rwhistory-elems', src[0].innerHTML);
-
-  if($('rwhistory-elems').childNodes.length > history_size) {
-    for(len = $('rwhistory-elems').childNodes.length; len > history_size; --len) {
-      $('rwhistory-elems').removeChild($('rwhistory-elems').childNodes[len-1]);
-    }
-
-    if($('rwhistory').childNodes[0].childNodes.length <= 1) {
-      $('rwhistory').childNodes[0].innerHTML =
-      $('rwhistory').childNodes[2].innerHTML =
-        gen_jslink("&laquo;older",
-          gen_inline('rwhistory',
-                '/history?from='+history_size)) +
-        "&nbsp;newer&raquo;";
-    }
-  }
 }
 
 function showDoc(doc) {
