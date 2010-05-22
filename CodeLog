@@ -2699,3 +2699,8 @@ Trying it without the history panel as an experiment. What's a better user of
 the space? Show other options, perhaps. Not just titles, but little paragraphs
 of text.
 =-=1017 - Sat May 22 11:30:04 PDT 2010
+
+Replace magic box with a dropdown. It won't navigate anymore; you still have
+to use the buttons for that.
+Step 1: move the magicbox to the top where the dropdown will be.
+=-=1018 - Sat May 22 11:43:37 PDT 2010

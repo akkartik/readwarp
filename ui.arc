@@ -152,13 +152,13 @@
 
 (def buttons(user doc)
   (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
+    (magic-box user doc)
     (tag (div title "like" class "rwbutton rwlike" onclick
             (docUpdate doc "'outcome=4'")))
     (tag (div title "next" class "rwbutton rwnext" onclick
             (docUpdate doc "'outcome=2'")))
     (tag (div title "dislike" class "rwbutton rwskip" onclick
-            (docUpdate doc "'outcome=1'")))
-    (magic-box user doc)))
+            (docUpdate doc "'outcome=1'")))))
 
 (def email-button(user doc)
   (tag (span style "margin-left:5px"
@@ -194,7 +194,7 @@
       (pr "&middot; "))
     ,@body))
 (def magic-box(user doc)
-  (tag (div style "text-align:left; margin-left:5px; border-top:1px #ccc solid")
+  (tag (div style "text-align:left; margin-left:5px; margin-bottom: 1em; border-bottom:1px #ccc solid")
     (tag (div style "margin-top:5px;
                     font-size:90%; font-weight:bold; color:#999")
       (pr "next story from:"))
