@@ -40,6 +40,9 @@ p{ margin-top:1em; }
 #start-funnel{ margin-top:1.5em; font-size:26px; font-weight:bold; }
 #rwfrontpage li{ list-style:disc; }
 
+#magicbox-panel{ text-align:left; margin-left:5px;
+                 padding-bottom:5px; border-bottom:1px #ccc solid; margin-bottom:1em; }
+
 .rwbutton{ height:70px; cursor:pointer; position:relative; width:80px; margin-left:25px; margin-bottom:10px; }
 .rwoutcome_icon{ float:right; margin-left:0.5em; }
 

@@ -194,7 +194,7 @@
       (pr "&middot; "))
     ,@body))
 (def magic-box(user doc)
-  (tag (div style "text-align:left; margin-left:5px; margin-bottom: 1em; border-bottom:1px #ccc solid")
+  (tag (div id 'magicbox-panel)
     (tag (div style "margin-top:5px;
                     font-size:90%; font-weight:bold; color:#999")
       (pr "next story from:"))
