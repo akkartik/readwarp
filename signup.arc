@@ -2,7 +2,6 @@
 (init funnel-signup-stage* (+ 2 quiz-length*))
 (def start-funnel(req)
   (let user current-user.req
-    (init-abtests user)
     (page req
       (tag (div style "background:white; min-height:95%;" class "rwrounded-bottom rwshadow")
         (tag (div id 'rwnav)
@@ -29,9 +28,6 @@
 
           (tag:input type "button" id "start-funnel" value "Start reading now"
                      onclick "location.href='/begin'")
-
-          (signup-funnel-analytics is-prod.req 1 user)
-
         )))))
 
 (defop begin req
@@ -50,7 +46,6 @@
 
 (proc next-stage(user req (o flashfn))
   (let funnel-stage userinfo*.user!signup-stage
-    (signup-funnel-analytics is-prod.req funnel-stage user)
     (erp user ": stage " funnel-stage)
     (doc-panel user next-doc.user
       (fn()
@@ -95,9 +90,6 @@
                                    funnel-signup-stage*))
                          "em;"))))
     (clear)))
-
-(proc init-abtests(user)
-  )
 
 (def signup-doc-panel(user req (o flashfn))
   (ensure-user user)

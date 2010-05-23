@@ -112,33 +112,6 @@
     (jstag "dragdrop.js")
     (jstag "application.js")))
 
-(def signup-funnel-analytics(prod n user)
-  (let funnel-name (if prod
-                     "\"Signup1 Production\""
-                     "\"Signup1\"")
-    (tag script
-      (pr "mpmetrics.track_funnel(" funnel-name ", " n ", \"" n "\", "
-          (alist-json abtests.user) ");"))))
-
-(def abtest(user key (o options))
-  (or= userinfo*.user!abtests (table))
-  (unless (or userinfo*.user!abtests.key options)
-    (erp "Error: abtest " key " with no options"))
-  (ret ans (or= userinfo*.user!abtests.key randpos.options)
-    (erp "abtest: " key " " ans)))
-
-(def init-funnel-property(user key val)
-  (or= userinfo*.user!abtests (table))
-  (or= userinfo*.user!abtests.key val))
-
-(def set-funnel-property(user key val)
-  (or= userinfo*.user!abtests (table))
-  (= userinfo*.user!abtests.key val))
-
-(def abtests(user)
-  (init-abtests user)
-  (only.tablist userinfo*.user!abtests))
-
 (def alist-json(al)
   (tostring
     (pr "{")

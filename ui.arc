@@ -33,7 +33,6 @@
                     (pr "mpmetrics.register({\"signup\": \"true\"});"))
                   (when voting-stats*.user
                     (set voting-stats*.user!signup))
-                  (signup-funnel-analytics is-prod.req userinfo*.user!signup-stage user)
                   (flash
                     "Thank you! Keep voting on stories as you read, and
                      Readwarp will continually fine-tune its recommendations.
