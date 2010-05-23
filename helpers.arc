@@ -96,16 +96,6 @@
     (prn "<link rel=\"icon\" href=\"/favicon.ico\"/>")
     (csstag "main.css")
 
-    (jstag "http://api.mixpanel.com/site_media/js/api/mixpanel.js")
-    (tag script
-      (pr "try {
-            var mpmetrics = new MixpanelLib(\"65cfd23d70294fdadc5c7211e3814d8c\");")
-;?       (unless is-prod.req (pr
-      (pr
-          " mpmetrics.set_config({\"test\": 1});"
-          " mpmetrics.identify(\"" current-user.req "\");");)
-      (pr "} catch(err) {}"))
-
     (jstag "prototype.js")
     (jstag "effects.js")
     (jstag "controls.js")

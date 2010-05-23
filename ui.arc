@@ -29,8 +29,6 @@
             (doc-panel user next-doc.user
               (fn()
                 (firsttime userinfo*.user!noob
-                  (tag script
-                    (pr "mpmetrics.register({\"signup\": \"true\"});"))
                   (when voting-stats*.user
                     (set voting-stats*.user!signup))
                   (flash
