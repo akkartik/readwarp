@@ -71,13 +71,19 @@
     (let nextdoc next-doc.user
       (if signedup?.user
         (doc-panel user nextdoc
-          (fn()
-            (when (~pos doc-feed.nextdoc scan-feeds.query)
-              (flash "No more stories from that site"))))
+          (fn() (flashmsg nextdoc query)))
         (signup-doc-panel user req
-          (fn()
-            (when (~pos doc-feed.nextdoc scan-feeds.query)
-              (flash "No more stories from that site"))))))))
+          (fn() (flashmsg nextdoc query)))))))
+
+(def flashmsg(doc query)
+  (let feeds scan-feeds.query
+    (if
+      (no feeds)
+        (flash "Hmm, I don't know that site. Please try again.
+               (Telling the operator. Please provide details by clicking
+                on feedback.)")
+      (~pos doc-feed.doc feeds)
+        (flash "No more stories from that site"))))
 
 (defop doc req
   (with (user (current-user req)
@@ -110,7 +116,8 @@
   (update-title doc-title.doc))
 
 (def doc-panel-error(user)
-  (prn "Oops, there was an error. I've told Kartik. Please try reloading the page. And please feel free to use the feedback form &rarr;")
+  (flash "Oops, there was an operator. Telling the operator. Please feel free to
+       send us feedback.")
   (write-feedback user "" "" "No result found"))
 
 (def update-title(s)
