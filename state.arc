@@ -57,7 +57,7 @@
   `(do
      (init ,registry ())
      (proc ,fnname ,args ,@body)
-     (add-to ,registry ,fnname)))
+     (pushnew ',fnname ,registry)))
 
 (mac defrep(fnname interval . body)
   `(do
@@ -355,10 +355,10 @@
 
 (init migrations* nil)
 (def run-migrations()
-  (prn "running migrations")
+  (prn "running " len.migrations* " migrations")
   (each f migrations*
     (prn " -- migration: " f)
-    (f)))
+    (eval.f)))
 
 
 

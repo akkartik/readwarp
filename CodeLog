@@ -2717,3 +2717,7 @@ Fix the flash message when we just don't recognize a site.
 =-=1024 - Sat May 22 23:16:06 PDT 2010
 Tweaks to error messages.
 =-=1025 - Sat May 22 23:20:08 PDT 2010
+
+Tweak defreg to operate on names. That'll prevent it from accidentally
+re-running functions.
+=-=1026 - Sun May 23 10:09:37 PDT 2010

@@ -138,7 +138,6 @@
   userinfo*.user!read.doc)
 
 (defreg migrate() migrations*
-  (prn "running migrations")
   (wipe userinfo*.nil)
   (wipe feed-docs*.nil)
 ;?   (each (f d) feed-docs*
@@ -147,8 +146,7 @@
 ;?     (each doc (keys ui!read)
 
       (each (g gi) st!groups
-        (when (headmatch "http" g)
-          (wipe st!groups.g)))
+        (erp u " " s " " g))
     )
   ))
 
