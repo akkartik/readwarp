@@ -35,8 +35,8 @@
                     "Thank you! Keep voting on stories as you read, and
                      Readwarp will continually fine-tune its recommendations.
                      <br><br>
-                     Readwarp is under construction. If it seems confused, try
-                     creating a new channel. And send us feedback!"))))))))))
+                     If you want a different topic ask for a site about that
+                     topic in the left."))))))))))
 
 (defop docupdate req
   (let user current-user.req
@@ -116,8 +116,8 @@
   (update-title doc-title.doc))
 
 (def doc-panel-error(user)
-  (flash "Oops, there was an operator. Telling the operator. Please feel free to
-       send us feedback.")
+  (flash "Oops, there was an error. Telling the operator. Please try
+          reloading.")
   (write-feedback user "" "" "No result found"))
 
 (def update-title(s)
