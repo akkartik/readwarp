@@ -33,16 +33,11 @@
 
 
 ;;; Transparent persistence
-(init autosaved-vars* ())
-(mac setup-autosave(var value)
+(init persisted-vars* ())
+(mac persisted(var value)
   `(do
      (load-snapshot ,var ,value)
-     (pushnew ',var autosaved-vars*)))
-
-(mac persisted(var value . body)
-  `(do
-     (setup-autosave ,var ,value)
-     ,@body))
+     (pushnew ',var persisted-vars*)))
 
 (mac without-updating-state body
   `(after*
@@ -73,10 +68,10 @@
 (init prn-autosave* nil)
 (init quit-after-autosave* nil)
 (let session-timestamp (seconds)
-  (defrep save-state 300
+  (defrep autosave-state 300
     (unless disable-autosave*
       (when prn-autosave* (prn "Saving"))
-      (each var autosaved-vars*
+      (each var persisted-vars*
         (when prn-autosave* (prn " " var))
         (eval `(save-snapshot ,var ,session-timestamp))
         (sleep 10))
@@ -429,13 +424,13 @@
 
     `(do
       ,(if (and save backward)
-        `(setup-autosave ,key-table-name (table))
+        `(persisted ,key-table-name (table))
         `(init ,key-table-name (table)))
       ,(if (and save forward)
-        `(setup-autosave ,value-table-name (table))
+        `(persisted ,value-table-name (table))
         `(init ,value-table-name (table)))
       ,(if (and save forward)
-        `(setup-autosave ,value-table-nil-name (table))
+        `(persisted ,value-table-nil-name (table))
         `(init ,value-table-nil-name (table)))
       (def ,create-function-name(,key-name)
         ,body)

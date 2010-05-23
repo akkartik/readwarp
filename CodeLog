@@ -2721,3 +2721,5 @@ Tweaks to error messages.
 Tweak defreg to operate on names. That'll prevent it from accidentally
 re-running functions.
 =-=1026 - Sun May 23 10:09:37 PDT 2010
+refactor names: persist vs autosave.
+=-=1027 - Sun May 23 10:26:25 PDT 2010

@@ -1,4 +1,4 @@
-(shadowing autosaved-vars* ()
+(shadowing persisted-vars* ()
 (shadowing snapshots-dir* "test-snapshots"
 (system:+ "mkdir -p " snapshots-dir*)
 (system:+ "rm " snapshots-dir* "/?s*.*")
@@ -134,9 +134,9 @@
 
 (test-smatch "dhash expands into code to lookup key->value and vice versa"
   '(do
-    (setup-autosave id-docs* (table))
-    (setup-autosave doc-ids* (table))
-    (setup-autosave doc-id-nils* (table))
+    (persisted id-docs* (table))
+    (persisted doc-ids* (table))
+    (persisted doc-id-nils* (table))
     (def create-doc-id (doc) (list 0))
     (def set-doc-id (doc)
       (let id (create-doc-id doc)
