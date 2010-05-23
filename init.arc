@@ -13,6 +13,8 @@
   (include "js.arc")
   (include "ui.arc")
   (include "signup.arc")
+  (include "ops.arc")
+
   (include "autosubmit.arc")
 )
 (init-code)

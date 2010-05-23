@@ -13,6 +13,7 @@ cd ~/readwarp
   wget http://readwarp.com/votingstats -O -
 
   echo; echo
+  wget http://readwarp.com/cleardailystats -O -
   for i in feedback/*
   do
     echo "== $i"
