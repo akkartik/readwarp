@@ -52,13 +52,15 @@
         (when (>= userinfo*.user!signup-stage funnel-signup-stage*)
           (signup-form user))
         (when (is 2 userinfo*.user!signup-stage)
-          (flash:+ "We'll now show you 6-30 diverse stories to gauge your
-                   interests. Click on the buttons on the left to like or
-                   dislike each story and move to the next one."))
+          (flash:+ "Click on the buttons to like or dislike each story and
+                   move to the next one.
+                   <p>
+                   To see specific kinds of stories, type in a site on the
+                   left."))
         (when flashfn (flashfn))))))
 
 (def signup-form(user)
-  (tag (div style "text-align:left; background:#915c69; padding:0.5em")
+  (tag (div class 'rwflash style "margin:0; padding:0.5em")
     (tag (span style "font-size:14px; color:#222222")
       (prbold "Please sign up to save your votes."))
     (br)

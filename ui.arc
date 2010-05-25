@@ -80,8 +80,8 @@
     (if
       (no feeds)
         (flash "Hmm, I don't know that site. Please try again.
-               (Telling the operator. Please provide details by clicking
-                on feedback.)")
+               <br><i>(Telling the operator. Please provide details by clicking
+                on feedback.)</i>")
       (~pos doc-feed.doc feeds)
         (flash "No more stories from that site"))))
 
