@@ -157,8 +157,6 @@
 (def buttons(user doc)
   (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
     (magic-box user doc)
-    (tag (div style "text-align:left; margin-left:5px; font-weight:bold; color:#999; font-size:90%")
-      (pr "another suggestion:"))
     (tag (div title "like" class "rwbutton rwlike" onclick
             (docUpdate doc "'outcome=4'")))
     (tag (div title "next" class "rwbutton rwnext" onclick
