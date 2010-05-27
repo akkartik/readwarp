@@ -38,11 +38,11 @@
           (acc val.curr)
           (= curr next.curr))))))
 
-(defmethod serialize dlist (agg)
+(defmethod serialize(agg) dlist
   (list 'dlist (map serialize dl-elems.agg)))
 (pickle dlist serialize)
 
-(defmethod unserialize dlist (l)
+(defmethod unserialize(l) dlist
   (dlist (map unserialize cadr.l)))
 
 (def dl-empty?(dl)

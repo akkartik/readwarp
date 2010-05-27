@@ -333,9 +333,9 @@
   (when (isa tr 'transient-value)
     (= rep.tr.2 (- (seconds) 1))))
 
-(defmethod serialize transient-value (agg)
+(defmethod serialize(agg) transient-value
   (list 'transient-value rep.agg))
-(defmethod unserialize transient-value (l)
+(defmethod unserialize(l) transient-value
   (annotate 'transient-value cadr.l))
 
 

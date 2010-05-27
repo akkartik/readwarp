@@ -449,7 +449,7 @@
 
 
 
-(defmethod iso table (x y)
+(defmethod iso(x y) table
   (and (isa x 'table)
        (isa y 'table)
        (is (len keys.x) (len keys.y))
@@ -461,7 +461,7 @@
 (defgeneric serialize(x)
   x)
 
-(defmethod serialize table (x)
+(defmethod serialize(x) table
   (list 'table
     (accum a
       (maptable (fn (k v)
@@ -475,7 +475,7 @@
   (aif (vtables*!unserialize type*.x)
     (it x)
     x))
-(defmethod unserialize cons (x)
+(defmethod unserialize(x) cons
   (map unserialize x))
 
 (def type*(x)
@@ -493,7 +493,7 @@
   (and (acons l)
        (all pair? l)))
 
-(defmethod unserialize table (x)
+(defmethod unserialize(x) table
   (w/table h
     (map (fn ((k v)) (= h.k unserialize.v))
          cadr.x)))
