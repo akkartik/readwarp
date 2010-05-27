@@ -13,7 +13,7 @@
         (tag (div id 'rwfrontpage)
 
           (tag (div class 'rwlogo)
-            (tag:img src "readwarp-small.png" width "200px"))
+            (tag:img src "readwarp.png" width "200px"))
           (tag (div style "font-style:italic; font-size:80%; margin-top:0.5em")
             (pr "What do I read next?"))
 
