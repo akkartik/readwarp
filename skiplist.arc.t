@@ -11,41 +11,41 @@
   `(scoped-extend random-level (redef random-level (fn() ,n))
       (insert-sl ,sl ,v)))
 
-(let ans (obj t 0 nil 0)
+(let ans (obj t 0 () 0)
   (repeat 50
     (= sl (slist))
     (insert-sl-at-level 0 sl 32)
     (++ (ans (is 32 sl!next.0!val))))
   (test-is "insert at level 0 always updates level-0 pointer"
     0
-    ans.nil))
+    (ans ())))
 
-(let ans (obj t 0 nil 0)
+(let ans (obj t 0 () 0)
   (repeat 50
     (= sl (slist))
     (insert-sl-at-level 1 sl 32)
     (++ (ans (is 32 sl!next.0!val))))
   (test-is "insert at level 1 always updates level-0 pointer"
     0
-    ans.nil))
+    (ans ())))
 
-(let ans (obj t 0 nil 0)
+(let ans (obj t 0 () 0)
   (repeat 50
     (= sl (slist))
     (insert-sl-at-level (+ 1 (rand (- skiplist-max-height* 1))) sl 32)
     (++ (ans (is 32 sl!next.0!val))))
   (test-is "insert at higher levels always updates level-0 pointer"
     0
-    ans.nil))
+    (ans ())))
 
-(let ans (obj t 0 nil 0)
+(let ans (obj t 0 () 0)
   (repeat 50
     (= sl (slist))
     (insert-sl sl 32)
     (++ (ans (is 32 sl!next.0!val))))
   (test-is "insert always updates level-0 pointer"
     0
-    ans.nil))
+    (ans ())))
 
 
 
