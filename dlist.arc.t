@@ -75,6 +75,11 @@
 (test-iso "serialize dlist works"
     '(dlist (42 43 44))
     (serialize (dlist '(42 43 44))))
-(test-iso "unserialize undoes serialize"
+
+(test-iso "serialize handles tables containing dlists"
+  '(table ((1 2) (3 (dlist (4)))))
+  (serialize (obj 1 2 3 (dlist '(4)))))
+
+(test-iso "unserialize undoes serialize for dlists"
     (dlist '(42 43 44))
     (unserialize:serialize (dlist '(42 43 44))))

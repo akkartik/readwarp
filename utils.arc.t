@@ -296,47 +296,59 @@
   nil
   (pair? '(1 2 3 4)))
 
-(test-iso "read-nested-table handles tables"
+(test-iso "unserialize handles tables"
   (obj 1 2)
-  (w/instring f "(table ((1 2)))" (read-nested-table f)))
+  (w/instring f "(table ((1 2)))" (unserialize:read f)))
 
-(test-iso "read-nested-table handles nil"
+(test-iso "unserialize handles nil"
   (table)
-  (w/instring f "(table nil)" (read-nested-table f)))
+  (w/instring f "(table nil)" (unserialize:read f)))
 
-(test-iso "read-nested-table handles non-tables"
+(test-iso "unserialize handles non-tables"
   '(1 2)
-  (w/instring f "(1 2)" (read-nested-table f)))
+  (w/instring f "(1 2)" (unserialize:read f)))
 
-(test-iso "read-nested-table handles strings"
+(test-iso "unserialize handles strings"
   "abc"
-  (w/instring f "\"abc\"" (read-nested-table f)))
+  (w/instring f "\"abc\"" (unserialize:read f)))
 
-(test-iso "read-nested-table handles compound non-tables"
+(test-iso "unserialize handles compound non-tables"
   '(1 "abc")
-  (w/instring f "(1 \"abc\")" (read-nested-table f)))
+  (w/instring f "(1 \"abc\")" (unserialize:read f)))
 
-(test-iso "read-nested-table handles nested tables"
+(test-iso "unserialize handles nested tables"
   (obj 1 "abc" 2 (obj 3 4))
-  (w/instring f "(table ((1 \"abc\") (2 (table ((3 4))))))" (read-nested-table f)))
+  (w/instring f "(table ((1 \"abc\") (2 (table ((3 4))))))" (unserialize:read f)))
 
-(test-iso "read-nested-table handles nested empty tables"
+(test-iso "unserialize handles nested empty tables"
   (obj 1 2 3 (table))
-  (w/instring f "(table ((1 2) (3 (table nil))))" (read-nested-table f)))
+  (w/instring f "(table ((1 2) (3 (table nil))))" (unserialize:read f)))
 
-(test-iso "read-nested-table handles tables containing dlists"
+(test-iso "unserialize handles tables containing dlists"
   (obj 1 2 3 (dlist '(4)))
-  (w/instring f "(table ((1 2) (3 (dlist (4)))))" (read-nested-table f)))
+  (w/instring f "(table ((1 2) (3 (dlist (4)))))" (unserialize:read f)))
 
-(test-iso "read-nested-table handles lists containing tables"
+(test-iso "unserialize handles lists containing tables"
   (list 1 2 (table))
-  (w/instring f "(1 2 (table nil))" (read-nested-table f)))
+  (w/instring f "(1 2 (table nil))" (unserialize:read f)))
 
-(test-iso "serialize handles tables containing dlists"
-  '(table ((1 2) (3 (dlist (4)))))
-  (serialize (obj 1 2 3 (dlist '(4)))))
+(test-iso "unserialize reverses serialize for integers"
+  236
+  (unserialize:serialize 236))
 
-(test-iso "unserialize can handle tables"
+(test-iso "unserialize reverses serialize for strings"
+  "abc"
+  (unserialize:serialize "abc"))
+
+(test-iso "unserialize reverses serialize for nil"
+  ()
+  (unserialize:serialize ()))
+
+(test-iso "unserialize reverses serialize for lists"
+  '(1 2 34)
+  (unserialize:serialize '(1 2 34)))
+
+(test-iso "unserialize reverses serialize for tables"
   (table)
   (unserialize:serialize (table)))
 

@@ -94,16 +94,12 @@
 
 (def fwrite(filename val)
   (w/outfile f filename
-    (if (isa val 'table)
-      (write-nested-table val f)
-      (write val f))))
+    (write serialize.val f)))
 
 (mac fread(filename val)
   (let f (uniq)
     `(w/infile ,f ,filename
-        (if (isa ,val 'table)
-          (= ,val (read-nested-table ,f))
-          (= ,val (read ,f))))))
+        (= ,val (unserialize:read ,f)))))
 
 
 

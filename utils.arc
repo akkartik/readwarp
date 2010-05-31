@@ -498,12 +498,6 @@
     (map (fn ((k v)) (= h.k unserialize.v))
          cadr.x)))
 
-(def read-nested-table((o i (stdin)) (o eof))
-  (unserialize (read i eof)))
-
-(def write-nested-table(h (o o (stdout)))
-  (write serialize.h o))
-
 (def read-json-table(filename (o errfn [table]))
   (on-err errfn
           (fn()
