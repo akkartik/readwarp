@@ -1,6 +1,6 @@
-(test-iso "stringify works on nil sym"
+(test-iso "string works on nil sym"
   ""
-  (stringify nil))
+  (string nil))
 
 (test-is "symize works on nil sym"
   nil

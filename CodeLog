@@ -2732,3 +2732,6 @@ daily-persisted.
 Fix that pixelated frontpage logo. To work with readwarp-small.svg, I needed
 to install the gotham fonts Srikanth mailed me long ago.
 =-=1035 - Wed May 26 23:06:06 PDT 2010
+
+stringify -> string
+=-=1040 - Wed Jun  2 19:25:06 PDT 2010

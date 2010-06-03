@@ -2,12 +2,12 @@
 
 (mac deftimed(name args . body)
   `(do
-     (def ,(symize (stringify name) "_core") ,args
+     (def ,(symize string.name "_core") ,args
         ,@body)
      (def ,name ,args
       (let t0 (msec)
-        (ret ans ,(cons (symize (stringify name) "_core") args)
-          (update-time ,(stringify name) t0))))))
+        (ret ans ,(cons (symize string.name "_core") args)
+          (update-time ,string.name t0))))))
 
 (proc update-time(name t0)
   (or= times*.name (list 0 0))

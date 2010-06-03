@@ -110,7 +110,7 @@
     (erp "new user: " user)
     (inittab userinfo*.user
              'clock 100 'lastshow (seconds)
-             'all (stringify:unique-id)
+             'all (string:unique-id)
              'read (table) 'stations (table)))
   (ensure-station user userinfo*.user!all))
 

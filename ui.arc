@@ -350,7 +350,7 @@
 
 (def signup(user ip)
   (ensure-user user)
-  (or= userinfo*.user!all (stringify:unique-id))
+  (or= userinfo*.user!all (string:unique-id))
   (ensure-station user userinfo*.user!all)
   (unless userinfo*.user!signedup
     (set userinfo*.user!signedup)

@@ -98,14 +98,14 @@
 
 ;; dynamic scope when writing tests
 (mac shadow(var expr)
-  (let stack (globalize stringify.var "-stack")
+  (let stack (globalize string.var "-stack")
     `(do
        (init ,stack ())
        (push ,var ,stack)
        (redef ,var ,expr))))
 
 (mac unshadow(var)
-  (let stack (globalize stringify.var "-stack")
+  (let stack (globalize string.var "-stack")
     `(do
       (if (or (~bound ',stack)
               (empty ,stack))
@@ -137,7 +137,7 @@
                 ,@body)))))
 
 (mac scoped-extend(var . body)
-  (let stack (globalize stringify.var "-stack")
+  (let stack (globalize string.var "-stack")
     `(after
        (init ,stack ())
        (push ,var ,stack)
@@ -218,7 +218,7 @@
 
 ; def with fake kwargs that still need to be ordered right
 (mac defc(fnname args . body)
-  (let subfn (symize stringify.fnname "-sub")
+  (let subfn (symize string.fnname "-sub")
     `(do
        (def ,subfn ,args
           ,@body)
@@ -615,12 +615,10 @@
     (r "([a-z])([A-Z])") "\\1 \\2"))
 
 (def colonsym(sym)
-  (headmatch ":" (stringify sym)))
-;? (mac colonsym(sym)
-;?   `(headmatch ":" (stringify ',sym)))
+  (headmatch ":" string.sym))
 
 (def strip-colon(sym)
-  (let ans stringify.sym
+  (let ans string.sym
     (if (is ans.0 #\:)
       (= ans (cut ans 1)))
     symize.ans))
@@ -704,11 +702,11 @@
   (~empty (getenv "TEST")))
 
 (def l(f)
-  (include:+ stringify.f ".arc"))
+  (include:+ string.f ".arc"))
 (def test(f)
   (after*
     (= test-failures* 0)
-    (include:+ stringify.f ".arc.t")
+    (include:+ string.f ".arc.t")
   :do
     (prn:plural test-failures* "failure")))
 

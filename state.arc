@@ -6,7 +6,7 @@
    ; max works because times lie between 10^9s and 2*10^9s
    `(aif (apply max
           (keep
-              [and (iso ,(stringify var) (car:split-by _ "."))
+              [and (iso ,(string var) (car:split-by _ "."))
                    (~posmatch ".tmp" _)]
              (dir snapshots-dir*)))
       (+ snapshots-dir* "/" it)))
@@ -23,7 +23,7 @@
       (or (init ,var ,initval) ,var)))
 
 (mac new-snapshot-name(var (o timestamp))
-  `(+ (+ snapshots-dir* "/" ,(stringify var) ".")
+  `(+ (+ snapshots-dir* "/" ,(string var) ".")
       (or ,timestamp
           ,(seconds)))) ; one file per session. remove comma to stop reusing
 
@@ -56,13 +56,13 @@
 
 (mac defrep(fnname interval . body)
   `(do
-     (init ,(symize stringify.fnname "-init*") nil)
+     (init ,(symize string.fnname "-init*") nil)
      (proc ,fnname()
        (forever
          (log-time ,fnname
            ,@body)
          (sleep ,interval)))
-     (init ,(symize stringify.fnname "-thread*") (new-thread ,stringify.fnname ,fnname))))
+     (init ,(symize string.fnname "-thread*") (new-thread ,string.fnname ,fnname))))
 
 (init disable-autosave* t)
 (init prn-autosave* nil)
@@ -109,23 +109,23 @@
 (init scan-registry* nil)
 (mac defscan(fnname fifo . block)
   (with ((nextfifo body) (extract-car block 'string)
-         log-var (symize stringify.fnname "-log*")
-         thread-var (symize stringify.fnname "-thread*"))
+         log-var (symize string.fnname "-log*")
+         thread-var (symize string.fnname "-thread*"))
     `(do
        (init ,log-var ())
        (proc ,fnname()
-         (prn ,stringify.fnname " watching fifos/" ,fifo)
+         (prn ,string.fnname " watching fifos/" ,fifo)
          (forever:each doc (tokens:slurp ,(+ "fifos/" fifo))
             (rotlog ,log-var doc)
             ,@body
             ,(aif nextfifo `(w/outfile f ,(+ "fifos/" it) (disp doc f)))))
-       (init ,thread-var (new-thread ,stringify.fnname ,fnname))
+       (init ,thread-var (new-thread ,string.fnname ,fnname))
        (pushnew ,thread-var scan-registry*))))
 
 
 
 (def chunk-files(var)
-  (tokens:tostring:system (+ "ls -t snapshots/" stringify.var "-chunk* |grep -v 'tmp$'")))
+  (tokens:tostring:system (+ "ls -t snapshots/" string.var "-chunk* |grep -v 'tmp$'")))
 
 (mac load-chunks(var)
   (let ans (uniq)
@@ -140,8 +140,8 @@
 
 (mac save-to-chunk(var val ind)
   `(do
-    (push (list ,ind ,val) ,(globalize stringify.var "-chunk"))
-    (test-save ,(globalize stringify.var "-chunk"))))
+    (push (list ,ind ,val) ,(globalize string.var "-chunk"))
+    (test-save ,(globalize string.var "-chunk"))))
 
 (init chunk-counter* 0)
 (init chunk-size* 1000)
@@ -159,7 +159,7 @@
 (init chunked-persisted-vars* nil)
 (mac chunked-persisted(var)
   `(do
-     (init ,(globalize stringify.var "-chunk") nil)
+     (init ,(globalize string.var "-chunk") nil)
      (let ref (load-chunks ,var)
        (push (list ref ',var) chunked-persisted-vars*))))
 
@@ -405,8 +405,8 @@
 
 (def hash-helper(forward backward save key-name value-name association body policy)
   (withs ((pluralize-key pluralize-value) (pluralize-controls association)
-          key-str (stringify key-name)
-          value-str (stringify value-name)
+          key-str (string key-name)
+          value-str (string value-name)
           check-function-name (symize key-str "-" value-str "?")
           lookup-function-name
                       (pluralized-fnname key-str value-str pluralize-value)
@@ -455,7 +455,7 @@
             b)))
 
 (def pluralize-controls(s)
-  (let as (stringify s)
+  (let as (string s)
     (list (~iso as.0 #\1)
           (~iso as.2 #\1))))
 

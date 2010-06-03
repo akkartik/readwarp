@@ -59,20 +59,20 @@
 ; calling convention for fn args: var storage -> storage
 (mac deftoggle(name var test-fn
                set-copy set-fn reset-copy reset-fn)
-  (withs (name-str (stringify name)
+  (withs (name-str (string name)
           addop (symize "add-to-" name-str)
           remop (symize "remove-from-" name-str)
           storage (symize name-str "s-table")
           link_fn (symize name-str "_link")
-          var-str (stringify var))
+          var-str (string var))
     `(let dummy nil
        (unless (bound ',storage) (= ,storage nil))
        (defop ,addop req (= ,storage (,set-fn (arg req ,var-str) ,storage)))
        (defop ,remop req (= ,storage (,reset-fn (arg req ,var-str) ,storage)))
        (def ,link_fn(,var)
           (jstogglelink ,var
-              ,reset-copy (+ ,(+ "/" (stringify remop) "?" var-str "=") (eschtml ,var))
-              ,set-copy (+ ,(+ "/" (stringify addop) "?" var-str "=") (eschtml ,var))
+              ,reset-copy (+ ,(+ "/" string.remop "?" var-str "=") (eschtml ,var))
+              ,set-copy (+ ,(+ "/" string.addop "?" var-str "=") (eschtml ,var))
               (,test-fn ,var ,storage))))))
 
 (def cache-control(static-file)
@@ -106,7 +106,7 @@
     (each (k v) al
       (if (~is k caar.al)
         (pr ", "))
-      (pr "\"" stringify.k "\": \"" stringify.v "\""))
+      (pr "\"" string.k "\": \"" string.v "\""))
     (pr "}")))
 
 (def is-prod(req)
