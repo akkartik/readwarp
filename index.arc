@@ -415,3 +415,20 @@
     (when (and ui!preferred-feeds ui!preferred-feeds.feed) (prn u))
     (each (s st) ui!stations
       (when (and st!old-preferred st!old-preferred.feed) (prn u " " s)))))
+
+(def load-feeds(user)
+  (when (file-exists (+ "feeds/users/" user))
+    (w/infile f (+ "feeds/users/" user)
+      (w/table ans
+        (whilet line (readline f)
+          (zap trim line)
+          (when (~empty line)
+            (let url (car:tokens line)
+              (when (headmatch "http" url)
+                (set ans.url)))))))))
+
+(mac w/user(u . body)
+  `(withs (user ,u
+           s userinfo*.user!all
+           st userinfo*.user!stations.s)
+    ,@body))
