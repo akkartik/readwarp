@@ -2746,3 +2746,6 @@ css tweaks.
 
 Submit URL to HN. Don't shorten URLs in the submission.
 =-=1045 - Thu Jun 10 14:47:56 PDT 2010
+urlencode seems to be more trouble than it's worth. It can't handle any
+unicode entities. Not urlencoding only has trouble with question marks.
+=-=1046 - Thu Jun 10 15:24:04 PDT 2010

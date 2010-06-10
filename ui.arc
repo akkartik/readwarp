@@ -182,8 +182,8 @@
 (def hackernews-button(doc)
   (sharebutton
     (tag (a href (+ "http://news.ycombinator.com/submitlink"
-                    "?u=" (urlencode doc-url.doc)
-                    "&t=" (urlencode doc-title.doc))
+                    "?u=" doc-url.doc
+                    "&t=" doc-title.doc)
             target  "_blank")
       (tag:img src "hackernews.gif" height "16px"))))
 
