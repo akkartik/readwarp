@@ -2749,3 +2749,7 @@ Submit URL to HN. Don't shorten URLs in the submission.
 urlencode seems to be more trouble than it's worth. It can't handle any
 unicode entities. Not urlencoding only has trouble with question marks.
 =-=1046 - Thu Jun 10 15:24:04 PDT 2010
+
+Submit URL to google reader. I could sneakily shorten these and hope nobody
+notices..
+=-=1047 - Thu Jun 10 15:44:01 PDT 2010

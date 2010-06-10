@@ -134,6 +134,7 @@
         (pr (check doc-title.doc ~empty "no title")))
       (twitter-button doc)
       (hackernews-button doc)
+      (google-share-button doc)
       (email-button user doc)
       (copywidget doc-url.doc))
     (tag (div class 'rwsubtitle)
@@ -186,6 +187,15 @@
                     "&t=" doc-title.doc)
             target  "_blank")
       (tag:img src "hackernews.gif" height "16px"))))
+
+; http://www.google.com/support/reader/bin/answer.py?hl=en&answer=147149
+(def google-share-button(doc)
+  (sharebutton
+    (tag (a href (+ "http://www.google.com/reader/link"
+                    "?url=" doc-url.doc
+                    "&title=" doc-title.doc)
+            target  "_blank")
+      (tag:img src "google.png" height "16px"))))
 
 
 
