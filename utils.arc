@@ -623,6 +623,9 @@
       (= ans (cut ans 1)))
     symize.ans))
 
+(def listify(s)
+  (coerce s 'cons))
+
 
 
 (def sort-by(f l)

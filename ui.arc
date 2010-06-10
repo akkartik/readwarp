@@ -130,8 +130,9 @@
 (def render-doc(user doc)
   (tag (div id (+ "contents_" doc))
     (tag (h2 class 'rwtitle)
-      (tag (a href doc-url.doc target "_blank")
+      (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
         (pr (check doc-title.doc ~empty "no title")))
+      (twitter-button doc)
       (email-button user doc)
       (copywidget doc-url.doc))
     (tag (div class 'rwsubtitle)
@@ -165,11 +166,17 @@
             (docUpdate doc "'outcome=1'")))))
 
 (def email-button(user doc)
-  (tag (span style "margin-left:5px"
+  (tag (span style "margin-left:5px; cursor:pointer"
             onclick "$('rwemail').toggle();
                      $('rwform-flash').innerHTML='';
                      $('rwform-flash').hide()")
     (tag:img src "email.jpg" height "14px")))
+
+(def twitter-button(doc)
+  (tag (a href  (+ "http://twitter.com/home?status=http://wrp.to/"
+                   (url-hash:doc-url doc))
+          target  "_blank")
+    (tag:img src "twitter.png" height "16px")))
 
 
 

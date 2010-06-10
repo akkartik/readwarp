@@ -8,6 +8,7 @@
 
   (include "state.arc")
   (include "index.arc")
+  (include "wrp.arc")
 
   (include "helpers.arc")
   (include "js.arc")
