@@ -166,16 +166,17 @@
             (docUpdate doc "'outcome=1'")))))
 
 (def email-button(user doc)
-  (tag (span style "margin-left:5px; cursor:pointer"
+  (tag (span class 'rwsharebutton
             onclick "$('rwemail').toggle();
                      $('rwform-flash').innerHTML='';
                      $('rwform-flash').hide()")
     (tag:img src "email.jpg" height "14px")))
 
 (def twitter-button(doc)
-  (tag (a href (+ "http://twitter.com/home?status=" wrp.doc)
-          target  "_blank")
-    (tag:img src "twitter.png" height "16px")))
+  (sharebutton
+    (tag (a href (+ "http://twitter.com/home?status=" wrp.doc)
+            target  "_blank")
+      (tag:img src "twitter.png" height "16px"))))
 
 
 
@@ -204,7 +205,7 @@
       (pr "&middot; "))
     ,@body))
 (def magic-box(user doc)
-  (tag (div id 'magicbox-panel)
+  (tag (div id 'rwmagicbox-panel)
     (tag (div style "margin-top:5px;
                     font-size:90%; font-weight:bold; color:#999")
       (pr "next story from:"))
@@ -212,13 +213,13 @@
       (tag (a href "#" onclick
               (docUpdate doc "'outcome=4&samesite=1'"))
         (pr "this site")))
-    (tag (form action "/404" onsubmit "submitMagicBox('magicbox', 'a new site'); return false;")
+    (tag (form action "/404" onsubmit "submitMagicBox('rwmagicbox', 'a new site'); return false;")
          (tag (div style "height:24px; color:#aaf; width:10px; margin-right:2px; float:right; cursor:pointer"
-                   onclick "submitMagicBox('magicbox', 'a new site'); return false;")
+                   onclick "submitMagicBox('rwmagicbox', 'a new site'); return false;")
             (pr "&crarr;"))
          (tag (span style "color: #ccc")
            (pr "&middot;"))
-         (tag:input name "q" id "magicbox"
+         (tag:input name "q" id "rwmagicbox"
                     style "font-size:14px; width:98px; height:24px; color:#999"
                     value "a new site"
                     onfocus "clearDefault(this, 'a new site');"

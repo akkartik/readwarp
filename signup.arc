@@ -26,7 +26,7 @@
               (tag li
                 (pr "Discover sites you'll love."))))
 
-          (tag:input type "button" id "start-funnel" value "Start reading now"
+          (tag:input type "button" id "rwstart-funnel" value "Start reading now"
                      onclick "location.href='/begin'")
         )))))
 
