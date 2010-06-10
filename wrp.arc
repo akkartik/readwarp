@@ -2,6 +2,9 @@
 ; RewriteCond %{HTTP_HOST} ^wrp.to$ [NC]
 ; RewriteRule ^/(.*)$ http://readwarp.com/url?id=$1 [L,R=301]
 
+(def wrp(doc)
+  (+ "http://wrp.to/" (url-hash:doc-url doc)))
+
 (defop url req
   (prn:+
     "<html><head><meta http-equiv=\"refresh\" content=\"0;url="

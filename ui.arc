@@ -173,8 +173,7 @@
     (tag:img src "email.jpg" height "14px")))
 
 (def twitter-button(doc)
-  (tag (a href  (+ "http://twitter.com/home?status=http://wrp.to/"
-                   (url-hash:doc-url doc))
+  (tag (a href (+ "http://twitter.com/home?status=" wrp.doc)
           target  "_blank")
     (tag:img src "twitter.png" height "16px")))
 
@@ -267,7 +266,7 @@
       (prn)
       (prn)
       (prn)
-      (prn doc-url.doc)
+      (prn wrp.doc)
       (prn))
     (tag (div style "margin-top:5px")
       (tag:input name "ccme" id "ccme" type "checkbox"
