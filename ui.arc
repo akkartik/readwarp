@@ -133,6 +133,7 @@
       (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
         (pr (check doc-title.doc ~empty "no title")))
       (twitter-button doc)
+      (hackernews-button doc)
       (email-button user doc)
       (copywidget doc-url.doc))
     (tag (div class 'rwsubtitle)
@@ -177,6 +178,14 @@
     (tag (a href (+ "http://twitter.com/home?status=" wrp.doc)
             target  "_blank")
       (tag:img src "twitter.png" height "16px"))))
+
+(def hackernews-button(doc)
+  (sharebutton
+    (tag (a href (+ "http://news.ycombinator.com/submitlink"
+                    "?u=" (urlencode doc-url.doc)
+                    "&t=" (urlencode doc-title.doc))
+            target  "_blank")
+      (tag:img src "hackernews.gif" height "16px"))))
 
 
 

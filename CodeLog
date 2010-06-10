@@ -2743,3 +2743,6 @@ Shortened url in email as well.
 
 css tweaks.
 =-=1044 - Thu Jun 10 10:21:38 PDT 2010
+
+Submit URL to HN. Don't shorten URLs in the submission.
+=-=1045 - Thu Jun 10 14:47:56 PDT 2010
