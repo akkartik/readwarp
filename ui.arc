@@ -158,13 +158,55 @@
 
 (def buttons(user doc)
   (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
-    (magic-box user doc)
-    (tag (div title "like" class "rwbutton rwlike" onclick
-            (docUpdate doc "'outcome=4'")))
-    (tag (div title "next" class "rwbutton rwnext" onclick
-            (docUpdate doc "'outcome=2'")))
-    (tag (div title "dislike" class "rwbutton rwskip" onclick
-            (docUpdate doc "'outcome=1'")))))
+    (ask-button user doc)
+    (like-button user doc)
+    (next-button user doc)
+    (dislike-button user doc)))
+
+(mac ask-button-elem body
+  `(tag div
+    (tag (span style "color:#ccc")
+      (pr "&middot; "))
+    ,@body))
+(def ask-button(user doc)
+  (tag (div id 'rwmagicbox-panel)
+    (tag (div style "margin-top:5px;
+                    font-size:90%; font-weight:bold; color:#999")
+      (pr "next story from:"))
+    (ask-button-elem
+      (tag (a href "#" onclick
+              (docUpdate doc "'outcome=4&samesite=1'"))
+        (pr "this site")))
+    (tag (form action "/404" onsubmit "submitMagicBox('rwmagicbox', 'a new site'); return false;")
+         (tag (div style "height:24px; color:#aaf; width:10px; margin-right:2px; float:right; cursor:pointer"
+                   onclick "submitMagicBox('rwmagicbox', 'a new site'); return false;")
+            (pr "&crarr;"))
+         (tag (span style "color: #ccc")
+           (pr "&middot;"))
+         (tag:input name "q" id "rwmagicbox"
+                    style "font-size:14px; width:98px; height:24px; color:#999"
+                    value "a new site"
+                    onfocus "clearDefault(this, 'a new site');"
+                    onblur "fillDefault(this, 'a new site');"))
+    (each query (firstn 5 userinfo*.user!queries)
+      (ask-button-elem
+        (tag (a href "#" onclick
+                (askfor query))
+          (pr query))))))
+
+(proc like-button(user doc)
+  (tag (div title "like" class "rwbutton rwlike" onclick
+          (docUpdate doc "'outcome=4'"))))
+
+(proc next-button(user doc)
+  (tag (div title "next" class "rwbutton rwnext" onclick
+          (docUpdate doc "'outcome=2'"))))
+
+(proc dislike-button(user doc)
+  (tag (div title "dislike" class "rwbutton rwskip" onclick
+          (docUpdate doc "'outcome=1'"))))
+
+
 
 (def email-widget(user doc)
   (tag (span class 'rwsharebutton
@@ -234,37 +276,6 @@
     (logo-small)
     (clear))
   (tag:div class 'rwsep))
-
-(mac magic-box-middot body
-  `(tag div
-    (tag (span style "color:#ccc")
-      (pr "&middot; "))
-    ,@body))
-(def magic-box(user doc)
-  (tag (div id 'rwmagicbox-panel)
-    (tag (div style "margin-top:5px;
-                    font-size:90%; font-weight:bold; color:#999")
-      (pr "next story from:"))
-    (magic-box-middot
-      (tag (a href "#" onclick
-              (docUpdate doc "'outcome=4&samesite=1'"))
-        (pr "this site")))
-    (tag (form action "/404" onsubmit "submitMagicBox('rwmagicbox', 'a new site'); return false;")
-         (tag (div style "height:24px; color:#aaf; width:10px; margin-right:2px; float:right; cursor:pointer"
-                   onclick "submitMagicBox('rwmagicbox', 'a new site'); return false;")
-            (pr "&crarr;"))
-         (tag (span style "color: #ccc")
-           (pr "&middot;"))
-         (tag:input name "q" id "rwmagicbox"
-                    style "font-size:14px; width:98px; height:24px; color:#999"
-                    value "a new site"
-                    onfocus "clearDefault(this, 'a new site');"
-                    onblur "fillDefault(this, 'a new site');"))
-    (each query (firstn 5 userinfo*.user!queries)
-      (magic-box-middot
-        (tag (a href "#" onclick
-                (askfor query))
-          (pr query))))))
 
 (def docUpdate(doc params)
   (+ "docUpdate('" jsesc.doc "', " params ")"))

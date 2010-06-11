@@ -2770,3 +2770,6 @@ Clarify naming; icons next to the title are widgets, not buttons.
 But what to name the buttons on the left? Just buttons? But magicbox isn't a
 button.
 =-=1053 - Fri Jun 11 15:22:17 PDT 2010
+magicbox -> ask-button. Now I can start thinking about how to expose the
+button list to different apps.
+=-=1054 - Fri Jun 11 15:34:32 PDT 2010
