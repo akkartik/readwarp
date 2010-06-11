@@ -320,13 +320,15 @@
     [recent-doc?:newest-unread user _]
     [~poorly-cleaned-feeds* _]))
 
-(def pick(user)
+(def pick(user choosefn)
   (withs (s userinfo*.user!all
           station userinfo*.user!stations.s
           lastdoc (transval station!current))
     (lookup-or-generate-transient station!current
        (always [newest-unread user _]
-               (choose-feed user station lastdoc)))))
+               (choosefn user station lastdoc)))))
+(after-exec pick(user dummy)
+  (erp user " => " result))
 
 (def set-current-from(name user feeds)
   (when feeds
@@ -369,7 +371,7 @@
 (def save-to-old-docs(doc)
   (= old-docs*.doc (obj url doc-url.doc  title doc-title.doc
                         site doc-site.doc  feedtitle doc-feedtitle.doc)))
-(after-exec pick(user)
+(after-exec pick(user dummy)
   (unless old-docs*.result
     (save-to-old-docs result)))
 

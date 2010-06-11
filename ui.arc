@@ -26,7 +26,7 @@
       (tag (div style "width:100%")
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
-            (doc-panel user next-doc.user
+            (doc-panel user (pick user choose-feed)
               (fn()
                 (firsttime userinfo*.user!noob
                   (when voting-stats*.user
@@ -40,9 +40,9 @@
 
 (defop docupdate req
   (let user current-user.req
-    (docupdate-core user req)))
+    (docupdate-core user req choose-feed)))
 
-(def docupdate-core(user req)
+(def docupdate-core(user req choosefn)
   (ensure-user user)
   (with (doc (arg req "doc")
          outcome (arg req "outcome")
@@ -50,7 +50,7 @@
     (mark-read user doc outcome group)
     (when (arg req "samesite")
       (pick-from-same-site user doc-feed.doc))
-    (let nextdoc next-doc.user
+    (let nextdoc (pick user choosefn)
       (if signedup?.user
         (doc-panel user nextdoc
           (fn()
@@ -68,7 +68,7 @@
          query (arg req "q"))
     (erp "askfor: " user " " query)
     (create-query user query)
-    (let nextdoc next-doc.user
+    (let nextdoc (pick user choose-feed)
       (if signedup?.user
         (doc-panel user nextdoc
           (fn() (flashmsg nextdoc query)))
@@ -86,16 +86,13 @@
         (flash "No more stories from that site"))))
 
 (defop doc req
-  (with (user (current-user req)
-         doc (arg req "doc"))
-    (doc-panel user
-               (check doc ~blank next-doc.user))))
+  (withs (user (current-user req)
+          doc  (check (arg req "doc")
+                      ~blank
+                      (pick user choose-feed)))
+    (doc-panel user doc)))
 
 
-
-(def next-doc(user)
-  (ret doc pick.user
-    (erp user " => " doc)))
 
 (def doc-panel(user doc (o flashfn))
   (if doc

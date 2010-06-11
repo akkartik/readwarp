@@ -47,7 +47,7 @@
 (proc next-stage(user req (o flashfn))
   (let funnel-stage userinfo*.user!signup-stage
     (erp user ": stage " funnel-stage)
-    (doc-panel user next-doc.user
+    (doc-panel user (pick user choose-feed)
       (fn()
         (when (>= userinfo*.user!signup-stage funnel-signup-stage*)
           (signup-form user))
