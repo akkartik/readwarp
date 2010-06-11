@@ -132,7 +132,9 @@
     (tag (h2 class 'rwtitle)
       (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
         (pr (check doc-title.doc ~empty "no title")))
+      (facebook-button doc)
       (twitter-button doc)
+      (reddit-button doc)
       (hackernews-button doc)
       (google-share-button doc)
       (email-button user doc)
@@ -174,11 +176,29 @@
                      $('rwform-flash').hide()")
     (tag:img src "email.jpg" height "14px")))
 
+; http://www.facebook.com/facebook-widgets/share.php
+(def facebook-button(doc)
+  (sharebutton
+    (tag (a href (+ "http://www.facebook.com/sharer.php"
+                    "?u=" doc-url.doc
+                    "&t=" doc-title.doc)
+            target  "_blank")
+      (tag:img src "facebook.jpg" height "16px"))))
+
 (def twitter-button(doc)
   (sharebutton
     (tag (a href (+ "http://twitter.com/home?status=" wrp.doc)
             target  "_blank")
       (tag:img src "twitter.png" height "16px"))))
+
+; http://www.reddit.com/buttons
+(def reddit-button(doc)
+  (sharebutton
+    (tag (a href (+ "http://reddit.com/submit"
+                    "?url=" doc-url.doc
+                    "&title=" doc-title.doc)
+            target  "_blank")
+      (tag:img src "reddit.gif" height "16px"))))
 
 (def hackernews-button(doc)
   (sharebutton
