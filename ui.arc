@@ -136,7 +136,7 @@
       (twitter-button doc)
       (reddit-button doc)
       (hackernews-button doc)
-      (google-share-button doc)
+      (google-button doc)
       (email-button user doc)
       (copywidget doc-url.doc))
     (tag (div class 'rwsubtitle)
@@ -209,7 +209,7 @@
       (tag:img src "hackernews.gif" height "16px"))))
 
 ; http://www.google.com/support/reader/bin/answer.py?hl=en&answer=147149
-(def google-share-button(doc)
+(def google-button(doc)
   (sharebutton
     (tag (a href (+ "http://www.google.com/reader/link"
                     "?url=" doc-url.doc
