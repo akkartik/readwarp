@@ -2755,3 +2755,7 @@ notices..
 =-=1047 - Thu Jun 10 15:44:01 PDT 2010
 Reddit, facebook.
 =-=1048 - Thu Jun 10 21:00:25 PDT 2010
+
+Finally putting apache config into version control. This is going to be a mess
+if this server runs a second project.
+=-=1049 - Thu Jun 10 22:07:03 PDT 2010
