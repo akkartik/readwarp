@@ -129,13 +129,13 @@
     (tag (h2 class 'rwtitle)
       (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
         (pr (check doc-title.doc ~empty "no title")))
-      (facebook-button doc)
-      (twitter-button doc)
-      (reddit-button doc)
-      (hackernews-button doc)
-      (google-button doc)
-      (email-button user doc)
-      (copywidget doc-url.doc))
+      (facebook-widget doc)
+      (twitter-widget doc)
+      (reddit-widget doc)
+      (hackernews-widget doc)
+      (google-widget doc)
+      (email-widget user doc)
+      (copy-widget doc-url.doc))
     (tag (div class 'rwsubtitle)
       (tag (div class 'rwdate)
         (aif pubdate.doc (pr render-date.it)))
@@ -166,7 +166,7 @@
     (tag (div title "dislike" class "rwbutton rwskip" onclick
             (docUpdate doc "'outcome=1'")))))
 
-(def email-button(user doc)
+(def email-widget(user doc)
   (tag (span class 'rwsharebutton
             onclick "$('rwemail').toggle();
                      $('rwform-flash').innerHTML='';
@@ -174,7 +174,7 @@
     (tag:img src "email.jpg" height "14px")))
 
 ; http://www.facebook.com/facebook-widgets/share.php
-(def facebook-button(doc)
+(def facebook-widget(doc)
   (sharebutton
     (tag (a href (+ "http://www.facebook.com/sharer.php"
                     "?u=" doc-url.doc
@@ -182,14 +182,14 @@
             target  "_blank")
       (tag:img src "facebook.jpg" height "16px"))))
 
-(def twitter-button(doc)
+(def twitter-widget(doc)
   (sharebutton
     (tag (a href (+ "http://twitter.com/home?status=" wrp.doc)
             target  "_blank")
       (tag:img src "twitter.png" height "16px"))))
 
 ; http://www.reddit.com/buttons
-(def reddit-button(doc)
+(def reddit-widget(doc)
   (sharebutton
     (tag (a href (+ "http://reddit.com/submit"
                     "?url=" doc-url.doc
@@ -197,7 +197,7 @@
             target  "_blank")
       (tag:img src "reddit.gif" height "16px"))))
 
-(def hackernews-button(doc)
+(def hackernews-widget(doc)
   (sharebutton
     (tag (a href (+ "http://news.ycombinator.com/submitlink"
                     "?u=" doc-url.doc
@@ -206,7 +206,7 @@
       (tag:img src "hackernews.gif" height "16px"))))
 
 ; http://www.google.com/support/reader/bin/answer.py?hl=en&answer=147149
-(def google-button(doc)
+(def google-widget(doc)
   (sharebutton
     (tag (a href (+ "http://www.google.com/reader/link"
                     "?url=" doc-url.doc
