@@ -34,7 +34,7 @@
 (def signup-form(user)
   (tag (div class 'rwflash style "margin:0; padding:0.5em")
     (tag (span style "font-size:14px; color:#222222")
-      (pr "Signup to help readwarp remember your votes."))
+      (pr "Create an account to help readwarp remember your votes."))
     (br)
     (fnform (fn(req) (create-handler req 'register
                               (list (fn(new-username ip)

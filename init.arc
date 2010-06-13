@@ -14,6 +14,7 @@
   (include "js.arc")
   (include "ui.arc")
   (include "signup.arc")
+  (include "startups.arc")
   (include "ops.arc")
 
   (include "autosubmit.arc")

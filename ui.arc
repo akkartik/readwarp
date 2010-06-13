@@ -14,18 +14,25 @@
 
 
 (defop || req
-  (if (userinfo* current-user.req)
-    (reader req choose-feed readwarp-buttons* readwarp-widgets*
-      (fn()
-        (flash
-          "Thank you! Keep voting on stories as you read, and
-           Readwarp will continually fine-tune its recommendations.
-           <br><br>
-           If you want a different topic ask for a site about that
-           topic in the left.")))
-    (start-funnel req)))
+  (let user current-user.req
+    (if userinfo*.user
+      (reader req choose-feed readwarp-buttons* readwarp-widgets*
+        (fn()
+          (when (and (~signedup? user)
+                     userinfo*.user!noob)
+            (signup-form user))
+          (firsttime userinfo*.user!noob
+            (when voting-stats*.user
+              (set voting-stats*.user!signup))
+            (flash
+              "Thank you! Keep voting on stories as you read, and
+               Readwarp will continually fine-tune its recommendations.
+               <br><br>
+               If you want a different topic ask for a site about that
+               topic in the left."))))
+      (start-funnel req))))
 
-(def reader(req choosefn buttons widgets (o noobflashfn))
+(def reader(req choosefn buttons widgets (o flashfn))
   (let user current-user.req
     (ensure-user user)
     (page req
@@ -33,18 +40,18 @@
       (tag (div style "width:100%")
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
-            (doc-panel user (pick user choosefn) buttons widgets
-              (fn()
-                (firsttime userinfo*.user!noob
-                  (when voting-stats*.user
-                    (set voting-stats*.user!signup))
-                  (noobflashfn))))))))))
+            (doc-panel user (pick user choosefn) buttons widgets flashfn)))))))
 
 (defop docupdate req
-  (docupdate-core current-user.req req choose-feed
-                  readwarp-buttons* readwarp-widgets*))
+  (let user current-user.req
+    (docupdate-core user req choose-feed
+                    readwarp-buttons* readwarp-widgets*
+      (fn()
+        (when (and (~signedup? user)
+                   userinfo*.user!noob)
+          (signup-form user))))))
 
-(def docupdate-core(user req choosefn buttons widgets)
+(def docupdate-core(user req choosefn buttons widgets (o flashfn))
   (ensure-user user)
   (with (doc (arg req "doc")
          outcome (arg req "outcome")
@@ -55,6 +62,7 @@
     (let nextdoc (pick user choosefn)
       (doc-panel user nextdoc buttons widgets
         (fn()
+          (when flashfn (flashfn))
           (when (and (arg req "samesite")
                      (~is doc-feed.doc doc-feed.nextdoc))
             (flash "No more stories from that site")))))))
@@ -99,9 +107,6 @@
       (each b buttons
         (b user doc)))
     (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
-      (when (and (~signedup? user)
-                 userinfo*.user!noob)
-        (signup-form user))
       (when flashfn (flashfn))
       (only.flash user-msg*.user)
       (tag (div id 'rwpost)
@@ -253,7 +258,7 @@
 
 (proc logo-small()
   (tag center
-    (tag (a href "/" class 'rwlogo-button)
+    (tag (a href "http://readwarp.com" class 'rwlogo-button)
       (tag:img src "readwarp-small.png" style "width:150px"))))
 
 (proc nav(user)

@@ -136,11 +136,11 @@ function newDocFrom(url, params) {
 }
 
 function docUpdate(doc, params) {
-  return newDocFrom('/docupdate', 'doc='+escape(doc)+'&'+params);
+  return newDocFrom('docupdate', 'doc='+escape(doc)+'&'+params);
 }
 
 function askFor(query) {
-  return newDocFrom('/askfor', 'q='+escape(query));
+  return newDocFrom('askfor', 'q='+escape(query));
 }
 
 function showDoc(doc) {
