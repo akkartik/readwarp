@@ -2780,3 +2780,5 @@ involving reader's noob flag.
 Refactor: reader and docupdate-core now take choosefn, buttons and flashfn as
 args.
 =-=1057 - Sat Jun 12 23:51:45 PDT 2010
+..and now widgets is another arg.
+=-=1058 - Sun Jun 13 00:09:16 PDT 2010

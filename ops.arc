@@ -33,7 +33,7 @@
     (prn)
     (prn "Returning: " returning)))
 (after-exec current-user(req)
-  (when userinfo*.result!signedup
+  (when (and userinfo*.result userinfo*.result!signedup)
     (set loggedin-users*.result)))
 
 (def old-user(user)

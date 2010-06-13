@@ -15,7 +15,7 @@
 
 (defop || req
   (if (userinfo* current-user.req)
-    (reader req choose-feed readwarp-buttons
+    (reader req choose-feed readwarp-buttons* readwarp-widgets*
       (fn()
         (flash
           "Thank you! Keep voting on stories as you read, and
@@ -25,7 +25,7 @@
            topic in the left.")))
     (start-funnel req)))
 
-(def reader(req choosefn buttons (o noobflashfn))
+(def reader(req choosefn buttons widgets (o noobflashfn))
   (let user current-user.req
     (ensure-user user)
     (page req
@@ -33,7 +33,7 @@
       (tag (div style "width:100%")
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
-            (doc-panel user (pick user choosefn) buttons
+            (doc-panel user (pick user choosefn) buttons widgets
               (fn()
                 (firsttime userinfo*.user!noob
                   (when voting-stats*.user
@@ -41,9 +41,10 @@
                   (noobflashfn))))))))))
 
 (defop docupdate req
-  (docupdate-core current-user.req req choose-feed readwarp-buttons))
+  (docupdate-core current-user.req req choose-feed
+                  readwarp-buttons* readwarp-widgets*))
 
-(def docupdate-core(user req choosefn buttons)
+(def docupdate-core(user req choosefn buttons widgets)
   (ensure-user user)
   (with (doc (arg req "doc")
          outcome (arg req "outcome")
@@ -52,7 +53,7 @@
     (when (arg req "samesite")
       (pick-from-same-site user doc-feed.doc))
     (let nextdoc (pick user choosefn)
-      (doc-panel user nextdoc buttons
+      (doc-panel user nextdoc buttons widgets
         (fn()
           (when (and (arg req "samesite")
                      (~is doc-feed.doc doc-feed.nextdoc))
@@ -65,7 +66,7 @@
     (create-query user query)
     (let nextdoc (pick user choose-feed)
       (if signedup?.user
-        (doc-panel user nextdoc readwarp-buttons
+        (doc-panel user nextdoc readwarp-buttons* readwarp-widgets*
           (fn() (flashmsg nextdoc query)))))))
 
 (def flashmsg(doc query)
@@ -83,16 +84,16 @@
           doc  (check (arg req "doc")
                       ~blank
                       (pick user choose-feed)))
-    (doc-panel user doc readwarp-buttons)))
+    (doc-panel user doc readwarp-buttons* readwarp-widgets*)))
 
 
 
-(def doc-panel(user doc buttons (o flashfn))
+(def doc-panel(user doc buttons widgets (o flashfn))
   (if doc
-    (doc-panel-sub user doc buttons flashfn)
+    (doc-panel-sub user doc buttons widgets flashfn)
     (doc-panel-error user)))
 
-(def doc-panel-sub(user doc buttons flashfn)
+(def doc-panel-sub(user doc buttons widgets flashfn)
   (tag (div id (+ "doc_" doc))
     (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
       (each b buttons
@@ -105,7 +106,7 @@
       (only.flash user-msg*.user)
       (tag (div id 'rwpost)
         (feedback-form user doc)
-        (render-doc user doc)))
+        (render-doc user doc widgets)))
     (clear))
   (update-title doc-title.doc))
 
@@ -121,17 +122,14 @@
   (tag script
     (pr (+ "document.title = \"" jsesc.s "\";"))))
 
-(def render-doc(user doc)
+(def render-doc(user doc widgets)
   (tag (div id (+ "contents_" doc))
     (tag (h2 class 'rwtitle)
       (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
         (pr (check doc-title.doc ~empty "no title")))
-      (facebook-widget doc)
-      (twitter-widget doc)
-      (reddit-widget doc)
-      (hackernews-widget doc)
-      (google-widget doc)
-      (email-widget user doc)
+      (each w widgets
+        (w doc))
+      (email-widget)
       (copy-widget doc-url.doc))
     (tag (div class 'rwsubtitle)
       (tag (div class 'rwdate)
@@ -196,11 +194,11 @@
   (tag (div title "dislike" class "rwbutton rwskip" onclick
           (docUpdate doc "'outcome=1'"))))
 
-(= readwarp-buttons (list ask-button like-button next-button dislike-button))
+(= readwarp-buttons* (list ask-button like-button next-button dislike-button))
 
 
 
-(def email-widget(user doc)
+(def email-widget()
   (tag (span class 'rwsharebutton
             onclick "$('rwemail').toggle();
                      $('rwform-flash').innerHTML='';
@@ -247,6 +245,9 @@
                     "&title=" doc-title.doc)
             target  "_blank")
       (tag:img src "google.png" height "16px"))))
+
+(= readwarp-widgets* (list facebook-widget twitter-widget reddit-widget
+                           google-widget))
 
 
 
