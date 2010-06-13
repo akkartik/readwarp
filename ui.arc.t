@@ -36,7 +36,7 @@
 
   (shadowing current-user (fn(req) "a")
     (test-ok "signup query works"
-      (run-op begin nil)))
+      (run-op || nil)))
 
   (erp "waiting for thread to finish")
   (until (all dead (threads "signup-showlist"))
