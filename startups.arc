@@ -24,6 +24,11 @@
                                                        userinfo*.user!clock]
                                            (group-feeds* "Venture"))
                                      user station)
+    1.01                (choose-from 'recent-venture
+                                     (keep recent?
+                                       (group-feeds* "Venture"))
+                                     user station
+                                     recent-feed-predicate)
     1.01                (choose-from 'venture
                                      (group-feeds* "Venture")
                                      user station)))

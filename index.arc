@@ -402,7 +402,7 @@
   (withs (s userinfo*.user!all
           st userinfo*.user!stations.s)
     (set userinfo*.user!preferred-feeds.feed)
-    (= userinfo*.user!stations.s!old-preferred.feed (backoff feed 2))))
+    (set userinfo*.user!stations.s!old-preferred.feed)))
 
 (def rename-feed(old new)
   (each (u ui) userinfo*
