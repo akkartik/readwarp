@@ -2777,3 +2777,6 @@ Simplify signup flow so there is no duplication.
 One wart is that we're emitting flash in render-doc-sub under conditions
 involving reader's noob flag.
 =-=1055 - Sat Jun 12 20:41:37 PDT 2010
+Refactor: reader and docupdate-core now take choosefn, buttons and flashfn as
+args.
+=-=1057 - Sat Jun 12 23:51:45 PDT 2010

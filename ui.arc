@@ -15,10 +15,17 @@
 
 (defop || req
   (if (userinfo* current-user.req)
-    (reader req)
+    (reader req choose-feed readwarp-buttons
+      (fn()
+        (flash
+          "Thank you! Keep voting on stories as you read, and
+           Readwarp will continually fine-tune its recommendations.
+           <br><br>
+           If you want a different topic ask for a site about that
+           topic in the left.")))
     (start-funnel req)))
 
-(def reader(req)
+(def reader(req choosefn buttons (o noobflashfn))
   (let user current-user.req
     (ensure-user user)
     (page req
@@ -26,22 +33,17 @@
       (tag (div style "width:100%")
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
-            (doc-panel user (pick user choose-feed)
+            (doc-panel user (pick user choosefn) buttons
               (fn()
                 (firsttime userinfo*.user!noob
                   (when voting-stats*.user
                     (set voting-stats*.user!signup))
-                  (flash
-                    "Thank you! Keep voting on stories as you read, and
-                     Readwarp will continually fine-tune its recommendations.
-                     <br><br>
-                     If you want a different topic ask for a site about that
-                     topic in the left."))))))))))
+                  (noobflashfn))))))))))
 
 (defop docupdate req
-  (docupdate-core current-user.req req choose-feed))
+  (docupdate-core current-user.req req choose-feed readwarp-buttons))
 
-(def docupdate-core(user req choosefn)
+(def docupdate-core(user req choosefn buttons)
   (ensure-user user)
   (with (doc (arg req "doc")
          outcome (arg req "outcome")
@@ -50,7 +52,7 @@
     (when (arg req "samesite")
       (pick-from-same-site user doc-feed.doc))
     (let nextdoc (pick user choosefn)
-      (doc-panel user nextdoc
+      (doc-panel user nextdoc buttons
         (fn()
           (when (and (arg req "samesite")
                      (~is doc-feed.doc doc-feed.nextdoc))
@@ -63,7 +65,7 @@
     (create-query user query)
     (let nextdoc (pick user choose-feed)
       (if signedup?.user
-        (doc-panel user nextdoc
+        (doc-panel user nextdoc readwarp-buttons
           (fn() (flashmsg nextdoc query)))))))
 
 (def flashmsg(doc query)
@@ -81,19 +83,20 @@
           doc  (check (arg req "doc")
                       ~blank
                       (pick user choose-feed)))
-    (doc-panel user doc)))
+    (doc-panel user doc readwarp-buttons)))
 
 
 
-(def doc-panel(user doc (o flashfn))
+(def doc-panel(user doc buttons (o flashfn))
   (if doc
-    (doc-panel-sub user doc flashfn)
+    (doc-panel-sub user doc buttons flashfn)
     (doc-panel-error user)))
 
-(def doc-panel-sub(user doc flashfn)
+(def doc-panel-sub(user doc buttons flashfn)
   (tag (div id (+ "doc_" doc))
-    (tag div
-      (buttons user doc))
+    (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
+      (each b buttons
+        (b user doc)))
     (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
       (when (and (~signedup? user)
                  userinfo*.user!noob)
@@ -150,13 +153,6 @@
       (tag (a onclick (+ "showDoc('" jsesc.doc "')") href "#")
         (pr (check doc-title.doc ~empty "no title"))))))
 
-(def buttons(user doc)
-  (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
-    (ask-button user doc)
-    (like-button user doc)
-    (next-button user doc)
-    (dislike-button user doc)))
-
 (mac ask-button-elem body
   `(tag div
     (tag (span style "color:#ccc")
@@ -199,6 +195,8 @@
 (proc dislike-button(user doc)
   (tag (div title "dislike" class "rwbutton rwskip" onclick
           (docUpdate doc "'outcome=1'"))))
+
+(= readwarp-buttons (list ask-button like-button next-button dislike-button))
 
 
 
