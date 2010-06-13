@@ -14,7 +14,7 @@
 
 
 (defop || req
-  (if (signedup? current-user.req)
+  (if (userinfo* current-user.req)
     (reader req)
     (start-funnel req)))
 
@@ -39,8 +39,7 @@
                      topic in the left."))))))))))
 
 (defop docupdate req
-  (let user current-user.req
-    (docupdate-core user req choose-feed)))
+  (docupdate-core current-user.req req choose-feed))
 
 (def docupdate-core(user req choosefn)
   (ensure-user user)
@@ -51,17 +50,11 @@
     (when (arg req "samesite")
       (pick-from-same-site user doc-feed.doc))
     (let nextdoc (pick user choosefn)
-      (if signedup?.user
-        (doc-panel user nextdoc
-          (fn()
-            (when (and (arg req "samesite")
-                       (~is doc-feed.doc doc-feed.nextdoc))
-              (flash "No more stories from that site"))))
-        (signup-doc-panel user req
-          (fn()
-            (when (and (arg req "samesite")
-                       (~is doc-feed.doc doc-feed.nextdoc))
-              (flash "No more stories from that site"))))))))
+      (doc-panel user nextdoc
+        (fn()
+          (when (and (arg req "samesite")
+                     (~is doc-feed.doc doc-feed.nextdoc))
+            (flash "No more stories from that site")))))))
 
 (defop askfor req
   (with (user current-user.req
@@ -71,8 +64,6 @@
     (let nextdoc (pick user choose-feed)
       (if signedup?.user
         (doc-panel user nextdoc
-          (fn() (flashmsg nextdoc query)))
-        (signup-doc-panel user req
           (fn() (flashmsg nextdoc query)))))))
 
 (def flashmsg(doc query)
@@ -104,6 +95,9 @@
     (tag div
       (buttons user doc))
     (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
+      (when (and (~signedup? user)
+                 userinfo*.user!noob)
+        (signup-form user))
       (when flashfn (flashfn))
       (only.flash user-msg*.user)
       (tag (div id 'rwpost)
@@ -421,5 +415,4 @@
 (def current-user(req)
   (ret user get-user.req
     (unless userinfo*.user
-      (erp "new user: " user " " req!ip)
-      ensure-user.user)))
+      (erp "new user: " user " " req!ip))))

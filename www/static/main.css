@@ -90,9 +90,6 @@ h2.rwtitle a{ font-family:serif; font-size:1.15em; font-weight:bold; color:#66e;
 .rwpaginate{ color:#fff; margin:1em; font-style:italic; text-align:center; font-size:10px; }
 .rwpaginate a{ color:#66f; }
 
-.rwprogress{ float:left; margin-left:1em; margin-top:1em; height:1em; border:1px solid #c26278; }
-.rwprogress_filled{ float:left; height:1em; background:#c26278; }
-
 .rwclear{ clear:both; }
 .rwsep{ height:20px; }
 .rwgutter{ width:20px; height:5px; }
