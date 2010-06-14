@@ -20,10 +20,7 @@
         (fn()
           (tag (div style "float:right; margin-top:10px")
             (if signedup?.user
-              (do
-                (tag (span style "margin-right:5em")
-                  (link "home" "/"))
-                (link "logout" "/logout"))
+              (link "logout" "/logout")
               (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
                       (pr "login")))))
         (fn()
