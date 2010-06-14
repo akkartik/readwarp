@@ -18,6 +18,15 @@
     (if userinfo*.user
       (reader req choose-feed readwarp-buttons* readwarp-widgets*
         (fn()
+          (tag (div style "float:right; margin-top:10px")
+            (if signedup?.user
+              (do
+                (tag (span style "margin-right:5em")
+                  (link "home" "/"))
+                (link "logout" "/logout"))
+              (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
+                      (pr "login")))))
+        (fn()
           (when (and (~signedup? user)
                      userinfo*.user!noob)
             (signup-form user))
@@ -32,11 +41,11 @@
                topic in the left."))))
       (start-funnel req))))
 
-(def reader(req choosefn buttons widgets (o flashfn))
+(def reader(req choosefn buttons widgets (o headerfn) (o flashfn))
   (let user current-user.req
     (ensure-user user)
     (page req
-      (nav user)
+      (nav headerfn)
       (tag (div style "width:100%")
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
@@ -62,7 +71,7 @@
     (let nextdoc (pick user choosefn)
       (doc-panel user nextdoc buttons widgets
         (fn()
-          (when flashfn (flashfn))
+          (test*.flashfn)
           (when (and (arg req "samesite")
                      (~is doc-feed.doc doc-feed.nextdoc))
             (flash "No more stories from that site")))))))
@@ -107,7 +116,7 @@
       (each b buttons
         (b user doc)))
     (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
-      (when flashfn (flashfn))
+      (test*.flashfn)
       (only.flash user-msg*.user)
       (tag (div id 'rwpost)
         (feedback-form user doc)
@@ -261,16 +270,9 @@
     (tag (a href "http://readwarp.com" class 'rwlogo-button)
       (tag:img src "readwarp-small.png" style "width:150px"))))
 
-(proc nav(user)
+(proc nav((o f))
   (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
-    (tag (div style "float:right; margin-top:10px")
-      (if signedup?.user
-        (do
-          (tag (span style "margin-right:5em")
-            (link "home" "/"))
-          (link "logout" "/logout"))
-        (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
-                (pr "login"))))
+    (test*.f)
     (logo-small)
     (clear))
   (tag:div class 'rwsep))

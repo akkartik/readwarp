@@ -233,7 +233,8 @@
     `(nil ,block)))
 
 (def test*(test)
-  (if (isa test 'fn)   test
+  (if (no test)        id
+      (isa test 'fn)   test
       (isa test 'sym)  [isa _ test]
                        [is _ test]))
 
@@ -248,7 +249,7 @@
 
 
 
-(def id(x) x)
+(def id((o x)) x)
 
 (def blank?(elem)
   (or no.elem empty.elem))
