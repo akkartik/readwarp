@@ -36,7 +36,11 @@
 
   (shadowing current-user (fn(req) "a")
     (test-ok "signup query works"
-      (run-op || nil)))
+      (run-op ||)))
+
+  (shadowing current-user (fn(req) "a")
+    (test-ok "askfor query works"
+      (run-op askfor '(("q" "foo")))))
 
   (erp "waiting for thread to finish")
   (until (all dead (threads "signup-showlist"))

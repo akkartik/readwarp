@@ -79,9 +79,8 @@
     (erp "askfor: " user " " query)
     (create-query user query)
     (let nextdoc (pick user choose-feed)
-      (if signedup?.user
-        (doc-panel user nextdoc readwarp-buttons* readwarp-widgets*
-          (fn() (flashmsg nextdoc query)))))))
+      (doc-panel user nextdoc readwarp-buttons* readwarp-widgets*
+        (fn() (flashmsg nextdoc query))))))
 
 (def flashmsg(doc query)
   (let feeds scan-feeds.query

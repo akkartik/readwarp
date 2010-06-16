@@ -2793,3 +2793,5 @@ Parameterize header in subdomains.
 =-=1063 - Mon Jun 14 10:24:55 PDT 2010
 The home link has been redundant since we eliminated the history panel.
 =-=1064 - Mon Jun 14 10:33:00 PDT 2010
+Regression in commit 1055 3 days ago.
+=-=1065 - Tue Jun 15 21:59:19 PDT 2010
