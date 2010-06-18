@@ -72,9 +72,9 @@
       (doc-panel user nextdoc buttons widgets
         (fn()
           (test*.flashfn)
-          (tag (div style "float:right; cursor:pointer; background:lightgrey")
+          (tag (div style "float:right; cursor:pointer; background:lightgrey; padding:3px")
             (tag (a onclick (+ "showDoc('" doc "')"))
-              (pr 'undo)))
+              (pr "previous story")))
           (when (and (arg req "samesite")
                      (~is doc-feed.doc doc-feed.nextdoc))
             (flash "No more stories from that site")))))))
