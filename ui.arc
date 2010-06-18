@@ -15,6 +15,9 @@
 
 (defop || req
   (let user current-user.req
+    (whenlet query (arg req "q")
+      (ensure-user user)
+      (create-query user query))
     (if userinfo*.user
       (reader req choose-feed readwarp-buttons* readwarp-widgets*
         (fn()
@@ -31,8 +34,8 @@
             (when voting-stats*.user
               (set voting-stats*.user!signup))
             (flash
-              "Thank you! Keep voting on stories as you read, and
-               Readwarp will continually fine-tune its recommendations.
+              "Keep voting on stories as you read, and Readwarp will
+              continually fine-tune its recommendations.
                <br><br>
                If you want a different topic ask for a site about that
                topic in the left."))))
