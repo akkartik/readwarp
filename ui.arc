@@ -27,9 +27,6 @@
               (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
                       (pr "login")))))
         (fn()
-          (when (and (~signedup? user)
-                     userinfo*.user!noob)
-            (signup-form user))
           (firsttime userinfo*.user!noob
             (when voting-stats*.user
               (set voting-stats*.user!signup))
@@ -54,11 +51,7 @@
 (defop docupdate req
   (let user current-user.req
     (docupdate-core user req choose-feed
-                    readwarp-buttons* readwarp-widgets*
-      (fn()
-        (when (and (~signedup? user)
-                   userinfo*.user!noob)
-          (signup-form user))))))
+                    readwarp-buttons* readwarp-widgets*)))
 
 (def docupdate-core(user req choosefn buttons widgets (o flashfn))
   (ensure-user user)
@@ -118,6 +111,9 @@
       (each b buttons
         (b user doc)))
     (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
+      (when (and (~signedup? user)
+                 userinfo*.user!noob)
+        (signup-form user))
       (test*.flashfn)
       (only.flash user-msg*.user)
       (tag (div id 'rwpost)
