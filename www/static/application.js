@@ -15,17 +15,13 @@ function clearDefault(elem, msg) {
   }
 }
 
-function submitForm(elem) {
-  while (elem && elem.tagName !== 'FORM') {
-    elem = elem.parentNode;
-  }
-  elem.submit();
-  return false;
+function $i(id) {
+  return $('#'+id);
 }
 
 function submitMagicBox(id, msg) {
-  if ($(id).value !== msg) {
-    askFor($(id).value);
+  if ($i(id).val() !== msg) {
+    askFor($i(id).val());
   }
   return false;
 }
@@ -58,24 +54,25 @@ function jsget(elem) {
 }
 
 function jspost(url, params) {
-  new Ajax.Request(stringOrHref(url),
+  new $.ajax(
       {
-        method: 'post',
-        parameters: params
+        url: stringOrHref(url),
+        type: 'post',
+        data: params
       });
   return false;
 }
 
 function inline(id, url, params) {
   prepareAjax(id);
-  new Ajax.Request(stringOrHref(url),
+  new $.ajax(stringOrHref(url),
       {
-        method: 'get',
-        parameters: params,
-        onSuccess: function(response) {
-          $(id).innerHTML = response.responseText;
+        type: 'get',
+        data: params,
+        success: function(response) {
+          $i(id).html(response.responseText);
           checkContent(id);
-          runScripts($(id));
+          runScripts($i(id));
         }
       });
   return false;
@@ -83,53 +80,23 @@ function inline(id, url, params) {
 
 function del(elem) {
   try {
-    elem.parentNode.removeChild(elem);
+    elem.parent().removeChild(elem);
   } catch(err){}
 }
 
 
 
-function toggleLink(elem) {
-  var base = elem.className.replace(/_[^_]*$/, '');
-  var onelems = $$('.'+base+'_on');
-  var offelems = $$('.'+base+'_off');
-  if (onelems[0].style.display == 'none') {
-    for (i=0; i < onelems.length; ++i) {
-      onelems[i].style.display = 'inline';
-    }
-    for (i=0; i < offelems.length; ++i) {
-      offelems[i].style.display = 'none';
-    }
-  }
-  else {
-    for (i=0; i < onelems.length; ++i) {
-      onelems[i].style.display = 'none';
-    }
-    for (i=0; i < offelems.length; ++i) {
-      offelems[i].style.display = 'inline';
-    }
-  }
-}
-
-
-
-function gen_jslink(text, onclick) {
-  return "<a href=\"#\" onclick=\""+onclick+"\">"+text+"</a>";
-}
-function gen_inline(id, url) {
-  return "inline('"+id+"', '"+url+"')";
-}
-
 function newDocFrom(url, params) {
   prepareAjax('rwcontent');
-  new Ajax.Request(url,
+  new $.ajax(
       {
-        method: 'post',
-        parameters: params,
-        onSuccess: function(response) {
-          $('rwcontent').innerHTML = response.responseText;
+        url: url,
+        type: 'post',
+        data: params,
+        success: function(response) {
+          $i('rwcontent').html(response);
           checkContent('rwcontent');
-          runScripts($('rwcontent'));
+          runScripts($i('rwcontent'));
         }
       });
   return false;
@@ -145,14 +112,15 @@ function askFor(query) {
 
 function showDoc(doc) {
   prepareAjax('rwcontent');
-  new Ajax.Request("/doc",
+  new $.ajax(
       {
-        method: 'get',
-        parameters: 'doc='+escape(doc),
-        onSuccess: function(response) {
-          $('rwcontent').innerHTML = response.responseText;
+        url: '/doc',
+        type: 'get',
+        data: 'doc='+escape(doc),
+        success: function(response) {
+          $i('rwcontent').html(response.responseText);
           checkContent('rwcontent');
-          runScripts($('rwcontent'));
+          runScripts($i('rwcontent'));
         }
       });
   return false;
@@ -163,8 +131,8 @@ var readwarp_waitMsg = "<img src=\"" + readwarp_waitGif + "\" class=\"rwshadow\"
 var readwarp_msgCount = 0;
 function prepareAjax(id) {
   scroll(0, 0);
-  $('rwbody').scrollTop = 0;
-  $(id).innerHTML = readwarp_waitMsg;
+  $i('rwbody').scrollTop = 0;
+  $i(id).html(readwarp_waitMsg);
   ++readwarp_msgCount;
   setTimeout("errorMessage('"+id+"', "+readwarp_msgCount+");", 5000);
 }
@@ -172,17 +140,17 @@ function prepareAjax(id) {
 function errorMessage(id, count) {
   if (readwarp_msgCount != count) return;
 
-  var elem = $(id).innerHTML;
+  var elem = $i(id).html;
   var msgToAdd = " Hmm, still waiting. You may want to try reloading this page.";
   if (elem.indexOf(readwarp_waitGif) > 0
       && elem.length < readwarp_waitMsg.length+msgToAdd.length - 5) {
-    $(id).innerHTML += msgToAdd;
+    $i(id).html += msgToAdd;
   }
 }
 
 function checkContent(id) {
-  if ($(id).innerHTML.length < 10) {
-    $(id).innerHTML = "Didn't get back the next story. Sorry about that; please try reloading this page.";
+  if ($i(id).html().length < 10) {
+    $i(id).html("Didn't get back the next story. Sorry about that; please try reloading this page.");
   }
 }
 

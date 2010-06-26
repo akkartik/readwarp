@@ -2801,3 +2801,7 @@ Undo as a poor man's back button.
 
 I want to share links that kick people off in a specific group.
 =-=1067 - Fri Jun 18 11:12:15 PDT 2010
+
+Switch from prototype to jQuery. Probably still buggy.
+Now I can build the email importer and autocomplete widget.
+=-=1069 - Fri Jun 25 21:54:41 PDT 2010

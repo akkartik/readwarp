@@ -5,76 +5,6 @@
 
 
 
-(mac paginate(req id url n max-index . block)
-  (let (params body) (kwargs block '(nextcopy "next" prevcopy "prev"))
-    `(withs (start-index (int2:arg req "from")
-             end-index (+ start-index ,n))
-        (paginate-nav ,id ,url ,n start-index end-index ,max-index ',params)
-        ,@body
-        (paginate-nav ,id ,url ,n start-index end-index ,max-index ',params))))
-
-(mac paginate-bottom(req id url n max-index . block)
-  (let (params body) (kwargs block '(nextcopy "next" prevcopy "prev"))
-    `(withs (start-index (int2:arg req "from")
-             end-index (+ start-index ,n))
-        ,@body
-        (paginate-nav ,id ,url ,n start-index end-index ,max-index ',params))))
-
-(def paginate-nav(id url n start-index end-index max-index (o params (table)))
-  (let n (- end-index start-index)
-    (tag (div class "rwpaginate")
-      (if (params 'reverse)
-        (do
-          (paginate-next id url n start-index end-index max-index params)
-          (pr "&nbsp;&nbsp;&nbsp;&nbsp;")
-          (paginate-prev id url n start-index end-index params))
-        (do
-          (paginate-prev id url n start-index end-index params)
-          (pr "&nbsp;&nbsp;&nbsp;&nbsp;")
-          (paginate-next id url n start-index end-index max-index params))))))
-
-(def paginate-prev(id url n start-index end-index params)
-  (if (> start-index 0)
-    (tag (a href "#" onclick (+ "inline('" id "', '" url udelim.url "from=" (max 0 (- start-index n)) "')"))
-      (pr (or (params 'prevcopy) "&larr; prev")))
-    (pr (or (params 'prevcopy) "&larr; prev"))))
-
-(def paginate-next(id url n start-index end-index max-index params)
-  (if (< end-index max-index)
-    (tag (a href "#" onclick (+ "inline('" id "', '" url udelim.url "from=" end-index "')"))
-      (pr (or (params 'nextcopy) "next &rarr;")))
-    (pr (or (params 'nextcopy) "next &rarr;"))))
-
-(def udelim(s)
-  (if (posmatch "?" s) "&" "?"))
-
-
-
-(mac toggle-icon(id template url reset-img set-img test-fn)
-  `(jstogglelink ,id
-      ,(rewrite reset-img 'IMG template) ,url
-      ,(rewrite set-img 'IMG template) ,url
-      ,test-fn))
-
-; calling convention for fn args: var storage -> storage
-(mac deftoggle(name var test-fn
-               set-copy set-fn reset-copy reset-fn)
-  (withs (name-str (string name)
-          addop (symize "add-to-" name-str)
-          remop (symize "remove-from-" name-str)
-          storage (symize name-str "s-table")
-          link_fn (symize name-str "_link")
-          var-str (string var))
-    `(let dummy nil
-       (unless (bound ',storage) (= ,storage nil))
-       (defop ,addop req (= ,storage (,set-fn (arg req ,var-str) ,storage)))
-       (defop ,remop req (= ,storage (,reset-fn (arg req ,var-str) ,storage)))
-       (def ,link_fn(,var)
-          (jstogglelink ,var
-              ,reset-copy (+ ,(+ "/" string.remop "?" var-str "=") (eschtml ,var))
-              ,set-copy (+ ,(+ "/" string.addop "?" var-str "=") (eschtml ,var))
-              (,test-fn ,var ,storage))))))
-
 (def cache-control(static-file)
   (on-err
     (fn(ex) static-file)
@@ -92,38 +22,18 @@
   (tag head
     (prn "<meta name=\"robots\" content=\"nofollow\"/>")
     (prn "<link rel=\"icon\" href=\"/favicon.ico\"/>")
+
+    (csstag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css")
+    (jstag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
+    (jstag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js")
+
     (csstag "main.css")
-
-    (jstag "prototype.js")
-    (jstag "effects.js")
-    (jstag "controls.js")
-    (jstag "dragdrop.js")
     (jstag "application.js")))
-
-(def alist-json(al)
-  (tostring
-    (pr "{")
-    (each (k v) al
-      (if (~is k caar.al)
-        (pr ", "))
-      (pr "\"" string.k "\": \"" string.v "\""))
-    (pr "}")))
 
 (def is-prod(req)
   (~is "127.0.0.1" req!ip))
 
 
-
-(mac jstogglelink-sub(c text url (o styl))
-  `(tag (a class ,c onclick "toggleLink(this); return jsget(this);" href ,url style ,styl) ,text))
-(def display(flag)
-  (if flag
-    "display:inline"
-    "display:none"))
-(mac jstogglelink(id text0 url0 text1 url1 which)
-  `(do
-    (jstogglelink-sub (+ ,id "_off") ,text0 ,url0 (display ,which))
-    (jstogglelink-sub (+ ,id "_on") ,text1 ,url1 (display (not ,which)))))
 
 (mac sharebutton body
   `(tag (span class 'rwsharebutton)
