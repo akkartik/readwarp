@@ -431,6 +431,7 @@
 
 (mac w/user(u . body)
   `(withs (user ,u
-           s userinfo*.user!all
-           st userinfo*.user!stations.s)
+           ui userinfo*.user
+           s ui!all
+           st ui!stations.s)
     ,@body))

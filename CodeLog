@@ -2811,3 +2811,5 @@ Refactor out all the paths that could show the signup form.
 =-=1071 - Sat Jun 26 07:06:12 PDT 2010
 Email form had stopped working. Fixed.
 =-=1072 - Sat Jun 26 10:38:33 PDT 2010
+Autocomplete widget when sending email. But the styling's all broken.
+=-=1073 - Sat Jun 26 10:46:55 PDT 2010

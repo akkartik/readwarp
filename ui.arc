@@ -303,6 +303,11 @@
       (tr
         (tag (td style "vertical-align:middle") (prbold "To:&nbsp;"))
         (td:tag:input id "email-to" style "margin-bottom:5px" name "to" size "50"))
+      (tag script
+        (pr "$(function() { $('#email-to').autocomplete({source: [")
+        (each e userinfo*.user!contacts
+          (pr "\"" e "\", "))
+        (pr "]});});"))
       (tr
         (tag (td style "vertical-align:middle") (prbold "Subject:&nbsp;"))
         (td:tag:input style "margin-bottom:5px" name "subject" size "50"
