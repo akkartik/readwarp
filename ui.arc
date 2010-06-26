@@ -212,9 +212,9 @@
 
 (def email-widget()
   (tag (span class 'rwsharebutton
-            onclick "$('rwemail').toggle();
-                     $('rwform-flash').innerHTML='';
-                     $('rwform-flash').hide()")
+            onclick "$('#rwemail').toggle();
+                     $i('rwform-flash').innerHTML='';
+                     $('#rwform-flash').hide()")
     (tag:img src "email.jpg" height "14px")))
 
 ; http://www.facebook.com/facebook-widgets/share.php
@@ -289,10 +289,10 @@
 (def email-form(user doc)
   (tag:div class "rwflash" id "rwform-flash" style "font-size:75%; display:none")
   (tag (form id "rwemail" style "display:none" method "post"
-             onsubmit "$('rwemail').toggle();
-                       jspost('/email', params($('rwemail')));
-                       $('rwform-flash').innerHTML = ' sent';
-                       $('rwform-flash').show();
+             onsubmit "$('#rwemail').toggle();
+                       jspost('/email', params($i('rwemail')));
+                       $i('rwform-flash').innerHTML = ' sent';
+                       $('#rwform-flash').show();
                        return false")
     (tag h3 (pr "Email this story"))(br)
     (tab
@@ -302,7 +302,7 @@
                       value user-email.user))
       (tr
         (tag (td style "vertical-align:middle") (prbold "To:&nbsp;"))
-        (td:tag:input style "margin-bottom:5px" name "to" size "50"))
+        (td:tag:input id "email-to" style "margin-bottom:5px" name "to" size "50"))
       (tr
         (tag (td style "vertical-align:middle") (prbold "Subject:&nbsp;"))
         (td:tag:input style "margin-bottom:5px" name "subject" size "50"
@@ -321,7 +321,7 @@
     (tag (div style "margin-top:0.5em; text-align:left")
       (do
         (tag:input type "submit" value "send" style "margin-right:1em")
-        (tag (a href "#" onclick "$('rwemail').toggle()")
+        (tag (a href "#" onclick "$('#rwemail').toggle()")
           (pr "cancel"))))))
 
 (defop email req
@@ -350,7 +350,7 @@
 (def feedback-form(user doc)
   (tag (div id 'rwfeedback-wrapper)
     (tag (div class 'rwfeedback_link)
-      (tag (a onclick "$('rwfeedback').toggle(); return false" href "#")
+      (tag (a onclick "$('#rwfeedback').toggle(); return false" href "#")
         (pr "feedback")))
     (tag (form id 'rwfeedback action "/feedback" method "post" style
                "display:none")
@@ -362,7 +362,7 @@
       (tag (div style "margin-top:0.5em; text-align:left")
         (do
           (tag:input type "submit" value "send" style "margin-right:1em")
-          (tag:input type "button" value "cancel" onclick "$('rwfeedback').toggle()"))))
+          (tag:input type "button" value "cancel" onclick "$('#rwfeedback').toggle()"))))
     (clear)))
 
 (def write-feedback(user email doc msg)

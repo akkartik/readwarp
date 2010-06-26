@@ -54,8 +54,7 @@ function jsget(elem) {
 }
 
 function jspost(url, params) {
-  new $.ajax(
-      {
+  new $.ajax({
         url: stringOrHref(url),
         type: 'post',
         data: params
@@ -65,8 +64,8 @@ function jspost(url, params) {
 
 function inline(id, url, params) {
   prepareAjax(id);
-  new $.ajax(stringOrHref(url),
-      {
+  new $.ajax({
+        url: stringOrHref(url),
         type: 'get',
         data: params,
         success: function(response) {
@@ -88,8 +87,7 @@ function del(elem) {
 
 function newDocFrom(url, params) {
   prepareAjax('rwcontent');
-  new $.ajax(
-      {
+  new $.ajax({
         url: url,
         type: 'post',
         data: params,
@@ -112,8 +110,7 @@ function askFor(query) {
 
 function showDoc(doc) {
   prepareAjax('rwcontent');
-  new $.ajax(
-      {
+  new $.ajax({
         url: '/doc',
         type: 'get',
         data: 'doc='+escape(doc),
