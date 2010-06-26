@@ -16,12 +16,12 @@ function clearDefault(elem, msg) {
 }
 
 function $i(id) {
-  return $('#'+id);
+  return $('#'+id)[0];
 }
 
 function submitMagicBox(id, msg) {
-  if ($i(id).val() !== msg) {
-    askFor($i(id).val());
+  if ($i(id).value !== msg) {
+    askFor($i(id).value);
   }
   return false;
 }
@@ -70,7 +70,7 @@ function inline(id, url, params) {
         type: 'get',
         data: params,
         success: function(response) {
-          $i(id).html(response.responseText);
+          $i(id).innerHTML = response;
           checkContent(id);
           runScripts($i(id));
         }
@@ -80,7 +80,7 @@ function inline(id, url, params) {
 
 function del(elem) {
   try {
-    elem.parent().removeChild(elem);
+    elem.parentNode.removeChild(elem);
   } catch(err){}
 }
 
@@ -94,7 +94,7 @@ function newDocFrom(url, params) {
         type: 'post',
         data: params,
         success: function(response) {
-          $i('rwcontent').html(response);
+          $i('rwcontent').innerHTML = response;
           checkContent('rwcontent');
           runScripts($i('rwcontent'));
         }
@@ -118,7 +118,7 @@ function showDoc(doc) {
         type: 'get',
         data: 'doc='+escape(doc),
         success: function(response) {
-          $i('rwcontent').html(response.responseText);
+          $i('rwcontent').innerHTML = response;
           checkContent('rwcontent');
           runScripts($i('rwcontent'));
         }
@@ -132,7 +132,7 @@ var readwarp_msgCount = 0;
 function prepareAjax(id) {
   scroll(0, 0);
   $i('rwbody').scrollTop = 0;
-  $i(id).html(readwarp_waitMsg);
+  $i(id).innerHTML = readwarp_waitMsg;
   ++readwarp_msgCount;
   setTimeout("errorMessage('"+id+"', "+readwarp_msgCount+");", 5000);
 }
@@ -140,17 +140,17 @@ function prepareAjax(id) {
 function errorMessage(id, count) {
   if (readwarp_msgCount != count) return;
 
-  var elem = $i(id).html;
+  var elem = $i(id).innerHTML;
   var msgToAdd = " Hmm, still waiting. You may want to try reloading this page.";
   if (elem.indexOf(readwarp_waitGif) > 0
       && elem.length < readwarp_waitMsg.length+msgToAdd.length - 5) {
-    $i(id).html += msgToAdd;
+    $i(id).innerHTML += msgToAdd;
   }
 }
 
 function checkContent(id) {
-  if ($i(id).html().length < 10) {
-    $i(id).html("Didn't get back the next story. Sorry about that; please try reloading this page.");
+  if ($i(id).innerHTML.length < 10) {
+    $i(id).innerHTML = "Didn't get back the next story. Sorry about that; please try reloading this page.";
   }
 }
 

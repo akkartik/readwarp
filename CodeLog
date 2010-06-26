@@ -2805,3 +2805,5 @@ I want to share links that kick people off in a specific group.
 Switch from prototype to jQuery. Probably still buggy.
 Now I can build the email importer and autocomplete widget.
 =-=1069 - Fri Jun 25 21:54:41 PDT 2010
+Just use DOM nodes as far as possible.
+=-=1070 - Sat Jun 26 07:03:51 PDT 2010
