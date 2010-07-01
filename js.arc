@@ -1,5 +1,5 @@
 (mac a-onclick(url . body)
-  `(tag (a href "#" onclick ,url)
+  `(tag (a href (+ "#" (unique-id)) onclick ,url)
     ,@body))
 
 (def jsquotes(s)

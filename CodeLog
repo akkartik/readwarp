@@ -2816,3 +2816,8 @@ Autocomplete widget when sending email. But the styling's all broken.
 =-=1073 - Sat Jun 26 10:46:55 PDT 2010
 Ok, a little better now.
 =-=1074 - Sat Jun 26 11:02:11 PDT 2010
+
+Link actions shouldn't ever seem visited.
+Something like this may be useful if we ever build back-button support
+properly.
+=-=1075 - Thu Jul  1 14:50:41 PDT 2010
