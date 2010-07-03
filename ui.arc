@@ -46,7 +46,8 @@
       (tag (div style "width:100%")
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
-            (doc-panel user (pick user choosefn) buttons widgets flashfn)))))))
+            (tag script
+              (pr "showDoc('')"))))))))
 
 (defop docupdate req
   (let user current-user.req
