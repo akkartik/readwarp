@@ -2821,3 +2821,9 @@ Link actions shouldn't ever seem visited.
 Something like this may be useful if we ever build back-button support
 properly.
 =-=1075 - Thu Jul  1 14:50:41 PDT 2010
+To add to browser history, just update location.href.
+
+But the '#' anchor in a url is never seen by the server. How does twitter show
+'/#replies'?
+Ah, they're doing an ajax call after parsing the URL. Ok, I can fix this.
+=-=1076 - Sat Jul  3 14:51:42 PDT 2010

@@ -3,7 +3,10 @@
 ; RewriteRule ^/(.*)$ http://readwarp.com/url?id=$1 [L,R=301]
 
 (def wrp(doc)
-  (+ "http://wrp.to/" (url-hash:doc-url doc)))
+  (+ "http://wrp.to/" doc-hash.doc))
+
+(def doc-hash(doc)
+  (url-hash doc-url.doc))
 
 (defop url req
   (prn:+
