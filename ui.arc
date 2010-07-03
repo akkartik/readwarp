@@ -91,8 +91,8 @@
     (if
       (no feeds)
         (flash "Hmm, I don't know that site. Please try again.
-               <br><i>(Telling the operator. Please provide details by clicking
-                on feedback.)</i>")
+               <br><i>(Notifying operator. You can provide details by clicking
+                &lsquo;feedback&rsquo; below.)</i>")
       (~pos doc-feed.doc feeds)
         (flash "No more stories from that site"))))
 
