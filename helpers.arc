@@ -26,6 +26,7 @@
     (csstag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css")
     (jstag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
     (jstag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js")
+    (jstag "jquery.ba-bbq.min.js")
 
     (csstag "main.css")
     (jstag "application.js")))

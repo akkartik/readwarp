@@ -2832,3 +2832,7 @@ First eliminate random anchors so we don't pollute history.
 Have docs always load by ajax. Now all we have to do is include the hashtag to
 the ajax call.
 =-=1078 - Sat Jul  3 15:44:38 PDT 2010
+Ah, jQuery to the rescue. I knew there had to be something like BBQ.
+  http://benalman.com/projects/jquery-bbq-plugin
+So now we have the hashchange working, just have to hook up the ajax.
+=-=1079 - Sat Jul  3 16:10:35 PDT 2010
