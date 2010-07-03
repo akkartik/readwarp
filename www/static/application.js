@@ -110,6 +110,10 @@ function askFor(query) {
 
 function showDoc(doc) {
   prepareAjax('rwcontent');
+  return getDoc(doc);
+}
+
+function getDoc(doc) {
   new $.ajax({
         url: '/doc',
         type: 'get',

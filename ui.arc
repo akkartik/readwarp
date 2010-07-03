@@ -46,13 +46,11 @@
       (tag (div style "width:100%")
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
-            (tag (div onclick "location.href='#aa'")
-              (pr "AAA"))
             (tag script
               (pr "
     $(document).ready(function() {
-            alert('load');
-            $(window).bind( 'hashchange', function(e) { alert('foo');});
+            $(window).bind('hashchange', function(e){ getDoc(location.hash);});
+            getDoc(location.hash);
     });"))))))))
 
 (defop docupdate req
