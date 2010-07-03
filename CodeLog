@@ -2827,3 +2827,5 @@ But the '#' anchor in a url is never seen by the server. How does twitter show
 '/#replies'?
 Ah, they're doing an ajax call after parsing the URL. Ok, I can fix this.
 =-=1076 - Sat Jul  3 14:51:42 PDT 2010
+First eliminate random anchors so we don't pollute history.
+=-=1077 - Sat Jul  3 14:57:02 PDT 2010

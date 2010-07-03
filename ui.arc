@@ -176,7 +176,7 @@
                     font-size:90%; font-weight:bold; color:#999")
       (pr "next story from:"))
     (ask-button-elem
-      (a-onclick (docUpdate doc "'outcome=4&samesite=1'")
+      (onclick (docUpdate doc "'outcome=4&samesite=1'")
         (pr "this site")))
     (tag (form action "/404" onsubmit "submitMagicBox('rwmagicbox', 'a new site'); return false;")
          (tag (div style "height:24px; color:#aaf; width:10px; margin-right:2px; float:right; cursor:pointer"
@@ -191,7 +191,7 @@
                     onblur "fillDefault(this, 'a new site');"))
     (each query (firstn 5 userinfo*.user!queries)
       (ask-button-elem
-        (a-onclick (askfor query)
+        (onclick (askfor query)
           (pr query))))))
 
 (proc like-button(user doc)
@@ -326,7 +326,7 @@
     (tag (div style "margin-top:0.5em; text-align:left")
       (do
         (tag:input type "submit" value "send" style "margin-right:1em")
-        (a-onclick "$('#rwemail').toggle()"
+        (onclick "$('#rwemail').toggle()"
           (pr "cancel"))))))
 
 (defop email req
@@ -355,7 +355,7 @@
 (def feedback-form(user doc)
   (tag (div id 'rwfeedback-wrapper)
     (tag (div class 'rwfeedback_link)
-      (a-onclick "$('#rwfeedback').toggle(); return false"
+      (onclick "$('#rwfeedback').toggle(); return false"
         (pr "feedback")))
     (tag (form id 'rwfeedback action "/feedback" method "post" style
                "display:none")

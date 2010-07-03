@@ -26,6 +26,8 @@ img{ max-width:595px; }
 
 a{ text-decoration:none; }
 a:hover{ text-decoration:underline; }
+span.link{ color:#0000ee; cursor:pointer; }
+span.link:hover{ text-decoration:underline; }
 td{ vertical-align:top; }
 
 b,strong,h1,h2,h3,h4,h5,h6{ font-weight:bold; }
