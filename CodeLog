@@ -2853,3 +2853,6 @@ Let's push to production and see what happens.
 askfor has flicker. Fixed.
 Initial load still has flicker.
 =-=1087 - Sat Jul  3 19:11:35 PDT 2010
+Another little delay. Ok, done with bugfixes. Now let's figure out a better
+design.
+=-=1088 - Sat Jul  3 19:15:30 PDT 2010

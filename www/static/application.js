@@ -143,11 +143,13 @@ function showDoc(doc) {
 
 function initDoc() {
   showDoc(location.hash.substring(1));
-  $(window).bind('hashchange', function(e){
-//?       alert("Z: "+doc_updating);
-      if (!doc_updating)
-        showDoc(e.fragment);
-  });
+  setTimeout(function() {
+    $(window).bind('hashchange', function(e){
+//?         alert("Z: "+doc_updating);
+        if (!doc_updating)
+          showDoc(e.fragment);
+    });
+  }, 500);
 }
 
 var readwarp_waitGif = "waiting.gif";
