@@ -164,3 +164,17 @@ function params(elem) {
 
   return ans;
 }
+
+//? function installShowDocOnFragmentChange() {
+//?   $(window).bind('hashchange', function(e){ showDoc(e.fragment);});
+//? }
+function initFragmentChangeHooks() {
+  var fragment = location.hash.substring(1);
+  showDoc(fragment);
+//?   if (fragment === '')
+//?     installShowDocOnFragmentChange();
+//?   else {
+//?     alert('foo');
+//?     setTimeout("installShowDocOnFragmentChange()", 1000);
+//?   }
+}

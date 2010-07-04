@@ -47,11 +47,7 @@
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
             (tag script
-              (pr "
-    $(document).ready(function() {
-            $(window).bind('hashchange', function(e){ showDoc(e.fragment);});
-            showDoc(location.hash.substring(1));
-    });"))))))))
+              (pr "$(document).ready(initFragmentChangeHooks);"))))))))
 
 (defop docupdate req
   (docupdate-core current-user.req req choose-feed
@@ -74,6 +70,8 @@
             (flash "No more stories from that site")))))))
 
 (defop doc req
+  (erp "")
+  (erp "/doc: " req)
   (doc-panel current-user.req (doc-from req choose-feed)
              readwarp-buttons* readwarp-widgets*))
 
@@ -110,6 +108,7 @@
     (doc-panel-error user)))
 
 (def doc-panel-sub(user doc buttons widgets flashfn)
+  (erp "doc-panel")
   (tag (div id (+ "doc_" doc))
     (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
       (each b buttons
