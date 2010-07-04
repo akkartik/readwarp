@@ -179,3 +179,10 @@ function params(elem) {
 
   return ans;
 }
+
+function updateLocation(l) {
+  if (!location.hash)
+    window.location.replace(l);
+  else
+    location.href = l;
+}

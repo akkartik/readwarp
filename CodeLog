@@ -2862,3 +2862,5 @@ perhaps a better way to use the BBQ plugin.
 One remaining bug: '/' redirects to '/#xxx'. Hitting the back button once too
 many brings one back to the present and gets rid of all history. What to do?
 =-=1089 - Sat Jul  3 22:17:47 PDT 2010
+Ah, just never keep '/' or any anchorless urls in history.
+=-=1090 - Sat Jul  3 23:13:11 PDT 2010

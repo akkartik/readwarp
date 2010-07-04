@@ -136,7 +136,7 @@
 
 (def render-doc(user doc widgets)
   (tag script
-    (pr:+ "location.href='#" doc-hash.doc "'"))
+    (pr:+ "updateLocation('#" doc-hash.doc "');"))
   (tag (div id (+ "contents_" doc))
     (tag (h2 class 'rwtitle)
       (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
