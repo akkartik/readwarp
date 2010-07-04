@@ -70,8 +70,6 @@
             (flash "No more stories from that site")))))))
 
 (defop doc req
-  (erp "")
-  (erp "/doc: " req)
   (doc-panel current-user.req (doc-from req choose-feed)
              readwarp-buttons* readwarp-widgets*))
 
@@ -108,7 +106,6 @@
     (doc-panel-error user)))
 
 (def doc-panel-sub(user doc buttons widgets flashfn)
-  (erp "doc-panel")
   (tag (div id (+ "doc_" doc))
     (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
       (each b buttons

@@ -2856,3 +2856,9 @@ Initial load still has flicker.
 Another little delay. Ok, done with bugfixes. Now let's figure out a better
 design.
 =-=1088 - Sat Jul  3 19:15:30 PDT 2010
+Cleanup. Got rid of js duplication, but I don't really see any way to
+eliminate the doc_updating variable, or the calls to setTimeout. There is
+perhaps a better way to use the BBQ plugin.
+One remaining bug: '/' redirects to '/#xxx'. Hitting the back button once too
+many brings one back to the present and gets rid of all history. What to do?
+=-=1089 - Sat Jul  3 22:17:47 PDT 2010

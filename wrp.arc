@@ -9,7 +9,6 @@
 (= hash-doc url-doc:hash-url)
 
 (def url-doc(url)
-  (erp url)
   (when url
     (gsub url (r "[^a-zA-Z0-9]") "_")))
 
