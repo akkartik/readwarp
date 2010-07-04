@@ -3,11 +3,15 @@
 
 ; trailing slash required by subdomain proxying
 (defop comics/ req
-  (reader req choose-from-comics comics-buttons* comics-widgets*))
+  (reader req comics-buttons* comics-widgets*))
 
 (defop comics/docupdate req
   (docupdate-core current-user.req req choose-from-comics
                   comics-buttons* comics-widgets*))
+
+(defop comics/doc req
+  (doc-panel current-user.req (doc-from req choose-from-comics)
+             comics-buttons* comics-widgets*))
 
 (def choose-from-comics(user station lastdoc)
   (randpick

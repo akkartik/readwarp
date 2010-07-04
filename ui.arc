@@ -19,7 +19,7 @@
       (ensure-user user)
       (create-query user query))
     (if userinfo*.user
-      (reader req choose-feed readwarp-buttons* readwarp-widgets*
+      (reader req readwarp-buttons* readwarp-widgets*
         (fn()
           (tag (div style "float:right; margin-top:10px")
             (if signedup?.user
@@ -38,7 +38,7 @@
                topic in the left."))))
       (start-funnel req))))
 
-(def reader(req choosefn buttons widgets (o headerfn) (o flashfn))
+(def reader(req buttons widgets (o headerfn) (o flashfn))
   (let user current-user.req
     (ensure-user user)
     (page req
@@ -54,9 +54,8 @@
     });"))))))))
 
 (defop docupdate req
-  (let user current-user.req
-    (docupdate-core user req choose-feed
-                    readwarp-buttons* readwarp-widgets*)))
+  (docupdate-core current-user.req req choose-feed
+                  readwarp-buttons* readwarp-widgets*))
 
 (def docupdate-core(user req choosefn buttons widgets (o flashfn))
   (ensure-user user)
@@ -70,9 +69,6 @@
       (doc-panel user nextdoc buttons widgets
         (fn()
           (test*.flashfn)
-          (tag (div style "float:right; cursor:pointer; background:lightgrey; padding:3px")
-            (tag (a onclick (+ "showDoc('" doc "')"))
-              (pr "previous story")))
           (when (and (arg req "samesite")
                      (~is doc-feed.doc doc-feed.nextdoc))
             (flash "No more stories from that site")))))))
@@ -82,9 +78,10 @@
              readwarp-buttons* readwarp-widgets*))
 
 (def doc-from(req choosefn)
-  (aif (arg req "id")
-    (hash-doc erp.it)
-    (pick current-user.req choosefn)))
+  (let fragment (arg req "id")
+    (if (~blank fragment)
+      (hash-doc fragment)
+      (pick current-user.req choosefn))))
 
 (defop askfor req
   (with (user current-user.req

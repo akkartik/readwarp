@@ -2841,3 +2841,6 @@ choosefn. Ignore invalid anchors for now.
 =-=1080 - Sat Jul  3 16:15:15 PDT 2010
 Done! But there's an annoying flicker.
 =-=1082 - Sat Jul  3 17:24:17 PDT 2010
+Refactoring, making subdomains work.
+doc-panel still loading twice on browser with flicker.
+=-=1083 - Sat Jul  3 18:03:23 PDT 2010

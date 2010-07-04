@@ -3,11 +3,15 @@
 
 ; trailing slash required by subdomain proxying
 (defop startups/ req
-  (reader req choose-from-venture startups-buttons* startups-widgets*))
+  (reader req startups-buttons* startups-widgets*))
 
 (defop startups/docupdate req
   (docupdate-core current-user.req req choose-from-venture
                   startups-buttons* startups-widgets*))
+
+(defop startups/doc req
+  (doc-panel current-user.req (doc-from req choose-from-venture)
+             startups-buttons* startups-widgets*))
 
 (def choose-from-venture(user station lastdoc)
   (randpick
