@@ -5,8 +5,13 @@
 (def wrp(doc)
   (+ "http://wrp.to/" doc-hash.doc))
 
-(def doc-hash(doc)
-  (url-hash doc-url.doc))
+(= doc-hash url-hash:doc-url)
+(= hash-doc url-doc:hash-url)
+
+(def url-doc(url)
+  (erp url)
+  (when url
+    (gsub url (r "[^a-zA-Z0-9]") "_")))
 
 (defop url req
   (prn:+

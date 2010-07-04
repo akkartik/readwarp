@@ -49,8 +49,8 @@
             (tag script
               (pr "
     $(document).ready(function() {
-            $(window).bind('hashchange', function(e){ getDoc(location.hash);});
-            getDoc(location.hash);
+            $(window).bind('hashchange', function(e){ showDoc(e.fragment);});
+            showDoc(location.hash.substring(1));
     });"))))))))
 
 (defop docupdate req
@@ -77,6 +77,15 @@
                      (~is doc-feed.doc doc-feed.nextdoc))
             (flash "No more stories from that site")))))))
 
+(defop doc req
+  (doc-panel current-user.req (doc-from req choose-feed)
+             readwarp-buttons* readwarp-widgets*))
+
+(def doc-from(req choosefn)
+  (aif (arg req "id")
+    (hash-doc erp.it)
+    (pick current-user.req choosefn)))
+
 (defop askfor req
   (with (user current-user.req
          query (arg req "q"))
@@ -95,13 +104,6 @@
                 &lsquo;feedback&rsquo; below.)</i>")
       (~pos doc-feed.doc feeds)
         (flash "No more stories from that site"))))
-
-(defop doc req
-  (withs (user (current-user req)
-          doc  (check (arg req "doc")
-                      ~blank
-                      (pick user choose-feed)))
-    (doc-panel user doc readwarp-buttons* readwarp-widgets*)))
 
 
 
@@ -160,15 +162,6 @@
     (tag (div id 'rwpost-body)
       (pr:contents doc))
     (clear)))
-
-(def render-doc-link(user doc)
-  (tag div
-    (tag (div id (+ "outcome_" doc)
-              class (+ "rwoutcome_icon rwoutcome_" (read? user doc)))
-      (pr "&#9632;"))
-    (tag (p class 'rwitem)
-      (tag (a onclick (+ "showDoc('" jsesc.doc "')") href "#")
-        (pr (check doc-title.doc ~empty "no title"))))))
 
 (mac ask-button-elem body
   `(tag div

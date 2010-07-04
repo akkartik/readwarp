@@ -109,22 +109,7 @@ function askFor(query) {
 }
 
 function showDoc(doc) {
-  prepareAjax('rwcontent');
-  return getDoc(doc);
-}
-
-function getDoc(doc) {
-  new $.ajax({
-        url: '/doc',
-        type: 'get',
-        data: 'doc='+escape(doc),
-        success: function(response) {
-          $i('rwcontent').innerHTML = response;
-          checkContent('rwcontent');
-          runScripts($i('rwcontent'));
-        }
-      });
-  return false;
+  return newDocFrom('doc', 'id='+escape(doc));
 }
 
 var readwarp_waitGif = "waiting.gif";
