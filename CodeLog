@@ -2847,3 +2847,6 @@ doc-panel still loading twice on browser with flicker.
 Ah, we want the trigger on anchor change to only happen outside of a
 docupdate.
 =-=1085 - Sat Jul  3 18:26:33 PDT 2010
+Hacky global variable and time delay solution, but it seems to work.
+Let's push to production and see what happens.
+=-=1086 - Sat Jul  3 18:48:24 PDT 2010

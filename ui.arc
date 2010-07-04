@@ -47,7 +47,7 @@
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
             (tag script
-              (pr "$(document).ready(initFragmentChangeHooks);"))))))))
+              (pr "$(document).ready(initDoc);"))))))))
 
 (defop docupdate req
   (docupdate-core current-user.req req choose-feed
