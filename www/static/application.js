@@ -134,7 +134,7 @@ function docUpdate(doc, params) {
 }
 
 function askFor(query) {
-  return newDocFrom('askfor', 'q='+escape(query));
+  return newDocFrom2('askfor', 'q='+escape(query));
 }
 
 function showDoc(doc) {

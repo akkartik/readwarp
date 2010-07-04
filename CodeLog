@@ -2850,3 +2850,6 @@ docupdate.
 Hacky global variable and time delay solution, but it seems to work.
 Let's push to production and see what happens.
 =-=1086 - Sat Jul  3 18:48:24 PDT 2010
+askfor has flicker. Fixed.
+Initial load still has flicker.
+=-=1087 - Sat Jul  3 19:11:35 PDT 2010
