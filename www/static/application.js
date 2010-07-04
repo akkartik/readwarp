@@ -119,12 +119,10 @@ function showDoc(doc) {
 
 function initDoc() {
   showDoc(location.hash.substring(1));
-  setTimeout(function() {
-    $(window).bind('hashchange', function(e){
-        if (!doc_updating)
-          showDoc(e.fragment);
-    });
-  }, 500);
+  $(window).bind('hashchange', function(e){
+      if (!doc_updating)
+        showDoc(e.fragment);
+  });
 }
 
 var readwarp_waitGif = "waiting.gif";
