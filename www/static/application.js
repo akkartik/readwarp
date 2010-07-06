@@ -85,21 +85,18 @@ function del(elem) {
 
 
 
-var doc_updating = false;
 function newDocFrom(url, params) {
-  doc_updating = true;
   prepareAjax('rwcontent');
   new $.ajax({
         url: url,
         type: 'post',
         data: params,
         success: function(response) {
-          $i('rwcontent').innerHTML = response;
-          checkContent('rwcontent');
-          runScripts($i('rwcontent'));
-          setTimeout(function() {
-            doc_updating = false;
-          }, 500);
+          withoutRerenderingDoc(function() {
+            $i('rwcontent').innerHTML = response;
+            checkContent('rwcontent');
+            runScripts($i('rwcontent'));
+          });
         }
       });
   return false;
@@ -117,12 +114,18 @@ function showDoc(doc) {
   return newDocFrom('doc', 'id='+escape(doc));
 }
 
-function initDoc() {
+function renderDoc() {
   showDoc(location.hash.substring(1));
-  $(window).bind('hashchange', function(e){
-      if (!doc_updating)
-        showDoc(e.fragment);
-  });
+}
+
+function withoutRerenderingDoc(f) {
+  $(window).unbind('hashchange');
+
+  f();
+
+  setTimeout(function() {
+    $(window).bind('hashchange', renderDoc);
+  }, 500);
 }
 
 var readwarp_waitGif = "waiting.gif";

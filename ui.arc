@@ -47,7 +47,7 @@
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
             (tag script
-              (pr "$(document).ready(initDoc);"))))))))
+              (pr "$(document).ready(renderDoc);"))))))))
 
 (defop docupdate req
   (docupdate-core current-user.req req choose-feed
