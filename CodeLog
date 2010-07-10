@@ -2878,3 +2878,9 @@ One issue: there's always a scrollbar.
 Oh, Srikanth doesn't want white to go all the way down. Just purple. Undo for
 starters.
 =-=1095 - Sat Jul 10 11:06:59 PDT 2010
+Why did we originally have the rwbody? Anyway it comes in handy now. Put
+height on body, background on rwbody, move the centered container to rwpage
+with min-height.
+Mac firefox still not getting purple all the way down the screen for short
+stories.
+=-=1096 - Sat Jul 10 11:50:00 PDT 2010

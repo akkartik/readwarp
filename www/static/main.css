@@ -1,9 +1,9 @@
 @import url("http://yui.yahooapis.com/2.6.0/build/reset-fonts-grids/reset-fonts-grids.css");
 
 /* http://colorschemedesigner.com/#4Z41TfLqFw0w0 */
-body{ font-size:62.5%; background:#8c6988/*#934b8a*/; }
-#rwbody{ width:890px; margin:0 auto; }
-#rwpage{ font-size:1.4em; line-height:1.4; font-family:sans-serif; }
+body{ font-size:62.5%; height:100%; }
+#rwbody{ background:#8c6988/*#934b8a*/; }
+#rwpage{ width:890px; margin:0 auto; min-height:100%; font-size:1.4em; line-height:1.4; font-family:sans-serif; }
 
   #rwnav{ height:25px; padding:10px; background:white; }
 
