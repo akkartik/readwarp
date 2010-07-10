@@ -2869,3 +2869,8 @@ After location.replace we can eliminate one setTimeout.
 Ah, eliminated the doc_updating variable using the ability to clear the
 hashchange event. Also switching to a more parsimonious jquery plugin.
 =-=1092 - Mon Jul  5 23:22:33 PDT 2010
+
+Don't clip short stories to less than a page of white background.
+Based on example html from Srikanth.
+Also take care to not chop off the purple past the top screenful.
+=-=1093 - Sat Jul 10 01:26:10 PDT 2010

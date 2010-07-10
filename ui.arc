@@ -106,7 +106,7 @@
     (doc-panel-error user)))
 
 (def doc-panel-sub(user doc buttons widgets flashfn)
-  (tag (div id (+ "doc_" doc))
+  (tag (div id (+ "doc_" doc) style "height:100%")
     (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
       (each b buttons
         (b user doc)))
