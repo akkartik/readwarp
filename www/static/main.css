@@ -2,7 +2,7 @@
 
 /* http://colorschemedesigner.com/#4Z41TfLqFw0w0 */
 body{ font-size:62.5%; height:100%; }
-#rwbody{ background:#8c6988/*#934b8a*/; }
+#rwbody{ background:#8c6988/*#934b8a*/; min-height:100%; }
 #rwpage{ width:890px; margin:0 auto; min-height:100%; font-size:1.4em; line-height:1.4; font-family:sans-serif; }
 
   #rwnav{ height:25px; padding:10px; background:white; }
