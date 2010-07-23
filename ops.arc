@@ -47,6 +47,9 @@
   (++ (voting-stats*.user outcome 0))
   (or= voting-stats*!total (table))
   (++ (voting-stats*!total outcome 0)))
+(after-exec create-query(user query)
+  (or= voting-stats*.user (table))
+  (++ (voting-stats*.user 'askfors 0)))
 (maintenance-op votingstats req
   (awhen voting-stats*!total
     (prn "TOTAL +" (it "4")
@@ -57,4 +60,4 @@
       (prn user " +" (or (info "4") 0)
                 " =" (or (info "2") 0)
                 " -" (or (info "1") 0)
-                (if info!signup " SIGNEDUP" "")))))
+                " ?" (or info!askfors 0)))))

@@ -2886,3 +2886,7 @@ stories.
 =-=1096 - Sat Jul 10 11:50:00 PDT 2010
 Fix for mac firefox.
 =-=1097 - Sat Jul 10 11:54:24 PDT 2010
+
+Update daily email to show askfor requests.
+Get rid of signup stats, those never worked.
+=-=1098 - Thu Jul 22 22:10:15 PDT 2010

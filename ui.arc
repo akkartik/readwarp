@@ -28,8 +28,6 @@
                       (pr "login")))))
         (fn()
           (firsttime userinfo*.user!noob
-            (when voting-stats*.user
-              (set voting-stats*.user!signup))
             (flash
               "Keep voting on stories as you read, and Readwarp will
               continually fine-tune its recommendations.
