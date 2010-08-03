@@ -2890,3 +2890,9 @@ Fix for mac firefox.
 Update daily email to show askfor requests.
 Get rid of signup stats, those never worked.
 =-=1098 - Thu Jul 22 22:10:15 PDT 2010
+
+Turns out I still was using doc-feed all over the place. Didn't I ever do a
+global search-and-replace?
+Metric to monitor this: fraction of the time that timestamp of a doc is less
+than the doc after it in feed-docs*.
+=-=1099 - Tue Aug  3 08:52:05 PDT 2010

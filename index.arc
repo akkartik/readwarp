@@ -240,14 +240,14 @@
 (def choose-feed(user station lastdoc)
   (randpick
     preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
-                       (when (pos doc-feed.lastdoc currquerygroupfeeds)
+                       (when (pos lookup-feed.lastdoc currquerygroupfeeds)
                          (choose-from 'latest-query-preferred
                                       (keep [preferred? (station!sites _)
                                                         userinfo*.user!clock]
                                             currquerygroupfeeds)
                                       user station)))
     preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
-                       (when (pos doc-feed.lastdoc currquerygroupfeeds)
+                       (when (pos lookup-feed.lastdoc currquerygroupfeeds)
                          (choose-from 'latest-query-pre
                                       currquerygroupfeeds
                                       user station)))
@@ -268,7 +268,7 @@
                                   (keys station!old-preferred)
                                   user station)
     1.01             (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
-                       (when (pos doc-feed.lastdoc currquerygroupfeeds)
+                       (when (pos lookup-feed.lastdoc currquerygroupfeeds)
                          (erp "latest query")
                          (choose-from 'latest-query
                                       currquerygroupfeeds

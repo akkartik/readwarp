@@ -58,13 +58,13 @@
          group (arg req "group"))
     (mark-read user doc outcome group)
     (when (arg req "samesite")
-      (pick-from-same-site user doc-feed.doc))
+      (pick-from-same-site user lookup-feed.doc))
     (let nextdoc (pick user choosefn)
       (doc-panel user nextdoc buttons widgets
         (fn()
           (test*.flashfn)
           (when (and (arg req "samesite")
-                     (~is doc-feed.doc doc-feed.nextdoc))
+                     (~is lookup-feed.doc lookup-feed.nextdoc))
             (flash "No more stories from that site")))))))
 
 (defop doc req
@@ -93,7 +93,7 @@
         (flash "Hmm, I don't know that site. Please try again.
                <br><i>(Notifying operator. You can provide details by clicking
                 &lsquo;feedback&rsquo; below.)</i>")
-      (~pos doc-feed.doc feeds)
+      (~pos lookup-feed.doc feeds)
         (flash "No more stories from that site"))))
 
 
