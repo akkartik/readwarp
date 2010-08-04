@@ -63,6 +63,8 @@
   (= feed-keywords* (table) feed-keyword-nils* (table))
   (everyp feed feed-list* 100
     (feed-keywords feed))
+  (everyp feed (tokens:slurp "feeds/Private/All") 100
+    (feed-keywords feed))
   (wipe keyword-feeds-old*))
 
 (init feed-groups* (table))

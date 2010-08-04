@@ -2896,3 +2896,6 @@ global search-and-replace?
 Metric to monitor this: fraction of the time that timestamp of a doc is less
 than the doc after it in feed-docs*.
 =-=1099 - Tue Aug  3 08:52:05 PDT 2010
+
+Also turns out I didn't have search working for private feeds after all.
+=-=1100 - Wed Aug  4 08:07:19 PDT 2010

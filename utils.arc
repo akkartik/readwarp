@@ -437,7 +437,7 @@
   (w/uniq ls
     `(let ,ls ,l
        (prn:len ,ls)
-       (on ,var ,l
+       (on ,var ,ls
          (when (is 0 (remainder index ,iters))
            (prn " " index " " ,var))
          ,@body))))
