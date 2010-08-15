@@ -386,7 +386,7 @@
 (defop bookmarklet req
   (let user current-user.req
     (page req
-      (nav current-user.req)
+      (nav)
       (br2)
       (pr "Drag this link to your browser toolbar.")
       (br2)

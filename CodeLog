@@ -2899,3 +2899,6 @@ than the doc after it in feed-docs*.
 
 Also turns out I didn't have search working for private feeds after all.
 =-=1100 - Wed Aug  4 08:07:19 PDT 2010
+
+Bugfix: /bookmarklet
+=-=1101 - Sat Aug 14 22:30:50 PDT 2010
