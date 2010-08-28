@@ -40,7 +40,8 @@ function runScripts(e) {
   if (e.nodeType != 1) return;
 
   if (e.tagName.toLowerCase() == 'script') {
-    eval(e.text);
+    alert(e.text);
+    if (pageSize < 1) eval(e.text);
   }
   else {
     for(var i = 0; i < e.children.length; ++i) {
@@ -65,7 +66,6 @@ function jspost(url, params) {
 }
 
 function inline(id, url, params) {
-  prepareAjax(id);
   new $.ajax({
         url: stringOrHref(url),
         type: 'get',
@@ -88,7 +88,6 @@ function del(elem) {
 
 
 function newDocFrom(url, params) {
-  prepareAjax('rwcontent');
   new $.ajax({
         url: url,
         type: 'post',
@@ -96,7 +95,6 @@ function newDocFrom(url, params) {
         success: function(response) {
           withoutRerenderingDoc(function() {
             $i('rwcontent').innerHTML += response;
-            checkContent('rwcontent');
             runScripts($i('rwcontent'));
           });
         }
@@ -128,34 +126,6 @@ function withoutRerenderingDoc(f) {
   setTimeout(function() {
     $(window).bind('hashchange', renderDoc);
   }, 500);
-}
-
-var readwarp_waitGif = "waiting.gif";
-var readwarp_waitMsg = "<img src=\"" + readwarp_waitGif + "\" class=\"rwshadow\"/>";
-var readwarp_msgCount = 0;
-function prepareAjax(id) {
-  scroll(0, 0);
-  $i('rwbody').scrollTop = 0;
-  //$i(id).innerHTML = readwarp_waitMsg;
-  ++readwarp_msgCount;
-  //setTimeout("errorMessage('"+id+"', "+readwarp_msgCount+");", 5000);
-}
-
-function errorMessage(id, count) {
-  if (readwarp_msgCount != count) return;
-
-  var elem = $i(id).innerHTML;
-  var msgToAdd = " Hmm, still waiting. You may want to try reloading this page.";
-  if (elem.indexOf(readwarp_waitGif) > 0
-      && elem.length < readwarp_waitMsg.length+msgToAdd.length - 5) {
-    $i(id).innerHTML += msgToAdd;
-  }
-}
-
-function checkContent(id) {
-  if ($i(id).innerHTML.length < 10) {
-    $i(id).innerHTML = "Didn't get back the next story. Sorry about that; please try reloading this page.";
-  }
 }
 
 function params(elem) {

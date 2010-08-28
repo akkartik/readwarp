@@ -133,7 +133,7 @@
 (def render-doc(user doc widgets)
   (tag script
     (pr:+ "updateLocation('#" doc-hash.doc "');")
-    (pr "++pageSize; alert(pageSize);")
+    (pr "++pageSize;")
     (pr "//if (pageSize <= 3) renderDoc();"))
   (tag (div id (+ "contents_" doc))
     (tag (h2 class 'rwtitle)

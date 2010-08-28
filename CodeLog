@@ -2920,3 +2920,5 @@ We don't need the next button.
 Interesting but painful infinite loop. Had to kill my browser. Considered
 killing the server.
 =-=1109 - Fri Aug 27 19:58:32 PDT 2010
+Ok, we're setting up document.ready over and over again.
+=-=1110 - Fri Aug 27 20:10:31 PDT 2010
