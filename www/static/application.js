@@ -40,8 +40,7 @@ function runScripts(e) {
   if (e.nodeType != 1) return;
 
   if (e.tagName.toLowerCase() == 'script') {
-    alert(e.text);
-    if (pageSize < 1) eval(e.text);
+    eval(e.text);
   }
   else {
     for(var i = 0; i < e.children.length; ++i) {
@@ -94,7 +93,7 @@ function newDocFrom(url, params) {
         data: params,
         success: function(response) {
           withoutRerenderingDoc(function() {
-            $i('rwcontent').innerHTML += response;
+            $i('rwcontent').innerHTML = response;
             runScripts($i('rwcontent'));
           });
         }
