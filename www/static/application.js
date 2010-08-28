@@ -87,8 +87,6 @@ function del(elem) {
 
 
 function newDocFrom(url, params) {
-  if (pageSize >= 2) return;
-  alert(url);
   new $.ajax({
         url: url,
         type: 'post',

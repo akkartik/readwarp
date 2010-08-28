@@ -2934,3 +2934,8 @@ Infinite regress fixed.
 =-=1115 - Fri Aug 27 20:56:38 PDT 2010
 I can also use window.onload in yday's readwarp. So that's always a good idea.
 =-=1116 - Fri Aug 27 21:00:31 PDT 2010
+Cleanup. So now clicking the buttons appends to the page.
+Wow, and it's also sending the votes to the right documents. Am I just
+creating an ever-growing stack of button panels on the left?
+That's fine for now.
+=-=1117 - Fri Aug 27 21:02:15 PDT 2010
