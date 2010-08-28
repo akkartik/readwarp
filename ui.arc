@@ -135,7 +135,7 @@
     (pr:+ "updateLocation('#" doc-hash.doc "');")
     (pr "++pageSize;")
     (pr "alert(pageSize);")
-    (pr "renderDoc();"))
+    (pr "if (pageSize <= 3) renderDoc();"))
   (tag (div id (+ "contents_" doc))
     (tag (h2 class 'rwtitle)
       (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
