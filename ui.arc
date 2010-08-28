@@ -18,23 +18,21 @@
     (whenlet query (arg req "q")
       (ensure-user user)
       (create-query user query))
-    (if userinfo*.user
-      (reader req readwarp-buttons* readwarp-widgets*
-        (fn()
-          (tag (div style "float:right; margin-top:10px")
-            (if signedup?.user
-              (link "logout" "/logout")
-              (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
-                      (pr "login")))))
-        (fn()
-          (firsttime userinfo*.user!noob
-            (flash
-              "Keep voting on stories as you read, and Readwarp will
-              continually fine-tune its recommendations.
-               <br><br>
-               If you want a different topic ask for a site about that
-               topic in the left."))))
-      (start-funnel req))))
+    (reader req readwarp-buttons* readwarp-widgets*
+      (fn()
+        (tag (div style "float:right; margin-top:10px")
+          (if signedup?.user
+            (link "logout" "/logout")
+            (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
+                    (pr "login")))))
+      (fn()
+        (firsttime userinfo*.user!noob
+          (flash
+            "Keep voting on stories as you read, and Readwarp will
+            continually fine-tune its recommendations.
+             <br><br>
+             If you want a different topic ask for a site about that
+             topic in the left."))))))
 
 (def reader(req buttons widgets (o headerfn) (o flashfn))
   (let user current-user.req
