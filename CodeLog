@@ -2973,3 +2973,5 @@ works.
 Ah, turns out document.ready still causes infinite regress. So there were two
 issues after all.
 =-=1126 - Fri Aug 27 22:30:21 PDT 2010
+Disable confusing buttons for now.
+=-=1127 - Fri Aug 27 22:31:40 PDT 2010

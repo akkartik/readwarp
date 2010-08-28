@@ -101,9 +101,9 @@
     (let doc (pick user choosefn)
       (mark-read user doc "2" "dummygroup")
       (tag (div id (+ "doc_" doc))
-        (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
-          (each b buttons
-            (b user doc)))
+;?         (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
+;?           (each b buttons
+;?             (b user doc)))
         (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
           (when (and (~signedup? user)
                      userinfo*.user!noob)
