@@ -113,17 +113,36 @@ function showDoc(doc) {
   return newDocFrom('doc', 'id='+escape(doc));
 }
 
+
+var logger = null;
+function log_write(aString) {
+  if ((logger == null) || (logger.closed)) {
+    // Doesn't work, but works from js console. So must manually open once.
+    logger = window.open("","log","width=640,height=480,resizable");
+    logger.document.open("text/plain");
+  }
+  logger.document.write(timestamp()+" "+aString+"\n");
+}
+
+function timestamp() {
+  var currentTime = new Date();
+  return currentTime.getMinutes()+":"+currentTime.getSeconds();
+}
+
+
 //TODO: better name
 var scrollOn = true;
 function renderDoc() {
   showDoc(location.hash.substring(1));
   //checkRenderMore();
   $(window).scroll(function() {
+    log_write(scrollOn+" "+$(window).scrollTop()+" "+$(window).height()+" "+$(document).height());
     if (scrollOn && $(window).scrollTop() + $(window).height() >= 0.8*$(document).height()) {
       scrollOn = false;
       setTimeout(function() { newDocFrom('docupdate'); }, 100);
       setTimeout(function() { scrollOn = true;}, 500);
     }
+    log_write("done");
   });
 }
 

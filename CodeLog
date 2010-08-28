@@ -2981,3 +2981,5 @@ itself always on screen.
 =-=1128 - Fri Aug 27 22:55:15 PDT 2010
 The browser sometimes freezes for a second when loading on scroll. How to fix?
 =-=1129 - Fri Aug 27 23:45:24 PDT 2010
+Trying to debug further spurious scroll issues.
+=-=1130 - Sat Aug 28 09:09:49 PDT 2010

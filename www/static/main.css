@@ -17,7 +17,7 @@ body{ font-size:62.5%; height:100%; }
             /*IE*/ float:left; }
 
     #rwpost-wrapper{ float:left; margin-left:120px; background:white; }
-      #rwpost{ padding:10px; width:750px; height:35em; text-align:left; overflow:hidden; }
+      #rwpost{ padding:10px; width:750px; height:20em; text-align:left; overflow:hidden; }
       * html #rwpost{ width:auto; }
 
 img{ max-width:595px; }
