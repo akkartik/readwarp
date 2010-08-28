@@ -113,8 +113,14 @@ function showDoc(doc) {
   return newDocFrom('doc', 'id='+escape(doc));
 }
 
+//TODO: better name
 function renderDoc() {
   showDoc(location.hash.substring(1));
+  $(window).scroll(function(){
+          if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+             newDocFrom('docupdate');
+          }
+  });
 }
 
 function withoutRerenderingDoc(f) {

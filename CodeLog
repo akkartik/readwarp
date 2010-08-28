@@ -2961,3 +2961,7 @@ Another thing that was broken even before today:
   stories weren't getting a group parameter, so groups weren't getting
   preferred or unpreferred.
 =-=1122 - Fri Aug 27 21:41:22 PDT 2010
+Infinite scroll is easy!
+From http://ajaxian.com/archives/implementing-infinite-scrolling-with-jquery
+via google: 'jquery infinite scroll'
+=-=1123 - Fri Aug 27 21:45:48 PDT 2010
