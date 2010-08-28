@@ -95,9 +95,7 @@ function newDocFrom(url, params) {
         data: params,
         success: function(response) {
           withoutRerenderingDoc(function() {
-            var newDiv = document.createElement('div');
-            newDiv.innerHTML = response;
-            $i('rwcontent').appendChild(newDiv);
+            $i('rwcontent').innerHTML += response;
             runScripts($i('rwcontent'));
           });
         }

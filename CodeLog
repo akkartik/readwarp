@@ -2930,3 +2930,5 @@ Holy fuck, why does += trigger document.ready?
 =-=1113 - Fri Aug 27 20:44:06 PDT 2010
 appendChild doesn't fix it.
 =-=1114 - Fri Aug 27 20:49:13 PDT 2010
+Infinite regress fixed.
+=-=1115 - Fri Aug 27 20:56:38 PDT 2010
