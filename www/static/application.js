@@ -95,7 +95,7 @@ function newDocFrom(url, params) {
         data: params,
         success: function(response) {
           withoutRerenderingDoc(function() {
-            $i('rwcontent').innerHTML += response;
+            $i('rwcontent').innerHTML = response;
             checkContent('rwcontent');
             runScripts($i('rwcontent'));
           });
@@ -136,9 +136,9 @@ var readwarp_msgCount = 0;
 function prepareAjax(id) {
   scroll(0, 0);
   $i('rwbody').scrollTop = 0;
-  $i(id).innerHTML = readwarp_waitMsg;
+  //$i(id).innerHTML = readwarp_waitMsg;
   ++readwarp_msgCount;
-  setTimeout("errorMessage('"+id+"', "+readwarp_msgCount+");", 5000);
+  //setTimeout("errorMessage('"+id+"', "+readwarp_msgCount+");", 5000);
 }
 
 function errorMessage(id, count) {
