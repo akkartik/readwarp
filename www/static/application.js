@@ -36,7 +36,7 @@ function stringOrHref(s) {
   }
 }
 
-function runScriptsOnce(e) {
+function runScripts(e) {
   if (e.nodeType != 1) return;
 
   if (e.tagName.toLowerCase() == 'script') {
@@ -44,11 +44,13 @@ function runScriptsOnce(e) {
   }
   else {
     for(var i = 0; i < e.children.length; ++i) {
-      runScriptsOnce(e.children[i]);
+      runScripts(e.children[i]);
     }
   }
+}
 
-  // we don't want to run these next time we call runScriptsOnce.
+function deleteScripts(e) {
+  // we don't want to run these next time we call runScripts.
   scripts = $('script');
   for (var i = 0; i < scripts.length; ++i) {
     scripts[i].parentNode.removeChild(scripts[i]);
@@ -77,7 +79,8 @@ function inline(id, url, params) {
         data: params,
         success: function(response) {
           $i(id).innerHTML = response;
-          runScriptsOnce($i(id));
+          runScripts($i(id));
+          deleteScripts($i(id));
         }
       });
   return false;
@@ -98,7 +101,8 @@ function newDocFrom(url, params) {
         data: params,
         success: function(response) {
           $i('rwcontent').innerHTML += response;
-          runScriptsOnce($i('rwcontent'));
+          runScripts($i('rwcontent'));
+          deleteScripts($i('rwcontent'));
         }
       });
   return false;
