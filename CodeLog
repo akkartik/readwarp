@@ -2932,3 +2932,5 @@ appendChild doesn't fix it.
 =-=1114 - Fri Aug 27 20:49:13 PDT 2010
 Infinite regress fixed.
 =-=1115 - Fri Aug 27 20:56:38 PDT 2010
+I can also use window.onload in yday's readwarp. So that's always a good idea.
+=-=1116 - Fri Aug 27 21:00:31 PDT 2010
