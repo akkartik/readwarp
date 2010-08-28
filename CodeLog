@@ -2989,3 +2989,5 @@ The event triggers on every single element on the page.
 I should just reset pageSize.
 Or I could strip js from elements after they've been rendered.
 =-=1131 - Sat Aug 28 09:50:00 PDT 2010
+Fixed!
+=-=1132 - Sat Aug 28 09:58:23 PDT 2010
