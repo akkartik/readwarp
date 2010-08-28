@@ -2947,3 +2947,11 @@ Ah!
 Now we show multiple stories at a time. And on a button click we load multiple
 more stories and append them to the page.
 =-=1120 - Fri Aug 27 21:23:49 PDT 2010
+Refactor: generate docs inside doc-panel.
+Things now broken:
+  station!current
+  flash messages
+  error message if no doc is found
+  back button
+  'more from this site' link
+=-=1121 - Fri Aug 27 21:32:35 PDT 2010

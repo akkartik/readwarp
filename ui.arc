@@ -57,20 +57,18 @@
     (mark-read user doc outcome group)
     (when (arg req "samesite")
       (pick-from-same-site user lookup-feed.doc))
-    (repeat 2
     (let nextdoc (pick user choosefn)
-      (doc-panel user nextdoc buttons widgets
+      (doc-panel user choosefn buttons widgets
         (fn()
           (test*.flashfn)
+          ; TODO samesite broken
           (when (and (arg req "samesite")
                      (~is lookup-feed.doc lookup-feed.nextdoc))
             (flash "No more stories from that site")))))))
-    )
 
 (defop doc req
-  (repeat 2
-    (doc-panel current-user.req (pick current-user.req choose-feed) ;(doc-from req choose-feed)
-               readwarp-buttons* readwarp-widgets*)))
+  (doc-panel current-user.req choose-feed
+             readwarp-buttons* readwarp-widgets*))
 
 (def doc-from(req choosefn)
   (let fragment (arg req "id")
@@ -84,7 +82,7 @@
     (erp "askfor: " user " " query)
     (create-query user query)
     (let nextdoc (pick user choose-feed)
-      (doc-panel user nextdoc readwarp-buttons* readwarp-widgets*
+      (doc-panel user choose-feed readwarp-buttons* readwarp-widgets*
         (fn() (flashmsg nextdoc query))))))
 
 (def flashmsg(doc query)
@@ -99,27 +97,24 @@
 
 
 
-(def doc-panel(user doc buttons widgets (o flashfn))
-  (if doc
-    (doc-panel-sub user doc buttons widgets flashfn)
-    (doc-panel-error user)))
-
-(def doc-panel-sub(user doc buttons widgets flashfn)
-  (tag (div id (+ "doc_" doc))
-    (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
-      (each b buttons
-        (b user doc)))
-    (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
-      (when (and (~signedup? user)
-                 userinfo*.user!noob)
-        (signup-form user))
-      (test*.flashfn)
-      (only.flash user-msg*.user)
-      (tag (div id 'rwpost)
-        (feedback-form user doc)
-        (render-doc user doc widgets)))
-    (clear)
-    (tag:div class 'rwsep)))
+(def doc-panel(user choosefn buttons widgets (o flashfn))
+  (repeat 2
+    (let doc (pick user choosefn)
+      (tag (div id (+ "doc_" doc))
+        (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
+          (each b buttons
+            (b user doc)))
+        (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
+          (when (and (~signedup? user)
+                     userinfo*.user!noob)
+            (signup-form user))
+          (test*.flashfn)
+          (only.flash user-msg*.user)
+          (tag (div id 'rwpost)
+            (feedback-form user doc)
+            (render-doc user doc widgets)))
+        (clear)
+        (tag:div class 'rwsep)))))
 
 (def doc-panel-error(user)
   (flash "Oops, there was an error. Telling the operator. Please try
