@@ -121,7 +121,7 @@ function renderDoc() {
   $(window).scroll(function() {
     if (scrollOn && $(window).scrollTop() + $(window).height() >= 0.8*$(document).height()) {
       scrollOn = false;
-      newDocFrom('docupdate');
+      setTimeout(function() { newDocFrom('docupdate'); }, 100);
       setTimeout(function() { scrollOn = true;}, 500);
     }
   });
