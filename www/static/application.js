@@ -120,11 +120,10 @@ function showDoc(doc) {
   return newDocFrom('doc', 'id='+escape(doc));
 }
 
-
 var logger = null;
 function log_write(aString) {
   if ((logger == null) || (logger.closed)) {
-    // Doesn't work, but works from js console. So must manually open once.
+    // TODO Doesn't work, but works from js console. So must manually open once.
     logger = window.open("","log","width=640,height=480,resizable,scrollbars=1");
     logger.document.open("text/plain");
   }
@@ -136,12 +135,9 @@ function timestamp() {
   return currentTime.getMinutes()+":"+currentTime.getSeconds();
 }
 
-
-//TODO: better name
 var scrollOn = true;
-function renderDoc() {
+function initPage() {
   showDoc(location.hash.substring(1));
-  //checkRenderMore();
   $(window).scroll(function() {
     insensitiveToScroll(function() {
       if ($(window).scrollTop() + $(window).height()
@@ -158,23 +154,6 @@ function insensitiveToScroll(f) {
     f();
     setTimeout(function() { scrollOn = true;}, 500);
   }
-}
-
-function checkRenderMore() {
-  if ($(window).scrollTop() + $(window).height() >= 0.8*$(document).height()) {
-    newDocFrom('docupdate');
-    setTimeout(checkRenderMore, 1000);
-  }
-}
-
-function withoutRerenderingDoc(f) {
-  $(window).unbind('hashchange');
-
-  f();
-
-  setTimeout(function() {
-    $(window).bind('hashchange', renderDoc);
-  }, 500);
 }
 
 function params(elem) {
@@ -200,11 +179,4 @@ function params(elem) {
   }
 
   return ans;
-}
-
-function updateLocation(l) {
-  if (!location.hash)
-    window.location.replace(l);
-  else
-    location.href = l;
 }

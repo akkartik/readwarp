@@ -43,7 +43,7 @@
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
             (tag script
-              (pr "window.onload = renderDoc;"))))))))
+              (pr "window.onload = initPage;"))))))))
 
 (defop docupdate req
   (docupdate-core current-user.req req choose-feed
@@ -124,25 +124,24 @@
 (def render-doc(user doc widgets)
   (tag script
     (pr "++pageSize;"))
-  (pr doc))
-;?   (tag (div id (+ "contents_" doc))
-;?     (tag (h2 class 'rwtitle)
-;?       (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
-;?         (pr (check doc-title.doc ~empty "no title")))
-;?       (each w widgets
-;?         (w doc))
-;?       (email-widget)
-;?       (copy-widget doc-url.doc))
-;?     (tag (div class 'rwsubtitle)
-;?       (tag (div class 'rwdate)
-;?         (aif pubdate.doc (pr render-date.it)))
-;?       (whenlet siteurl doc-site.doc
-;?         (tag (a href siteurl target "_blank")
-;?           (pr (check doc-feedtitle.doc ~empty "website")))))
-;?     (email-form user doc)
-;?     (tag (div id 'rwpost-body)
-;?       (pr:contents doc))
-;?     (clear)))
+  (tag (div id (+ "contents_" doc))
+    (tag (h2 class 'rwtitle)
+      (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
+        (pr (check doc-title.doc ~empty "no title")))
+      (each w widgets
+        (w doc))
+      (email-widget)
+      (copy-widget doc-url.doc))
+    (tag (div class 'rwsubtitle)
+      (tag (div class 'rwdate)
+        (aif pubdate.doc (pr render-date.it)))
+      (whenlet siteurl doc-site.doc
+        (tag (a href siteurl target "_blank")
+          (pr (check doc-feedtitle.doc ~empty "website")))))
+    (email-form user doc)
+    (tag (div id 'rwpost-body)
+      (pr:contents doc))
+    (clear)))
 
 (mac ask-button-elem body
   `(tag div
