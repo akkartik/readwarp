@@ -109,16 +109,25 @@ function askFor(query) {
   return newDocFrom('askfor', 'q='+escape(query));
 }
 
-function showDoc(doc) {
+var showDoc = function (doc) {
   return newDocFrom('doc', 'id='+escape(doc));
 }
 
 //TODO: better name
 function renderDoc() {
-  showDoc(location.hash.substring(1));
-  $(window).scroll(function(){
-          if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-             newDocFrom('docupdate');
+  alert('renderDoc');
+  if (showDoc) showDoc(location.hash.substring(1));
+  setupScroll();
+}
+
+function setupScroll() {
+  $(window).scroll(function() {
+    alert("aaa");
+          if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            alert($(window).scrollTop());
+            $(window).scroll(function() {});
+            newDocFrom('docupdate');
+            //setTimeout(setupScroll, 1000);
           }
   });
 }
