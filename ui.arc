@@ -97,7 +97,7 @@
 
 
 (def doc-panel(user choosefn buttons widgets (o flashfn))
-  (repeat 2
+  (repeat 10
     (let doc (pick user choosefn)
       (mark-read user doc "2" "dummygroup")
       (tag (div id (+ "doc_" doc))

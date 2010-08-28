@@ -2975,3 +2975,7 @@ issues after all.
 =-=1126 - Fri Aug 27 22:30:21 PDT 2010
 Disable confusing buttons for now.
 =-=1127 - Fri Aug 27 22:31:40 PDT 2010
+infinite scroll now working more reliably.
+Perhaps I should move the voting inside the story, and only keep the magic box
+itself always on screen.
+=-=1128 - Fri Aug 27 22:55:15 PDT 2010
