@@ -2967,3 +2967,6 @@ via google: 'jquery infinite scroll'
 =-=1123 - Fri Aug 27 21:45:48 PDT 2010
 But it's going into infinite regress again. Fucking renderDoc is back again.
 =-=1124 - Fri Aug 27 22:14:46 PDT 2010
+Oh, I forgot that we're also calling renderDoc on hashchange! Now everything
+works.
+=-=1125 - Fri Aug 27 22:19:16 PDT 2010

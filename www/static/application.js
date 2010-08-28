@@ -109,25 +109,16 @@ function askFor(query) {
   return newDocFrom('askfor', 'q='+escape(query));
 }
 
-var showDoc = function (doc) {
+function showDoc(doc) {
   return newDocFrom('doc', 'id='+escape(doc));
 }
 
 //TODO: better name
 function renderDoc() {
-  alert('renderDoc');
-  if (showDoc) showDoc(location.hash.substring(1));
-  setupScroll();
-}
-
-function setupScroll() {
+  showDoc(location.hash.substring(1));
   $(window).scroll(function() {
-    alert("aaa");
           if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-            alert($(window).scrollTop());
-            $(window).scroll(function() {});
             newDocFrom('docupdate');
-            //setTimeout(setupScroll, 1000);
           }
   });
 }
@@ -137,9 +128,9 @@ function withoutRerenderingDoc(f) {
 
   f();
 
-  setTimeout(function() {
-    $(window).bind('hashchange', renderDoc);
-  }, 500);
+//?   setTimeout(function() {
+//?     $(window).bind('hashchange', renderDoc);
+//?   }, 500);
 }
 
 function params(elem) {
