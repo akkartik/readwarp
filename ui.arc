@@ -57,6 +57,7 @@
     (mark-read user doc outcome group)
     (when (arg req "samesite")
       (pick-from-same-site user lookup-feed.doc))
+    (repeat 2
     (let nextdoc (pick user choosefn)
       (doc-panel user nextdoc buttons widgets
         (fn()
@@ -64,10 +65,12 @@
           (when (and (arg req "samesite")
                      (~is lookup-feed.doc lookup-feed.nextdoc))
             (flash "No more stories from that site")))))))
+    )
 
 (defop doc req
-  (doc-panel current-user.req (doc-from req choose-feed)
-             readwarp-buttons* readwarp-widgets*))
+  (repeat 2
+    (doc-panel current-user.req (pick current-user.req choose-feed) ;(doc-from req choose-feed)
+               readwarp-buttons* readwarp-widgets*)))
 
 (def doc-from(req choosefn)
   (let fragment (arg req "id")
@@ -116,20 +119,12 @@
         (feedback-form user doc)
         (render-doc user doc widgets)))
     (clear)
-    (tag:div class 'rwsep))
-  (update-title doc-title.doc))
+    (tag:div class 'rwsep)))
 
 (def doc-panel-error(user)
   (flash "Oops, there was an error. Telling the operator. Please try
           reloading.")
   (write-feedback user "" "" "No result found"))
-
-(def update-title(s)
-  (if (empty s)
-    (= s "Readwarp")
-    (= s (+ s " - Readwarp")))
-  (tag script
-    (pr (+ "document.title = \"" jsesc.s "\";"))))
 
 (def render-doc(user doc widgets)
   (tag script

@@ -2944,3 +2944,6 @@ Never mind.
 =-=1118 - Fri Aug 27 21:07:12 PDT 2010
 Ah!
 =-=1119 - Fri Aug 27 21:09:18 PDT 2010
+Now we show multiple stories at a time. And on a button click we load multiple
+more stories and append them to the page.
+=-=1120 - Fri Aug 27 21:23:49 PDT 2010

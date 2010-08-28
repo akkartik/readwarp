@@ -326,9 +326,9 @@
   (withs (s userinfo*.user!all
           station userinfo*.user!stations.s
           lastdoc (transval station!current))
-    (lookup-or-generate-transient station!current
+    ;(lookup-or-generate-transient station!current
        (always [newest-unread user _]
-               (choosefn user station lastdoc)))))
+               (choosefn user station lastdoc))));)
 (after-exec pick(user dummy)
   (erp user " => " result))
 
