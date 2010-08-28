@@ -1,3 +1,5 @@
+var pageSize = 0;
+
 function notblank(s) {
   return s && s != '';
 }
