@@ -2970,3 +2970,6 @@ But it's going into infinite regress again. Fucking renderDoc is back again.
 Oh, I forgot that we're also calling renderDoc on hashchange! Now everything
 works.
 =-=1125 - Fri Aug 27 22:19:16 PDT 2010
+Ah, turns out document.ready still causes infinite regress. So there were two
+issues after all.
+=-=1126 - Fri Aug 27 22:30:21 PDT 2010
