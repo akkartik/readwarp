@@ -2926,3 +2926,5 @@ Ok, we have an early exit so we don't have to keep restarting the browser.
 But commenting out updateLocation breaks early exit.
 At least we know: the second load isn't caused by updateLocation.
 =-=1112 - Fri Aug 27 20:15:37 PDT 2010
+Holy fuck, why does += trigger document.ready?
+=-=1113 - Fri Aug 27 20:44:06 PDT 2010

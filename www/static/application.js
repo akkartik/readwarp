@@ -95,7 +95,7 @@ function newDocFrom(url, params) {
         data: params,
         success: function(response) {
           withoutRerenderingDoc(function() {
-            $i('rwcontent').innerHTML += response;
+            $i('rwcontent').innerHTML += '';
             runScripts($i('rwcontent'));
           });
         }
