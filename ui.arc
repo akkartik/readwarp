@@ -54,7 +54,6 @@
   (with (doc (arg req "doc")
          outcome (arg req "outcome")
          group (arg req "group"))
-    (mark-read user doc outcome group)
     (when (arg req "samesite")
       (pick-from-same-site user lookup-feed.doc))
     (let nextdoc (pick user choosefn)
@@ -100,6 +99,7 @@
 (def doc-panel(user choosefn buttons widgets (o flashfn))
   (repeat 2
     (let doc (pick user choosefn)
+      (mark-read user doc "2" "dummygroup")
       (tag (div id (+ "doc_" doc))
         (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
           (each b buttons

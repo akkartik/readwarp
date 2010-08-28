@@ -2955,3 +2955,9 @@ Things now broken:
   back button
   'more from this site' link
 =-=1121 - Fri Aug 27 21:32:35 PDT 2010
+Next step: infinite scroll.
+Before that, mark as read on render, so we don't need a click.
+Another thing that was broken even before today:
+  stories weren't getting a group parameter, so groups weren't getting
+  preferred or unpreferred.
+=-=1122 - Fri Aug 27 21:41:22 PDT 2010
