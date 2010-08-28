@@ -92,10 +92,8 @@ function newDocFrom(url, params) {
         type: 'post',
         data: params,
         success: function(response) {
-          withoutRerenderingDoc(function() {
-            $i('rwcontent').innerHTML += response;
-            runScripts($i('rwcontent'));
-          });
+          $i('rwcontent').innerHTML += response;
+          runScripts($i('rwcontent'));
         }
       });
   return false;
@@ -118,10 +116,10 @@ var logger = null;
 function log_write(aString) {
   if ((logger == null) || (logger.closed)) {
     // Doesn't work, but works from js console. So must manually open once.
-    logger = window.open("","log","width=640,height=480,resizable");
+    logger = window.open("","log","width=640,height=480,resizable,scrollbars=1");
     logger.document.open("text/plain");
   }
-  logger.document.write(timestamp()+" "+aString+"\n");
+  logger.document.write(timestamp()+" "+pageSize+" -- "+aString+"\n");
 }
 
 function timestamp() {
@@ -139,6 +137,7 @@ function renderDoc() {
     log_write(scrollOn+" "+$(window).scrollTop()+" "+$(window).height()+" "+$(document).height());
     if (scrollOn && $(window).scrollTop() + $(window).height() >= 0.8*$(document).height()) {
       scrollOn = false;
+      log_write("load");
       setTimeout(function() { newDocFrom('docupdate'); }, 100);
       setTimeout(function() { scrollOn = true;}, 500);
     }
@@ -158,9 +157,9 @@ function withoutRerenderingDoc(f) {
 
   f();
 
-//?   setTimeout(function() {
-//?     $(window).bind('hashchange', renderDoc);
-//?   }, 500);
+  setTimeout(function() {
+    $(window).bind('hashchange', renderDoc);
+  }, 500);
 }
 
 function params(elem) {

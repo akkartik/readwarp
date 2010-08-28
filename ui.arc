@@ -121,29 +121,29 @@
           reloading.")
   (write-feedback user "" "" "No result found"))
 
+(= arcPageSize 0)
 (def render-doc(user doc widgets)
   (tag script
-    (pr:+ "updateLocation('#" doc-hash.doc "');")
-    (pr "++pageSize;")
-    (pr "//if (pageSize <= 3) renderDoc();"))
-  (tag (div id (+ "contents_" doc))
-    (tag (h2 class 'rwtitle)
-      (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
-        (pr (check doc-title.doc ~empty "no title")))
-      (each w widgets
-        (w doc))
-      (email-widget)
-      (copy-widget doc-url.doc))
-    (tag (div class 'rwsubtitle)
-      (tag (div class 'rwdate)
-        (aif pubdate.doc (pr render-date.it)))
-      (whenlet siteurl doc-site.doc
-        (tag (a href siteurl target "_blank")
-          (pr (check doc-feedtitle.doc ~empty "website")))))
-    (email-form user doc)
-    (tag (div id 'rwpost-body)
-      (pr:contents doc))
-    (clear)))
+    (pr "++pageSize; log_write('incpage" doc "'+pageSize);"))
+  (pr ++.arcPageSize " " doc))
+;?   (tag (div id (+ "contents_" doc))
+;?     (tag (h2 class 'rwtitle)
+;?       (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
+;?         (pr (check doc-title.doc ~empty "no title")))
+;?       (each w widgets
+;?         (w doc))
+;?       (email-widget)
+;?       (copy-widget doc-url.doc))
+;?     (tag (div class 'rwsubtitle)
+;?       (tag (div class 'rwdate)
+;?         (aif pubdate.doc (pr render-date.it)))
+;?       (whenlet siteurl doc-site.doc
+;?         (tag (a href siteurl target "_blank")
+;?           (pr (check doc-feedtitle.doc ~empty "website")))))
+;?     (email-form user doc)
+;?     (tag (div id 'rwpost-body)
+;?       (pr:contents doc))
+;?     (clear)))
 
 (mac ask-button-elem body
   `(tag div

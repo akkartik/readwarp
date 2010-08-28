@@ -2983,3 +2983,9 @@ The browser sometimes freezes for a second when loading on scroll. How to fix?
 =-=1129 - Fri Aug 27 23:45:24 PDT 2010
 Trying to debug further spurious scroll issues.
 =-=1130 - Sat Aug 28 09:09:49 PDT 2010
+Subsidiary question as I try to debug: why does pageSize grow too fast?
+Turns out it's just the js var, not the actual number of stories on the page.
+The event triggers on every single element on the page.
+I should just reset pageSize.
+Or I could strip js from elements after they've been rendered.
+=-=1131 - Sat Aug 28 09:50:00 PDT 2010
