@@ -152,7 +152,9 @@
     (email-form user doc)
     (tag (div id 'rwpost-body)
       (pr:contents doc))
-    (clear)))
+    (clear))
+  (tag:div class 'rwsep)
+  (tag (div class 'rwpost-wrapper) (pr "foo")))
 
 (mac ask-button-elem body
   `(tag div
