@@ -115,7 +115,8 @@
       (tag (div id 'rwpost)
         (feedback-form user doc)
         (render-doc user doc widgets)))
-    (clear))
+    (clear)
+    (tag:div class 'rwsep))
   (update-title doc-title.doc))
 
 (def doc-panel-error(user)
@@ -152,9 +153,7 @@
     (email-form user doc)
     (tag (div id 'rwpost-body)
       (pr:contents doc))
-    (clear))
-  (tag:div class 'rwsep)
-  (tag (div class 'rwpost-wrapper) (pr "foo")))
+    (clear)))
 
 (mac ask-button-elem body
   `(tag div
