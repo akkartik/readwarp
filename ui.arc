@@ -195,7 +195,7 @@
   (tag (div title "dislike" class "rwbutton rwskip" onclick
           (docUpdate doc "'outcome=1'"))))
 
-(= readwarp-buttons* (list ask-button like-button next-button dislike-button))
+(= readwarp-buttons* (list ask-button like-button dislike-button))
 
 
 
