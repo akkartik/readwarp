@@ -139,22 +139,28 @@ function renderDoc() {
   showDoc(location.hash.substring(1));
   //checkRenderMore();
   $(window).scroll(function() {
-    log_write(scrollOn+" "+$(window).scrollTop()+" "+$(window).height()+" "+$(document).height());
-    if (scrollOn && $(window).scrollTop() + $(window).height() >= 0.8*$(document).height()) {
-      scrollOn = false;
-      log_write("load");
-      setTimeout(function() { newDocFrom('docupdate'); }, 100);
-      setTimeout(function() { scrollOn = true;}, 500);
-    }
-    log_write("done");
+    insensitiveToScroll(function() {
+      if ($(window).scrollTop() + $(window).height()
+            >= $(document).height() - /* prefetch buffer */$(window).height()) {
+        newDocFrom('docupdate');
+      }
+    });
   });
 }
 
+function insensitiveToScroll(f) {
+  if (scrollOn) {
+    scrollOn = false;
+    f();
+    setTimeout(function() { scrollOn = true;}, 500);
+  }
+}
+
 function checkRenderMore() {
-          if ($(window).scrollTop() + $(window).height() >= 0.8*$(document).height()) {
-            newDocFrom('docupdate');
-            setTimeout(checkRenderMore, 1000);
-          }
+  if ($(window).scrollTop() + $(window).height() >= 0.8*$(document).height()) {
+    newDocFrom('docupdate');
+    setTimeout(checkRenderMore, 1000);
+  }
 }
 
 function withoutRerenderingDoc(f) {

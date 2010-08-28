@@ -2991,3 +2991,6 @@ Or I could strip js from elements after they've been rendered.
 =-=1131 - Sat Aug 28 09:50:00 PDT 2010
 Fixed!
 =-=1132 - Sat Aug 28 09:58:23 PDT 2010
+Cleanup.
+But hey, it's not actually running the js anymore!
+=-=1133 - Sat Aug 28 10:13:14 PDT 2010

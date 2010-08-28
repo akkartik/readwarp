@@ -121,11 +121,10 @@
           reloading.")
   (write-feedback user "" "" "No result found"))
 
-(= arcPageSize 0)
 (def render-doc(user doc widgets)
   (tag script
-    (pr "++pageSize; log_write('incpage" doc "'+pageSize);"))
-  (pr ++.arcPageSize " " doc))
+    (pr "++pageSize;"))
+  (pr doc))
 ;?   (tag (div id (+ "contents_" doc))
 ;?     (tag (h2 class 'rwtitle)
 ;?       (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
