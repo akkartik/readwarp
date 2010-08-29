@@ -3025,3 +3025,5 @@ Cleanup; make sure the submit bookmarklet continues to work.
 A vote of 2 no longer matters. Just shows how far people scrolled. But that's
 ok. Let's keep it in the daily email.
 =-=1145 - Sun Aug 29 10:03:38 PDT 2010
+Bugfix. Ok no totals for nexts.
+=-=1146 - Sun Aug 29 13:26:08 PDT 2010

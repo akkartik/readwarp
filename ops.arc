@@ -42,7 +42,10 @@
          (time-ago:* 60 60 24))))
 
 (daily-persisted voting-stats* (table))
-(after-exec mark-read(user d outcome g)
+(after-exec mark-read(user d)
+  (or= voting-stats*.user (table))
+  (++ (voting-stats*.user "2" 0)))
+(after-exec vote(user d outcome g)
   (or= voting-stats*.user (table))
   (++ (voting-stats*.user outcome 0))
   (or= voting-stats*!total (table))
@@ -53,7 +56,6 @@
 (maintenance-op votingstats req
   (awhen voting-stats*!total
     (prn "TOTAL +" (it "4" 0)
-              " =" (it "2" 0)
               " -" (it "1" 0)))
   (each (user info) voting-stats*
     (unless (is 'total user)
