@@ -107,12 +107,14 @@
 ;?         (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
 ;?           (each b buttons
 ;?             (b user doc)))
-        (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
-          (tag (div id 'rwpost class 'rwcollapsed)
+        (tag (div class "rwpost-wrapper rwrounded rwshadow")
+          (tag (div class "rwpost rwcollapsed")
             (tag (div style "float:right; color:#8888ee; cursor:pointer;"
                       onclick (+ "$('#doc_" doc "').fadeOut(); downvote('" doc "')"))
               (pr "x"))
-            (render-doc user doc widgets)))
+            (render-doc user doc widgets))
+          (tag:img src "green_arrow_down.png" height "30px" style "float:right"
+                   onclick (+ "$(this).hide(); $('#doc_" doc " .rwpost').removeClass('rwcollapsed')")))
         (clear)
         (tag:div class 'rwsep)))))
 
@@ -137,7 +139,7 @@
         (tag (a href siteurl target "_blank")
           (pr (check doc-feedtitle.doc ~empty "website")))))
     (email-form user doc)
-    (tag (div id 'rwpost-body)
+    (tag (div class 'rwpost-body)
       (pr:contents doc))
     (clear)))
 
