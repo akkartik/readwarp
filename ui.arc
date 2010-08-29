@@ -8,11 +8,6 @@
           (tag:div class 'rwclear)
           (tag:div class 'rwsep))))))
 
-(= user-msg* (obj
-  ))
-
-
-
 (defop || req
   (let user current-user.req
     (whenlet query (arg req "q")
@@ -104,9 +99,6 @@
     (let doc (pick user choosefn)
       (mark-read user doc)
       (tag (div id (+ "doc_" doc))
-;?         (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
-;?           (each b buttons
-;?             (b user doc)))
         (tag (div class "rwpost-wrapper rwrounded rwshadow")
           (tag (div class "rwpost rwcollapsed")
             (tag (div style "float:right; color:#8888ee; cursor:pointer;"
@@ -133,8 +125,6 @@
     (tag (h2 class 'rwtitle)
       (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
         (pr (check doc-title.doc ~empty "no title")))
-      (each w widgets
-        (w doc))
       (copy-widget doc-url.doc))
     (tag (div class 'rwsubtitle)
       (tag (div class 'rwdate)
@@ -191,13 +181,6 @@
 
 
 
-(def email-widget()
-  (tag (span class 'rwsharebutton
-            onclick "$('#rwemail').toggle();
-                     $i('rwform-flash').innerHTML='';
-                     $('#rwform-flash').hide()")
-    (tag:img src "email.jpg" height "14px")))
-
 ; http://www.facebook.com/facebook-widgets/share.php
 (def facebook-widget(doc)
   (sharebutton
@@ -241,7 +224,6 @@
 
 (= readwarp-widgets* (list facebook-widget twitter-widget reddit-widget
                            google-widget))
-(wipe readwarp-widgets*)
 
 
 
@@ -268,92 +250,13 @@
   (logout-user current-user.req)
   "/")
 
-(def email-form(user doc)
-  (tag:div class "rwflash" id "rwform-flash" style "font-size:75%; display:none")
-  (tag (form id "rwemail" style "display:none" method "post"
-             onsubmit "$('#rwemail').toggle();
-                       jspost('/email', params($i('rwemail')));
-                       $i('rwform-flash').innerHTML = ' sent';
-                       $('#rwform-flash').show();
-                       return false")
-    (tag h3 (pr "Email this story"))(br)
-    (tab
-      (tr
-        (tag (td style "vertical-align:middle") (prbold "From:&nbsp;"))
-        (td:tag:input style "margin-bottom:5px" name "from" size "50"
-                      value user-email.user))
-      (tr
-        (tag (td style "vertical-align:middle") (prbold "To:&nbsp;"))
-        (td:tag:input id "email-to" style "margin-bottom:5px" name "to" size "50"))
-      (tag script
-        (pr "$(function() { $('#email-to').autocomplete({source: [")
-        (each e userinfo*.user!contacts
-          (pr "\"" e "\", "))
-        (pr "]});});"))
-      (tr
-        (tag (td style "vertical-align:middle") (prbold "Subject:&nbsp;"))
-        (td:tag:input style "margin-bottom:5px" name "subject" size "50"
-                      value doc-title.doc)))
-    (prbold "Note: ") (pr "(optional)")(br)
-    (tag (textarea name "msg" cols "60" rows "6" style "text-align:left")
-      (prn)
-      (prn)
-      (prn)
-      (prn wrp.doc)
-      (prn))
-    (tag (div style "margin-top:5px")
-      (tag:input name "ccme" id "ccme" type "checkbox"
-                 style "width:1em; height:1em")
-      (tag (label for "ccme") (pr " Send me a copy")))
-    (tag (div style "margin-top:0.5em; text-align:left")
-      (do
-        (tag:input type "submit" value "send" style "margin-right:1em")
-        (onclick "$('#rwemail').toggle()"
-          (pr "cancel"))))))
-
-(defop email req
-  (let user current-user.req
-    (= userinfo*.user!email (arg req "from"))
-    (pipe-to (system "sendmail -t -f feedback@readwarp.com")
-      (prn "Reply-To: " (arg req "from"))
-      (prn "From: Readwarp <feedback@readwarp.com>") ;authsmtp won't let this be from
-      (prn "To: " (arg req "to"))
-      (when (is "true" (arg req "ccme"))
-        (prn "Cc: " (arg req "from")))
-      (prn "Bcc: akkartik@gmail.com")
-      (prn "Subject: " (arg req "subject"))
-      (prn)
-      (prn "(" (arg req "from") " shared a link with you.)")
-      (prn)
-      (prn (arg req "msg"))
-      (prn "--")
-      (prn "Sent from http://readwarp.com, your source for personalized reading suggestions."))))
-
-(def user-email(user)
-  (if (pos #\@ user)
-    user
-    userinfo*.user!email))
-
-(def write-feedback(user email doc msg)
-  (w/prfile (+ "feedback/" (seconds))
-    (prn "User: " user)
-    (prn "Email: " email)
-    (prn "Doc: " doc)
-    (prn "Feedback:")
-    (prn msg)
-    (prn)))
-
-(defopr feedback req
-  (w/stdout (stderr) (system "date"))
-  (erp "FEEDBACK " current-user.req " " (arg req "msg"))
-  (write-feedback (current-user req)
-                  (arg req "email")
-                  (arg req "doc")
-                  (arg req "msg"))
-  "/")
-
 (defop submit req
-  (w/outstring o ((srvops* 'feedback) o req)))
+  (let user current-user.req
+    (pipe-to (system "sendmail -t -f feedback@readwarp.com")
+      (prn "To: akkartik@gmail.com")
+      (prn "Subject: crawl request from " user)
+      (prn)
+      (prn:arg req "msg"))))
 
 (defop bookmarklet req
   (let user current-user.req

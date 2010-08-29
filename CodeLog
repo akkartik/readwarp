@@ -3019,3 +3019,5 @@ All in one column.
 =-=1142 - Sat Aug 28 23:01:48 PDT 2010
 Email form isn't working. Take it out.
 =-=1143 - Sat Aug 28 23:02:26 PDT 2010
+Cleanup; make sure the submit bookmarklet continues to work.
+=-=1144 - Sat Aug 28 23:15:26 PDT 2010
