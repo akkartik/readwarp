@@ -46,7 +46,7 @@
               (pr "window.onload = initPage;"))))))))
 
 (defop docupdate req
-  (docupdate-core current-user.req req choose-feed
+  (docupdate-core current-user.req req choose-from-popular
                   readwarp-buttons* readwarp-widgets*))
 
 (def docupdate-core(user req choosefn buttons widgets (o flashfn))
@@ -66,7 +66,7 @@
             (flash "No more stories from that site")))))))
 
 (defop doc req
-  (doc-panel current-user.req choose-feed
+  (doc-panel current-user.req choose-from-popular
              readwarp-buttons* readwarp-widgets*))
 
 (def doc-from(req choosefn)
@@ -80,8 +80,8 @@
          query (arg req "q"))
     (erp "askfor: " user " " query)
     (create-query user query)
-    (let nextdoc (pick user choose-feed)
-      (doc-panel user choose-feed readwarp-buttons* readwarp-widgets*
+    (let nextdoc (pick user choose-from-popular)
+      (doc-panel user choose-from-popular readwarp-buttons* readwarp-widgets*
         (fn() (flashmsg nextdoc query))))))
 
 (def flashmsg(doc query)

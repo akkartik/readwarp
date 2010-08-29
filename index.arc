@@ -288,6 +288,30 @@
                                   nonnerdy-feed-list*
                                   user station)))
 
+(def choose-from-popular(user station lastdoc)
+  (randpick
+    preferred-prob*     (choose-from 'recent-popular-preferred
+                                     (keep (andf
+                                             recent?
+                                             [preferred? (station!sites _)
+                                                         userinfo*.user!clock])
+                                           (group-feeds* "Popular"))
+                                     user station
+                                     recent-and-well-cleaned)
+    preferred-prob*     (choose-from 'popular-preferred
+                                     (keep [preferred? (station!sites _)
+                                                       userinfo*.user!clock]
+                                           (group-feeds* "Popular"))
+                                     user station)
+    1.01                (choose-from 'recent-popular
+                                     (keep recent?
+                                       (group-feeds* "Popular"))
+                                     user station
+                                     recent-feed-predicate)
+    1.01                (choose-from 'popular
+                                     (group-feeds* "Popular")
+                                     user station)))
+
 (persisted recent-feeds* (table))
 (after-exec doc-feed(doc)
   (update recent-feeds* result most2.id doc-timestamp.doc))
