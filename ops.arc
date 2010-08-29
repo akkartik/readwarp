@@ -52,12 +52,12 @@
   (++ (voting-stats*.user 'askfors 0)))
 (maintenance-op votingstats req
   (awhen voting-stats*!total
-    (prn "TOTAL +" (it "4")
-              " =" (it "2")
-              " -" (it "1")))
+    (prn "TOTAL +" (it "4" 0)
+              " =" (it "2" 0)
+              " -" (it "1" 0)))
   (each (user info) voting-stats*
     (unless (is 'total user)
-      (prn user " +" (or (info "4") 0)
-                " =" (or (info "2") 0)
-                " -" (or (info "1") 0)
-                " ?" (or info!askfors 0)))))
+      (prn user " +" (info "4" 0)
+                " =" (info "2" 0)
+                " -" (info "1" 0)
+                " ?" (info askfors 0)))))
