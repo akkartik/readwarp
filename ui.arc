@@ -113,10 +113,12 @@
                       onclick (+ "$('#doc_" doc "').fadeOut(); downvote('" doc "')"))
               (pr "x"))
             (render-doc user doc widgets))
-          (tag:img src "green_arrow_down.png" height "30px" style "float:right"
+          (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
                    onclick (+ "$(this).hide(); $('#doc_" doc " .rwpost').removeClass('rwcollapsed')")))
         (clear)
-        (tag:div class 'rwsep)))))
+        (tag:div class 'rwsep))))
+  (tag script
+    (pr "maybeRemoveExpanders();")))
 
 (defop vote req
   (vote current-user.req (arg req "doc") (arg req "outcome") "dummygroup"))
@@ -124,7 +126,7 @@
 (def render-doc(user doc widgets)
   (tag script
     (pr "++pageSize;"))
-  (tag (div id (+ "contents_" doc))
+  (tag (div id (+ "contents_" doc) class 'rwpost-contents)
     (tag (h2 class 'rwtitle)
       (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
         (pr (check doc-title.doc ~empty "no title")))

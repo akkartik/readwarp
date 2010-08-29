@@ -118,8 +118,8 @@ function askFor(query) {
   return newDocFrom('askfor', 'q='+escape(query));
 }
 
-function showDoc(doc) {
-  return newDocFrom('doc', 'id='+escape(doc));
+function showDoc() {
+  return newDocFrom('doc', '');
 }
 
 function downvote(doc) {
@@ -143,7 +143,7 @@ function timestamp() {
 
 var scrollOn = true;
 function initPage() {
-  showDoc(location.hash.substring(1));
+  showDoc();
   $(window).scroll(function() {
     insensitiveToScroll(function() {
       if ($(window).scrollTop() + $(window).height()
@@ -152,6 +152,15 @@ function initPage() {
       }
     });
   });
+}
+
+function maybeRemoveExpanders() {
+  var posts = $('.rwpost-contents');
+  for (var i = 0; i < posts.length; ++i) {
+    if (posts[i].clientHeight < 350) {
+      $('#expand_'+posts[i].id).hide();
+    }
+  }
 }
 
 function insensitiveToScroll(f) {
