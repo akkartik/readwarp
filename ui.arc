@@ -135,7 +135,6 @@
         (pr (check doc-title.doc ~empty "no title")))
       (each w widgets
         (w doc))
-      (email-widget)
       (copy-widget doc-url.doc))
     (tag (div class 'rwsubtitle)
       (tag (div class 'rwdate)
@@ -143,7 +142,6 @@
       (whenlet siteurl doc-site.doc
         (tag (a href siteurl target "_blank")
           (pr (check doc-feedtitle.doc ~empty "website")))))
-    (email-form user doc)
     (tag (div class 'rwpost-body)
       (pr:contents doc))
     (clear)))
