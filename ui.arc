@@ -21,6 +21,8 @@
     (reader req readwarp-buttons* readwarp-widgets*
       (fn()
         (tag (div style "float:right; margin-top:10px")
+          (tag (span style "margin-right:1em")
+            (link "feedback" "mailto:feedback@readwarp.com"))
           (if signedup?.user
             (link "logout" "/logout")
             (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
@@ -99,27 +101,22 @@
 (def doc-panel(user choosefn buttons widgets (o flashfn))
   (repeat 10
     (let doc (pick user choosefn)
-      (mark-read user doc "2" "dummygroup")
+      (mark-read user doc)
       (tag (div id (+ "doc_" doc))
 ;?         (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
 ;?           (each b buttons
 ;?             (b user doc)))
         (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
-          (when (and (~signedup? user)
-                     userinfo*.user!noob)
-            (signup-form user))
-          (test*.flashfn)
-          (only.flash user-msg*.user)
-          (tag (div id 'rwpost)
-            (feedback-form user doc)
+          (tag (div id 'rwpost class 'rwcollapsed)
+            (tag (div style "float:right; color:#8888ee; cursor:pointer;"
+                      onclick (+ "$('#doc_" doc "').fadeOut(); downvote('" doc "')"))
+              (pr "x"))
             (render-doc user doc widgets)))
         (clear)
         (tag:div class 'rwsep)))))
 
-(def doc-panel-error(user)
-  (flash "Oops, there was an error. Telling the operator. Please try
-          reloading.")
-  (write-feedback user "" "" "No result found"))
+(defop vote req
+  (vote current-user.req (arg req "doc") (arg req "outcome") "dummygroup"))
 
 (def render-doc(user doc widgets)
   (tag script
@@ -238,6 +235,7 @@
 
 (= readwarp-widgets* (list facebook-widget twitter-widget reddit-widget
                            google-widget))
+(wipe readwarp-widgets*)
 
 
 
@@ -330,24 +328,6 @@
     user
     userinfo*.user!email))
 
-(def feedback-form(user doc)
-  (tag (div id 'rwfeedback-wrapper)
-    (tag (div class 'rwfeedback_link)
-      (onclick "$('#rwfeedback').toggle(); return false"
-        (pr "feedback")))
-    (tag (form id 'rwfeedback action "/feedback" method "post" style
-               "display:none")
-      (tag:textarea name "msg" cols "25" rows "6" style "text-align:left")(br)
-      (tag (div style "font-size: 75%; margin-top:0.5em; text-align:left")
-        (pr "Your email?"))
-      (tag:input name "email" value user-email.user) (tag (i style "font-size:75%") (pr "(optional)")) (br)
-      (tag:input type "hidden" name "doc" value doc)
-      (tag (div style "margin-top:0.5em; text-align:left")
-        (do
-          (tag:input type "submit" value "send" style "margin-right:1em")
-          (tag:input type "button" value "cancel" onclick "$('#rwfeedback').toggle()"))))
-    (clear)))
-
 (def write-feedback(user email doc msg)
   (w/prfile (+ "feedback/" (seconds))
     (prn "User: " user)
@@ -360,9 +340,6 @@
 (defopr feedback req
   (w/stdout (stderr) (system "date"))
   (erp "FEEDBACK " current-user.req " " (arg req "msg"))
-  (when (is "pk45059" current-user.req)
-    (pipe-to (system "sendmail -f feedback@readwarp.com akkartik@gmail.com")
-      (prn "pk45059 sent feedback!")))
   (write-feedback (current-user req)
                   (arg req "email")
                   (arg req "doc")

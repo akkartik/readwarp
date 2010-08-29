@@ -120,6 +120,10 @@ function showDoc(doc) {
   return newDocFrom('doc', 'id='+escape(doc));
 }
 
+function downvote(doc) {
+  jsget("/vote?doc="+escape(doc)+'&outcome=1');
+}
+
 var logger = null;
 function log_write(aString) {
   if ((logger == null) || (logger.closed)) {

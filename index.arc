@@ -152,17 +152,16 @@
     )
   ))
 
-(proc mark-read(user doc outcome group)
+(proc mark-read(user doc)
+  (unless userinfo*.user!read.doc
+    (push doc ustation.user!read-list)
+    (= userinfo*.user!read.doc "2")))
+
+(proc vote(user doc outcome group)
   (with (station  ustation.user
          feed     lookup-feed.doc)
     (erp outcome " " doc)
-
-    (unless userinfo*.user!read.doc
-      (push doc station!read-list))
     (= userinfo*.user!read.doc outcome)
-    (when (is doc (lookup-transient station!current))
-      (expire-transient station!current))
-
     (case outcome
       "1" (handle-downvote user station feed group)
       "4" (handle-upvote user station feed group))))
