@@ -3027,3 +3027,5 @@ ok. Let's keep it in the daily email.
 =-=1145 - Sun Aug 29 10:03:38 PDT 2010
 Bugfix. Ok no totals for nexts.
 =-=1146 - Sun Aug 29 13:26:08 PDT 2010
+Don't fade out on upvote, just fade partially.
+=-=1147 - Sun Aug 29 13:31:16 PDT 2010

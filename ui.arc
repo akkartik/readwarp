@@ -105,7 +105,7 @@
                       onclick (+ "$('#doc_" doc "').fadeOut(); downvote('" doc "')"))
               (pr "x"))
             (tag (div style "float:right; color:#8888ee; cursor:pointer;"
-                      onclick (+ "$('#doc_" doc "').fadeOut(); upvote('" doc "')"))
+                      onclick (+ "$('#doc_" doc "').fadeTo('fast', 0.4); upvote('" doc "')"))
               (tag (div title "like" class "rwbutton rwlike")))
             (render-doc user doc widgets))
           (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
