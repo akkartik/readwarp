@@ -112,6 +112,9 @@
             (tag (div style "float:right; color:#8888ee; cursor:pointer;"
                       onclick (+ "$('#doc_" doc "').fadeOut(); downvote('" doc "')"))
               (pr "x"))
+            (tag (div style "float:right; color:#8888ee; cursor:pointer;"
+                      onclick (+ "$('#doc_" doc "').fadeOut(); upvote('" doc "')"))
+              (tag (div title "like" class "rwbutton rwlike")))
             (render-doc user doc widgets))
           (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
                    onclick (+ "$(this).hide(); $('#doc_" doc " .rwpost').removeClass('rwcollapsed')")))

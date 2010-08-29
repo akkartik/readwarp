@@ -3000,7 +3000,6 @@ Cleanup debug cruft.
 Now we're rendering 10 stories at a time we're sure to fill a user's screen
 upto the fold. So don't bother to check if he can scroll.
 =-=1135 - Sat Aug 28 10:21:05 PDT 2010
-
 New Popular section. So let's just always show from Popular for now.
 =-=1136 - Sat Aug 28 18:07:26 PDT 2010
 More creative destruction; we now have a hide button.
@@ -3012,3 +3011,7 @@ How would I know when not to show this icon?!
 =-=1139 - Sat Aug 28 22:06:06 PDT 2010
 Done!
 =-=1140 - Sat Aug 28 22:39:23 PDT 2010
+Punt on where to put the upvote button. Just get it out there.
+Next up: get rid of the negative space of buttons.
+Then we can start working on the horizontal swooshing.
+=-=1141 - Sat Aug 28 22:59:18 PDT 2010

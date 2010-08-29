@@ -126,6 +126,10 @@ function downvote(doc) {
   jsget("/vote?doc="+escape(doc)+'&outcome=1');
 }
 
+function upvote(doc) {
+  jsget("/vote?doc="+escape(doc)+'&outcome=4');
+}
+
 var logger = null;
 function log_write(aString) {
   if ((logger == null) || (logger.closed)) {
