@@ -40,6 +40,7 @@
   (let user current-user.req
     (ensure-user user)
     (page req
+      (spinner)
       (nav headerfn)
       (tag (div style "width:100%")
         (tag (div id 'rwcontents-wrap)
@@ -380,3 +381,7 @@
   (ret user get-user.req
     (unless userinfo*.user
       (erp "new user: " user " " req!ip))))
+
+(def spinner()
+  (tag (div id "spinner" style "position:fixed; top:90%; left:90%; z-index:3000; display:none")
+    (tag:img src "waiting.gif")))

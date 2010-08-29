@@ -95,6 +95,7 @@ function del(elem) {
 
 
 function newDocFrom(url, params) {
+  $('#spinner').fadeIn();
   new $.ajax({
         url: url,
         type: 'post',
@@ -103,6 +104,7 @@ function newDocFrom(url, params) {
           $i('rwcontent').innerHTML += response;
           runScripts($i('rwcontent'));
           deleteScripts($i('rwcontent'));
+          $('#spinner').fadeOut();
         }
       });
   return false;
