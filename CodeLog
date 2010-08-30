@@ -3040,3 +3040,11 @@ I should make it 2x bigger.
 Start with an algo that works for regular users with lots of old-preferred
 feeds.
 =-=1151 - Mon Aug 30 01:16:19 PDT 2010
+Bring back the notion of preferred feeds.
+And give popular+oldpreferred a boost. Used to be a 2x boost, but we really
+want to say if there's such a feed focus on it.
+
+I'm starting to plan out how to make it again work for a query. It'll be
+modal. More like this will cause a headline: 'More like FEED NAME. Switch to
+all feeds."
+=-=1153 - Mon Aug 30 09:32:55 PDT 2010

@@ -240,53 +240,30 @@
 
 (def choose-feed(user station lastdoc)
   (randpick
-;?     preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
-;?                        (when (pos lookup-feed.lastdoc currquerygroupfeeds)
-;?                          (choose-from 'latest-query-preferred
-;?                                       (keep [preferred? (station!sites _)
-;?                                                         userinfo*.user!clock]
-;?                                             currquerygroupfeeds)
-;?                                       user station)))
-;?     preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
-;?                        (when (pos lookup-feed.lastdoc currquerygroupfeeds)
-;?                          (choose-from 'latest-query-pre
-;?                                       currquerygroupfeeds
-;?                                       user station)))
-;?     preferred-prob*  (choose-from 'recent-preferred
-;?                                   (keep (andf
-;?                                           recent?
-;?                                           [preferred? (station!sites _)
-;?                                                       userinfo*.user!clock])
-;?                                         (keys station!sites))
-;?                                   user station
-;?                                   recent-and-well-cleaned)
-;?     preferred-prob*  (choose-from 'preferred
-;?                                   (keep [preferred? (station!sites _)
-;?                                                     userinfo*.user!clock]
-;?                                         (keys station!sites))
-;?                                   user station)
-    preferred-prob*  (choose-from 'old-preferred
+    preferred-prob*  (choose-from 'recent-preferred
+                                  (keep (andf
+                                          recent?
+                                          [preferred? (station!sites _)
+                                                      userinfo*.user!clock])
+                                        (keys station!sites))
+                                  user station
+                                  recent-and-well-cleaned)
+    preferred-prob*  (choose-from 'preferred
+                                  (keep [preferred? (station!sites _)
+                                                    userinfo*.user!clock]
+                                        (keys station!sites))
+                                  user station)
+    preferred-prob*  (choose-from 'popular-recent-old-preferred
+                                  (keys station!old-preferred)
+                                  user station
+                                  recent-and-popular-and-well-cleaned)
+    preferred-prob*  (choose-from 'recent-old-preferred
                                   (keys station!old-preferred)
                                   user station
                                   recent-and-well-cleaned)
     1.01             (choose-from 'old-preferred
                                   (keys station!old-preferred)
                                   user station)
-;?     1.01             (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
-;?                        (when (pos lookup-feed.lastdoc currquerygroupfeeds)
-;?                          (erp "latest query")
-;?                          (choose-from 'latest-query
-;?                                       currquerygroupfeeds
-;?                                       user station)))
-;?     ; XXX feeds-from-random-group will repeatedly try the same group
-;?     1.01             (choose-from 'recent-group
-;?                                   (keep recent?
-;?                                         (feeds-from-random-group user station))
-;?                                   user station
-;?                                   recent-and-well-cleaned)
-;?     1.01             (choose-from 'group
-;?                                   (feeds-from-random-group user station)
-;?                                   user station)
     1.01             (choose-from 'random
                                   nonnerdy-feed-list*
                                   user station)))
@@ -314,6 +291,21 @@
     1.01                (choose-from 'popular
                                      (group-feeds* "Popular")
                                      user station)))
+
+(def choose-from-query(user station lastdoc)
+  (randpick
+    preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
+                       (when (pos lookup-feed.lastdoc currquerygroupfeeds)
+                         (choose-from 'latest-query-preferred
+                                      (keep [preferred? (station!sites _)
+                                                        userinfo*.user!clock]
+                                            currquerygroupfeeds)
+                                      user station)))
+    preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
+                       (when (pos lookup-feed.lastdoc currquerygroupfeeds)
+                         (choose-from 'latest-query
+                                      currquerygroupfeeds
+                                      user station)))))
 
 (persisted recent-feeds* (table))
 (after-exec doc-feed(doc)
@@ -348,6 +340,14 @@
     (good-feed-predicate user station)
     [recent-doc?:newest-unread user _]
     [~poorly-cleaned-feeds* _]))
+
+(def recent-and-popular-and-well-cleaned(user station)
+  (andf
+    (recent-and-well-cleaned user station)
+    [popular? _]))
+
+(def popular?(feed)
+  (find feed (group-feeds* "Popular")))
 
 (def pick(user choosefn)
   (withs (s userinfo*.user!all
