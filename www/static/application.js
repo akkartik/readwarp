@@ -158,6 +158,11 @@ function maybeRemoveExpanders() {
   }
 }
 
+function swooshLeft(elem) {
+  elem.animate({'margin-left':-1*$(window).width()},
+               {complete: function(){elem.hide();}});
+}
+
 function insensitiveToScroll(f) {
   if (scrollOn) {
     scrollOn = false;

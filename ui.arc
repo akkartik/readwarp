@@ -63,7 +63,10 @@
             (tag (div style "float:right; color:#8888ee; cursor:pointer;"
                       onclick (+ "$('#doc_" doc "').fadeTo('fast', 0.4); upvote('" doc "')"))
               (tag (div title "like" class "rwbutton rwlike")))
-            (render-doc user doc widgets))
+            (tag (div style "float:right; color:#8888ee; cursor:pointer;"
+                      onclick (+ "swooshLeft($('#doc_" doc "'))"))
+              (pr "same feed"))
+            (render-doc user doc))
           (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
                    onclick (+ "$(this).hide(); $('#doc_" doc " .rwpost').removeClass('rwcollapsed')")))
         (clear)
@@ -74,7 +77,7 @@
 (defop vote req
   (vote current-user.req (arg req "doc") (arg req "outcome") "dummygroup"))
 
-(def render-doc(user doc widgets)
+(def render-doc(user doc)
   (tag script
     (pr "++pageSize;"))
   (tag (div id (+ "contents_" doc) class 'rwpost-contents)
