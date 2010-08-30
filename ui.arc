@@ -54,18 +54,20 @@
       (tag (div id (+ "doc_" doc))
         (tag (div class "rwpost-wrapper rwrounded rwshadow")
           (tag (div class "rwpost rwcollapsed")
-            (tag (div style "float:right; color:#8888ee; cursor:pointer;"
-                      onclick (+ "$('#doc_" doc "').fadeOut();"))
-              (pr "x"))
-            (tag (div style "float:right; color:#8888ee; cursor:pointer;"
-                      onclick (+ "$('#doc_" doc "').fadeOut(); downvote('" doc "')"))
-              (tag (div title "skip" class "rwbutton rwskip")))
-            (tag (div style "float:right; color:#8888ee; cursor:pointer;"
-                      onclick (+ "$('#doc_" doc "').fadeTo('fast', 0.4); upvote('" doc "')"))
-              (tag (div title "like" class "rwbutton rwlike")))
-            (tag (div style "float:right; color:#8888ee; cursor:pointer;"
-                      onclick (+ "swooshLeft()"))
-              (pr "same feed"))
+            (tag (div style "float:right; margin-left:3em")
+              (tag (div style "float:right; color:#8888ee; cursor:pointer;"
+                        onclick (+ "$('#doc_" doc "').fadeOut();"))
+                (pr "x"))
+              (tag (div style "float:left; color:#8888ee; cursor:pointer;"
+                        onclick (+ "$('#doc_" doc "').fadeTo('fast', 0.4); upvote('" doc "')"))
+                (tag (div title "like" class "rwbutton rwlike")))
+              (tag (div style "float:left; color:#8888ee; cursor:pointer;"
+                        onclick (+ "$('#doc_" doc "').fadeOut(); downvote('" doc "')"))
+                (tag (div title "skip" class "rwbutton rwskip")))
+              (clear)
+              (tag (div style "color:#8888ee; cursor:pointer; margin-top:0.5em"
+                        onclick (+ "swooshLeft()"))
+                (pr "swoosh left")))
             (render-doc user doc))
           (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
                    onclick (+ "$(this).hide(); $('#doc_" doc " .rwpost').removeClass('rwcollapsed')")))
