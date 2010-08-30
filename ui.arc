@@ -64,7 +64,7 @@
                       onclick (+ "$('#doc_" doc "').fadeTo('fast', 0.4); upvote('" doc "')"))
               (tag (div title "like" class "rwbutton rwlike")))
             (tag (div style "float:right; color:#8888ee; cursor:pointer;"
-                      onclick (+ "swooshLeft($('#doc_" doc "'))"))
+                      onclick (+ "swooshLeft()"))
               (pr "same feed"))
             (render-doc user doc))
           (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
