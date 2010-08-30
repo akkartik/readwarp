@@ -48,7 +48,7 @@
 
 
 (def doc-panel(user choosefn)
-  (repeat 10
+  (repeat history-size*
     (let doc (pick user choosefn)
       (mark-read user doc)
       (tag (div id (+ "doc_" doc))

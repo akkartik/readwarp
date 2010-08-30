@@ -179,31 +179,6 @@
     (extend-unprefer station!groups.group userinfo*.user!clock))
   (extend-unprefer station!sites.feed userinfo*.user!clock))
 
-(proc create-query(user query)
-  (erp user ": query " query)
-  (unless blank?.query
-    (nrem query userinfo*.user!queries)
-    (push query userinfo*.user!queries)
-    (let initfeeds scan-feeds.query
-      (each feed initfeeds
-        (handle-upvote user ustation.user feed ""))
-      (or
-        (set-current-from 'initfeeds user initfeeds)
-        (set-current-from 'initgroups user (groups-feeds:feeds-groups initfeeds))
-        (pick-from-similar-site user car.initfeeds)))))
-
-(def pick-from-same-site(user feed)
-  (or (set-current-from 'samesite user feed)
-      (pick-from-similar-site user feed)))
-
-(def pick-from-similar-site(user feed)
-  (let queryfeeds (scan-feeds (car userinfo*.user!queries))
-    (set-current-from 'similarsite user
-                      (groups-feeds
-                        (if (pos feed queryfeeds)
-                          feeds-groups.queryfeeds
-                          feed-groups*.feed)))))
-
 (def groups-feeds(groups)
   (dedup:flat:map group-feeds* groups))
 (def feeds-groups(feeds)
@@ -238,7 +213,7 @@
 ;; These should also influence whether we only show well-cleaned feeds.
 (init preferred-prob* 0.8)
 
-(def choose-feed(user station lastdoc)
+(def choose-feed(user station)
   (randpick
     preferred-prob*  (choose-from 'recent-preferred
                                   (keep (andf
@@ -268,7 +243,7 @@
                                   nonnerdy-feed-list*
                                   user station)))
 
-(def choose-from-popular(user station lastdoc)
+(def choose-from-popular(user station)
   (randpick
     preferred-prob*     (choose-from 'recent-popular-preferred
                                      (keep (andf
@@ -291,25 +266,6 @@
     1.01                (choose-from 'popular
                                      (group-feeds* "Popular")
                                      user station)))
-
-(def choose-from-same-site(user station lastdoc)
-  (check (lookup-feed lastdoc) good-feed-predicate
-         (choosefeed user station lastdoc)))
-
-(def choose-from-query(user station lastdoc)
-  (randpick
-    preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
-                       (when (pos lookup-feed.lastdoc currquerygroupfeeds)
-                         (choose-from 'latest-query-preferred
-                                      (keep [preferred? (station!sites _)
-                                                        userinfo*.user!clock]
-                                            currquerygroupfeeds)
-                                      user station)))
-    preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
-                       (when (pos lookup-feed.lastdoc currquerygroupfeeds)
-                         (choose-from 'latest-query
-                                      currquerygroupfeeds
-                                      user station)))))
 
 (persisted recent-feeds* (table))
 (after-exec doc-feed(doc)
@@ -354,31 +310,19 @@
   (find feed (group-feeds* "Popular")))
 
 (def pick(user choosefn)
-  (withs (s userinfo*.user!all
-          station userinfo*.user!stations.s
-          lastdoc (transval station!current))
-    ;(lookup-or-generate-transient station!current
-       (always [newest-unread user _]
-               (choosefn user station lastdoc))));)
+  (let sname userinfo*.user!all
+     (always [newest-unread user _]
+             (choosefn user userinfo*.user!stations.sname))))
 (after-exec pick(user dummy)
   (erp user " => " result))
 
-(def set-current-from(name user feeds)
-  (when feeds
-    (whenlet feed (newest-unread-from user feeds)
-      (erp user ": from " name)
-      (let station ustation.user
-        (= station!current
-         (transient-value feed 500)))
-      feed)))
-
 (def newest-unread-from(user feeds)
   (if
-    (~acons feeds)    (newest-unread user feeds)
-    (single feeds)    (newest-unread user car.feeds)
-                      (always [newest-unread user _] randpos.feeds)))
+    ~acons.feeds    (newest-unread user feeds)
+    single.feeds    (newest-unread user car.feeds)
+                    (always [newest-unread user _] randpos.feeds)))
 
-(after-exec choose-feed(user station lastdoc)
+(after-exec pick(user dummy)
   (update-clock user))
 (def update-clock(user)
   (let t0 (seconds)
