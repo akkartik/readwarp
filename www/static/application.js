@@ -110,14 +110,6 @@ function newDocFrom(url, params) {
   return false;
 }
 
-function docUpdate(doc, params) {
-  return newDocFrom('docupdate', 'doc='+escape(doc)+'&'+params);
-}
-
-function askFor(query) {
-  return newDocFrom('askfor', 'q='+escape(query));
-}
-
 function showDoc() {
   return newDocFrom('doc', '');
 }
@@ -151,7 +143,7 @@ function initPage() {
     insensitiveToScroll(function() {
       if ($(window).scrollTop() + $(window).height()
             >= $(document).height() - /* prefetch buffer */$(window).height()) {
-        newDocFrom('docupdate');
+        showDoc();
       }
     });
   });

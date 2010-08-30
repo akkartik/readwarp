@@ -1,8 +1,0 @@
-#!/bin/zsh
-
-if [ $# -gt 0 ]
-then
-  ab -n100 -c10 "http://readwarp.com/perftest?doc=a&outcome=1"
-else
-  ab -n200 -c50 "http://127.0.0.1:8080/perftest?doc=a&outcome=1"
-fi

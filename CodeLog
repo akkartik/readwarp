@@ -3055,3 +3055,6 @@ Ack, I did need docupdate. Restore.
 =-=1155 - Mon Aug 30 09:58:19 PDT 2010
 Initial load needn't do an ajax load.
 =-=1156 - Mon Aug 30 09:59:08 PDT 2010
+Ok, now docupdate can really go. I lose the ability to perftest in the
+process.
+=-=1157 - Mon Aug 30 10:15:11 PDT 2010

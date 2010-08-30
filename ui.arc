@@ -13,7 +13,7 @@
     (whenlet query (arg req "q")
       (ensure-user user)
       (create-query user query))
-    (reader req readwarp-buttons* readwarp-widgets*
+    (reader req
       (fn()
         (tag (div style "float:right; margin-top:10px")
           (tag (span style "margin-right:1em")
@@ -21,17 +21,9 @@
           (if signedup?.user
             (link "logout" "/logout")
             (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
-                    (pr "login")))))
-      (fn()
-        (firsttime userinfo*.user!noob
-          (flash
-            "Keep voting on stories as you read, and Readwarp will
-            continually fine-tune its recommendations.
-             <br><br>
-             If you want a different topic ask for a site about that
-             topic in the left."))))))
+                    (pr "login"))))))))
 
-(def reader(req buttons widgets (o headerfn) (o flashfn))
+(def reader(req (o headerfn))
   (let user current-user.req
     (ensure-user user)
     (page req
@@ -40,33 +32,12 @@
       (tag (div style "width:100%")
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
-            (doc-panel user choose-feed () ())
+            (doc-panel user choose-feed)
             (tag script
               (pr "window.onload = initPage;"))))))))
 
 (defop doc req
-  (doc-panel current-user.req choose-feed
-             readwarp-buttons* readwarp-widgets*))
-
-(defop docupdate req
-  (docupdate-core current-user.req req choose-from-popular
-                  readwarp-buttons* readwarp-widgets*))
-
-(def docupdate-core(user req choosefn buttons widgets (o flashfn))
-  (ensure-user user)
-  (with (doc (arg req "doc")
-         outcome (arg req "outcome")
-         group (arg req "group"))
-    (when (arg req "samesite")
-      (pick-from-same-site user lookup-feed.doc))
-    (let nextdoc (pick user choosefn)
-      (doc-panel user choosefn buttons widgets
-        (fn()
-          (test*.flashfn)
-          ; TODO samesite broken
-          (when (and (arg req "samesite")
-                     (~is lookup-feed.doc lookup-feed.nextdoc))
-            (flash "No more stories from that site")))))))
+  (doc-panel current-user.req choose-feed))
 
 (def doc-from(req choosefn)
   (let fragment (arg req "id")
@@ -76,7 +47,7 @@
 
 
 
-(def doc-panel(user choosefn buttons widgets (o flashfn))
+(def doc-panel(user choosefn)
   (repeat 10
     (let doc (pick user choosefn)
       (mark-read user doc)
@@ -121,8 +92,6 @@
       (pr:contents doc))
     (clear)))
 
-(= readwarp-buttons* ())
-
 
 
 ; http://www.facebook.com/facebook-widgets/share.php
@@ -166,9 +135,6 @@
             target  "_blank")
       (tag:img src "google.png" height "16px"))))
 
-(= readwarp-widgets* (list facebook-widget twitter-widget reddit-widget
-                           google-widget))
-
 
 
 (proc logo-small()
@@ -182,11 +148,6 @@
     (logo-small)
     (clear))
   (tag:div class 'rwsep))
-
-(def docUpdate(doc params)
-  (+ "docUpdate('" jsesc.doc "', " params ")"))
-(def askfor(query)
-  (+ "askFor('" jsesc.query "')"))
 
 
 

@@ -1,10 +1,3 @@
-(defop perftest req
-  (unless is-prod.req
-    (errsafe:wipe ustation.nil!current)
-    (docupdate-core nil req)))
-
-
-
 (init my-ip* "174.129.11.4")
 (mac maintenance-op(name req . body)
   `(defop ,name ,req
