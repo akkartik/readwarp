@@ -40,6 +40,7 @@
       (tag (div style "width:100%")
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
+            (doc-panel user choose-feed () ())
             (tag script
               (pr "window.onload = initPage;"))))))))
 
