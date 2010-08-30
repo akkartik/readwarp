@@ -62,4 +62,4 @@
       (prn user " +" (info "4" 0)
                 " =" (info "2" 0)
                 " -" (info "1" 0)
-                " ?" (info askfors 0)))))
+                " ?" (info 'askfors 0)))))
