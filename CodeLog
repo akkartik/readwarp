@@ -3058,3 +3058,5 @@ Initial load needn't do an ajax load.
 Ok, now docupdate can really go. I lose the ability to perftest in the
 process.
 =-=1157 - Mon Aug 30 10:15:11 PDT 2010
+Ack, forgot to checkin green_arrow_down.png.
+=-=1158 - Mon Aug 30 10:18:54 PDT 2010
