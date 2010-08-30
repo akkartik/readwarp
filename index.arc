@@ -292,6 +292,10 @@
                                      (group-feeds* "Popular")
                                      user station)))
 
+(def choose-from-same-site(user station lastdoc)
+  (check (lookup-feed lastdoc) good-feed-predicate
+         (choosefeed user station lastdoc)))
+
 (def choose-from-query(user station lastdoc)
   (randpick
     preferred-prob*  (let currquerygroupfeeds (groups-feeds:feeds-groups:scan-feeds:car userinfo*.user!queries)
