@@ -34,7 +34,7 @@
           (tag (div id 'rwcontent)
             (doc-panel user choose-feed)
             (tag script
-              (pr "window.onload = initPage;"))))))))
+              (pr "window.onload = setupScroll;"))))))))
 
 (defop doc req
   (doc-panel current-user.req choose-feed))

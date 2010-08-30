@@ -138,7 +138,7 @@ function timestamp() {
 }
 
 var scrollOn = true;
-function initPage() {
+function setupScroll() {
   $(window).scroll(function() {
     insensitiveToScroll(function() {
       if ($(window).scrollTop() + $(window).height()
