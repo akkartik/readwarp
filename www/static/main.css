@@ -47,9 +47,9 @@ div.rwlike:hover { background:transparent url('like-small.png') 0px -35px no-rep
 div.rwlike:active { background:transparent url('like-small.png') 0px -70px no-repeat; }
 .rwoutcome_4{ color:#42791f; }
 
-div.rwskip{ background:transparent url('skip.png') 0px 0px no-repeat; }
-div.rwskip:hover { background:transparent url('skip.png') 0px -35px no-repeat; }
-div.rwskip:active { background:transparent url('skip.png') 0px -70px no-repeat; }
+div.rwskip{ background:transparent url('skip-small.png') 0px 0px no-repeat; }
+div.rwskip:hover { background:transparent url('skip-small.png') 0px -35px no-repeat; }
+div.rwskip:active { background:transparent url('skip-small.png') 0px -70px no-repeat; }
 .rwoutcome_1{ color:#860237; }
 
 h2.rwtitle a{ font-family:serif; font-size:1.15em; font-weight:bold; color:#66e; }

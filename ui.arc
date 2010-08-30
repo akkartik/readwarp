@@ -43,28 +43,8 @@
             (tag script
               (pr "window.onload = initPage;"))))))))
 
-(defop docupdate req
-  (docupdate-core current-user.req req choose-from-popular
-                  readwarp-buttons* readwarp-widgets*))
-
-(def docupdate-core(user req choosefn buttons widgets (o flashfn))
-  (ensure-user user)
-  (with (doc (arg req "doc")
-         outcome (arg req "outcome")
-         group (arg req "group"))
-    (when (arg req "samesite")
-      (pick-from-same-site user lookup-feed.doc))
-    (let nextdoc (pick user choosefn)
-      (doc-panel user choosefn buttons widgets
-        (fn()
-          (test*.flashfn)
-          ; TODO samesite broken
-          (when (and (arg req "samesite")
-                     (~is lookup-feed.doc lookup-feed.nextdoc))
-            (flash "No more stories from that site")))))))
-
 (defop doc req
-  (doc-panel current-user.req choose-from-popular
+  (doc-panel current-user.req choose-feed
              readwarp-buttons* readwarp-widgets*))
 
 (def doc-from(req choosefn)
@@ -72,25 +52,6 @@
     (if (~blank fragment)
       (hash-doc fragment)
       (pick current-user.req choosefn))))
-
-(defop askfor req
-  (with (user current-user.req
-         query (arg req "q"))
-    (erp "askfor: " user " " query)
-    (create-query user query)
-    (let nextdoc (pick user choose-from-popular)
-      (doc-panel user choose-from-popular readwarp-buttons* readwarp-widgets*
-        (fn() (flashmsg nextdoc query))))))
-
-(def flashmsg(doc query)
-  (let feeds scan-feeds.query
-    (if
-      (no feeds)
-        (flash "Hmm, I don't know that site. Please try again.
-               <br><i>(Notifying operator. You can provide details by clicking
-                &lsquo;feedback&rsquo; below.)</i>")
-      (~pos lookup-feed.doc feeds)
-        (flash "No more stories from that site"))))
 
 
 
@@ -102,8 +63,11 @@
         (tag (div class "rwpost-wrapper rwrounded rwshadow")
           (tag (div class "rwpost rwcollapsed")
             (tag (div style "float:right; color:#8888ee; cursor:pointer;"
-                      onclick (+ "$('#doc_" doc "').fadeOut(); downvote('" doc "')"))
+                      onclick (+ "$('#doc_" doc "').fadeOut();"))
               (pr "x"))
+            (tag (div style "float:right; color:#8888ee; cursor:pointer;"
+                      onclick (+ "$('#doc_" doc "').fadeOut(); downvote('" doc "')"))
+              (tag (div title "skip" class "rwbutton rwskip")))
             (tag (div style "float:right; color:#8888ee; cursor:pointer;"
                       onclick (+ "$('#doc_" doc "').fadeTo('fast', 0.4); upvote('" doc "')"))
               (tag (div title "like" class "rwbutton rwlike")))
@@ -136,48 +100,7 @@
       (pr:contents doc))
     (clear)))
 
-(mac ask-button-elem body
-  `(tag div
-    (tag (span style "color:#ccc")
-      (pr "&middot; "))
-    ,@body))
-(def ask-button(user doc)
-  (tag (div id 'rwmagicbox-panel)
-    (tag (div style "margin-top:5px;
-                    font-size:90%; font-weight:bold; color:#999")
-      (pr "next story from:"))
-    (ask-button-elem
-      (onclick (docUpdate doc "'outcome=4&samesite=1'")
-        (pr "this site")))
-    (tag (form action "/404" onsubmit "submitMagicBox('rwmagicbox', 'a new site'); return false;")
-         (tag (div style "height:24px; color:#aaf; width:10px; margin-right:2px; float:right; cursor:pointer"
-                   onclick "submitMagicBox('rwmagicbox', 'a new site'); return false;")
-            (pr "&crarr;"))
-         (tag (span style "color: #ccc")
-           (pr "&middot;"))
-         (tag:input name "q" id "rwmagicbox"
-                    style "font-size:14px; width:98px; height:24px; color:#999"
-                    value "a new site"
-                    onfocus "clearDefault(this, 'a new site');"
-                    onblur "fillDefault(this, 'a new site');"))
-    (each query (firstn 5 userinfo*.user!queries)
-      (ask-button-elem
-        (onclick (askfor query)
-          (pr query))))))
-
-(proc like-button(user doc)
-  (tag (div title "like" class "rwbutton rwlike" onclick
-          (docUpdate doc "'outcome=4'"))))
-
-(proc next-button(user doc)
-  (tag (div title "next" class "rwbutton rwnext" onclick
-          (docUpdate doc "'outcome=2'"))))
-
-(proc dislike-button(user doc)
-  (tag (div title "dislike" class "rwbutton rwskip" onclick
-          (docUpdate doc "'outcome=1'"))))
-
-(= readwarp-buttons* (list ask-button like-button dislike-button))
+(= readwarp-buttons* ())
 
 
 
