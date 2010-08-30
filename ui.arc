@@ -47,6 +47,26 @@
   (doc-panel current-user.req choose-feed
              readwarp-buttons* readwarp-widgets*))
 
+(defop docupdate req
+  (docupdate-core current-user.req req choose-from-popular
+                  readwarp-buttons* readwarp-widgets*))
+
+(def docupdate-core(user req choosefn buttons widgets (o flashfn))
+  (ensure-user user)
+  (with (doc (arg req "doc")
+         outcome (arg req "outcome")
+         group (arg req "group"))
+    (when (arg req "samesite")
+      (pick-from-same-site user lookup-feed.doc))
+    (let nextdoc (pick user choosefn)
+      (doc-panel user choosefn buttons widgets
+        (fn()
+          (test*.flashfn)
+          ; TODO samesite broken
+          (when (and (arg req "samesite")
+                     (~is lookup-feed.doc lookup-feed.nextdoc))
+            (flash "No more stories from that site")))))))
+
 (def doc-from(req choosefn)
   (let fragment (arg req "id")
     (if (~blank fragment)

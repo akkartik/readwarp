@@ -3051,3 +3051,5 @@ all feeds."
 Simplest way to choose from same site is to maintain a separate choosefn. Now
 we'd perhaps maintain the choosefn in an expirable session variable.
 =-=1154 - Mon Aug 30 09:51:03 PDT 2010
+Ack, I did need docupdate. Restore.
+=-=1155 - Mon Aug 30 09:58:19 PDT 2010
