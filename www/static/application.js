@@ -162,12 +162,13 @@ function swooshLeft() {
   var elems = $('.rwpost-wrapper');
   for (var i = 0; i < elems.length; ++i) {
     var elem = $(elems[i].parentNode); // HACK
-    // Can't seem to get it to work without all these intermediates.
-    var fn0 = function(){elem.hide();};
-    var fn = function(){fn0();}(); // Save from real closure.
     elem.animate({'margin-left':-1*$(window).width()},
-                 {complete: fn});
+                 {complete: hidefn(elem)});
   }
+}
+
+function hidefn(elem) {
+  return function() {elem.hide();};
 }
 
 function insensitiveToScroll(f) {

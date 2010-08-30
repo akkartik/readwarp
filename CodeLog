@@ -3066,3 +3066,6 @@ swooshLeft experiment - make all stories go away.
 =-=1161 - Mon Aug 30 11:11:39 PDT 2010
 Layout improvement.
 =-=1162 - Mon Aug 30 11:40:01 PDT 2010
+swooshLeft had lost the animation itself, and I hadn't noticed.
+Ah, a less hacky way to do it: don't use an anonymous evil-pseudo-closure.
+=-=1163 - Mon Aug 30 11:44:19 PDT 2010
