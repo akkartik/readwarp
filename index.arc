@@ -309,11 +309,14 @@
 (def popular?(feed)
   (find feed (group-feeds* "Popular")))
 
-(def pick(user choosefn)
-  (let sname userinfo*.user!all
-     (always [newest-unread user _]
-             (choosefn user userinfo*.user!stations.sname))))
-(after-exec pick(user dummy)
+(def pick(user)
+  (withs (chooser  (lookup-or-generate-transient userinfo*.user!choosefn
+                      'choose-feed)
+          choosefn eval.chooser)
+    (let sname userinfo*.user!all
+       (always [newest-unread user _]
+               (choosefn user userinfo*.user!stations.sname)))))
+(after-exec pick(user)
   (erp user " => " result))
 
 (def newest-unread-from(user feeds)
@@ -322,7 +325,7 @@
     single.feeds    (newest-unread user car.feeds)
                     (always [newest-unread user _] randpos.feeds)))
 
-(after-exec pick(user dummy)
+(after-exec pick(user)
   (update-clock user))
 (def update-clock(user)
   (let t0 (seconds)
@@ -348,7 +351,7 @@
 (def save-to-old-docs(doc)
   (= old-docs*.doc (obj url doc-url.doc  title doc-title.doc
                         site doc-site.doc  feedtitle doc-feedtitle.doc)))
-(after-exec pick(user dummy)
+(after-exec pick(user)
   (unless old-docs*.result
     (save-to-old-docs result)))
 

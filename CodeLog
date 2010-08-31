@@ -3069,3 +3069,6 @@ Layout improvement.
 swooshLeft had lost the animation itself, and I hadn't noticed.
 Ah, a less hacky way to do it: don't use an anonymous evil-pseudo-closure.
 =-=1163 - Mon Aug 30 11:44:19 PDT 2010
+Record each user's choosefn.
+Currently constant, but we're preparing for same-site mode.
+=-=1166 - Mon Aug 30 21:15:33 PDT 2010

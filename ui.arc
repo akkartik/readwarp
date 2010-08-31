@@ -32,24 +32,18 @@
       (tag (div style "width:100%")
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
-            (doc-panel user choose-feed)
+            (doc-panel user)
             (tag script
               (pr "window.onload = setupScroll;"))))))))
 
 (defop doc req
-  (doc-panel current-user.req choose-feed))
-
-(def doc-from(req choosefn)
-  (let fragment (arg req "id")
-    (if (~blank fragment)
-      (hash-doc fragment)
-      (pick current-user.req choosefn))))
+  (doc-panel current-user.req))
 
 
 
-(def doc-panel(user choosefn)
+(def doc-panel(user)
   (repeat history-size*
-    (let doc (pick user choosefn)
+    (let doc (pick user)
       (mark-read user doc)
       (tag (div id (+ "doc_" doc))
         (tag (div class "rwpost-wrapper rwrounded rwshadow")
