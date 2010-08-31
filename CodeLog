@@ -3072,3 +3072,7 @@ Ah, a less hacky way to do it: don't use an anonymous evil-pseudo-closure.
 Record each user's choosefn.
 Currently constant, but we're preparing for same-site mode.
 =-=1166 - Mon Aug 30 21:15:33 PDT 2010
+Trying to minimize segfaults. They always happen in feed-keywords, so let's
+minimize how much we call it. At the cost of a little stale feedinfo now and
+then.
+=-=1167 - Mon Aug 30 21:33:40 PDT 2010

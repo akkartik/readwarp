@@ -50,7 +50,7 @@
               (read-nested-table f)))))
 
 (init keyword-feeds-old* nil)
-(dhash-nosave feed keyword "m-n"
+(dhash feed keyword "m-n"
   (map canonicalize
        (cons feed
              (flat:map split-urls
@@ -58,13 +58,12 @@
                                  (vals:feedinfo* symize.feed))))))
 
 (proc update-feed-keywords()
-  (= keyword-feeds-old* keyword-feeds*
-     keyword-feeds* (table))
-  (= feed-keywords* (table) feed-keyword-nils* (table))
   (everyp feed feed-list* 100
-    (feed-keywords feed))
+    (unless feed-keywords*.feed
+      (feed-keywords feed)))
   (everyp feed (tokens:slurp "feeds/Private/All") 100
-    (feed-keywords feed))
+    (unless feed-keywords*.feed
+      (feed-keywords feed)))
   (wipe keyword-feeds-old*))
 
 (init feed-groups* (table))
