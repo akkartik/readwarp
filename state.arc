@@ -311,7 +311,7 @@
           (= ,place (transient-value ,expr ,timeout))
           (lookup-transient ,place))))
 
-(def transient-value(v timeout)
+(def transient-value(v (o timeout 500))
   (let t0 (seconds)
     (annotate 'transient-value (list v t0 (+ t0 timeout)))))
 

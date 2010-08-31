@@ -158,6 +158,23 @@ function maybeRemoveExpanders() {
   }
 }
 
+function sameSite(doc) {
+  swooshLeft();
+  $('#spinner').fadeIn();
+  new $.ajax({
+        url: '/samesite',
+        type: 'post',
+        data: 'doc='+escape(doc),
+        success: function(response) {
+          $i('rwcontent').innerHTML = response;
+          runScripts($i('rwcontent'));
+          deleteScripts($i('rwcontent'));
+          $('#spinner').fadeOut();
+        }
+      });
+  return false;
+}
+
 function swooshLeft() {
   var elems = $('.rwpost-wrapper');
   for (var i = 0; i < elems.length; ++i) {

@@ -3070,9 +3070,11 @@ swooshLeft had lost the animation itself, and I hadn't noticed.
 Ah, a less hacky way to do it: don't use an anonymous evil-pseudo-closure.
 =-=1163 - Mon Aug 30 11:44:19 PDT 2010
 Record each user's choosefn.
-Currently constant, but we're preparing for same-site mode.
+Currently constant, but we're preparing for samesite mode.
 =-=1166 - Mon Aug 30 21:15:33 PDT 2010
 Trying to minimize segfaults. They always happen in feed-keywords, so let's
 minimize how much we call it. At the cost of a little stale feedinfo now and
 then.
 =-=1167 - Mon Aug 30 21:33:40 PDT 2010
+samesite mode still not working.
+=-=1169 - Mon Aug 30 22:41:45 PDT 2010

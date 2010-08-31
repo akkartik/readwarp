@@ -39,6 +39,13 @@
 (defop doc req
   (doc-panel current-user.req))
 
+(defop samesite req
+  (let user current-user.req
+    (= userinfo*.user!choosefn transient-value!choose-from-samesite)
+    (= userinfo*.user!currfeed (lookup-feed (arg req "doc")))
+    (erp "AA: " userinfo*.user!choosefn)
+    (doc-panel user)))
+
 
 
 (def doc-panel(user)
@@ -60,8 +67,8 @@
                 (tag (div title "skip" class "rwbutton rwskip")))
               (clear)
               (tag (div style "color:#8888ee; cursor:pointer; margin-top:0.5em"
-                        onclick (+ "swooshLeft()"))
-                (pr "swoosh left")))
+                        onclick (+ "sameSite('" doc "')"))
+                (pr "more from this site")))
             (render-doc user doc))
           (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
                    onclick (+ "$(this).hide(); $('#doc_" doc " .rwpost').removeClass('rwcollapsed')")))

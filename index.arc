@@ -266,6 +266,16 @@
                                      (group-feeds* "Popular")
                                      user station)))
 
+(def choose-from-samesite(user station)
+  (let feed userinfo*.user!currfeed
+    feed))
+;?     (erp type.station)
+;?     (check feed (good-feed-predicate user station)
+;?       (do
+;?         (erp "no more stories in " feed "; resetting")
+;?         (= userinfo*.user!choosefn transient-value!choose-feed)
+;?         (choose-feed user station)))))
+
 (persisted recent-feeds* (table))
 (after-exec doc-feed(doc)
   (update recent-feeds* result most2.id doc-timestamp.doc))
@@ -309,6 +319,8 @@
   (find feed (group-feeds* "Popular")))
 
 (def pick(user)
+  (erp userinfo*.user!choosefn)
+  (erp:lookup-or-generate-transient userinfo*.user!choosefn 'choose-feed)
   (withs (chooser  (lookup-or-generate-transient userinfo*.user!choosefn
                       'choose-feed)
           choosefn eval.chooser)
