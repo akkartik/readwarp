@@ -214,6 +214,14 @@
 
 (def choose-feed(user station)
   (randpick
+    preferred-prob*  (choose-from 'recent-popular-preferred
+                                  (keep (andf
+                                          recent?
+                                          [preferred? (station!sites _)
+                                                      userinfo*.user!clock])
+                                        (group-feeds* "Popular"))
+                                  user station
+                                  recent-and-well-cleaned)
     preferred-prob*  (choose-from 'recent-preferred
                                   (keep (andf
                                           recent?
@@ -222,12 +230,17 @@
                                         (keys station!sites))
                                   user station
                                   recent-and-well-cleaned)
+    preferred-prob*  (choose-from 'popular-preferred
+                                  (keep [preferred? (station!sites _)
+                                                    userinfo*.user!clock]
+                                        (group-feeds* "Popular"))
+                                  user station)
     preferred-prob*  (choose-from 'preferred
                                   (keep [preferred? (station!sites _)
                                                     userinfo*.user!clock]
                                         (keys station!sites))
                                   user station)
-    preferred-prob*  (choose-from 'popular-recent-old-preferred
+    preferred-prob*  (choose-from 'recent-popular-old-preferred
                                   (keys station!old-preferred)
                                   user station
                                   recent-and-popular-and-well-cleaned)
@@ -235,46 +248,20 @@
                                   (keys station!old-preferred)
                                   user station
                                   recent-and-well-cleaned)
+    1.01             (choose-from 'recent-popular
+                                  (keep recent?
+                                    (group-feeds* "Popular"))
+                                  user station
+                                  recent-feed-predicate)
+    1.01             (choose-from 'popular
+                                  (group-feeds* "Popular")
+                                  user station)
     1.01             (choose-from 'old-preferred
                                   (keys station!old-preferred)
                                   user station)
     1.01             (choose-from 'random
                                   nonnerdy-feed-list*
                                   user station)))
-
-(def choose-from-popular(user station)
-  (randpick
-    preferred-prob*     (choose-from 'recent-popular-preferred
-                                     (keep (andf
-                                             recent?
-                                             [preferred? (station!sites _)
-                                                         userinfo*.user!clock])
-                                           (group-feeds* "Popular"))
-                                     user station
-                                     recent-and-well-cleaned)
-    preferred-prob*     (choose-from 'popular-preferred
-                                     (keep [preferred? (station!sites _)
-                                                       userinfo*.user!clock]
-                                           (group-feeds* "Popular"))
-                                     user station)
-    1.01                (choose-from 'recent-popular
-                                     (keep recent?
-                                       (group-feeds* "Popular"))
-                                     user station
-                                     recent-feed-predicate)
-    1.01                (choose-from 'popular
-                                     (group-feeds* "Popular")
-                                     user station)))
-
-(def choose-from-samesite(user station)
-  (let feed userinfo*.user!currfeed
-    feed))
-;?     (erp type.station)
-;?     (check feed (good-feed-predicate user station)
-;?       (do
-;?         (erp "no more stories in " feed "; resetting")
-;?         (= userinfo*.user!choosefn transient-value!choose-feed)
-;?         (choose-feed user station)))))
 
 (persisted recent-feeds* (table))
 (after-exec doc-feed(doc)
