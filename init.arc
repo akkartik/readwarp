@@ -11,7 +11,6 @@
   (include "wrp.arc")
 
   (include "helpers.arc")
-  (include "js.arc")
   (include "ui.arc")
   (include "signup.arc")
   (include "ops.arc")
