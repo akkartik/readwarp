@@ -255,7 +255,7 @@
 
 
 
-; prefrange in time. 0-start => unpreferred; start-end => preferred; end->inf => unpreferred
+; prefrange in time. 0-start => unpreferred; start-end => preferred; end->inf => neutral
 
 (init defaultrange* 100)
 (def prefrange(start (o end (+ start defaultrange*)))
