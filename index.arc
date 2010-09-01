@@ -142,7 +142,6 @@
     (each (s st) ui!stations
 ;?     (each doc (keys ui!read)
 ;?       (each (g gi) st!groups
-      (wipe st!groups)
     )
   ))
 
