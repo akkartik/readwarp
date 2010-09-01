@@ -142,7 +142,6 @@
     (each (s st) ui!stations
 ;?     (each doc (keys ui!read)
 ;?       (each (g gi) st!groups
-      (swap st!old-preferred st!imported-feeds)
     )
   ))
 
