@@ -122,11 +122,7 @@
              'name    sname
              'created (seconds)
              'old-preferred (table)
-             'sites   (table)
-             'groups  (prefrangify
-                        '("Economics" "Glamor" "Health" "Magazine" "News"
-                          "Politics" "Science" "Technology")
-                        100))))
+             'sites   (table))))
 
 (def ustation(user)
   (let s userinfo*.user!all
@@ -145,9 +141,8 @@
   (each (u ui) userinfo*
     (each (s st) ui!stations
 ;?     (each doc (keys ui!read)
-
-      (each (g gi) st!groups
-        (erp u " " s " " g))
+;?       (each (g gi) st!groups
+      (wipe st!groups)
     )
   ))
 
@@ -166,16 +161,11 @@
       "4" (handle-upvote user station feed group))))
 
 (proc handle-upvote(user station feed group)
-  (unless blank?.group
-    (extend-prefer station!groups.group userinfo*.user!clock))
   (extend-prefer station!sites.feed   userinfo*.user!clock)
   ; XXX stuff that goes into old-preferred never goes back out
   (set station!old-preferred.feed))
 
 (proc handle-downvote(user station feed group)
-  (if (and (~blank? group)
-           (~preferred? station!sites.feed userinfo*.user!clock))
-    (extend-unprefer station!groups.group userinfo*.user!clock))
   (extend-unprefer station!sites.feed userinfo*.user!clock))
 
 (def groups-feeds(groups)
@@ -192,12 +182,6 @@
   (unless blank?.keyword
     (dedup:common:map lookup-feeds-for-keyword:canonicalize
                       (flat:map split-urls words.keyword))))
-
-(def feeds-from-random-group(user station)
-  (let curr userinfo*.user!clock
-    (rem [unpreferred? (station!sites _) curr]
-         (group-feeds*:randpos:keep [preferred? (station!groups _) curr]
-                                    (keys station!groups)))))
 
 (def random-story-from(group)
   (always newest

@@ -3086,3 +3086,9 @@ Disappear stories faster.
 =-=1172 - Tue Aug 31 22:24:20 PDT 2010
 Undoing more samesite crap.
 =-=1173 - Tue Aug 31 22:55:18 PDT 2010
+We're not using group state for each user anymore. Purge.
+I'm moving towards a simpler model than prefrange for managing blackout
+periods for individual feeds.
+We'll think about bringing back the ability to expose people to new feeds when
+the problem arises. For now rely on random to do that every now and then.
+=-=1175 - Wed Sep  1 09:31:10 PDT 2010
