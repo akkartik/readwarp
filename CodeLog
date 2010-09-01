@@ -3092,3 +3092,6 @@ periods for individual feeds.
 We'll think about bringing back the ability to expose people to new feeds when
 the problem arises. For now rely on random to do that every now and then.
 =-=1175 - Wed Sep  1 09:31:10 PDT 2010
+Rename old-preferred -> imported-feeds. Stop adding to them. They're a
+stopgap.
+=-=1177 - Wed Sep  1 09:47:16 PDT 2010

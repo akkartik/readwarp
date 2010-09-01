@@ -121,7 +121,7 @@
     (inittab userinfo*.user!stations.sname
              'name    sname
              'created (seconds)
-             'old-preferred (table)
+             'imported-feeds (table)
              'sites   (table))))
 
 (def ustation(user)
@@ -142,6 +142,7 @@
     (each (s st) ui!stations
 ;?     (each doc (keys ui!read)
 ;?       (each (g gi) st!groups
+      (swap st!old-preferred st!imported-feeds)
     )
   ))
 
@@ -160,19 +161,17 @@
       "4" (handle-upvote user station feed group))))
 
 (proc handle-upvote(user station feed group)
-  (extend-prefer station!sites.feed   userinfo*.user!clock)
-  ; XXX stuff that goes into old-preferred never goes back out
-  (set station!old-preferred.feed))
+  (extend-prefer station!sites.feed   userinfo*.user!clock))
 
 (proc handle-downvote(user station feed group)
   (extend-unprefer station!sites.feed userinfo*.user!clock))
+
+
 
 (def groups-feeds(groups)
   (dedup:flat:map group-feeds* groups))
 (def feeds-groups(feeds)
   (dedup:flat:map feed-groups* feeds))
-
-
 
 (def lookup-feeds-for-keyword(word)
   ((or keyword-feeds-old* keyword-feeds*) word))
@@ -223,12 +222,12 @@
                                                     userinfo*.user!clock]
                                         (keys station!sites))
                                   user station)
-    preferred-prob*  (choose-from 'recent-popular-old-preferred
-                                  (keys station!old-preferred)
+    preferred-prob*  (choose-from 'recent-popular-imported-feeds
+                                  (keys station!imported-feeds)
                                   user station
                                   recent-and-popular-and-well-cleaned)
-    preferred-prob*  (choose-from 'recent-old-preferred
-                                  (keys station!old-preferred)
+    preferred-prob*  (choose-from 'recent-imported-feeds
+                                  (keys station!imported-feeds)
                                   user station
                                   recent-and-well-cleaned)
     1.01             (choose-from 'recent-popular
@@ -239,8 +238,8 @@
     1.01             (choose-from 'popular
                                   (group-feeds* "Popular")
                                   user station)
-    1.01             (choose-from 'old-preferred
-                                  (keys station!old-preferred)
+    1.01             (choose-from 'imported-feeds
+                                  (keys station!imported-feeds)
                                   user station)
     1.01             (choose-from 'random
                                   nonnerdy-feed-list*
@@ -354,25 +353,25 @@
           (send-to-gc doc)))))
   (erp "gc-doc-dir done"))
 
-(def add-old-preferred(user feed)
+(def add-imported-feeds(user feed)
   (withs (s userinfo*.user!all
           st userinfo*.user!stations.s)
     (set userinfo*.user!preferred-feeds.feed)
-    (set userinfo*.user!stations.s!old-preferred.feed)))
+    (set userinfo*.user!stations.s!imported-feeds.feed)))
 
 (def rename-feed(old new)
   (each (u ui) userinfo*
     (when (and ui!preferred-feeds ui!preferred-feeds.old)
       (swap ui!preferred-feeds.old ui!preferred-feeds.new))
     (each (s st) ui!stations
-      (when (and st!old-preferred st!old-preferred.old)
-        (swap st!old-preferred.old st!old-preferred.new)))))
+      (when (and st!imported-feeds st!imported-feeds.old)
+        (swap st!imported-feeds.old st!imported-feeds.new)))))
 
 (def purge-feed(feed)
   (each (u ui) userinfo*
     (when (and ui!preferred-feeds ui!preferred-feeds.feed) (prn u))
     (each (s st) ui!stations
-      (when (and st!old-preferred st!old-preferred.feed) (prn u " " s)))))
+      (when (and st!imported-feeds st!imported-feeds.feed) (prn u " " s)))))
 
 (def load-feeds(user)
   (when (file-exists (+ "feeds/users/" user))
