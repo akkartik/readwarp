@@ -1,3 +1,7 @@
+(= history-size* 10)
+
+
+
 (init docinfo* (table))
 (persisted old-docs* (table))
 (proc send-to-gc(doc)
@@ -110,7 +114,7 @@
   (unless userinfo*.user
     (erp "new user: " user)
     (inittab userinfo*.user
-             'clock 100 'lastshow (seconds)
+             'clock 100
              'all (string:unique-id)
              'read (table) 'stations (table)))
   (ensure-station user userinfo*.user!all))
@@ -134,15 +138,16 @@
 (def read?(user doc)
   userinfo*.user!read.doc)
 
-(defreg migrate() migrations*
+(defreg migrate-index() migrations*
   (wipe userinfo*.nil)
   (wipe feed-docs*.nil)
 ;?   (each (f d) feed-docs*
   (each (u ui) userinfo*
-    (each (s st) ui!stations
+    (wipe ui!lastshow)
+;?     (each (s st) ui!stations
 ;?     (each doc (keys ui!read)
 ;?       (each (g gi) st!groups
-    )
+;?     )
   ))
 
 (proc mark-read(user doc)
@@ -186,13 +191,7 @@
 
 
 
-;; XXX Currently constant; should depend on 'temperature':
-;;  a) how many preferred feeds the user has
-;;  b) recent downvotes
-;;  c) user input?
-;; These should also influence whether we only show well-cleaned feeds.
-(init preferred-prob* 0.8)
-
+(= preferred-prob* 0.8)
 (def choose-feed(user station)
   (randpick
     preferred-prob*  (choose-from 'recent-popular-preferred
@@ -300,15 +299,8 @@
                     (always [newest-unread user _] randpos.feeds)))
 
 (after-exec pick(user)
-  (update-clock user))
-(def update-clock(user)
-  (let t0 (seconds)
-    (if (> (- t0 userinfo*.user!lastshow) 3600)
-      (zap [+ 10 _] userinfo*.user!clock)
-      (++ userinfo*.user!clock))
-    (= userinfo*.user!lastshow t0)))
+  (++ userinfo*.user!clock))
 
-(init history-size* 10)
 (def recently-shown?(station feed)
   (pos feed
        (map lookup-feed (firstn history-size* station!read-list))))
