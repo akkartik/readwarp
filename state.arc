@@ -290,7 +290,7 @@
 (proc migrate-state()
   (system "touch migrate")
   (quit))
-(proc do-migration()
+(proc do-any-migrations()
   (when (file-exists "migrate")
     (run-migrations)
     (system "rm migrate")))

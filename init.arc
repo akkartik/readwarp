@@ -19,7 +19,7 @@
 
 (unless (test-mode)
   (wipe disable-autosave*))
-(do-migration)
+(do-any-migrations)
 
 (def my-port()
   (on-err (fn(ex) 8080)
