@@ -306,14 +306,9 @@
   (find feed (group-feeds* "Popular")))
 
 (def pick(user)
-  (erp userinfo*.user!choosefn)
-  (erp:lookup-or-generate-transient userinfo*.user!choosefn 'choose-feed)
-  (withs (chooser  (lookup-or-generate-transient userinfo*.user!choosefn
-                      'choose-feed)
-          choosefn eval.chooser)
-    (let sname userinfo*.user!all
-       (always [newest-unread user _]
-               (choosefn user userinfo*.user!stations.sname)))))
+  (let sname userinfo*.user!all
+     (always [newest-unread user _]
+             (choose-feed user userinfo*.user!stations.sname))))
 (after-exec pick(user)
   (erp user " => " result))
 
