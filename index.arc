@@ -143,10 +143,11 @@
   (wipe feed-docs*.nil)
 ;?   (each (f d) feed-docs*
   (each (u ui) userinfo*
-;?     (each (s st) ui!stations
+    (each (s st) ui!stations
 ;?     (each doc (keys ui!read)
 ;?       (each (g gi) st!groups
-;?     )
+      (= st!sites (table))
+    )
   ))
 
 (proc mark-read(user doc)
@@ -164,10 +165,29 @@
       "4" (handle-upvote user station feed group))))
 
 (proc handle-upvote(user station feed group)
-  (extend-prefer station!sites.feed   userinfo*.user!clock))
+  (if station!sites.feed
+    (do
+      (= station!sites.feed!clock userinfo*.user!clock)
+      (zap [* 2 _] station!sites.feed!blackout))
+    (= station!sites.feed (prefinfo userinfo*.user!clock))))
 
 (proc handle-downvote(user station feed group)
-  (extend-unprefer station!sites.feed userinfo*.user!clock))
+  (if station!sites.feed
+    (do
+      (= station!sites.feed!clock userinfo*.user!clock)
+      (zap [bounded-half _] station!sites.feed))
+    (= station!sites.feed (prefinfo userinfo*.user!clock))))
+
+(def preferred?(prefinfo clock)
+  (and prefinfo
+       (> clock (+ prefinfo!clock prefinfo!blackout))))
+
+(def prefinfo(clock)
+  (obj clock clock blackout history-size*))
+
+(def bounded-half(blackout)
+  (check (/ blackout 2)   [> _ history-size*]
+         history-size*))
 
 
 

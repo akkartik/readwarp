@@ -3097,3 +3097,5 @@ stopgap.
 =-=1177 - Wed Sep  1 09:47:16 PDT 2010
 Get rid of unnecessarily complex update-clock logic. Just increment.
 =-=1179 - Wed Sep  1 10:00:52 PDT 2010
+Switching to the simpler model.
+=-=1181 - Wed Sep  1 10:29:00 PDT 2010

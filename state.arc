@@ -255,55 +255,6 @@
 
 
 
-; prefrange in time. 0-start => unpreferred; start-end => preferred; end->inf => neutral
-
-(init defaultrange* 100)
-(def prefrange(start (o end (+ start defaultrange*)))
-  (annotate 'prefrange (list start end)))
-(mac start(pr)
-  `((rep ,pr) 0))
-(mac end(pr)
-  `((rep ,pr) 1))
-
-(def range-compare(r curr)
-  (if
-    (< curr start.r) -1
-    (> curr end.r)    0
-                      1))
-
-(def preferred?(r curr)
-  (and r
-    (is 1 (range-compare r curr))))
-(def unpreferred?(r curr)
-  (and r
-    (is -1 (range-compare r curr))))
-
-(mac extend-prefer(r curr)
-  `(if (no ,r)
-    (= ,r (prefrange ,curr))
-    (do
-      (= (start ,r) (min (start ,r) ,curr))
-      (= (end ,r) (+ ,curr (max defaultrange*
-                            (* 2 (- (end ,r) ,curr))))))))
-
-(mac extend-unprefer(r curr)
-  `(if (no ,r)
-    (= ,r (prefrange ,curr ,curr))
-    (do
-      (= (start ,r) (+ ,curr (max defaultrange*
-                              (* 2 (- (start ,r) ,curr)))))
-      (= (end ,r) (start ,r)))))
-
-(def prefrangify(l curr (o end))
-  (w/table ans
-    (each elem l
-      (= ans.elem
-         (if end
-           (prefrange curr end)
-           (prefrange curr))))))
-
-
-
 (mac lookup-or-generate-transient(place expr (o timeout 500))
   `(aif (lookup-transient ,place)
         it
