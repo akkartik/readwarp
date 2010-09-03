@@ -67,7 +67,7 @@
     (pr "maybeRemoveExpanders();")))
 
 (defop vote req
-  (vote current-user.req (arg req "doc") (arg req "outcome") "dummygroup"))
+  (vote current-user.req (arg req "doc") (arg req "outcome")))
 
 (def render-doc(user doc)
   (tag script

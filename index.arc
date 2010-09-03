@@ -155,23 +155,23 @@
     (push doc ustation.user!read-list)
     (= userinfo*.user!read.doc "2")))
 
-(proc vote(user doc outcome group)
+(proc vote(user doc outcome)
   (with (station  ustation.user
          feed     lookup-feed.doc)
     (erp outcome " " doc)
     (= userinfo*.user!read.doc outcome)
     (case outcome
-      "1" (handle-downvote user station feed group)
-      "4" (handle-upvote user station feed group))))
+      "1" (handle-downvote user station feed)
+      "4" (handle-upvote user station feed))))
 
-(proc handle-upvote(user station feed group)
+(proc handle-upvote(user station feed)
   (if station!sites.feed
     (do
       (= station!sites.feed!clock userinfo*.user!clock)
       (zap [* 2 _] station!sites.feed!blackout))
     (= station!sites.feed (prefinfo userinfo*.user!clock))))
 
-(proc handle-downvote(user station feed group)
+(proc handle-downvote(user station feed)
   (if station!sites.feed
     (do
       (= station!sites.feed!clock userinfo*.user!clock)
@@ -395,8 +395,8 @@
                 (set ans.url)))))))))
 
 (mac w/user(u . body)
-  `(withs (user ,u
-           ui userinfo*.user
+  `(withs (u ,u
+           ui userinfo*.u
            s ui!all
            st ui!stations.s)
     ,@body))
