@@ -179,7 +179,7 @@
     (= station!sites.feed (prefinfo userinfo*.user!clock))))
 
 (def preferred?(prefinfo clock)
-  (and prefinfo
+  (or no.prefinfo
        (> clock (+ prefinfo!clock prefinfo!blackout))))
 
 (def prefinfo(clock)
