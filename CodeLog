@@ -3099,3 +3099,15 @@ Get rid of unnecessarily complex update-clock logic. Just increment.
 =-=1179 - Wed Sep  1 10:00:52 PDT 2010
 Switching to the simpler model.
 =-=1181 - Wed Sep  1 10:29:00 PDT 2010
+Agh, it had two major typos. First, downvotes would just cause and error and
+be dropped. Second, downvote and upvote logic was flipped.
+
+There's also a more subtle issue with the simpler model. A downvoted feed
+becomes preferred after 10 stories. Temporary hack: downvotes should be more
+powerful than upvotes, not exactly opposite. How long does it have to be
+before people forget they've seen that feed before? But it's still broken
+because users who happen to downvote a lot at the start will see nothing but
+what they've downvoted.
+
+Perhaps we do need three states after all.
+=-=1184 - Fri Sep  3 08:24:00 PDT 2010

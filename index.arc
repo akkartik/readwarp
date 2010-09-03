@@ -168,14 +168,14 @@
   (if station!sites.feed
     (do
       (= station!sites.feed!clock userinfo*.user!clock)
-      (zap [* 2 _] station!sites.feed!blackout))
+      (zap [bounded-half _] station!sites.feed!blackout))
     (= station!sites.feed (prefinfo userinfo*.user!clock))))
 
 (proc handle-downvote(user station feed)
   (if station!sites.feed
     (do
       (= station!sites.feed!clock userinfo*.user!clock)
-      (zap [bounded-half _] station!sites.feed))
+      (zap [* 3 _] station!sites.feed!blackout))
     (= station!sites.feed (prefinfo userinfo*.user!clock))))
 
 (def preferred?(prefinfo clock)
