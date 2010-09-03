@@ -3114,3 +3114,6 @@ Perhaps we do need three states after all.
 Let's try having feeds start out preferred by default. Would this slow things
 down too much?
 =-=1185 - Fri Sep  3 08:34:21 PDT 2010
+Nope, still seems fast.
+Blackout downvoted feeds for longer even at the start.
+=-=1186 - Fri Sep  3 08:40:37 PDT 2010
