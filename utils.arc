@@ -21,6 +21,7 @@
   `(unless (bound ',(car args))
      (= ,@args)))
 
+(= be is)
 (= neither nor)
 
 (mac ifcall(var)
