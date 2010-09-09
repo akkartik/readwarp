@@ -3117,3 +3117,9 @@ down too much?
 Nope, still seems fast.
 Blackout downvoted feeds for longer even at the start.
 =-=1186 - Fri Sep  3 08:40:37 PDT 2010
+
+Bugfix for bad rendering. I was using all of BeautifulSoup's protections for
+well-formed html and then willfully breaking them with regexp replaces. Ugh.
+And the reason I was doing it: as a sop to table rendering that readwarp
+hasn't had since prehistory. Ugh.
+=-=1189 - Thu Sep  9 11:30:58 PDT 2010

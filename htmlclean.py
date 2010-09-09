@@ -23,10 +23,10 @@ def cleanup(file):
 
   candidates = sortedKeys(scores)
   pick = pickTopMatchingCandidate(candidates, scores, htmlstrip(deschint))
-  if pick: return postproc(pick)
+  if pick: return pick
 
   if deschint == '':
-    try: return postproc(candidates[0])
+    try: return candidates[0]
     except: pass
   return deschint
 
@@ -123,10 +123,6 @@ def preproc(file):
     except KeyError: pass
 
   return soup
-
-def postproc(node):
-  if node is None: return
-  return re.sub(r"^<td ", "<div ", node)
 
 def commaCount(node):
   return len(node.renderContents().split(','))
