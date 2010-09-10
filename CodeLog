@@ -3123,3 +3123,5 @@ well-formed html and then willfully breaking them with regexp replaces. Ugh.
 And the reason I was doing it: as a sop to table rendering that readwarp
 hasn't had since prehistory. Ugh.
 =-=1189 - Thu Sep  9 11:30:58 PDT 2010
+Cleanup script; just convert to soup and rerender. It'll fix it.
+=-=1190 - Fri Sep 10 13:05:26 PDT 2010
