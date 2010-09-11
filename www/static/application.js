@@ -152,7 +152,7 @@ function setupScroll() {
 function maybeRemoveExpanders() {
   var posts = $('.rwpost-contents');
   for (var i = 0; i < posts.length; ++i) {
-    if (posts[i].clientHeight < 350) {
+    if (posts[i].clientHeight < 300) {
       $('#expand_'+posts[i].id).hide();
     }
   }

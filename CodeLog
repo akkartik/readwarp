@@ -3125,3 +3125,6 @@ hasn't had since prehistory. Ugh.
 =-=1189 - Thu Sep  9 11:30:58 PDT 2010
 Cleanup script; just convert to soup and rerender. It'll fix it.
 =-=1190 - Fri Sep 10 13:05:26 PDT 2010
+
+Bugfix: sometimes stories are slightly long without getting an expander.
+=-=1192 - Sat Sep 11 14:04:57 PDT 2010
