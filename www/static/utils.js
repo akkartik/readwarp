@@ -36,13 +36,6 @@ function $i(id) {
   return $('#'+id)[0];
 }
 
-function submitMagicBox(id, msg) {
-  if ($i(id).value !== msg) {
-    askFor($i(id).value);
-  }
-  return false;
-}
-
 function stringOrHref(s) {
   if (typeof(s) == 'string')
     return s;

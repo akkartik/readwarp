@@ -3134,3 +3134,7 @@ Make tests pass again.
 Bring back flashcard view, but without the askfor panel.
 CSS is still broken.
 =-=1194 - Wed Sep 15 10:26:59 PDT 2010
+Done reconciling CSS for the two layouts.
+Ah, we're still not initializing the history support with a hashtag. Something
+is missing.
+=-=1195 - Wed Sep 15 11:39:45 PDT 2010

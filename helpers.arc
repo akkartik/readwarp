@@ -17,7 +17,7 @@
 (def csstag(src)
   (prn "<link rel=\"stylesheet\" href=\"" cache-control.src "\"></link>"))
 
-(def header(req)
+(def header()
   (tag title (pr "Readwarp"))
   (tag head
     (prn "<meta name=\"robots\" content=\"nofollow\"/>")
@@ -34,6 +34,9 @@
 
 (def is-prod(req)
   (~is "127.0.0.1" req!ip))
+
+(def jsesc(s)
+  (subst "\\'" "'" (subst "\\\"" "\"" s)))
 
 
 
@@ -66,17 +69,6 @@
              bgcolor=\"#ffffff\"
       />
       </object>")))
-
-
-
-(def clear()
-  (tag (div class "rwclear")))
-
-(def flash(msg)
-  (tag (div class "rwflash") prn.msg))
-
-(def jsesc(s)
-  (subst "\\'" "'" (subst "\\\"" "\"" s)))
 
 
 

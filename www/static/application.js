@@ -16,9 +16,9 @@ function moreDocsFrom(url, params) {
         type: 'post',
         data: params,
         success: function(response) {
-          $i('rwcontent').innerHTML += response;
-          runScripts($i('rwcontent'));
-          deleteScripts($i('rwcontent'));
+          $i('rwscrollcontent').innerHTML += response;
+          runScripts($i('rwscrollcontent'));
+          deleteScripts($i('rwscrollcontent'));
           $('#spinner').fadeOut();
         }
       });
@@ -57,15 +57,15 @@ function docUpdate(doc, params) {
 }
 
 function newDocFrom(url, params) {
-  prepareNewDoc('rwcontent');
+  prepareNewDoc('rwflashcontent');
   new $.ajax({
         url: url,
         type: 'post',
         data: params,
         success: function(response) {
           withoutRerenderingDoc(function() {
-            $i('rwcontent').innerHTML = response;
-            runScripts($i('rwcontent'));
+            $i('rwflashcontent').innerHTML = response;
+            runScripts($i('rwflashcontent'));
           });
         }
       });

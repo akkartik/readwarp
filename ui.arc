@@ -1,13 +1,3 @@
-(mac page(req . body)
-  `(tag html
-    (header ,req)
-    (tag body
-      (tag (div id 'rwbody)
-        (tag (div id 'rwpage)
-          ,@body
-          (tag:div class 'rwclear)
-          (tag:div class 'rwsep))))))
-
 (defop || req
   (let user current-user.req
     (whenlet query (arg req "q")
@@ -26,15 +16,9 @@
 (def reader(req (o headerfn))
   (let user current-user.req
     (ensure-user user)
-    (page req
-      (spinner)
-      (nav headerfn)
-      (tag (div style "width:100%")
-        (tag (div id 'rwcontents-wrap)
-          (tag (div id 'rwcontent)
-            (if signedup?.user
-              (setup-flashcard-view)
-              (setup-scroll-view user))))))))
+    (if signedup?.user
+      (flashpage req user headerfn)
+      (scrollpage req user headerfn))))
 
 (def render-doc(user doc)
   (tag script
@@ -52,14 +36,23 @@
           (pr (check doc-feedtitle.doc ~empty "website")))))
     (tag (div class 'rwpost-body)
       (pr:contents doc))
-    (clear)))
+    (tag:div class 'rwclear)))
 
 
 
-(def setup-scroll-view(user)
-  (another-scroll user)
-  (tag script
-    (pr "window.onload = setupScroll;")))
+(def scrollpage(req user headerfn)
+  (tag html
+    (header)
+    (tag body
+      (tag (div id 'rwbody)
+        (tag (div id 'rwscrollpage)
+          (nav headerfn)
+          (tag (div style "width:100%")
+            (tag (div id 'rwscrollcontents-wrap)
+              (tag (div id 'rwscrollcontent)
+                (another-scroll user)
+                (tag script
+                  (pr "window.onload = setupScroll;"))))))))))
 
 (defop scrollview req
   (another-scroll current-user.req))
@@ -69,23 +62,22 @@
     (let doc (pick user)
       (mark-read user doc)
       (tag (div id (+ "doc_" doc))
-        (tag (div class "rwpost-wrapper rwrounded rwshadow")
-          (tag (div class "rwpost rwcollapsed")
+        (tag (div class "rwscrollpost-wrapper rwrounded rwshadow")
+          (tag (div class "rwscrollpost rwcollapsed")
             (tag (div style "float:right; margin-left:3em")
               (tag (div style "float:right; color:#8888ee; cursor:pointer;"
                         onclick (+ "$('#doc_" doc "').fadeOut('fast');"))
                 (pr "x"))
               (tag (div style "float:left; color:#8888ee; cursor:pointer;"
                         onclick (+ "$('#doc_" doc "').fadeTo('fast', 0.8); upvote('" doc "')"))
-                (tag (div title "like" class "rwbutton rwlike")))
+                (tag (div title "like" class "rwscrollbutton rwscrolllike")))
               (tag (div style "float:left; color:#8888ee; cursor:pointer;"
                         onclick (+ "$('#doc_" doc "').fadeOut('fast'); downvote('" doc "')"))
-                (tag (div title "skip" class "rwbutton rwskip"))))
+                (tag (div title "skip" class "rwscrollbutton rwscrollskip"))))
             (render-doc user doc))
           (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
-                   onclick (+ "$(this).hide(); $('#doc_" doc " .rwpost').removeClass('rwcollapsed')")))
-        (clear)
-        (tag:div class 'rwsep))))
+                   onclick (+ "$(this).hide(); $('#doc_" doc " .rwscrollpost').removeClass('rwcollapsed')")))
+        (tag:div class "rwclear rwsep"))))
   (tag script
     (pr "maybeRemoveExpanders();")))
 
@@ -94,23 +86,32 @@
 
 
 
-(def setup-flashcard-view()
-  (tag script
-    (pr "$(document).ready(renderFlash);")))
+(def flashpage(req user headerfn)
+  (tag html
+    (header)
+    (tag body
+      (tag (div id 'rwbody)
+        (tag (div id 'rwflashpage)
+          (nav headerfn)
+          (tag (div style "width:100%")
+            (tag (div id 'rwflashcontents-wrap)
+              (tag (div id 'rwflashcontent)
+                (tag script
+                  (pr "$(document).ready(renderFlash);"))))))))))
 
 (defop flashview req
   (another-flash current-user.req (doc-from req)))
 
 (def another-flash(user doc)
   (tag (div id (+ "doc_" doc))
-    (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
+    (tag (div id 'rwflashbuttons class "rwbutton-shadow rwrounded-left")
       (like-button user doc)
       (next-button user doc)
       (skip-button user doc))
-    (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
-      (tag (div id 'rwpost)
+    (tag (div class "rwflashpost-wrapper rwrounded rwshadow")
+      (tag (div class 'rwscrollpost)
         (render-doc user doc)))
-    (clear))
+    (tag:div class "rwclear rwsep"))
   (update-title doc-title.doc))
 
 (def doc-from(req)
@@ -140,15 +141,15 @@
   (+ "docUpdate('" jsesc.doc "', " params ")"))
 
 (proc like-button(user doc)
-  (tag (div title "like" class "rwbutton rwlike" onclick
+  (tag (div title "like" class "rwflashbutton rwflashlike" onclick
           (docUpdate doc "'outcome=4'"))))
 
 (proc next-button(user doc)
-  (tag (div title "next" class "rwbutton rwnext" onclick
+  (tag (div title "next" class "rwflashbutton rwflashnext" onclick
           (docUpdate doc "'outcome=2'"))))
 
 (proc skip-button(user doc)
-  (tag (div title "dislike" class "rwbutton rwskip" onclick
+  (tag (div title "dislike" class "rwflashbutton rwflashskip" onclick
           (docUpdate doc "'outcome=1'"))))
 
 ; http://www.facebook.com/facebook-widgets/share.php
@@ -201,9 +202,8 @@
 (proc nav((o f))
   (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
     (test*.f)
-    (logo-small)
-    (clear))
-  (tag:div class 'rwsep))
+    (logo-small))
+  (tag:div class "rwclear rwsep"))
 
 
 
@@ -221,14 +221,19 @@
 
 (defop bookmarklet req
   (let user current-user.req
-    (page req
-      (nav)
-      (br2)
-      (pr "Drag this link to your browser toolbar.")
-      (br2)
-      (pr "<a href='javascript:var x = new XMLHttpRequest();x.open(\"GET\", \"http://readwarp.com/submit?msg=CRAWL%20" user "%20\"+location.href);x.send(null);alert(\"ReadWarp: submitted, thank you.\");'>Submit to Readwarp</a>")
-      (br2)
-      (pr "Anytime you click on it thereafter, it will submit the page you're on to Readwarp."))))
+    (tag html
+      (header)
+      (tag body
+        (tag (div id 'rwbody)
+          (tag (div id 'rwscrollpage)
+            (nav)
+            (tag (div style "background:white; padding:2em" class "rwrounded rwshadow")
+              (pr "Drag this link to your browser toolbar.")
+              (br2)
+              (pr "<a href='javascript:var x = new XMLHttpRequest();x.open(\"GET\", \"http://readwarp.com/submit?msg=CRAWL%20" user "%20\"+location.href);x.send(null);alert(\"ReadWarp: submitted, thank you.\");'>Submit to Readwarp</a>")
+              (br2)
+              (pr "Anytime you click on it thereafter, it will submit the page you're on to Readwarp."))
+            (tag:div class "rwclear rwsep")))))))
 
 (def signup(user ip)
   (ensure-user user)
