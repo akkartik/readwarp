@@ -29,6 +29,7 @@
     (jstag "jquery.ba-hashchange.min.js")
 
     (csstag "main.css")
+    (jstag "utils.js")
     (jstag "application.js")))
 
 (def is-prod(req)

@@ -3131,3 +3131,6 @@ Bugfix: sometimes stories are slightly long without getting an expander.
 
 Make tests pass again.
 =-=1193 - Wed Sep 15 09:00:05 PDT 2010
+Bring back flashcard view, but without the askfor panel.
+CSS is still broken.
+=-=1194 - Wed Sep 15 10:26:59 PDT 2010

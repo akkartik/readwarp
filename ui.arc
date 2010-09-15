@@ -32,16 +32,39 @@
       (tag (div style "width:100%")
         (tag (div id 'rwcontents-wrap)
           (tag (div id 'rwcontent)
-            (doc-panel user)
-            (tag script
-              (pr "window.onload = setupScroll;"))))))))
+            (if signedup?.user
+              (setup-flashcard-view)
+              (setup-scroll-view user))))))))
 
-(defop doc req
-  (doc-panel current-user.req))
+(def render-doc(user doc)
+  (tag script
+    (pr "++pageSize;"))
+  (tag (div id (+ "contents_" doc) class 'rwpost-contents)
+    (tag (h2 class 'rwtitle)
+      (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
+        (pr (check doc-title.doc ~empty "no title")))
+      (copy-widget doc-url.doc))
+    (tag (div class 'rwsubtitle)
+      (tag (div class 'rwdate)
+        (aif pubdate.doc (pr render-date.it)))
+      (whenlet siteurl doc-site.doc
+        (tag (a href siteurl target "_blank")
+          (pr (check doc-feedtitle.doc ~empty "website")))))
+    (tag (div class 'rwpost-body)
+      (pr:contents doc))
+    (clear)))
 
 
 
-(def doc-panel(user)
+(def setup-scroll-view(user)
+  (another-scroll user)
+  (tag script
+    (pr "window.onload = setupScroll;")))
+
+(defop scrollview req
+  (another-scroll current-user.req))
+
+(def another-scroll(user)
   (repeat history-size*
     (let doc (pick user)
       (mark-read user doc)
@@ -69,25 +92,64 @@
 (defop vote req
   (vote current-user.req (arg req "doc") (arg req "outcome")))
 
-(def render-doc(user doc)
+
+
+(def setup-flashcard-view()
   (tag script
-    (pr "++pageSize;"))
-  (tag (div id (+ "contents_" doc) class 'rwpost-contents)
-    (tag (h2 class 'rwtitle)
-      (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
-        (pr (check doc-title.doc ~empty "no title")))
-      (copy-widget doc-url.doc))
-    (tag (div class 'rwsubtitle)
-      (tag (div class 'rwdate)
-        (aif pubdate.doc (pr render-date.it)))
-      (whenlet siteurl doc-site.doc
-        (tag (a href siteurl target "_blank")
-          (pr (check doc-feedtitle.doc ~empty "website")))))
-    (tag (div class 'rwpost-body)
-      (pr:contents doc))
-    (clear)))
+    (pr "$(document).ready(renderFlash);")))
+
+(defop flashview req
+  (another-flash current-user.req (doc-from req)))
+
+(def another-flash(user doc)
+  (tag (div id (+ "doc_" doc))
+    (tag (div id 'rwbuttons class "rwbutton-shadow rwrounded-left")
+      (like-button user doc)
+      (next-button user doc)
+      (skip-button user doc))
+    (tag (div id 'rwpost-wrapper class "rwrounded rwshadow")
+      (tag (div id 'rwpost)
+        (render-doc user doc)))
+    (clear))
+  (update-title doc-title.doc))
+
+(def doc-from(req)
+  (let fragment (arg req "id")
+    (if (~blank fragment)
+      (hash-doc fragment)
+      (pick current-user.req))))
+
+(defop docupdate req
+  (let user current-user.req
+    (ensure-user user)
+    (with (doc (arg req "doc")
+           outcome (arg req "outcome"))
+      (vote user doc outcome)
+      (another-flash user (pick user)))))
+
+(def update-title(s)
+  (if (empty s)
+    (= s "Readwarp")
+    (= s (+ s " - Readwarp")))
+  (tag script
+    (pr (+ "document.title = \"" jsesc.s "\";"))))
 
 
+
+(def docUpdate(doc params)
+  (+ "docUpdate('" jsesc.doc "', " params ")"))
+
+(proc like-button(user doc)
+  (tag (div title "like" class "rwbutton rwlike" onclick
+          (docUpdate doc "'outcome=4'"))))
+
+(proc next-button(user doc)
+  (tag (div title "next" class "rwbutton rwnext" onclick
+          (docUpdate doc "'outcome=2'"))))
+
+(proc skip-button(user doc)
+  (tag (div title "dislike" class "rwbutton rwskip" onclick
+          (docUpdate doc "'outcome=1'"))))
 
 ; http://www.facebook.com/facebook-widgets/share.php
 (def facebook-widget(doc)
