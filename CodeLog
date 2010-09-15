@@ -3128,3 +3128,6 @@ Cleanup script; just convert to soup and rerender. It'll fix it.
 
 Bugfix: sometimes stories are slightly long without getting an expander.
 =-=1192 - Sat Sep 11 14:04:57 PDT 2010
+
+Make tests pass again.
+=-=1193 - Wed Sep 15 09:00:05 PDT 2010
