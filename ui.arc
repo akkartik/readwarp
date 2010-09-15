@@ -44,6 +44,7 @@
     (tag body
       (tag (div id 'rwbody)
         (tag (div id 'rwscrollpage)
+          (spinner)
           (nav headerfn)
           (tag (div style "width:100%")
             (tag (div id 'rwscrollcontents-wrap)
