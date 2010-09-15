@@ -3138,3 +3138,5 @@ Done reconciling CSS for the two layouts.
 Ah, we're still not initializing the history support with a hashtag. Something
 is missing.
 =-=1195 - Wed Sep 15 11:39:45 PDT 2010
+Fixed.
+=-=1196 - Wed Sep 15 11:44:02 PDT 2010

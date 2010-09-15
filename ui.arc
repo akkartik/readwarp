@@ -21,8 +21,6 @@
       (scrollpage req user headerfn))))
 
 (def render-doc(user doc)
-  (tag script
-    (pr "++pageSize;"))
   (tag (div id (+ "contents_" doc) class 'rwpost-contents)
     (tag (h2 class 'rwtitle)
       (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
@@ -74,6 +72,8 @@
               (tag (div style "float:left; color:#8888ee; cursor:pointer;"
                         onclick (+ "$('#doc_" doc "').fadeOut('fast'); downvote('" doc "')"))
                 (tag (div title "skip" class "rwscrollbutton rwscrollskip"))))
+            (tag script
+              (pr "++pageSize;"))
             (render-doc user doc))
           (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
                    onclick (+ "$(this).hide(); $('#doc_" doc " .rwscrollpost').removeClass('rwcollapsed')")))
@@ -110,6 +110,8 @@
       (skip-button user doc))
     (tag (div class "rwflashpost-wrapper rwrounded rwshadow")
       (tag (div class 'rwscrollpost)
+        (tag script
+          (pr:+ "updateLocation('#" doc-hash.doc "');"))
         (render-doc user doc)))
     (tag:div class "rwclear rwsep"))
   (update-title doc-title.doc))
