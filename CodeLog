@@ -3140,3 +3140,6 @@ is missing.
 =-=1195 - Wed Sep 15 11:39:45 PDT 2010
 Fixed.
 =-=1196 - Wed Sep 15 11:44:02 PDT 2010
+As a side effect, the flash function is eradicated. 'flash' now is just a
+shorthand for flashcard mode.
+=-=1198 - Wed Sep 15 11:57:44 PDT 2010
