@@ -3146,3 +3146,6 @@ shorthand for flashcard mode.
 Popular feeds should be a stop-gap for new users. Don't take them into account
 when picking preferred feeds.
 =-=1199 - Wed Sep 15 12:01:10 PDT 2010
+Bugfix: nexting a story doesn't update the clock, so its feed may show up
+immediately again.
+=-=1200 - Wed Sep 15 12:17:49 PDT 2010

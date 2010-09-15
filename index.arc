@@ -160,21 +160,11 @@
          feed     lookup-feed.doc)
     (erp outcome " " doc)
     (= userinfo*.user!read.doc outcome)
+    (or= station!sites.feed (prefinfo userinfo*.user!clock))
+    (= station!sites.feed!clock userinfo*.user!clock)
     (case outcome
-      "1" (handle-downvote user station feed)
-      "4" (handle-upvote user station feed))))
-
-(proc handle-upvote(user station feed)
-  (if station!sites.feed
-    (do
-      (= station!sites.feed!clock userinfo*.user!clock)
-      (zap [bounded-half _] station!sites.feed!blackout))
-    (= station!sites.feed (prefinfo userinfo*.user!clock))))
-
-(proc handle-downvote(user station feed)
-  (or= station!sites.feed (prefinfo userinfo*.user!clock))
-  (= station!sites.feed!clock userinfo*.user!clock)
-  (zap [* 3 _] station!sites.feed!blackout))
+      "1" (zap [* 3 _] station!sites.feed!blackout)
+      "4" (zap [bounded-half _] station!sites.feed!blackout))))
 
 (def preferred?(prefinfo clock)
   (or no.prefinfo
