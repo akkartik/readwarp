@@ -211,14 +211,6 @@
 (= preferred-prob* 0.8)
 (def choose-feed(user station)
   (randpick
-    preferred-prob*  (choose-from 'recent-popular-preferred
-                                  (keep (andf
-                                          recent?
-                                          [preferred? (station!sites _)
-                                                      userinfo*.user!clock])
-                                        (group-feeds* "Popular"))
-                                  user station
-                                  recent-and-well-cleaned)
     preferred-prob*  (choose-from 'recent-preferred
                                   (keep (andf
                                           recent?
@@ -227,11 +219,6 @@
                                         (keys station!sites))
                                   user station
                                   recent-and-well-cleaned)
-    preferred-prob*  (choose-from 'popular-preferred
-                                  (keep [preferred? (station!sites _)
-                                                    userinfo*.user!clock]
-                                        (group-feeds* "Popular"))
-                                  user station)
     preferred-prob*  (choose-from 'preferred
                                   (keep [preferred? (station!sites _)
                                                     userinfo*.user!clock]

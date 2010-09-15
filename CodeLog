@@ -3143,3 +3143,6 @@ Fixed.
 As a side effect, the flash function is eradicated. 'flash' now is just a
 shorthand for flashcard mode.
 =-=1198 - Wed Sep 15 11:57:44 PDT 2010
+Popular feeds should be a stop-gap for new users. Don't take them into account
+when picking preferred feeds.
+=-=1199 - Wed Sep 15 12:01:10 PDT 2010
