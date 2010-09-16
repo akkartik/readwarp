@@ -38,7 +38,7 @@
 (after-exec mark-read(user d)
   (or= voting-stats*.user (table))
   (++ (voting-stats*.user "2" 0)))
-(after-exec vote(user d outcome g)
+(after-exec vote(user d outcome)
   (or= voting-stats*.user (table))
   (++ (voting-stats*.user outcome 0))
   (or= voting-stats*!total (table))

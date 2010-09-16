@@ -3149,3 +3149,5 @@ when picking preferred feeds.
 Bugfix: nexting a story doesn't update the clock, so its feed may show up
 immediately again.
 =-=1200 - Wed Sep 15 12:17:49 PDT 2010
+Refactoring to reduce the number of names.
+=-=1201 - Wed Sep 15 18:21:46 PDT 2010

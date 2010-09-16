@@ -45,15 +45,12 @@ function maybeRemoveExpanders() {
 
 
 function renderFlash() {
-  showDoc(location.hash.substring(1));
-}
-
-function showDoc(doc) {
-  return newDocFrom('flashview', 'id='+escape(doc));
+  var hash = location.hash.substring(1);
+  newDocFrom('flashview', 'hash='+escape(hash));
 }
 
 function docUpdate(doc, params) {
-  return newDocFrom('docupdate', 'doc='+escape(doc)+'&'+params);
+  return newDocFrom('flashview', 'doc='+escape(doc)+'&'+params);
 }
 
 function newDocFrom(url, params) {

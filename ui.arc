@@ -1,8 +1,5 @@
 (defop || req
   (let user current-user.req
-    (whenlet query (arg req "q")
-      (ensure-user user)
-      (create-query user query))
     (reader req
       (fn()
         (tag (div style "float:right; margin-top:10px")
@@ -101,7 +98,14 @@
                   (pr "$(document).ready(renderFlash);"))))))))))
 
 (defop flashview req
-  (another-flash current-user.req (doc-from req)))
+  (let user current-user.req
+    (aif (arg req "outcome")
+      (vote current-user.req (arg req "doc") it))
+    (another-flash user
+                   (let hash (arg req "hash")
+                     (if (~blank hash)
+                       (hash-doc hash)
+                       (pick user))))))
 
 (def another-flash(user doc)
   (tag (div id (+ "doc_" doc))
@@ -116,20 +120,6 @@
         (render-doc user doc)))
     (tag:div class "rwclear rwsep"))
   (update-title doc-title.doc))
-
-(def doc-from(req)
-  (let fragment (arg req "id")
-    (if (~blank fragment)
-      (hash-doc fragment)
-      (pick current-user.req))))
-
-(defop docupdate req
-  (let user current-user.req
-    (ensure-user user)
-    (with (doc (arg req "doc")
-           outcome (arg req "outcome"))
-      (vote user doc outcome)
-      (another-flash user (pick user)))))
 
 (def update-title(s)
   (if (empty s)
