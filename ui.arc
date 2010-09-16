@@ -48,7 +48,7 @@
               (tag (div id 'rwscrollcontent)
                 (another-scroll user)
                 (tag script
-                  (pr "window.onload = setupScroll;"))))))))))
+                  (pr "window.onload = setupScrollOrRenderFlash;"))))))))))
 
 (defop scrollview req
   (another-scroll current-user.req))
@@ -111,12 +111,18 @@
       (like-button user doc)
       (next-button user doc)
       (skip-button user doc))
-    (tag (div class "rwflashpost-wrapper rwrounded rwshadow")
-      (tag (div class 'rwscrollpost)
-        (tag script
-          (pr:+ "updateLocation('#" doc-hash.doc "');"))
-        (render-doc user doc)))
-    (tag:div class "rwclear rwsep"))
+    (show-doc user doc)))
+
+(defop showdoc req
+  (show-doc current-user.req (hash-doc:arg req "hash")))
+
+(def show-doc(user doc)
+  (tag (div class "rwflashpost-wrapper rwrounded rwshadow")
+    (tag (div class 'rwscrollpost)
+      (tag script
+        (pr:+ "updateLocation('#" doc-hash.doc "');"))
+      (render-doc user doc)))
+  (tag:div class "rwclear rwsep")
   (update-title doc-title.doc))
 
 (def update-title(s)

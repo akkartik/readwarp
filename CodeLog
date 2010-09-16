@@ -3153,3 +3153,6 @@ Refactoring to reduce the number of names.
 =-=1201 - Wed Sep 15 18:21:46 PDT 2010
 Simplify.
 =-=1202 - Wed Sep 15 18:32:27 PDT 2010
+Trying to keep anchor urls working in non-logged-in mode, but agh this is too
+hard.
+=-=1203 - Wed Sep 15 18:55:03 PDT 2010

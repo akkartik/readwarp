@@ -80,6 +80,20 @@ function jspost(url, params) {
   return false;
 }
 
+function inline(id, url, params) {
+  new $.ajax({
+        url: stringOrHref(url),
+        type: 'get',
+        data: params,
+        success: function(response) {
+          $i(id).innerHTML = response;
+          runScripts($i(id));
+          deleteScripts($i(id));
+        }
+      });
+  return false;
+}
+
 function del(elem) {
   try {
     elem.parentNode.removeChild(elem);

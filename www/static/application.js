@@ -1,3 +1,12 @@
+function setupScrollOrRenderFlash() {
+  if (notblank(location.hash)) {
+    inline('rwscrollcontent', 'showdoc', 'hash='+escape(location.hash.substring(1)));
+  }
+  else {
+    setupScroll();
+  }
+}
+
 function setupScroll() {
   $(window).scroll(function() {
     insensitiveToScroll(function() {
