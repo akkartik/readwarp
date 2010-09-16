@@ -102,10 +102,8 @@
     (aif (arg req "outcome")
       (vote current-user.req (arg req "doc") it))
     (another-flash user
-                   (let hash (arg req "hash")
-                     (if (~blank hash)
-                       (hash-doc hash)
-                       (pick user))))))
+                   (or (only.hash-doc (arg req "hash"))
+                       (pick user)))))
 
 (def another-flash(user doc)
   (tag (div id (+ "doc_" doc))
