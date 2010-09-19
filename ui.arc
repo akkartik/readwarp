@@ -1,21 +1,9 @@
-(defop || req
-  (let user current-user.req
-    (reader req
-      (fn()
-        (tag (div style "float:right; margin-top:10px")
-          (tag (span style "margin-right:1em")
-            (link "feedback" "mailto:feedback@readwarp.com"))
-          (if signedup?.user
-            (link "logout" "/logout")
-            (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
-                    (pr "login"))))))))
-
-(def reader(req (o headerfn))
+(def || req
   (let user current-user.req
     (ensure-user user)
     (if signedup?.user
-      (flashpage req user headerfn)
-      (scrollpage req user headerfn))))
+      (flashpage user)
+      (scrollpage user))))
 
 (def render-doc(user doc)
   (tag (div id (+ "contents_" doc) class 'rwpost-contents)
@@ -35,14 +23,14 @@
 
 
 
-(def scrollpage(req user headerfn)
+(def scrollpage(user)
   (tag html
     (header)
     (tag body
       (tag (div id 'rwbody)
         (tag (div id 'rwscrollpage)
           (spinner)
-          (nav headerfn)
+          (nav)
           (tag (div style "width:100%")
             (tag (div id 'rwscrollcontents-wrap)
               (tag (div id 'rwscrollcontent)
@@ -84,13 +72,13 @@
 
 
 
-(def flashpage(req user headerfn)
+(def flashpage(user)
   (tag html
     (header)
     (tag body
       (tag (div id 'rwbody)
         (tag (div id 'rwflashpage)
-          (nav headerfn)
+          (nav)
           (tag (div style "width:100%")
             (tag (div id 'rwflashcontents-wrap)
               (tag (div id 'rwflashcontent)
@@ -190,9 +178,15 @@
   (tag (a href "http://readwarp.com" class 'rwlogo-button)
     (tag:img src "readwarp-small.png" style "width:150px")))
 
-(proc nav((o f))
+(proc nav()
   (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
-    (test*.f)
+    (tag (div style "float:right; margin-top:10px")
+      (tag (span style "margin-right:1em")
+        (link "feedback" "mailto:feedback@readwarp.com"))
+      (if signedup?.user
+        (link "logout" "/logout")
+        (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
+                (pr "login"))))
     (logo-small))
   (tag:div class "rwclear rwsep"))
 
