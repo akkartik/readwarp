@@ -141,6 +141,8 @@ def crawl(feed):
   f = feedparser.parse(feed)
   if len(f.entries) == 0 and f.has_key('bozo_exception'):
     print 'bozo'
+    with open('bozos', 'a') as output:
+      output.write(feed)
     return
 
   feedinfo[feed] = deunicodify({'title': feedtitle(f), 'description': feeddesc(f), 'site': site(f), 'url': feed, 'author': author(f)})
