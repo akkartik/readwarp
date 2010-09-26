@@ -1,4 +1,4 @@
-(def || req
+(defop || req
   (let user current-user.req
     (ensure-user user)
     (if signedup?.user
@@ -30,7 +30,7 @@
       (tag (div id 'rwbody)
         (tag (div id 'rwscrollpage)
           (spinner)
-          (nav)
+          (nav user)
           (tag (div style "width:100%")
             (tag (div id 'rwscrollcontents-wrap)
               (tag (div id 'rwscrollcontent)
@@ -78,7 +78,7 @@
     (tag body
       (tag (div id 'rwbody)
         (tag (div id 'rwflashpage)
-          (nav)
+          (nav user)
           (tag (div style "width:100%")
             (tag (div id 'rwflashcontents-wrap)
               (tag (div id 'rwflashcontent)
@@ -178,7 +178,7 @@
   (tag (a href "http://readwarp.com" class 'rwlogo-button)
     (tag:img src "readwarp-small.png" style "width:150px")))
 
-(proc nav()
+(proc nav(user)
   (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
     (tag (div style "float:right; margin-top:10px")
       (tag (span style "margin-right:1em")
@@ -211,7 +211,7 @@
       (tag body
         (tag (div id 'rwbody)
           (tag (div id 'rwscrollpage)
-            (nav)
+            (nav user)
             (tag (div style "background:white; padding:2em" class "rwrounded rwshadow")
               (pr "Drag this link to your browser toolbar.")
               (br2)
