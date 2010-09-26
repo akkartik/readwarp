@@ -3166,3 +3166,5 @@ Crawl runs for so long, running it as a cron job makes no sense. And it's
 easier to manage if it's in a screen window just like the rest of the
 pipeline.
 =-=1207 - Sun Sep 26 11:26:57 PDT 2010
+Just make python crawl.py run in an infinite loop, just like the other stages.
+=-=1208 - Sun Sep 26 11:29:37 PDT 2010

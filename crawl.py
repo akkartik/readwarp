@@ -195,7 +195,7 @@ def desc(item):
     print '!desc'
     return ''
 
-if __name__ == '__main__':
+def main():
   print "===", time.asctime(time.localtime())
   backupUrlMap()
   loadUrlMap()
@@ -216,3 +216,7 @@ if __name__ == '__main__':
   finally:
     saveFeedInfo('feedinfo')
     saveUrlMap()
+
+if __name__ == '__main__':
+  while True:
+    main()
