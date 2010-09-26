@@ -97,7 +97,7 @@ def crawlUrl(rurl, metadata):
       url, contents = urlOpen(rurl)
       if url == None: return
     except timeoutsocket.Timeout: return
-    except TypeError: # Python2.6 bug: sslwrap() argument 1 must be _socket.socket, not _socketobject
+    except TypeError: # timeoutsocket bug: sslwrap() argument 1 must be _socket.socket, not _socketobject
       print '!ssl'
       return
 
