@@ -62,7 +62,8 @@ def urlOpen(url):
   try:
     f = UrlOpener.open(request)
     try:
-      if float(f.info().get('Content-Length')) > 1024*1024:
+      contentLength = f.info().get('Content-Length')
+      if contentLength and float(contentLength) > 1024*1024:
         print 'that file is too big'
         return None, None
     except:
@@ -96,6 +97,9 @@ def crawlUrl(rurl, metadata):
       url, contents = urlOpen(rurl)
       if url == None: return
     except timeoutsocket.Timeout: return
+    except TypeError: # Python2.6 bug: sslwrap() argument 1 must be _socket.socket, not _socketobject
+      print '!ssl'
+      return
 
     canonical_url[rurl] = url
 

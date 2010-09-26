@@ -3168,3 +3168,6 @@ pipeline.
 =-=1207 - Sun Sep 26 11:26:57 PDT 2010
 Just make python crawl.py run in an infinite loop, just like the other stages.
 =-=1208 - Sun Sep 26 11:29:37 PDT 2010
+Now that it's running in the foreground we see a couple of common exceptions
+being raised.
+=-=1209 - Sun Sep 26 11:57:03 PDT 2010
