@@ -5,17 +5,12 @@ export PYTHONPATH=$PYTHONPATH:/app/local/share/lib/python
 cd ~/readwarp
 
 mkdir -p urls fifos
-for stage in crawl clean mdata index
+for stage in crawl clean gc
 do
   if [ ! -p fifos/$stage ]; then mkfifo fifos/$stage; fi
 done
 
-lockfile=/tmp/readwarp_crawl.lock
-if [ ! -f $lockfile ]
-then
-  echo "=== `date`"
-  touch $lockfile
+while true
+do
   python crawl.py
-
-  rm $lockfile
-fi
+done

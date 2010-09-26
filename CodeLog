@@ -3162,3 +3162,7 @@ Simplify calls.
 =-=1205 - Sat Sep 18 22:13:33 PDT 2010
 Ack, 'twas broken.
 =-=1206 - Sun Sep 26 09:32:27 PDT 2010
+Crawl runs for so long, running it as a cron job makes no sense. And it's
+easier to manage if it's in a screen window just like the rest of the
+pipeline.
+=-=1207 - Sun Sep 26 11:26:57 PDT 2010
