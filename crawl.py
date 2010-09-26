@@ -131,9 +131,6 @@ def crawlUrl(rurl, metadata):
       try: os.unlink(outfilename+'.metadata')
       except os.OSError: pass
 
-    while os.path.exists('/tmp/pause_crawl'):
-      time.sleep(300)
-
     with open('fifos/crawl', 'w') as fifo:
       fifo.write(doc+"\n")
 
@@ -148,6 +145,9 @@ def crawl(feed):
   feedinfo[feed] = deunicodify({'title': feedtitle(f), 'description': feeddesc(f), 'site': site(f), 'url': feed, 'author': author(f)})
   for item in reversed(f.entries):
     try:
+      while os.path.exists('/tmp/pause_crawl'):
+        time.sleep(300)
+
       crawlUrl(item.link, {'title': title(item), 'feedtitle': f.feed.title, 'date': date(item), 'feeddate': time.mktime(time.gmtime()), 'feed': feed, 'site': site(f), 'description': desc(item)})
     except: traceback.print_exc(file=sys.stdout)
 
