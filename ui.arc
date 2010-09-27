@@ -109,9 +109,11 @@
         ; but these scripts only run when a doc makes it to #rwflashcontent
         (update-title doc-title.doc)
         (tag script
-          (pr:+ "updateLocation('#" doc-hash.doc "');")
+          (pr:+ "updateLocation('#" doc-hash.doc "');"))
+        (tag script
           (when (and remaining (> remaining 0))
-            (pr (+ "prefetchDocFrom('flashview', 'remaining=" (- remaining 1) "');")))
+            (pr (+ "prefetchDocFrom('flashview', 'remaining=" (- remaining 1) "');"))))
+        (tag script
           (pr "deleteScripts($i('rwflashcontent'));"))))))
 
 
@@ -188,6 +190,7 @@
 
 (proc nav(user)
   (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
+    (tag (span style "color:red") (pr "things will be flaky today Sep 27"))
     (tag (div style "float:right; margin-top:10px")
       (tag (span style "margin-right:1em")
         (link "feedback" "mailto:feedback@readwarp.com"))
