@@ -14,6 +14,7 @@ body{ font-size:62.5%; height:100%; }
 
 #rwflashpage{ width:890px; margin:0 auto; min-height:100%; font-size:1.4em; line-height:1.4; font-family:sans-serif; }
 
+  #rwflashprefetch{ display:none; }
   #rwflashcontent{ width:870px; }
 
     #rwflashbuttons{ position:fixed; top:65px; width:120px; background:white; padding-top:10px; padding-bottom:10px;

@@ -3,21 +3,21 @@ function setupScroll() {
     insensitiveToScroll(function() {
       if ($(window).scrollTop() + $(window).height()
             >= $(document).height() - /* prefetch buffer */$(window).height()) {
-        moreDocsFrom('scrollview', 'remaining=5');
+        moreDocsFrom('scrollview', 'remaining=5', 'rwscrollcontent');
       }
     });
   });
 }
 
-function moreDocsFrom(url, params) {
+function moreDocsFrom(url, params, id) {
   $('#spinner').fadeIn();
   new $.ajax({
         url: url,
         type: 'post',
         data: params,
         success: function(response) {
-          $i('rwscrollcontent').innerHTML += response;
-          runScripts($i('rwscrollcontent'));
+          $i(id).innerHTML += response;
+          runScripts($i(id));
           $('#spinner').fadeOut();
         }
       });
@@ -45,27 +45,38 @@ function maybeRemoveExpanders() {
 
 function renderFlash() {
   var hash = location.hash.substring(1);
-  newDocFrom('flashview', 'hash='+escape(hash));
+  newDocFrom('flashview', 'hash='+escape(hash)+'&remaining=2', 'rwflashcontent');
 }
 
 function docUpdate(doc, params) {
-  return newDocFrom('flashview', 'doc='+escape(doc)+'&'+params);
+  if ($i('rwflashprefetch').children.length > 0) {
+    jsget("/vote?doc="+escape(doc)+'&'+params);
+    $('#rwflashcontent').empty();
+    $('#rwflashcontent').append($i('rwflashprefetch').children[0]);
+    return false;
+  }
+  return newDocFrom('flashview', 'doc='+escape(doc)+'&remaining=1&'+params, 'rwflashcontent'); // XXX higher remaining causes infinite loads
 }
 
-function newDocFrom(url, params) {
-  prepareNewDoc('rwflashcontent');
+function newDocFrom(url, params, id) {
+  prepareNewDoc(id);
   new $.ajax({
         url: url,
         type: 'post',
         data: params,
         success: function(response) {
           withoutRerenderingDoc(function() {
-            $i('rwflashcontent').innerHTML = response;
-            runScripts($i('rwflashcontent'));
+            $i(id).innerHTML = response;
+            runScripts($i(id));
           });
         }
       });
   return false;
+}
+
+function prefetchDoc() {
+  alert('foo2');
+  return moreDocsFrom('flashview', 'remaining=5', 'rwflashprefetch');
 }
 
 function prepareNewDoc(id) {

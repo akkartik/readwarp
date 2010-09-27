@@ -66,7 +66,7 @@
     (pr "++pageSize;")
     (pr "deleteScripts($i('rwscrollcontent'));")
     (if (and remaining (> remaining 0))
-      (pr (+ "moreDocsFrom('scrollview', 'remaining=" (- remaining 1) "');")))))
+      (pr (+ "moreDocsFrom('scrollview', 'remaining=" (- remaining 1) "', 'rwscrollcontent');")))))
 
 (defop vote req
   (vote current-user.req (arg req "doc") (arg req "outcome")))
@@ -82,6 +82,7 @@
           (nav user)
           (tag (div style "width:100%")
             (tag (div id 'rwflashcontents-wrap)
+              (tag:div id 'rwflashprefetch)
               (tag (div id 'rwflashcontent)
                 (tag script
                   (pr "$(document).ready(renderFlash);"))))))))))
@@ -92,23 +93,35 @@
       (vote current-user.req (arg req "doc") it))
     (another-flash user
                    (or (only.hash-doc (arg req "hash"))
-                       (pick user choose-feed)))))
+                       (pick user choose-feed))
+                   (only.int (arg req "remaining"))))
+;?   (tag script
+;?     (erp "prefetchDoc")
+;?     (pr "alert('foo');")
+;?     (pr "prefetchDoc();"))
+  (tag script
+    (pr "deleteScripts($i('rwflashcontent'));")))
+;?     (if (and remaining (> remaining 0))
+;?       (pr (+ "moreDocsFrom('flashview', 'remaining=" (- remaining 1) "', 'rwflashprefetch');")))))
 
-(def another-flash(user doc)
+(def another-flash(user doc remaining)
   (tag (div id (+ "doc_" doc))
     (tag (div id 'rwflashbuttons class "rwbutton-shadow rwrounded-left")
       (like-button user doc)
       (next-button user doc)
       (skip-button user doc))
     (tag (div class "rwflashpost-wrapper rwrounded rwshadow")
-      (tag (div class 'rwscrollpost)
+      (tag (div class 'rwflashpost)
         (tag script
           (pr:+ "updateLocation('#" doc-hash.doc "');"))
         (render-doc user doc)))
     (tag:div class "rwclear rwsep"))
   (update-title doc-title.doc)
-  (tag script
-    (pr "deleteScripts($i('rwflashcontent'));")))
+  (if (and remaining (> remaining 0))
+    (tag script
+      (pr "deleteScripts($i('rwflashprefetch'));")
+      (pr (+ "moreDocsFrom('flashview', 'remaining=" (- remaining 1) "', 'rwflashprefetch');")))))
+
 
 (def update-title(s)
   (if (empty s)
