@@ -3,7 +3,7 @@ function setupScroll() {
     insensitiveToScroll(function() {
       if ($(window).scrollTop() + $(window).height()
             >= $(document).height() - /* prefetch buffer */$(window).height()) {
-        moreDocsFrom('scrollview', '');
+        moreDocsFrom('scrollview', 'remaining=5');
       }
     });
   });
