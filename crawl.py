@@ -9,7 +9,9 @@ from BeautifulSoup import BeautifulSoup
 import json
 from json_extensions import to_json
 
-from utils import urlToFilename
+from utils import urlToFilename, nonblockingOpen
+
+priority_crawl = nonblockingOpen('fifos/tocrawl')
 
 canonical_url = {}
 def loadUrlMap():
@@ -134,7 +136,7 @@ def crawlUrl(rurl, metadata):
     with open('fifos/crawl', 'w') as fifo:
       fifo.write(doc+"\n")
 
-def crawl(feed):
+def crawl(feed, recurse=True):
   f = feedparser.parse(feed)
   if len(f.entries) == 0 and f.has_key('bozo_exception'):
     print 'bozo'
@@ -148,8 +150,19 @@ def crawl(feed):
       while os.path.exists('/tmp/pause_crawl'):
         time.sleep(300)
 
+      if recurse:
+        priorityCrawl()
+
       crawlUrl(item.link, {'title': title(item), 'feedtitle': f.feed.title, 'date': date(item), 'feeddate': time.mktime(time.gmtime()), 'feed': feed, 'site': site(f), 'description': desc(item)})
     except: traceback.print_exc(file=sys.stdout)
+
+def priorityCrawl():
+  while True:
+    try: feed = priority_crawl.readline().rstrip()
+    except IOError: break
+    if not feed: break
+    print 'priority crawl:', feed
+    crawl(feed, recurse=False)
 
 def deunicodify(hash):
   hash['unicode'] = ' '.join([normalize(val) for val in hash.values()])

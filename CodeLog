@@ -3175,3 +3175,6 @@ being raised.
 Backend now supports parameterizable chooser. Gradually bring back askfor
 support.
 =-=1216 - Sun Sep 26 20:57:54 PDT 2010
+Finally a hacky new url that can form the basis of a new bookmarklet
+experience.
+=-=1217 - Sun Sep 26 21:35:44 PDT 2010

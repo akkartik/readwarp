@@ -220,6 +220,16 @@
               (pr "Anytime you click on it thereafter, it will submit the page you're on to Readwarp."))
             (tag:div class "rwclear rwsep")))))))
 
+(let priority-crawl-fifo* (outfile "fifos/tocrawl")
+  (defop crawlsubmit req
+    (let feed (arg req "feed")
+      (pushline feed priority-crawl-fifo*)
+      (unless docs.feed
+        (erp "waiting for crawl")
+        (wait docs.feed)
+        (erp "arrived"))
+      (scrollpage current-user.req feed-chooser.feed))))
+
 (def signup(user ip)
   (ensure-user user)
   (or= userinfo*.user!all (string:unique-id))
