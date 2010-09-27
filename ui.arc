@@ -34,38 +34,40 @@
           (tag (div style "width:100%")
             (tag (div id 'rwscrollcontents-wrap)
               (tag (div id 'rwscrollcontent)
-                (another-scroll user choosefn)
+                (another-scroll user 10 choosefn)
                 (tag script
                   (pr "window.onload = setupScroll;"))))))))))
 
 (defop scrollview req
-  (another-scroll current-user.req))
+  (another-scroll current-user.req (only.int (arg req "remaining"))))
 
-(def another-scroll(user (o choosefn choose-feed))
-  (repeat history-size*
-    (let doc (pick user choosefn)
-      (mark-read user doc)
-      (tag (div id (+ "doc_" doc))
-        (tag (div class "rwscrollpost-wrapper rwrounded rwshadow")
-          (tag (div class "rwscrollpost rwcollapsed")
-            (tag (div style "float:right; margin-left:3em")
-              (tag (div style "float:right; color:#8888ee; cursor:pointer;"
-                        onclick (+ "$('#doc_" doc "').fadeOut('fast');"))
-                (pr "x"))
-              (tag (div style "float:left; color:#8888ee; cursor:pointer;"
-                        onclick (+ "$('#doc_" doc "').fadeTo('fast', 0.8); upvote('" doc "')"))
-                (tag (div title "like" class "rwscrollbutton rwscrolllike")))
-              (tag (div style "float:left; color:#8888ee; cursor:pointer;"
-                        onclick (+ "$('#doc_" doc "').fadeOut('fast'); downvote('" doc "')"))
-                (tag (div title "skip" class "rwscrollbutton rwscrollskip"))))
-            (tag script
-              (pr "++pageSize;"))
-            (render-doc user doc))
-          (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
-                   onclick (+ "$(this).hide(); $('#doc_" doc " .rwscrollpost').removeClass('rwcollapsed')")))
-        (tag:div class "rwclear rwsep"))))
+(def another-scroll(user remaining (o choosefn choose-feed))
+  (erp remaining)
+  (let doc (pick user choosefn)
+    (mark-read user doc)
+    (tag (div id (+ "doc_" doc))
+      (tag (div class "rwscrollpost-wrapper rwrounded rwshadow")
+        (tag (div class "rwscrollpost rwcollapsed")
+          (tag (div style "float:right; margin-left:3em")
+            (tag (div style "float:right; color:#8888ee; cursor:pointer;"
+                      onclick (+ "$('#doc_" doc "').fadeOut('fast');"))
+              (pr "x"))
+            (tag (div style "float:left; color:#8888ee; cursor:pointer;"
+                      onclick (+ "$('#doc_" doc "').fadeTo('fast', 0.8); upvote('" doc "')"))
+              (tag (div title "like" class "rwscrollbutton rwscrolllike")))
+            (tag (div style "float:left; color:#8888ee; cursor:pointer;"
+                      onclick (+ "$('#doc_" doc "').fadeOut('fast'); downvote('" doc "')"))
+              (tag (div title "skip" class "rwscrollbutton rwscrollskip"))))
+          (render-doc user doc))
+        (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
+                 onclick (+ "$(this).hide(); $('#doc_" doc " .rwscrollpost').removeClass('rwcollapsed')")))
+      (tag:div class "rwclear rwsep")))
   (tag script
-    (pr "maybeRemoveExpanders();")))
+    (pr "maybeRemoveExpanders();")
+    (pr "++pageSize;")
+    (pr "deleteScripts($i('rwscrollcontent'));")
+    (if (and remaining (> remaining 0))
+      (pr (+ "moreDocsFrom('scrollview', 'remaining=" (- remaining 1) "');")))))
 
 (defop vote req
   (vote current-user.req (arg req "doc") (arg req "outcome")))
@@ -104,8 +106,10 @@
         (tag script
           (pr:+ "updateLocation('#" doc-hash.doc "');"))
         (render-doc user doc)))
-    (tag:div class "rwclear rwsep")
-    (update-title doc-title.doc)))
+    (tag:div class "rwclear rwsep"))
+  (update-title doc-title.doc)
+  (tag script
+    (pr "deleteScripts($i('rwflashcontent'));")))
 
 (def update-title(s)
   (if (empty s)

@@ -18,7 +18,6 @@ function moreDocsFrom(url, params) {
         success: function(response) {
           $i('rwscrollcontent').innerHTML += response;
           runScripts($i('rwscrollcontent'));
-          deleteScripts($i('rwscrollcontent'));
           $('#spinner').fadeOut();
         }
       });
