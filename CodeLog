@@ -3193,3 +3193,5 @@ we update title, update location hash, and delete scripts, all when we should
 be.
 How to make clean code look clean; ugly code look ugly?
 =-=1222 - Mon Sep 27 09:41:17 PDT 2010
+Why the fuck isn't updateLocation adding to history in the 'b' branch?
+=-=1223 - Mon Sep 27 10:26:55 PDT 2010

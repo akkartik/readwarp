@@ -92,7 +92,6 @@
     (whenlet outcome (arg req "outcome")
       (vote req (arg req "doc") outcome))
 
-    (erp "hash: " (arg req "hash"))
     (with (doc (or (only.hash-doc (arg req "hash"))
                    (pick user choose-feed))
            remaining (only.int (arg req "remaining")))

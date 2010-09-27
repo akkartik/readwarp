@@ -3,7 +3,6 @@ var pageSize = 0;
 var logger = null;
 function log_write(aString) {
   if ((logger == null) || (logger.closed)) {
-    // TODO Doesn't work, but works from js console. So must manually open once.
     logger = window.open("","log","width=640,height=480,resizable,scrollbars=1");
     logger.document.open("text/plain");
   }
@@ -44,20 +43,23 @@ function stringOrHref(s) {
   }
 }
 
-function runScripts(e) {
+function runScripts(e, toplevel) {
   if (e.nodeType != 1) return;
 
+  if (toplevel === undefined) log_write('runScripts');
   if (e.tagName.toLowerCase() == 'script') {
+    log_write('script');
     eval(e.text);
   }
   else {
     for(var i = 0; i < e.children.length; ++i) {
-      runScripts(e.children[i]);
+      runScripts(e.children[i], false);
     }
   }
 }
 
 function deleteScripts(e) {
+  log_write('deleteScripts');
   // we don't want to run these next time we call runScripts.
   scripts = $('script');
   for (var i = 0; i < scripts.length; ++i) {
@@ -137,8 +139,12 @@ function insensitiveToScroll(f) {
 }
 
 function updateLocation(l) {
-  if (!location.hash)
+  log_write('updateLocation');
+  if (!location.hash) {
+    log_write('a');
     window.location.replace(l);
-  else
+  } else {
+    log_write('b');
     location.href = l;
+  }
 }
