@@ -23,7 +23,7 @@
 
 
 
-(def scrollpage(user)
+(def scrollpage(user (o choosefn choose-feed))
   (tag html
     (header)
     (tag body
@@ -34,16 +34,16 @@
           (tag (div style "width:100%")
             (tag (div id 'rwscrollcontents-wrap)
               (tag (div id 'rwscrollcontent)
-                (another-scroll user)
+                (another-scroll user choosefn)
                 (tag script
                   (pr "window.onload = setupScroll;"))))))))))
 
 (defop scrollview req
   (another-scroll current-user.req))
 
-(def another-scroll(user)
+(def another-scroll(user (o choosefn choose-feed))
   (repeat history-size*
-    (let doc (pick user)
+    (let doc (pick user choosefn)
       (mark-read user doc)
       (tag (div id (+ "doc_" doc))
         (tag (div class "rwscrollpost-wrapper rwrounded rwshadow")
@@ -91,7 +91,7 @@
       (vote current-user.req (arg req "doc") it))
     (another-flash user
                    (or (only.hash-doc (arg req "hash"))
-                       (pick user)))))
+                       (pick user choose-feed)))))
 
 (def another-flash(user doc)
   (tag (div id (+ "doc_" doc))

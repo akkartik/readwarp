@@ -237,6 +237,12 @@
                                   nonnerdy-feed-list*
                                   user station)))
 
+(def feed-chooser(feed)
+  (fn(user station)
+    (if (newest-unread user feed)
+      feed
+      (choose-feed user station))))
+
 (persisted recent-feeds* (table))
 (after-exec doc-feed(doc)
   (update recent-feeds* result most2.id doc-timestamp.doc))
@@ -279,11 +285,11 @@
 (def popular?(feed)
   (find feed (group-feeds* "Popular")))
 
-(def pick(user)
+(def pick(user choosefn)
   (let sname userinfo*.user!all
      (always [newest-unread user _]
-             (choose-feed user userinfo*.user!stations.sname))))
-(after-exec pick(user)
+             (choosefn user userinfo*.user!stations.sname))))
+(after-exec pick(user choosefn)
   (erp user " => " result))
 
 (def newest-unread-from(user feeds)
@@ -292,7 +298,7 @@
     single.feeds    (newest-unread user car.feeds)
                     (always [newest-unread user _] randpos.feeds)))
 
-(after-exec pick(user)
+(after-exec pick(user choosefn)
   (++ userinfo*.user!clock))
 
 (def recently-shown?(station feed)
@@ -311,7 +317,7 @@
 (def save-to-old-docs(doc)
   (= old-docs*.doc (obj url doc-url.doc  title doc-title.doc
                         site doc-site.doc  feedtitle doc-feedtitle.doc)))
-(after-exec pick(user)
+(after-exec pick(user choosefn)
   (unless old-docs*.result
     (save-to-old-docs result)))
 

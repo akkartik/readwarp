@@ -3171,3 +3171,7 @@ Just make python crawl.py run in an infinite loop, just like the other stages.
 Now that it's running in the foreground we see a couple of common exceptions
 being raised.
 =-=1209 - Sun Sep 26 11:57:03 PDT 2010
+
+Backend now supports parameterizable chooser. Gradually bring back askfor
+support.
+=-=1216 - Sun Sep 26 20:57:54 PDT 2010
