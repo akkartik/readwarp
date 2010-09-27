@@ -3180,3 +3180,6 @@ experience.
 =-=1217 - Sun Sep 26 21:35:44 PDT 2010
 Do one request per story.
 =-=1218 - Sun Sep 26 22:44:07 PDT 2010
+Get rid of the copy widget because for some reason it isn't being cached on
+the browser and it's slowing things down.
+=-=1219 - Sun Sep 26 22:46:05 PDT 2010
