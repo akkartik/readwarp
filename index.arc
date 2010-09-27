@@ -5,7 +5,7 @@
 (init docinfo* (table))
 (persisted old-docs* (table))
 (proc send-to-gc(doc)
-  (w/outfile f "fifos/gc" (disp (+ doc #\newline) f)))
+  (w/outfile f "fifos/gc" (pushline doc f)))
 
 (mac check-doc(doc . body)
   `(do

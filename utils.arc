@@ -673,6 +673,9 @@
   (w/stdout (stderr)
     (apply prn args)))
 
+(def pushline(s file)
+  (disp (+ s #\newline) file))
+
 (def gc()
   ($:collect-garbage))
 
