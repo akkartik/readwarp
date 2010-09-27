@@ -8,7 +8,6 @@ import difflib
 feedsToSkip = set()
 def cleanup(file):
   deschint, dontClean = read_metadata(file)
-  print file, ':', dontClean
   soup = preproc(file)
 
   scores = {}
