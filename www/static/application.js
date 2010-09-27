@@ -10,7 +10,6 @@ function setupScroll() {
 }
 
 function moreDocsFrom(url, params, id) {
-  $('#spinner').fadeIn();
   new $.ajax({
         url: url,
         type: 'post',
@@ -18,7 +17,6 @@ function moreDocsFrom(url, params, id) {
         success: function(response) {
           $i(id).innerHTML += response;
           runScripts($i(id));
-          $('#spinner').fadeOut();
         }
       });
   return false;
@@ -45,44 +43,53 @@ function maybeRemoveExpanders() {
 
 function renderFlash() {
   var hash = location.hash.substring(1);
-  newDocFrom('flashview', 'hash='+escape(hash)+'&remaining=2', 'rwflashcontent');
+  newDocFrom('flashview', 'hash='+escape(hash)+'&remaining=2');
 }
 
 function docUpdate(doc, params) {
+  scrollUp();
   if ($i('rwflashprefetch').children.length > 0) {
     jsget("/vote?doc="+escape(doc)+'&'+params);
     $('#rwflashcontent').empty();
     $('#rwflashcontent').append($i('rwflashprefetch').children[0]);
+    runScripts($i('rwflashcontent'));
     return false;
+  } else {
+    return newDocFrom('flashview', 'doc='+escape(doc)+'&remaining=2&'+params);
   }
-  return newDocFrom('flashview', 'doc='+escape(doc)+'&remaining=1&'+params, 'rwflashcontent'); // XXX higher remaining causes infinite loads
 }
 
-function newDocFrom(url, params, id) {
-  prepareNewDoc(id);
+function newDocFrom(url, params) {
+  $i('rwflashcontent').innerHTML = "<img src=\"waiting.gif\" class=\"rwshadow\"/>";
   new $.ajax({
         url: url,
         type: 'post',
         data: params,
         success: function(response) {
           withoutRerenderingDoc(function() {
-            $i(id).innerHTML = response;
-            runScripts($i(id));
+            $i('rwflashcontent').innerHTML = response;
+            runScripts($i('rwflashcontent'));
           });
         }
       });
   return false;
 }
 
-function prefetchDoc() {
-  alert('foo2');
-  return moreDocsFrom('flashview', 'remaining=5', 'rwflashprefetch');
+function prefetchDocFrom(url, params) {
+  new $.ajax({
+        url: url,
+        type: 'post',
+        data: params,
+        success: function(response) {
+          $i('rwflashprefetch').innerHTML += response;
+        }
+      });
+  return false;
 }
 
-function prepareNewDoc(id) {
+function scrollUp() {
   scroll(0, 0);
   $i('rwbody').scrollTop = 0;
-  $i(id).innerHTML = "<img src=\"waiting.gif\" class=\"rwshadow\"/>";
 }
 
 function withoutRerenderingDoc(f) {

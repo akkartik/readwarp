@@ -3186,3 +3186,10 @@ the browser and it's slowing things down.
 Messy attempt at prefetching. Kinda works, but is almost certainly buggy.
 Brain's not working anymore.
 =-=1221 - Sun Sep 26 23:45:57 PDT 2010
+Much cleaner, and seems to work now. Turns out the culprit was updateLocation
+triggering willy-nilly. Now scripts only run when they enter rwflashcontent,
+even if they've already been ajax-loaded into rwflashprefetch. That makes sure
+we update title, update location hash, and delete scripts, all when we should
+be.
+How to make clean code look clean; ugly code look ugly?
+=-=1222 - Mon Sep 27 09:41:17 PDT 2010

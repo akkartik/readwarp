@@ -89,38 +89,31 @@
 
 (defop flashview req
   (let user current-user.req
-    (aif (arg req "outcome")
-      (vote current-user.req (arg req "doc") it))
-    (another-flash user
-                   (or (only.hash-doc (arg req "hash"))
-                       (pick user choose-feed))
-                   (only.int (arg req "remaining"))))
-;?   (tag script
-;?     (erp "prefetchDoc")
-;?     (pr "alert('foo');")
-;?     (pr "prefetchDoc();"))
-  (tag script
-    (pr "deleteScripts($i('rwflashcontent'));")))
-;?     (if (and remaining (> remaining 0))
-;?       (pr (+ "moreDocsFrom('flashview', 'remaining=" (- remaining 1) "', 'rwflashprefetch');")))))
+    (whenlet outcome (arg req "outcome")
+      (vote req (arg req "doc") outcome))
 
-(def another-flash(user doc remaining)
-  (tag (div id (+ "doc_" doc))
-    (tag (div id 'rwflashbuttons class "rwbutton-shadow rwrounded-left")
-      (like-button user doc)
-      (next-button user doc)
-      (skip-button user doc))
-    (tag (div class "rwflashpost-wrapper rwrounded rwshadow")
-      (tag (div class 'rwflashpost)
+    (erp "hash: " (arg req "hash"))
+    (with (doc (or (only.hash-doc (arg req "hash"))
+                   (pick user choose-feed))
+           remaining (only.int (arg req "remaining")))
+      (tag (div id (+ "doc_" doc))
+        (tag (div id 'rwflashbuttons class "rwbutton-shadow rwrounded-left")
+          (like-button user doc)
+          (next-button user doc)
+          (skip-button user doc))
+        (tag (div class "rwflashpost-wrapper rwrounded rwshadow")
+          (tag (div class 'rwflashpost)
+            (render-doc user doc)))
+        (tag:div class "rwclear rwsep")
+
+        ; flashview may be loaded into #rwflashprefetch
+        ; but these scripts only run when a doc makes it to #rwflashcontent
+        (update-title doc-title.doc)
         (tag script
-          (pr:+ "updateLocation('#" doc-hash.doc "');"))
-        (render-doc user doc)))
-    (tag:div class "rwclear rwsep"))
-  (update-title doc-title.doc)
-  (if (and remaining (> remaining 0))
-    (tag script
-      (pr "deleteScripts($i('rwflashprefetch'));")
-      (pr (+ "moreDocsFrom('flashview', 'remaining=" (- remaining 1) "', 'rwflashprefetch');")))))
+          (pr:+ "updateLocation('#" doc-hash.doc "');")
+          (when (and remaining (> remaining 0))
+            (pr (+ "prefetchDocFrom('flashview', 'remaining=" (- remaining 1) "');")))
+          (pr "deleteScripts($i('rwflashcontent'));"))))))
 
 
 (def update-title(s)
