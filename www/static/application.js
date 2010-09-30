@@ -43,8 +43,7 @@ function maybeRemoveExpanders() {
 
 function renderFlash() {
   var hash = location.hash.substring(1);
-//?   alert('renderflash');
-  newDocFrom('flashview', 'hash='+escape(hash)+'&remaining=1');
+  newDocFrom('flashview', 'hash='+escape(hash)+'&remaining=2');
 }
 
 function docUpdate(doc, params) {
@@ -52,24 +51,15 @@ function docUpdate(doc, params) {
   if ($i('rwflashprefetch').children.length > 0) {
     jsget("/vote?doc="+escape(doc)+'&'+params);
     $('#rwflashcontent').empty();
-//?     withoutRerenderingDoc(function() {
-      $('#rwflashcontent').append($i('rwflashprefetch').children[0]);
-//?       runScripts($i('rwflashcontent'));
-//?     });
-//?     setTimeout(function() {
-//?       withoutRerenderingDoc(function() {
-//?       });
-//?     }, 500);
-//?     prefetchDocFrom('flashview', '');
+    $('#rwflashcontent').append($i('rwflashprefetch').children[0]);
+    runScripts($i('rwflashcontent'));
     return false;
-//?   } else {
-//?     alert('prefetch miss');
-//?     return newDocFrom('flashview', 'doc='+escape(doc)+'&remaining=1&'+params);
+  } else {
+    return newDocFrom('flashview', 'doc='+escape(doc)+'&remaining=2&'+params);
   }
 }
 
 function newDocFrom(url, params) {
-//?   alert('ajax');
   $i('rwflashcontent').innerHTML = "<img src=\"waiting.gif\" class=\"rwshadow\"/>";
   new $.ajax({
         url: url,

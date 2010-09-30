@@ -41,7 +41,6 @@
   (another-scroll current-user.req (only.int (arg req "remaining"))))
 
 (def another-scroll(user remaining (o choosefn choose-feed))
-  (erp remaining)
   (let doc (pick user choosefn)
     (mark-read user doc)
     (tag (div id (+ "doc_" doc))
@@ -90,7 +89,7 @@
 (defop flashview req
   (let user current-user.req
     (whenlet outcome (arg req "outcome")
-      (vote req (arg req "doc") outcome))
+      (vote user (arg req "doc") outcome))
 
     (with (doc (or (only.hash-doc (arg req "hash"))
                    (pick user choose-feed))
@@ -109,11 +108,9 @@
         ; but these scripts only run when a doc makes it to #rwflashcontent
         (update-title doc-title.doc)
         (tag script
-          (pr:+ "updateLocation('#" doc-hash.doc "');"))
-        (tag script
+          (pr:+ "updateLocation('#" doc-hash.doc "');")
           (when (and remaining (> remaining 0))
-            (pr (+ "prefetchDocFrom('flashview', 'remaining=" (- remaining 1) "');"))))
-        (tag script
+            (pr (+ "prefetchDocFrom('flashview', 'remaining=" (- remaining 1) "');")))
           (pr "deleteScripts($i('rwflashcontent'));"))))))
 
 
@@ -190,7 +187,6 @@
 
 (proc nav(user)
   (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
-    (tag (span style "color:red") (pr "things will be flaky today Sep 27"))
     (tag (div style "float:right; margin-top:10px")
       (tag (span style "margin-right:1em")
         (link "feedback" "mailto:feedback@readwarp.com"))

@@ -3197,3 +3197,5 @@ Why the fuck isn't updateLocation adding to history in the 'b' branch?
 =-=1223 - Mon Sep 27 10:26:55 PDT 2010
 It's working in chrome/webkit. Weird.
 =-=1224 - Mon Sep 27 14:26:57 PDT 2010
+Rolling back to 1222.
+=-=1225 - Wed Sep 29 18:24:03 PDT 2010
