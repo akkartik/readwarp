@@ -3202,3 +3202,5 @@ Rolling back to 1222.
 I don't know why this works, but it does. All I've done is eliminate
 deleteScripts; it seems to be throwing things really out of whack.
 =-=1226 - Wed Sep 29 18:42:00 PDT 2010
+Increase prefetch lookahead.
+=-=1227 - Wed Sep 29 18:48:24 PDT 2010
