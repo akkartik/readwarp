@@ -98,6 +98,7 @@
     (with (doc (or (only.hash-doc (arg req "hash"))
                    (pick user choose-feed))
            remaining (only.int (arg req "remaining")))
+      (mark-read user doc)
       (tag (div id (+ "doc_" doc) class 'rwflashdoc)
         (tag (div id 'rwflashbuttons class "rwbutton-shadow rwrounded-left")
           (like-button user doc)

@@ -3219,3 +3219,6 @@ A subtle visual cue about what button was clicked.
 History is again not working. And not working in 1226 either, or any commit
 since 1220.
 =-=1232 - Thu Sep 30 00:03:37 PDT 2010
+
+Bugfix: disallow duplicates in prefetch.
+=-=1233 - Thu Sep 30 00:08:19 PDT 2010
