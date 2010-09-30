@@ -51,8 +51,10 @@ function docUpdate(doc, params) {
   if ($i('rwflashprefetch').children.length > 0) {
     jsget("/vote?doc="+escape(doc)+'&'+params);
     $('#rwflashcontent').empty();
-    $('#rwflashcontent').append($i('rwflashprefetch').children[0]);
-    runScripts($i('rwflashcontent'));
+    withoutRerenderingDoc(function() {
+      $('#rwflashcontent').append($i('rwflashprefetch').children[0]);
+      runScripts($i('rwflashcontent'));
+    });
     return false;
   } else {
     return newDocFrom('flashview', 'doc='+escape(doc)+'&remaining=2&'+params);

@@ -110,8 +110,7 @@
         (tag script
           (pr:+ "updateLocation('#" doc-hash.doc "');")
           (when (and remaining (> remaining 0))
-            (pr (+ "prefetchDocFrom('flashview', 'remaining=" (- remaining 1) "');")))
-          (pr "deleteScripts($i('rwflashcontent'));"))))))
+            (pr (+ "prefetchDocFrom('flashview', 'remaining=" (- remaining 1) "');"))))))))
 
 
 (def update-title(s)
