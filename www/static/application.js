@@ -48,6 +48,10 @@ function renderFlash() {
 
 function docUpdate(doc, params) {
   scrollUp();
+  if ($i('rwflashprefetch').children.length < 2) {
+    prefetchDocFrom('flashview', 'remaining=5');
+  }
+
   if ($i('rwflashprefetch').children.length > 0) {
     jsget("/vote?doc="+escape(doc)+'&'+params);
     $('#rwflashcontent').empty();
@@ -83,7 +87,9 @@ function prefetchDocFrom(url, params) {
         type: 'post',
         data: params,
         success: function(response) {
-          $i('rwflashprefetch').innerHTML += response;
+          withoutRerenderingDoc(function() {
+            $i('rwflashprefetch').innerHTML += response;
+          });
         }
       });
   return false;
