@@ -3183,6 +3183,7 @@ Do one request per story.
 Get rid of the copy widget because for some reason it isn't being cached on
 the browser and it's slowing things down.
 =-=1219 - Sun Sep 26 22:46:05 PDT 2010
+
 Messy attempt at prefetching. Kinda works, but is almost certainly buggy.
 Brain's not working anymore.
 =-=1221 - Sun Sep 26 23:45:57 PDT 2010
@@ -3204,3 +3205,6 @@ deleteScripts; it seems to be throwing things really out of whack.
 =-=1226 - Wed Sep 29 18:42:00 PDT 2010
 Increase prefetch lookahead.
 =-=1227 - Wed Sep 29 18:48:24 PDT 2010
+
+Get rid of Private feeds.
+=-=1228 - Wed Sep 29 18:52:04 PDT 2010

@@ -45,9 +45,6 @@ def loadFeeds():
   with open('feeds/All') as input:
     for line in input:
       yield line.rstrip()
-  with open('feeds/Private/All') as input:
-    for line in input:
-      yield line.rstrip()
 
 def mungeUrl(url):
   ans = re.sub(r'#.*|\?(utm[^&]*&?)*$', '', url)
