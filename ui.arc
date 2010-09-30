@@ -84,9 +84,9 @@
               (tag:div id 'rwflashprefetch)
               (tag (div id 'rwflashcontent)
                 (tag script
-                  (pr:+ "$(document).bind('keypress', 'k', likeCurrent);")
-                  (pr:+ "$(document).bind('keypress', 'l', nextCurrent);")
-                  (pr:+ "$(document).bind('keypress', 'j', skipCurrent);"))
+                  (pr:+ "$(document).bind('keydown', 'k', likeCurrent);")
+                  (pr:+ "$(document).bind('keydown', 'l', nextCurrent);")
+                  (pr:+ "$(document).bind('keydown', 'j', skipCurrent);"))
                 (tag script
                   (pr "$(document).ready(renderFlash);"))))))))))
 

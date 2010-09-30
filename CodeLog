@@ -3222,3 +3222,6 @@ since 1220.
 
 Bugfix: disallow duplicates in prefetch.
 =-=1233 - Thu Sep 30 00:08:19 PDT 2010
+Keypress registers repeats while keydown doesn't.
+Pity keyup doesn't work on my macos firefox.
+=-=1234 - Thu Sep 30 09:21:32 PDT 2010
