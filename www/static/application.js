@@ -46,6 +46,15 @@ function renderFlash() {
   newDocFrom('flashview', 'hash='+escape(hash)+'&remaining=5');
 }
 
+function voteCurrent(n) {
+  var doc = $('#rwflashcontent .rwflashdoc').attr('id').substring(4);
+  docUpdate(doc, "outcome="+n);
+  return false;
+}
+function likeCurrent() { return voteCurrent('4'); }
+function nextCurrent() { return voteCurrent('2'); }
+function skipCurrent() { return voteCurrent('1'); }
+
 function docUpdate(doc, params) {
   scrollUp();
   if ($i('rwflashprefetch').children.length < 2) {

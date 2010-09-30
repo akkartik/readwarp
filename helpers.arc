@@ -27,6 +27,7 @@
     (jstag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
     (jstag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js")
     (jstag "jquery.ba-hashchange.min.js")
+    (jstag "jquery.hotkeys.js")
 
     (csstag "main.css")
     (jstag "utils.js")

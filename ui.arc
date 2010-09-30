@@ -84,6 +84,10 @@
               (tag:div id 'rwflashprefetch)
               (tag (div id 'rwflashcontent)
                 (tag script
+                  (pr:+ "$(document).bind('keypress', 'k', likeCurrent);")
+                  (pr:+ "$(document).bind('keypress', 'l', nextCurrent);")
+                  (pr:+ "$(document).bind('keypress', 'j', skipCurrent);"))
+                (tag script
                   (pr "$(document).ready(renderFlash);"))))))))))
 
 (defop flashview req
@@ -94,7 +98,7 @@
     (with (doc (or (only.hash-doc (arg req "hash"))
                    (pick user choose-feed))
            remaining (only.int (arg req "remaining")))
-      (tag (div id (+ "doc_" doc))
+      (tag (div id (+ "doc_" doc) class 'rwflashdoc)
         (tag (div id 'rwflashbuttons class "rwbutton-shadow rwrounded-left")
           (like-button user doc)
           (next-button user doc)
@@ -123,7 +127,7 @@
 
 
 (def docUpdate(doc params)
-  (+ "docUpdate('" jsesc.doc "', " params ")"))
+  (+ "docUpdate('" jsesc.doc "', " params ");"))
 
 (proc like-button(user doc)
   (tag (div title "like" class "rwflashbutton rwflashlike" onclick
