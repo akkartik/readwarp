@@ -46,14 +46,17 @@ function renderFlash() {
   newDocFrom('flashview', 'hash='+escape(hash)+'&remaining=5');
 }
 
-function voteCurrent(n) {
+function voteCurrent(vote, outcome) {
+  $('#rwflashcontent .rwflash'+vote).addClass('rwflashhover');
   var doc = $('#rwflashcontent .rwflashdoc').attr('id').substring(4);
-  docUpdate(doc, "outcome="+n);
+  setTimeout(function() {
+    docUpdate(doc, "outcome="+outcome);
+  }, 20);
   return false;
 }
-function likeCurrent() { return voteCurrent('4'); }
-function nextCurrent() { return voteCurrent('2'); }
-function skipCurrent() { return voteCurrent('1'); }
+function likeCurrent() { return voteCurrent('like', '4'); }
+function nextCurrent() { return voteCurrent('next', '2'); }
+function skipCurrent() { return voteCurrent('skip', '1'); }
 
 function docUpdate(doc, params) {
   scrollUp();

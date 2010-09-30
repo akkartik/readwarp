@@ -54,6 +54,8 @@ div.rwscrollskip:active { background:transparent url('skip-small.png') 0px -70px
 
 .rwflashbutton{ height:70px; cursor:pointer; position:relative; width:80px; margin-left:25px; margin-bottom:10px; }
 
+div.rwflashhover{ background-position:0px -140px !important; }
+
 div.rwflashlike{ background:transparent url('like.png') 0px 0px no-repeat; }
 div.rwflashlike:hover { background:transparent url('like.png') 0px -70px no-repeat; }
 div.rwflashlike:active { background:transparent url('like.png') 0px -140px no-repeat; }
