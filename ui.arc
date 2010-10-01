@@ -8,7 +8,7 @@
 (def render-doc(user doc)
   (tag (div id (+ "contents_" doc) class 'rwpost-contents)
     (tag (h2 class 'rwtitle)
-      (tag (a href doc-url.doc target "_blank" style "margin-right:1em")
+      (tag (a href doc-url.doc target "_blank")
         (pr (check doc-title.doc ~empty "no title"))))
     (tag (div class 'rwsubtitle)
       (tag (div class 'rwdate)
