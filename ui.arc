@@ -28,7 +28,6 @@
     (tag body
       (tag (div id 'rwbody)
         (tag (div id 'rwscrollpage)
-          (spinner)
           (nav user)
           (tag (div style "width:100%")
             (tag (div id 'rwscrollcontents-wrap)
@@ -289,7 +288,3 @@
   (ret user get-user.req
     (unless userinfo*.user
       (erp "new user: " user " " req!ip))))
-
-(def spinner()
-  (tag (div id "spinner")
-    (tag:img src "waiting.gif")))
