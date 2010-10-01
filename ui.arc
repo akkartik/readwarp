@@ -45,14 +45,14 @@
     (tag (div id (+ "doc_" doc))
       (tag (div class "rwscrollpost-wrapper rwrounded rwshadow")
         (tag (div class "rwscrollpost rwcollapsed")
-          (tag (div style "float:right; margin-left:3em")
+          (tag (div class 'rwscrollbuttons)
             (tag (div style "float:right; color:#8888ee; cursor:pointer;"
                       onclick (+ "$('#doc_" doc "').fadeOut('fast');"))
               (pr "x"))
-            (tag (div style "float:left; color:#8888ee; cursor:pointer;"
+            (tag (div class 'rwscrollbutton
                       onclick (+ "$('#doc_" doc "').fadeTo('fast', 0.8); upvote('" doc "')"))
               (tag (div title "like" class "rwscrollbutton rwscrolllike")))
-            (tag (div style "float:left; color:#8888ee; cursor:pointer;"
+            (tag (div class 'rwscrollbutton
                       onclick (+ "$('#doc_" doc "').fadeOut('fast'); downvote('" doc "')"))
               (tag (div title "skip" class "rwscrollbutton rwscrollskip"))))
           (render-doc user doc))
