@@ -132,15 +132,18 @@
 
 (proc like-button(user doc)
   (tag (div title "like" class "rwflashbutton rwflashlike" onclick
-          (docUpdate doc "'outcome=4'"))))
+          (docUpdate doc "'outcome=4'"))
+    (pr "K&nbsp;&nbsp;&nbsp;&nbsp;")))
 
 (proc next-button(user doc)
   (tag (div title "next" class "rwflashbutton rwflashnext" onclick
-          (docUpdate doc "'outcome=2'"))))
+          (docUpdate doc "'outcome=2'"))
+    (pr "L&nbsp;&nbsp;&nbsp;&nbsp;")))
 
 (proc skip-button(user doc)
   (tag (div title "dislike" class "rwflashbutton rwflashskip" onclick
-          (docUpdate doc "'outcome=1'"))))
+          (docUpdate doc "'outcome=1'"))
+    (pr "J&nbsp;&nbsp;&nbsp;&nbsp;")))
 
 ; http://www.facebook.com/facebook-widgets/share.php
 (def facebook-widget(doc)

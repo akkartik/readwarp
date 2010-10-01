@@ -52,7 +52,7 @@ div.rwscrollskip{ background:transparent url('skip-small.png') 0px 0px no-repeat
 div.rwscrollskip:hover { background:transparent url('skip-small.png') 0px -35px no-repeat; }
 div.rwscrollskip:active { background:transparent url('skip-small.png') 0px -70px no-repeat; }
 
-.rwflashbutton{ height:70px; cursor:pointer; position:relative; width:80px; margin-left:25px; margin-bottom:10px; }
+.rwflashbutton{ height:70px; cursor:pointer; position:relative; width:80px; margin-left:25px; margin-bottom:10px; color:grey; font-size:0.5em; line-height:130px; text-align:right; }
 
 div.rwflashhover{ background-position:0px -140px !important; }
 
