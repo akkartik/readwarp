@@ -9,6 +9,7 @@ body{ font-size:62.5%; height:100%; }
   #rwscrollcontent{ width:750px; }
 
     .rwscrollbuttons{ float:right; margin-left:3em; }
+    .rwscrollhidebutton{ float:right; color:#8888ee; cursor:pointer; }
     .rwscrollbutton{ float:left; color:#8888ee; cursor:pointer; }
 
     .rwscrollpost-wrapper{ float:left; background:white; }
@@ -28,6 +29,7 @@ body{ font-size:62.5%; height:100%; }
       * html .rwflashpost{ width:auto; }
 
 #rwnav{ height:25px; padding:10px; background:white; }
+#rwnav-menu{ float:right; margin-top:10px; }
 
 
 

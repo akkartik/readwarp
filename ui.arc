@@ -46,7 +46,7 @@
       (tag (div class "rwscrollpost-wrapper rwrounded rwshadow")
         (tag (div class "rwscrollpost rwcollapsed")
           (tag (div class 'rwscrollbuttons)
-            (tag (div style "float:right; color:#8888ee; cursor:pointer;"
+            (tag (div class 'rwscrollhidebutton
                       onclick (+ "$('#doc_" doc "').fadeOut('fast');"))
               (pr "x"))
             (tag (div class 'rwscrollbutton
@@ -193,7 +193,7 @@
 
 (proc nav(user)
   (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
-    (tag (div style "float:right; margin-top:10px")
+    (tag (div id 'rwnav-menu)
       (tag (span style "margin-right:1em")
         (link "feedback" "mailto:feedback@readwarp.com"))
       (if signedup?.user
