@@ -3225,3 +3225,6 @@ Bugfix: disallow duplicates in prefetch.
 Keypress registers repeats while keydown doesn't.
 Pity keyup doesn't work on my macos firefox.
 =-=1234 - Thu Sep 30 09:21:32 PDT 2010
+
+Finish with the new bookmarklet. Crawls on demand. Takes 10-30s.
+=-=1235 - Thu Sep 30 22:08:41 PDT 2010

@@ -226,7 +226,32 @@
             (tag (div style "background:white; padding:2em" class "rwrounded rwshadow")
               (pr "Drag this link to your browser toolbar.")
               (br2)
-              (pr "<a href='javascript:var x = new XMLHttpRequest();x.open(\"GET\", \"http://readwarp.com/submit?msg=CRAWL%20" user "%20\"+location.href);x.send(null);alert(\"ReadWarp: submitted, thank you.\");'>Submit to Readwarp</a>")
+              (pr:+ "<a href='"
+"javascript:("
+  "function() {"
+    "var getRssLink = function(){"
+      "var linkTags=document.getElementsByTagName(\"head\")[0].getElementsByTagName(\"link\");"
+      "for (var i = 0; i < linkTags.length; ++i) {"
+        "if(linkTags[i][\"type\"] == \"application/rss+xml\") return linkTags[i][\"href\"];"
+      "}"
+    "};"
+    "var backupRequest = function(){"
+      "var x = new XMLHttpRequest();"
+      "x.open(\"GET\", \"http://readwarp.com/submit?msg=CRAWL%20" user "%20\"+location.href);"
+      "x.send(null);"
+      "alert(\"ReadWarp: I don&#39;t see the feed, but Kartik will manually add it tonight.\");"
+    "};"
+    "try{"
+      "var feed = getRssLink();"
+      "if (feed != undefined) window.open(\"http://readwarp.com/crawlsubmit?feed=\"+feed);"
+      "else backupRequest();"
+    "}"
+    "catch(err) {"
+      "backupRequest();"
+    "}"
+  "}"
+")();"
+              "'>Submit to Readwarp</a>")
               (br2)
               (pr "Anytime you click on it thereafter, it will submit the page you're on to Readwarp."))
             (tag:div class "rwclear rwsep")))))))
