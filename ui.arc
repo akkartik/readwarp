@@ -291,5 +291,5 @@
       (erp "new user: " user " " req!ip))))
 
 (def spinner()
-  (tag (div id "spinner" style "position:fixed; top:90%; left:90%; z-index:3000; display:none")
+  (tag (div id "spinner")
     (tag:img src "waiting.gif")))
