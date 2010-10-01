@@ -3236,3 +3236,5 @@ Start cleaning up css a bit.
 =-=1237 - Fri Oct  1 12:07:21 PDT 2010
 Agh, spinner isn't working anyway. Just tear it out.
 =-=1238 - Fri Oct  1 12:11:12 PDT 2010
+Finally fixed rounded corners on the nav on firefox.
+=-=1240 - Fri Oct  1 12:35:30 PDT 2010

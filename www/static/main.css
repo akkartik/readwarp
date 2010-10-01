@@ -106,16 +106,16 @@ h2.rwtitle a{ font-family:serif; font-size:1.15em; font-weight:bold; color:#66e;
 .rwrounded-left {
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
-  -moz-border-top-left-radius: 2px;
-  -moz-border-bottom-left-radius: 2px;
+  -moz-border-radius-topleft: 2px;
+  -moz-border-radius-bottomleft: 2px;
   -webkit-border-top-left-radius: 2px;
   -webkit-border-bottom-left-radius: 2px;
 }
 .rwrounded-bottom {
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
-  -moz-border-bottom-left-radius: 2px;
-  -moz-border-bottom-right-radius: 2px;
+  -moz-border-radius-bottomleft: 2px;
+  -moz-border-radius-bottomright: 2px;
   -webkit-border-bottom-left-radius: 2px;
   -webkit-border-bottom-right-radius: 2px;
 }
