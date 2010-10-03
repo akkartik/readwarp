@@ -23,7 +23,7 @@
   or=fn)
 
 (def gen-hash()
-  (or= url-hashs*!curr "aaaaa"))
+  (or= url-hashs*!curr "caddy"))
 (after-exec gen-hash()
   (zap nexthash url-hashs*!curr))
 

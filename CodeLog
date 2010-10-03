@@ -3240,3 +3240,10 @@ Finally fixed rounded corners on the nav on firefox.
 =-=1240 - Fri Oct  1 12:35:30 PDT 2010
 No more inline styles unless they're really just one css item.
 =-=1241 - Fri Oct  1 12:40:13 PDT 2010
+
+Readwarp instance died on AWS. Moved to linode.
+Some simplifications as I reconstruct from backups.
+
+I find I hadn't been backing up hash-doc tables, so I've lost all my
+shortened URLs. Starting from a new point so I at least don't reuse them.
+=-=1243 - Sat Oct  2 18:43:20 PDT 2010

@@ -1,2 +1,2 @@
 cd /home/akkartik/readwarp
-tar zcf /tmp/backup.tgz snapshots/hpw `ls -t snapshots/userinfo* |head -n10`
+tar zcf /tmp/backup.tgz snapshots/hpw `ls -t snapshots/* |head -n200`

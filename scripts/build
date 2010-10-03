@@ -1,0 +1,14 @@
+#!/usr/bin/zsh
+
+case `uname` in
+Linux)
+    g++ -fPIC -shared stem.c -o ext.so
+    ;;
+Darwin)
+    g++ -dynamiclib -current_version 1.0 -m32 stem.c -o ext.dylib
+    ;;
+esac
+
+mkdir -p fifos feedback www/logs urls # snapshots feeds
+cd fifos
+mkfifo crawl clean gc tocrawl
