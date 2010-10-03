@@ -3246,4 +3246,8 @@ Some simplifications as I reconstruct from backups.
 
 I find I hadn't been backing up hash-doc tables, so I've lost all my
 shortened URLs. Starting from a new point so I at least don't reuse them.
+
+A new build file describes setup.
 =-=1243 - Sat Oct  2 18:43:20 PDT 2010
+Switch to nginx while we're at it.
+=-=1244 - Sat Oct  2 19:10:48 PDT 2010
