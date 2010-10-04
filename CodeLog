@@ -3255,3 +3255,5 @@ Rewrite www.readwarp.com to readwarp.com
 =-=1245 - Sat Oct  2 19:15:45 PDT 2010
 I'd forgotten to bring back wrp.to.
 =-=1246 - Sun Oct  3 19:59:16 PDT 2010
+Break gracefully on old shortlinks.
+=-=1247 - Sun Oct  3 20:10:32 PDT 2010

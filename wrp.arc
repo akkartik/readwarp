@@ -13,10 +13,11 @@
     (gsub url (r "[^a-zA-Z0-9]") "_")))
 
 (defop url req
-  (prn:+
-    "<html><head><meta http-equiv=\"refresh\" content=\"0;url="
-    (hash-url:arg req 'id)
-    "\"></head></html>"))
+  (iflet url (hash-url:arg req 'id)
+    (tag html
+      (tag head
+        (prn:+ "<meta http-equiv=\"refresh\" content=\"0;url=" url "\">")))
+    (prn "Broken")))
 
 (dhash url hash "1-1"
   (gen-hash)
