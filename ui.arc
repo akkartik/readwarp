@@ -210,12 +210,15 @@
   "/")
 
 (defop submit req
-  (let user current-user.req
-    (pipe-to (system "sendmail -t -f feedback@readwarp.com")
-      (prn "To: akkartik@gmail.com")
-      (prn "Subject: crawl request from " user)
-      (prn)
-      (prn:arg req "msg"))))
+  (mail-me (+ "crawl request from " user "/" (arg req "user"))
+           (arg req "msg")))
+
+(def mail-me(subject message)
+  (pipe-to (system "sendmail -t -f feedback@readwarp.com")
+    (prn "To: akkartik@gmail.com")
+    (prn "Subject: " subject)
+    (prn)
+    (prn message)))
 
 (defop bookmarklet req
   (let user current-user.req
@@ -245,7 +248,7 @@
     "};"
     "try{"
       "var feed = getRssLink();"
-      "if (feed != undefined) window.open(\"http://readwarp.com/crawlsubmit?feed=\"+feed);"
+      "if (feed != undefined) window.open(\"http://readwarp.com/crawlsubmit?user=" user "&feed=\"+feed);"
       "else backupRequest();"
     "}"
     "catch(err) {"
@@ -261,7 +264,10 @@
 (let priority-crawl-fifo* (outfile "fifos/tocrawl")
   (defop crawlsubmit req
     (let feed (arg req "feed")
+      (erp "CRAWLSUBMIT  " current-user.req " " (arg req "user") " " feed)
       (pushline feed priority-crawl-fifo*)
+      (mail-me (+ "crawlsubmit from " current-user.req "/" (arg req "user"))
+               feed)
       (unless docs.feed
         (erp "waiting for crawl")
         (wait docs.feed)
