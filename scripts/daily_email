@@ -5,7 +5,7 @@ export PATH=.:/app/local/0bin:/app/local/share/scripts:/app/local/share/scripts/
 cd ~/readwarp
 {
   echo "New sessions"
-  grep "||" $(ls www/logs/srv-* |sort |tail -n2 |head -n1) |grep "nil)" |column 2 |sort |uniq |wc -l
+  grep "||" $(ls www/logs/srv-* |sort |tail -n2 |head -n1) |grep " ())" |column 2 |sort |uniq |wc -l
 
   wget http://readwarp.com/rusers -O -
 
