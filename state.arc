@@ -1,4 +1,4 @@
-(= snapshots-dir* "snapshots")
+(const snapshots-dir* "snapshots")
 
 (init really-quit quit)
 
@@ -143,8 +143,8 @@
     (push (list ,ind ,val) ,(globalize string.var "-chunk"))
     (test-save ,(globalize string.var "-chunk"))))
 
-(init chunk-counter* 0)
-(init chunk-size* 1000)
+(const chunk-counter* 0)
+(const chunk-size* 1000)
 (mac test-save(var)
   `(when (>= (len ,var) chunk-size*)
      (atomic

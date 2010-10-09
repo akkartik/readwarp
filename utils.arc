@@ -23,6 +23,7 @@
 
 (= be is)
 (= neither nor)
+(= const =)
 
 (mac ifcall(var)
   `(when (bound ',var)

@@ -3263,3 +3263,8 @@ Fixing daily emails - never updated my IP address.
 =-=1251 - Sat Oct  9 10:58:55 PDT 2010
 Have nginx pass real IP address on requests through to arc.
 =-=1252 - Sat Oct  9 11:08:29 PDT 2010
+Ok, now daily email seems to be working.
+
+New keyword: const. Indicates that var's supposed to be a constant - and
+therefore it's ok to initialize on reloading source. No risk of losing work.
+=-=1253 - Sat Oct  9 11:23:11 PDT 2010

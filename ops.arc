@@ -1,4 +1,4 @@
-(init my-ip* "173.255.225.78")
+(const my-ip* "173.255.225.78")
 (mac maintenance-op(name req . body)
   `(defop ,name ,req
     (when (is (,req 'ip) my-ip*)

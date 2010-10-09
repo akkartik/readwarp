@@ -1,4 +1,4 @@
-(= history-size* 10)
+(const history-size* 10)
 
 
 
@@ -195,7 +195,7 @@
 
 
 
-(= preferred-prob* 0.8)
+(const preferred-prob* 0.8)
 (def choose-feed(user station)
   (randpick
     preferred-prob*  (choose-from 'recent-preferred
@@ -243,7 +243,7 @@
 (persisted recent-feeds* (table))
 (after-exec doc-feed(doc)
   (update recent-feeds* result most2.id doc-timestamp.doc))
-(init daily-threshold* (* 60 60 24))
+(const daily-threshold* (* 60 60 24))
 (def recent?(feed)
   (awhen recent-feeds*.feed
     (if (> (- (seconds) it) daily-threshold*)
