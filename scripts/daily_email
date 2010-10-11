@@ -1,6 +1,6 @@
 #!/usr/bin/zsh
 
-export PATH=.:/app/local/0bin:/app/local/share/scripts:/app/local/share/scripts/Startup:$PATH:/usr/sbin
+export PATH=.:/app/local/0bin:/app/local/share/scripts:/app/local/share/scripts/Startup:/app/local/share/scripts/Data:$PATH:/usr/sbin
 
 cd ~/readwarp
 {
