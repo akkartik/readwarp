@@ -210,8 +210,9 @@
   "/")
 
 (defop submit req
-  (mail-me (+ "crawl request from " user "/" (arg req "user"))
-           (arg req "msg")))
+  (let user current-user.req
+    (mail-me (+ "crawl request from " user "/" (arg req "user"))
+             (arg req "msg"))))
 
 (def mail-me(subject message)
   (pipe-to (system "sendmail -t -f feedback@readwarp.com")
@@ -238,6 +239,7 @@
       "var linkTags=document.getElementsByTagName(\"head\")[0].getElementsByTagName(\"link\");"
       "for (var i = 0; i < linkTags.length; ++i) {"
         "if(linkTags[i][\"type\"] == \"application/rss+xml\") return linkTags[i][\"href\"];"
+        "if(linkTags[i][\"type\"] == \"application/atom+xml\") return linkTags[i][\"href\"];"
       "}"
     "};"
     "var backupRequest = function(){"
