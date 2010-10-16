@@ -296,3 +296,8 @@
   (ret user get-user.req
     (unless userinfo*.user
       (erp "new user: " user " " req!ip))))
+
+; Hack - we want to be able to reload ui.arc on the production server without
+; breaking daily email.
+(if (bound 'loggedin-users*)
+  (load "ops.arc"))
