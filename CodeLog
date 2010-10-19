@@ -3268,3 +3268,6 @@ Ok, now daily email seems to be working.
 New keyword: const. Indicates that var's supposed to be a constant - and
 therefore it's ok to initialize on reloading source. No risk of losing work.
 =-=1253 - Sat Oct  9 11:23:11 PDT 2010
+
+Ported the latest readability v1.5 to python. Still gotta test it thoroughly.
+=-=1257 - Mon Oct 18 20:47:22 PDT 2010
