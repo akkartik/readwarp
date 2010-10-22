@@ -231,6 +231,25 @@ def find(elem, l):
 def desirableVideo(node):
   return not re.search(videoRegex, node['src'], re.IGNORECASE)
 
+def cleanAll():
+  for line in open("fifos/crawl").readlines():
+    doc = line[:-1]
+    print doc
+    f = 'urls/'+doc+'.raw'
+    f2 = 'urls/'+doc+'.clean'
+    try:
+      with codecs.open(f2, 'w', 'utf-8') as output:
+        output.write(cleanup(f))
+      with open('fifos/clean', 'w') as fifo:
+        fifo.write(line)
+      with open('docs', 'a+') as fifo:
+        fifo.write(line)
+    except: traceback.print_exc(file=sys.stdout)
+
 if __name__ == '__main__':
-  output = codecs.open(sys.argv[1]+'.clean', 'w', 'utf-8') # XXX
-  output.write(cleanup(sys.argv[1]))
+  if len(sys.argv) == 1:
+    while True:
+      cleanAll()
+  else:
+    with codecs.open(sys.argv[1]+'.clean', 'w', 'utf-8') as output:
+      output.write(cleanup(sys.argv[1]))

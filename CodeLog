@@ -3271,3 +3271,5 @@ therefore it's ok to initialize on reloading source. No risk of losing work.
 
 Ported the latest readability v1.5 to python. Still gotta test it thoroughly.
 =-=1257 - Mon Oct 18 20:47:22 PDT 2010
+Tested it on a sample of urls. Still need to go over the results.
+=-=1258 - Thu Oct 21 21:40:25 PDT 2010
