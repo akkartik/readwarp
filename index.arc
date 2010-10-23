@@ -240,6 +240,18 @@
       feed
       (choose-feed user station))))
 
+(def group-chooser(group)
+  (fn(user station)
+    (randpick
+      1.01             (choose-from 'recent-group
+                                    (keep recent? group-feeds*.group)
+                                    user station
+                                    recent-feed-predicate)
+      1.01             (choose-from 'group
+                                    group-feeds*.group
+                                    user station)
+      1.01             (choose-feed user station))))
+
 (persisted recent-feeds* (table))
 (after-exec doc-feed(doc)
   (update recent-feeds* result most2.id doc-timestamp.doc))

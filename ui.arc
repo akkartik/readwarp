@@ -37,7 +37,14 @@
                   (pr "window.onload = setupScroll;"))))))))))
 
 (defop scrollview req
-  (another-scroll current-user.req (only.int (arg req "remaining"))))
+  (another-scroll current-user.req (only.int (arg req "remaining")) (lookup-chooser (arg req "for"))))
+
+(= lookup-chooser*
+   (obj "http://readwarp.com/health" (group-chooser "Health")))
+
+(def lookup-chooser(arg)
+  (or lookup-chooser*.arg
+      choose-feed))
 
 (def another-scroll(user remaining (o choosefn choose-feed))
   (let doc (pick user choosefn)
@@ -64,7 +71,7 @@
     (pr "++pageSize;")
     (pr "deleteScripts($i('rwscrollcontent'));")
     (if (and remaining (> remaining 0))
-      (pr (+ "moreDocsFrom('scrollview', 'remaining=" (- remaining 1) "', 'rwscrollcontent');")))))
+      (pr (+ "nextScrollDoc(" (- remaining 1) ");")))))
 
 (defop vote req
   (vote current-user.req (arg req "doc") (arg req "outcome")))
@@ -296,6 +303,9 @@
   (ret user get-user.req
     (unless userinfo*.user
       (erp "new user: " user " " req!ip))))
+
+(defop health req
+  (scrollpage current-user.req (group-chooser "Health")))
 
 ; Hack - we want to be able to reload ui.arc on the production server without
 ; breaking daily email.

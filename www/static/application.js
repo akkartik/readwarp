@@ -3,10 +3,14 @@ function setupScroll() {
     insensitiveToScroll(function() {
       if ($(window).scrollTop() + $(window).height()
             >= $(document).height() - /* prefetch buffer */$(window).height()) {
-        moreDocsFrom('scrollview', 'remaining=5', 'rwscrollcontent');
+        nextScrollDoc(5);
       }
     });
   });
+}
+
+function nextScrollDoc(remaining) {
+  moreDocsFrom('scrollview', 'remaining='+remaining+'&for='+location.href, 'rwscrollcontent');
 }
 
 function moreDocsFrom(url, params, id) {
