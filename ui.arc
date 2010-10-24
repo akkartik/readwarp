@@ -297,15 +297,20 @@
     (unless userinfo*.user
       (erp "new user: " user " " req!ip))))
 
-(defop health req
-  (scrollpage current-user.req (group-chooser "Health")))
+(= lookup-chooser* (table))
+(mac defpage(url group)
+`(do
+   (= (lookup-chooser* (+ "http://readwarp.com/" ',url)) (group-chooser ,group))
+   (defop ,url req
+      (scrollpage current-user.req (group-chooser ,group)))))
 
-(defop startups req
-  (scrollpage current-user.req (group-chooser "Venture")))
-
-(= lookup-chooser*
-   (obj "http://readwarp.com/health" (group-chooser "Health")
-        "http://readwarp.com/startups" (group-chooser "Venture")))
+(defpage health "Health")
+(defpage startups "Venture")
+(defpage politics "Politics")
+(defpage economics "Economics")
+(defpage programming "Programming")
+(defpage fashion "Fashion")
+(defpage comics "Comics")
 
 (def lookup-chooser(arg)
   (or lookup-chooser*.arg
