@@ -3290,3 +3290,7 @@ Make sure cursor's always in view.
 =-=1264 - Sun Oct 24 00:35:45 PDT 2010
 Expand current story.
 =-=1265 - Sun Oct 24 00:46:30 PDT 2010
+
+Bookmarklet only showed first story from the feed. Fixed.
+Unexpected benefit; now it won't keep showing me old stories from that feed.
+=-=1266 - Sun Oct 24 13:36:46 PDT 2010

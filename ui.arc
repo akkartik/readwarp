@@ -258,6 +258,7 @@
     "};"
     "try{"
       "var feed = getRssLink();"
+      ; feed must be the last arg for when lookup-chooser gets location.href
       "if (feed != undefined) window.open(\"http://readwarp.com/crawlsubmit?user=" user "&feed=\"+feed);"
       "else backupRequest();"
     "}"
@@ -322,7 +323,12 @@
 
 (def lookup-chooser(arg)
   (or lookup-chooser*.arg
+      (only.feed-chooser feed-from.arg)
       choose-feed))
+
+(def feed-from(url)
+  (whenlet idx (findsubseq "http" url 1)
+    (cut url idx)))
 
 ; Hack - we want to be able to reload ui.arc on the production server without
 ; breaking daily email.

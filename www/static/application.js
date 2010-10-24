@@ -10,7 +10,7 @@ function setupScroll() {
 }
 
 function nextScrollDoc(remaining) {
-  moreDocsFrom('scrollview', 'remaining='+remaining+'&for='+location.href, 'rwscrollcontent');
+  moreDocsFrom('scrollview', 'remaining='+remaining+'&for='+escape(location.href), 'rwscrollcontent');
 }
 
 function moreDocsFrom(url, params, id) {
