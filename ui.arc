@@ -39,13 +39,6 @@
 (defop scrollview req
   (another-scroll current-user.req (only.int (arg req "remaining")) (lookup-chooser (arg req "for"))))
 
-(= lookup-chooser*
-   (obj "http://readwarp.com/health" (group-chooser "Health")))
-
-(def lookup-chooser(arg)
-  (or lookup-chooser*.arg
-      choose-feed))
-
 (def another-scroll(user remaining (o choosefn choose-feed))
   (let doc (pick user choosefn)
     (mark-read user doc)
@@ -306,6 +299,17 @@
 
 (defop health req
   (scrollpage current-user.req (group-chooser "Health")))
+
+(defop startups req
+  (scrollpage current-user.req (group-chooser "Venture")))
+
+(= lookup-chooser*
+   (obj "http://readwarp.com/health" (group-chooser "Health")
+        "http://readwarp.com/startups" (group-chooser "Venture")))
+
+(def lookup-chooser(arg)
+  (or lookup-chooser*.arg
+      choose-feed))
 
 ; Hack - we want to be able to reload ui.arc on the production server without
 ; breaking daily email.
