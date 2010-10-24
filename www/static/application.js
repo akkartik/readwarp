@@ -43,6 +43,61 @@ function maybeRemoveExpanders() {
   }
 }
 
+function scrollUpvote(doc) {
+  var elem = $('#doc_'+doc);
+  elem.fadeTo('fast', 0.8);
+  elem.next().fadeTo('fast', 0.8);
+  upvote(doc);
+}
+
+function scrollDownvote(doc) {
+  var elem = $('#doc_'+doc);
+  elem.fadeOut('fast');
+  elem.next().fadeOut('fast');
+  downvote(doc);
+}
+
+function scrollHide(doc) {
+  var elem = $('#doc_'+doc);
+  elem.fadeOut('fast');
+  elem.next().fadeOut('fast');
+}
+
+function moveUp() {
+  var elem = $('.rwcurrent');
+  elem.removeClass('rwcurrent');
+  if (elem.prev().length == 0)
+    elem.addClass('rwcurrent');
+  else
+    elem.prev().addClass('rwcurrent');
+  return false;
+}
+
+function moveDown() {
+  var elem = $('.rwcurrent');
+  elem.removeClass('rwcurrent');
+  if (elem.next().length == 0)
+    elem.addClass('rwcurrent');
+  else
+    elem.next().addClass('rwcurrent');
+  return false;
+}
+
+function upvoteCurrent() {
+  $('.rwcurrent .rwscrolllike').click();
+  return false;
+}
+
+function downvoteCurrent() {
+  $('.rwcurrent .rwscrollskip').click();
+  return false;
+}
+
+function hideCurrent() {
+  $('.rwcurrent .rwscrollhidebutton').click();
+  return false;
+}
+
 
 
 function renderFlash() {

@@ -34,6 +34,13 @@
               (tag (div id 'rwscrollcontent)
                 (another-scroll user 10 choosefn)
                 (tag script
+;?                   (pr "$(window).resize(function() { alert(window.screen.availWidth);}); ")
+                  (pr "$('.rwscrollpost-wrapper:first').addClass('rwcurrent');")
+                  (pr "$(document).bind('keydown', 'a', upvoteCurrent);")
+                  (pr "$(document).bind('keydown', 'z', downvoteCurrent);")
+                  (pr "$(document).bind('keydown', 'x', hideCurrent);")
+                  (pr "$(document).bind('keydown', 'k', moveUp);")
+                  (pr "$(document).bind('keydown', 'j', moveDown);")
                   (pr "window.onload = setupScroll;"))))))))))
 
 (defop scrollview req
@@ -42,23 +49,22 @@
 (def another-scroll(user remaining (o choosefn choose-feed))
   (let doc (pick user choosefn)
     (mark-read user doc)
-    (tag (div id (+ "doc_" doc))
-      (tag (div class "rwscrollpost-wrapper rwrounded rwshadow")
-        (tag (div class "rwscrollpost rwcollapsed")
-          (tag (div class 'rwscrollbuttons)
-            (tag (div class 'rwscrollhidebutton
-                      onclick (+ "$('#doc_" doc "').fadeOut('fast');"))
-              (pr "x"))
-            (tag (div class 'rwscrollbutton
-                      onclick (+ "$('#doc_" doc "').fadeTo('fast', 0.8); upvote('" doc "')"))
-              (tag (div title "like" class "rwscrollbutton rwscrolllike")))
-            (tag (div class 'rwscrollbutton
-                      onclick (+ "$('#doc_" doc "').fadeOut('fast'); downvote('" doc "')"))
-              (tag (div title "skip" class "rwscrollbutton rwscrollskip"))))
-          (render-doc user doc))
-        (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
-                 onclick (+ "$(this).hide(); $('#doc_" doc " .rwscrollpost').removeClass('rwcollapsed')")))
-      (tag:div class "rwclear rwsep")))
+    (tag (div id (+ "doc_" doc) class "rwscrollpost-wrapper rwrounded rwshadow")
+      (tag (div class "rwscrollpost rwcollapsed")
+        (tag (div class 'rwscrollbuttons)
+          (tag (div class 'rwscrollhidebutton
+                    onclick (+ "scrollHide('" doc "')"))
+            (pr "x"))
+          (tag (div class "rwscrollbutton rwscrolllike"
+                    onclick (+ "scrollUpvote('" doc "')"))
+            (tag (div title "like" class "rwscrollbutton rwscrolllike")))
+          (tag (div class "rwscrollbutton rwscrollskip"
+                    onclick (+ "scrollDownvote('" doc "')"))
+            (tag (div title "skip" class "rwscrollbutton rwscrollskip"))))
+        (render-doc user doc))
+      (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
+               onclick (+ "$(this).hide(); $('#doc_" doc " .rwscrollpost').removeClass('rwcollapsed')")))
+    (tag:div class "rwclear rwsep"))
   (tag script
     (pr "maybeRemoveExpanders();")
     (pr "++pageSize;")
