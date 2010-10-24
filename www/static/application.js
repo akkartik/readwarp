@@ -100,6 +100,11 @@ function clickCurrentHide() {
   return false;
 }
 
+function clickCurrentExpander() {
+  $('.rwcurrent .rwexpander').click();
+  return false;
+}
+
 
 
 function renderFlash() {

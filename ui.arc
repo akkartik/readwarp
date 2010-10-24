@@ -23,6 +23,7 @@
 
 
 (def scrollpage(user (o choosefn choose-feed))
+  (ensure-user user)
   (tag html
     (header)
     (tag body
@@ -39,6 +40,7 @@
                   (pr "$(document).bind('keydown', 'a', clickCurrentLike);")
                   (pr "$(document).bind('keydown', 'z', clickCurrentSkip);")
                   (pr "$(document).bind('keydown', 'x', clickCurrentHide);")
+                  (pr "$(document).bind('keydown', 'o', clickCurrentExpander);")
                   (pr "$(document).bind('keydown', 'k', moveUp);")
                   (pr "$(document).bind('keydown', 'j', moveDown);")
                   (pr "window.onload = setupScroll;"))))))))))
@@ -62,7 +64,7 @@
                     onclick (+ "scrollSkip('" doc "')"))
             (tag (div title "skip" class "rwscrollbutton rwscrollskip"))))
         (render-doc user doc))
-      (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
+      (tag:img id (+ "expand_contents_" doc) class "rwexpander" src "green_arrow_down.png" height "30px" style "float:right"
                onclick (+ "$(this).hide(); $('#doc_" doc " .rwscrollpost').removeClass('rwcollapsed')")))
     (tag:div class "rwclear rwsep"))
   (tag script
