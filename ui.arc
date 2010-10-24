@@ -36,9 +36,9 @@
                 (tag script
 ;?                   (pr "$(window).resize(function() { alert(window.screen.availWidth);}); ")
                   (pr "$('.rwscrollpost-wrapper:first').addClass('rwcurrent');")
-                  (pr "$(document).bind('keydown', 'a', upvoteCurrent);")
-                  (pr "$(document).bind('keydown', 'z', downvoteCurrent);")
-                  (pr "$(document).bind('keydown', 'x', hideCurrent);")
+                  (pr "$(document).bind('keydown', 'a', clickCurrentLike);")
+                  (pr "$(document).bind('keydown', 'z', clickCurrentSkip);")
+                  (pr "$(document).bind('keydown', 'x', clickCurrentHide);")
                   (pr "$(document).bind('keydown', 'k', moveUp);")
                   (pr "$(document).bind('keydown', 'j', moveDown);")
                   (pr "window.onload = setupScroll;"))))))))))
@@ -56,10 +56,10 @@
                     onclick (+ "scrollHide('" doc "')"))
             (pr "x"))
           (tag (div class "rwscrollbutton rwscrolllike"
-                    onclick (+ "scrollUpvote('" doc "')"))
+                    onclick (+ "scrollLike('" doc "')"))
             (tag (div title "like" class "rwscrollbutton rwscrolllike")))
           (tag (div class "rwscrollbutton rwscrollskip"
-                    onclick (+ "scrollDownvote('" doc "')"))
+                    onclick (+ "scrollSkip('" doc "')"))
             (tag (div title "skip" class "rwscrollbutton rwscrollskip"))))
         (render-doc user doc))
       (tag:img id (+ "expand_contents_" doc) src "green_arrow_down.png" height "30px" style "float:right"
@@ -89,9 +89,9 @@
               (tag:div id 'rwflashprefetch)
               (tag (div id 'rwflashcontent)
                 (tag script
-                  (pr:+ "$(document).bind('keydown', 'k', likeCurrent);")
-                  (pr:+ "$(document).bind('keydown', 'l', nextCurrent);")
-                  (pr:+ "$(document).bind('keydown', 'j', skipCurrent);"))
+                  (pr:+ "$(document).bind('keydown', 'k', flashLike);")
+                  (pr:+ "$(document).bind('keydown', 'l', flashNext);")
+                  (pr:+ "$(document).bind('keydown', 'j', flashSkip);"))
                 (tag script
                   (pr "$(document).ready(renderFlash);"))))))))))
 

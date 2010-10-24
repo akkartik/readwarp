@@ -26,14 +26,6 @@ function moreDocsFrom(url, params, id) {
   return false;
 }
 
-function downvote(doc) {
-  jsget("/vote?doc="+escape(doc)+'&outcome=1');
-}
-
-function upvote(doc) {
-  jsget("/vote?doc="+escape(doc)+'&outcome=4');
-}
-
 function maybeRemoveExpanders() {
   var posts = $('.rwpost-contents');
   for (var i = 0; i < posts.length; ++i) {
@@ -43,18 +35,18 @@ function maybeRemoveExpanders() {
   }
 }
 
-function scrollUpvote(doc) {
+function scrollLike(doc) {
   var elem = $('#doc_'+doc);
   elem.fadeTo('fast', 0.8);
   elem.next().fadeTo('fast', 0.8);
-  upvote(doc);
+  jsget("/vote?doc="+escape(doc)+'&outcome=4');
 }
 
-function scrollDownvote(doc) {
+function scrollSkip(doc) {
   var elem = $('#doc_'+doc);
   elem.fadeOut('fast');
   elem.next().fadeOut('fast');
-  downvote(doc);
+  jsget("/vote?doc="+escape(doc)+'&outcome=1');
 }
 
 function scrollHide(doc) {
@@ -83,17 +75,17 @@ function moveDown() {
   return false;
 }
 
-function upvoteCurrent() {
+function clickCurrentLike() {
   $('.rwcurrent .rwscrolllike').click();
   return false;
 }
 
-function downvoteCurrent() {
+function clickCurrentSkip() {
   $('.rwcurrent .rwscrollskip').click();
   return false;
 }
 
-function hideCurrent() {
+function clickCurrentHide() {
   $('.rwcurrent .rwscrollhidebutton').click();
   return false;
 }
@@ -105,7 +97,7 @@ function renderFlash() {
   newDocFrom('flashview', 'hash='+escape(hash)+'&remaining=5');
 }
 
-function voteCurrent(vote, outcome) {
+function flashVote(vote, outcome) {
   $('#rwflashcontent .rwflash'+vote).addClass('rwflashhover');
   var doc = $('#rwflashcontent .rwflashdoc').attr('id').substring(4);
   setTimeout(function() {
@@ -113,9 +105,9 @@ function voteCurrent(vote, outcome) {
   }, 20);
   return false;
 }
-function likeCurrent() { return voteCurrent('like', '4'); }
-function nextCurrent() { return voteCurrent('next', '2'); }
-function skipCurrent() { return voteCurrent('skip', '1'); }
+function flashLike() { return flashVote('like', '4'); }
+function flashNext() { return flashVote('next', '2'); }
+function flashSkip() { return flashVote('skip', '1'); }
 
 function docUpdate(doc, params) {
   scrollUp();
