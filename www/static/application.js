@@ -62,6 +62,7 @@ function moveUp() {
     elem.addClass('rwcurrent');
   else
     elem.prev().addClass('rwcurrent');
+  scrollTo('.rwcurrent');
   return false;
 }
 
@@ -72,7 +73,16 @@ function moveDown() {
     elem.addClass('rwcurrent');
   else
     elem.next().addClass('rwcurrent');
+  scrollTo('.rwcurrent');
   return false;
+}
+
+function scrollTo(selector) {
+  var currScroll = $(window).scrollTop();
+  var target = $(selector).offset().top;
+  if (target < currScroll || target > currScroll + window.screen.height*0.7) {
+    $('html,body').scrollTop(target);
+  }
 }
 
 function clickCurrentLike() {

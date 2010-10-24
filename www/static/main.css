@@ -89,9 +89,9 @@ h2.rwtitle a{ font-family:serif; font-size:1.15em; font-weight:bold; color:#66e;
 .rwgutter{ width:20px; height:5px; }
 
 .rwcurrent {
-  box-shadow: 4px 4px 10px #000 !important;
-  -moz-box-shadow: 4px 4px 10px #000 !important;
-  -webkit-box-shadow: 4px 4px 10px #000 !important;
+  box-shadow: 10px 10px 10px #000 !important;
+  -moz-box-shadow: 10px 10px 10px #000 !important;
+  -webkit-box-shadow: 10px 10px 10px #000 !important;
 }
 
 .rwshadow {

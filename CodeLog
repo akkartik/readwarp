@@ -3286,3 +3286,5 @@ Bring in a cursor in scroll mode.
 =-=1262 - Sat Oct 23 23:57:44 PDT 2010
 Clean up names a bit.
 =-=1263 - Sun Oct 24 00:08:11 PDT 2010
+Make sure cursor's always in view.
+=-=1264 - Sun Oct 24 00:35:45 PDT 2010
