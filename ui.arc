@@ -1,9 +1,7 @@
 (defop || req
   (let user current-user.req
     (ensure-user user)
-    (if signedup?.user
-      (flashpage user)
-      (scrollpage "" user))))
+    (scrollpage "" user)))
 
 (def render-doc(user doc)
   (tag (div id (+ "contents_" doc) class 'rwpost-contents)
@@ -76,122 +74,6 @@
 
 (defop vote req
   (vote current-user.req (arg req "doc") (arg req "outcome")))
-
-
-
-(def flashpage(user)
-  (tag html
-    (header)
-    (tag body
-      (tag (div id 'rwbody)
-        (tag (div id 'rwflashpage)
-          (nav user)
-          (tag (div style "width:100%")
-            (tag (div id 'rwflashcontents-wrap)
-              (tag:div id 'rwflashprefetch)
-              (tag (div id 'rwflashcontent)
-                (tag script
-                  (pr:+ "$(document).bind('keydown', 'k', flashLike);")
-                  (pr:+ "$(document).bind('keydown', 'l', flashNext);")
-                  (pr:+ "$(document).bind('keydown', 'j', flashSkip);"))
-                (tag script
-                  (pr "$(document).ready(renderFlash);"))))))))))
-
-(defop flashview req
-  (let user current-user.req
-    (whenlet outcome (arg req "outcome")
-      (vote user (arg req "doc") outcome))
-
-    (with (doc (or (only.hash-doc (arg req "hash"))
-                   (pick user choose-feed))
-           remaining (only.int (arg req "remaining")))
-      (mark-read user doc)
-      (tag (div id (+ "doc_" doc) class 'rwflashdoc)
-        (tag (div id 'rwflashbuttons class "rwbutton-shadow rwrounded-left")
-          (like-button user doc)
-          (next-button user doc)
-          (skip-button user doc))
-        (tag (div class "rwflashpost-wrapper rwrounded rwshadow")
-          (tag (div class 'rwflashpost)
-            (render-doc user doc)))
-        (tag:div class "rwclear rwsep")
-
-        ; flashview may be loaded into #rwflashprefetch
-        ; but these scripts only run when a doc makes it to #rwflashcontent
-        (update-title doc-title.doc)
-        (tag script
-          (pr:+ "updateLocation('#" doc-hash.doc "');")
-          (when (and remaining (> remaining 0))
-            (pr (+ "prefetchDocFrom('flashview', 'remaining=" (- remaining 1) "');"))))))))
-
-
-(def update-title(s)
-  (if (empty s)
-    (= s "Readwarp")
-    (= s (+ s " - Readwarp")))
-  (tag script
-    (pr (+ "document.title = \"" jsesc.s "\";"))))
-
-
-
-(def docUpdate(doc params)
-  (+ "docUpdate('" jsesc.doc "', " params ");"))
-
-(proc like-button(user doc)
-  (tag (div title "like" class "rwflashbutton rwflashlike" onclick
-          (docUpdate doc "'outcome=4'"))
-    (pr "K&nbsp;&nbsp;&nbsp;&nbsp;")))
-
-(proc next-button(user doc)
-  (tag (div title "next" class "rwflashbutton rwflashnext" onclick
-          (docUpdate doc "'outcome=2'"))
-    (pr "L&nbsp;&nbsp;&nbsp;&nbsp;")))
-
-(proc skip-button(user doc)
-  (tag (div title "dislike" class "rwflashbutton rwflashskip" onclick
-          (docUpdate doc "'outcome=1'"))
-    (pr "J&nbsp;&nbsp;&nbsp;&nbsp;")))
-
-; http://www.facebook.com/facebook-widgets/share.php
-(def facebook-widget(doc)
-  (sharebutton
-    (tag (a href (+ "http://www.facebook.com/sharer.php"
-                    "?u=" doc-url.doc
-                    "&t=" doc-title.doc)
-            target  "_blank")
-      (tag:img src "facebook.jpg" height "16px"))))
-
-(def twitter-widget(doc)
-  (sharebutton
-    (tag (a href (+ "http://twitter.com/home?status=" wrp.doc)
-            target  "_blank")
-      (tag:img src "twitter.png" height "16px"))))
-
-; http://www.reddit.com/buttons
-(def reddit-widget(doc)
-  (sharebutton
-    (tag (a href (+ "http://reddit.com/submit"
-                    "?url=" doc-url.doc
-                    "&title=" doc-title.doc)
-            target  "_blank")
-      (tag:img src "reddit.gif" height "16px"))))
-
-(def hackernews-widget(doc)
-  (sharebutton
-    (tag (a href (+ "http://news.ycombinator.com/submitlink"
-                    "?u=" doc-url.doc
-                    "&t=" doc-title.doc)
-            target  "_blank")
-      (tag:img src "hackernews.gif" height "16px"))))
-
-; http://www.google.com/support/reader/bin/answer.py?hl=en&answer=147149
-(def google-widget(doc)
-  (sharebutton
-    (tag (a href (+ "http://www.google.com/reader/link"
-                    "?url=" doc-url.doc
-                    "&title=" doc-title.doc)
-            target  "_blank")
-      (tag:img src "google.png" height "16px"))))
 
 
 

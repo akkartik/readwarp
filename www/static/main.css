@@ -16,18 +16,6 @@ body{ font-size:62.5%; height:100%; }
       .rwscrollpost{ padding:10px; width:750px; text-align:left; }
       * html .rwscrollpost{ width:auto; }
 
-#rwflashpage{ width:890px; margin:0 auto; min-height:100%; font-size:1.4em; line-height:1.4; font-family:sans-serif; }
-
-  #rwflashprefetch{ display:none; }
-  #rwflashcontent{ width:870px; }
-
-    #rwflashbuttons{ position:fixed; top:65px; width:120px; background:white; padding-top:10px; padding-bottom:10px;
-            /*IE*/ float:left; }
-
-    .rwflashpost-wrapper{ float:left; margin-left:120px; background:white; }
-      .rwflashpost{ padding:10px; width:750px; min-height:450px; text-align:left; overflow:hidden; }
-      * html .rwflashpost{ width:auto; }
-
 #rwnav{ height:35px; padding:10px; background:white; }
 #rwnav-menu{ float:right; margin-top:10px; }
 
@@ -56,22 +44,6 @@ div.rwscrolllike:active { background:transparent url('like-small.png') 0px -70px
 div.rwscrollskip{ background:transparent url('skip-small.png') 0px 0px no-repeat; }
 div.rwscrollskip:hover { background:transparent url('skip-small.png') 0px -35px no-repeat; }
 div.rwscrollskip:active { background:transparent url('skip-small.png') 0px -70px no-repeat; }
-
-.rwflashbutton{ height:70px; cursor:pointer; position:relative; width:80px; margin-left:25px; margin-bottom:10px; color:grey; font-size:0.5em; line-height:130px; text-align:right; }
-
-div.rwflashhover{ background-position:0px -140px !important; }
-
-div.rwflashlike{ background:transparent url('like.png') 0px 0px no-repeat; }
-div.rwflashlike:hover { background:transparent url('like.png') 0px -70px no-repeat; }
-div.rwflashlike:active { background:transparent url('like.png') 0px -140px no-repeat; }
-
-div.rwflashnext{ background:transparent url('next.png') 0px 0px no-repeat; }
-div.rwflashnext:hover { background:transparent url('next.png') 0px -70px no-repeat; }
-div.rwflashnext:active { background:transparent url('next.png') 0px -140px no-repeat; }
-
-div.rwflashskip{ background:transparent url('skip.png') 0px 0px no-repeat; }
-div.rwflashskip:hover { background:transparent url('skip.png') 0px -70px no-repeat; }
-div.rwflashskip:active { background:transparent url('skip.png') 0px -140px no-repeat; }
 
 
 
