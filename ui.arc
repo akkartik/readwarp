@@ -3,7 +3,7 @@
     (ensure-user user)
     (if signedup?.user
       (flashpage user)
-      (scrollpage user))))
+      (scrollpage "" user))))
 
 (def render-doc(user doc)
   (tag (div id (+ "contents_" doc) class 'rwpost-contents)
@@ -22,14 +22,14 @@
 
 
 
-(def scrollpage(user (o choosefn choose-feed))
+(def scrollpage(title user (o choosefn choose-feed))
   (ensure-user user)
   (tag html
     (header)
     (tag body
       (tag (div id 'rwbody)
         (tag (div id 'rwscrollpage)
-          (nav user)
+          (nav user title)
           (tag (div style "width:100%")
             (tag (div id 'rwscrollcontents-wrap)
               (tag (div id 'rwscrollcontent)
@@ -199,7 +199,12 @@
   (tag (a href "http://readwarp.com" class 'rwlogo-button)
     (tag:img src "readwarp-small.png" style "width:150px")))
 
-(proc nav(user)
+(mac option(title value text)
+  `(tag (option value ,value
+                selected (is ,title ,value))
+    (pr ,text)))
+
+(proc nav(user (o title))
   (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
     (tag (div id 'rwnav-menu)
       (tag (span style "margin-right:1em")
@@ -208,7 +213,36 @@
         (link "logout" "/logout")
         (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
                 (pr "login"))))
-    (logo-small))
+    (tab
+      (tr
+        (td
+          (logo-small)
+          (tag (div style "font-style:italic; color:#888")
+            (pr "The eclectic broadsheet")))
+        (tag (td style "vertical-align:middle")
+          (whenlet title (string title)
+            (tag (select style "font-size:90%; margin-left:10px; color:#444"
+                         onchange "location.href='/'+this[this.selectedIndex].value")
+              (option title "" "random")
+              (option title "news" "news")
+              (option title "politics" "politics")
+              (option title "health" "health")
+              (option title "fashion" "fashion")
+              (option title "economics" "economics")
+              (option title "technology" "technology")
+              (option title "odd" "odd news")
+              (option title "comics" "comics")
+              (option title "programming" "programming")
+              (option title "startups" "startups")))
+          ))))
+  (unless userinfo*.user!signedup
+    (tag:div class "rwclear" style "height:10px")
+    (tag (div style "background:orange" class "rwrounded rwshadow")
+      (pr "readwarp helps you read and discover cool new sites.
+          <br>Vote on sites to tell us what you want to see more or less of.<br>")
+      (w/link (login-page 'both "Please login to Readwarp" (list signup "/"))
+        (pr "Sign up for an account"))
+      (pr " to let us remember your votes over time.")))
   (tag:div class "rwclear rwsep"))
 
 
@@ -311,8 +345,10 @@
 `(do
    (= (lookup-chooser* (+ "http://readwarp.com/" ',url)) (group-chooser ,group))
    (defop ,url req
-      (scrollpage current-user.req (group-chooser ,group)))))
+      (scrollpage ',url current-user.req (group-chooser ,group)))))
 
+(defpage news "News")
+(defpage technology "Technology")
 (defpage health "Health")
 (defpage startups "Venture")
 (defpage politics "Politics")
@@ -320,6 +356,7 @@
 (defpage programming "Programming")
 (defpage fashion "Fashion")
 (defpage comics "Comics")
+(defpage odd "Odd")
 
 (def lookup-chooser(arg)
   (or lookup-chooser*.arg

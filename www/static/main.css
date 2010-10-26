@@ -28,7 +28,7 @@ body{ font-size:62.5%; height:100%; }
       .rwflashpost{ padding:10px; width:750px; min-height:450px; text-align:left; overflow:hidden; }
       * html .rwflashpost{ width:auto; }
 
-#rwnav{ height:25px; padding:10px; background:white; }
+#rwnav{ height:35px; padding:10px; background:white; }
 #rwnav-menu{ float:right; margin-top:10px; }
 
 
