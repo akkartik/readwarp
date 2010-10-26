@@ -78,11 +78,7 @@ function moveDown() {
 }
 
 function scrollTo(selector) {
-  var currScroll = $(window).scrollTop();
-  var target = $(selector).offset().top;
-  if (target < currScroll || target > currScroll + window.screen.height*0.7) {
-    $('html,body').scrollTop(target);
-  }
+  $('html,body').scrollTop($(selector).offset().top);
 }
 
 function clickCurrentLike() {
