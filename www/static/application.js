@@ -78,7 +78,7 @@ function moveDown() {
 }
 
 function scrollTo(selector) {
-  $('html,body').scrollTop($(selector).offset().top);
+  $('html,body').scrollTop($(selector).offset().top-30);
 }
 
 function clickCurrentLike() {
