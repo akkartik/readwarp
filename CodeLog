@@ -3309,3 +3309,6 @@ wrp.to wasn't redirecting right in the new nginx setup.
 
 Don't quite position the current story all the way at the top.
 =-=1273 - Thu Nov  4 16:34:08 PDT 2010
+
+purge-feed should really purge.
+=-=1274 - Wed Nov 17 14:14:12 PST 2010

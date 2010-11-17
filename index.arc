@@ -369,9 +369,16 @@
 
 (def purge-feed(feed)
   (each (u ui) userinfo*
-    (when (and ui!preferred-feeds ui!preferred-feeds.feed) (prn u))
+    (when (and ui!preferred-feeds ui!preferred-feeds.feed)
+      (prn u)
+      (wipe ui!preferred-feeds.feed))
     (each (s st) ui!stations
-      (when (and st!imported-feeds st!imported-feeds.feed) (prn u " " s)))))
+      (when (and st!imported-feeds st!imported-feeds.feed)
+        (prn u " " s)
+        (wipe st!imported-feeds.feed))
+      (when (and st!sites st!sites.feed)
+        (prn u " " s)
+        (wipe st!sites.feed)))))
 
 (def load-feeds(user)
   (when (file-exists (+ "feeds/users/" user))
