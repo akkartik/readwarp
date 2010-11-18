@@ -3312,3 +3312,8 @@ Don't quite position the current story all the way at the top.
 
 purge-feed should really purge.
 =-=1274 - Wed Nov 17 14:14:12 PST 2010
+
+Stop making the current item seem to pop out. Since we always scroll the page
+it's not such a big deal, and it makes the page look weird when it first
+loads.
+=-=1275 - Thu Nov 18 08:27:06 PST 2010
