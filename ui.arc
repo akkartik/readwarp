@@ -31,9 +31,7 @@
           (tag (div style "width:100%")
             (tag (div id 'rwscrollcontents-wrap)
               (tag (div id 'rwscrollcontent)
-                (another-scroll user 10 choosefn)
                 (tag script
-;?                   (pr "$(window).resize(function() { alert(window.screen.availWidth);}); ")
                   (pr "$('.rwscrollpost-wrapper:first').addClass('rwcurrent');")
                   (pr "$(document).bind('keydown', 'a', clickCurrentLike);")
                   (pr "$(document).bind('keydown', 'z', clickCurrentSkip);")
@@ -42,7 +40,7 @@
                   (pr "$(document).bind('keydown', 'f', clickCurrentExpander);")
                   (pr "$(document).bind('keydown', 'k', moveUp);")
                   (pr "$(document).bind('keydown', 'j', moveDown);")
-                  (pr "window.onload = setupScroll;"))))))))))
+                  (pr "window.onload = initPage;"))))))))))
 
 (defop scrollview req
   (another-scroll current-user.req (only.int (arg req "remaining")) (lookup-chooser (arg req "for"))))
