@@ -32,14 +32,15 @@
             (tag (div id 'rwscrollcontents-wrap)
               (tag (div id 'rwscrollcontent)
                 (tag script
-                  (pr "$('.rwscrollpost-wrapper:first').addClass('rwcurrent');")
                   (pr "$(document).bind('keydown', 'a', clickCurrentLike);")
                   (pr "$(document).bind('keydown', 'z', clickCurrentSkip);")
                   (pr "$(document).bind('keydown', 'x', clickCurrentHide);")
                   (pr "$(document).bind('keydown', 'o', clickCurrentExpander);")
                   (pr "$(document).bind('keydown', 'f', clickCurrentExpander);")
-                  (pr "$(document).bind('keydown', 'k', moveUp);")
+                  (pr "$(document).bind('keydown', 'h', moveLeft);")
                   (pr "$(document).bind('keydown', 'j', moveDown);")
+                  (pr "$(document).bind('keydown', 'k', moveUp);")
+                  (pr "$(document).bind('keydown', 'l', moveRight);")
                   (pr "window.onload = initPage;"))))))))))
 
 (defop scrollview req

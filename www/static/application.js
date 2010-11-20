@@ -1,8 +1,13 @@
 var rwHistorySize = 10; // sync with index.arc
+var numColumns = 0;
+var currColumn = 0;
+var currStory = 0;
 function initPage() {
-  //setupInfiniteScroll();
   setupColumns();
-  nextScrollDoc(rwHistorySize);
+  //$(window).resize(resizePage);
+  nextScrollDoc(rwHistorySize*numColumns);
+  setupInfiniteScroll();
+  setTimeout(setupCurrentStory, 5000);
 }
 
 function setupInfiniteScroll() {
@@ -10,14 +15,14 @@ function setupInfiniteScroll() {
     insensitiveToScroll(function() {
       if ($(window).scrollTop() + $(window).height()
             >= $(document).height() - /* prefetch buffer */$(window).height()) {
-        nextScrollDoc(5);
+        nextScrollDoc(5*numColumns);
       }
     });
   });
 }
 
 function nextScrollDoc(remaining) {
-  moreDocsFrom('scrollview', 'remaining='+remaining+'&for='+escape(location.href), 'rwscrollcontent');
+  moreDocsFrom('scrollview', 'remaining='+remaining+'&for='+escape(location.href), 'rwscrollcolumn'+pickColumn());
 }
 
 function moreDocsFrom(url, params, id) {
@@ -27,7 +32,7 @@ function moreDocsFrom(url, params, id) {
         data: params,
         success: function(response) {
           $i(id).innerHTML += response;
-          //runScripts($i(id));
+          runScripts($i(id));
         }
       });
   return false;
@@ -62,13 +67,20 @@ function scrollHide(doc) {
   elem.next().fadeOut('fast');
 }
 
+function setupCurrentStory() {
+  $('#rwscrollcolumn'+currColumn+' .rwscrollpost-wrapper:first').addClass('rwcurrent');
+}
+
 function moveUp() {
   var elem = $('.rwcurrent');
   elem.removeClass('rwcurrent');
-  if (elem.prev().length == 0)
+  // HACK
+  if (elem.prev().prev().length == 0)
     elem.addClass('rwcurrent');
-  else
-    elem.prev().addClass('rwcurrent');
+  else {
+    elem.prev().prev().addClass('rwcurrent');
+    --currStory;
+  }
   scrollTo('.rwcurrent');
   return false;
 }
@@ -76,10 +88,12 @@ function moveUp() {
 function moveDown() {
   var elem = $('.rwcurrent');
   elem.removeClass('rwcurrent');
-  if (elem.next().length == 0)
+  if (elem.next().next().length == 0)
     elem.addClass('rwcurrent');
-  else
-    elem.next().addClass('rwcurrent');
+  else {
+    elem.next().next().addClass('rwcurrent');
+    ++currStory;
+  }
   scrollTo('.rwcurrent');
   return false;
 }
@@ -112,19 +126,48 @@ function clickCurrentExpander() {
 
 function setupColumns() {
   // sync with main.css
-  var columnWidth = 320; // #rwscrollpage
+  var columnWidth = 520; // #rwscrollpage, img
   var intercolumnGutter = 20; // .rwgutter, .rwscrollcolumn
 
-  var numColumns = intDiv(window.screen.availWidth, columnWidth);
+  var oldNumColumns = numColumns;
+  numColumns = intDiv(window.screen.availWidth, columnWidth);
   if (numColumns < 1) numColumns = 1;
+  if (numColumns <= oldNumColumns) return;
+
   $('#rwscrollpage')[0].style.width = (numColumns-1)*(columnWidth+intercolumnGutter) + columnWidth + 'px';
   for (var i = 0; i < numColumns-1; ++i) {
-    $('#rwscrollcontent').append('<div class="rwscrollcolumn"></div>');
+    $('#rwscrollcontent').append('<div id="rwscrollcolumn'+i+'" class="rwscrollcolumn"></div>');
   }
-  $('#rwscrollcontent').append('<div class="rwscrollcolumn rwscrollcolumn-last"></div>');
+  $('#rwscrollcontent').append('<div id="rwscrollcolumn'+(numColumns-1)+'" class="rwscrollcolumn rwscrollcolumn-last"></div>');
   $('#rwscrollcontent').append('<div class="rwclear"></div>');
+}
 
-  //$(window).resize(function() { alert(window.screen.availWidth);});
+// doesn't work when zooming in, doesn't handle existing columns. appends
+// after rwclear.
+function resizePage() {
+  var oldNumColumns = numColumns;
+  setupColumns();
+  if (numColumns > oldNumColumns)
+    nextScrollDoc(rwHistorySize);
+}
+
+function pickColumn() {
+  return Math.floor(Math.random()*numColumns);
+}
+
+function moveLeft() {
+  var elem = $('.rwcurrent');
+  elem.removeClass('rwcurrent');
+  if (elem.prev().length == 0)
+    elem.addClass('rwcurrent');
+  else {
+    elem.prev().addClass('rwcurrent');
+    --currStory;
+  }
+  scrollTo('.rwcurrent');
+  return false;
+}
+function moveRight() {
 }
 
 function intDiv(a, b) {

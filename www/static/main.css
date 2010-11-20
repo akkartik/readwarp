@@ -4,9 +4,9 @@
 body{ font-size:62.5%; height:100%; }
 #rwbody{ background:#8c6988/*#934b8a*/; min-height:100%; }
 
-#rwscrollpage{ width:320px; margin:0 auto; min-height:100%; font-size:1.4em; line-height:1.4; font-family:sans-serif; }
+#rwscrollpage{ width:520px; margin:0 auto; min-height:100%; font-size:1.4em; line-height:1.4; font-family:sans-serif; }
 
-  .rwscrollcolumn{ float:left; width:320px; background:blue; margin-right:20px; height:100px; }
+  .rwscrollcolumn{ float:left; width:520px; margin-right:20px; }
     .rwscrollcolumn-last{ margin-right:0; }
 
     .rwscrollbuttons{ float:right; margin-left:3em; }
@@ -14,7 +14,7 @@ body{ font-size:62.5%; height:100%; }
     .rwscrollbutton{ float:left; color:#8888ee; cursor:pointer; }
 
     .rwscrollpost-wrapper{ float:left; background:white; }
-      .rwscrollpost{ padding:10px; width:300px; text-align:left; }
+      .rwscrollpost{ padding:10px; width:500px; text-align:left; }
       * html .rwscrollpost{ width:auto; }
 
   #rwnav{ height:35px; padding:10px; background:white; }
@@ -32,7 +32,7 @@ b,strong,h1,h2,h3,h4,h5,h6{ font-weight:bold; }
 i,em{ font-style:italic; }
 blockquote{ margin:1em; }
 p{ margin-top:1em; }
-img{ max-width:595px; }
+img{ max-width:495px; }
 
 
 
