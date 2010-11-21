@@ -3328,3 +3328,5 @@ Now working but with issues:
 Cleanup: delete obsolete files. Turns out include dies silently if it can't
 find the file in path..
 =-=1278 - Sat Nov 20 17:42:42 PST 2010
+More cleanup: delete obsolete kwargs stuff.
+=-=1279 - Sat Nov 20 18:03:47 PST 2010

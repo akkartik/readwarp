@@ -205,52 +205,6 @@
 
 
 
-; helper for keyword args separated from body by :do
-(def kwargs(args-and-body (o defaults))
-  (let (kws body) (split-by args-and-body ':do)
-    (list (fill-table (listtab:pair defaults) kws)
-          (cdr body))))
-
-; def to be called with mandatory keyword args
-(mac defk(fnname args . body)
-  `(def ,fnname params
-    (let paramtab (listtab pair.params)
-      (withs ,(with-bindings-from-table args paramtab)
-        ,@body))))
-
-; def with fake kwargs that still need to be ordered right
-(mac defc(fnname args . body)
-  (let subfn (symize string.fnname "-sub")
-    `(do
-       (def ,subfn ,args
-          ,@body)
-       (mac ,fnname params
-          (if (~check-kwargs params ',args)
-            (do1 nil (erp "" params " doesn't match " ',args))
-            ,(list 'apply subfn `(rem colonsym params)))))))
-
-(def extract-car(block test)
-  (if (test*.test car.block)
-    `(,(car block) ,(cdr block))
-    `(nil ,block)))
-
-(def test*(test)
-  (if (no test)        id
-      (isa test 'fn)   test
-      (isa test 'sym)  [isa _ test]
-                       [is _ test]))
-
-(mac with-bindings-from-table(args tabname)
-  `(mappend [cons _ (list:list ',tabname `(quote ,_))] ,args))
-
-(def check-kwargs(args prototype)
-  (subseq? (map strip-colon:car
-               (keep [colonsym car._]
-                     (tuplize-by args colonsym)))
-           prototype))
-
-
-
 (def id((o x)) x)
 
 (def blank?(elem)
@@ -449,6 +403,17 @@
     (is form old) new
     (~acons form) form
                   (map [rewrite new old _] form)))
+
+(def extract-car(block test)
+  (if (test*.test car.block)
+    `(,(car block) ,(cdr block))
+    `(nil ,block)))
+
+(def test*(test)
+  (if (no test)        id
+      (isa test 'fn)   test
+      (isa test 'sym)  [isa _ test]
+                       [is _ test]))
 
 
 
