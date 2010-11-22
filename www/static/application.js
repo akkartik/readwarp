@@ -122,6 +122,12 @@ function clickCurrentExpander() {
   return false;
 }
 
+function makeCurrent(elem) {
+  $('.rwcurrent').removeClass('rwcurrent');
+  $(elem).addClass('rwcurrent');
+  return false;
+}
+
 
 
 function setupColumns() {

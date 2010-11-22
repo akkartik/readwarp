@@ -49,7 +49,8 @@
 (def another-scroll(user remaining (o choosefn choose-feed))
   (let doc (pick user choosefn)
     (mark-read user doc)
-    (tag (div id (+ "doc_" doc) class "rwscrollpost-wrapper rwrounded rwshadow")
+    (tag (div id (+ "doc_" doc) class "rwscrollpost-wrapper rwrounded rwshadow"
+              onclick "makeCurrent(this)")
       (tag (div class "rwscrollpost rwcollapsed")
         (tag (div class 'rwscrollbuttons)
           (tag (div class 'rwscrollhidebutton
