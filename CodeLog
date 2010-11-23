@@ -3333,3 +3333,6 @@ More cleanup: delete obsolete kwargs stuff.
 
 A simple hack before I get h/l to work: clicking on a story makes it current.
 =-=1280 - Sun Nov 21 22:37:55 PST 2010
+
+bugfix: focus on window width, not screen width.
+=-=1281 - Tue Nov 23 10:26:50 PST 2010

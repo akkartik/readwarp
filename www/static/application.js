@@ -136,7 +136,7 @@ function setupColumns() {
   var intercolumnGutter = 20; // .rwgutter, .rwscrollcolumn
 
   var oldNumColumns = numColumns;
-  numColumns = intDiv(window.screen.availWidth, columnWidth);
+  numColumns = intDiv(window.innerWidth, columnWidth);
   if (numColumns < 1) numColumns = 1;
   if (numColumns <= oldNumColumns) return;
 
