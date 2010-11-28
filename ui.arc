@@ -119,7 +119,7 @@
               (option title "startups" "startups")))
           ))))
   (unless userinfo*.user!signedup
-    (tag:div class "rwclear" style "height:10px")
+    (tag:div class "rwclear rwsep")
     (tag (div style "background:orange" class "rwrounded rwshadow")
       (pr "readwarp helps you read and discover cool new sites.
           <br>Vote on sites to tell us what you want to see more or less of.<br>")
