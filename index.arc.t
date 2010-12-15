@@ -1,5 +1,4 @@
 (without-updating-state
-(shadowing flash id
 (shadowing docinfo*
     (obj
       "a_com_a" (obj site "a.com" feed "a.com/feed" url "a.com/a")
@@ -44,4 +43,4 @@
   (test-ok "scan-feeds finds feeds containing a keyword"
     (pos "a.com/feed" (scan-feeds "blog")))
 
-)))))))))))))
+))))))))))))

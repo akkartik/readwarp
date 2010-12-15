@@ -2,7 +2,6 @@
   `(w/outstring o ((srvops* ',op) o (inst 'request 'args ,args 'cooks ,cooks))))
 
 (without-updating-state
-(shadowing flash id
 (shadowing docinfo*
     (obj
       "a_com_a" (obj site "a.com" feed "a.com/feed" url "a.com/a")
@@ -42,4 +41,4 @@
   (until (all dead (threads "signup-showlist"))
     (sleep 1))
 
-))))))))
+)))))))

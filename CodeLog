@@ -3336,3 +3336,6 @@ A simple hack before I get h/l to work: clicking on a story makes it current.
 
 bugfix: focus on window width, not screen width.
 =-=1281 - Tue Nov 23 10:26:50 PST 2010
+
+make tests pass after a time.
+=-=1283 - Wed Dec 15 00:23:06 PST 2010
