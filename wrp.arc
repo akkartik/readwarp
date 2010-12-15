@@ -3,7 +3,7 @@
 ; RewriteRule ^/(.*)$ http://readwarp.com/url?id=$1 [L,R=301]
 
 (def wrp(doc)
-  (+ "http://wrp.to/" doc-hash.doc))
+  (join "http://wrp.to/" doc-hash.doc))
 
 (= doc-hash url-hash:doc-url)
 (= hash-doc url-doc:hash-url)
@@ -16,7 +16,7 @@
   (iflet url (hash-url:arg req 'id)
     (tag html
       (tag head
-        (prn:+ "<meta http-equiv=\"refresh\" content=\"0;url=" url "\">")))
+        (prn:join "<meta http-equiv=\"refresh\" content=\"0;url=" url "\">")))
     (prn "Broken")))
 
 (dhash url hash "1-1"

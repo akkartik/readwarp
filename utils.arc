@@ -227,7 +227,7 @@
       (zap ,f (,tab k))))
 
 (mac nslowrot(l)
-  `(when ,l (= ,l (+ (cdr ,l) (list (car ,l))))))
+  `(when ,l (= ,l (join (cdr ,l) (list (car ,l))))))
 
 
 
@@ -346,7 +346,7 @@
   (sort (compare > f:cadr) (tablist t)))
 
 (mac append(a b)
-  `(= ,a (+ ,a ,b)))
+  `(= ,a (join ,a ,b)))
 
 (def subseq?(pat ls)
   (if (no pat)
@@ -371,7 +371,7 @@
   (withs (initans (firstn n (sort-by f l))
           top (last initans)
           fill (keep [and _ (iso (f _) (f top))] l))
-    (dedup (+ initans fill))))
+    (dedup (join initans fill))))
 
 (def most-skipping-nils(f args)
   (most f (rem nil args)))
@@ -556,7 +556,7 @@
 
 (def maybe-enclose(before payload after test)
   (if (test payload)
-    (+ before payload after)
+    (join before payload after)
     payload))
 
 (mac sub-core(f)
@@ -640,7 +640,7 @@
     (apply prn args)))
 
 (def pushline(s file)
-  (disp (+ s #\newline) file))
+  (disp (join s #\newline) file))
 
 (def gc()
   ($:collect-garbage))
@@ -676,11 +676,11 @@
   (~empty (getenv "TEST")))
 
 (def l(f)
-  (include:+ string.f ".arc"))
+  (include:join string.f ".arc"))
 (def test(f)
   (after*
     (= test-failures* 0)
-    (include:+ string.f ".arc.t")
+    (include:join string.f ".arc.t")
   :do
     (prn:plural test-failures* "failure")))
 
@@ -732,7 +732,7 @@
 (= plurals* (table))
 (def plural-of(s)
   (or (plurals* s)
-      (+ s "s")))
+      (join s "s")))
 
 (mac collect(body)
   (w/uniq fp
@@ -745,12 +745,12 @@
 
 (def render-date(s)
   (let d (date int.s)
-    (+ "" d.0 "-" d.1 "-" d.2)))
+    (join "" d.0 "-" d.1 "-" d.2)))
 
 
 
 (def curr-path(f)
-  (+ ($ start-dir*) f))
+  (join ($ start-dir*) f))
 
 (mac load-scheme(f)
   `($ (require (file ,(curr-path f)))))

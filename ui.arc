@@ -4,7 +4,7 @@
     (scrollpage "" user)))
 
 (def render-doc(user doc)
-  (tag (div id (+ "contents_" doc) class 'rwpost-contents)
+  (tag (div id (join "contents_" doc) class 'rwpost-contents)
     (tag (h2 class 'rwtitle)
       (tag (a href doc-url.doc target "_blank")
         (pr (check doc-title.doc ~empty "no title"))))
@@ -49,29 +49,29 @@
 (def another-scroll(user remaining (o choosefn choose-feed))
   (let doc (pick user choosefn)
     (mark-read user doc)
-    (tag (div id (+ "doc_" doc) class "rwscrollpost-wrapper rwrounded rwshadow"
+    (tag (div id (join "doc_" doc) class "rwscrollpost-wrapper rwrounded rwshadow"
               onclick "makeCurrent(this)")
       (tag (div class "rwscrollpost rwcollapsed")
         (tag (div class 'rwscrollbuttons)
           (tag (div class 'rwscrollhidebutton
-                    onclick (+ "scrollHide('" doc "')"))
+                    onclick (join "scrollHide('" doc "')"))
             (pr "x"))
           (tag (div class "rwscrollbutton rwscrolllike"
-                    onclick (+ "scrollLike('" doc "')"))
+                    onclick (join "scrollLike('" doc "')"))
             (tag (div title "like" class "rwscrollbutton rwscrolllike")))
           (tag (div class "rwscrollbutton rwscrollskip"
-                    onclick (+ "scrollSkip('" doc "')"))
+                    onclick (join "scrollSkip('" doc "')"))
             (tag (div title "skip" class "rwscrollbutton rwscrollskip"))))
         (render-doc user doc))
-      (tag:img id (+ "expand_contents_" doc) class "rwexpander" src "green_arrow_down.png" height "30px" style "float:right"
-               onclick (+ "$(this).hide(); $('#doc_" doc " .rwscrollpost').removeClass('rwcollapsed')")))
+      (tag:img id (join "expand_contents_" doc) class "rwexpander" src "green_arrow_down.png" height "30px" style "float:right"
+               onclick (join "$(this).hide(); $('#doc_" doc " .rwscrollpost').removeClass('rwcollapsed')")))
     (tag:div class "rwclear rwsep"))
   (tag script
     (pr "maybeRemoveExpanders();")
     (pr "++pageSize;")
     (pr "deleteScripts($i('rwscrollcontent'));")
     (if (and remaining (> remaining 0))
-      (pr (+ "nextScrollDoc(" (- remaining 1) ");")))))
+      (pr (join "nextScrollDoc(" (- remaining 1) ");")))))
 
 (defop vote req
   (vote current-user.req (arg req "doc") (arg req "outcome")))
@@ -136,7 +136,7 @@
 
 (defop submit req
   (let user current-user.req
-    (mail-me (+ "crawl request from " user "/" (arg req "user"))
+    (mail-me (join "crawl request from " user "/" (arg req "user"))
              (arg req "msg"))))
 
 (def mail-me(subject message)
@@ -157,7 +157,7 @@
             (tag (div style "background:white; padding:2em" class "rwrounded rwshadow")
               (pr "Drag this link to your browser toolbar.")
               (br2)
-              (pr:+ "<a href='"
+              (pr:join "<a href='"
 "javascript:("
   "function() {"
     "var getRssLink = function(){"
@@ -194,7 +194,7 @@
     (let feed (arg req "feed")
       (erp "CRAWLSUBMIT  " current-user.req " " (arg req "user") " " feed)
       (pushline feed priority-crawl-fifo*)
-      (mail-me (+ "crawlsubmit from " current-user.req "/" (arg req "user"))
+      (mail-me (join "crawlsubmit from " current-user.req "/" (arg req "user"))
                feed)
       (unless docs.feed
         (erp "waiting for crawl")
@@ -226,7 +226,7 @@
 (= lookup-chooser* (table))
 (mac defpage(url group)
 `(do
-   (= (lookup-chooser* (+ "http://readwarp.com/" ',url)) (group-chooser ,group))
+   (= (lookup-chooser* (join "http://readwarp.com/" ',url)) (group-chooser ,group))
    (defop ,url req
       (scrollpage ',url current-user.req (group-chooser ,group)))))
 

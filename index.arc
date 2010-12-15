@@ -13,7 +13,7 @@
     (errsafe ,@body)))
 
 (def metadata(doc)
-  (read-json-table (+ "urls/" doc ".metadata")
+  (read-json-table (join "urls/" doc ".metadata")
                    [old-docs* doc]))
 
 (def doc-url(doc)
@@ -39,7 +39,7 @@
 (def feeddate(doc)
   (check-doc doc docinfo*.doc!feeddate))
 (def contents(doc)
-  (or (errsafe:slurp (+ "urls/" doc ".clean"))
+  (or (errsafe:slurp (join "urls/" doc ".clean"))
       ""))
 
 (init feedinfo* (table))
@@ -70,7 +70,7 @@
 (init feed-groups* (table))
 (init group-feeds* (table))
 (proc read-group(g)
-  (each feed (tokens:slurp:+ "feeds/" g)
+  (each feed (tokens:slurp:join "feeds/" g)
     (push g feed-groups*.feed)
     (push feed group-feeds*.g)))
 
@@ -381,8 +381,8 @@
         (wipe st!sites.feed)))))
 
 (def load-feeds(user)
-  (when (file-exists (+ "feeds/users/" user))
-    (w/infile f (+ "feeds/users/" user)
+  (when (file-exists (join "feeds/users/" user))
+    (w/infile f (join "feeds/users/" user)
       (w/table ans
         (whilet line (readline f)
           (zap trim line)

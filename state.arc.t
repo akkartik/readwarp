@@ -1,7 +1,7 @@
 (shadowing persisted-vars* ()
 (shadowing snapshots-dir* "test-snapshots"
-(system:+ "mkdir -p " snapshots-dir*)
-(system:+ "rm " snapshots-dir* "/?s*.*")
+(system:join "mkdir -p " snapshots-dir*)
+(system:join "rm " snapshots-dir* "/?s*.*")
 
 (let quit-called nil
   (shadowing really-quit (fn() set.quit-called)
@@ -27,7 +27,7 @@
 (let f 2
   (save-snapshot f 320)
   (= f nil)
-  (fread (+ snapshots-dir* "/f.320") f)
+  (fread (join snapshots-dir* "/f.320") f)
   (test-is "save-snapshot can take an optional timestamp arg"
            2
            f))

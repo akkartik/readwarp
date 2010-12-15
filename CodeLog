@@ -3339,3 +3339,6 @@ bugfix: focus on window width, not screen width.
 
 make tests pass after a time.
 =-=1283 - Wed Dec 15 00:23:06 PST 2010
+
++ no longer concatenates: http://arclanguage.org/item?id=12347
+=-=1284 - Wed Dec 15 00:53:34 PST 2010

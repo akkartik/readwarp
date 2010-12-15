@@ -9,7 +9,7 @@
               [and (iso ,(string var) (car:split-by _ "."))
                    (~posmatch ".tmp" _)]
              (dir snapshots-dir*)))
-      (+ snapshots-dir* "/" it)))
+      (join snapshots-dir* "/" it)))
 
 (mac load-snapshot(var initval)
   `(aif (newest-snapshot-name ,var)
@@ -23,9 +23,8 @@
       (or (init ,var ,initval) ,var)))
 
 (mac new-snapshot-name(var (o timestamp))
-  `(+ (+ snapshots-dir* "/" ,(string var) ".")
-      (or ,timestamp
-          ,(seconds)))) ; one file per session. remove comma to stop reusing
+  `(join snapshots-dir* "/" ,(string var) "."
+         (or ,timestamp ,(seconds)))) ; one file per session. remove comma to stop reusing
 
 (mac save-snapshot(var (o timestamp))
   `(fwritefile (new-snapshot-name ,var ,timestamp) ,var))
@@ -87,7 +86,7 @@
 
 
 (def fwritefile(filename val)
-  (let tmpfile (+ filename ".tmp")
+  (let tmpfile (join filename ".tmp")
     (fwrite tmpfile val)
     (until file-exists.tmpfile)
     (mvfile tmpfile filename)))
@@ -115,17 +114,17 @@
        (init ,log-var ())
        (proc ,fnname()
          (prn ,string.fnname " watching fifos/" ,fifo)
-         (forever:each doc (tokens:slurp ,(+ "fifos/" fifo))
+         (forever:each doc (tokens:slurp ,(join "fifos/" fifo))
             (rotlog ,log-var doc)
             ,@body
-            ,(aif nextfifo `(w/outfile f ,(+ "fifos/" it) (disp doc f)))))
+            ,(aif nextfifo `(w/outfile f ,(join "fifos/" it) (disp doc f)))))
        (init ,thread-var (new-thread ,string.fnname ,fnname))
        (pushnew ,thread-var scan-registry*))))
 
 
 
 (def chunk-files(var)
-  (tokens:tostring:system (+ "ls -t snapshots/" string.var "-chunk* |grep -v 'tmp$'")))
+  (tokens:tostring:system (join "ls -t snapshots/" string.var "-chunk* |grep -v 'tmp$'")))
 
 (mac load-chunks(var)
   (let ans (uniq)
@@ -154,7 +153,7 @@
        (wipe ,var))))
 
 (mac save-chunked-snapshot(var i)
-  `(fwritefile (+ (new-snapshot-name ,var) "." ,i) ,var))
+  `(fwritefile (join (new-snapshot-name ,var) "." ,i) ,var))
 
 (init chunked-persisted-vars* nil)
 (mac chunked-persisted(var)
