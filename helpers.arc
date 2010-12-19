@@ -9,8 +9,8 @@
   (on-err
     (fn(ex) static-file)
     (fn()
-      (let filename (join "www/static/" static-file)
-        (join static-file "?" ($:file-or-directory-modify-seconds filename))))))
+      (let filename (+ "www/static/" static-file)
+        (+ static-file "?" ($:file-or-directory-modify-seconds filename))))))
 
 (def jstag(src)
   (prn "<script src=\"" cache-control.src "\"></script>"))
