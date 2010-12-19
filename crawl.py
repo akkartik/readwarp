@@ -33,11 +33,12 @@ def saveFeedInfo(fname):
   os.rename(fname+'.tmp', fname)
 
 import shutil
+backupTimestamp = str(time.time())
 def backupFeedinfo():
-  try: shutil.copyfile('snapshots/feedinfo', 'snapshots/feedinfo.'+str(time.time()))
+  try: shutil.copyfile('snapshots/feedinfo', 'snapshots/feedinfo.'+backupTimestamp)
   except IOError: pass
 def backupUrlMap():
-  try: shutil.copyfile('snapshots/url_map', 'snapshots/url_map.'+str(time.time()))
+  try: shutil.copyfile('snapshots/url_map', 'snapshots/url_map.'+backupTimestamp)
   except IOError: pass
 
 def loadFeeds():
