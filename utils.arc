@@ -21,7 +21,7 @@
   `(unless (bound ',(car args))
      (= ,@args)))
 
-(= be is)
+(= be iso)
 (= neither nor)
 (= const =)
 
