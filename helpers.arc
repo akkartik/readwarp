@@ -22,6 +22,8 @@
   (tag head
     (prn "<meta name=\"robots\" content=\"nofollow\"/>")
     (prn "<link rel=\"icon\" href=\"/favicon.ico\"/>")
+    ; for handhelds: http://www.quirksmode.org/blog/archives/2010/09/combining_meta.html
+    (prn "<meta name=\"viewport\" content=\"width=device-width\">")
 
     (csstag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css")
     (jstag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js")
