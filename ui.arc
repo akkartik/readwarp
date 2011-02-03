@@ -90,6 +90,8 @@
 (proc nav(user (o title))
   (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
     (tag (div id 'rwnav-menu)
+      (tag (span style "margin-right:6em")
+        (prn "<a style='font-size:80%;color:red' href='http://news.ycombinator.com/item?id=2118739'>Die, scrollbar of Sisyphus!</a>"))
       (tag (span style "margin-right:1em")
         (link "feedback" "mailto:feedback@readwarp.com"))
       (if signedup?.user
@@ -118,6 +120,7 @@
               (option title "programming" "programming")
               (option title "startups" "startups")))
           ))))
+
   (unless userinfo*.user!signedup
     (tag:div class "rwclear rwsep")
     (tag (div style "background:orange" class "rwrounded rwshadow")

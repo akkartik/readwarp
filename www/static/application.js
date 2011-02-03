@@ -4,21 +4,8 @@ var currColumn = 0;
 var currStory = 0;
 function initPage() {
   setupColumns();
-  //$(window).resize(resizePage);
   nextScrollDoc(rwHistorySize*numColumns);
-  setupInfiniteScroll();
   setTimeout(setupCurrentStory, 5000);
-}
-
-function setupInfiniteScroll() {
-  $(window).scroll(function() {
-    insensitiveToScroll(function() {
-      if ($(window).scrollTop() + $(window).height()
-            >= $(document).height() - /* prefetch buffer */$(window).height()) {
-        nextScrollDoc(5*numColumns);
-      }
-    });
-  });
 }
 
 function nextScrollDoc(remaining) {
@@ -146,15 +133,6 @@ function setupColumns() {
   }
   $('#rwscrollcontent').append('<div id="rwscrollcolumn'+(numColumns-1)+'" class="rwscrollcolumn rwscrollcolumn-last"></div>');
   $('#rwscrollcontent').append('<div class="rwclear"></div>');
-}
-
-// doesn't work when zooming in, doesn't handle existing columns. appends
-// after rwclear.
-function resizePage() {
-  var oldNumColumns = numColumns;
-  setupColumns();
-  if (numColumns > oldNumColumns)
-    nextScrollDoc(rwHistorySize);
 }
 
 function pickColumn() {
