@@ -3371,3 +3371,5 @@ preferred? disabled. Now go suck out all the dead code.
 =-=1295 - Fri Feb  4 14:33:31 PST 2011
 Deleting all preferred stuff. Surprising how less there is.
 =-=1296 - Fri Feb  4 14:52:39 PST 2011
+Data migration to purge old data.
+=-=1298 - Fri Feb  4 15:29:04 PST 2011

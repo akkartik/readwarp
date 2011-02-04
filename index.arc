@@ -95,7 +95,6 @@
   (unless userinfo*.user
     (erp "new user: " user)
     (inittab userinfo*.user
-             'clock 100
              'all (string:unique-id)
              'read (table) 'stations (table)))
   (ensure-station user userinfo*.user!all))
@@ -124,12 +123,11 @@
   (wipe feed-docs*.nil)
 ;?   (each (f d) feed-docs*
   (each (u ui) userinfo*
+    (wipe ui!noob ui!queries ui!signup-stage ui!clock ui!currfeed
+          ui!signup-showlist-thread ui!saved)
     (each (s st) ui!stations
 ;?     (each doc (keys ui!read)
 ;?       (each (g gi) st!groups
-      (wipe st!showlist st!last-showlist
-            st!sites st!tmpsitesbackup
-            st!current st!oldgroups st!unpreferred)
     )
   ))
 
@@ -246,9 +244,6 @@
     ~acons.feeds    (newest-unread user feeds)
     single.feeds    (newest-unread user car.feeds)
                     (always [newest-unread user _] randpos.feeds)))
-
-(after-exec pick(user choosefn)
-  (++ userinfo*.user!clock))
 
 (def recently-shown?(station feed)
   (pos feed
