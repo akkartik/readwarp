@@ -141,39 +141,13 @@
          feed     lookup-feed.doc)
     (erp outcome " " doc)
     (= userinfo*.user!read.doc outcome)
-    (or= station!sites.feed (prefinfo userinfo*.user!clock))
-    (= station!sites.feed!clock userinfo*.user!clock)
     (case outcome
-      "1" (zap [* 3 _] station!sites.feed!blackout)
-      "4" (zap [bounded-half _] station!sites.feed!blackout))))
-
-(def preferred?(prefinfo clock)
-  nil)
-
-(def prefinfo(clock)
-  (obj clock clock blackout history-size*))
-
-(def bounded-half(blackout)
-  (check (/ blackout 2)   [> _ history-size*]
-         history-size*))
+      )))
 
 
 
 (def choose-feed(user station)
   (or
-    (choose-from 'recent-preferred
-                 (keep (andf
-                         recent?
-                         [preferred? (station!sites _)
-                                     userinfo*.user!clock])
-                       (keys station!sites))
-                 user station
-                 recent-and-well-cleaned)
-    (choose-from 'preferred
-                 (keep [preferred? (station!sites _)
-                                   userinfo*.user!clock]
-                       (keys station!sites))
-                 user station)
     (choose-from 'recent-popular-imported-feeds
                  (keys station!imported-feeds)
                  user station
@@ -279,6 +253,10 @@
        (map lookup-feed (firstn (bounded-half:len station!imported-feeds)
                                 station!read-list))))
 
+(def bounded-half(x)
+  (check (/ x 2) [> _ history-size*]
+         history-size*))
+
 (def docs(feed)
   (dl-elems feed-docs.feed))
 (def newest(feed)
@@ -321,29 +299,20 @@
 (def add-imported-feeds(user feed)
   (withs (s userinfo*.user!all
           st userinfo*.user!stations.s)
-    (set userinfo*.user!preferred-feeds.feed)
     (set userinfo*.user!stations.s!imported-feeds.feed)))
 
 (def rename-feed(old new)
   (each (u ui) userinfo*
-    (when (and ui!preferred-feeds ui!preferred-feeds.old)
-      (swap ui!preferred-feeds.old ui!preferred-feeds.new))
     (each (s st) ui!stations
       (when (and st!imported-feeds st!imported-feeds.old)
         (swap st!imported-feeds.old st!imported-feeds.new)))))
 
 (def purge-feed(feed)
   (each (u ui) userinfo*
-    (when (and ui!preferred-feeds ui!preferred-feeds.feed)
-      (prn u)
-      (wipe ui!preferred-feeds.feed))
     (each (s st) ui!stations
       (when (and st!imported-feeds st!imported-feeds.feed)
         (prn u " " s)
-        (wipe st!imported-feeds.feed))
-      (when (and st!sites st!sites.feed)
-        (prn u " " s)
-        (wipe st!sites.feed)))))
+        (wipe st!imported-feeds.feed)))))
 
 (def load-feeds(user)
   (when (file-exists (+ "feeds/users/" user))
