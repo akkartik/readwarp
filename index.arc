@@ -160,17 +160,6 @@
 
 
 
-(def groups-feeds(groups)
-  (dedup:flat:map group-feeds* groups))
-(def feeds-groups(feeds)
-  (dedup:flat:map feed-groups* feeds))
-
-(def random-story-from(group)
-  (always newest
-          (randpos group-feeds*.group)))
-
-
-
 (const preferred-prob* 0.8)
 (def choose-feed(user station)
   (randpick
@@ -218,15 +207,15 @@
 
 (def group-chooser(group)
   (fn(user station)
-    (randpick
-      1.01             (choose-from 'recent-group
-                                    (keep recent? group-feeds*.group)
-                                    user station
-                                    recent-feed-predicate)
-      1.01             (choose-from 'group
-                                    group-feeds*.group
-                                    user station)
-      1.01             (choose-feed user station))))
+    (or
+      (choose-from 'recent-group
+                   (keep recent? group-feeds*.group)
+                   user station
+                   recent-feed-predicate)
+      (choose-from 'group
+                   group-feeds*.group
+                   user station)
+      (choose-feed user station))))
 
 (persisted recent-feeds* (table))
 (after-exec doc-feed(doc)

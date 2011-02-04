@@ -248,8 +248,8 @@
          (each (thresh expr) (pair args)
            (acc `(when (and (no ,ans)
                             (< ,x ,thresh))
-                   (= ,ans ,expr))))
-         (acc ans)))))
+                   (= ,ans ,expr)))))
+      ,ans)))
 
 (def shuffle(ls)
   (let n len.ls
