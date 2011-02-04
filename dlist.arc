@@ -1,6 +1,6 @@
 ; Ported from http://eli.thegreenplace.net/2007/10/03/sicp-section-332
 ; Exercise 3.23
-(def dlist((o elems))
+(def dlist(? elems nil)
   (if (isa elems 'dlist)
     elems
     (ret ans (annotate 'dlist (list '() '() 0))

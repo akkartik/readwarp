@@ -254,7 +254,7 @@
 
 (persisted recent-feeds* (table))
 (after-exec doc-feed(doc)
-  (update recent-feeds* result most2.id doc-timestamp.doc))
+  (update recent-feeds* result most2.idfn doc-timestamp.doc))
 (const daily-threshold* (* 60 60 24))
 (def recent?(feed)
   (awhen recent-feeds*.feed
@@ -264,7 +264,7 @@
 (def recent-doc?(doc)
   (> (- (seconds) doc-timestamp.doc) daily-threshold*))
 
-(def choose-from(msg candidates user station (o pred good-feed-predicate))
+(def choose-from(msg candidates user station ? pred good-feed-predicate)
   (ret result
           (findg (randpos candidates)
                  (pred user station))

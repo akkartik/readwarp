@@ -22,12 +22,12 @@
           (really-quit)))
       (or (init ,var ,initval) ,var)))
 
-(mac new-snapshot-name(var (o timestamp))
+(mac new-snapshot-name(var ? timestamp nil)
   `(+ (+ snapshots-dir* "/" ,(string var) ".")
       (or ,timestamp
           ,(seconds)))) ; one file per session. remove comma to stop reusing
 
-(mac save-snapshot(var (o timestamp))
+(mac save-snapshot(var ? timestamp nil)
   `(fwritefile (new-snapshot-name ,var ,timestamp) ,var))
 
 
@@ -255,14 +255,14 @@
 
 
 
-(mac lookup-or-generate-transient(place expr (o timeout 500))
+(mac lookup-or-generate-transient(place expr ? timeout 500)
   `(aif (lookup-transient ,place)
         it
         (do
           (= ,place (transient-value ,expr ,timeout))
           (lookup-transient ,place))))
 
-(def transient-value(v (o timeout 500))
+(def transient-value(v ? timeout 500)
   (let t0 (seconds)
     (annotate 'transient-value (list v t0 (+ t0 timeout)))))
 
@@ -345,13 +345,13 @@
 ;;; Policies specify how to handle collisions in the reverse direction.
 ;;; e.g. indexing is reverse lookup of keyword extraction with policy rcons.
 
-(mac mhash(key-name value-name association body (o merge-policy 'rcons))
+(mac mhash(key-name value-name association body ? merge-policy 'rcons)
   (hash-helper t nil t key-name value-name association body merge-policy))
-(mac rhash(key-name value-name association body (o merge-policy 'replace)) ; doesn't memoize
+(mac rhash(key-name value-name association body ? merge-policy 'replace) ; doesn't memoize
   (hash-helper nil t t key-name value-name association body merge-policy))
-(mac dhash(key-name value-name association body (o merge-policy 'rcons))
+(mac dhash(key-name value-name association body ? merge-policy 'rcons)
   (hash-helper t t t key-name value-name association body merge-policy))
-(mac dhash-nosave(key-name value-name association body (o merge-policy 'rcons))
+(mac dhash-nosave(key-name value-name association body ? merge-policy 'rcons)
   (hash-helper t t nil key-name value-name association body merge-policy))
 
 (def hash-helper(forward backward save key-name value-name association body policy)

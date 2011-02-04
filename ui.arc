@@ -20,7 +20,7 @@
 
 
 
-(def scrollpage(title user (o choosefn choose-feed))
+(def scrollpage(title user ? choosefn choose-feed)
   (ensure-user user)
   (tag html
     (header)
@@ -46,7 +46,7 @@
 (defop scrollview req
   (another-scroll current-user.req (only.int (arg req "remaining")) (lookup-chooser (arg req "for"))))
 
-(def another-scroll(user remaining (o choosefn choose-feed))
+(def another-scroll(user remaining ? choosefn choose-feed)
   (let doc (pick user choosefn)
     (mark-read user doc)
     (tag (div id (+ "doc_" doc) class "rwscrollpost-wrapper rwrounded rwshadow"
@@ -87,7 +87,7 @@
                 selected (is ,title ,value))
     (pr ,text)))
 
-(proc nav(user (o title))
+(proc nav(user ? title nil)
   (tag (div id 'rwnav class "rwrounded-bottom rwshadow")
     (tag (div id 'rwnav-menu)
       (tag (span style "margin-right:6em")

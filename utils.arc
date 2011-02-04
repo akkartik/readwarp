@@ -205,8 +205,6 @@
 
 
 
-(def id((o x)) x)
-
 (def blank?(elem)
   (or no.elem empty.elem))
 
@@ -232,7 +230,7 @@
 
 
 ; random elem in from that isn't already in to (and satisfies f)
-(def random-new(from to (o f))
+(def random-new(from to ? f nil)
   (ret ans nil
     (let counter 0
       (until (or ans (> (++ counter) 10))
@@ -271,7 +269,7 @@
         (list (cons car.l a) b)
         (list a (cons car.l b))))))
 
-(def map-every(f l n (o offset 0))
+(def map-every(f l n ? offset 0)
   (map [let (v . i) _
          (if (is offset (remainder i n))
            (f v)
@@ -319,7 +317,7 @@
     string  (split seq (or (posmatch delim seq) (len seq)))
             (err "bad type for split-by")))
 
-(def tuplize-by(seq f (o ans))
+(def tuplize-by(seq f ? ans nil)
   (if (no seq)
     (rev (map rev ans))
     (tuplize-by cdr.seq f
@@ -367,7 +365,7 @@
     car.l
     (reduce intersect l)))
 
-(def aboutnmost(n l (o f id))
+(def aboutnmost(n l ? f idfn)
   (withs (initans (firstn n (sort-by f l))
           top (last initans)
           fill (keep [and _ (iso (f _) (f top))] l))
@@ -466,7 +464,7 @@
     (map (fn ((k v)) (= h.k unserialize.v))
          cadr.x)))
 
-(def read-json-table(filename (o errfn [table]))
+(def read-json-table(filename ? errfn [table])
   (on-err errfn
           (fn()
             (w/infile f filename (json-read f)))))
@@ -492,7 +490,7 @@
       (++ (ans o 0)))))
 
 ; freq without any atomic operations
-(def freqcounts(l f (o n 1))
+(def freqcounts(l f ? n 1)
   (if (no cdr.l)
     (prn car.l " " n)
     (if (is (f car.l) (f cadr.l))
@@ -515,20 +513,20 @@
 
 
 
-(def index(test seq (o start 0))
+(def index(test seq ? start 0)
   (or (pos test seq start)
       -1))
 
-(def safecut(seq start (o end (len seq)))
+(def safecut(seq start ? end len.seq)
   (if seq
-    (cut seq (min start (len seq)) (min end (len seq)))
+    (cut seq (min start len.seq) (min end len.seq))
     seq))
 
-(def posmatchall(pat seq (o start 0))
+(def posmatchall(pat seq ? start 0)
   (whenlet ind (posmatch pat seq start)
     (cons ind (posmatchall pat seq (+ ind (len pat))))))
 
-(def slurp(f (o sep "\n"))
+(def slurp(f ? sep "\n")
   (if (isa f 'string)
     (w/infile file f (slurp file sep))
     (let ans ""
@@ -623,7 +621,7 @@
 
 (def add-index-tags(l)
    (add-index-tags-sub l))
-(def add-index-tags-sub(l (o x 0))
+(def add-index-tags-sub(l ? x 0)
    (when acons.l
      (cons (cons car.l x)
            (add-index-tags-sub cdr.l ++.x))))
@@ -649,11 +647,11 @@
   (or msg ""))
 
 (= performance-vector ($:make-vector 10))
-(proc prn-stats((o msg))
+(proc prn-stats(? msg nil)
   ($:vector-set-performance-stats! _performance-vector)
   (erp maybe.msg performance-vector))
 
-(proc prn-stats2((o msg))
+(proc prn-stats2(? msg nil)
   (freqcounts
     (sort-by car (rem [dead cadr._] threads*))
     car))

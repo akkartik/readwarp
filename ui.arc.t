@@ -1,4 +1,4 @@
-(mac run-op(op (o args) (o cooks))
+(mac run-op(op ? args nil cooks nil)
   `(w/outstring o ((srvops* ',op) o (inst 'request 'args ,args 'cooks ,cooks))))
 
 (without-updating-state

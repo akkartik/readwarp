@@ -1,6 +1,6 @@
 (def nullop2(x y))
 
-(mac run-op(op (o args (table)) (o cooks (table)))
+(mac run-op(op ? args (table) cooks (table))
   `(w/outstring o ((srvops* ',op) o (obj args ,args cooks ,cooks))))
 
 
@@ -44,7 +44,7 @@
 
 
 (let server-thread* (ifcall server-thread)
-  (proc start-server((o port 8080))
+  (proc start-server(? port 8080)
     (stop-server)
     (= server-thread* (new-thread "server" (fn() (asv port))))
     (push server-thread* scan-registry*))
