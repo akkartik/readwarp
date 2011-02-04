@@ -538,9 +538,6 @@
         (subst sep "\n" ans)
         ans))))
 
-(def canonicalize(word)
-  (stem:downcase (gsub word (r "\"|'.*") "")))
-
 (def split-urls(s)
   (tokens s [pos _ ":/."]))
 

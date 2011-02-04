@@ -1,4 +1,3 @@
-(include "stem.arc")
 (def init-code()
   (include "utils.arc")
   (include "times.arc")

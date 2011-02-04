@@ -53,20 +53,6 @@
            (w/infile f "snapshots/feedinfo.orig"
               (read-nested-table f)))))
 
-(init keyword-feeds-old* nil)
-(dhash feed keyword "m-n"
-  (map canonicalize
-       (cons feed
-             (flat:map split-urls
-                       (flat:map tokens:striptags
-                                 (vals:feedinfo* symize.feed))))))
-
-(proc update-feed-keywords()
-  (everyp feed feed-list* 100
-    (unless feed-keywords*.feed
-      (feed-keywords feed)))
-  (wipe keyword-feeds-old*))
-
 (init feed-groups* (table))
 (init group-feeds* (table))
 (proc read-group(g)
@@ -93,9 +79,7 @@
                             feed-list*))
   (prn "updating feedinfo*")
   (update-feedinfo)
-  (set update-feeds-init*)
-  (prn "updating feed index")
-  (update-feed-keywords))
+  (set update-feeds-init*))
 (wait update-feeds-init*)
 
 (unless (test-mode)
@@ -180,14 +164,6 @@
   (dedup:flat:map group-feeds* groups))
 (def feeds-groups(feeds)
   (dedup:flat:map feed-groups* feeds))
-
-(def lookup-feeds-for-keyword(word)
-  ((or keyword-feeds-old* keyword-feeds*) word))
-
-(def scan-feeds(keyword)
-  (unless blank?.keyword
-    (dedup:common:map lookup-feeds-for-keyword:canonicalize
-                      (flat:map split-urls words.keyword))))
 
 (def random-story-from(group)
   (always newest
