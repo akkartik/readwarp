@@ -127,7 +127,9 @@
     (each (s st) ui!stations
 ;?     (each doc (keys ui!read)
 ;?       (each (g gi) st!groups
-      (= st!sites (table))
+      (wipe st!showlist st!last-showlist
+            st!sites st!tmpsitesbackup
+            st!current st!oldgroups st!unpreferred)
     )
   ))
 
