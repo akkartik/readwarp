@@ -1,4 +1,4 @@
-(const history-size* 10)
+(const history-size* 30)
 
 
 
@@ -148,8 +148,7 @@
       "4" (zap [bounded-half _] station!sites.feed!blackout))))
 
 (def preferred?(prefinfo clock)
-  (or no.prefinfo
-       (> clock (+ prefinfo!clock prefinfo!blackout))))
+  nil)
 
 (def prefinfo(clock)
   (obj clock clock blackout history-size*))
@@ -277,7 +276,8 @@
 
 (def recently-shown?(station feed)
   (pos feed
-       (map lookup-feed (firstn history-size* station!read-list))))
+       (map lookup-feed (firstn (bounded-half:len station!imported-feeds)
+                                station!read-list))))
 
 (def docs(feed)
   (dl-elems feed-docs.feed))
