@@ -123,8 +123,6 @@
   (wipe feed-docs*.nil)
 ;?   (each (f d) feed-docs*
   (each (u ui) userinfo*
-    (wipe ui!noob ui!queries ui!signup-stage ui!clock ui!currfeed
-          ui!signup-showlist-thread ui!saved)
     (each (s st) ui!stations
 ;?     (each doc (keys ui!read)
 ;?       (each (g gi) st!groups
