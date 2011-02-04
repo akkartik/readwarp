@@ -160,44 +160,43 @@
 
 
 
-(const preferred-prob* 0.8)
 (def choose-feed(user station)
-  (randpick
-    preferred-prob*  (choose-from 'recent-preferred
-                                  (keep (andf
-                                          recent?
-                                          [preferred? (station!sites _)
-                                                      userinfo*.user!clock])
-                                        (keys station!sites))
-                                  user station
-                                  recent-and-well-cleaned)
-    preferred-prob*  (choose-from 'preferred
-                                  (keep [preferred? (station!sites _)
-                                                    userinfo*.user!clock]
-                                        (keys station!sites))
-                                  user station)
-    preferred-prob*  (choose-from 'recent-popular-imported-feeds
-                                  (keys station!imported-feeds)
-                                  user station
-                                  recent-and-popular-and-well-cleaned)
-    preferred-prob*  (choose-from 'recent-imported-feeds
-                                  (keys station!imported-feeds)
-                                  user station
-                                  recent-and-well-cleaned)
-    1.01             (choose-from 'recent-popular
-                                  (keep recent?
-                                    (group-feeds* "Popular"))
-                                  user station
-                                  recent-feed-predicate)
-    1.01             (choose-from 'popular
-                                  (group-feeds* "Popular")
-                                  user station)
-    1.01             (choose-from 'imported-feeds
-                                  (keys station!imported-feeds)
-                                  user station)
-    1.01             (choose-from 'random
-                                  nonnerdy-feed-list*
-                                  user station)))
+  (or
+    (choose-from 'recent-preferred
+                 (keep (andf
+                         recent?
+                         [preferred? (station!sites _)
+                                     userinfo*.user!clock])
+                       (keys station!sites))
+                 user station
+                 recent-and-well-cleaned)
+    (choose-from 'preferred
+                 (keep [preferred? (station!sites _)
+                                   userinfo*.user!clock]
+                       (keys station!sites))
+                 user station)
+    (choose-from 'recent-popular-imported-feeds
+                 (keys station!imported-feeds)
+                 user station
+                 recent-and-popular-and-well-cleaned)
+    (choose-from 'recent-imported-feeds
+                 (keys station!imported-feeds)
+                 user station
+                 recent-and-well-cleaned)
+    (choose-from 'recent-popular
+                 (keep recent?
+                   (group-feeds* "Popular"))
+                 user station
+                 recent-feed-predicate)
+    (choose-from 'popular
+                 (group-feeds* "Popular")
+                 user station)
+    (choose-from 'imported-feeds
+                 (keys station!imported-feeds)
+                 user station)
+    (choose-from 'random
+                 nonnerdy-feed-list*
+                 user station)))
 
 (def feed-chooser(feed)
   (fn(user station)
@@ -224,10 +223,11 @@
 (def recent?(feed)
   (awhen recent-feeds*.feed
     (if (> (- (seconds) it) daily-threshold*)
-      (wipe recent-feeds*.feed)
+      wipe.it
       it)))
 (def recent-doc?(doc)
-  (> (- (seconds) doc-timestamp.doc) daily-threshold*))
+  (> (- (seconds) doc-timestamp.doc)
+     daily-threshold*))
 
 (def choose-from(msg candidates user station ? pred good-feed-predicate)
   (ret result
