@@ -15,6 +15,12 @@
               (apply (fn ,arglist ,@body) ,args)
               (apply orig ,args)))))))
 
+(defgeneric pushn(l v n)
+  (pushnew v l))
+
+(defmethod pushn(q v n) queue
+  (enq-limit v q n))
+
 
 
 (mac init args

@@ -94,7 +94,7 @@
           (wipe (next (prev db.dl))))
         (= db.dl (prev db.dl))))))
 
-(def pushn(dl v n)
+(defmethod pushn(dl v n) dlist
   (push-front dl v)
   (when (> dl-len.dl n)
     (pop-back dl)))

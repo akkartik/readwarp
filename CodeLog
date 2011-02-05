@@ -3373,3 +3373,8 @@ Deleting all preferred stuff. Surprising how less there is.
 =-=1296 - Fri Feb  4 14:52:39 PST 2011
 Data migration to purge old data.
 =-=1298 - Fri Feb  4 15:29:04 PST 2011
+
+New data migration: moving from dlists to queues now that we expect them to be
+reliable.
+Step 1: make pushn generic and make it work on queues. (better name later)
+=-=1300 - Fri Feb  4 18:00:19 PST 2011
