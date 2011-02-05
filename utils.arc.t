@@ -72,15 +72,15 @@
   (extract-car '("a" (prn a) (+ 1 1)) 'string))
 
 (test-iso "extract-car doesn't extract car if it doesn't match type"
-  '(nil (a (prn a) (+ 1 1)))
+  '(() (a (prn a) (+ 1 1)))
   (extract-car '(a (prn a) (+ 1 1)) 'string))
 
 (test-iso "extract-car extracts car if it satisfies predicate"
   '(3 ((prn a) (+ 1 1)))
   (extract-car '(3 (prn a) (+ 1 1)) [errsafe:> _ 0]))
 
-(test-iso "extract-car doesn't extract car if it doesn't match type"
-  '(nil (3 (prn a) (+ 1 1)))
+(test-iso "extract-car doesn't extract car if it doesn't match predicate"
+  '(() (3 (prn a) (+ 1 1)))
   (extract-car '(3 (prn a) (+ 1 1)) [errsafe:_ 0]))
 
 

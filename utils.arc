@@ -57,7 +57,7 @@
          (until (or (,test ,ans) (> (++ ,count) 10))
             (= ,ans ,generator))
          (unless (,test ,ans)
-           (= ,ans nil))))))
+           (wipe ,ans))))))
 
 (mac pipe-to(dest . body)
   `(fromstring
@@ -718,7 +718,7 @@
   `(w/prfile "/dev/null"
       ,@body))
 
-(= maintenance-tasks* ())
+(wipe maintenance-tasks*)
 (mac periodic-maintenance(maintenance-task . body)
   `(do
      (push (quote ,maintenance-task) maintenance-tasks*)
