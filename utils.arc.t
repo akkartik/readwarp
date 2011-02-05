@@ -242,22 +242,6 @@
   '(1 3 5)
   (posmatchall "b" "abcbdbe"))
 
-(test-iso "canonicalize stems"
-  "pig"
-  (canonicalize "pigs"))
-
-(test-iso "canonicalize downcases"
-  "pig"
-  (canonicalize "PiGS"))
-
-(test-iso "canonicalize strips apostrophes"
-  "pig"
-  (canonicalize "Pigs's"))
-
-(test-iso "canonicalize removes quotes"
-  "pig"
-  (canonicalize "\"Pig's"))
-
 (test-iso "split-urls tokenizes along punctuation"
   '("a" "com" "b")
   (split-urls "a.com/b"))
@@ -280,9 +264,8 @@
   '((7 7) (6 6) (6 5))
   (aboutnmost 2 '((6 6) (1 1) (6 5) (3 3) (5 5) (7 7)) car))
 
-(test-iso "aboutnmost should not return nils"
-  '()
-  (aboutnmost 2 '(nil nil nil nil)))
+(test-nil "aboutnmost should not return nils"
+  (aboutnmost 2 '(() () () ())))
 
 (test-is "pair? handles atoms"
   nil
@@ -302,7 +285,7 @@
 
 (test-iso "unserialize handles nil"
   (table)
-  (w/instring f "(table nil)" (unserialize:read f)))
+  (w/instring f "(table ())" (unserialize:read f)))
 
 (test-iso "unserialize handles non-tables"
   '(1 2)
@@ -322,7 +305,7 @@
 
 (test-iso "unserialize handles nested empty tables"
   (obj 1 2 3 (table))
-  (w/instring f "(table ((1 2) (3 (table nil))))" (unserialize:read f)))
+  (w/instring f "(table ((1 2) (3 (table ()))))" (unserialize:read f)))
 
 (test-iso "unserialize handles tables containing dlists"
   (obj 1 2 3 (dlist '(4)))
@@ -330,7 +313,7 @@
 
 (test-iso "unserialize handles lists containing tables"
   (list 1 2 (table))
-  (w/instring f "(1 2 (table nil))" (unserialize:read f)))
+  (w/instring f "(1 2 (table ()))" (unserialize:read f)))
 
 (test-iso "unserialize reverses serialize for integers"
   236
