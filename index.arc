@@ -26,10 +26,9 @@
   (check-doc doc docinfo*.doc!feed))
 (rhash doc feed "n-1"
   lookup-feed.doc
-  (fixedq 40
+  (fixq 40
     ;on-delete
-      (fn(doc)
-        (send-to-gc doc))))
+    send-to-gc))
 (def doc-feedtitle(doc)
   (check-doc doc docinfo*.doc!feedtitle))
 (def doc-timestamp(doc)
@@ -41,6 +40,20 @@
 (def contents(doc)
   (or (errsafe:slurp (+ "urls/" doc ".clean"))
       ""))
+
+(def q(l)
+  (ret q (queue)
+    (each x l
+      (enq x q))))
+(prn:dlist '(1 2 3))
+(prn:dl-elems:dlist '(1 2 3))
+(prn:q:dl-elems:dlist '(1 2 3))
+(prn:qlist:q:dl-elems:dlist '(1 2 3))
+(prn "converting dlists to queues")
+(each feed keys.feed-docs*
+  (prn "  " feed " " (car:dl-elems feed-docs*.feed))
+  (zap q:dl-elems feed-docs*.feed)
+  (prn "=> " (car:qlist feed-docs*.feed)))
 
 (init feedinfo* (table))
 (proc update-feedinfo()
@@ -253,7 +266,7 @@
          history-size*))
 
 (def docs(feed)
-  (dl-elems feed-docs.feed))
+  (qlist feed-docs.feed))
 (def newest(feed)
   (car docs.feed))
 (def newest-unread(user feed)
@@ -287,7 +300,7 @@
     (if (posmatch ".clean" file)
       (withs (doc (subst "" ".clean" file)
               feed (lookup-feed doc))
-        (unless (pos doc (dl-elems feed-docs*.feed))
+        (unless (pos doc docs.feed)
           (send-to-gc doc)))))
   (erp "gc-doc-dir done"))
 
