@@ -3391,3 +3391,5 @@ Step 1: make pushn generic and make it work on queues. (better name later)
 =-=1306 - Fri Feb  4 23:28:07 PST 2011
 Finally, pushn for queues.
 =-=1308 - Fri Feb  4 23:50:43 PST 2011
+fixq working.
+=-=1309 - Fri Feb  4 23:56:18 PST 2011

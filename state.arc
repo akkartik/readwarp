@@ -432,3 +432,8 @@
   (fn(q val)
     (ret ans (or q (dlist))
       (only.on-delete (pushn ans val n)))))
+
+(def fixq(n on-delete)
+  (fn(q val)
+    (ret ans (or q (queue))
+      (only.on-delete (pushn ans val n)))))
