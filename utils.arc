@@ -16,10 +16,15 @@
               (apply orig ,args)))))))
 
 (defgeneric pushn(l v n)
-  (pushnew v l))
+  (+ "pushn unimplemented for " type.l))
 
 (defmethod pushn(q v n) queue
-  (enq-limit v q n))
+  (atomic
+    (enq v q)
+    (until (<= len.q (+ n 1))
+      (deq q))
+    (when (> len.q n)
+      (deq q))))
 
 
 

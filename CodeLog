@@ -3376,7 +3376,7 @@ Data migration to purge old data.
 
 New data migration: moving from dlists to queues now that we expect them to be
 reliable.
-  Step 1: make pushn generic and make it work on queues. (better name later)
+Step 1: make pushn generic and make it work on queues. (better name later)
 =-=1300 - Fri Feb  4 18:00:19 PST 2011
   Step 1.1: make tests pass.
   Step 1.1.1: utils.arc.t now passes.
@@ -3389,3 +3389,5 @@ reliable.
 =-=1305 - Fri Feb  4 23:26:22 PST 2011
   ui.arc.t
 =-=1306 - Fri Feb  4 23:28:07 PST 2011
+Finally, pushn for queues.
+=-=1308 - Fri Feb  4 23:50:43 PST 2011

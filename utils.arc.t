@@ -5,6 +5,30 @@
 (test-nil "symize works on nil sym"
   (symize nil))
 
+(test-is "pushn limits queue length"
+  2
+  (len:ret q (queue)
+    (pushn q 34 2)
+    (pushn q 34 2)
+    (pushn q 34 2)))
+
+(test-is "pushn returns popped value"
+  1
+  (let q (queue)
+    (pushn q 1 3)
+    (pushn q 2 3)
+    (pushn q 3 3)
+    (pushn q 4 3)))
+
+(test-is "pushn trims to desired length"
+  3
+  (len:ret q (queue)
+    (enq 1 q)
+    (enq 2 q)
+    (enq 3 q)
+    (enq 4 q)
+    (pushn q 5 3)))
+
 
 
 (let a 0
