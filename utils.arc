@@ -411,7 +411,7 @@
 (def extract-car(block test)
   (if (test*.test car.block)
     `(,(car block) ,(cdr block))
-    `(nil ,block)))
+    `(() ,block)))
 
 (def test*(test)
   (if (no test)        id

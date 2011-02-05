@@ -62,7 +62,7 @@
       (forever:each doc (tokens:slurp "fifos/foo")
         (rotlog foo-log* doc)
         0
-        nil))
+        ()))
     (init foo-thread* (new-thread "foo" foo))
     (pushnew foo-thread* scan-registry*))
   (macex1:quote:defscan foo "foo" 0))
