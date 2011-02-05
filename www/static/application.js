@@ -9,7 +9,7 @@ function initPage() {
 }
 
 function nextScrollDoc(remaining) {
-  moreDocsFrom('scrollview', 'remaining='+remaining+'&for='+escape(location.href), 'rwscrollcolumn'+pickColumn());
+  moreDocsFrom('scrollview', 'remaining='+remaining+'&for='+escape(location.href), 'rwscrollcolumn'+remaining%numColumns);
 }
 
 function moreDocsFrom(url, params, id) {
@@ -133,10 +133,6 @@ function setupColumns() {
   }
   $('#rwscrollcontent').append('<div id="rwscrollcolumn'+(numColumns-1)+'" class="rwscrollcolumn rwscrollcolumn-last"></div>');
   $('#rwscrollcontent').append('<div class="rwclear"></div>');
-}
-
-function pickColumn() {
-  return Math.floor(Math.random()*numColumns);
 }
 
 function moveLeft() {
