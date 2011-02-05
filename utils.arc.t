@@ -2,8 +2,7 @@
   ""
   (string nil))
 
-(test-is "symize works on nil sym"
-  nil
+(test-nil "symize works on nil sym"
   (symize nil))
 
 
@@ -112,8 +111,7 @@
 
   (wipe a)
   (nslowrot a)
-  (test-iso "nslowrot works on empty lists"
-    '()
+  (test-nil "nslowrot works on empty lists"
     a)
 
   (push 3 a)
@@ -165,11 +163,11 @@
 (test-ok "subseq? works"
   (subseq? '(1 3 5) '(1 2 3 4 5 6)))
 (test-ok "subseq? handles empty sequence and pat"
-  (subseq? '() '()))
+  (subseq? () ()))
 (test-nil "subseq? handles empty sequence"
-  (subseq? '(1 3 5) '()))
+  (subseq? '(1 3 5) ()))
 (test-ok "subseq? handles empty pat"
-  (subseq? '() '(1 3 5)))
+  (subseq? () '(1 3 5)))
 (test-ok "subseq? handles sequences identical to pat"
   (subseq? '(1 3 5) '(1 3 5)))
 (test-ok "subseq? handles sequences that end at the same time as pat"
@@ -187,7 +185,7 @@
 
 (test-iso "freq initializes empty table"
           (table)
-          (freq '()))
+          (freq ()))
 
 (test-iso "freq computes frequency table"
           (obj 1 3 2 1 3 2)
@@ -267,16 +265,13 @@
 (test-nil "aboutnmost should not return nils"
   (aboutnmost 2 '(() () () ())))
 
-(test-is "pair? handles atoms"
-  nil
+(test-nil "pair? handles atoms"
   (pair? "abc"))
 
-(test-is "pair? handles lists"
-  t
+(test-ok "pair? handles lists"
   (pair? '(1 2)))
 
-(test-is "pair? handles long lists"
-  nil
+(test-nil "pair? handles long lists"
   (pair? '(1 2 3 4)))
 
 (test-iso "unserialize handles tables"
@@ -323,9 +318,8 @@
   "abc"
   (unserialize:serialize "abc"))
 
-(test-iso "unserialize reverses serialize for nil"
-  ()
-  (unserialize:serialize ()))
+(test-nil "unserialize reverses serialize for nil"
+  (unserialize:serialize nil))
 
 (test-iso "unserialize reverses serialize for lists"
   '(1 2 34)
@@ -339,12 +333,10 @@
   t
   (alist? '((1 2) (3 4))))
 
-(test-is "nil is not an alist"
-  nil
+(test-nil "nil is not an alist"
   (alist? nil))
 
-(test-is "alist? doesn't falsely detect two-character strings"
-  nil
+(test-nil "alist? doesn't falsely detect two-character strings"
   (alist? '((1 2) "ab")))
 
 (test-iso "set works"

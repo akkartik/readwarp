@@ -3,7 +3,7 @@
 (def dlist(? elems nil)
   (if (isa elems 'dlist)
     elems
-    (ret ans (annotate 'dlist (list '() '() 0))
+    (ret ans (annotate 'dlist (list () () 0))
       (each elem elems
         (push-back ans elem)))))
 
@@ -55,7 +55,7 @@
   (val db.dl))
 
 (proc push-front(dl v)
-  (let n (cons (cons v '()) '())
+  (let n (cons (cons v ()) ())
     (atomic
       (++ dl-len.dl)
       (if (dl-empty? dl)
@@ -65,7 +65,7 @@
            da.dl          n)))))
 
 (proc push-back(dl v)
-  (let n (cons (cons v '()) '())
+  (let n (cons (cons v ()) ())
     (atomic
       (++ dl-len.dl)
       (if (dl-empty? dl)
@@ -80,7 +80,7 @@
       (-- dl-len.dl)
       (ret ans (val da.dl)
         (if (is da.dl db.dl)
-          (= da.dl nil db.dl nil)
+          (wipe da.dl db.dl)
           (wipe (prev (next da.dl))))
         (= da.dl (next da.dl))))))
 
@@ -90,7 +90,7 @@
       (-- dl-len.dl)
       (ret ans (val db.dl)
         (if (is da.dl db.dl)
-          (= da.dl nil db.dl nil)
+          (wipe da.dl db.dl)
           (wipe (next (prev db.dl))))
         (= db.dl (prev db.dl))))))
 

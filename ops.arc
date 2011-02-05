@@ -6,7 +6,7 @@
 
 
 
-(= daily-clears* nil)
+(wipe daily-clears*)
 (maintenance-op cleardailystats req
   (each f daily-clears*
     (eval.f)))
