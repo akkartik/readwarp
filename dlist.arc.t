@@ -77,7 +77,7 @@
     (serialize (dlist '(42 43 44))))
 
 (test-iso "serialize handles tables containing dlists"
-  '(table ((1 2) (3 (dlist (4)))))
+  '(table ((3 (dlist (4))) (1 2)))
   (serialize (obj 1 2 3 (dlist '(4)))))
 
 (test-iso "unserialize undoes serialize for dlists"

@@ -3381,3 +3381,5 @@ Step 1: make pushn generic and make it work on queues. (better name later)
 Step 1.1: make tests pass.
 Step 1.1.1: utils.arc.t now passes.
 =-=1301 - Fri Feb  4 20:12:11 PST 2011
+Step 1.1.2: dlist.arc.t
+=-=1302 - Fri Feb  4 20:15:14 PST 2011
