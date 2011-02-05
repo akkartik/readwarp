@@ -3395,3 +3395,5 @@ fixq working.
 =-=1309 - Fri Feb  4 23:56:18 PST 2011
 Migrating to a queue implementation.
 =-=1310 - Sat Feb  5 00:31:17 PST 2011
+Cleanup migration, and all sign of dlists.
+=-=1311 - Sat Feb  5 00:41:28 PST 2011

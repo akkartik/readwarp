@@ -41,20 +41,6 @@
   (or (errsafe:slurp (+ "urls/" doc ".clean"))
       ""))
 
-(def q(l)
-  (ret q (queue)
-    (each x l
-      (enq x q))))
-(prn:dlist '(1 2 3))
-(prn:dl-elems:dlist '(1 2 3))
-(prn:q:dl-elems:dlist '(1 2 3))
-(prn:qlist:q:dl-elems:dlist '(1 2 3))
-(prn "converting dlists to queues")
-(each feed keys.feed-docs*
-  (prn "  " feed " " (car:dl-elems feed-docs*.feed))
-  (zap q:dl-elems feed-docs*.feed)
-  (prn "=> " (car:qlist feed-docs*.feed)))
-
 (init feedinfo* (table))
 (proc update-feedinfo()
   (= feedinfo*
