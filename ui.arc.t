@@ -10,12 +10,6 @@
       "b_com_0" (obj site "b.com" feed "a.com/feed2" url "b.com/0")
       "b_com_a" (obj site "b.com" feed "b.com/feed" url "b.com/a"))
 
-(shadowing keyword-feeds*
-    (obj
-      "a" '("a.com/feed")
-      "b" '("b.com/feed")
-      "blog" '("a.com/feed" "b.com/feed"))
-
 (shadowing feedinfo*
     (obj a.com/feed (table)
          b.com/feed (table))
@@ -41,4 +35,4 @@
   (until (all dead (threads "signup-showlist"))
     (sleep 1))
 
-)))))))
+))))))
