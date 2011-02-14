@@ -1,7 +1,6 @@
 var rwHistorySize = 10; // sync with index.arc
 var numColumns = 0;
 var currColumn = 0;
-var currStory = 0;
 function initPage() {
   setupColumns();
   nextScrollDoc(rwHistorySize*numColumns);
@@ -64,10 +63,8 @@ function moveUp() {
   // HACK
   if (elem.prev().prev().length == 0)
     elem.addClass('rwcurrent');
-  else {
+  else
     elem.prev().prev().addClass('rwcurrent');
-    --currStory;
-  }
   scrollTo('.rwcurrent');
   return false;
 }
@@ -77,10 +74,8 @@ function moveDown() {
   elem.removeClass('rwcurrent');
   if (elem.next().next().length == 0)
     elem.addClass('rwcurrent');
-  else {
+  else
     elem.next().next().addClass('rwcurrent');
-    ++currStory;
-  }
   scrollTo('.rwcurrent');
   return false;
 }
@@ -135,19 +130,32 @@ function setupColumns() {
   $('#rwscrollcontent').append('<div class="rwclear"></div>');
 }
 
-function moveLeft() {
-  var elem = $('.rwcurrent');
-  elem.removeClass('rwcurrent');
-  if (elem.prev().length == 0)
-    elem.addClass('rwcurrent');
-  else {
-    elem.prev().addClass('rwcurrent');
-    --currStory;
+function pickFromColumn(elem, column, targetScroll) {
+  if (column.length == 0) {
+    return false;
   }
-  scrollTo('.rwcurrent');
+
+  children = column.children('.rwscrollpost-wrapper');
+  for (var i = 0; i < children.length; ++i) {
+    if ($(children[i]).offset().top > targetScroll+50)
+      break;
+  }
+
+  if (i-1 >= 0) {
+    elem.removeClass('rwcurrent');
+    $(children[i-1]).addClass('rwcurrent');
+  }
   return false;
 }
+
+function moveLeft() {
+  var elem = $('.rwcurrent');
+  return pickFromColumn(elem, elem.parent().prev(), elem.offset().top);
+}
+
 function moveRight() {
+  var elem = $('.rwcurrent');
+  return pickFromColumn(elem, elem.parent().next(), elem.offset().top);
 }
 
 function intDiv(a, b) {
