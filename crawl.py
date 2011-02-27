@@ -18,7 +18,10 @@ def loadUrlMap():
   global canonical_url
   if os.path.exists('snapshots/url_map'):
     with open('snapshots/url_map') as input:
-      canonical_url = pickle.load(input)
+      try:
+        canonical_url = pickle.load(input)
+      except:
+        print 'Corrupt url map; first crawl will take forever'
 
 def saveUrlMap():
   if len(canonical_url) > 0:
@@ -36,9 +39,6 @@ import shutil
 backupTimestamp = str(time.time())
 def backupFeedinfo():
   try: shutil.copyfile('snapshots/feedinfo', 'snapshots/feedinfo.'+backupTimestamp)
-  except IOError: pass
-def backupUrlMap():
-  try: shutil.copyfile('snapshots/url_map', 'snapshots/url_map.'+backupTimestamp)
   except IOError: pass
 
 def loadFeeds():
@@ -117,7 +117,7 @@ def crawlUrl(rurl, metadata):
     with open(outfilename+'.raw', 'w') as output:
       output.write(soup.renderContents())
 
-  if not goodFileType(outfilename+'.raw'):
+  if not goodFileType(outfilename+'.raw'): # lose the podcasts
     os.unlink(outfilename+'.raw')
     return
 
@@ -213,11 +213,7 @@ def desc(item):
     return ''
 
 def main():
-  print "===", time.asctime(time.localtime())
-  backupUrlMap()
-  loadUrlMap()
-  backupFeedinfo()
-
+  print "---", time.asctime(time.localtime())
   try:
     i=0
     for feed in loadFeeds():
@@ -235,5 +231,8 @@ def main():
     saveUrlMap()
 
 if __name__ == '__main__':
+  loadUrlMap()
+  backupFeedinfo()
+
   while True:
     main()
