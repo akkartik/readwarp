@@ -3421,3 +3421,7 @@ A little more feedback.
 =-=1318 - Wed Mar  2 15:22:06 PST 2011
 Clean up css for the more button.
 =-=1319 - Wed Mar  2 15:43:03 PST 2011
+Long-time off-by-1 error: we were loading one story too few.
+And the 'more' button exacerbates that since the first column keeps getting
+longer than the others.
+=-=1320 - Wed Mar  2 15:49:05 PST 2011
