@@ -57,6 +57,8 @@ h2.rwtitle a{ font-family:serif; font-size:1.15em; font-weight:bold; color:#66e;
 .rwdate{ font-style:italic; margin-right:3em; display:inline; }
 .rwcollapsed{ max-height:20em; overflow:hidden; }
 
+#morebutton{ float:right; background:grey; padding:1em; font-weight:bold; font-size:140%; }
+
 .rwclear{ clear:both; }
 .rwsep{ height:20px; }
 .rwgutter{ width:20px; height:5px; }
