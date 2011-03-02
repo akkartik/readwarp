@@ -8,7 +8,15 @@ function initPage() {
 }
 
 function nextScrollDoc(remaining) {
+  $('#morebutton').html('loading...');
+  $('#morebutton').fadeOut();
   moreDocsFrom('scrollview', 'remaining='+remaining+'&for='+escape(location.href), 'rwscrollcolumn'+remaining%numColumns);
+  if (remaining == 0) {
+    setTimeout(function() {
+      $('#morebutton').show();
+      $('#morebutton').html('More &darr;');
+    }, 1000);
+  }
 }
 
 function moreDocsFrom(url, params, id) {

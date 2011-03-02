@@ -42,8 +42,7 @@
                   (pr "$(document).bind('keydown', 'k', moveUp);")
                   (pr "$(document).bind('keydown', 'l', moveRight);")
                   (pr "window.onload = initPage;")))
-              (tag (div id 'morebutton class "rwshadow rwrounded" onclick "nextScrollDoc(5*numColumns)")
-                (pr "More &darr;")))))))))
+              (tag:div id 'morebutton class "rwshadow rwrounded" onclick "nextScrollDoc(5*numColumns)"))))))))
 
 (defop scrollview req
   (another-scroll current-user.req (only.int (arg req "remaining")) (lookup-chooser (arg req "for"))))
