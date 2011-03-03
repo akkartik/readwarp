@@ -3,7 +3,7 @@ var numColumns = 0;
 var currColumn = 0;
 function initPage() {
   setupColumns();
-  nextScrollDoc(rowsPerUpdate*numColumns+1);
+  nextScrollDoc(rowsPerUpdate*numColumns);
   setTimeout(setupCurrentStory, 5000);
 }
 
@@ -23,7 +23,8 @@ function moreDocsFrom(url, remaining, params, id) {
             runScripts($i(id));
           };
 
-          if (remaining == 0) {
+          if (remaining <= 1) {
+            callback();
             $('#morebutton').html('More &darr;');
             $('#morebutton').show();
           } else {

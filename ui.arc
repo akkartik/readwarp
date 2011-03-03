@@ -72,8 +72,9 @@
     (pr "maybeRemoveExpanders();")
     (pr "++pageSize;")
     (pr "deleteScripts($i('rwscrollcontent'));")
+    --.remaining
     (if (and remaining (> remaining 0))
-      (pr (+ "nextScrollDoc(" (- remaining 1) ");")))))
+      (pr (+ "nextScrollDoc(" remaining ");")))))
 
 (defop vote req
   (vote current-user.req (arg req "doc") (arg req "outcome")))
