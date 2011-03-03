@@ -8,25 +8,27 @@ function initPage() {
 }
 
 function nextScrollDoc(remaining) {
-  $('#morebutton').html('loading...');
-  $('#morebutton').fadeOut();
-  moreDocsFrom('scrollview', 'remaining='+remaining+'&for='+escape(location.href), 'rwscrollcolumn'+remaining%numColumns);
-  if (remaining == 0) {
-    setTimeout(function() {
-      $('#morebutton').show();
-      $('#morebutton').html('More &darr;');
-    }, 1000);
-  }
+  moreDocsFrom('scrollview', remaining, 'remaining='+remaining+'&for='+escape(location.href), 'rwscrollcolumn'+remaining%numColumns);
 }
 
-function moreDocsFrom(url, params, id) {
+function moreDocsFrom(url, remaining, params, id) {
+  $('#morebutton').html('loading...');
   new $.ajax({
         url: url,
         type: 'post',
         data: params,
         success: function(response) {
-          $i(id).innerHTML += response;
-          runScripts($i(id));
+          var callback = function() {
+            $i(id).innerHTML += response;
+            runScripts($i(id));
+          };
+
+          if (remaining == 0) {
+            $('#morebutton').html('More &darr;');
+            $('#morebutton').show();
+          } else {
+            $('#morebutton').fadeOut(200, callback);
+          }
         }
       });
   return false;

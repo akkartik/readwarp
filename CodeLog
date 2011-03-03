@@ -3425,3 +3425,6 @@ Long-time off-by-1 error: we were loading one story too few.
 And the 'more' button exacerbates that since the first column keeps getting
 longer than the others.
 =-=1320 - Wed Mar  2 15:49:05 PST 2011
+Less hacky timeouts around making the more button appear and disappear.
+Leave the 'loading..' copy up until the first story appears.
+=-=1321 - Wed Mar  2 16:04:58 PST 2011
