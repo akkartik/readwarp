@@ -1,9 +1,9 @@
-var rwHistorySize = 10; // sync with index.arc
+var rowsPerUpdate = 5;
 var numColumns = 0;
 var currColumn = 0;
 function initPage() {
   setupColumns();
-  nextScrollDoc(rwHistorySize*numColumns+1);
+  nextScrollDoc(rowsPerUpdate*numColumns+1);
   setTimeout(setupCurrentStory, 5000);
 }
 

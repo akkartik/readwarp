@@ -42,7 +42,7 @@
                   (pr "$(document).bind('keydown', 'k', moveUp);")
                   (pr "$(document).bind('keydown', 'l', moveRight);")
                   (pr "window.onload = initPage;")))
-              (tag:div id 'morebutton class "rwshadow rwrounded" onclick "nextScrollDoc(5*numColumns+1)")
+              (tag:div id 'morebutton class "rwshadow rwrounded" onclick "nextScrollDoc(rowsPerUpdate*numColumns+1)")
               (tag:div style "height:1em"))))))))
 
 (defop scrollview req
