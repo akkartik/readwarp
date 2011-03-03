@@ -3433,3 +3433,5 @@ Simplify management of article counts.
 Fix off-by-1 right in the initial load.
 Later loads are still off. They don't begin at column 0.
 =-=1323 - Wed Mar  2 16:24:31 PST 2011
+Ah, get rid of the duplication in seeding 'remaining'.
+=-=1324 - Wed Mar  2 16:28:49 PST 2011

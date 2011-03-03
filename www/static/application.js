@@ -3,11 +3,13 @@ var numColumns = 0;
 var currColumn = 0;
 function initPage() {
   setupColumns();
-  nextScrollDoc(rowsPerUpdate*numColumns);
+  nextScrollDoc();
   setTimeout(setupCurrentStory, 5000);
 }
 
 function nextScrollDoc(remaining) {
+  if (remaining == undefined)
+    remaining = rowsPerUpdate*numColumns;
   moreDocsFrom('scrollview', remaining, 'remaining='+remaining+'&for='+escape(location.href), 'rwscrollcolumn'+remaining%numColumns);
 }
 
