@@ -325,3 +325,13 @@
            s ui!all
            st ui!stations.s)
     ,@body))
+
+(def purge-bad-docs()
+  (noisy-each 10 (feed docs) feed-docs*
+    (= feed-docs*.feed skip-missing-files.docs)))
+
+(def skip-missing-files(docq)
+  (ret q (queue)
+    (whilet doc deq.docq
+      (if (file-exists (+ "urls/" doc ".raw"))
+        (enq doc q)))))
