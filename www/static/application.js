@@ -10,11 +10,12 @@ function initPage() {
 function nextScrollDoc(remaining) {
   if (remaining == undefined)
     remaining = rowsPerUpdate*numColumns;
-  moreDocsFrom('scrollview', remaining, 'remaining='+remaining+'&for='+escape(location.href), 'rwcolumn'+remaining%numColumns);
+  moreDocsFrom('scrollview', remaining, 'remaining='+remaining+'&for='+escape(location.href));
 }
 
-function moreDocsFrom(url, remaining, params, id) {
+function moreDocsFrom(url, remaining, params) {
   $('#morebutton').html('loading...');
+  id = shortestColumn();
   new $.ajax({
         url: url,
         type: 'post',
@@ -141,6 +142,15 @@ function setupColumns() {
   }
   $('#rwcontent').append('<div id="rwcolumn'+(numColumns-1)+'" class="rwcolumn rwcolumn-last"></div>');
   $('#rwcontent').append('<div class="rwclear"></div>');
+}
+
+function shortestColumn() {
+  var shortest = 'rwcolumn0';
+  for (var i = 1; i < numColumns; ++i) {
+    if ($('#rwcolumn'+i).height() < $('#'+shortest).height())
+      shortest = 'rwcolumn'+i;
+  }
+  return shortest;
 }
 
 function pickFromColumn(elem, column, targetScroll) {

@@ -3438,3 +3438,6 @@ Ah, get rid of the duplication in seeding 'remaining'.
 
 Fix corrupted data from running out of disk last weekend.
 =-=1325 - Thu Mar  3 18:39:29 PST 2011
+
+Just always throw to the shortest column so far.
+=-=1327 - Tue Mar  8 11:49:34 PST 2011
