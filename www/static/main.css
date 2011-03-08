@@ -4,18 +4,18 @@
 body{ font-size:62.5%; height:100%; }
 #rwbody{ background:#ddd; min-height:100%; }
 
-#rwscrollpage{ width:520px; margin:0 auto; min-height:100%; font-size:1.4em; line-height:1.4; font-family:sans-serif; }
+#rwpage{ width:520px; margin:0 auto; min-height:100%; font-size:1.4em; line-height:1.4; font-family:sans-serif; }
 
-  .rwscrollcolumn{ float:left; width:520px; margin-right:20px; }
-    .rwscrollcolumn-last{ margin-right:0; }
+  .rwcolumn{ float:left; width:520px; margin-right:20px; }
+    .rwcolumn-last{ margin-right:0; }
 
-    .rwscrollbuttons{ float:right; margin-left:3em; }
-    .rwscrollhidebutton{ float:right; color:#8888ee; cursor:pointer; }
-    .rwscrollbutton{ float:left; color:#8888ee; cursor:pointer; }
+    .rwbuttons{ float:right; margin-left:3em; }
+    .rwhidebutton{ float:right; color:#8888ee; cursor:pointer; }
+    .rwbutton{ float:left; color:#8888ee; cursor:pointer; }
 
-    .rwscrollpost-wrapper{ float:left; background:white; }
-      .rwscrollpost{ padding:10px; width:500px; text-align:left; }
-      * html .rwscrollpost{ width:auto; }
+    .rwpost-wrapper{ float:left; background:white; }
+      .rwpost{ padding:10px; width:500px; text-align:left; }
+      * html .rwpost{ width:auto; }
 
   #rwnav{ height:35px; padding:10px; background:white; }
     #rwnav-menu{ float:right; margin-top:10px; }
@@ -36,15 +36,15 @@ img{ max-width:495px; }
 
 
 
-.rwscrollbutton{ height:35px; width:35px; cursor:pointer; margin-right:1em; }
+.rwbutton{ height:35px; width:35px; cursor:pointer; margin-right:1em; }
 
-div.rwscrolllike{ background:transparent url('like-small.png') 0px 0px no-repeat; }
-div.rwscrolllike:hover { background:transparent url('like-small.png') 0px -35px no-repeat; }
-div.rwscrolllike:active { background:transparent url('like-small.png') 0px -70px no-repeat; }
+div.rwlike{ background:transparent url('like-small.png') 0px 0px no-repeat; }
+div.rwlike:hover { background:transparent url('like-small.png') 0px -35px no-repeat; }
+div.rwlike:active { background:transparent url('like-small.png') 0px -70px no-repeat; }
 
-div.rwscrollskip{ background:transparent url('skip-small.png') 0px 0px no-repeat; }
-div.rwscrollskip:hover { background:transparent url('skip-small.png') 0px -35px no-repeat; }
-div.rwscrollskip:active { background:transparent url('skip-small.png') 0px -70px no-repeat; }
+div.rwskip{ background:transparent url('skip-small.png') 0px 0px no-repeat; }
+div.rwskip:hover { background:transparent url('skip-small.png') 0px -35px no-repeat; }
+div.rwskip:active { background:transparent url('skip-small.png') 0px -70px no-repeat; }
 
 
 

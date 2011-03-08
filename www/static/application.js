@@ -10,7 +10,7 @@ function initPage() {
 function nextScrollDoc(remaining) {
   if (remaining == undefined)
     remaining = rowsPerUpdate*numColumns;
-  moreDocsFrom('scrollview', remaining, 'remaining='+remaining+'&for='+escape(location.href), 'rwscrollcolumn'+remaining%numColumns);
+  moreDocsFrom('scrollview', remaining, 'remaining='+remaining+'&for='+escape(location.href), 'rwcolumn'+remaining%numColumns);
 }
 
 function moreDocsFrom(url, remaining, params, id) {
@@ -67,7 +67,7 @@ function scrollHide(doc) {
 }
 
 function setupCurrentStory() {
-  $('#rwscrollcolumn'+currColumn+' .rwscrollpost-wrapper:first').addClass('rwcurrent');
+  $('#rwcolumn'+currColumn+' .rwpost-wrapper:first').addClass('rwcurrent');
 }
 
 function moveUp() {
@@ -98,17 +98,17 @@ function scrollTo(selector) {
 }
 
 function clickCurrentLike() {
-  $('.rwcurrent .rwscrolllike').click();
+  $('.rwcurrent .rwlike').click();
   return false;
 }
 
 function clickCurrentSkip() {
-  $('.rwcurrent .rwscrollskip').click();
+  $('.rwcurrent .rwskip').click();
   return false;
 }
 
 function clickCurrentHide() {
-  $('.rwcurrent .rwscrollhidebutton').click();
+  $('.rwcurrent .rwhidebutton').click();
   return false;
 }
 
@@ -127,20 +127,20 @@ function makeCurrent(elem) {
 
 function setupColumns() {
   // sync with main.css
-  var columnWidth = 520; // #rwscrollpage, img
-  var intercolumnGutter = 20; // .rwgutter, .rwscrollcolumn
+  var columnWidth = 520; // #rwpage, img
+  var intercolumnGutter = 20; // .rwgutter, .rwcolumn
 
   var oldNumColumns = numColumns;
   numColumns = intDiv(window.innerWidth, columnWidth);
   if (numColumns < 1) numColumns = 1;
   if (numColumns <= oldNumColumns) return;
 
-  $('#rwscrollpage')[0].style.width = (numColumns-1)*(columnWidth+intercolumnGutter) + columnWidth + 'px';
+  $('#rwpage')[0].style.width = (numColumns-1)*(columnWidth+intercolumnGutter) + columnWidth + 'px';
   for (var i = 0; i < numColumns-1; ++i) {
-    $('#rwscrollcontent').append('<div id="rwscrollcolumn'+i+'" class="rwscrollcolumn"></div>');
+    $('#rwcontent').append('<div id="rwcolumn'+i+'" class="rwcolumn"></div>');
   }
-  $('#rwscrollcontent').append('<div id="rwscrollcolumn'+(numColumns-1)+'" class="rwscrollcolumn rwscrollcolumn-last"></div>');
-  $('#rwscrollcontent').append('<div class="rwclear"></div>');
+  $('#rwcontent').append('<div id="rwcolumn'+(numColumns-1)+'" class="rwcolumn rwcolumn-last"></div>');
+  $('#rwcontent').append('<div class="rwclear"></div>');
 }
 
 function pickFromColumn(elem, column, targetScroll) {
@@ -148,7 +148,7 @@ function pickFromColumn(elem, column, targetScroll) {
     return false;
   }
 
-  children = column.children('.rwscrollpost-wrapper');
+  children = column.children('.rwpost-wrapper');
   for (var i = 0; i < children.length; ++i) {
     if ($(children[i]).offset().top > targetScroll+50)
       break;

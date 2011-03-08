@@ -26,11 +26,11 @@
     (header)
     (tag body
       (tag (div id 'rwbody)
-        (tag (div id 'rwscrollpage)
+        (tag (div id 'rwpage)
           (nav user title)
           (tag (div style "width:100%")
-            (tag (div id 'rwscrollcontents-wrap)
-              (tag (div id 'rwscrollcontent)
+            (tag (div id 'rwcontents-wrap)
+              (tag (div id 'rwcontent)
                 (tag script
                   (pr "$(document).bind('keydown', 'a', clickCurrentLike);")
                   (pr "$(document).bind('keydown', 'z', clickCurrentSkip);")
@@ -51,27 +51,27 @@
 (def another-scroll(user remaining ? choosefn choose-feed)
   (let doc (pick user choosefn)
     (mark-read user doc)
-    (tag (div id (+ "doc_" doc) class "rwscrollpost-wrapper rwrounded rwshadow"
+    (tag (div id (+ "doc_" doc) class "rwpost-wrapper rwrounded rwshadow"
               onclick "makeCurrent(this)")
-      (tag (div class "rwscrollpost rwcollapsed")
-        (tag (div class 'rwscrollbuttons)
-          (tag (div class 'rwscrollhidebutton
+      (tag (div class "rwpost rwcollapsed")
+        (tag (div class 'rwbuttons)
+          (tag (div class 'rwhidebutton
                     onclick (+ "scrollHide('" doc "')"))
             (pr "x"))
-          (tag (div class "rwscrollbutton rwscrolllike"
+          (tag (div class "rwbutton rwlike"
                     onclick (+ "scrollLike('" doc "')"))
-            (tag (div title "like" class "rwscrollbutton rwscrolllike")))
-          (tag (div class "rwscrollbutton rwscrollskip"
+            (tag (div title "like" class "rwbutton rwlike")))
+          (tag (div class "rwbutton rwskip"
                     onclick (+ "scrollSkip('" doc "')"))
-            (tag (div title "skip" class "rwscrollbutton rwscrollskip"))))
+            (tag (div title "skip" class "rwbutton rwskip"))))
         (render-doc user doc))
       (tag:img id (+ "expand_contents_" doc) class "rwexpander" src "green_arrow_down.png" height "30px" style "float:right"
-               onclick (+ "$(this).hide(); $('#doc_" doc " .rwscrollpost').removeClass('rwcollapsed')")))
+               onclick (+ "$(this).hide(); $('#doc_" doc " .rwpost').removeClass('rwcollapsed')")))
     (tag:div class "rwclear rwsep"))
   (tag script
     (pr "maybeRemoveExpanders();")
     (pr "++pageSize;")
-    (pr "deleteScripts($i('rwscrollcontent'));")
+    (pr "deleteScripts($i('rwcontent'));")
     --.remaining
     (if (and remaining (> remaining 0))
       (pr (+ "nextScrollDoc(" remaining ");")))))
@@ -146,7 +146,7 @@
       (header)
       (tag body
         (tag (div id 'rwbody)
-          (tag (div id 'rwscrollpage)
+          (tag (div id 'rwpage)
             (nav user)
             (tag (div style "background:white; padding:2em" class "rwrounded rwshadow")
               (pr "Drag this link to your browser toolbar.")
