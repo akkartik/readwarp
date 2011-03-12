@@ -26,7 +26,7 @@
   (check-doc doc docinfo*.doc!feed))
 (rhash doc feed "n-1"
   lookup-feed.doc
-  (fixq 40
+  (fixedq 40
     ;on-delete
     send-to-gc))
 (def doc-feedtitle(doc)
@@ -120,6 +120,12 @@
 (defreg migrate-index() migrations*
   (wipe userinfo*.nil)
   (wipe feed-docs*.nil)
+  (each feed keys.feed-docs*
+    (prn feed)
+    (prn "  " (car:qlist feed-docs*.feed))
+    (zap dlist:qlist feed-docs*.feed)
+    (prn "=> " (car:dl-elems feed-docs*.feed)))
+
 ;?   (each (f d) feed-docs*
   (each (u ui) userinfo*
     (each (s st) ui!stations
@@ -200,6 +206,7 @@
      daily-threshold*))
 
 (def choose-from(msg candidates user station ? pred good-feed-predicate)
+     (prn 'msg " " len.candidates)
   (ret result
           (findg (randpos candidates)
                  (pred user station))
@@ -335,3 +342,22 @@
     (whilet doc deq.docq
       (if (file-exists (+ "urls/" doc ".raw"))
         (enq doc q)))))
+
+(def resort-feeds()
+  (on f keys.feed-docs*
+    (prn f)
+    (if (is 0 (mod index 10))
+      (save-snapshot feed-docs* "tmp"))
+    (zap resort-feed feed-docs*.f)))
+
+(def resort-feed(docq)
+  (ret q (queue)
+    (each doc (sort-by doc-timestamp qlist.docq)
+      (enq doc q))))
+
+(def resort-feeds()
+  (on f keys.feed-docs*
+    (when (is 0 (mod index 10))
+      (prn index " " f)
+      (save-snapshot feed-docs* "tmp"))
+    (zap [dlist:sort-by doc-timestamp dl-elems._] feed-docs*.f)))

@@ -15,17 +15,6 @@
               (apply (fn ,arglist ,@body) ,args)
               (apply orig ,args)))))))
 
-(defgeneric pushn(l v n)
-  (+ "pushn unimplemented for " type.l))
-
-(defmethod pushn(q v n) queue
-  (atomic
-    (enq v q)
-    (until (<= len.q (+ n 1))
-      (deq q))
-    (when (> len.q n)
-      (deq q))))
-
 
 
 (mac init args
@@ -237,6 +226,22 @@
 
 (mac nslowrot(l)
   `(when ,l (= ,l (+ (cdr ,l) (list (car ,l))))))
+
+(defgeneric pushn(l v n)
+  (+ "pushn unimplemented for " type.l))
+
+(defmethod pushn(q v n) queue
+  (atomic
+    (enq v q)
+    (until (<= len.q (+ n 1))
+      (deq q))
+    (when (> len.q n)
+      (deq q))))
+
+(def q(l)
+  (ret q (annotate 'queue (list nil nil 0))
+    (each x l
+      (enq x q))))
 
 
 

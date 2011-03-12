@@ -326,6 +326,10 @@
   (obj 1 2 3 (table))
   (w/instring f "(table ((1 2) (3 (table ()))))" (unserialize:read f)))
 
+(test-iso "unserialize handles tables containing dlists"
+  (obj 1 2 3 (dlist '(4)))
+  (w/instring f "(table ((1 2) (3 (dlist (4)))))" (unserialize:read f)))
+
 (test-iso "unserialize handles lists containing tables"
   (list 1 2 (table))
   (w/instring f "(1 2 (table ()))" (unserialize:read f)))

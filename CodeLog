@@ -3441,3 +3441,12 @@ Fix corrupted data from running out of disk last weekend.
 
 Just always throw to the shortest column so far.
 =-=1327 - Tue Mar  8 11:49:34 PST 2011
+
+Why is feed-docs getting out of order. Took me several hours of work to
+realize I'd screwed up over a month ago when I took out dlists. There's a
+reason they're there: you want to push into the tail, gc out the head *and*
+read from the tail as well.
+
+I'm not sure how this month has affected our crawl pipeline, and how good the
+data currently is, how much data we have. But we have data going back.
+=-=1328 - Sat Mar 12 10:19:28 PST 2011
