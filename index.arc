@@ -120,12 +120,6 @@
 (defreg migrate-index() migrations*
   (wipe userinfo*.nil)
   (wipe feed-docs*.nil)
-  (each feed keys.feed-docs*
-    (when (not (iso "http"
-                  (cut feed 0 4)))
-      (prn feed)
-      (wipe feed-docs*.feed)))
-
 ;?   (each (f d) feed-docs*
   (each (u ui) userinfo*
     (each (s st) ui!stations
@@ -206,50 +200,39 @@
      daily-threshold*))
 
 (def choose-from(msg candidates user station ? pred good-feed-predicate)
-  (prn msg " " len.candidates)
-  (prn randpos.candidates)
   (ret result
-          (findg (ret c (randpos candidates)
-                   (prn c " " (len:feed-docs* c)))
+          (findg (randpos candidates)
                  (pred user station))
     (when result (erp msg ": " result))))
 
 (def good-feed-predicate(user station)
   (andf
-    [prn _ "aaaa"]
     [newest-unread user _]
-    [prn _ "aaaa"]
     [~recently-shown? station _]))
 
 (def recent-feed-predicate(user station)
   (andf
     (good-feed-predicate user station)
-    [prn _ "bbbb"]
     [recent-doc?:newest-unread user _]))
 
 (def recent-and-well-cleaned(user station)
   (andf
     (good-feed-predicate user station)
-    [prn _ "cccc"]
     [recent-doc?:newest-unread user _]
-    [prn _ "dddd"]
     [~poorly-cleaned-feeds* _]))
 
 (def recent-and-popular-and-well-cleaned(user station)
   (andf
     (recent-and-well-cleaned user station)
-    [prn _ "eeee"]
-    [prn (popular? prn._) "<=rpwc"]))
+    [popular? _]))
 
 (def popular?(feed)
   (find feed (group-feeds* "Popular")))
 
 (def pick(user choosefn)
   (let sname userinfo*.user!all
-    (prn
     (always [newest-unread user _]
-            (prn (choosefn user userinfo*.user!stations.sname) "<=aa"))
-    "<=bb")))
+            (choosefn user userinfo*.user!stations.sname))))
 (after-exec pick(user choosefn)
   (erp user " => " result))
 
@@ -260,7 +243,6 @@
                     (always [newest-unread user _] randpos.feeds)))
 
 (def recently-shown?(station feed)
-     (prn "recently-shown? " feed)
   (pos feed
        (map lookup-feed (firstn (bounded-half:len station!imported-feeds)
                                 station!read-list))))
@@ -274,7 +256,6 @@
 (def newest(feed)
   (car docs.feed))
 (def newest-unread(user feed)
-     (prn "newest-unread: " feed " " docs.feed)
   (find [~read? user _] docs.feed))
 
 
