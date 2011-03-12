@@ -3450,3 +3450,6 @@ read from the tail as well.
 I'm not sure how this month has affected our crawl pipeline, and how good the
 data currently is, how much data we have. But we have data going back.
 =-=1328 - Sat Mar 12 10:19:28 PST 2011
+Agh, forgot to replace a qlist with dl-elems. Surprisingly hard to debug.
+I'm starting to forget this codebase.
+=-=1329 - Sat Mar 12 11:52:59 PST 2011

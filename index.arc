@@ -121,10 +121,10 @@
   (wipe userinfo*.nil)
   (wipe feed-docs*.nil)
   (each feed keys.feed-docs*
-    (prn feed)
-    (prn "  " (car:qlist feed-docs*.feed))
-    (zap dlist:qlist feed-docs*.feed)
-    (prn "=> " (car:dl-elems feed-docs*.feed)))
+    (when (not (iso "http"
+                  (cut feed 0 4)))
+      (prn feed)
+      (wipe feed-docs*.feed)))
 
 ;?   (each (f d) feed-docs*
   (each (u ui) userinfo*
@@ -206,40 +206,50 @@
      daily-threshold*))
 
 (def choose-from(msg candidates user station ? pred good-feed-predicate)
-     (prn 'msg " " len.candidates)
+  (prn msg " " len.candidates)
+  (prn randpos.candidates)
   (ret result
-          (findg (randpos candidates)
+          (findg (ret c (randpos candidates)
+                   (prn c " " (len:feed-docs* c)))
                  (pred user station))
     (when result (erp msg ": " result))))
 
 (def good-feed-predicate(user station)
   (andf
+    [prn _ "aaaa"]
     [newest-unread user _]
+    [prn _ "aaaa"]
     [~recently-shown? station _]))
 
 (def recent-feed-predicate(user station)
   (andf
     (good-feed-predicate user station)
+    [prn _ "bbbb"]
     [recent-doc?:newest-unread user _]))
 
 (def recent-and-well-cleaned(user station)
   (andf
     (good-feed-predicate user station)
+    [prn _ "cccc"]
     [recent-doc?:newest-unread user _]
+    [prn _ "dddd"]
     [~poorly-cleaned-feeds* _]))
 
 (def recent-and-popular-and-well-cleaned(user station)
   (andf
     (recent-and-well-cleaned user station)
-    [popular? _]))
+    [prn _ "eeee"]
+    [prn (popular? prn._) "<=rpwc"]))
 
 (def popular?(feed)
   (find feed (group-feeds* "Popular")))
 
 (def pick(user choosefn)
   (let sname userinfo*.user!all
-     (always [newest-unread user _]
-             (choosefn user userinfo*.user!stations.sname))))
+    (prn
+    (always [newest-unread user _]
+            (prn (choosefn user userinfo*.user!stations.sname) "<=aa"))
+    "<=bb")))
 (after-exec pick(user choosefn)
   (erp user " => " result))
 
@@ -250,6 +260,7 @@
                     (always [newest-unread user _] randpos.feeds)))
 
 (def recently-shown?(station feed)
+     (prn "recently-shown? " feed)
   (pos feed
        (map lookup-feed (firstn (bounded-half:len station!imported-feeds)
                                 station!read-list))))
@@ -259,10 +270,11 @@
          history-size*))
 
 (def docs(feed)
-  (qlist feed-docs.feed))
+  (dl-elems feed-docs.feed))
 (def newest(feed)
   (car docs.feed))
 (def newest-unread(user feed)
+     (prn "newest-unread: " feed " " docs.feed)
   (find [~read? user _] docs.feed))
 
 
@@ -332,28 +344,6 @@
            s ui!all
            st ui!stations.s)
     ,@body))
-
-(def purge-bad-docs()
-  (noisy-each 10 (feed docs) feed-docs*
-    (= feed-docs*.feed skip-missing-files.docs)))
-
-(def skip-missing-files(docq)
-  (ret q (queue)
-    (whilet doc deq.docq
-      (if (file-exists (+ "urls/" doc ".raw"))
-        (enq doc q)))))
-
-(def resort-feeds()
-  (on f keys.feed-docs*
-    (prn f)
-    (if (is 0 (mod index 10))
-      (save-snapshot feed-docs* "tmp"))
-    (zap resort-feed feed-docs*.f)))
-
-(def resort-feed(docq)
-  (ret q (queue)
-    (each doc (sort-by doc-timestamp qlist.docq)
-      (enq doc q))))
 
 (def resort-feeds()
   (on f keys.feed-docs*

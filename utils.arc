@@ -49,7 +49,8 @@
     `(ret ,ans ,generator
        (let ,count 0
          (until (or (,test ,ans) (> (++ ,count) 10))
-            (= ,ans ,generator))
+           (prn "findg " ,count)
+           (= ,ans ,generator))
          (unless (,test ,ans)
            (wipe ,ans))))))
 
