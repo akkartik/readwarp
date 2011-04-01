@@ -234,6 +234,7 @@
 (defpage fashion "Fashion")
 (defpage comics "Comics")
 (defpage odd "Odd")
+(defpage cricket "Cricket")
 
 (def lookup-chooser(arg)
   (or lookup-chooser*.arg
