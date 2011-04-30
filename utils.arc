@@ -740,6 +740,12 @@
   (when acons.maintenance-tasks*
     (eval car.maintenance-tasks*)))
 
+(def quit-in(n)
+  (thread "quit"
+    (sleep n)
+    (prn "autoquit")
+    (quit)))
+
 (= plurals* (table))
 (def plural-of(s)
   (or (plurals* s)

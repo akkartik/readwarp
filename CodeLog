@@ -3455,3 +3455,9 @@ I'm starting to forget this codebase.
 =-=1329 - Sat Mar 12 11:52:59 PST 2011
 Cleanup.
 =-=1330 - Sat Mar 12 11:59:01 PST 2011
+
+For the past 2-3 weeks the server's running out of RAM and going dark every
+few days. There seems to be a memory leak in the racket/arc process.
+
+Just auto-restart everyday for now.
+=-=1332 - Sat Apr 30 12:10:22 PDT 2011
