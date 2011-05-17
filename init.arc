@@ -24,4 +24,4 @@
 (unless (server-thread)
   (start-server:my-port))
 
-(quit-in:* 60 60 24) ; big hammer - we have a memory leak
+(quit-in:* 60 60 12) ; big hammer - we have a memory leak

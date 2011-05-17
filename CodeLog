@@ -3461,3 +3461,6 @@ few days. There seems to be a memory leak in the racket/arc process.
 
 Just auto-restart everyday for now.
 =-=1332 - Sat Apr 30 12:10:22 PDT 2011
+Still died, but things are certainly improved. See if reducing the window
+fixes it.
+=-=1333 - Tue May 17 08:29:32 PDT 2011
