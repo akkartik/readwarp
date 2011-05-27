@@ -285,13 +285,6 @@
         (list (cons car.l a) b)
         (list a (cons car.l b))))))
 
-(def map-every(f l n ? offset 0)
-  (map [let (v . i) _
-         (if (is offset (remainder i n))
-           (f v)
-           v)]
-    (add-index-tags l)))
-
 (def sliding-window(n xs)
   (accum a
     (a (firstn n xs))
