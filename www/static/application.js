@@ -1,4 +1,4 @@
-var rowsPerUpdate = 25;
+var rowsPerUpdate = 10;
 var numColumns = 0;
 var currColumn = 0;
 function initPage() {
