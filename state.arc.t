@@ -24,14 +24,6 @@
       (test-ok "load-snapshot bails on corrupted snapshot file"
                quit-called))))
 
-(let f 2
-  (save-snapshot f 320)
-  (= f nil)
-  (fread (+ snapshots-dir* "/f.320") f)
-  (test-is "save-snapshot can take an optional timestamp arg"
-           2
-           f))
-
 
 
 (let f 2

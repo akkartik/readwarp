@@ -22,13 +22,13 @@
           (really-quit)))
       (or (init ,var ,initval) ,var)))
 
-(mac new-snapshot-name(var ? timestamp nil)
-  `(+ (+ snapshots-dir* "/" ,(string var) ".")
-      (or ,timestamp
-          ,(seconds)))) ; one file per session. remove comma to stop reusing
+(let server-snapshot (seconds)
+  (mac new-snapshot-name(var)
+    `(+ (+ snapshots-dir* "/" ,(string var) ".")
+        ,server-snapshot)))
 
-(mac save-snapshot(var ? timestamp nil)
-  `(fwritefile (new-snapshot-name ,var ,timestamp) ,var))
+(mac save-snapshot(var)
+  `(fwritefile (new-snapshot-name ,var) ,var))
 
 
 

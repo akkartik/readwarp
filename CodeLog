@@ -3467,3 +3467,8 @@ fixes it.
 
 No sign that map-every was ever used!
 =-=1334 - Fri May 27 16:51:17 PDT 2011
+
+Time to understand why it's been running out of disk so rapidly for the past 6
+months. I was saving a new snapshot file on every single persistent save.
+Crazy.
+=-=1339 - Tue Feb  7 11:36:08 PST 2012
