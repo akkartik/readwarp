@@ -22,10 +22,12 @@
           (really-quit)))
       (or (init ,var ,initval) ,var)))
 
-(let server-snapshot (seconds)
+(let session-snapshot-idx (remainder (seconds) 10)
   (mac new-snapshot-name(var)
-    `(+ (+ snapshots-dir* "/" ,(string var) ".")
-        ,server-snapshot)))
+    `(+ snapshots-dir* "/"
+        ,string.var
+        ".140000000" ; Arbitrary constant, convenient at dev time.
+        ,session-snapshot-idx)))
 
 (mac save-snapshot(var)
   `(fwritefile (new-snapshot-name ,var) ,var))
