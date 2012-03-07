@@ -120,7 +120,9 @@
   (tab (tr (td
     (logo-small)
     (tag (span style "font-style:italic; color:#888")
-      (pr "The eclectic broadsheet"))))))
+      (pr "The eclectic broadsheet ")
+      (tag (span style "color:#ccc")
+        (pr (+ "- " (intersperse " " (rev:timedate))))))))))
   (tag:div class "rwclear rwsep"))
 
 
