@@ -3485,3 +3485,6 @@ gets at most 10 backups, more likely 5. That's good enough.
 
 Get rid of the voting buttons; they've had no effect for a year.
 =-=1343 - Wed Mar 14 11:33:12 PDT 2012
+
+Memory is stable so let's try getting rid of the big hammer.
+=-=1344 - Wed Mar 14 11:34:25 PDT 2012
