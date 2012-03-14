@@ -32,8 +32,6 @@
             (tag (div id 'rwcontents-wrap)
               (tag (div id 'rwcontent)
                 (tag script
-                  (pr "$(document).bind('keydown', 'a', clickCurrentLike);")
-                  (pr "$(document).bind('keydown', 'z', clickCurrentSkip);")
                   (pr "$(document).bind('keydown', 'x', clickCurrentHide);")
                   (pr "$(document).bind('keydown', 'o', clickCurrentExpander);")
                   (pr "$(document).bind('keydown', 'f', clickCurrentExpander);")
@@ -57,13 +55,7 @@
         (tag (div class 'rwbuttons)
           (tag (div class 'rwhidebutton
                     onclick (+ "scrollHide('" doc "')"))
-            (pr "x"))
-          (tag (div class "rwbutton rwlike"
-                    onclick (+ "scrollLike('" doc "')"))
-            (tag (div title "like" class "rwbutton rwlike")))
-          (tag (div class "rwbutton rwskip"
-                    onclick (+ "scrollSkip('" doc "')"))
-            (tag (div title "skip" class "rwbutton rwskip"))))
+            (pr "x")))
         (render-doc user doc))
       (tag:img id (+ "expand_contents_" doc) class "rwexpander" src "green_arrow_down.png" height "30px" style "float:right"
                onclick (+ "$(this).hide(); $('#doc_" doc " .rwpost').removeClass('rwcollapsed')")))
@@ -75,9 +67,6 @@
     --.remaining
     (if (and remaining (> remaining 0))
       (pr (+ "nextScrollDoc(" remaining ");")))))
-
-(defop vote req
-  (vote current-user.req (arg req "doc") (arg req "outcome")))
 
 
 

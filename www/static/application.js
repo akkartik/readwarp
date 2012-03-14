@@ -47,20 +47,6 @@ function maybeRemoveExpanders() {
   }
 }
 
-function scrollLike(doc) {
-  var elem = $('#doc_'+doc);
-  elem.fadeTo('fast', 0.8);
-  elem.next().fadeTo('fast', 0.8);
-  jsget("/vote?doc="+escape(doc)+'&outcome=4');
-}
-
-function scrollSkip(doc) {
-  var elem = $('#doc_'+doc);
-  elem.fadeOut('fast');
-  elem.next().fadeOut('fast');
-  jsget("/vote?doc="+escape(doc)+'&outcome=1');
-}
-
 function scrollHide(doc) {
   var elem = $('#doc_'+doc);
   elem.fadeOut('fast');

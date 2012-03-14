@@ -133,14 +133,6 @@
     (push doc ustation.user!read-list)
     (= userinfo*.user!read.doc "2")))
 
-(proc vote(user doc outcome)
-  (with (station  ustation.user
-         feed     lookup-feed.doc)
-    (erp outcome " " doc)
-    (= userinfo*.user!read.doc outcome)
-    (case outcome
-      )))
-
 
 
 (def choose-feed(user station)

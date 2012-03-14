@@ -33,22 +33,3 @@
   (or (no userinfo*.user!created)
       (< userinfo*.user!created
          (time-ago:* 60 60 24))))
-
-(daily-persisted voting-stats* (table))
-(after-exec mark-read(user d)
-  (or= voting-stats*.user (table))
-  (++ (voting-stats*.user "2" 0)))
-(after-exec vote(user d outcome)
-  (or= voting-stats*.user (table))
-  (++ (voting-stats*.user outcome 0))
-  (or= voting-stats*!total (table))
-  (++ (voting-stats*!total outcome 0)))
-(maintenance-op votingstats req
-  (awhen voting-stats*!total
-    (prn "TOTAL +" (it "4" 0)
-              " -" (it "1" 0)))
-  (each (user info) voting-stats*
-    (unless (is 'total user)
-      (prn user " +" (info "4" 0)
-                " =" (info "2" 0)
-                " -" (info "1" 0)))))

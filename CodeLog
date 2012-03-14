@@ -3482,3 +3482,6 @@ how long this has been going on. And who has time to debug. Just a simple hack
 to bound the amount of storage we're going to use up - every data structure
 gets at most 10 backups, more likely 5. That's good enough.
 =-=1341 - Mon Feb 27 20:25:17 PST 2012
+
+Get rid of the voting buttons; they've had no effect for a year.
+=-=1343 - Wed Mar 14 11:33:12 PDT 2012
