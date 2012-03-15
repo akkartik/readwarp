@@ -20,6 +20,8 @@ def loadUrlMap():
     with open('snapshots/url_map') as input:
       try:
         canonical_url = pickle.load(input)
+      except KeyboardInterrupt:
+        raise
       except:
         print 'Corrupt url map; first crawl will take forever'
 
@@ -66,6 +68,8 @@ def urlOpen(url):
       if contentLength and float(contentLength) > 1024*1024:
         print 'that file is too big'
         return None, None
+    except KeyboardInterrupt:
+      raise
     except:
       traceback.print_exc(file=sys.stdout)
   except urllib2.HTTPError: 
@@ -126,6 +130,8 @@ def crawlUrl(rurl, metadata):
     try:
       with open(outfilename+'.metadata', 'w') as output:
         json.dump(metadata, output, default=to_json)
+    except KeyboardInterrupt:
+      raise
     except:
       traceback.print_exc(file=sys.stdout)
       try: os.unlink(outfilename+'.metadata')
@@ -152,6 +158,7 @@ def crawl(feed, recurse=True):
         priorityCrawl()
 
       crawlUrl(item.link, {'title': title(item), 'feedtitle': f.feed.title, 'date': date(item), 'feeddate': time.mktime(time.gmtime()), 'feed': feed, 'site': site(f), 'description': desc(item)})
+    except KeyboardInterrupt: raise
     except: traceback.print_exc(file=sys.stdout)
 
 def priorityCrawl():
@@ -170,23 +177,31 @@ import unicodedata
 def normalize(s):
   try:
     return ''.join([unicodedata.normalize('NFKD', c)[0] for c in s])
+  except KeyboardInterrupt:
+    raise
   except:
     return ''
 
 def author(f):
   try: f.feed.author
+  except KeyboardInterrupt:
+    raise
   except:
     print '!auth'
     return ''
 
 def feedtitle(f):
   try: return f.feed.title
+  except KeyboardInterrupt:
+    raise
   except:
     print '!ftit'
     return ''
 
 def feeddesc(f):
   try: return f.feed.description
+  except KeyboardInterrupt:
+    raise
   except:
     print '!fdesc'
     return ''
@@ -197,10 +212,12 @@ def date(item):
 
 def site(f):
   try: return f.feed.link
+  except KeyboardInterrupt: raise
   except: return None
 
 def title(item):
   try: return item.title
+  except KeyboardInterrupt: raise
   except: return None
 
 def desc(item):
@@ -220,6 +237,7 @@ def main():
       try:
         print "-", feed
         crawl(feed)
+      except KeyboardInterrupt: raise
       except: traceback.print_exc(file=sys.stdout)
 
       i += 1

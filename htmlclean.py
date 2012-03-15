@@ -26,6 +26,7 @@ def cleanup(file):
 
   if deschint == '':
     try: return candidates[0]
+    except KeyboardInterrupt: raise
     except: pass
   return deschint
 
@@ -72,6 +73,7 @@ def read_metadata(file):
       desc = mdata['description']
     if mdata.has_key('feed') and mdata['feed'] in feedsToSkip:
       dontClean = True
+  except KeyboardInterrupt: raise
   except: pass
   return desc, dontClean
 
@@ -148,6 +150,7 @@ def cleanAll():
         fifo.write(line)
       with open('docs', 'a+') as fifo:
         fifo.write(line)
+    except KeyboardInterrupt: raise
     except: traceback.print_exc(file=sys.stdout)
 
 def txtlen(html):

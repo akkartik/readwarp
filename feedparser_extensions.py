@@ -16,5 +16,6 @@ def getFuckingPythonToParseNumericTimezones(dateString, format):
 # handle http://www.aaronsw.com/weblog/index.xml
 def sillyFormat1(dateString):
   try: return getFuckingPythonToParseNumericTimezones(dateString, "%B %d, %Y")
+  except KeyboardInterrupt: raise
   except: traceback.print_exc(file=sys.stdout)
 feedparser.registerDateHandler(sillyFormat1)

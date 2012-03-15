@@ -3488,3 +3488,6 @@ Get rid of the voting buttons; they've had no effect for a year.
 
 Memory is stable so let's try getting rid of the big hammer.
 =-=1344 - Wed Mar 14 11:34:25 PDT 2012
+
+Ctrl-c should always quit. Maybe after saving feedinfo, etc.
+=-=1345 - Thu Mar 15 14:24:17 PDT 2012

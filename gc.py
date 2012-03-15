@@ -9,4 +9,5 @@ if __name__ == '__main__':
         os.unlink('urls/'+doc+'.raw')
         os.unlink('urls/'+doc+'.metadata')
         os.unlink('urls/'+doc+'.clean')
+      except KeyboardInterrupt: raise
       except: traceback.print_exc(file=sys.stdout)
