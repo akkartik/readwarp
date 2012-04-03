@@ -41,17 +41,6 @@
   (or (errsafe:slurp (+ "urls/" doc ".clean"))
       ""))
 
-(init feedinfo* (table))
-(proc update-feedinfo()
-  (= feedinfo*
-     (if (file-exists "snapshots/feedinfo")
-           (read-json-table "snapshots/feedinfo")
-         (file-exists "snapshots/feedinfo.intermediate")
-           (read-json-table "snapshots/feedinfo.intermediate")
-         (file-exists "snapshots/feedinfo.orig") ; temporary
-           (w/infile f "snapshots/feedinfo.orig"
-              (read-nested-table f)))))
-
 (init feed-groups* (table))
 (init group-feeds* (table))
 (proc read-group(g)
@@ -76,8 +65,6 @@
   (= nonnerdy-feed-list* (keep [set-subtract (feed-groups* _)
                                              '("Programming" "Technology")]
                             feed-list*))
-  (prn "updating feedinfo*")
-  (update-feedinfo)
   (set update-feeds-init*))
 (wait update-feeds-init*)
 
@@ -272,14 +259,23 @@
        (rem [or (userinfo*._ 'signedup) (logins* _)]
             keys.userinfo*)))
 
+; first run:
+;   $ ls urls > filelist
+; will run out of memory part-way through and crash racket; delete processed
+; lines from filelist and restart.
 (proc gc-doc-dir()
   (erp "gc-doc-dir running")
-  (everyp file (dir "urls") 1000
-    (if (posmatch ".clean" file)
-      (withs (doc (subst "" ".clean" file)
-              feed (lookup-feed doc))
-        (unless (pos doc docs.feed)
-          (send-to-gc doc)))))
+  (= i 0)
+  (w/infile f "filelist"
+    (whilet file ($.read-line f)
+      (if (is 0 (remainder i 1000))
+        (prn i " " file))
+      ++.i
+      (if (posmatch ".clean" file)
+        (withs (doc (subst "" ".clean" file)
+                feed (lookup-feed doc))
+          (unless (pos doc docs.feed)
+            (send-to-gc doc))))))
   (erp "gc-doc-dir done"))
 
 (def add-imported-feeds(user feed)
