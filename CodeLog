@@ -3491,3 +3491,6 @@ Memory is stable so let's try getting rid of the big hammer.
 
 Ctrl-c should always quit. Maybe after saving feedinfo, etc.
 =-=1345 - Thu Mar 15 14:24:17 PDT 2012
+
+Old changes after migrating to akkartik.name
+=-=1348 - Sat Jul  7 02:36:17 PDT 2012
