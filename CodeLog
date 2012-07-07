@@ -3494,3 +3494,5 @@ Ctrl-c should always quit. Maybe after saving feedinfo, etc.
 
 Old changes after migrating to akkartik.name
 =-=1348 - Sat Jul  7 02:36:17 PDT 2012
+Now fix the url shortener.
+=-=1349 - Sat Jul  7 02:38:46 PDT 2012
